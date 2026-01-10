@@ -1,0 +1,37 @@
+/**
+ * Today Page Styles
+ */
+
+.page-today {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.page-today--loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: var(--neutral-500);
+  font-family: var(--font-body);
+}
+
+.page-today--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.today__section-title {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.today__habits {
+  margin-bottom: var(--spacing-6);
+}

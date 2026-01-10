@@ -329,43 +329,49 @@
           "id": "5.3",
           "name": "Créer l'écran Aujourd'hui",
           "description": "Écran principal avec header date et liste des habitudes du jour",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.4",
           "name": "Créer le composant DailyHeader",
           "description": "Date formatée et pourcentage de complétion du jour",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.5",
           "name": "Créer le composant EncouragingMessage",
           "description": "Message selon moment de la journée (matin/après-midi/soir)",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.6",
           "name": "Créer le composant HabitCard",
           "description": "Carte d'habitude avec emoji, nom, dose, et boutons check-in",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.7",
           "name": "Créer le composant CheckInButtons",
           "description": "Boutons Un peu / Fait / Extra avec inputs conditionnels",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.8",
           "name": "Implémenter l'animation de célébration",
           "description": "Animation scale + rotate sur complétion 100%+",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.9",
@@ -462,15 +468,17 @@
           "id": "5.22",
           "name": "Créer la navigation bottom",
           "description": "Barre de navigation: Aujourd'hui, Ajouter, Progrès",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.23",
           "name": "Implémenter l'écran vide",
           "description": "État quand aucune habitude n'est créée",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.24",
@@ -491,8 +499,8 @@
   ],
   "stats": {
     "totalTasks": 60,
-    "completed": 29,
+    "completed": 37,
     "inProgress": 0,
-    "pending": 31
+    "pending": 23
   }
 }

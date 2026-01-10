@@ -1,0 +1,64 @@
+/**
+ * CheckInButtons Component Styles
+ */
+
+.checkin-buttons {
+  display: flex;
+  gap: var(--spacing-2);
+  justify-content: center;
+  align-items: center;
+  margin-top: var(--spacing-4);
+}
+
+/* État input actif */
+.checkin-buttons--input {
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.checkin-buttons__input-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.checkin-buttons__input {
+  width: 80px;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  text-align: center;
+  color: var(--neutral-800);
+  background-color: var(--neutral-0);
+  border: 2px solid var(--primary-300);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color var(--duration-fast) var(--easing-gentle);
+}
+
+.checkin-buttons__input:focus {
+  border-color: var(--primary-500);
+  box-shadow: var(--shadow-glow);
+}
+
+.checkin-buttons__input::-webkit-inner-spin-button,
+.checkin-buttons__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.checkin-buttons__input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.checkin-buttons__unit {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--neutral-600);
+}
+
+.checkin-buttons__actions {
+  display: flex;
+  gap: var(--spacing-2);
+}

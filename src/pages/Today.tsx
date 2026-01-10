@@ -1,12 +1,128 @@
+import { useMemo } from 'react'
+import { useAppData } from '../hooks'
+import {
+  DailyHeader,
+  EncouragingMessage,
+  HabitCard,
+  EmptyState,
+} from '../components/habits'
+import {
+  calculateTargetDose,
+  calculateDailyCompletionPercentage,
+  getCompletionStatus,
+} from '../services/progression'
+import { CompletionStatus } from '../types'
+import './Today.css'
+
+/**
+ * Retourne la date actuelle au format YYYY-MM-DD
+ */
+function getCurrentDate(): string {
+  return new Date().toISOString().split('T')[0]
+}
+
 /**
  * Écran Aujourd'hui
  * Vue principale avec les doses du jour
  */
 function Today() {
+  const {
+    activeHabits,
+    isLoading,
+    getEntriesForDate,
+    addEntry,
+  } = useAppData()
+
+  const today = getCurrentDate()
+  const todayEntries = useMemo(
+    () => getEntriesForDate(today),
+    [getEntriesForDate, today]
+  )
+
+  // Filtrer les habitudes actives créées avant aujourd'hui
+  const habitsForToday = useMemo(
+    () => activeHabits.filter((h) => h.createdAt <= today),
+    [activeHabits, today]
+  )
+
+  // Calculer les doses cibles et statuts pour chaque habitude
+  const habitData = useMemo(() => {
+    return habitsForToday.map((habit) => {
+      const targetDose = calculateTargetDose(habit, today)
+      const entry = todayEntries.find((e) => e.habitId === habit.id)
+      const currentValue = entry?.actualValue
+
+      // Créer un pseudo-entry pour calculer le statut
+      let status: CompletionStatus = 'pending'
+      if (entry) {
+        status = getCompletionStatus(entry)
+      }
+
+      return {
+        habit,
+        targetDose,
+        currentValue,
+        status,
+      }
+    })
+  }, [habitsForToday, todayEntries, today])
+
+  // Calculer le pourcentage global de complétion
+  const completionPercentage = useMemo(
+    () => calculateDailyCompletionPercentage(todayEntries, habitsForToday, today),
+    [todayEntries, habitsForToday, today]
+  )
+
+  // Gérer le check-in d'une habitude
+  const handleCheckIn = (habitId: string, value: number) => {
+    const habit = habitsForToday.find((h) => h.id === habitId)
+    if (!habit) return
+
+    const targetDose = calculateTargetDose(habit, today)
+
+    addEntry({
+      habitId,
+      date: today,
+      targetDose,
+      actualValue: value,
+    })
+  }
+
+  if (isLoading) {
+    return (
+      <div className="page page-today page-today--loading">
+        <p>Chargement...</p>
+      </div>
+    )
+  }
+
+  // État vide: aucune habitude créée
+  if (habitsForToday.length === 0) {
+    return (
+      <div className="page page-today page-today--empty">
+        <EmptyState variant="today" />
+      </div>
+    )
+  }
+
   return (
     <div className="page page-today">
-      <h1>Aujourd'hui</h1>
-      <p>Tes doses du jour apparaîtront ici.</p>
+      <DailyHeader date={today} completionPercentage={completionPercentage} />
+      <EncouragingMessage />
+
+      <section className="today__habits" aria-label="Tes doses du jour">
+        <h3 className="today__section-title">Tes doses du jour</h3>
+        {habitData.map(({ habit, targetDose, currentValue, status }) => (
+          <HabitCard
+            key={habit.id}
+            habit={habit}
+            targetDose={targetDose}
+            currentValue={currentValue}
+            status={status}
+            onCheckIn={handleCheckIn}
+          />
+        ))}
+      </section>
     </div>
   )
 }
