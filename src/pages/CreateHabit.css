@@ -294,6 +294,40 @@
   color: var(--neutral-800);
 }
 
+.step-confirm__detail-value--small {
+  font-size: var(--text-sm);
+  font-weight: var(--font-normal);
+}
+
+/* Step Intentions Combined (Implementation Intentions + Habit Stacking) */
+.step-intentions-combined {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.step-intentions-combined__separator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.step-intentions-combined__separator::before,
+.step-intentions-combined__separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--neutral-200);
+}
+
+.step-intentions-combined__separator-text {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .step-confirm__message {
   background: linear-gradient(135deg, var(--primary-50), var(--secondary-50));
   border-radius: var(--radius-lg);

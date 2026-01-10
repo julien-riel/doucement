@@ -59,13 +59,6 @@ function setupNotificationMock(permission: NotificationPermission = 'default') {
   vi.stubGlobal('Notification', MockNotification);
 }
 
-/**
- * Helper pour supprimer le support des notifications
- */
-function removeNotificationSupport() {
-  vi.stubGlobal('Notification', undefined);
-}
-
 // ============================================================================
 // TEST FIXTURES
 // ============================================================================

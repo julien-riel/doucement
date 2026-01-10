@@ -213,6 +213,196 @@ export const TIME_OF_DAY_EMOJIS = {
 } as const
 
 // ============================================================================
+// MESSAGES IMPLEMENTATION INTENTIONS (Phase 6)
+// ============================================================================
+
+/**
+ * Textes pour la configuration des Implementation Intentions
+ */
+export const IMPLEMENTATION_INTENTION = {
+  stepTitle: 'Quand et où ?',
+  stepSubtitle: 'Définir le moment et le lieu augmente tes chances de succès de 2 à 3 fois.',
+  triggerLabel: 'Après quoi ?',
+  triggerPlaceholder: 'Ex: Après mon café du matin',
+  triggerHelp: 'Choisis un déclencheur qui fait déjà partie de ta routine.',
+  locationLabel: 'Où ?',
+  locationPlaceholder: 'Ex: Dans le salon',
+  locationHelp: 'Un lieu précis aide à automatiser l\'habitude.',
+  timeLabel: 'À quelle heure ?',
+  timeHelp: 'Optionnel. L\'heure approximative prévue.',
+  skipButton: 'Passer cette étape',
+  exampleTriggers: [
+    'Après mon café du matin',
+    'Après le déjeuner',
+    'Avant de me coucher',
+    'En rentrant du travail',
+    'Après m\'être brossé les dents',
+  ],
+} as const
+
+/**
+ * Textes pour l'affichage des intentions sur les cartes
+ */
+export const INTENTION_DISPLAY = {
+  triggerPrefix: 'Après',
+  locationPrefix: 'à',
+  timePrefix: 'vers',
+} as const
+
+// ============================================================================
+// MESSAGES HABIT STACKING (Phase 6)
+// ============================================================================
+
+/**
+ * Textes pour le Habit Stacking (ancrage d'habitudes)
+ */
+export const HABIT_STACKING = {
+  selectorTitle: 'Associer à une habitude existante',
+  selectorSubtitle: 'Le habit stacking augmente le taux de réussite de 64%.',
+  selectorLabel: 'Après quelle habitude ?',
+  selectorPlaceholder: 'Choisir une habitude...',
+  selectorHelp: 'Enchaîne cette nouvelle habitude avec une que tu fais déjà.',
+  noHabitsAvailable: 'Crée d\'abord une autre habitude pour pouvoir les enchaîner.',
+  linkedBadge: 'Enchaîné',
+  afterLabel: 'Après :',
+} as const
+
+// ============================================================================
+// MESSAGES DE RETOUR / RÉCUPÉRATION (Phase 6)
+// ============================================================================
+
+/**
+ * Messages de bienvenue après une absence
+ * Utilisés quand l'utilisateur revient après 2+ jours sans check-in
+ */
+export const WELCOME_BACK = [
+  'Content de te revoir.',
+  'De retour ? On reprend doucement.',
+  'Te revoilà. Pas de pression, on continue.',
+  'Bienvenue de retour. Chaque jour est une nouvelle chance.',
+  'Tu es revenu·e. C\'est déjà une victoire.',
+] as const
+
+/**
+ * Messages bienveillants pour les habitudes négligées
+ */
+export const HABIT_NEGLECTED = {
+  title: 'Ça faisait longtemps',
+  subtitle: (days: number) =>
+    days === 1
+      ? 'Tu n\'as pas enregistré cette habitude hier.'
+      : `Tu n\'as pas enregistré cette habitude depuis ${days} jours.`,
+  encouragement: 'Pas de souci. On reprend là où tu en es.',
+  resumeButton: 'Reprendre',
+} as const
+
+/**
+ * Textes pour la pause planifiée
+ */
+export const PLANNED_PAUSE = {
+  buttonLabel: 'Prendre une pause',
+  dialogTitle: 'Pause planifiée',
+  dialogDescription: 'Pendant une pause, cette habitude n\'apparaîtra pas dans ta dose du jour et n\'affectera pas tes stats.',
+  reasonLabel: 'Raison (optionnel)',
+  reasonPlaceholder: 'Vacances, maladie, projet...',
+  startDateLabel: 'Début de la pause',
+  endDateLabel: 'Fin de la pause',
+  confirmButton: 'Mettre en pause',
+  cancelButton: 'Annuler',
+  activePauseBadge: 'En pause',
+  resumeButton: 'Reprendre',
+  pauseReasons: [
+    'Vacances',
+    'Maladie',
+    'Période chargée',
+    'Autre priorité',
+  ],
+} as const
+
+// ============================================================================
+// MESSAGES MODE SIMPLE (Phase 6)
+// ============================================================================
+
+/**
+ * Textes pour le mode de tracking simple (binaire)
+ */
+export const SIMPLE_TRACKING = {
+  doneButton: 'Fait',
+  notTodayButton: 'Pas aujourd\'hui',
+  transitionSuggestion: 'Tu utilises cette habitude depuis 30 jours ! Veux-tu passer au suivi détaillé ?',
+  transitionYes: 'Oui, passer au détaillé',
+  transitionNo: 'Rester en mode simple',
+} as const
+
+// ============================================================================
+// MESSAGES FRICTION INTENTIONNELLE (Phase 6)
+// ============================================================================
+
+/**
+ * Textes pour la friction intentionnelle (habitudes à réduire)
+ */
+export const INTENTIONAL_FRICTION = {
+  delayTitle: 'Un moment de réflexion',
+  delayMessage: 'Prends quelques secondes pour réfléchir...',
+  preLogQuestion: 'Comment te sens-tu en ce moment ?',
+  preLogOptions: [
+    'Stressé·e',
+    'Ennuyé·e',
+    'Fatigué·e',
+    'Par habitude',
+    'Vraiment envie',
+  ],
+  alternativeSuggestionTitle: 'Une alternative ?',
+  alternativeSuggestionText: 'Et si tu essayais plutôt...',
+  continueAnyway: 'Continuer quand même',
+} as const
+
+// ============================================================================
+// MESSAGES REVUE HEBDOMADAIRE ENRICHIE (Phase 6)
+// ============================================================================
+
+/**
+ * Textes pour la réflexion guidée dans la revue hebdomadaire
+ */
+export const WEEKLY_REFLECTION = {
+  questionTitle: 'Réflexion de la semaine',
+  mainQuestion: 'Qu\'est-ce qui a bien fonctionné cette semaine ?',
+  placeholder: 'Note ce qui t\'a aidé à tenir tes habitudes...',
+  saveButton: 'Enregistrer',
+  skipButton: 'Passer',
+  savedMessage: 'Réflexion enregistrée.',
+} as const
+
+/**
+ * Textes pour l'analyse des patterns
+ */
+export const PATTERN_ANALYSIS = {
+  bestDaysTitle: 'Tes meilleurs jours',
+  bestDaysIntro: 'Tu es particulièrement régulier·e le :',
+  bestTimeTitle: 'Ton meilleur moment',
+  bestTimeIntro: 'Tu enregistres souvent le :',
+  noDataYet: 'Pas encore assez de données pour identifier des patterns.',
+  morningLabel: 'matin',
+  afternoonLabel: 'après-midi',
+  eveningLabel: 'soir',
+} as const
+
+/**
+ * Suggestions d'ajustement basées sur la performance
+ */
+export const ADJUSTMENT_SUGGESTIONS = {
+  slowDownTitle: 'Suggestion',
+  slowDownMessage: 'Ta progression semble stagner. Et si tu ralentissais un peu le rythme ?',
+  slowDownAction: 'Ajuster la progression',
+  keepGoingTitle: 'Continue comme ça !',
+  keepGoingMessage: 'Tu es sur une bonne lancée. Garde ce rythme.',
+  overperformTitle: 'Impressionnant !',
+  overperformMessage: 'Tu dépasses régulièrement tes objectifs. Prêt·e à accélérer ?',
+  overperformAction: 'Augmenter la progression',
+  dismissAction: 'Non merci',
+} as const
+
+// ============================================================================
 // TEXTES LÉGAUX ET PARAMÈTRES
 // ============================================================================
 

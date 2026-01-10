@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Habit, CompletionStatus } from '../../types'
+import { HABIT_STACKING } from '../../constants/messages'
+import { buildIntentionText } from '../../utils/habitDisplay'
 import Card from '../ui/Card'
 import CheckInButtons from './CheckInButtons'
 import './HabitCard.css'
@@ -15,6 +17,8 @@ export interface HabitCardProps {
   status: CompletionStatus
   /** Callback quand une valeur est enregistrée */
   onCheckIn: (habitId: string, value: number) => void
+  /** Nom de l'habitude d'ancrage (si habit stacking) */
+  anchorHabitName?: string
 }
 
 /**
@@ -64,10 +68,12 @@ function HabitCard({
   currentValue,
   status,
   onCheckIn,
+  anchorHabitName,
 }: HabitCardProps) {
   const [celebrating, setCelebrating] = useState(false)
   const progressionMessage = getProgressionMessage(habit, targetDose)
   const cardVariant = getCardVariant(status)
+  const intentionText = buildIntentionText(habit)
 
   // Animation de célébration quand on passe à completed/exceeded
   useEffect(() => {
@@ -104,6 +110,21 @@ function HabitCard({
           <span className="habit-card__dose-unit">{habit.unit}</span>
         </div>
       </div>
+
+      {/* Implementation Intention et Habit Stacking */}
+      {(intentionText || anchorHabitName) && (
+        <div className="habit-card__intention">
+          {anchorHabitName && (
+            <p className="habit-card__anchor">
+              <span className="habit-card__anchor-label">{HABIT_STACKING.afterLabel}</span>
+              {anchorHabitName}
+            </p>
+          )}
+          {intentionText && (
+            <p className="habit-card__when-where">{intentionText}</p>
+          )}
+        </div>
+      )}
 
       {progressionMessage && (
         <p className="habit-card__progression">{progressionMessage}</p>

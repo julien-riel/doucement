@@ -1,0 +1,114 @@
+/**
+ * WelcomeBackMessage Component Styles
+ * Message bienveillant de retour après une absence
+ */
+
+.welcome-back {
+  background: linear-gradient(135deg, var(--primary-50), var(--secondary-50));
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-5);
+  margin-bottom: var(--spacing-4);
+  animation: fadeInUp var(--duration-normal) var(--easing-gentle);
+}
+
+.welcome-back__content {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+}
+
+.welcome-back__icon {
+  font-size: var(--text-3xl);
+  flex-shrink: 0;
+  animation: wave 1s ease-in-out;
+}
+
+@keyframes wave {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+  60% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.welcome-back__text {
+  flex: 1;
+}
+
+.welcome-back__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-900);
+  margin: 0 0 var(--spacing-1);
+}
+
+.welcome-back__subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  margin: 0;
+}
+
+.welcome-back__dismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  color: var(--neutral-500);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-gentle);
+  flex-shrink: 0;
+}
+
+.welcome-back__dismiss:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--neutral-700);
+}
+
+.welcome-back__dismiss:focus-visible {
+  outline: 2px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+/* Liste des habitudes négligées */
+.welcome-back__habits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.welcome-back__habit {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--neutral-0);
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+}
+
+.welcome-back__habit-emoji {
+  font-size: var(--text-base);
+}
+
+.welcome-back__habit-name {
+  color: var(--neutral-800);
+  font-weight: var(--font-medium);
+}
+
+.welcome-back__habit-days {
+  color: var(--neutral-500);
+  font-size: var(--text-xs);
+}

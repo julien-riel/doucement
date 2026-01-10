@@ -2,19 +2,25 @@ import { useState, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { Button, Input } from '../components/ui'
-import { randomMessage, HABIT_CREATED } from '../constants/messages'
+import { StepIntentions, HabitAnchorSelector } from '../components/habits'
+import {
+  randomMessage,
+  HABIT_CREATED,
+  IMPLEMENTATION_INTENTION,
+} from '../constants/messages'
 import {
   HabitDirection,
   ProgressionMode,
   ProgressionPeriod,
   CreateHabitInput,
+  ImplementationIntention,
 } from '../types'
 import './CreateHabit.css'
 
 /**
  * Étapes du wizard
  */
-type WizardStep = 'type' | 'details' | 'confirm'
+type WizardStep = 'type' | 'details' | 'intentions' | 'confirm'
 
 /**
  * Options de type d'habitude
@@ -66,6 +72,8 @@ interface HabitFormState {
   progressionValue: number
   progressionPeriod: ProgressionPeriod
   targetValue: number | null
+  implementationIntention: ImplementationIntention
+  anchorHabitId: string | undefined
 }
 
 const INITIAL_FORM_STATE: HabitFormState = {
@@ -78,20 +86,22 @@ const INITIAL_FORM_STATE: HabitFormState = {
   progressionValue: 5,
   progressionPeriod: 'weekly',
   targetValue: null,
+  implementationIntention: {},
+  anchorHabitId: undefined,
 }
 
 /**
  * Écran Création d'habitude
- * Wizard en 3 étapes : Type, Détails, Confirmation
+ * Wizard en 4 étapes : Type, Détails, Intentions, Confirmation
  */
 function CreateHabit() {
   const [step, setStep] = useState<WizardStep>('type')
   const [form, setForm] = useState<HabitFormState>(INITIAL_FORM_STATE)
   const navigate = useNavigate()
-  const { addHabit } = useAppData()
+  const { addHabit, activeHabits } = useAppData()
 
   const stepIndex = useMemo(() => {
-    const steps: WizardStep[] = ['type', 'details', 'confirm']
+    const steps: WizardStep[] = ['type', 'details', 'intentions', 'confirm']
     return steps.indexOf(step)
   }, [step])
 
@@ -128,6 +138,9 @@ function CreateHabit() {
           form.unit.trim().length > 0 &&
           form.startValue > 0
         )
+      case 'intentions':
+        // Étape optionnelle, toujours valide
+        return true
       case 'confirm':
         return true
       default:
@@ -144,9 +157,16 @@ function CreateHabit() {
     if (step === 'type') {
       setStep('details')
     } else if (step === 'details') {
+      setStep('intentions')
+    } else if (step === 'intentions') {
       setStep('confirm')
     } else if (step === 'confirm') {
       // Créer l'habitude
+      const hasIntention =
+        form.implementationIntention.trigger ||
+        form.implementationIntention.location ||
+        form.implementationIntention.time
+
       const habitInput: CreateHabitInput = {
         name: form.name.trim(),
         emoji: form.emoji,
@@ -162,6 +182,10 @@ function CreateHabit() {
                 period: form.progressionPeriod,
               },
         targetValue: form.targetValue ?? undefined,
+        implementationIntention: hasIntention
+          ? form.implementationIntention
+          : undefined,
+        anchorHabitId: form.anchorHabitId,
       }
 
       const newHabit = addHabit(habitInput)
@@ -177,8 +201,10 @@ function CreateHabit() {
   const handleBack = useCallback(() => {
     if (step === 'details') {
       setStep('type')
-    } else if (step === 'confirm') {
+    } else if (step === 'intentions') {
       setStep('details')
+    } else if (step === 'confirm') {
+      setStep('intentions')
     } else {
       navigate(-1)
     }
@@ -347,6 +373,50 @@ function CreateHabit() {
   )
 
   /**
+   * Met à jour l'implementation intention
+   */
+  const handleIntentionChange = useCallback(
+    (intention: ImplementationIntention) => {
+      updateForm('implementationIntention', intention)
+    },
+    [updateForm]
+  )
+
+  /**
+   * Met à jour l'habitude d'ancrage
+   */
+  const handleAnchorChange = useCallback(
+    (anchorId: string | undefined) => {
+      updateForm('anchorHabitId', anchorId)
+    },
+    [updateForm]
+  )
+
+  /**
+   * Rendu de l'étape Intentions (optionnelle)
+   */
+  const renderStepIntentions = () => (
+    <div className="create-habit__content step-intentions-combined">
+      <StepIntentions
+        intention={form.implementationIntention}
+        onIntentionChange={handleIntentionChange}
+      />
+
+      {/* Séparateur */}
+      <div className="step-intentions-combined__separator">
+        <span className="step-intentions-combined__separator-text">ou</span>
+      </div>
+
+      {/* Habit Stacking */}
+      <HabitAnchorSelector
+        habits={activeHabits}
+        selectedAnchorId={form.anchorHabitId}
+        onAnchorChange={handleAnchorChange}
+      />
+    </div>
+  )
+
+  /**
    * Rendu de l'étape Confirmation
    */
   const renderStepConfirm = () => (
@@ -378,6 +448,35 @@ function CreateHabit() {
               {progressionSummary}
             </span>
           </div>
+          {(form.implementationIntention.trigger || form.implementationIntention.location) && (
+            <div className="step-confirm__detail">
+              <span className="step-confirm__detail-label">Plan</span>
+              <span className="step-confirm__detail-value step-confirm__detail-value--small">
+                {form.implementationIntention.trigger && (
+                  <>{form.implementationIntention.trigger}</>
+                )}
+                {form.implementationIntention.location && (
+                  <> → {form.implementationIntention.location}</>
+                )}
+                {form.implementationIntention.time && (
+                  <> ({form.implementationIntention.time})</>
+                )}
+              </span>
+            </div>
+          )}
+          {form.anchorHabitId && (
+            <div className="step-confirm__detail">
+              <span className="step-confirm__detail-label">Enchaîné après</span>
+              <span className="step-confirm__detail-value step-confirm__detail-value--small">
+                {(() => {
+                  const anchorHabit = activeHabits.find(h => h.id === form.anchorHabitId)
+                  return anchorHabit
+                    ? `${anchorHabit.emoji} ${anchorHabit.name}`
+                    : 'Habitude non trouvée'
+                })()}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -398,6 +497,8 @@ function CreateHabit() {
         return renderStepType()
       case 'details':
         return renderStepDetails()
+      case 'intentions':
+        return renderStepIntentions()
       case 'confirm':
         return renderStepConfirm()
       default:
@@ -413,6 +514,8 @@ function CreateHabit() {
       case 'type':
         return 'Continuer'
       case 'details':
+        return 'Continuer'
+      case 'intentions':
         return 'Aperçu'
       case 'confirm':
         return "Créer l'habitude"
@@ -428,13 +531,14 @@ function CreateHabit() {
         <p className="create-habit__subtitle">
           {step === 'type' && "Quel type d'habitude souhaitez-vous créer ?"}
           {step === 'details' && 'Décrivez votre habitude'}
+          {step === 'intentions' && IMPLEMENTATION_INTENTION.stepTitle}
           {step === 'confirm' && 'Vérifiez et confirmez'}
         </p>
       </header>
 
       {/* Indicateur de progression */}
       <div className="create-habit__progress" aria-label="Progression du wizard">
-        {[0, 1, 2].map((i) => (
+        {[0, 1, 2, 3].map((i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
             <div
               className={`create-habit__step-indicator ${
@@ -448,7 +552,7 @@ function CreateHabit() {
             >
               {i < stepIndex ? '✓' : i + 1}
             </div>
-            {i < 2 && (
+            {i < 3 && (
               <div
                 className={`create-habit__step-line ${i < stepIndex ? 'create-habit__step-line--completed' : ''}`}
               />

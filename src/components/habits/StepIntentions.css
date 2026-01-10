@@ -1,0 +1,108 @@
+/**
+ * StepIntentions Component Styles
+ * Étape Implementation Intentions dans le wizard de création
+ */
+
+.step-intentions {
+  animation: fadeInUp var(--duration-normal) var(--easing-gentle);
+}
+
+.step-intentions__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-6);
+  padding: var(--spacing-4);
+  background: linear-gradient(135deg, var(--primary-50), var(--secondary-50));
+  border-radius: var(--radius-lg);
+}
+
+.step-intentions__icon {
+  font-size: var(--text-3xl);
+}
+
+.step-intentions__subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.step-intentions__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+}
+
+.step-intentions__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* Suggestions de déclencheurs */
+.step-intentions__suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
+}
+
+.step-intentions__suggestion {
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--neutral-100);
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--neutral-700);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-gentle);
+}
+
+.step-intentions__suggestion:hover {
+  background: var(--primary-50);
+  border-color: var(--primary-300);
+}
+
+.step-intentions__suggestion:focus-visible {
+  outline: 2px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+.step-intentions__suggestion--selected {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  color: var(--neutral-800);
+}
+
+/* Aperçu de l'intention */
+.step-intentions__preview {
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-4);
+  background: var(--secondary-50);
+  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--secondary-400);
+}
+
+.step-intentions__preview-label {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--secondary-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--spacing-2);
+}
+
+.step-intentions__preview-text {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-style: italic;
+  color: var(--neutral-800);
+  margin: 0;
+  line-height: 1.5;
+}

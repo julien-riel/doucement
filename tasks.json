@@ -694,57 +694,65 @@
           "id": "6.1",
           "name": "Ajouter les types ImplementationIntention",
           "description": "Nouveaux champs trigger, location, time dans le type Habit",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "6.2",
           "name": "Créer l'étape Implementation Intentions dans le wizard",
           "description": "Étape optionnelle pour définir quand/où/après quoi faire l'habitude",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "6.3",
           "name": "Afficher l'intention sur HabitCard",
           "description": "Montrer le déclencheur et lieu sur la carte d'habitude",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "6.4",
           "name": "Ajouter le champ anchorHabitId au type Habit",
           "description": "Permettre de lier une habitude à une autre existante",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "6.5",
           "name": "Créer le sélecteur d'habitude d'ancrage",
           "description": "Composant pour choisir une habitude existante comme ancre",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "6.6",
           "name": "Afficher les chaînes d'habitudes liées",
           "description": "Regroupement visuel des habitudes connectées dans la liste",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "6.7",
           "name": "Implémenter la détection d'absence",
           "description": "Détecter 2+ jours sans check-in pour une habitude",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "6.8",
           "name": "Créer le composant WelcomeBackMessage",
           "description": "Message bienveillant de retour après une pause",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "6.9",
@@ -757,8 +765,9 @@
           "id": "6.10",
           "name": "Ajouter le champ trackingMode au type Habit",
           "description": "Mode 'simple' (binaire) ou 'detailed' (quantitatif)",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "6.11",
@@ -820,30 +829,33 @@
           "id": "6.19",
           "name": "Ajouter les messages à la banque de messages",
           "description": "Messages pour intentions, retour, friction, suggestions",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "6.20",
           "name": "Écrire les tests des nouvelles fonctionnalités",
           "description": "Tests unitaires pour implementation intentions, habit stacking, récupération",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "6.21",
           "name": "Mettre à jour le service de migration",
-          "description": "Migration pour les nouveaux champs (schemaVersion 2)",
-          "status": "pending",
-          "priority": "high"
+          "description": "Migration pour les nouveaux champs (schemaVersion 3)",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         }
       ]
     }
   ],
   "stats": {
     "totalTasks": 100,
-    "completed": 79,
+    "completed": 91,
     "inProgress": 0,
-    "pending": 21
+    "pending": 9
   }
 }

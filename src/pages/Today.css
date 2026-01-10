@@ -35,3 +35,73 @@
 .today__habits {
   margin-bottom: var(--spacing-6);
 }
+
+/* Habit chain grouping for habit stacking */
+.today__habit-chain {
+  margin-bottom: var(--spacing-4);
+}
+
+.today__habit-chain:last-child {
+  margin-bottom: 0;
+}
+
+/* Connected chain visual styling */
+.today__habit-chain--connected {
+  position: relative;
+  padding-left: var(--spacing-4);
+  margin-left: var(--spacing-2);
+}
+
+/* Vertical connection line for chains */
+.today__habit-chain--connected::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: var(--spacing-6);
+  bottom: var(--spacing-6);
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    var(--primary-300),
+    var(--primary-400)
+  );
+  border-radius: var(--radius-full);
+}
+
+/* Wrapper for individual habits in chain */
+.today__habit-wrapper {
+  position: relative;
+}
+
+/* Chained habits (not the first one) */
+.today__habit-wrapper--chained {
+  position: relative;
+}
+
+/* Horizontal connector for chained habits */
+.today__habit-chain--connected .today__habit-wrapper--chained::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--spacing-4));
+  top: 50%;
+  width: var(--spacing-4);
+  height: 2px;
+  background-color: var(--primary-300);
+}
+
+/* Chain badge */
+.today__habit-chain--connected .today__habit-wrapper:first-child::after {
+  content: 'Chaîne';
+  position: absolute;
+  left: calc(-1 * var(--spacing-4) - var(--spacing-2));
+  top: var(--spacing-2);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--primary-600);
+  background-color: var(--primary-100);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  transform: translateX(-100%);
+  white-space: nowrap;
+}

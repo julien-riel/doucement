@@ -76,6 +76,20 @@ export const MIGRATIONS: Migration[] = [
       };
     },
   },
+  {
+    fromVersion: 2,
+    toVersion: 3,
+    description: 'Ajout des champs Phase 6: trackingMode, implementationIntention, anchorHabitId',
+    migrate: (data) => {
+      // Les nouveaux champs sont optionnels, donc pas de transformation nécessaire
+      // Les habitudes existantes fonctionneront sans ces champs (undefined)
+      // Le mode de tracking par défaut sera 'detailed' (comportement actuel)
+      return {
+        ...data,
+        schemaVersion: 3,
+      };
+    },
+  },
 ];
 
 // ============================================================================

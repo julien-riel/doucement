@@ -11,7 +11,7 @@
  * Version du schéma de données
  * Incrémentée à chaque modification de structure pour permettre les migrations
  */
-export const CURRENT_SCHEMA_VERSION = 2;
+export const CURRENT_SCHEMA_VERSION = 3;
 
 // ============================================================================
 // HABIT TYPES
@@ -45,6 +45,27 @@ export interface ProgressionConfig {
 }
 
 /**
+ * Mode de tracking d'une habitude
+ * - simple: binaire (fait / pas fait) - recommandé pour débuter
+ * - detailed: quantitatif avec valeur précise
+ */
+export type TrackingMode = 'simple' | 'detailed';
+
+/**
+ * Implementation Intention (si-alors)
+ * Basé sur la recherche de Gollwitzer (1999)
+ * "Après [DÉCLENCHEUR], je ferai [HABITUDE] à [LIEU]"
+ */
+export interface ImplementationIntention {
+  /** Déclencheur de l'habitude (ex: "Après mon café du matin") */
+  trigger?: string;
+  /** Lieu où l'habitude sera effectuée (ex: "Dans le salon") */
+  location?: string;
+  /** Heure prévue (format HH:MM, optionnel) */
+  time?: string;
+}
+
+/**
  * Habitude de l'utilisateur
  */
 export interface Habit {
@@ -70,6 +91,12 @@ export interface Habit {
   createdAt: string;
   /** Date d'archivage (YYYY-MM-DD), null si active */
   archivedAt: string | null;
+  /** Mode de tracking: simple (binaire) ou detailed (quantitatif) */
+  trackingMode?: TrackingMode;
+  /** Implementation Intention - plan si-alors (Phase 6) */
+  implementationIntention?: ImplementationIntention;
+  /** ID de l'habitude d'ancrage pour Habit Stacking (Phase 6) */
+  anchorHabitId?: string;
 }
 
 // ============================================================================

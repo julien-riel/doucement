@@ -26,3 +26,11 @@ export type { WeeklyCalendarProps } from './WeeklyCalendar'
 
 export { default as ProgressChart } from './ProgressChart'
 export type { ProgressChartProps } from './ProgressChart'
+
+export { default as StepIntentions } from './StepIntentions'
+
+export { default as HabitAnchorSelector } from './HabitAnchorSelector'
+export type { HabitAnchorSelectorProps } from './HabitAnchorSelector'
+
+export { default as WelcomeBackMessage } from './WelcomeBackMessage'
+export type { WelcomeBackMessageProps } from './WelcomeBackMessage'

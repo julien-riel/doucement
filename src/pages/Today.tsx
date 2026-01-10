@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import { useAppData } from '../hooks'
 import { ErrorBanner } from '../components/ui'
 import {
@@ -6,12 +6,14 @@ import {
   EncouragingMessage,
   HabitCard,
   EmptyState,
+  WelcomeBackMessage,
 } from '../components/habits'
 import {
   calculateTargetDose,
   calculateDailyCompletionPercentage,
   getCompletionStatus,
 } from '../services/progression'
+import { detectGlobalAbsence, getNeglectedHabits, buildHabitChains } from '../utils'
 import { CompletionStatus } from '../types'
 import './Today.css'
 
@@ -31,6 +33,7 @@ function Today() {
     activeHabits,
     isLoading,
     error,
+    data,
     getEntriesForDate,
     addEntry,
     retryLoad,
@@ -38,6 +41,7 @@ function Today() {
     clearError,
   } = useAppData()
 
+  const [welcomeDismissed, setWelcomeDismissed] = useState(false)
   const today = getCurrentDate()
   const todayEntries = useMemo(
     () => getEntriesForDate(today),
@@ -63,20 +67,55 @@ function Today() {
         status = getCompletionStatus(entry, habit.direction)
       }
 
+      // Récupérer le nom de l'habitude d'ancrage si habit stacking
+      const anchorHabitName = habit.anchorHabitId
+        ? activeHabits.find((h) => h.id === habit.anchorHabitId)?.name
+        : undefined
+
       return {
         habit,
         targetDose,
         currentValue,
         status,
+        anchorHabitName,
       }
     })
-  }, [habitsForToday, todayEntries, today])
+  }, [habitsForToday, todayEntries, today, activeHabits])
+
+  // Organiser les habitudes en chaînes (habit stacking)
+  const habitChains = useMemo(
+    () => buildHabitChains(habitData, habitsForToday),
+    [habitData, habitsForToday]
+  )
 
   // Calculer le pourcentage global de complétion
   const completionPercentage = useMemo(
     () => calculateDailyCompletionPercentage(todayEntries, habitsForToday, today),
     [todayEntries, habitsForToday, today]
   )
+
+  // Détecter l'absence
+  const absenceInfo = useMemo(
+    () => detectGlobalAbsence(data.entries),
+    [data.entries]
+  )
+
+  // Obtenir les habitudes négligées
+  const neglectedHabits = useMemo(
+    () => getNeglectedHabits(activeHabits, data.entries),
+    [activeHabits, data.entries]
+  )
+
+  // Détermine si on doit afficher le message de bienvenue
+  const showWelcomeMessage =
+    !welcomeDismissed &&
+    absenceInfo.isAbsent &&
+    habitsForToday.length > 0
+
+  // Callback pour fermer le message de bienvenue
+  const handleDismissWelcome = useCallback(() => {
+    setWelcomeDismissed(true)
+  }, [])
 
   // Gérer le check-in d'une habitude
   const handleCheckIn = (habitId: string, value: number) => {
@@ -127,19 +166,41 @@ function Today() {
   return (
     <div className="page page-today">
       <DailyHeader date={today} completionPercentage={completionPercentage} />
-      <EncouragingMessage />
+
+      {/* Message de bienvenue après une absence */}
+      {showWelcomeMessage ? (
+        <WelcomeBackMessage
+          daysSinceLastActivity={absenceInfo.daysSinceLastEntry}
+          neglectedHabits={neglectedHabits}
+          onDismiss={handleDismissWelcome}
+        />
+      ) : (
+        <EncouragingMessage />
+      )}
 
       <section className="today__habits" aria-label="Tes doses du jour">
         <h3 className="today__section-title">Tes doses du jour</h3>
-        {habitData.map(({ habit, targetDose, currentValue, status }) => (
-          <HabitCard
-            key={habit.id}
-            habit={habit}
-            targetDose={targetDose}
-            currentValue={currentValue}
-            status={status}
-            onCheckIn={handleCheckIn}
-          />
+        {habitChains.map((chain) => (
+          <div
+            key={chain[0].habit.id}
+            className={`today__habit-chain ${chain.length > 1 ? 'today__habit-chain--connected' : ''}`}
+          >
+            {chain.map(({ habit, targetDose, currentValue, status, anchorHabitName }, idx) => (
+              <div
+                key={habit.id}
+                className={`today__habit-wrapper ${idx > 0 ? 'today__habit-wrapper--chained' : ''}`}
+              >
+                <HabitCard
+                  habit={habit}
+                  targetDose={targetDose}
+                  currentValue={currentValue}
+                  status={status}
+                  onCheckIn={handleCheckIn}
+                  anchorHabitName={anchorHabitName}
+                />
+              </div>
+            ))}
+          </div>
         ))}
       </section>
     </div>
