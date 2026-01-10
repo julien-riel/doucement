@@ -22,11 +22,33 @@
   margin: 0;
 }
 
+.daily-header__right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
 .daily-header__percentage {
   font-family: var(--font-heading);
   font-size: var(--text-xl);
   font-weight: var(--font-bold);
   color: var(--primary-600);
+}
+
+.daily-header__settings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  font-size: var(--text-lg);
+  text-decoration: none;
+  border-radius: var(--radius-full);
+  transition: background-color var(--duration-fast) var(--easing-gentle);
+}
+
+.daily-header__settings:hover {
+  background-color: var(--neutral-100);
 }
 
 .daily-header__progress-bar {

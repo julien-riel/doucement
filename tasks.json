@@ -294,8 +294,9 @@
           "id": "4.8",
           "name": "Créer l'UI import/export dans Settings",
           "description": "Boutons export et input file pour import",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "4.9",
@@ -458,22 +459,25 @@
           "id": "5.19",
           "name": "Implémenter la modification d'habitude",
           "description": "Formulaire de modification avec sauvegarde",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.20",
           "name": "Implémenter l'archivage d'habitude",
           "description": "Archiver avec confirmation et message bienveillant",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.21",
           "name": "Créer l'écran Settings",
           "description": "Préférences, import/export, à propos, revoir onboarding",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.22",
@@ -510,8 +514,8 @@
   ],
   "stats": {
     "totalTasks": 60,
-    "completed": 43,
+    "completed": 47,
     "inProgress": 0,
-    "pending": 17
+    "pending": 13
   }
 }

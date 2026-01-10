@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import './DailyHeader.css'
 
 export interface DailyHeaderProps {
@@ -33,13 +34,22 @@ function DailyHeader({ date, completionPercentage }: DailyHeaderProps) {
     <header className="daily-header">
       <div className="daily-header__date-row">
         <h1 className="daily-header__date">{formattedDate}</h1>
-        <span
-          className="daily-header__percentage"
-          role="status"
-          aria-label={`${displayPercentage}% complété`}
-        >
-          {displayPercentage}%
-        </span>
+        <div className="daily-header__right">
+          <span
+            className="daily-header__percentage"
+            role="status"
+            aria-label={`${displayPercentage}% complété`}
+          >
+            {displayPercentage}%
+          </span>
+          <Link
+            to="/settings"
+            className="daily-header__settings"
+            aria-label="Paramètres"
+          >
+            ⚙️
+          </Link>
+        </div>
       </div>
       <div
         className="daily-header__progress-bar"

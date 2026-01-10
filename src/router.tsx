@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { Onboarding, Today, HabitList, HabitDetail, CreateHabit, Settings } from './pages'
+import { Onboarding, Today, HabitList, HabitDetail, CreateHabit, EditHabit, Settings } from './pages'
 import { MainLayout } from './components/layout'
 
 /**
@@ -42,6 +42,14 @@ export const router = createBrowserRouter([
     element: (
       <MainLayout>
         <HabitDetail />
+      </MainLayout>
+    ),
+  },
+  {
+    path: '/habits/:id/edit',
+    element: (
+      <MainLayout>
+        <EditHabit />
       </MainLayout>
     ),
   },
