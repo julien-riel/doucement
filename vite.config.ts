@@ -72,6 +72,8 @@ export default defineConfig({
           },
         ],
       },
+      // Inject custom service worker code for notification handling
+      injectManifest: undefined,
       devOptions: {
         enabled: true,
       },

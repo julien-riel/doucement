@@ -70,6 +70,19 @@ export const NOTIFICATION_MESSAGES = {
 };
 
 // ============================================================================
+// SERVICE WORKER MESSAGE TYPES
+// ============================================================================
+
+/**
+ * Message types for Service Worker communication
+ */
+const SW_MESSAGE_TYPES = {
+  SCHEDULE_NOTIFICATION: 'SCHEDULE_NOTIFICATION',
+  CANCEL_NOTIFICATION: 'CANCEL_NOTIFICATION',
+  CANCEL_ALL_NOTIFICATIONS: 'CANCEL_ALL_NOTIFICATIONS',
+} as const;
+
+// ============================================================================
 // STATE
 // ============================================================================
 
@@ -267,6 +280,12 @@ export function scheduleReminder(
     delay = calculateDelayUntil(config.time);
   }
 
+  const message = NOTIFICATION_MESSAGES[type];
+
+  // Also schedule via Service Worker for background support
+  // This allows notifications even when the app is closed (PWA only)
+  scheduleNotificationViaSW(type, message.title, message.body, delay);
+
   const timeoutId = setTimeout(() => {
     // Vérifier la condition si fournie
     if (checkCondition && !checkCondition()) {
@@ -276,7 +295,6 @@ export function scheduleReminder(
     }
 
     // Afficher la notification
-    const message = NOTIFICATION_MESSAGES[type];
     showNotification({
       title: message.title,
       body: message.body,
@@ -301,6 +319,8 @@ export function cancelReminder(type: ReminderType): void {
     clearTimeout(scheduledReminders[index].timeoutId);
     scheduledReminders.splice(index, 1);
   }
+  // Also cancel via Service Worker
+  cancelNotificationViaSW(type);
 }
 
 /**
@@ -309,6 +329,8 @@ export function cancelReminder(type: ReminderType): void {
 export function cancelAllReminders(): void {
   scheduledReminders.forEach(r => clearTimeout(r.timeoutId));
   scheduledReminders.length = 0;
+  // Also cancel via Service Worker
+  cancelAllNotificationsViaSW();
 }
 
 /**
@@ -364,4 +386,73 @@ export function getPermissionStateMessage(): string {
     default:
       return 'État inconnu';
   }
+}
+
+// ============================================================================
+// SERVICE WORKER FUNCTIONS
+// ============================================================================
+
+/**
+ * Vérifie si le Service Worker est disponible
+ */
+export function isServiceWorkerAvailable(): boolean {
+  return 'serviceWorker' in navigator && navigator.serviceWorker.controller !== null;
+}
+
+/**
+ * Envoie un message au Service Worker
+ */
+async function postMessageToSW(message: { type: string; payload?: unknown }): Promise<void> {
+  if (!isServiceWorkerAvailable()) {
+    return;
+  }
+
+  try {
+    const registration = await navigator.serviceWorker.ready;
+    registration.active?.postMessage(message);
+  } catch {
+    // Service Worker not available, fallback to setTimeout
+  }
+}
+
+/**
+ * Programme une notification via le Service Worker
+ * Utilisé pour les notifications en arrière-plan quand l'app est fermée
+ */
+export async function scheduleNotificationViaSW(
+  id: string,
+  title: string,
+  body: string,
+  delay: number
+): Promise<void> {
+  await postMessageToSW({
+    type: SW_MESSAGE_TYPES.SCHEDULE_NOTIFICATION,
+    payload: {
+      id,
+      title,
+      body,
+      delay,
+      icon: '/icons/icon-192x192.png',
+      tag: `doucement-${id}`,
+    },
+  });
+}
+
+/**
+ * Annule une notification programmée via le Service Worker
+ */
+export async function cancelNotificationViaSW(id: string): Promise<void> {
+  await postMessageToSW({
+    type: SW_MESSAGE_TYPES.CANCEL_NOTIFICATION,
+    payload: { id },
+  });
+}
+
+/**
+ * Annule toutes les notifications programmées via le Service Worker
+ */
+export async function cancelAllNotificationsViaSW(): Promise<void> {
+  await postMessageToSW({
+    type: SW_MESSAGE_TYPES.CANCEL_ALL_NOTIFICATIONS,
+  });
 }

@@ -623,15 +623,17 @@
           "id": "notif.5",
           "name": "Créer le composant NotificationSettings",
           "description": "UI pour activer/désactiver les notifications et configurer les heures de rappel",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "notif.6",
           "name": "Intégrer NotificationSettings dans Settings",
           "description": "Ajouter la section notifications dans l'écran des paramètres",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "notif.7",
@@ -658,8 +660,9 @@
           "id": "notif.10",
           "name": "Configurer le Service Worker pour les notifications",
           "description": "Ajouter les handlers push et notificationclick dans le SW PWA",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "notif.11",
@@ -835,8 +838,8 @@
   ],
   "stats": {
     "totalTasks": 100,
-    "completed": 72,
+    "completed": 75,
     "inProgress": 0,
-    "pending": 28
+    "pending": 25
   }
 }

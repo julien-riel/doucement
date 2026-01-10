@@ -11,3 +11,5 @@ export type { InputProps, InputType } from './Input'
 export { ErrorBanner } from './ErrorBanner'
 
 export { PWAUpdatePrompt } from './PWAUpdatePrompt'
+
+export { default as NotificationSettings } from './NotificationSettings'
