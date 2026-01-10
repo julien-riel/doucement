@@ -12,4 +12,6 @@ export { ErrorBanner } from './ErrorBanner'
 
 export { PWAUpdatePrompt } from './PWAUpdatePrompt'
 
+export { WhatsNewModal } from './WhatsNewModal'
+
 export { default as NotificationSettings } from './NotificationSettings'

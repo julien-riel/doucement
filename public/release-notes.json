@@ -1,0 +1,52 @@
+{
+  "currentVersion": "1.1.0",
+  "releases": [
+    {
+      "version": "1.1.0",
+      "date": "2026-01-10",
+      "title": "Système de mises à jour",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Notification des nouveautés après chaque mise à jour"
+        },
+        {
+          "emoji": "bell",
+          "text": "Détection automatique des nouvelles versions"
+        },
+        {
+          "emoji": "tools",
+          "text": "Bouton \"Voir les nouveautés\" dans les paramètres"
+        },
+        {
+          "emoji": "rocket",
+          "text": "Commande /release pour créer de nouvelles versions"
+        }
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-01-10",
+      "title": "Lancement de Doucement",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Création d'habitudes progressives avec dose du jour"
+        },
+        {
+          "emoji": "chart",
+          "text": "Suivi de ta progression au fil du temps"
+        },
+        {
+          "emoji": "bell",
+          "text": "Rappels personnalisés pour rester motivé·e"
+        },
+        {
+          "emoji": "lock",
+          "text": "100% privé : tes données restent sur ton appareil"
+        }
+      ],
+      "details": "Bienvenue dans Doucement ! Cette première version t'accompagne dans la création d'habitudes positives, doucement mais sûrement."
+    }
+  ]
+}

@@ -70,6 +70,20 @@ export default defineConfig({
               },
             },
           },
+          {
+            // Release notes: NetworkFirst to always get latest version
+            urlPattern: /\/release-notes\.json$/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'release-notes-cache',
+              expiration: {
+                maxAgeSeconds: 60 * 60, // 1 hour
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
         ],
       },
       // Inject custom service worker code for notification handling

@@ -4,7 +4,7 @@
  */
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppData, useDebugMode } from '../hooks'
+import { useAppData, useDebugMode, useWhatsNew } from '../hooks'
 import {
   exportData,
   importFromFile,
@@ -18,11 +18,6 @@ import Button from '../components/ui/Button'
 import NotificationSettings from '../components/ui/NotificationSettings'
 import { DebugPanel } from '../components/debug'
 import './Settings.css'
-
-/**
- * Version de l'application
- */
-const APP_VERSION = '1.0.0'
 
 type ModalType = 'import-confirm' | 'import-result' | 'reset-confirm' | null
 
@@ -39,6 +34,8 @@ function Settings() {
   const navigate = useNavigate()
   const { data, updatePreferences, resetData, getEntriesForDate, activeHabits } = useAppData()
   const { isDebugMode, handleVersionTap } = useDebugMode()
+  const { currentVersion, showWhatsNew, release } = useWhatsNew()
+  const appVersion = currentVersion || '1.0.0'
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [modal, setModal] = useState<ModalState>({ type: null })
   const [isImporting, setIsImporting] = useState(false)
@@ -345,14 +342,24 @@ function Settings() {
             onClick={onVersionTap}
             role="button"
             tabIndex={0}
-            aria-label={`Version ${APP_VERSION}. Tapez 7 fois pour activer le mode debug.`}
+            aria-label={`Version ${appVersion}. Tapez 7 fois pour activer le mode debug.`}
           >
-            v{APP_VERSION} {isDebugMode && <span className="settings__debug-badge">DEBUG</span>}
+            v{appVersion} {isDebugMode && <span className="settings__debug-badge">DEBUG</span>}
           </p>
           {debugMessage && (
             <p className="settings__debug-message" role="status">
               {debugMessage}
             </p>
+          )}
+          {release && (
+            <Button
+              variant="ghost"
+              size="small"
+              onClick={showWhatsNew}
+              className="settings__whats-new-button"
+            >
+              Voir les nouveautés
+            </Button>
           )}
         </Card>
       </section>

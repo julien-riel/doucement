@@ -1,0 +1,143 @@
+/**
+ * Doucement - Styles pour la modale Quoi de neuf
+ * Suit le design system Soft Organic
+ */
+
+.whats-new-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 25, 23, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-5);
+  z-index: 100;
+  animation: whats-new-fadeIn 150ms ease-out;
+}
+
+.whats-new-modal {
+  background: var(--neutral-0);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6);
+  max-width: 400px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-medium);
+  animation: whats-new-slideUp 200ms ease-out;
+}
+
+/* Header */
+.whats-new-header {
+  text-align: center;
+  margin-bottom: var(--spacing-5);
+}
+
+.whats-new-emoji {
+  font-size: var(--text-4xl);
+  display: block;
+  margin-bottom: var(--spacing-2);
+}
+
+.whats-new-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-900);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.whats-new-version {
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+  margin: 0;
+}
+
+/* Content */
+.whats-new-content {
+  margin-bottom: var(--spacing-6);
+}
+
+.whats-new-release-title {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0 0 var(--spacing-4) 0;
+  text-align: center;
+}
+
+/* Highlights list */
+.whats-new-highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.whats-new-highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  background: var(--primary-50);
+  border-radius: var(--radius-md);
+}
+
+.whats-new-highlight-emoji {
+  font-size: var(--text-xl);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.whats-new-highlight-text {
+  font-size: var(--text-base);
+  color: var(--neutral-700);
+  line-height: 1.4;
+}
+
+/* Details */
+.whats-new-details {
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  line-height: 1.6;
+  margin: var(--spacing-4) 0 0 0;
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--neutral-200);
+}
+
+/* Footer */
+.whats-new-footer {
+  /* Button styles inherited */
+}
+
+/* Animations */
+@keyframes whats-new-fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes whats-new-slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .whats-new-overlay,
+  .whats-new-modal {
+    animation: none;
+  }
+}
