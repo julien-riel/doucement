@@ -5,7 +5,7 @@
 
 import { AppData, DEFAULT_APP_DATA, CURRENT_SCHEMA_VERSION } from '../types'
 
-const STORAGE_KEY = 'doucement_data'
+export const STORAGE_KEY = 'doucement_data'
 
 /**
  * Résultat d'une opération de stockage

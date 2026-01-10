@@ -11,6 +11,7 @@ import {
   NOTIFICATION_MESSAGES,
   getNotificationPermissionState,
 } from '../../services/notifications'
+import { STORAGE_KEY } from '../../services/storage'
 import Card from '../ui/Card'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
@@ -139,7 +140,7 @@ function DebugPanel() {
         const testData = await response.json()
 
         // Store to localStorage and reload
-        localStorage.setItem('doucement-data', JSON.stringify(testData))
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(testData))
         showMessage(`Données "${fileId}" chargées. Rechargement...`)
         setTimeout(() => window.location.reload(), 1000)
       } catch (error) {
