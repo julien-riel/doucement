@@ -280,7 +280,7 @@ Objectifs :
 
 ---
 
-## 12. Hors scope (pour l’instant)
+## 12. Hors scope (pour l'instant)
 
 * Backend serveur
 * Comptes utilisateurs
@@ -291,7 +291,48 @@ Ces éléments pourront être envisagés **uniquement** si compatibles avec la v
 
 ---
 
-## 13. Conclusion
+## 13. Améliorations basées sur la science comportementale
+
+> Document détaillé : `docs/science-based-improvements.md`
+
+### Fonctionnalités planifiées (Phase 6)
+
+Basées sur la recherche en psychologie et sciences comportementales :
+
+1. **Implementation Intentions** (Gollwitzer, 1999)
+   * Plans "si-alors" pour automatiser les comportements
+   * "Après [DÉCLENCHEUR], je ferai [HABITUDE] à [LIEU]"
+
+2. **Habit Stacking** (Clear, Fogg)
+   * Ancrer les nouvelles habitudes aux existantes
+   * Augmente le taux de succès de 64%
+
+3. **Récupération bienveillante**
+   * Messages de retour sans culpabilité après une pause
+   * Option de pause planifiée (vacances, maladie)
+
+4. **Mode binaire débutant**
+   * Tracking simplifié les 30 premiers jours
+   * Maintient les habitudes 27% plus longtemps
+
+5. **Friction intentionnelle** (habitudes à réduire)
+   * Délai de réflexion avant de logger
+   * Suggestion d'alternatives positives
+
+6. **Revue hebdomadaire enrichie**
+   * Réflexion guidée
+   * Identification des patterns
+   * Suggestions d'ajustement
+
+### Principes scientifiques retenus
+
+* **Self-Determination Theory** (Deci & Ryan) : Autonomie, Compétence, Connexion
+* **Renforcement positif** : Plus efficace que la punition pour le changement long terme
+* **Effet composé** : Petits changements → grands résultats
+
+---
+
+## 14. Conclusion
 
 Cette application est volontairement **simple techniquement** mais **exigeante sur l’expérience humaine**.
 

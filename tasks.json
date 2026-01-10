@@ -518,12 +518,166 @@
           "completedAt": "2026-01-10"
         }
       ]
+    },
+    {
+      "id": "phase-6",
+      "name": "Améliorations basées sur la science comportementale",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "6.1",
+          "name": "Ajouter les types ImplementationIntention",
+          "description": "Nouveaux champs trigger, location, time dans le type Habit",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "6.2",
+          "name": "Créer l'étape Implementation Intentions dans le wizard",
+          "description": "Étape optionnelle pour définir quand/où/après quoi faire l'habitude",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "6.3",
+          "name": "Afficher l'intention sur HabitCard",
+          "description": "Montrer le déclencheur et lieu sur la carte d'habitude",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "6.4",
+          "name": "Ajouter le champ anchorHabitId au type Habit",
+          "description": "Permettre de lier une habitude à une autre existante",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "6.5",
+          "name": "Créer le sélecteur d'habitude d'ancrage",
+          "description": "Composant pour choisir une habitude existante comme ancre",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "6.6",
+          "name": "Afficher les chaînes d'habitudes liées",
+          "description": "Regroupement visuel des habitudes connectées dans la liste",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "6.7",
+          "name": "Implémenter la détection d'absence",
+          "description": "Détecter 2+ jours sans check-in pour une habitude",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "6.8",
+          "name": "Créer le composant WelcomeBackMessage",
+          "description": "Message bienveillant de retour après une pause",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "6.9",
+          "name": "Implémenter la pause planifiée",
+          "description": "Permettre de déclarer une pause (vacances, maladie) sans impact sur les stats",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "6.10",
+          "name": "Ajouter le champ trackingMode au type Habit",
+          "description": "Mode 'simple' (binaire) ou 'detailed' (quantitatif)",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "6.11",
+          "name": "Créer le composant SimpleCheckIn",
+          "description": "Check-in en un tap : Fait / Pas aujourd'hui",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "6.12",
+          "name": "Implémenter la transition simple → détaillé",
+          "description": "Suggérer le mode détaillé après 30 jours",
+          "status": "pending",
+          "priority": "low"
+        },
+        {
+          "id": "6.13",
+          "name": "Créer le composant ReflectionDelay",
+          "description": "Délai de réflexion de 3-5 secondes pour les habitudes à réduire",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "6.14",
+          "name": "Ajouter la question pré-log",
+          "description": "Question optionnelle 'Comment te sens-tu avant ?' pour habitudes decrease",
+          "status": "pending",
+          "priority": "low"
+        },
+        {
+          "id": "6.15",
+          "name": "Créer le composant AlternativeSuggestion",
+          "description": "Suggestion d'alternative positive après log d'une habitude à réduire",
+          "status": "pending",
+          "priority": "low"
+        },
+        {
+          "id": "6.16",
+          "name": "Ajouter la réflexion guidée à WeeklyReview",
+          "description": "Question 'Qu'est-ce qui a bien fonctionné cette semaine ?' avec champ texte",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "6.17",
+          "name": "Implémenter l'analyse des patterns",
+          "description": "Identifier meilleurs jours/moments de la semaine",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "6.18",
+          "name": "Créer les suggestions d'ajustement",
+          "description": "Recommandations basées sur la performance (ralentir si stagne, féliciter si sur-performance)",
+          "status": "pending",
+          "priority": "low"
+        },
+        {
+          "id": "6.19",
+          "name": "Ajouter les messages à la banque de messages",
+          "description": "Messages pour intentions, retour, friction, suggestions",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "6.20",
+          "name": "Écrire les tests des nouvelles fonctionnalités",
+          "description": "Tests unitaires pour implementation intentions, habit stacking, récupération",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "6.21",
+          "name": "Mettre à jour le service de migration",
+          "description": "Migration pour les nouveaux champs (schemaVersion 2)",
+          "status": "pending",
+          "priority": "high"
+        }
+      ]
     }
   ],
   "stats": {
-    "totalTasks": 60,
+    "totalTasks": 81,
     "completed": 60,
     "inProgress": 0,
-    "pending": 0
+    "pending": 21
   }
 }
