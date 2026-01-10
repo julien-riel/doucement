@@ -247,6 +247,70 @@ function Settings() {
         />
       </section>
 
+      {/* Section: Installation PWA */}
+      <section className="settings__section" aria-labelledby="section-install">
+        <h2 id="section-install" className="settings__section-title">
+          Installer l'application
+        </h2>
+
+        <Card variant="default" className="settings__card">
+          <p className="settings__install-intro">
+            📱 Doucement peut être installée sur ton téléphone comme une vraie application, sans passer par un store.
+          </p>
+
+          <div className="settings__install-instructions">
+            <div className="settings__install-platform">
+              <strong>🍎 Sur iPhone / iPad (Safari)</strong>
+              <ol className="settings__install-steps">
+                <li>Ouvre cette page dans Safari</li>
+                <li>Appuie sur l'icône <span className="settings__install-icon">↑</span> (partager)</li>
+                <li>Sélectionne « Sur l'écran d'accueil »</li>
+              </ol>
+            </div>
+
+            <div className="settings__install-platform">
+              <strong>🤖 Sur Android (Chrome)</strong>
+              <ol className="settings__install-steps">
+                <li>Ouvre cette page dans Chrome</li>
+                <li>Appuie sur le menu ⋮ (trois points)</li>
+                <li>Sélectionne « Installer l'appli » ou « Ajouter à l'écran d'accueil »</li>
+              </ol>
+            </div>
+          </div>
+
+          <p className="settings__install-benefit">
+            ✨ Une fois installée, l'app fonctionne hors ligne et s'ouvre instantanément.
+          </p>
+        </Card>
+      </section>
+
+      {/* Section: Sauvegarde */}
+      <section className="settings__section" aria-labelledby="section-backup">
+        <h2 id="section-backup" className="settings__section-title">
+          Conseils de sauvegarde
+        </h2>
+
+        <Card variant="highlight" className="settings__card settings__backup-card">
+          <p className="settings__backup-text">
+            <strong>💡 Sauvegarde régulièrement tes données !</strong>
+          </p>
+          <p className="settings__backup-text">
+            Tes données sont stockées uniquement sur cet appareil. Si tu changes de téléphone, réinstalles l'app ou effaces le cache du navigateur, tu pourrais les perdre.
+          </p>
+          <p className="settings__backup-text">
+            <strong>Recommandation :</strong> Exporte tes données une fois par semaine et garde le fichier dans un endroit sûr (cloud, email, ordinateur).
+          </p>
+          <Button
+            variant="secondary"
+            fullWidth
+            onClick={handleExport}
+            className="settings__action-button"
+          >
+            📥 Exporter maintenant
+          </Button>
+        </Card>
+      </section>
+
       {/* Section: Application */}
       <section className="settings__section" aria-labelledby="section-app">
         <h2 id="section-app" className="settings__section-title">

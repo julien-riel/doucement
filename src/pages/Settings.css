@@ -112,6 +112,93 @@
   padding-left: var(--spacing-4);
 }
 
+/* Install PWA Section */
+.settings__install-intro {
+  font-size: var(--text-base);
+  color: var(--neutral-700);
+  margin: 0 0 var(--spacing-4) 0;
+  line-height: 1.6;
+}
+
+.settings__install-instructions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+}
+
+.settings__install-platform {
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4);
+}
+
+.settings__install-platform strong {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--neutral-800);
+  margin-bottom: var(--spacing-2);
+}
+
+.settings__install-steps {
+  margin: 0;
+  padding-left: var(--spacing-5);
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  line-height: 1.8;
+}
+
+.settings__install-steps li {
+  margin-bottom: var(--spacing-1);
+}
+
+.settings__install-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--primary-100);
+  color: var(--primary-600);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  vertical-align: middle;
+}
+
+.settings__install-benefit {
+  font-size: var(--text-sm);
+  color: var(--secondary-600);
+  margin: 0;
+  padding: var(--spacing-3);
+  background: var(--secondary-50);
+  border-radius: var(--radius-md);
+}
+
+/* Backup Section */
+.settings__backup-card {
+  background: linear-gradient(135deg, var(--primary-50), var(--primary-100));
+}
+
+.settings__backup-text {
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.settings__backup-text + .settings__backup-text {
+  margin-top: var(--spacing-3);
+}
+
+.settings__backup-text strong {
+  color: var(--neutral-800);
+}
+
+.settings__backup-card .settings__action-button {
+  margin-top: var(--spacing-4);
+}
+
 /* About Card */
 .settings__about-card {
   background: linear-gradient(135deg, var(--primary-50), var(--secondary-50));

@@ -8,30 +8,26 @@ import { CreateHabitInput } from '../types'
 import './Onboarding.css'
 
 /**
- * Contenu des étapes d'onboarding (conceptuelles)
+ * Contenu des étapes d'onboarding (condensé à 3 écrans)
  * Messages bienveillants tirés de la banque de messages
  */
 const ONBOARDING_STEPS = [
   {
     illustration: '🌱',
     title: 'Bienvenue',
-    description: 'Doucement vous aide à améliorer vos habitudes progressivement, sans culpabilité.',
+    description:
+      'Doucement t\'aide à améliorer tes habitudes progressivement, sans culpabilité.\n\n🔒 Tes données restent sur ton appareil. Aucun compte, aucun cloud, aucun tracking.',
   },
   {
     illustration: '📊',
     title: 'La dose du jour',
     description:
-      'Oubliez les objectifs intimidants. Concentrez-vous uniquement sur votre dose du jour.',
-  },
-  {
-    illustration: '📈',
-    title: 'Progression douce',
-    description: "Vos doses évoluent automatiquement. +1%, +2%... l'effet composé fait le travail.",
+      'Oublie les objectifs intimidants. Concentre-toi uniquement sur ta dose du jour.\n\nLa dose évolue automatiquement selon ta progression : +1%, +2%... l\'effet composé fait le travail.',
   },
   {
     illustration: '💚',
     title: 'Chaque effort compte',
-    description: "Faire un peu, c'est déjà beaucoup. Ici, 70% c'est une victoire.",
+    description: 'Faire un peu, c\'est déjà beaucoup. Ici, 70% c\'est une victoire.',
   },
 ]
 

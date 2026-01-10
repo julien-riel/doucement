@@ -32,7 +32,14 @@ function OnboardingStep({ title, illustration, description, children }: Onboardi
         </div>
       )}
       <h1 className="onboarding-step__title">{title}</h1>
-      <p className="onboarding-step__description">{description}</p>
+      <p className="onboarding-step__description">
+        {description.split('\n').map((line, index, arr) => (
+          <span key={index}>
+            {line}
+            {index < arr.length - 1 && <br />}
+          </span>
+        ))}
+      </p>
       {children && <div className="onboarding-step__content">{children}</div>}
     </div>
   )
