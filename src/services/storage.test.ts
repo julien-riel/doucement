@@ -5,7 +5,7 @@
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { loadData, saveData, clearData } from './storage';
-import { AppData, DEFAULT_APP_DATA, CURRENT_SCHEMA_VERSION } from '../types';
+import { AppData, DEFAULT_APP_DATA, CURRENT_SCHEMA_VERSION, DEFAULT_NOTIFICATION_SETTINGS } from '../types';
 
 // ============================================================================
 // TEST FIXTURES
@@ -24,6 +24,7 @@ function createValidAppData(overrides: Partial<AppData> = {}): AppData {
     preferences: {
       onboardingCompleted: false,
       lastWeeklyReviewDate: null,
+      notifications: DEFAULT_NOTIFICATION_SETTINGS,
     },
     ...overrides,
   };
@@ -50,6 +51,7 @@ function createAppDataWithHabit(): AppData {
     preferences: {
       onboardingCompleted: true,
       lastWeeklyReviewDate: '2025-01-07',
+      notifications: DEFAULT_NOTIFICATION_SETTINGS,
     },
   });
 }

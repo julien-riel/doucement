@@ -11,7 +11,7 @@
  * Version du schéma de données
  * Incrémentée à chaque modification de structure pour permettre les migrations
  */
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
 
 // ============================================================================
 // HABIT TYPES
@@ -104,6 +104,58 @@ export interface DailyEntry {
 }
 
 // ============================================================================
+// NOTIFICATION TYPES
+// ============================================================================
+
+/**
+ * Type de rappel de notification
+ */
+export type ReminderType = 'morning' | 'evening' | 'weeklyReview';
+
+/**
+ * Configuration d'un rappel
+ */
+export interface ReminderConfig {
+  /** Rappel activé */
+  enabled: boolean;
+  /** Heure du rappel (format HH:MM) */
+  time: string;
+}
+
+/**
+ * Paramètres de notifications
+ */
+export interface NotificationSettings {
+  /** Notifications globalement activées (permission accordée) */
+  enabled: boolean;
+  /** Rappel matinal */
+  morningReminder: ReminderConfig;
+  /** Rappel du soir (si journée non enregistrée) */
+  eveningReminder: ReminderConfig;
+  /** Rappel de revue hebdomadaire (dimanche) */
+  weeklyReviewReminder: ReminderConfig;
+}
+
+/**
+ * Paramètres de notifications par défaut
+ */
+export const DEFAULT_NOTIFICATION_SETTINGS: NotificationSettings = {
+  enabled: false,
+  morningReminder: {
+    enabled: true,
+    time: '08:00',
+  },
+  eveningReminder: {
+    enabled: false,
+    time: '20:00',
+  },
+  weeklyReviewReminder: {
+    enabled: false,
+    time: '10:00',
+  },
+};
+
+// ============================================================================
 // USER PREFERENCES
 // ============================================================================
 
@@ -115,6 +167,8 @@ export interface UserPreferences {
   onboardingCompleted: boolean;
   /** Dernière date de revue hebdomadaire (YYYY-MM-DD) */
   lastWeeklyReviewDate: string | null;
+  /** Paramètres de notifications */
+  notifications: NotificationSettings;
 }
 
 // ============================================================================
@@ -165,5 +219,6 @@ export const DEFAULT_APP_DATA: AppData = {
   preferences: {
     onboardingCompleted: false,
     lastWeeklyReviewDate: null,
+    notifications: DEFAULT_NOTIFICATION_SETTINGS,
   },
 };

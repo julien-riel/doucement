@@ -591,29 +591,33 @@
           "id": "notif.1",
           "name": "Ajouter les types NotificationSettings",
           "description": "Nouveaux champs dans UserPreferences: notificationsEnabled, morningReminderTime, eveningReminderEnabled",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "notif.2",
           "name": "Créer le service notifications",
           "description": "Service pour gérer les permissions, programmer et annuler les notifications locales via Web Notifications API",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "notif.3",
           "name": "Implémenter requestNotificationPermission",
           "description": "Demande de permission avec gestion des états (granted, denied, default)",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "notif.4",
           "name": "Implémenter scheduleNotification",
           "description": "Programmer une notification à une heure donnée via setTimeout ou Service Worker",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "notif.5",
@@ -668,8 +672,9 @@
           "id": "notif.12",
           "name": "Mettre à jour le service de migration",
           "description": "Migration pour les nouveaux champs de préférences notifications",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         }
       ]
     },
@@ -830,8 +835,8 @@
   ],
   "stats": {
     "totalTasks": 100,
-    "completed": 67,
+    "completed": 72,
     "inProgress": 0,
-    "pending": 33
+    "pending": 28
   }
 }

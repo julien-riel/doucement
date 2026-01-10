@@ -4,3 +4,4 @@ export * from './progression';
 export * from './validation';
 export * from './migration';
 export * from './importExport';
+export * from './notifications';

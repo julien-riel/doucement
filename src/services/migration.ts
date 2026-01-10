@@ -3,7 +3,7 @@
  * Gère les migrations entre versions du schéma
  */
 
-import { AppData, CURRENT_SCHEMA_VERSION } from '../types';
+import { AppData, CURRENT_SCHEMA_VERSION, DEFAULT_NOTIFICATION_SETTINGS } from '../types';
 
 // ============================================================================
 // MIGRATION TYPES
@@ -60,23 +60,22 @@ export interface MigrationResult {
  * 3. Incrémenter CURRENT_SCHEMA_VERSION dans types/index.ts
  */
 export const MIGRATIONS: Migration[] = [
-  // Exemple de migration (commenté car pas encore nécessaire)
-  // {
-  //   fromVersion: 1,
-  //   toVersion: 2,
-  //   description: 'Ajout du champ category aux habitudes',
-  //   migrate: (data) => {
-  //     const habits = (data.habits as Array<Record<string, unknown>>).map(habit => ({
-  //       ...habit,
-  //       category: habit.category ?? 'default',
-  //     }));
-  //     return {
-  //       ...data,
-  //       schemaVersion: 2,
-  //       habits,
-  //     };
-  //   },
-  // },
+  {
+    fromVersion: 1,
+    toVersion: 2,
+    description: 'Ajout des paramètres de notifications aux préférences utilisateur',
+    migrate: (data) => {
+      const preferences = data.preferences as Record<string, unknown> | undefined;
+      return {
+        ...data,
+        schemaVersion: 2,
+        preferences: {
+          ...preferences,
+          notifications: DEFAULT_NOTIFICATION_SETTINGS,
+        },
+      };
+    },
+  },
 ];
 
 // ============================================================================

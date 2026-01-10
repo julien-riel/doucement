@@ -24,7 +24,7 @@ import {
   formatMigrationResult,
 } from './migration';
 import { saveData, loadData, clearData } from './storage';
-import { AppData, CURRENT_SCHEMA_VERSION, Habit, DailyEntry } from '../types';
+import { AppData, CURRENT_SCHEMA_VERSION, Habit, DailyEntry, DEFAULT_NOTIFICATION_SETTINGS } from '../types';
 
 // ============================================================================
 // TEST FIXTURES
@@ -41,6 +41,7 @@ function createValidAppData(overrides: Partial<AppData> = {}): AppData {
     preferences: {
       onboardingCompleted: false,
       lastWeeklyReviewDate: null,
+      notifications: DEFAULT_NOTIFICATION_SETTINGS,
     },
     ...overrides,
   };
@@ -92,6 +93,7 @@ function createAppDataWithHabitAndEntry(): AppData {
     preferences: {
       onboardingCompleted: true,
       lastWeeklyReviewDate: '2025-01-12',
+      notifications: DEFAULT_NOTIFICATION_SETTINGS,
     },
   });
 }
@@ -959,11 +961,11 @@ describe('importDataMerge', () => {
   describe('fusion des préférences', () => {
     it('conserve onboardingCompleted si local est true', () => {
       saveData(createValidAppData({
-        preferences: { onboardingCompleted: true, lastWeeklyReviewDate: null },
+        preferences: { onboardingCompleted: true, lastWeeklyReviewDate: null, notifications: DEFAULT_NOTIFICATION_SETTINGS },
       }));
 
       const importData = createValidAppData({
-        preferences: { onboardingCompleted: false, lastWeeklyReviewDate: null },
+        preferences: { onboardingCompleted: false, lastWeeklyReviewDate: null, notifications: DEFAULT_NOTIFICATION_SETTINGS },
       });
 
       const result = importDataMerge(JSON.stringify(importData));
@@ -976,11 +978,11 @@ describe('importDataMerge', () => {
 
     it('prend les préférences importées si onboarding local false', () => {
       saveData(createValidAppData({
-        preferences: { onboardingCompleted: false, lastWeeklyReviewDate: null },
+        preferences: { onboardingCompleted: false, lastWeeklyReviewDate: null, notifications: DEFAULT_NOTIFICATION_SETTINGS },
       }));
 
       const importData = createValidAppData({
-        preferences: { onboardingCompleted: true, lastWeeklyReviewDate: '2025-01-12' },
+        preferences: { onboardingCompleted: true, lastWeeklyReviewDate: '2025-01-12', notifications: DEFAULT_NOTIFICATION_SETTINGS },
       });
 
       const result = importDataMerge(JSON.stringify(importData));
@@ -1204,7 +1206,7 @@ describe('cas limites', () => {
       schemaVersion: CURRENT_SCHEMA_VERSION,
       habits: [minimalHabit],
       entries: [],
-      preferences: { onboardingCompleted: false, lastWeeklyReviewDate: null },
+      preferences: { onboardingCompleted: false, lastWeeklyReviewDate: null, notifications: DEFAULT_NOTIFICATION_SETTINGS },
     };
 
     const result = importDataReplace(JSON.stringify(data));
