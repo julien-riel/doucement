@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.1.1",
+  "currentVersion": "1.2.0",
   "releases": [
+    {
+      "version": "1.2.0",
+      "date": "2026-01-10",
+      "title": "Mode sombre",
+      "highlights": [
+        {
+          "emoji": "moon",
+          "text": "Nouveau thème sombre avec des tons chauds, fidèle à l'esthétique Doucement"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Option Système : le thème s'adapte automatiquement aux préférences de ton appareil"
+        },
+        {
+          "emoji": "check",
+          "text": "Ton choix de thème est mémorisé et appliqué à chaque ouverture"
+        }
+      ]
+    },
     {
       "version": "1.1.1",
       "date": "2026-01-10",
