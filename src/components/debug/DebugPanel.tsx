@@ -98,7 +98,7 @@ function DebugPanel() {
   // ============================================================================
 
   const handleOpenWeeklyReview = useCallback(() => {
-    navigate('/weekly-review')
+    navigate('/review')
   }, [navigate])
 
   const handleOpenOnboarding = useCallback(() => {
