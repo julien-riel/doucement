@@ -585,7 +585,7 @@
     {
       "id": "phase-notifications",
       "name": "Notifications locales",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "notif.1",
@@ -639,22 +639,25 @@
           "id": "notif.7",
           "name": "Implémenter le rappel matinal",
           "description": "Notification 'Votre dose du jour vous attend' à l'heure configurée",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "notif.8",
           "name": "Implémenter le rappel du soir",
           "description": "Notification si journée non enregistrée à l'heure du soir configurée",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "notif.9",
           "name": "Implémenter le rappel de revue hebdomadaire",
           "description": "Notification le dimanche pour la revue hebdomadaire",
-          "status": "pending",
-          "priority": "low"
+          "status": "completed",
+          "priority": "low",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "notif.10",
@@ -668,8 +671,9 @@
           "id": "notif.11",
           "name": "Écrire les tests du service notifications",
           "description": "Tests unitaires avec mocks pour l'API Notification",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "notif.12",
@@ -838,8 +842,8 @@
   ],
   "stats": {
     "totalTasks": 100,
-    "completed": 75,
+    "completed": 79,
     "inProgress": 0,
-    "pending": 25
+    "pending": 21
   }
 }
