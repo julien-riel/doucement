@@ -1,0 +1,195 @@
+/**
+ * Doucement Design Tokens
+ * Système de design "Soft Organic" - doux, chaleureux et naturel
+ */
+
+:root {
+  /* ================================
+     COULEURS PRIMAIRES - Orange chaud
+     Représente l'énergie, la motivation
+     ================================ */
+  --primary-50: #fff8f0;
+  --primary-100: #ffecd9;
+  --primary-200: #ffd4ad;
+  --primary-300: #ffb870;
+  --primary-400: #ff9a3d;
+  --primary-500: #f27d16; /* Couleur principale */
+  --primary-600: #d86208;
+  --primary-700: #b34a06;
+
+  /* ================================
+     COULEURS SECONDAIRES - Vert doux
+     Représente la croissance, le succès
+     ================================ */
+  --secondary-50: #f0fdf4;
+  --secondary-100: #dcfce7;
+  --secondary-200: #bbf7d0;
+  --secondary-300: #86efac;
+  --secondary-400: #4ade80;
+  --secondary-500: #22c55e; /* Couleur de succès */
+  --secondary-600: #16a34a;
+
+  /* ================================
+     NEUTRES CHAUDS
+     Jamais de gris pur
+     ================================ */
+  --neutral-0: #ffffff;
+  --neutral-50: #fdfcfb;
+  --neutral-100: #f7f5f3;
+  --neutral-200: #ebe8e4;
+  --neutral-300: #d6d1ca;
+  --neutral-400: #a8a099;
+  --neutral-500: #78716c;
+  --neutral-600: #57534e;
+  --neutral-700: #44403c;
+  --neutral-800: #292524; /* Texte principal */
+  --neutral-900: #1c1917;
+
+  /* ================================
+     COULEURS SÉMANTIQUES
+     ================================ */
+  --color-success: var(--secondary-500);
+  --color-in-progress: var(--primary-400);
+  --color-neutral: var(--neutral-200);
+  --color-warning: #fbbf24; /* Ambre - rappel bienveillant */
+
+  /* ================================
+     ESPACEMENTS
+     ================================ */
+  --spacing-1: 4px; /* micro-ajustements */
+  --spacing-2: 8px; /* entre éléments liés */
+  --spacing-3: 12px; /* padding interne compact */
+  --spacing-4: 16px; /* padding standard */
+  --spacing-5: 20px; /* padding généreux */
+  --spacing-6: 24px; /* séparation de sections */
+  --spacing-8: 32px; /* grandes séparations */
+  --spacing-10: 40px; /* marges de page */
+  --spacing-12: 48px; /* espace entre écrans */
+
+  /* ================================
+     RAYONS DE BORDURE
+     ================================ */
+  --radius-sm: 8px; /* éléments secondaires, badges */
+  --radius-md: 12px; /* boutons, champs */
+  --radius-lg: 16px; /* cartes */
+  --radius-xl: 24px; /* cartes principales, modales */
+  --radius-full: 9999px; /* avatars, pills, indicateurs */
+
+  /* ================================
+     OMBRES
+     ================================ */
+  --shadow-soft: 0 2px 8px rgba(28, 25, 23, 0.06); /* Cartes standard */
+  --shadow-medium: 0 4px 16px rgba(28, 25, 23, 0.08); /* Cartes élevées */
+  --shadow-glow: 0 0 24px rgba(242, 125, 22, 0.15); /* État focus/actif */
+
+  /* ================================
+     TYPOGRAPHIE - Familles
+     ================================ */
+  --font-heading: 'Fraunces', Georgia, serif;
+  --font-body: 'Source Sans 3', system-ui, sans-serif;
+
+  /* ================================
+     TYPOGRAPHIE - Tailles
+     ================================ */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 3rem; /* 48px */
+
+  /* ================================
+     TYPOGRAPHIE - Graisses
+     ================================ */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* ================================
+     ANIMATIONS - Durées
+     ================================ */
+  --duration-fast: 150ms; /* feedback immédiat */
+  --duration-normal: 300ms; /* transitions de contenu */
+  --duration-slow: 500ms; /* animations de célébration */
+
+  /* ================================
+     ANIMATIONS - Easings
+     ================================ */
+  --easing-gentle: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ================================
+     ZONES DE TOUCHER
+     ================================ */
+  --touch-target-min: 44px;
+  --touch-target-recommended: 48px;
+}
+
+/* ================================
+   ANIMATIONS KEYFRAMES
+   ================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes celebrate {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1) rotate(-2deg);
+  }
+  50% {
+    transform: scale(1.15) rotate(2deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(-1deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes progressFill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--progress);
+  }
+}
+
+@keyframes checkmarkDraw {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ================================
+   ACCESSIBILITÉ - Réduction de mouvement
+   ================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

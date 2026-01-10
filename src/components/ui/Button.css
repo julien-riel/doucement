@@ -1,0 +1,132 @@
+/**
+ * Button Component Styles
+ * Design system: Soft Organic
+ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  font-family: var(--font-body);
+  font-weight: var(--font-semibold);
+  border: none;
+  cursor: pointer;
+  transition:
+    transform var(--duration-fast) var(--easing-gentle),
+    box-shadow var(--duration-fast) var(--easing-gentle),
+    background-color var(--duration-fast) var(--easing-gentle);
+  min-height: var(--touch-target-min);
+}
+
+/* Sizes */
+.btn--small {
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--text-sm);
+  border-radius: var(--radius-md);
+}
+
+.btn--medium {
+  padding: var(--spacing-3) var(--spacing-6);
+  font-size: var(--text-base);
+  border-radius: var(--radius-full);
+}
+
+.btn--large {
+  padding: var(--spacing-4) var(--spacing-8);
+  font-size: var(--text-lg);
+  border-radius: var(--radius-full);
+}
+
+/* Full width */
+.btn--full-width {
+  width: 100%;
+}
+
+/* ================================
+   VARIANT: Primary
+   Action principale - Orange
+   ================================ */
+.btn--primary {
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  color: var(--neutral-0);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn--primary:hover:not(:disabled) {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn--primary:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn--primary:focus-visible {
+  box-shadow: var(--shadow-glow);
+}
+
+/* ================================
+   VARIANT: Secondary
+   Action secondaire - Fond gris clair
+   ================================ */
+.btn--secondary {
+  background-color: var(--neutral-100);
+  color: var(--neutral-800);
+  border: 1px solid var(--neutral-200);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background-color: var(--neutral-200);
+  transform: scale(1.02);
+}
+
+.btn--secondary:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* ================================
+   VARIANT: Ghost
+   Action tertiaire - Transparent
+   ================================ */
+.btn--ghost {
+  background-color: transparent;
+  color: var(--primary-600);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background-color: var(--primary-50);
+}
+
+.btn--ghost:active:not(:disabled) {
+  background-color: var(--primary-100);
+}
+
+/* ================================
+   VARIANT: Success
+   Confirmation - Vert
+   ================================ */
+.btn--success {
+  background: linear-gradient(135deg, var(--secondary-500), var(--secondary-600));
+  color: var(--neutral-0);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn--success:hover:not(:disabled) {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn--success:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* ================================
+   STATE: Disabled
+   ================================ */
+.btn--disabled,
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
