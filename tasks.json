@@ -985,16 +985,121 @@
           "id": "7.16",
           "name": "Écrire les tests du mode debug",
           "description": "Tests unitaires pour les fonctions du panneau debug",
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
+        }
+      ]
+    },
+    {
+      "id": "phase-e2e",
+      "name": "Tests E2E Playwright",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "e2e.1",
+          "name": "Installer et configurer Playwright",
+          "description": "npm init playwright@latest, configurer playwright.config.ts pour l'app",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "e2e.2",
+          "name": "Configurer les scripts de test E2E",
+          "description": "Ajouter les scripts test:e2e et test:e2e:ui dans package.json",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "e2e.3",
+          "name": "Créer le test E2E: Onboarding",
+          "description": "Test du parcours onboarding complet (4 écrans, skip, navigation)",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "e2e.4",
+          "name": "Créer le test E2E: Création d'habitude",
+          "description": "Test du wizard de création (type → détails → confirmation)",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "e2e.5",
+          "name": "Créer le test E2E: Check-in quotidien",
+          "description": "Test des boutons Un peu / Fait / Extra sur l'écran Aujourd'hui",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "e2e.6",
+          "name": "Créer le test E2E: Détection d'absence",
+          "description": "Utiliser public/test-data/absence-detected.json, vérifier WelcomeBackMessage",
           "status": "pending",
           "priority": "medium"
+        },
+        {
+          "id": "e2e.7",
+          "name": "Créer le test E2E: Revue hebdomadaire",
+          "description": "Utiliser public/test-data/weekly-review-due.json, tester l'écran WeeklyReview",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "e2e.8",
+          "name": "Créer le test E2E: Atteinte d'objectif",
+          "description": "Utiliser public/test-data/goal-reached.json, vérifier les messages de félicitations",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "e2e.9",
+          "name": "Créer le test E2E: Plateau de croissance",
+          "description": "Utiliser public/test-data/growth-plateau.json, tester la détection de stagnation",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "e2e.10",
+          "name": "Créer le test E2E: Habit stacking",
+          "description": "Utiliser public/test-data/habit-stacking.json, vérifier l'affichage des chaînes",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "e2e.11",
+          "name": "Créer le test E2E: Pause planifiée",
+          "description": "Utiliser public/test-data/planned-pause.json, tester l'affichage et comportement",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "e2e.12",
+          "name": "Configurer MCP Playwright pour l'écriture assistée",
+          "description": "Installer et configurer le serveur MCP Playwright pour générer les tests",
+          "status": "completed",
+          "priority": "low",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "e2e.13",
+          "name": "Documenter l'exécution des tests E2E",
+          "description": "Guide pour exécuter les tests localement et dans la CI",
+          "status": "pending",
+          "priority": "low"
         }
       ]
     }
   ],
   "stats": {
-    "totalTasks": 116,
-    "completed": 106,
+    "totalTasks": 129,
+    "completed": 113,
     "inProgress": 0,
-    "pending": 10
+    "pending": 16
   }
 }

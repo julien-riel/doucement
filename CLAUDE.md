@@ -21,13 +21,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Current State
 
-The project is in documentation/planning phase. No application code exists yet.
+The project is a functional React SPA with most features implemented.
 
-**Existing files:**
-- `landing-page.html` - Marketing landing page (static HTML/CSS)
+**Key directories:**
+- `src/components/` - React components (Button, Card, Input, HabitCard, etc.)
+- `src/pages/` - Page components (Today, Onboarding, CreateHabit, Settings, etc.)
+- `src/services/` - Business logic (storage, progression, notifications, importExport)
+- `src/hooks/` - Custom hooks (useAppData, useNotifications, useDebugMode)
+- `src/types/` - TypeScript type definitions
+- `public/test-data/` - Test data files for E2E testing
+
+**Documentation:**
 - `docs/prd.md` - Product requirements document
 - `docs/design/design-system-specification.md` - Complete design system
 - `docs/comm/` - UX writing guidelines and message bank
+- `tasks.json` - Task tracking for implementation phases
 
 ## Design System Reference
 
@@ -47,3 +55,32 @@ The app is in French. When writing user-facing text:
 - Use inclusive writing with middle dot (fier·e, motivé·e)
 - Never use: "échec", "raté", "manqué", "retard", "insuffisant"
 - Preferred terms: "dose du jour" (not "objectif"), "progression" (not "score"), "archiver" (not "supprimer")
+
+## Testing Strategy
+
+### Unit Tests (Vitest)
+- Located in `src/**/*.test.ts`
+- Run with `npm test`
+- Cover services, hooks, and utility functions
+
+### E2E Tests (Playwright)
+- **Framework**: Playwright for end-to-end testing
+- **Test data files**: Use existing files in `public/test-data/` to set up test scenarios
+- **Writing tests**: Use MCP Playwright server when available for assisted test creation
+- **Execution**: Tests should be run against the built app (`npm run build && npm run preview`)
+
+#### Available Test Data Files
+Located in `public/test-data/`:
+- `goal-reached.json` - Habit close to targetValue (test congratulation messages)
+- `growth-plateau.json` - Stagnant habit (test plateau detection)
+- `absence-detected.json` - Missing entries for 2-3 days (test WelcomeBackMessage)
+- `weekly-review-due.json` - lastWeeklyReviewDate 7+ days ago (test WeeklyReview)
+- `habit-stacking.json` - Linked habits via anchorHabitId (test habit stacking display)
+- `planned-pause.json` - Active planned pause (test pause behavior)
+- `full-scenario.json` - Complete scenario with various habit states
+
+#### E2E Test Guidelines
+- Load test data via the Debug Panel's "Charger fichier de test" feature
+- Test user journeys: onboarding, habit creation, check-in, weekly review
+- Verify UI states match the test data conditions
+- No external dependencies - all tests run locally

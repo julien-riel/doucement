@@ -25,3 +25,6 @@ coverage/
 .vite/
 
 dev-dist/
+
+test-results/
+playwright-report/
