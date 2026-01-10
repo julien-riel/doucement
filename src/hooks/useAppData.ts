@@ -77,6 +77,10 @@ export interface UseAppDataActions {
   updatePreferences: (updates: Partial<AppData['preferences']>) => boolean;
   /** Réinitialise les données */
   resetData: () => void;
+  /** Efface l'erreur courante */
+  clearError: () => void;
+  /** Réessaie de charger les données */
+  retryLoad: () => void;
 }
 
 export type UseAppDataReturn = UseAppDataState & UseAppDataActions;
@@ -244,6 +248,27 @@ export function useAppData(): UseAppDataReturn {
       ...DEFAULT_APP_DATA,
       schemaVersion: CURRENT_SCHEMA_VERSION,
     });
+    setError(null);
+  }, []);
+
+  // ============================================================================
+  // ERROR HANDLING
+  // ============================================================================
+
+  const clearError = useCallback((): void => {
+    setError(null);
+  }, []);
+
+  const retryLoad = useCallback((): void => {
+    setIsLoading(true);
+    setError(null);
+    const result = loadData();
+    if (result.success && result.data) {
+      setData(result.data);
+    } else if (result.error) {
+      setError(result.error);
+    }
+    setIsLoading(false);
   }, []);
 
   return {
@@ -262,5 +287,7 @@ export function useAppData(): UseAppDataReturn {
     getHabitById,
     updatePreferences,
     resetData,
+    clearError,
+    retryLoad,
   };
 }

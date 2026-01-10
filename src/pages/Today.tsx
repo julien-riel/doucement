@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useAppData } from '../hooks'
+import { ErrorBanner } from '../components/ui'
 import {
   DailyHeader,
   EncouragingMessage,
@@ -29,8 +30,12 @@ function Today() {
   const {
     activeHabits,
     isLoading,
+    error,
     getEntriesForDate,
     addEntry,
+    retryLoad,
+    resetData,
+    clearError,
   } = useAppData()
 
   const today = getCurrentDate()
@@ -92,6 +97,20 @@ function Today() {
     return (
       <div className="page page-today page-today--loading">
         <p>Chargement...</p>
+      </div>
+    )
+  }
+
+  // Affichage d'erreur avec options de récupération
+  if (error) {
+    return (
+      <div className="page page-today page-today--error">
+        <ErrorBanner
+          error={error}
+          onRetry={retryLoad}
+          onReset={resetData}
+          onDismiss={clearError}
+        />
       </div>
     )
   }
