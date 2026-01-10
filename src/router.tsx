@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { Onboarding, Today, HabitList, HabitDetail, CreateHabit, EditHabit, Settings } from './pages'
+import { Onboarding, Today, HabitList, HabitDetail, CreateHabit, EditHabit, Settings, WeeklyReview } from './pages'
 import { MainLayout } from './components/layout'
 
 /**
@@ -66,6 +66,14 @@ export const router = createBrowserRouter([
     element: (
       <MainLayout>
         <Settings />
+      </MainLayout>
+    ),
+  },
+  {
+    path: '/review',
+    element: (
+      <MainLayout>
+        <WeeklyReview />
       </MainLayout>
     ),
   },

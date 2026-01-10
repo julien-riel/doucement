@@ -1,4 +1,8 @@
 import { useMemo } from 'react'
+import {
+  getEncouragingMessage,
+  TIME_OF_DAY_EMOJIS,
+} from '../../constants/messages'
 import './EncouragingMessage.css'
 
 export type TimeOfDay = 'morning' | 'afternoon' | 'evening'
@@ -6,25 +10,6 @@ export type TimeOfDay = 'morning' | 'afternoon' | 'evening'
 export interface EncouragingMessageProps {
   /** Moment de la journée (optionnel, calculé automatiquement si non fourni) */
   timeOfDay?: TimeOfDay
-}
-
-/**
- * Messages selon le moment de la journée
- * Source: docs/design/design-system-specification.md
- */
-const MESSAGES: Record<TimeOfDay, string> = {
-  morning: 'Nouvelle journée, nouvelles possibilités',
-  afternoon: 'Tu as encore du temps devant toi',
-  evening: 'Termine en douceur',
-}
-
-/**
- * Emojis associés au moment de la journée
- */
-const EMOJIS: Record<TimeOfDay, string> = {
-  morning: '🌅',
-  afternoon: '☀️',
-  evening: '🌙',
 }
 
 /**
@@ -40,11 +25,12 @@ function getTimeOfDay(): TimeOfDay {
 /**
  * Composant d'encouragement affiché en haut de l'écran Aujourd'hui
  * Le message change selon le moment de la journée
+ * Messages tirés de constants/messages.ts (source: docs/comm/banque-messages.md)
  */
 function EncouragingMessage({ timeOfDay }: EncouragingMessageProps) {
   const currentTimeOfDay = useMemo(() => timeOfDay ?? getTimeOfDay(), [timeOfDay])
-  const message = MESSAGES[currentTimeOfDay]
-  const emoji = EMOJIS[currentTimeOfDay]
+  const message = useMemo(() => getEncouragingMessage(currentTimeOfDay), [currentTimeOfDay])
+  const emoji = TIME_OF_DAY_EMOJIS[currentTimeOfDay]
 
   return (
     <div className="encouraging-message" role="status" aria-live="polite">

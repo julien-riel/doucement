@@ -6,6 +6,7 @@ import { useState, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { exportData, importFromFile, formatImportResult, ImportResult } from '../services/importExport'
+import { EXPORT_SUCCESS, ABOUT_TEXT } from '../constants/messages'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import './Settings.css'
@@ -36,7 +37,7 @@ function Settings() {
   const handleExport = useCallback(() => {
     const result = exportData()
     if (result.success) {
-      setExportMessage('Export terminé. Vos données sont dans le fichier téléchargé.')
+      setExportMessage(EXPORT_SUCCESS)
       setTimeout(() => setExportMessage(null), 4000)
     } else {
       setExportMessage(result.error || 'Erreur lors de l\'export')
@@ -196,12 +197,10 @@ function Settings() {
 
         <Card variant="default" className="settings__card settings__about-card">
           <p className="settings__about-text">
-            <strong>Doucement</strong> est une application conçue pour t'aider à améliorer
-            tes habitudes progressivement, sans culpabilité.
+            <strong>Doucement</strong> — {ABOUT_TEXT.description}
           </p>
           <p className="settings__about-text settings__about-privacy">
-            🔒 Tes données restent sur ton appareil. Aucune information n'est collectée
-            ni transmise.
+            🔒 {ABOUT_TEXT.privacy}
           </p>
         </Card>
       </section>

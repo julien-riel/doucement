@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { Button, Input } from '../components/ui'
+import { randomMessage, HABIT_CREATED } from '../constants/messages'
 import {
   HabitDirection,
   ProgressionMode,
@@ -382,7 +383,7 @@ function CreateHabit() {
 
       <div className="step-confirm__message">
         <p className="step-confirm__message-text">
-          C'est parti. Votre dose du jour commence dès demain.
+          {randomMessage(HABIT_CREATED)}
         </p>
       </div>
     </div>

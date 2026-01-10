@@ -1,0 +1,301 @@
+/**
+ * WeeklyReview - Styles pour l'écran de revue hebdomadaire
+ */
+
+.page-weekly-review {
+  padding: var(--spacing-5);
+  padding-bottom: calc(var(--spacing-8) + 80px); /* Espace pour la nav */
+}
+
+.page-weekly-review--loading,
+.page-weekly-review--empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 160px);
+  text-align: center;
+}
+
+/* Empty state */
+.weekly-review__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  max-width: 280px;
+}
+
+.weekly-review__empty-emoji {
+  font-size: var(--text-5xl);
+  line-height: 1;
+}
+
+.weekly-review__empty h1 {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0;
+}
+
+.weekly-review__empty p {
+  font-size: var(--text-base);
+  color: var(--neutral-600);
+  margin: 0;
+}
+
+/* Header */
+.weekly-review__header {
+  text-align: center;
+  margin-bottom: var(--spacing-6);
+}
+
+.weekly-review__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-900);
+  margin: 0 0 var(--spacing-1) 0;
+}
+
+.weekly-review__subtitle {
+  font-size: var(--text-base);
+  color: var(--neutral-600);
+  margin: 0;
+}
+
+/* Sections */
+.weekly-review__section {
+  margin-bottom: var(--spacing-6);
+}
+
+.weekly-review__section-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+/* Encouraging message */
+.weekly-review__message {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+}
+
+.weekly-review__message-emoji {
+  font-size: var(--text-2xl);
+  line-height: 1;
+}
+
+.weekly-review__message-text {
+  font-size: var(--text-base);
+  color: var(--neutral-700);
+  margin: 0;
+  font-style: italic;
+}
+
+/* Global stats */
+.weekly-review__global-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.weekly-review__stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4);
+}
+
+.weekly-review__stat-card {
+  text-align: center;
+  padding: var(--spacing-5);
+}
+
+.weekly-review__stat-card--main {
+  background: linear-gradient(135deg, var(--primary-50), var(--secondary-50));
+  border-color: var(--primary-200);
+}
+
+.weekly-review__stat-card--main .weekly-review__stat-value {
+  font-size: var(--text-4xl);
+  color: var(--primary-700);
+}
+
+.weekly-review__stat-value {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-900);
+  line-height: 1.2;
+}
+
+.weekly-review__stat-label {
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  margin-top: var(--spacing-1);
+}
+
+/* Calendar */
+.weekly-review__calendar-wrapper {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--spacing-2);
+}
+
+.weekly-review__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-3);
+  background: var(--neutral-0);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  transition: all var(--duration-normal) var(--easing-gentle);
+}
+
+.weekly-review__day--completed {
+  background: var(--secondary-50);
+  border-color: var(--secondary-300);
+}
+
+.weekly-review__day--partial {
+  background: var(--primary-50);
+  border-color: var(--primary-300);
+}
+
+.weekly-review__day-name {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  text-transform: capitalize;
+}
+
+.weekly-review__day-number {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+}
+
+.weekly-review__day-indicator {
+  font-size: var(--text-lg);
+  line-height: 1;
+}
+
+.weekly-review__day--empty .weekly-review__day-indicator {
+  color: var(--neutral-300);
+}
+
+.weekly-review__day--partial .weekly-review__day-indicator {
+  color: var(--primary-500);
+}
+
+.weekly-review__day--completed .weekly-review__day-indicator {
+  color: var(--secondary-500);
+}
+
+/* Habits list */
+.weekly-review__habits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.weekly-review__habit-card {
+  padding: var(--spacing-4);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--easing-gentle),
+              box-shadow var(--duration-fast) var(--easing-gentle);
+}
+
+.weekly-review__habit-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.weekly-review__habit-card:active {
+  transform: scale(0.98);
+}
+
+.weekly-review__habit-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+}
+
+.weekly-review__habit-emoji {
+  font-size: var(--text-2xl);
+  line-height: 1;
+}
+
+.weekly-review__habit-name {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+}
+
+.weekly-review__habit-stats {
+  display: flex;
+  gap: var(--spacing-6);
+}
+
+.weekly-review__habit-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.weekly-review__habit-stat-value {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--neutral-900);
+}
+
+.weekly-review__habit-stat-label {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+}
+
+/* Actions */
+.weekly-review__actions {
+  margin-top: var(--spacing-8);
+}
+
+/* Animation d'entrée */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.weekly-review__section {
+  animation: slideInUp var(--duration-normal) var(--easing-gentle) forwards;
+}
+
+.weekly-review__section:nth-child(1) { animation-delay: 0ms; }
+.weekly-review__section:nth-child(2) { animation-delay: 80ms; }
+.weekly-review__section:nth-child(3) { animation-delay: 160ms; }
+.weekly-review__section:nth-child(4) { animation-delay: 240ms; }
+.weekly-review__section:nth-child(5) { animation-delay: 320ms; }
+
+/* Réduction de mouvement */
+@media (prefers-reduced-motion: reduce) {
+  .weekly-review__section {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .weekly-review__habit-card:hover {
+    transform: none;
+  }
+}

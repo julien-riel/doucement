@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
-import { StatsCards, WeeklyCalendar } from '../components/habits'
+import { StatsCards, WeeklyCalendar, ProgressChart } from '../components/habits'
 import { Button, Card } from '../components/ui'
 import {
   calculateTargetDose,
@@ -189,6 +189,11 @@ function HabitDetail() {
           <StatsCards stats={stats} unit={habit.unit} />
         </section>
       )}
+
+      {/* Graphique de progression */}
+      <section className="habit-detail__section" aria-label="Graphique de progression">
+        <ProgressChart habit={habit} entries={entries} referenceDate={today} />
+      </section>
 
       {/* Calendrier */}
       <section className="habit-detail__section" aria-label="Calendrier">

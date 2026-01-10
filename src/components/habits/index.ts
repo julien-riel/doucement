@@ -23,3 +23,6 @@ export type { StatsCardsProps } from './StatsCards'
 
 export { default as WeeklyCalendar } from './WeeklyCalendar'
 export type { WeeklyCalendarProps } from './WeeklyCalendar'
+
+export { default as ProgressChart } from './ProgressChart'
+export type { ProgressChartProps } from './ProgressChart'

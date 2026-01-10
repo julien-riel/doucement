@@ -1,0 +1,131 @@
+/**
+ * ProgressChart - Styles
+ * Graphique dose cible vs réalisé
+ */
+
+.progress-chart {
+  padding: var(--spacing-4);
+}
+
+.progress-chart__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-4);
+}
+
+.progress-chart__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0;
+}
+
+.progress-chart__legend {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+.progress-chart__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: var(--text-xs);
+  color: var(--neutral-600);
+}
+
+.progress-chart__legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+.progress-chart__legend-item--target .progress-chart__legend-dot {
+  background-color: var(--neutral-300);
+}
+
+.progress-chart__legend-item--actual .progress-chart__legend-dot {
+  background-color: var(--primary-500);
+}
+
+.progress-chart__container {
+  position: relative;
+}
+
+.progress-chart__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.progress-chart__bar {
+  transition: height 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-chart__bar--target {
+  fill: var(--neutral-200);
+}
+
+.progress-chart__bar--actual {
+  fill: var(--primary-500);
+}
+
+.progress-chart__bar--empty {
+  fill: var(--neutral-200);
+  opacity: 0.5;
+}
+
+/* Animation au survol */
+.progress-chart__day-group:hover .progress-chart__bar--target {
+  fill: var(--neutral-300);
+}
+
+.progress-chart__day-group:hover .progress-chart__bar--actual {
+  fill: var(--primary-600);
+}
+
+.progress-chart__labels {
+  display: flex;
+  justify-content: space-around;
+  margin-top: var(--spacing-2);
+}
+
+.progress-chart__day-label {
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--neutral-600);
+  width: 56px; /* 2 barres + gap */
+  text-align: center;
+}
+
+.progress-chart__scale {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--spacing-2);
+}
+
+.progress-chart__scale-value {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+  .progress-chart__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+
+  .progress-chart__legend {
+    gap: var(--spacing-4);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .progress-chart__bar {
+    transition: none;
+  }
+}
