@@ -1,0 +1,126 @@
+/* PatternInsights.css */
+
+.pattern-insights {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.pattern-insights--no-data {
+  text-align: center;
+}
+
+.pattern-insights__no-data {
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+  font-style: italic;
+  margin: 0;
+}
+
+.pattern-insights__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.pattern-insights__title {
+  font-family: var(--font-family-heading);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0;
+}
+
+.pattern-insights__intro {
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  margin: 0;
+}
+
+/* Days */
+.pattern-insights__days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.pattern-insights__day {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--neutral-100);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  text-transform: capitalize;
+}
+
+.pattern-insights__day--best {
+  background: var(--secondary-100);
+  color: var(--secondary-700);
+  font-weight: var(--font-medium);
+}
+
+.pattern-insights__day-score {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+}
+
+.pattern-insights__day--best .pattern-insights__day-score {
+  color: var(--secondary-600);
+}
+
+/* Times */
+.pattern-insights__times {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.pattern-insights__time {
+  display: grid;
+  grid-template-columns: 80px 1fr 40px;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.pattern-insights__time-label {
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  text-transform: capitalize;
+}
+
+.pattern-insights__time--best .pattern-insights__time-label {
+  color: var(--secondary-700);
+  font-weight: var(--font-medium);
+}
+
+.pattern-insights__time-bar {
+  height: 8px;
+  background: var(--neutral-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.pattern-insights__time-fill {
+  height: 100%;
+  background: var(--neutral-400);
+  border-radius: var(--radius-full);
+  transition: width 300ms ease-out;
+}
+
+.pattern-insights__time--best .pattern-insights__time-fill {
+  background: var(--secondary-500);
+}
+
+.pattern-insights__time-value {
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+  text-align: right;
+}
+
+.pattern-insights__time--best .pattern-insights__time-value {
+  color: var(--secondary-600);
+  font-weight: var(--font-medium);
+}

@@ -66,6 +66,19 @@ export interface ImplementationIntention {
 }
 
 /**
+ * Pause planifiée pour une habitude
+ * Permet de mettre en pause sans impact sur les stats
+ */
+export interface PlannedPause {
+  /** Date de début de la pause (YYYY-MM-DD) */
+  startDate: string;
+  /** Date de fin de la pause (YYYY-MM-DD) */
+  endDate: string;
+  /** Raison optionnelle */
+  reason?: string;
+}
+
+/**
  * Habitude de l'utilisateur
  */
 export interface Habit {
@@ -97,6 +110,8 @@ export interface Habit {
   implementationIntention?: ImplementationIntention;
   /** ID de l'habitude d'ancrage pour Habit Stacking (Phase 6) */
   anchorHabitId?: string;
+  /** Pause planifiée active (Phase 6) */
+  plannedPause?: PlannedPause | null;
 }
 
 // ============================================================================
@@ -187,6 +202,18 @@ export const DEFAULT_NOTIFICATION_SETTINGS: NotificationSettings = {
 // ============================================================================
 
 /**
+ * Réflexion hebdomadaire
+ */
+export interface WeeklyReflection {
+  /** Semaine concernée (format YYYY-Www, ex: 2026-W02) */
+  week: string;
+  /** Texte de réflexion */
+  text: string;
+  /** Date d'enregistrement */
+  createdAt: string;
+}
+
+/**
  * Préférences utilisateur
  */
 export interface UserPreferences {
@@ -196,6 +223,8 @@ export interface UserPreferences {
   lastWeeklyReviewDate: string | null;
   /** Paramètres de notifications */
   notifications: NotificationSettings;
+  /** Réflexions hebdomadaires sauvegardées */
+  weeklyReflections?: WeeklyReflection[];
 }
 
 // ============================================================================

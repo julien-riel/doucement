@@ -4,6 +4,7 @@ import { HABIT_STACKING } from '../../constants/messages'
 import { buildIntentionText } from '../../utils/habitDisplay'
 import Card from '../ui/Card'
 import CheckInButtons from './CheckInButtons'
+import SimpleCheckIn from './SimpleCheckIn'
 import './HabitCard.css'
 
 export interface HabitCardProps {
@@ -144,13 +145,21 @@ function HabitCard({
         </div>
       )}
 
-      <CheckInButtons
-        targetDose={targetDose}
-        unit={habit.unit}
-        currentValue={currentValue}
-        onCheckIn={handleCheckIn}
-        direction={habit.direction}
-      />
+      {habit.trackingMode === 'simple' ? (
+        <SimpleCheckIn
+          targetDose={targetDose}
+          currentValue={currentValue}
+          onCheckIn={handleCheckIn}
+        />
+      ) : (
+        <CheckInButtons
+          targetDose={targetDose}
+          unit={habit.unit}
+          currentValue={currentValue}
+          onCheckIn={handleCheckIn}
+          direction={habit.direction}
+        />
+      )}
     </Card>
   )
 }

@@ -1,0 +1,90 @@
+/* WeeklyReflectionInput.css */
+
+.weekly-reflection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.weekly-reflection__title {
+  font-family: var(--font-family-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0;
+}
+
+.weekly-reflection__question {
+  font-size: var(--text-base);
+  color: var(--neutral-600);
+  margin: 0;
+}
+
+.weekly-reflection__textarea {
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-body);
+  font-size: var(--text-base);
+  color: var(--neutral-800);
+  background: var(--neutral-0);
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.weekly-reflection__textarea:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.weekly-reflection__textarea::placeholder {
+  color: var(--neutral-400);
+}
+
+.weekly-reflection__actions {
+  display: flex;
+  gap: var(--spacing-3);
+  justify-content: flex-end;
+}
+
+/* Saved state */
+.weekly-reflection--saved {
+  background: var(--secondary-50);
+  border-color: var(--secondary-200);
+}
+
+.weekly-reflection__saved-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.weekly-reflection__saved-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--secondary-500);
+  color: white;
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+}
+
+.weekly-reflection__saved-text {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--secondary-700);
+}
+
+.weekly-reflection__saved-content {
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  font-style: italic;
+  margin: 0;
+  padding-left: calc(24px + var(--spacing-2)); /* Align with saved text */
+}

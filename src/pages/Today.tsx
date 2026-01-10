@@ -13,7 +13,7 @@ import {
   calculateDailyCompletionPercentage,
   getCompletionStatus,
 } from '../services/progression'
-import { detectGlobalAbsence, getNeglectedHabits, buildHabitChains } from '../utils'
+import { detectGlobalAbsence, getNeglectedHabits, buildHabitChains, isHabitPaused } from '../utils'
 import { CompletionStatus } from '../types'
 import './Today.css'
 
@@ -48,9 +48,9 @@ function Today() {
     [getEntriesForDate, today]
   )
 
-  // Filtrer les habitudes actives créées avant aujourd'hui
+  // Filtrer les habitudes actives créées avant aujourd'hui et non en pause
   const habitsForToday = useMemo(
-    () => activeHabits.filter((h) => h.createdAt <= today),
+    () => activeHabits.filter((h) => h.createdAt <= today && !isHabitPaused(h, today)),
     [activeHabits, today]
   )
 

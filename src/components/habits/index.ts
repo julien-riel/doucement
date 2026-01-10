@@ -34,3 +34,18 @@ export type { HabitAnchorSelectorProps } from './HabitAnchorSelector'
 
 export { default as WelcomeBackMessage } from './WelcomeBackMessage'
 export type { WelcomeBackMessageProps } from './WelcomeBackMessage'
+
+export { default as PlannedPauseDialog } from './PlannedPauseDialog'
+export type { PlannedPauseDialogProps } from './PlannedPauseDialog'
+
+export { default as SimpleCheckIn } from './SimpleCheckIn'
+export type { SimpleCheckInProps } from './SimpleCheckIn'
+
+export { default as ReflectionDelay } from './ReflectionDelay'
+export type { ReflectionDelayProps } from './ReflectionDelay'
+
+export { default as WeeklyReflectionInput } from './WeeklyReflectionInput'
+export type { WeeklyReflectionInputProps } from './WeeklyReflectionInput'
+
+export { default as PatternInsights } from './PatternInsights'
+export type { PatternInsightsProps } from './PatternInsights'

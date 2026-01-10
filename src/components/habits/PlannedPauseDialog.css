@@ -1,0 +1,163 @@
+/* PlannedPauseDialog.css */
+
+.pause-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(28, 25, 23, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-4);
+  animation: fadeIn 150ms ease-out;
+}
+
+.pause-dialog {
+  background: var(--neutral-0);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-medium);
+  width: 100%;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 200ms ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pause-dialog__header {
+  padding: var(--spacing-5);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.pause-dialog__title {
+  font-family: var(--font-family-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-900);
+  margin: 0;
+}
+
+.pause-dialog__habit-name {
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  margin: var(--spacing-1) 0 0;
+}
+
+.pause-dialog__description {
+  padding: var(--spacing-4) var(--spacing-5);
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  background: var(--neutral-50);
+  margin: 0;
+}
+
+.pause-dialog__form {
+  padding: var(--spacing-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+}
+
+.pause-dialog__dates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4);
+}
+
+.pause-dialog__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.pause-dialog__label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--neutral-700);
+}
+
+.pause-dialog__input {
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  color: var(--neutral-800);
+  background: var(--neutral-0);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.pause-dialog__input:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.pause-dialog__input::placeholder {
+  color: var(--neutral-400);
+}
+
+.pause-dialog__reason-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
+}
+
+.pause-dialog__chip {
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-full);
+  background: var(--neutral-0);
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.pause-dialog__chip:hover {
+  border-color: var(--primary-300);
+  background: var(--primary-50);
+}
+
+.pause-dialog__chip--active {
+  border-color: var(--primary-500);
+  background: var(--primary-100);
+  color: var(--primary-700);
+}
+
+.pause-dialog__actions {
+  display: flex;
+  gap: var(--spacing-3);
+  justify-content: flex-end;
+  margin-top: var(--spacing-2);
+}
+
+/* Responsive: stack dates on small screens */
+@media (max-width: 360px) {
+  .pause-dialog__dates {
+    grid-template-columns: 1fr;
+  }
+}

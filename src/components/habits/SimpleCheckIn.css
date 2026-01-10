@@ -1,0 +1,27 @@
+/* SimpleCheckIn.css */
+
+.simple-checkin {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  align-items: center;
+  margin-top: var(--spacing-4);
+}
+
+.simple-checkin__button {
+  width: 100%;
+  max-width: 280px;
+}
+
+.simple-checkin__button--done {
+  min-height: 48px;
+  font-size: var(--text-lg);
+}
+
+.simple-checkin__button--skip {
+  color: var(--neutral-500);
+}
+
+.simple-checkin__button--skip:hover {
+  color: var(--neutral-700);
+}

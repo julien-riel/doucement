@@ -1,13 +1,15 @@
-import { useMemo, useEffect } from 'react'
+import { useMemo, useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { Card, Button } from '../components/ui'
+import { WeeklyReflectionInput, PatternInsights } from '../components/habits'
 import {
   calculateHabitStats,
   calculateDailyCompletionPercentage,
   HabitStats,
 } from '../services/progression'
 import { getWeeklyMessage } from '../constants/messages'
+import { analyzeGlobalPatterns } from '../utils/patternAnalysis'
 import './WeeklyReview.css'
 
 /**
@@ -57,6 +59,18 @@ function formatDateRange(startDate: string, endDate: string): string {
   return `${startDay} - ${endDay} ${month}`
 }
 
+/**
+ * Calcule l'identifiant de la semaine (format ISO: YYYY-Www)
+ */
+function getWeekId(date: string): string {
+  const d = new Date(date)
+  const dayOfYear = Math.floor(
+    (d.getTime() - new Date(d.getFullYear(), 0, 0).getTime()) / 86400000
+  )
+  const weekNumber = Math.ceil((dayOfYear + new Date(d.getFullYear(), 0, 1).getDay()) / 7)
+  return `${d.getFullYear()}-W${String(weekNumber).padStart(2, '0')}`
+}
+
 
 /**
  * Calcule les statistiques globales de la semaine pour toutes les habitudes
@@ -83,6 +97,40 @@ function WeeklyReview() {
 
   const today = getCurrentDate()
   const { startDate, endDate, dates } = useMemo(() => getWeekDates(), [])
+  const weekId = useMemo(() => getWeekId(today), [today])
+
+  // State for reflection section
+  const [reflectionDismissed, setReflectionDismissed] = useState(false)
+
+  // Get existing reflection for this week
+  const existingReflection = useMemo(() => {
+    return data.preferences.weeklyReflections?.find((r) => r.week === weekId)?.text
+  }, [data.preferences.weeklyReflections, weekId])
+
+  // Save weekly reflection
+  const handleSaveReflection = useCallback(
+    (text: string) => {
+      const reflections = data.preferences.weeklyReflections ?? []
+      const existingIndex = reflections.findIndex((r) => r.week === weekId)
+      const newReflection = {
+        week: weekId,
+        text,
+        createdAt: new Date().toISOString(),
+      }
+
+      const updatedReflections =
+        existingIndex >= 0
+          ? reflections.map((r, i) => (i === existingIndex ? newReflection : r))
+          : [...reflections, newReflection]
+
+      updatePreferences({ weeklyReflections: updatedReflections })
+    },
+    [data.preferences.weeklyReflections, weekId, updatePreferences]
+  )
+
+  const handleSkipReflection = useCallback(() => {
+    setReflectionDismissed(true)
+  }, [])
 
   // Marquer la revue hebdomadaire comme effectuée
   useEffect(() => {
@@ -136,6 +184,12 @@ function WeeklyReview() {
       : 0
     return getWeeklyMessage(ratio)
   }, [weeklyStats.totalActiveDays, activeHabits.length])
+
+  // Analyse des patterns
+  const patternAnalysis = useMemo(
+    () => analyzeGlobalPatterns(activeHabits, data.entries),
+    [activeHabits, data.entries]
+  )
 
   const handleContinue = () => {
     navigate('/')
@@ -277,6 +331,23 @@ function WeeklyReview() {
           })}
         </div>
       </section>
+
+      {/* Pattern Analysis */}
+      <section className="weekly-review__section" aria-label="Insights">
+        <h2 className="weekly-review__section-title">Tes patterns</h2>
+        <PatternInsights analysis={patternAnalysis} />
+      </section>
+
+      {/* Guided Reflection */}
+      {!reflectionDismissed && (
+        <section className="weekly-review__section" aria-label="Réflexion">
+          <WeeklyReflectionInput
+            onSave={handleSaveReflection}
+            onSkip={handleSkipReflection}
+            initialValue={existingReflection}
+          />
+        </section>
+      )}
 
       {/* Actions */}
       <section className="weekly-review__actions">

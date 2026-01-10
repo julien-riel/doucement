@@ -1,12 +1,15 @@
 import { useMemo, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
-import { StatsCards, WeeklyCalendar, ProgressChart } from '../components/habits'
+import { StatsCards, WeeklyCalendar, ProgressChart, PlannedPauseDialog } from '../components/habits'
 import { Button, Card } from '../components/ui'
 import {
   calculateTargetDose,
   calculateHabitStats,
 } from '../services/progression'
+import { isHabitPaused } from '../utils/absence'
+import { PLANNED_PAUSE } from '../constants/messages'
+import type { PlannedPause } from '../types'
 import './HabitDetail.css'
 
 /**
@@ -71,10 +74,12 @@ function HabitDetail() {
     getEntriesForHabit,
     archiveHabit,
     restoreHabit,
+    updateHabit,
     isLoading,
   } = useAppData()
 
   const [showArchiveConfirm, setShowArchiveConfirm] = useState(false)
+  const [showPauseDialog, setShowPauseDialog] = useState(false)
 
   const habit = id ? getHabitById(id) : undefined
   const entries = useMemo(
@@ -117,6 +122,19 @@ function HabitDetail() {
     }
   }
 
+  const handleStartPause = (pause: PlannedPause) => {
+    if (id) {
+      updateHabit(id, { plannedPause: pause })
+      setShowPauseDialog(false)
+    }
+  }
+
+  const handleEndPause = () => {
+    if (id) {
+      updateHabit(id, { plannedPause: null })
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="page page-habit-detail page-habit-detail--loading">
@@ -137,6 +155,7 @@ function HabitDetail() {
   }
 
   const isArchived = habit.archivedAt !== null
+  const isPaused = isHabitPaused(habit)
   const directionInfo = getDirectionInfo(habit.direction)
 
   return (
@@ -169,6 +188,11 @@ function HabitDetail() {
           {isArchived && (
             <span className="habit-detail__badge habit-detail__badge--archived">
               Archivée
+            </span>
+          )}
+          {isPaused && (
+            <span className="habit-detail__badge habit-detail__badge--paused">
+              {PLANNED_PAUSE.activePauseBadge}
             </span>
           )}
         </div>
@@ -258,6 +282,23 @@ function HabitDetail() {
             <Button variant="secondary" fullWidth onClick={handleEdit}>
               Modifier
             </Button>
+            {isPaused ? (
+              <Button
+                variant="primary"
+                fullWidth
+                onClick={handleEndPause}
+              >
+                {PLANNED_PAUSE.resumeButton}
+              </Button>
+            ) : (
+              <Button
+                variant="ghost"
+                fullWidth
+                onClick={() => setShowPauseDialog(true)}
+              >
+                {PLANNED_PAUSE.buttonLabel}
+              </Button>
+            )}
             {!showArchiveConfirm ? (
               <Button
                 variant="ghost"
@@ -287,6 +328,14 @@ function HabitDetail() {
           </>
         )}
       </section>
+
+      {/* Pause Dialog */}
+      <PlannedPauseDialog
+        isOpen={showPauseDialog}
+        onClose={() => setShowPauseDialog(false)}
+        onConfirm={handleStartPause}
+        habitName={habit.name}
+      />
     </div>
   )
 }

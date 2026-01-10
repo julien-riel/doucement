@@ -103,6 +103,11 @@
   color: var(--neutral-600);
 }
 
+.habit-detail__badge--paused {
+  background: #FBBF24; /* amber */
+  color: var(--neutral-800);
+}
+
 /* Today dose */
 .habit-detail__today-dose {
   text-align: center;

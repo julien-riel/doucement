@@ -3,7 +3,7 @@
  * Permet de détecter quand un utilisateur n'a pas fait de check-in depuis un certain temps
  */
 
-import type { DailyEntry, Habit } from '../types'
+import type { DailyEntry, Habit, PlannedPause } from '../types'
 
 /**
  * Nombre de jours minimum pour considérer une absence
@@ -160,9 +160,79 @@ export function getNeglectedHabits(
  * @returns true si l'utilisateur revient après une absence
  */
 export function isReturningAfterAbsence(
-  habits: Habit[],
+  _habits: Habit[],
   entries: DailyEntry[]
 ): boolean {
   const globalAbsence = detectGlobalAbsence(entries)
   return globalAbsence.isAbsent
+}
+
+// ============================================================================
+// PLANNED PAUSE UTILITIES
+// ============================================================================
+
+/**
+ * Vérifie si une date est dans la période de pause
+ *
+ * @param pause - La pause planifiée
+ * @param date - La date à vérifier (YYYY-MM-DD)
+ * @returns true si la date est dans la période de pause
+ */
+export function isDateInPause(pause: PlannedPause, date: string): boolean {
+  return date >= pause.startDate && date <= pause.endDate
+}
+
+/**
+ * Vérifie si une habitude est actuellement en pause
+ *
+ * @param habit - L'habitude à vérifier
+ * @param date - La date à vérifier (par défaut aujourd'hui)
+ * @returns true si l'habitude est en pause pour la date donnée
+ */
+export function isHabitPaused(habit: Habit, date?: string): boolean {
+  if (!habit.plannedPause) {
+    return false
+  }
+  const checkDate = date ?? getCurrentDate()
+  return isDateInPause(habit.plannedPause, checkDate)
+}
+
+/**
+ * Vérifie si la pause d'une habitude est expirée
+ *
+ * @param habit - L'habitude à vérifier
+ * @returns true si la pause existe et est expirée
+ */
+export function isPauseExpired(habit: Habit): boolean {
+  if (!habit.plannedPause) {
+    return false
+  }
+  const today = getCurrentDate()
+  return today > habit.plannedPause.endDate
+}
+
+/**
+ * Filtre les habitudes actives (non archivées et non en pause)
+ *
+ * @param habits - Liste des habitudes
+ * @param date - La date à vérifier (par défaut aujourd'hui)
+ * @returns Liste des habitudes actives et non en pause
+ */
+export function getActiveNonPausedHabits(habits: Habit[], date?: string): Habit[] {
+  return habits.filter(
+    (habit) => habit.archivedAt === null && !isHabitPaused(habit, date)
+  )
+}
+
+/**
+ * Retourne les habitudes en pause
+ *
+ * @param habits - Liste des habitudes
+ * @param date - La date à vérifier (par défaut aujourd'hui)
+ * @returns Liste des habitudes actuellement en pause
+ */
+export function getPausedHabits(habits: Habit[], date?: string): Habit[] {
+  return habits.filter(
+    (habit) => habit.archivedAt === null && isHabitPaused(habit, date)
+  )
 }
