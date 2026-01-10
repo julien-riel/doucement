@@ -1,0 +1,100 @@
+/**
+ * Input Component Styles
+ * Design system: Soft Organic
+ */
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.input-label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--neutral-700);
+}
+
+.input {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-normal);
+  color: var(--neutral-800);
+  background-color: var(--neutral-0);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3) var(--spacing-4);
+  min-height: var(--touch-target-min);
+  width: 100%;
+  transition:
+    border-color var(--duration-fast) var(--easing-gentle),
+    box-shadow var(--duration-fast) var(--easing-gentle);
+}
+
+.input::placeholder {
+  color: var(--neutral-400);
+}
+
+.input:hover:not(:disabled) {
+  border-color: var(--neutral-400);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+/* ================================
+   STATE: Error
+   Utilise ambre (pas de rouge)
+   ================================ */
+.input--error {
+  border-color: var(--color-warning);
+}
+
+.input--error:focus {
+  border-color: var(--color-warning);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+}
+
+.input-error {
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  background-color: rgba(251, 191, 36, 0.1);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-warning);
+}
+
+/* ================================
+   STATE: Disabled
+   ================================ */
+.input--disabled,
+.input:disabled {
+  background-color: var(--neutral-100);
+  color: var(--neutral-400);
+  cursor: not-allowed;
+}
+
+/* ================================
+   Hint text
+   ================================ */
+.input-hint {
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+}
+
+/* ================================
+   Number input adjustments
+   ================================ */
+.input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.input[type='number']::-webkit-inner-spin-button,
+.input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

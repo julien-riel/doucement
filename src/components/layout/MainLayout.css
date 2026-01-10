@@ -1,0 +1,118 @@
+/**
+ * MainLayout Component Styles
+ * Design system: Soft Organic
+ */
+
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--neutral-50);
+}
+
+/* ================================
+   CONTENT AREA
+   Zone scrollable principale
+   ================================ */
+.main-layout__content {
+  flex: 1;
+  padding: var(--spacing-4);
+  padding-bottom: calc(var(--spacing-4) + 72px); /* Espace pour la nav */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ================================
+   BOTTOM NAVIGATION
+   Barre de navigation fixe en bas
+   ================================ */
+.main-layout__nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--neutral-0);
+  border-top: 1px solid var(--neutral-200);
+  padding: var(--spacing-2) var(--spacing-4);
+  padding-bottom: max(var(--spacing-2), env(safe-area-inset-bottom));
+  height: 72px;
+  box-shadow: 0 -2px 8px rgba(28, 25, 23, 0.04);
+}
+
+/* ================================
+   NAV ITEM
+   Élément de navigation
+   ================================ */
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-1);
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-2);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--neutral-500);
+  transition:
+    color var(--duration-fast) var(--easing-gentle),
+    background-color var(--duration-fast) var(--easing-gentle),
+    transform var(--duration-fast) var(--easing-gentle);
+}
+
+.nav-item:hover {
+  color: var(--neutral-700);
+  background-color: var(--neutral-100);
+}
+
+.nav-item:active {
+  transform: scale(0.95);
+}
+
+.nav-item--active {
+  color: var(--primary-600);
+}
+
+.nav-item--active:hover {
+  color: var(--primary-600);
+  background-color: var(--primary-50);
+}
+
+/* ================================
+   NAV ITEM ICON
+   ================================ */
+.nav-item__icon {
+  font-size: var(--text-xl);
+  line-height: 1;
+}
+
+.nav-item__icon--create {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  color: var(--neutral-0);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  box-shadow: var(--shadow-soft);
+}
+
+.nav-item--active .nav-item__icon--create {
+  box-shadow: var(--shadow-glow);
+}
+
+/* ================================
+   NAV ITEM LABEL
+   ================================ */
+.nav-item__label {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+}

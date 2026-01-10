@@ -1,0 +1,65 @@
+import { ReactNode } from 'react'
+import { NavLink } from 'react-router-dom'
+import './MainLayout.css'
+
+export interface MainLayoutProps {
+  /** Contenu principal de la page */
+  children: ReactNode
+  /** Masquer la navigation (ex: onboarding) */
+  hideNavigation?: boolean
+}
+
+/**
+ * Layout principal de l'application
+ *
+ * Inclut :
+ * - Zone de contenu scrollable
+ * - Barre de navigation bottom avec 3 onglets
+ *
+ * @example
+ * <MainLayout>
+ *   <TodayContent />
+ * </MainLayout>
+ */
+function MainLayout({ children, hideNavigation = false }: MainLayoutProps) {
+  return (
+    <div className="main-layout">
+      <main className="main-layout__content">{children}</main>
+      {!hideNavigation && (
+        <nav className="main-layout__nav" aria-label="Navigation principale">
+          <NavLink
+            to="/"
+            className={({ isActive }) => `nav-item ${isActive ? 'nav-item--active' : ''}`}
+          >
+            <span className="nav-item__icon" aria-hidden="true">
+              ☀️
+            </span>
+            <span className="nav-item__label">Aujourd'hui</span>
+          </NavLink>
+          <NavLink
+            to="/create"
+            className={({ isActive }) =>
+              `nav-item nav-item--create ${isActive ? 'nav-item--active' : ''}`
+            }
+          >
+            <span className="nav-item__icon nav-item__icon--create" aria-hidden="true">
+              +
+            </span>
+            <span className="nav-item__label">Ajouter</span>
+          </NavLink>
+          <NavLink
+            to="/habits"
+            className={({ isActive }) => `nav-item ${isActive ? 'nav-item--active' : ''}`}
+          >
+            <span className="nav-item__icon" aria-hidden="true">
+              📊
+            </span>
+            <span className="nav-item__label">Progrès</span>
+          </NavLink>
+        </nav>
+      )}
+    </div>
+  )
+}
+
+export default MainLayout

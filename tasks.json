@@ -7,7 +7,7 @@
     {
       "id": "phase-1",
       "name": "Structure projet React + Vite",
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "1.1",
@@ -37,8 +37,9 @@
           "id": "1.4",
           "name": "Importer les fonts Google",
           "description": "Fraunces (titres) et Source Sans 3 (corps)",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "1.5",
@@ -60,22 +61,25 @@
           "id": "1.7",
           "name": "Créer le composant Card",
           "description": "Variantes: default, elevated, highlight",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "1.8",
           "name": "Créer le composant Input",
           "description": "Input texte et numérique avec labels et états d'erreur",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "1.9",
           "name": "Créer le layout principal",
           "description": "Container principal avec navigation bottom (Aujourd'hui, Ajouter, Progrès)",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         }
       ]
     },
@@ -467,8 +471,8 @@
   ],
   "stats": {
     "totalTasks": 60,
-    "completed": 5,
+    "completed": 9,
     "inProgress": 0,
-    "pending": 55
+    "pending": 51
   }
 }

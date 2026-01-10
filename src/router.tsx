@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { Onboarding, Today, HabitList, HabitDetail, CreateHabit, Settings } from './pages'
+import { MainLayout } from './components/layout'
 
 /**
  * Configuration du routeur de l'application
@@ -14,26 +15,50 @@ import { Onboarding, Today, HabitList, HabitDetail, CreateHabit, Settings } from
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Today />,
+    element: (
+      <MainLayout>
+        <Today />
+      </MainLayout>
+    ),
   },
   {
     path: '/onboarding',
-    element: <Onboarding />,
+    element: (
+      <MainLayout hideNavigation>
+        <Onboarding />
+      </MainLayout>
+    ),
   },
   {
     path: '/habits',
-    element: <HabitList />,
+    element: (
+      <MainLayout>
+        <HabitList />
+      </MainLayout>
+    ),
   },
   {
     path: '/habits/:id',
-    element: <HabitDetail />,
+    element: (
+      <MainLayout>
+        <HabitDetail />
+      </MainLayout>
+    ),
   },
   {
     path: '/create',
-    element: <CreateHabit />,
+    element: (
+      <MainLayout>
+        <CreateHabit />
+      </MainLayout>
+    ),
   },
   {
     path: '/settings',
-    element: <Settings />,
+    element: (
+      <MainLayout>
+        <Settings />
+      </MainLayout>
+    ),
   },
 ])

@@ -68,7 +68,7 @@ a:hover {
   outline-offset: 2px;
 }
 
-/* Container principal de l'app */
+/* Container principal de l'app (pour pages sans MainLayout) */
 .app {
   min-height: 100vh;
   display: flex;
@@ -76,6 +76,13 @@ a:hover {
   align-items: center;
   justify-content: center;
   padding: var(--spacing-4);
+}
+
+/* Wrapper pour pages avec MainLayout */
+.page {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 /* Utilitaires d'animation */

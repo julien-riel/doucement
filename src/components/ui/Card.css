@@ -1,0 +1,52 @@
+/**
+ * Card Component Styles
+ * Design system: Soft Organic
+ */
+
+.card {
+  background-color: var(--neutral-0);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  transition:
+    transform var(--duration-fast) var(--easing-gentle),
+    box-shadow var(--duration-fast) var(--easing-gentle);
+}
+
+.card--no-padding {
+  padding: 0;
+}
+
+/* ================================
+   VARIANT: Default
+   Carte standard avec ombre légère
+   ================================ */
+.card--default {
+  box-shadow: var(--shadow-soft);
+}
+
+/* ================================
+   VARIANT: Elevated
+   Carte surélevée avec ombre plus prononcée
+   ================================ */
+.card--elevated {
+  box-shadow: var(--shadow-medium);
+}
+
+.card--elevated:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(28, 25, 23, 0.1);
+}
+
+/* ================================
+   VARIANT: Highlight
+   Carte mise en avant avec bordure primaire
+   ================================ */
+.card--highlight {
+  box-shadow: var(--shadow-soft);
+  border: 2px solid var(--primary-200);
+  background: linear-gradient(135deg, var(--neutral-0) 0%, var(--primary-50) 100%);
+}
+
+.card--highlight:hover {
+  border-color: var(--primary-300);
+}
