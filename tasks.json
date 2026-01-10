@@ -1,0 +1,448 @@
+{
+  "project": "Doucement",
+  "description": "Application de suivi d'habitudes progressives",
+  "createdAt": "2025-01-09",
+  "updatedAt": "2025-01-09",
+  "phases": [
+    {
+      "id": "phase-1",
+      "name": "Structure projet React + Vite",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "1.1",
+          "name": "Initialiser le projet Vite",
+          "description": "npm create vite@latest . -- --template react-ts",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "1.2",
+          "name": "Créer la structure de dossiers",
+          "description": "components/, pages/, hooks/, services/, types/, utils/, constants/, styles/",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "1.3",
+          "name": "Configurer les design tokens CSS",
+          "description": "Variables CSS pour couleurs, espacements, rayons, ombres, typographie",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "1.4",
+          "name": "Importer les fonts Google",
+          "description": "Fraunces (titres) et Source Sans 3 (corps)",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "1.5",
+          "name": "Configurer React Router",
+          "description": "Routes pour Onboarding, Today, HabitList, HabitDetail, CreateHabit, Settings",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "1.6",
+          "name": "Créer le composant Button",
+          "description": "Variantes: primary, secondary, ghost, success. États: hover, pressed, disabled",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "1.7",
+          "name": "Créer le composant Card",
+          "description": "Variantes: default, elevated, highlight",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "1.8",
+          "name": "Créer le composant Input",
+          "description": "Input texte et numérique avec labels et états d'erreur",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "1.9",
+          "name": "Créer le layout principal",
+          "description": "Container principal avec navigation bottom (Aujourd'hui, Ajouter, Progrès)",
+          "status": "pending",
+          "priority": "high"
+        }
+      ]
+    },
+    {
+      "id": "phase-2",
+      "name": "Stockage local (localStorage)",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "2.1",
+          "name": "Définir les types TypeScript",
+          "description": "Habit, DailyEntry, UserPreferences, AppData avec schemaVersion",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "2.2",
+          "name": "Créer le service storage",
+          "description": "loadData(), saveData() avec gestion d'erreurs",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "2.3",
+          "name": "Créer le hook useAppData",
+          "description": "Accès réactif aux données avec auto-save",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "2.4",
+          "name": "Implémenter les méthodes CRUD habitudes",
+          "description": "addHabit, updateHabit, archiveHabit dans useAppData",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "2.5",
+          "name": "Implémenter les méthodes CRUD entrées",
+          "description": "addEntry, getEntriesForDate, getEntriesForHabit",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "2.6",
+          "name": "Écrire les tests du service storage",
+          "description": "Tests unitaires pour load/save et gestion d'erreurs",
+          "status": "pending",
+          "priority": "medium"
+        }
+      ]
+    },
+    {
+      "id": "phase-3",
+      "name": "Logique de calcul de progression",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "3.1",
+          "name": "Implémenter calculateTargetDose",
+          "description": "Calcul de la dose cible pour une date donnée",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "3.2",
+          "name": "Implémenter le mode absolu",
+          "description": "+/- X unités par jour ou semaine",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "3.3",
+          "name": "Implémenter le mode pourcentage",
+          "description": "+/- X% par semaine avec effet composé",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "3.4",
+          "name": "Implémenter les règles d'arrondi",
+          "description": "Plafond pour augmentation, plancher pour réduction",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "3.5",
+          "name": "Implémenter les limites min/max",
+          "description": "Respecter targetValue si défini, minimum 1 ou 0 selon direction",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "3.6",
+          "name": "Implémenter calculateCompletionPercentage",
+          "description": "Pourcentage de complétion d'une entrée",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "3.7",
+          "name": "Implémenter getCompletionStatus",
+          "description": "Retourne pending, partial, completed ou exceeded",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "3.8",
+          "name": "Implémenter calculateHabitStats",
+          "description": "Statistiques sur une période: jours actifs, % moyen, progression",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "3.9",
+          "name": "Écrire les tests de progression",
+          "description": "Tests unitaires couvrant tous les cas de figure",
+          "status": "pending",
+          "priority": "high"
+        }
+      ]
+    },
+    {
+      "id": "phase-4",
+      "name": "Import/Export avec validation et migration",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "4.1",
+          "name": "Créer le service validation",
+          "description": "validateImportData avec ValidationResult",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "4.2",
+          "name": "Implémenter validateHabit",
+          "description": "Validation de la structure d'une habitude",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "4.3",
+          "name": "Implémenter validateEntry",
+          "description": "Validation de la structure d'une entrée",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "4.4",
+          "name": "Créer le système de migrations",
+          "description": "Registry MIGRATIONS et fonction runMigrations",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "4.5",
+          "name": "Implémenter exportData",
+          "description": "Téléchargement JSON avec timestamp",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "4.6",
+          "name": "Implémenter importData mode remplacer",
+          "description": "Remplacement complet des données existantes",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "4.7",
+          "name": "Implémenter importData mode fusionner",
+          "description": "Fusion intelligente avec gestion des conflits",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "4.8",
+          "name": "Créer l'UI import/export dans Settings",
+          "description": "Boutons export et input file pour import",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "4.9",
+          "name": "Écrire les tests import/export",
+          "description": "Tests d'intégration et tests de migration",
+          "status": "pending",
+          "priority": "medium"
+        }
+      ]
+    },
+    {
+      "id": "phase-5",
+      "name": "Écrans principaux",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "5.1",
+          "name": "Créer l'écran Onboarding",
+          "description": "4 écrans avec navigation, skip, et flag onboardingCompleted",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "5.2",
+          "name": "Créer le composant OnboardingStep",
+          "description": "Titre, illustration, texte, bouton avec animations",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.3",
+          "name": "Créer l'écran Aujourd'hui",
+          "description": "Écran principal avec header date et liste des habitudes du jour",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "5.4",
+          "name": "Créer le composant DailyHeader",
+          "description": "Date formatée et pourcentage de complétion du jour",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.5",
+          "name": "Créer le composant EncouragingMessage",
+          "description": "Message selon moment de la journée (matin/après-midi/soir)",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.6",
+          "name": "Créer le composant HabitCard",
+          "description": "Carte d'habitude avec emoji, nom, dose, et boutons check-in",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "5.7",
+          "name": "Créer le composant CheckInButtons",
+          "description": "Boutons Un peu / Fait / Extra avec inputs conditionnels",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "5.8",
+          "name": "Implémenter l'animation de célébration",
+          "description": "Animation scale + rotate sur complétion 100%+",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.9",
+          "name": "Créer l'écran Liste des habitudes",
+          "description": "Liste des habitudes actives et section archivées",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "5.10",
+          "name": "Créer le composant HabitListItem",
+          "description": "Item de liste avec stats rapides et navigation vers détail",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.11",
+          "name": "Créer l'écran Création d'habitude",
+          "description": "Wizard 3 étapes: Type → Détails → Confirmation",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "5.12",
+          "name": "Créer StepType",
+          "description": "Choix entre Augmenter, Réduire, Maintenir",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.13",
+          "name": "Créer StepDetails",
+          "description": "Formulaire: nom, emoji, valeur départ, rythme, unité",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.14",
+          "name": "Créer StepConfirm",
+          "description": "Résumé de l'habitude avant création",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.15",
+          "name": "Créer l'écran Détail d'habitude",
+          "description": "Stats, graphique progression, calendrier, actions",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "5.16",
+          "name": "Créer le composant ProgressChart",
+          "description": "Graphique dose cible vs réalisé sur la période",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.17",
+          "name": "Créer le composant WeeklyCalendar",
+          "description": "Calendrier semaine avec états visuels (fait/partiel/vide)",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.18",
+          "name": "Créer le composant StatsCards",
+          "description": "Cartes statistiques: jours actifs, % moyen, progression",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.19",
+          "name": "Implémenter la modification d'habitude",
+          "description": "Formulaire de modification avec sauvegarde",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.20",
+          "name": "Implémenter l'archivage d'habitude",
+          "description": "Archiver avec confirmation et message bienveillant",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.21",
+          "name": "Créer l'écran Settings",
+          "description": "Préférences, import/export, à propos, revoir onboarding",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.22",
+          "name": "Créer la navigation bottom",
+          "description": "Barre de navigation: Aujourd'hui, Ajouter, Progrès",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "5.23",
+          "name": "Implémenter l'écran vide",
+          "description": "État quand aucune habitude n'est créée",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "5.24",
+          "name": "Intégrer les messages de la banque",
+          "description": "Utiliser docs/comm/banque-messages.md pour tous les textes",
+          "status": "pending",
+          "priority": "medium"
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "totalTasks": 48,
+    "completed": 0,
+    "inProgress": 0,
+    "pending": 48
+  }
+}
