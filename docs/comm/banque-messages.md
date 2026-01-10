@@ -159,6 +159,23 @@ Ce document contient l'ensemble des messages, encouragements et micro-textes de 
 
 **Note importante :** Les notifications sont optionnelles et désactivées par défaut. L'utilisateur doit explicitement les activer.
 
+### Messages d'interface pour les notifications
+
+**Demande de permission :**
+- Titre : « Activer les rappels ? »
+- Description : « Recevez un rappel quotidien pour ne pas oublier votre dose du jour. Vous pouvez désactiver à tout moment. »
+- Bouton accepter : « Activer »
+- Bouton refuser : « Pas maintenant »
+
+**Permission refusée :**
+- « Les notifications sont désactivées dans votre navigateur. Vous pouvez les activer dans les paramètres. »
+
+**Activation réussie :**
+- « Rappels activés. Vous recevrez un rappel chaque jour à [heure]. »
+
+**Désactivation :**
+- « Rappels désactivés. Vous pouvez les réactiver à tout moment. »
+
 ---
 
 ## Textes légaux et paramètres

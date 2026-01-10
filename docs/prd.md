@@ -231,10 +231,43 @@ Objectifs :
 
 ---
 
-## 9. Sécurité & vie privée
+## 9. Notifications locales
+
+### Principes
+
+* **Opt-in uniquement** : désactivées par défaut, l'utilisateur doit explicitement les activer
+* **100% locales** : aucun serveur push, tout se passe sur l'appareil
+* **Non intrusives** : respectent le ton bienveillant de l'app
+
+### Types de rappels
+
+1. **Rappel matinal** (configurable)
+   * Heure par défaut : 08:00
+   * Message : « Votre dose du jour vous attend »
+
+2. **Rappel du soir** (optionnel)
+   * Uniquement si journée non enregistrée
+   * Heure par défaut : 20:00
+   * Message : « Vous n'avez pas encore enregistré votre journée »
+
+3. **Rappel de revue hebdomadaire** (optionnel)
+   * Le dimanche
+   * Message : « C'est l'heure de votre revue hebdomadaire »
+
+### Implémentation technique
+
+* Web Notifications API pour les notifications dans le navigateur
+* Service Worker pour les notifications en arrière-plan (PWA installée)
+* Stockage des préférences dans `UserPreferences`
+* Pas de dépendance à des services tiers (Firebase, OneSignal, etc.)
+
+---
+
+## 10. Sécurité & vie privée
 
 * Aucune donnée transmise à des serveurs tiers
-* Pas d’analytics obligatoires
+* Pas d'analytics obligatoires
+* Notifications 100% locales (pas de push serveur)
 * Option future :
 
   * verrouillage local par mot de passe
@@ -242,7 +275,7 @@ Objectifs :
 
 ---
 
-## 10. Rôles dans l’équipe
+## 11. Rôles dans l'équipe
 
 ### Développeurs
 
@@ -271,7 +304,7 @@ Objectifs :
 
 ---
 
-## 11. Critères de succès
+## 12. Critères de succès
 
 * L’utilisateur comprend l’app sans tutoriel long
 * L’utilisation quotidienne prend < 30 secondes
@@ -280,7 +313,7 @@ Objectifs :
 
 ---
 
-## 12. Hors scope (pour l'instant)
+## 13. Hors scope (pour l'instant)
 
 * Backend serveur
 * Comptes utilisateurs
@@ -291,7 +324,7 @@ Ces éléments pourront être envisagés **uniquement** si compatibles avec la v
 
 ---
 
-## 13. Améliorations basées sur la science comportementale
+## 14. Améliorations basées sur la science comportementale
 
 > Document détaillé : `docs/science-based-improvements.md`
 
@@ -332,7 +365,7 @@ Basées sur la recherche en psychologie et sciences comportementales :
 
 ---
 
-## 14. Conclusion
+## 15. Conclusion
 
 Cette application est volontairement **simple techniquement** mais **exigeante sur l’expérience humaine**.
 

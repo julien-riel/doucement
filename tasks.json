@@ -583,6 +583,97 @@
       ]
     },
     {
+      "id": "phase-notifications",
+      "name": "Notifications locales",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "notif.1",
+          "name": "Ajouter les types NotificationSettings",
+          "description": "Nouveaux champs dans UserPreferences: notificationsEnabled, morningReminderTime, eveningReminderEnabled",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "notif.2",
+          "name": "Créer le service notifications",
+          "description": "Service pour gérer les permissions, programmer et annuler les notifications locales via Web Notifications API",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "notif.3",
+          "name": "Implémenter requestNotificationPermission",
+          "description": "Demande de permission avec gestion des états (granted, denied, default)",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "notif.4",
+          "name": "Implémenter scheduleNotification",
+          "description": "Programmer une notification à une heure donnée via setTimeout ou Service Worker",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "notif.5",
+          "name": "Créer le composant NotificationSettings",
+          "description": "UI pour activer/désactiver les notifications et configurer les heures de rappel",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "notif.6",
+          "name": "Intégrer NotificationSettings dans Settings",
+          "description": "Ajouter la section notifications dans l'écran des paramètres",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "notif.7",
+          "name": "Implémenter le rappel matinal",
+          "description": "Notification 'Votre dose du jour vous attend' à l'heure configurée",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "notif.8",
+          "name": "Implémenter le rappel du soir",
+          "description": "Notification si journée non enregistrée à l'heure du soir configurée",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "notif.9",
+          "name": "Implémenter le rappel de revue hebdomadaire",
+          "description": "Notification le dimanche pour la revue hebdomadaire",
+          "status": "pending",
+          "priority": "low"
+        },
+        {
+          "id": "notif.10",
+          "name": "Configurer le Service Worker pour les notifications",
+          "description": "Ajouter les handlers push et notificationclick dans le SW PWA",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "notif.11",
+          "name": "Écrire les tests du service notifications",
+          "description": "Tests unitaires avec mocks pour l'API Notification",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "notif.12",
+          "name": "Mettre à jour le service de migration",
+          "description": "Migration pour les nouveaux champs de préférences notifications",
+          "status": "pending",
+          "priority": "high"
+        }
+      ]
+    },
+    {
       "id": "phase-6",
       "name": "Améliorations basées sur la science comportementale",
       "status": "pending",
@@ -738,9 +829,9 @@
     }
   ],
   "stats": {
-    "totalTasks": 88,
+    "totalTasks": 100,
     "completed": 67,
     "inProgress": 0,
-    "pending": 21
+    "pending": 33
   }
 }
