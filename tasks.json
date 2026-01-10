@@ -92,36 +92,41 @@
           "id": "2.1",
           "name": "Définir les types TypeScript",
           "description": "Habit, DailyEntry, UserPreferences, AppData avec schemaVersion",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "2.2",
           "name": "Créer le service storage",
           "description": "loadData(), saveData() avec gestion d'erreurs",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "2.3",
           "name": "Créer le hook useAppData",
           "description": "Accès réactif aux données avec auto-save",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "2.4",
           "name": "Implémenter les méthodes CRUD habitudes",
           "description": "addHabit, updateHabit, archiveHabit dans useAppData",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "2.5",
           "name": "Implémenter les méthodes CRUD entrées",
           "description": "addEntry, getEntriesForDate, getEntriesForHabit",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "2.6",
@@ -142,70 +147,79 @@
     {
       "id": "phase-3",
       "name": "Logique de calcul de progression",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "3.1",
           "name": "Implémenter calculateTargetDose",
           "description": "Calcul de la dose cible pour une date donnée",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "3.2",
           "name": "Implémenter le mode absolu",
           "description": "+/- X unités par jour ou semaine",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "3.3",
           "name": "Implémenter le mode pourcentage",
           "description": "+/- X% par semaine avec effet composé",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "3.4",
           "name": "Implémenter les règles d'arrondi",
           "description": "Plafond pour augmentation, plancher pour réduction",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "3.5",
           "name": "Implémenter les limites min/max",
           "description": "Respecter targetValue si défini, minimum 1 ou 0 selon direction",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "3.6",
           "name": "Implémenter calculateCompletionPercentage",
           "description": "Pourcentage de complétion d'une entrée",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "3.7",
           "name": "Implémenter getCompletionStatus",
           "description": "Retourne pending, partial, completed ou exceeded",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "3.8",
           "name": "Implémenter calculateHabitStats",
           "description": "Statistiques sur une période: jours actifs, % moyen, progression",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "3.9",
           "name": "Écrire les tests de progression",
           "description": "Tests unitaires couvrant tous les cas de figure",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "3.10",
@@ -225,43 +239,49 @@
           "id": "4.1",
           "name": "Créer le service validation",
           "description": "validateImportData avec ValidationResult",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "4.2",
           "name": "Implémenter validateHabit",
           "description": "Validation de la structure d'une habitude",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "4.3",
           "name": "Implémenter validateEntry",
           "description": "Validation de la structure d'une entrée",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "4.4",
           "name": "Créer le système de migrations",
           "description": "Registry MIGRATIONS et fonction runMigrations",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "4.5",
           "name": "Implémenter exportData",
           "description": "Téléchargement JSON avec timestamp",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "4.6",
           "name": "Implémenter importData mode remplacer",
           "description": "Remplacement complet des données existantes",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "4.7",
@@ -471,8 +491,8 @@
   ],
   "stats": {
     "totalTasks": 60,
-    "completed": 9,
+    "completed": 29,
     "inProgress": 0,
-    "pending": 51
+    "pending": 31
   }
 }
