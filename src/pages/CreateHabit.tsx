@@ -124,7 +124,7 @@ function CreateHabit() {
 
   const filteredSuggestions = useMemo(() => {
     if (activeCategory === 'all') {
-      return suggestedHabits.slice(0, 4)
+      return suggestedHabits.slice(0, 6)
     }
     return suggestedHabits.filter((h) => h.category === activeCategory)
   }, [suggestedHabits, activeCategory])
@@ -293,7 +293,7 @@ function CreateHabit() {
             className={`step-choose__filter ${activeCategory === 'all' ? 'step-choose__filter--active' : ''}`}
             onClick={() => setActiveCategory('all')}
           >
-            Top 4
+            Top 6
           </button>
           {categories.map((cat) => (
             <button
@@ -309,7 +309,7 @@ function CreateHabit() {
 
         <div className="step-choose__suggestions">
           {filteredSuggestions.map((habit) => (
-            <SuggestedHabitCard key={habit.id} habit={habit} onSelect={selectSuggestion} compact />
+            <SuggestedHabitCard key={habit.id} habit={habit} onSelect={selectSuggestion} />
           ))}
         </div>
       </div>
