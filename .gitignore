@@ -21,10 +21,10 @@ npm-debug.log*
 
 # Testing
 coverage/
-
-.vite/
-
-dev-dist/
-
 test-results/
 playwright-report/
+.playwright-mcp/
+
+# Build cache
+.vite/
+dev-dist/
