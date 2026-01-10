@@ -227,15 +227,16 @@
           "id": "3.10",
           "name": "Documenter les règles d'arrondi",
           "description": "Documentation des règles: plafond pour augmentation, plancher pour réduction",
-          "status": "pending",
-          "priority": "low"
+          "status": "completed",
+          "priority": "low",
+          "completedAt": "2026-01-10"
         }
       ]
     },
     {
       "id": "phase-4",
       "name": "Import/Export avec validation et migration",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "4.1",
@@ -305,15 +306,16 @@
           "id": "4.9",
           "name": "Écrire les tests import/export",
           "description": "Tests d'intégration et tests de migration",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         }
       ]
     },
     {
       "id": "phase-5",
       "name": "Écrans principaux",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "5.1",
@@ -520,8 +522,8 @@
   ],
   "stats": {
     "totalTasks": 60,
-    "completed": 53,
+    "completed": 60,
     "inProgress": 0,
-    "pending": 7
+    "pending": 0
   }
 }
