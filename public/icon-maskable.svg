@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Maskable icon with safe zone: 80% of canvas centered -->
+  <rect width="512" height="512" fill="#F27D16"/>
+  <text x="256" y="340" font-family="Georgia, serif" font-size="260" font-weight="600" fill="white" text-anchor="middle">D</text>
+</svg>

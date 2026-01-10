@@ -520,6 +520,69 @@
       ]
     },
     {
+      "id": "phase-pwa",
+      "name": "Support PWA (Progressive Web App)",
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "pwa.1",
+          "name": "Installer vite-plugin-pwa",
+          "description": "Ajouter la dépendance vite-plugin-pwa pour générer le service worker et le manifest",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "pwa.2",
+          "name": "Créer les icônes PWA",
+          "description": "Icônes 192x192 et 512x512 pour le manifest, avec maskable icons",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "pwa.3",
+          "name": "Configurer le manifest.webmanifest",
+          "description": "Nom, description, couleurs, display: standalone, orientation, icônes",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "pwa.4",
+          "name": "Configurer vite-plugin-pwa",
+          "description": "Service worker avec stratégie cache-first pour offline, precache des assets",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "pwa.5",
+          "name": "Mettre à jour index.html",
+          "description": "Meta tags PWA: theme-color, apple-touch-icon, apple-mobile-web-app-capable",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "pwa.6",
+          "name": "Ajouter la gestion des mises à jour PWA",
+          "description": "Prompt utilisateur pour rafraîchir quand une nouvelle version est disponible",
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "pwa.7",
+          "name": "Tester le mode hors-ligne",
+          "description": "Vérifier que l'app fonctionne sans connexion internet",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        }
+      ]
+    },
+    {
       "id": "phase-6",
       "name": "Améliorations basées sur la science comportementale",
       "status": "pending",
@@ -675,8 +738,8 @@
     }
   ],
   "stats": {
-    "totalTasks": 81,
-    "completed": 60,
+    "totalTasks": 88,
+    "completed": 67,
     "inProgress": 0,
     "pending": 21
   }
