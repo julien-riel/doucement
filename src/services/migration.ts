@@ -90,6 +90,23 @@ export const MIGRATIONS: Migration[] = [
       }
     },
   },
+  {
+    fromVersion: 3,
+    toVersion: 4,
+    description: "Ajout de la préférence de thème (clair/sombre/système)",
+    migrate: (data) => {
+      const preferences = data.preferences as Record<string, unknown> | undefined
+      return {
+        ...data,
+        schemaVersion: 4,
+        preferences: {
+          ...preferences,
+          // Valeur par défaut: suivre les préférences système
+          theme: preferences?.theme ?? 'system',
+        },
+      }
+    },
+  },
 ]
 
 // ============================================================================

@@ -1,20 +1,37 @@
 /**
  * AppProvider Component
- * Initialise les services globaux de l'application (notifications, etc.)
+ * Initialise les services globaux de l'application (notifications, thème, etc.)
  */
 
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { loadData } from '../services/storage'
 import { useNotifications } from '../hooks/useNotifications'
-import { AppData, DEFAULT_APP_DATA, DailyEntry, Habit } from '../types'
+import { AppData, DEFAULT_APP_DATA, DailyEntry, Habit, ThemePreference } from '../types'
 
 interface AppProviderProps {
   children: React.ReactNode
 }
 
 /**
+ * Applique le thème au document
+ */
+function applyTheme(theme: ThemePreference): void {
+  const root = document.documentElement
+
+  if (theme === 'light') {
+    root.setAttribute('data-theme', 'light')
+  } else if (theme === 'dark') {
+    root.setAttribute('data-theme', 'dark')
+  } else {
+    // Mode système : on retire l'attribut pour laisser le CSS media query agir
+    root.removeAttribute('data-theme')
+  }
+}
+
+/**
  * Composant Provider qui initialise les services globaux
  * - Charge les données au démarrage
+ * - Initialise le thème
  * - Initialise les notifications
  */
 function AppProvider({ children }: AppProviderProps) {
@@ -26,11 +43,21 @@ function AppProvider({ children }: AppProviderProps) {
     const result = loadData()
     if (result.success && result.data) {
       setData(result.data)
+      // Appliquer le thème immédiatement
+      applyTheme(result.data.preferences.theme ?? 'system')
     } else {
       setData(DEFAULT_APP_DATA)
+      applyTheme('system')
     }
     setIsReady(true)
   }, [])
+
+  // Appliquer le thème quand il change
+  useEffect(() => {
+    if (data?.preferences.theme) {
+      applyTheme(data.preferences.theme)
+    }
+  }, [data?.preferences.theme])
 
   // Garder les données à jour en écoutant les changements localStorage
   useEffect(() => {

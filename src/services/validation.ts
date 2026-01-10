@@ -3,7 +3,7 @@
  * Valide la structure et le contenu des données importées
  */
 
-import type { HabitDirection, ProgressionMode, ProgressionPeriod } from '../types'
+import type { HabitDirection, ProgressionMode, ProgressionPeriod, ThemePreference } from '../types'
 import { CURRENT_SCHEMA_VERSION } from '../types'
 
 // ============================================================================
@@ -95,6 +95,13 @@ function isValidProgressionMode(value: unknown): value is ProgressionMode {
  */
 function isValidProgressionPeriod(value: unknown): value is ProgressionPeriod {
   return value === 'daily' || value === 'weekly'
+}
+
+/**
+ * Vérifie si une valeur est une préférence de thème valide
+ */
+function isValidThemePreference(value: unknown): value is ThemePreference {
+  return value === 'light' || value === 'dark' || value === 'system'
 }
 
 // ============================================================================
@@ -475,6 +482,16 @@ function validatePreferences(preferences: unknown): ValidationResult {
         value: obj.lastWeeklyReviewDate,
       })
     }
+  }
+
+  // theme (optionnel, mais doit être valide si présent)
+  if (obj.theme !== undefined && !isValidThemePreference(obj.theme)) {
+    errors.push({
+      type: 'INVALID_VALUE',
+      field: 'preferences.theme',
+      message: 'Le thème doit être "light", "dark" ou "system"',
+      value: obj.theme,
+    })
   }
 
   return {

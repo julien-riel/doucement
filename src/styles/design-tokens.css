@@ -130,6 +130,126 @@
 }
 
 /* ================================
+   MODE SOMBRE
+   Palette inversée avec tons chauds
+   ================================ */
+
+[data-theme='dark'] {
+  /* ================================
+     NEUTRES CHAUDS - Inversés
+     ================================ */
+  --neutral-0: #1c1917;
+  --neutral-50: #292524;
+  --neutral-100: #44403c;
+  --neutral-200: #57534e;
+  --neutral-300: #78716c;
+  --neutral-400: #a8a099;
+  --neutral-500: #d6d1ca;
+  --neutral-600: #ebe8e4;
+  --neutral-700: #f7f5f3;
+  --neutral-800: #fdfcfb;
+  --neutral-900: #ffffff;
+
+  /* ================================
+     COULEURS PRIMAIRES - Ajustées
+     Plus lumineuses pour contraste
+     ================================ */
+  --primary-50: #2d1f15;
+  --primary-100: #3d2a1a;
+  --primary-200: #5c3d20;
+  --primary-300: #8a5a2a;
+  --primary-400: #d86208;
+  --primary-500: #ff9a3d;
+  --primary-600: #f27d16;
+  --primary-700: #ffb870;
+
+  /* ================================
+     COULEURS SECONDAIRES - Ajustées
+     Plus lumineuses pour contraste
+     ================================ */
+  --secondary-50: #1a2e1f;
+  --secondary-100: #1f3d25;
+  --secondary-200: #2a5c35;
+  --secondary-300: #3d8a4a;
+  --secondary-400: #22c55e;
+  --secondary-500: #4ade80;
+  --secondary-600: #86efac;
+
+  /* ================================
+     COULEURS SÉMANTIQUES
+     ================================ */
+  --color-success: var(--secondary-500);
+  --color-in-progress: var(--primary-500);
+  --color-neutral: var(--neutral-200);
+  --color-warning: #fcd34d;
+
+  /* ================================
+     OMBRES - Adaptées au dark
+     ================================ */
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 24px rgba(255, 154, 61, 0.25);
+}
+
+/* Préférence système pour dark mode */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    /* ================================
+       NEUTRES CHAUDS - Inversés
+       ================================ */
+    --neutral-0: #1c1917;
+    --neutral-50: #292524;
+    --neutral-100: #44403c;
+    --neutral-200: #57534e;
+    --neutral-300: #78716c;
+    --neutral-400: #a8a099;
+    --neutral-500: #d6d1ca;
+    --neutral-600: #ebe8e4;
+    --neutral-700: #f7f5f3;
+    --neutral-800: #fdfcfb;
+    --neutral-900: #ffffff;
+
+    /* ================================
+       COULEURS PRIMAIRES - Ajustées
+       ================================ */
+    --primary-50: #2d1f15;
+    --primary-100: #3d2a1a;
+    --primary-200: #5c3d20;
+    --primary-300: #8a5a2a;
+    --primary-400: #d86208;
+    --primary-500: #ff9a3d;
+    --primary-600: #f27d16;
+    --primary-700: #ffb870;
+
+    /* ================================
+       COULEURS SECONDAIRES - Ajustées
+       ================================ */
+    --secondary-50: #1a2e1f;
+    --secondary-100: #1f3d25;
+    --secondary-200: #2a5c35;
+    --secondary-300: #3d8a4a;
+    --secondary-400: #22c55e;
+    --secondary-500: #4ade80;
+    --secondary-600: #86efac;
+
+    /* ================================
+       COULEURS SÉMANTIQUES
+       ================================ */
+    --color-success: var(--secondary-500);
+    --color-in-progress: var(--primary-500);
+    --color-neutral: var(--neutral-200);
+    --color-warning: #fcd34d;
+
+    /* ================================
+       OMBRES - Adaptées au dark
+       ================================ */
+    --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 24px rgba(255, 154, 61, 0.25);
+  }
+}
+
+/* ================================
    ANIMATIONS KEYFRAMES
    ================================ */
 

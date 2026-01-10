@@ -4,8 +4,9 @@
  */
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppData, useDebugMode } from '../hooks'
+import { useAppData, useDebugMode, useTheme } from '../hooks'
 import { useWhatsNewContext } from '../contexts'
+import { ThemePreference } from '../types'
 import {
   exportData,
   importFromFile,
@@ -35,6 +36,7 @@ function Settings() {
   const navigate = useNavigate()
   const { data, updatePreferences, resetData, getEntriesForDate, activeHabits } = useAppData()
   const { isDebugMode, handleVersionTap } = useDebugMode()
+  const { theme, setTheme } = useTheme()
   const { currentVersion, showWhatsNew, release } = useWhatsNewContext()
   const appVersion = currentVersion || '1.0.0'
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -243,6 +245,46 @@ function Settings() {
           onChange={handleNotificationSettingsChange}
           checkEveningCondition={checkEveningCondition}
         />
+      </section>
+
+      {/* Section: Apparence */}
+      <section className="settings__section" aria-labelledby="section-appearance">
+        <h2 id="section-appearance" className="settings__section-title">
+          Apparence
+        </h2>
+
+        <Card variant="default" className="settings__card">
+          <div className="settings__theme-options" role="radiogroup" aria-label="Choix du thème">
+            {(
+              [
+                { value: 'light', icon: '☀️', label: 'Clair' },
+                { value: 'dark', icon: '🌙', label: 'Sombre' },
+                { value: 'system', icon: '⚙️', label: 'Système' },
+              ] as const
+            ).map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                role="radio"
+                aria-checked={theme === option.value}
+                className={`settings__theme-option ${theme === option.value ? 'settings__theme-option--active' : ''}`}
+                onClick={() => setTheme(option.value as ThemePreference)}
+              >
+                <span className="settings__theme-icon" aria-hidden="true">
+                  {option.icon}
+                </span>
+                <span className="settings__theme-label">{option.label}</span>
+              </button>
+            ))}
+          </div>
+          <p className="settings__theme-hint">
+            {theme === 'system'
+              ? 'Le thème suit les préférences de ton appareil'
+              : theme === 'dark'
+                ? 'Mode sombre activé'
+                : 'Mode clair activé'}
+          </p>
+        </Card>
       </section>
 
       {/* Section: Installation PWA */}

@@ -11,7 +11,7 @@
  * Version du schéma de données
  * Incrémentée à chaque modification de structure pour permettre les migrations
  */
-export const CURRENT_SCHEMA_VERSION = 3
+export const CURRENT_SCHEMA_VERSION = 4
 
 // ============================================================================
 // HABIT TYPES
@@ -50,6 +50,14 @@ export interface ProgressionConfig {
  * - detailed: quantitatif avec valeur précise
  */
 export type TrackingMode = 'simple' | 'detailed'
+
+/**
+ * Préférence de thème
+ * - light: thème clair
+ * - dark: thème sombre
+ * - system: suit les préférences du système
+ */
+export type ThemePreference = 'light' | 'dark' | 'system'
 
 /**
  * Implementation Intention (si-alors)
@@ -229,6 +237,8 @@ export interface UserPreferences {
   debugMode?: boolean
   /** Date simulée pour le mode debug (YYYY-MM-DD) */
   simulatedDate?: string | null
+  /** Préférence de thème (clair, sombre, système) */
+  theme?: ThemePreference
 }
 
 // ============================================================================
@@ -280,5 +290,6 @@ export const DEFAULT_APP_DATA: AppData = {
     onboardingCompleted: false,
     lastWeeklyReviewDate: null,
     notifications: DEFAULT_NOTIFICATION_SETTINGS,
+    theme: 'system',
   },
 }
