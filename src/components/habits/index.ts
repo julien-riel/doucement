@@ -14,3 +14,12 @@ export type { CheckInButtonsProps, CheckInType } from './CheckInButtons'
 
 export { default as EmptyState } from './EmptyState'
 export type { EmptyStateProps } from './EmptyState'
+
+export { default as HabitListItem } from './HabitListItem'
+export type { HabitListItemProps } from './HabitListItem'
+
+export { default as StatsCards } from './StatsCards'
+export type { StatsCardsProps } from './StatsCards'
+
+export { default as WeeklyCalendar } from './WeeklyCalendar'
+export type { WeeklyCalendarProps } from './WeeklyCalendar'

@@ -2,3 +2,4 @@
 export * from './ui'
 export * from './habits'
 export * from './layout'
+export * from './onboarding'

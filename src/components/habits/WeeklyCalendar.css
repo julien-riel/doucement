@@ -1,0 +1,109 @@
+/**
+ * WeeklyCalendar - Styles
+ * Calendrier hebdomadaire avec états visuels
+ */
+
+.weekly-calendar {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-4);
+  background: var(--neutral-50);
+  border-radius: var(--radius-lg);
+  gap: var(--spacing-2);
+}
+
+.weekly-calendar__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1);
+  flex: 1;
+  padding: var(--spacing-2);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+}
+
+.weekly-calendar__day-name {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.weekly-calendar__day-number {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-700);
+}
+
+.weekly-calendar__indicator {
+  font-size: var(--text-xl);
+  line-height: 1;
+  margin-top: var(--spacing-1);
+}
+
+/* Status variants */
+.weekly-calendar__day--empty {
+  color: var(--neutral-400);
+}
+
+.weekly-calendar__day--empty .weekly-calendar__indicator {
+  color: var(--neutral-300);
+}
+
+.weekly-calendar__day--pending {
+  background: var(--neutral-100);
+}
+
+.weekly-calendar__day--pending .weekly-calendar__indicator {
+  color: var(--neutral-400);
+}
+
+.weekly-calendar__day--partial {
+  background: var(--primary-50);
+}
+
+.weekly-calendar__day--partial .weekly-calendar__indicator {
+  color: var(--primary-400);
+}
+
+.weekly-calendar__day--completed {
+  background: var(--secondary-50);
+}
+
+.weekly-calendar__day--completed .weekly-calendar__indicator {
+  color: var(--secondary-500);
+}
+
+.weekly-calendar__day--exceeded {
+  background: var(--secondary-100);
+}
+
+.weekly-calendar__day--exceeded .weekly-calendar__indicator {
+  color: var(--secondary-600);
+}
+
+/* Responsive */
+@media (max-width: 360px) {
+  .weekly-calendar {
+    padding: var(--spacing-3);
+    gap: var(--spacing-1);
+  }
+
+  .weekly-calendar__day {
+    padding: var(--spacing-1);
+  }
+
+  .weekly-calendar__day-name {
+    font-size: 10px;
+  }
+
+  .weekly-calendar__day-number {
+    font-size: var(--text-base);
+  }
+
+  .weekly-calendar__indicator {
+    font-size: var(--text-lg);
+  }
+}

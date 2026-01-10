@@ -1,0 +1,113 @@
+/**
+ * HabitListItem - Styles
+ * Item de liste d'habitude avec stats rapides
+ */
+
+.habit-list-item {
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.habit-list-item:hover {
+  transform: scale(1.01);
+  box-shadow: var(--shadow-medium);
+}
+
+.habit-list-item:active {
+  transform: scale(0.99);
+}
+
+.habit-list-item:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+.habit-list-item--archived {
+  opacity: 0.7;
+}
+
+.habit-list-item__content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.habit-list-item__main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex: 1;
+  min-width: 0;
+}
+
+.habit-list-item__emoji {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.habit-list-item__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.habit-list-item__name {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.habit-list-item__meta {
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+  margin: var(--spacing-1) 0 0;
+}
+
+.habit-list-item__stats {
+  display: flex;
+  gap: var(--spacing-4);
+  flex-shrink: 0;
+}
+
+.habit-list-item__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 48px;
+}
+
+.habit-list-item__stat-value {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--primary-600);
+}
+
+.habit-list-item__stat-label {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  white-space: nowrap;
+}
+
+.habit-list-item__arrow {
+  color: var(--neutral-400);
+  font-size: var(--text-xl);
+  flex-shrink: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .habit-list-item__stats {
+    display: none;
+  }
+
+  .habit-list-item__emoji {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,129 @@
+/**
+ * HabitList Page - Styles
+ * Liste des habitudes actives et archivées
+ */
+
+.page-habit-list {
+  padding: var(--spacing-6);
+  padding-bottom: calc(var(--spacing-12) + 60px); /* Space for bottom nav */
+}
+
+.page-habit-list--loading,
+.page-habit-list--empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+/* Header */
+.habit-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-6);
+  gap: var(--spacing-4);
+}
+
+.habit-list__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-900);
+  margin: 0;
+}
+
+/* Sections */
+.habit-list__section {
+  margin-bottom: var(--spacing-8);
+}
+
+.habit-list__section-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-700);
+  margin: 0 0 var(--spacing-4);
+}
+
+.habit-list__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.habit-list__empty-message {
+  font-size: var(--text-base);
+  color: var(--neutral-500);
+  text-align: center;
+  padding: var(--spacing-6);
+  background: var(--neutral-100);
+  border-radius: var(--radius-lg);
+}
+
+/* Archived section */
+.habit-list__section--archived {
+  border-top: 1px solid var(--neutral-200);
+  padding-top: var(--spacing-6);
+}
+
+.habit-list__archived-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: var(--spacing-4);
+}
+
+.habit-list__archived-toggle:hover .habit-list__section-title {
+  color: var(--primary-600);
+}
+
+.habit-list__toggle-icon {
+  color: var(--neutral-500);
+  font-size: var(--text-sm);
+  transition: transform var(--transition-fast);
+}
+
+.habit-list__items--archived {
+  opacity: 0;
+  animation: fadeIn var(--transition-normal) forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.habit-list__archived-item {
+  position: relative;
+}
+
+.habit-list__restore-button {
+  position: absolute;
+  right: var(--spacing-4);
+  bottom: var(--spacing-3);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .page-habit-list {
+    padding: var(--spacing-4);
+    padding-bottom: calc(var(--spacing-12) + 60px);
+  }
+
+  .habit-list__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .habit-list__title {
+    font-size: var(--text-xl);
+  }
+}

@@ -315,15 +315,17 @@
           "id": "5.1",
           "name": "Créer l'écran Onboarding",
           "description": "4 écrans avec navigation, skip, et flag onboardingCompleted",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.2",
           "name": "Créer le composant OnboardingStep",
           "description": "Titre, illustration, texte, bouton avec animations",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.3",
@@ -377,50 +379,57 @@
           "id": "5.9",
           "name": "Créer l'écran Liste des habitudes",
           "description": "Liste des habitudes actives et section archivées",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.10",
           "name": "Créer le composant HabitListItem",
           "description": "Item de liste avec stats rapides et navigation vers détail",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.11",
           "name": "Créer l'écran Création d'habitude",
           "description": "Wizard 3 étapes: Type → Détails → Confirmation",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.12",
           "name": "Créer StepType",
           "description": "Choix entre Augmenter, Réduire, Maintenir",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.13",
           "name": "Créer StepDetails",
           "description": "Formulaire: nom, emoji, valeur départ, rythme, unité",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.14",
           "name": "Créer StepConfirm",
           "description": "Résumé de l'habitude avant création",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.15",
           "name": "Créer l'écran Détail d'habitude",
           "description": "Stats, graphique progression, calendrier, actions",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.16",
@@ -433,15 +442,17 @@
           "id": "5.17",
           "name": "Créer le composant WeeklyCalendar",
           "description": "Calendrier semaine avec états visuels (fait/partiel/vide)",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.18",
           "name": "Créer le composant StatsCards",
           "description": "Cartes statistiques: jours actifs, % moyen, progression",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "5.19",
@@ -499,8 +510,8 @@
   ],
   "stats": {
     "totalTasks": 60,
-    "completed": 37,
+    "completed": 43,
     "inProgress": 0,
-    "pending": 23
+    "pending": 17
   }
 }
