@@ -40,3 +40,18 @@
   width: 100%;
   max-width: 280px;
 }
+
+.empty-state__settings-link {
+  margin-top: var(--spacing-6);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--easing-gentle);
+}
+
+.empty-state__settings-link:hover,
+.empty-state__settings-link:focus {
+  color: var(--primary);
+  text-decoration: underline;
+}

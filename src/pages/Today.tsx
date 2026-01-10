@@ -1,4 +1,5 @@
 import { useMemo, useState, useCallback } from 'react'
+import { Navigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { ErrorBanner } from '../components/ui'
 import {
@@ -129,6 +130,11 @@ function Today() {
         <p>Chargement...</p>
       </div>
     )
+  }
+
+  // Redirection vers l'onboarding si pas encore complété
+  if (!data.preferences.onboardingCompleted) {
+    return <Navigate to="/onboarding" replace />
   }
 
   // Affichage d'erreur avec options de récupération

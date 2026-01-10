@@ -114,4 +114,22 @@ test.describe('Onboarding', () => {
     });
     expect(onboardingCompleted).toBe(true);
   });
+
+  test('l\'EmptyState permet d\'accéder aux paramètres sans habitude', async ({ page }) => {
+    // Compléter l'onboarding rapidement
+    await page.getByRole('button', { name: 'Passer l\'introduction' }).click();
+    await expect(page).toHaveURL('/');
+
+    // Vérifier qu'on est sur l'EmptyState
+    await expect(page.getByRole('heading', { name: 'Tout commence par une habitude' })).toBeVisible();
+
+    // Vérifier que le lien Paramètres est visible et fonctionnel
+    const settingsLink = page.getByRole('link', { name: 'Paramètres' });
+    await expect(settingsLink).toBeVisible();
+    await settingsLink.click();
+
+    // Devrait être sur la page des paramètres
+    await expect(page).toHaveURL('/settings');
+    await expect(page.getByRole('heading', { name: 'Paramètres' })).toBeVisible();
+  });
 });

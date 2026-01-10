@@ -198,7 +198,7 @@ describe('useDebugMode - Date Simulation', () => {
       expect(result.current.simulatedDate).toBe('2025-06-15')
     })
 
-    it("retourne null si pas de date simulée même en mode debug", () => {
+    it('retourne null si pas de date simulée même en mode debug', () => {
       mockData.preferences.debugMode = true
       mockData.preferences.simulatedDate = null
 
@@ -229,7 +229,7 @@ describe('useDebugMode - Date Simulation', () => {
   })
 
   describe('setSimulatedDate', () => {
-    it("ne fait rien si mode debug inactif", () => {
+    it('ne fait rien si mode debug inactif', () => {
       mockData.preferences.debugMode = false
 
       const { result } = renderHook(() => useDebugMode())
@@ -271,7 +271,7 @@ describe('useDebugMode - Date Simulation', () => {
   })
 
   describe('advanceOneDay', () => {
-    it("ne fait rien si mode debug inactif", () => {
+    it('ne fait rien si mode debug inactif', () => {
       mockData.preferences.debugMode = false
 
       const { result } = renderHook(() => useDebugMode())

@@ -18,6 +18,8 @@ test.describe('Création d\'habitude', () => {
         preferences: { onboardingCompleted: true }
       }));
     });
+    // Naviguer vers / pour que l'app lise le localStorage (on évite /onboarding dans l'historique)
+    await page.goto('/');
     await page.goto('/create');
   });
 

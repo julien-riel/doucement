@@ -26,6 +26,9 @@ function EmptyState({ variant: _variant = 'today' }: EmptyStateProps) {
           Créer une habitude
         </Button>
       </Link>
+      <Link to="/settings" className="empty-state__settings-link">
+        Paramètres
+      </Link>
     </div>
   )
 }

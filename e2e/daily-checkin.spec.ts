@@ -148,7 +148,8 @@ test.describe('Check-in avec données de test', () => {
     await page.evaluate((data) => {
       localStorage.setItem('doucement_data', JSON.stringify(data));
     }, testData);
-    await page.reload();
+    // Naviguer vers / pour que l'app lise le localStorage
+    await page.goto('/');
     // Attendre que la page charge
     await page.waitForSelector('h3:has-text("Push-ups")');
 
