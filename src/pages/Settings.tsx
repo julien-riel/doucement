@@ -4,7 +4,8 @@
  */
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppData, useDebugMode, useWhatsNew } from '../hooks'
+import { useAppData, useDebugMode } from '../hooks'
+import { useWhatsNewContext } from '../contexts'
 import {
   exportData,
   importFromFile,
@@ -34,7 +35,7 @@ function Settings() {
   const navigate = useNavigate()
   const { data, updatePreferences, resetData, getEntriesForDate, activeHabits } = useAppData()
   const { isDebugMode, handleVersionTap } = useDebugMode()
-  const { currentVersion, showWhatsNew, release } = useWhatsNew()
+  const { currentVersion, showWhatsNew, release } = useWhatsNewContext()
   const appVersion = currentVersion || '1.0.0'
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [modal, setModal] = useState<ModalState>({ type: null })

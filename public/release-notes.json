@@ -1,6 +1,21 @@
 {
-  "currentVersion": "1.1.0",
+  "currentVersion": "1.1.1",
   "releases": [
+    {
+      "version": "1.1.1",
+      "date": "2026-01-10",
+      "title": "Corrections et améliorations",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "Le bouton \"Voir les nouveautés\" affiche maintenant correctement les nouveautés"
+        },
+        {
+          "emoji": "target",
+          "text": "Catégorie Substances disponible : cigarettes, alcool et caféine dans les suggestions"
+        }
+      ]
+    },
     {
       "version": "1.1.0",
       "date": "2026-01-10",

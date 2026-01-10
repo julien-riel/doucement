@@ -1,9 +1,9 @@
 /**
- * Doucement - Hook pour les release notes
- * Gère l'affichage automatique des nouveautés après mise à jour
+ * Context pour les release notes
+ * Permet de partager l'état du modal "Quoi de neuf" entre composants
  */
 
-import { useState, useEffect, useCallback } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react'
 import { Release, ReleaseNotes } from '../types/releaseNotes'
 import {
   loadReleaseNotes,
@@ -13,7 +13,7 @@ import {
   isNewUser,
 } from '../services/versioning'
 
-interface UseWhatsNewReturn {
+interface WhatsNewContextValue {
   /** Indique si la modale doit être affichée */
   showModal: boolean
   /** La release à afficher */
@@ -28,10 +28,16 @@ interface UseWhatsNewReturn {
   isLoading: boolean
 }
 
+const WhatsNewContext = createContext<WhatsNewContextValue | null>(null)
+
+interface WhatsNewProviderProps {
+  children: ReactNode
+}
+
 /**
- * Hook pour gérer l'affichage automatique des release notes après mise à jour
+ * Provider pour gérer l'état des release notes
  */
-export function useWhatsNew(): UseWhatsNewReturn {
+export function WhatsNewProvider({ children }: WhatsNewProviderProps) {
   const [releaseNotes, setReleaseNotes] = useState<ReleaseNotes | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -80,7 +86,7 @@ export function useWhatsNew(): UseWhatsNewReturn {
     }
   }, [releaseNotes, release])
 
-  return {
+  const value: WhatsNewContextValue = {
     showModal,
     release,
     currentVersion: releaseNotes?.currentVersion ?? null,
@@ -88,4 +94,21 @@ export function useWhatsNew(): UseWhatsNewReturn {
     showWhatsNew,
     isLoading,
   }
+
+  return (
+    <WhatsNewContext.Provider value={value}>
+      {children}
+    </WhatsNewContext.Provider>
+  )
+}
+
+/**
+ * Hook pour accéder au contexte WhatsNew
+ */
+export function useWhatsNewContext(): WhatsNewContextValue {
+  const context = useContext(WhatsNewContext)
+  if (!context) {
+    throw new Error('useWhatsNewContext must be used within a WhatsNewProvider')
+  }
+  return context
 }

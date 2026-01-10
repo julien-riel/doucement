@@ -117,11 +117,10 @@ function CreateHabit() {
   const navigate = useNavigate()
   const { addHabit, activeHabits } = useAppData()
 
-  const suggestedHabits = useMemo(() => getTopPriorityHabits(false), [])
+  const suggestedHabits = useMemo(() => getTopPriorityHabits(true), [])
   const categories = useMemo(() => {
-    const cats = new Set(suggestedHabits.map((h) => h.category))
-    return Array.from(cats) as HabitCategory[]
-  }, [suggestedHabits])
+    return Object.keys(HABIT_CATEGORIES) as HabitCategory[]
+  }, [])
 
   const filteredSuggestions = useMemo(() => {
     if (activeCategory === 'all') {

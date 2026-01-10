@@ -2,17 +2,16 @@ import { RouterProvider } from 'react-router-dom'
 import { router } from './router'
 import { PWAUpdatePrompt, WhatsNewModal } from './components/ui'
 import { AppProvider } from './components'
-import { useWhatsNew } from './hooks'
+import { WhatsNewProvider, useWhatsNewContext } from './contexts'
 
 /**
- * Application principale Doucement
- * Point d'entrée de l'application de suivi d'habitudes progressives
+ * Contenu principal de l'app avec accès au contexte WhatsNew
  */
-function App() {
-  const { showModal, release, currentVersion, dismissModal } = useWhatsNew()
+function AppContent() {
+  const { showModal, release, currentVersion, dismissModal } = useWhatsNewContext()
 
   return (
-    <AppProvider>
+    <>
       <RouterProvider router={router} />
       <PWAUpdatePrompt />
       {showModal && release && currentVersion && (
@@ -22,6 +21,20 @@ function App() {
           onDismiss={dismissModal}
         />
       )}
+    </>
+  )
+}
+
+/**
+ * Application principale Doucement
+ * Point d'entrée de l'application de suivi d'habitudes progressives
+ */
+function App() {
+  return (
+    <AppProvider>
+      <WhatsNewProvider>
+        <AppContent />
+      </WhatsNewProvider>
     </AppProvider>
   )
 }
