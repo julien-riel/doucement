@@ -15,7 +15,14 @@
   flex-direction: column;
   justify-content: center;
   padding: var(--spacing-6);
-  padding-bottom: var(--spacing-12);
+  padding-bottom: calc(160px + var(--spacing-6));
+  overflow-y: auto;
+}
+
+/* Ajustement pour l'écran de suggestions qui a besoin de scroll */
+.onboarding__container:has(.habit-suggestions) {
+  justify-content: flex-start;
+  padding-top: var(--spacing-4);
 }
 
 .onboarding__footer {

@@ -2,8 +2,14 @@ import { useState, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { Button, Input } from '../components/ui'
-import { StepIntentions, HabitAnchorSelector } from '../components/habits'
+import { StepIntentions, HabitAnchorSelector, SuggestedHabitCard } from '../components/habits'
 import { randomMessage, HABIT_CREATED, IMPLEMENTATION_INTENTION } from '../constants/messages'
+import {
+  SuggestedHabit,
+  getTopPriorityHabits,
+  HABIT_CATEGORIES,
+  HabitCategory,
+} from '../constants/suggestedHabits'
 import {
   HabitDirection,
   ProgressionMode,
@@ -16,7 +22,7 @@ import './CreateHabit.css'
 /**
  * Étapes du wizard
  */
-type WizardStep = 'type' | 'details' | 'intentions' | 'confirm'
+type WizardStep = 'choose' | 'type' | 'details' | 'intentions' | 'confirm'
 
 /**
  * Options de type d'habitude
@@ -102,16 +108,30 @@ const INITIAL_FORM_STATE: HabitFormState = {
 
 /**
  * Écran Création d'habitude
- * Wizard en 4 étapes : Type, Détails, Intentions, Confirmation
+ * Wizard en 5 étapes : Choix, Type, Détails, Intentions, Confirmation
  */
 function CreateHabit() {
-  const [step, setStep] = useState<WizardStep>('type')
+  const [step, setStep] = useState<WizardStep>('choose')
   const [form, setForm] = useState<HabitFormState>(INITIAL_FORM_STATE)
+  const [activeCategory, setActiveCategory] = useState<HabitCategory | 'all'>('all')
   const navigate = useNavigate()
   const { addHabit, activeHabits } = useAppData()
 
+  const suggestedHabits = useMemo(() => getTopPriorityHabits(false), [])
+  const categories = useMemo(() => {
+    const cats = new Set(suggestedHabits.map((h) => h.category))
+    return Array.from(cats) as HabitCategory[]
+  }, [suggestedHabits])
+
+  const filteredSuggestions = useMemo(() => {
+    if (activeCategory === 'all') {
+      return suggestedHabits.slice(0, 4)
+    }
+    return suggestedHabits.filter((h) => h.category === activeCategory)
+  }, [suggestedHabits, activeCategory])
+
   const stepIndex = useMemo(() => {
-    const steps: WizardStep[] = ['type', 'details', 'intentions', 'confirm']
+    const steps: WizardStep[] = ['choose', 'type', 'details', 'intentions', 'confirm']
     return steps.indexOf(step)
   }, [step])
 
@@ -124,6 +144,26 @@ function CreateHabit() {
     },
     []
   )
+
+  /**
+   * Sélectionne une habitude suggérée et pré-remplit le formulaire
+   */
+  const selectSuggestion = useCallback((habit: SuggestedHabit) => {
+    setForm({
+      direction: habit.direction,
+      name: habit.name,
+      emoji: habit.emoji,
+      unit: habit.unit,
+      startValue: habit.startValue,
+      progressionMode: habit.progression?.mode ?? 'percentage',
+      progressionValue: habit.progression?.value ?? 5,
+      progressionPeriod: habit.progression?.period ?? 'weekly',
+      targetValue: null,
+      implementationIntention: {},
+      anchorHabitId: undefined,
+    })
+    setStep('intentions')
+  }, [])
 
   /**
    * Sélectionne un type d'habitude
@@ -140,12 +180,13 @@ function CreateHabit() {
    */
   const isStepValid = useMemo(() => {
     switch (step) {
+      case 'choose':
+        return true
       case 'type':
         return form.direction !== null
       case 'details':
         return form.name.trim().length > 0 && form.unit.trim().length > 0 && form.startValue > 0
       case 'intentions':
-        // Étape optionnelle, toujours valide
         return true
       case 'confirm':
         return true
@@ -160,14 +201,15 @@ function CreateHabit() {
   const handleNext = useCallback(() => {
     if (!isStepValid) return
 
-    if (step === 'type') {
+    if (step === 'choose') {
+      setStep('type')
+    } else if (step === 'type') {
       setStep('details')
     } else if (step === 'details') {
       setStep('intentions')
     } else if (step === 'intentions') {
       setStep('confirm')
     } else if (step === 'confirm') {
-      // Créer l'habitude
       const hasIntention =
         form.implementationIntention.trigger ||
         form.implementationIntention.location ||
@@ -203,7 +245,9 @@ function CreateHabit() {
    * Retourne à l'étape précédente
    */
   const handleBack = useCallback(() => {
-    if (step === 'details') {
+    if (step === 'type') {
+      setStep('choose')
+    } else if (step === 'details') {
       setStep('type')
     } else if (step === 'intentions') {
       setStep('details')
@@ -231,6 +275,60 @@ function CreateHabit() {
 
     return `${sign}${valueStr} par ${periodStr}`
   }, [form])
+
+  /**
+   * Rendu de l'étape Choix (suggestions vs personnalisé)
+   */
+  const renderStepChoose = () => (
+    <div className="create-habit__content step-choose">
+      <div className="step-choose__section">
+        <h3 className="step-choose__section-title">Habitudes à fort impact</h3>
+        <p className="step-choose__section-desc">
+          Basées sur la science, ces habitudes ont les plus grands bénéfices prouvés.
+        </p>
+
+        {/* Category filters */}
+        <div className="step-choose__filters">
+          <button
+            type="button"
+            className={`step-choose__filter ${activeCategory === 'all' ? 'step-choose__filter--active' : ''}`}
+            onClick={() => setActiveCategory('all')}
+          >
+            Top 4
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              className={`step-choose__filter ${activeCategory === cat ? 'step-choose__filter--active' : ''}`}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {HABIT_CATEGORIES[cat].emoji}
+            </button>
+          ))}
+        </div>
+
+        <div className="step-choose__suggestions">
+          {filteredSuggestions.map((habit) => (
+            <SuggestedHabitCard key={habit.id} habit={habit} onSelect={selectSuggestion} compact />
+          ))}
+        </div>
+      </div>
+
+      <div className="step-choose__divider">
+        <span>ou</span>
+      </div>
+
+      <button type="button" className="step-choose__custom-btn" onClick={() => setStep('type')}>
+        <span className="step-choose__custom-icon">✨</span>
+        <div className="step-choose__custom-text">
+          <span className="step-choose__custom-title">Créer une habitude personnalisée</span>
+          <span className="step-choose__custom-desc">Définis ton propre objectif</span>
+        </div>
+        <span className="step-choose__custom-arrow">→</span>
+      </button>
+    </div>
+  )
 
   /**
    * Rendu de l'étape Type
@@ -485,6 +583,8 @@ function CreateHabit() {
    */
   const renderStepContent = () => {
     switch (step) {
+      case 'choose':
+        return renderStepChoose()
       case 'type':
         return renderStepType()
       case 'details':
@@ -503,6 +603,8 @@ function CreateHabit() {
    */
   const nextButtonText = useMemo(() => {
     switch (step) {
+      case 'choose':
+        return 'Personnaliser'
       case 'type':
         return 'Continuer'
       case 'details':
@@ -516,61 +618,83 @@ function CreateHabit() {
     }
   }, [step])
 
+  /**
+   * Sous-titre selon l'étape
+   */
+  const getSubtitle = () => {
+    switch (step) {
+      case 'choose':
+        return 'Choisis une habitude à fort impact ou crée la tienne'
+      case 'type':
+        return "Quel type d'habitude souhaitez-vous créer ?"
+      case 'details':
+        return 'Décrivez votre habitude'
+      case 'intentions':
+        return IMPLEMENTATION_INTENTION.stepTitle
+      case 'confirm':
+        return 'Vérifiez et confirmez'
+      default:
+        return ''
+    }
+  }
+
   return (
     <div className="page page-create-habit">
       <header className="create-habit__header">
         <h1 className="create-habit__title">Nouvelle habitude</h1>
-        <p className="create-habit__subtitle">
-          {step === 'type' && "Quel type d'habitude souhaitez-vous créer ?"}
-          {step === 'details' && 'Décrivez votre habitude'}
-          {step === 'intentions' && IMPLEMENTATION_INTENTION.stepTitle}
-          {step === 'confirm' && 'Vérifiez et confirmez'}
-        </p>
+        <p className="create-habit__subtitle">{getSubtitle()}</p>
       </header>
 
-      {/* Indicateur de progression */}
-      <div className="create-habit__progress" aria-label="Progression du wizard">
-        {[0, 1, 2, 3].map((i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
-            <div
-              className={`create-habit__step-indicator ${
-                i < stepIndex
-                  ? 'create-habit__step-indicator--completed'
-                  : i === stepIndex
-                    ? 'create-habit__step-indicator--active'
-                    : 'create-habit__step-indicator--pending'
-              }`}
-              aria-current={i === stepIndex ? 'step' : undefined}
-            >
-              {i < stepIndex ? '✓' : i + 1}
-            </div>
-            {i < 3 && (
-              <div
-                className={`create-habit__step-line ${i < stepIndex ? 'create-habit__step-line--completed' : ''}`}
-              />
-            )}
-          </div>
-        ))}
-      </div>
+      {/* Indicateur de progression (caché pour l'étape choose) */}
+      {step !== 'choose' && (
+        <div className="create-habit__progress" aria-label="Progression du wizard">
+          {[1, 2, 3, 4].map((i) => {
+            const adjustedIndex = stepIndex - 1
+            return (
+              <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
+                <div
+                  className={`create-habit__step-indicator ${
+                    i - 1 < adjustedIndex
+                      ? 'create-habit__step-indicator--completed'
+                      : i - 1 === adjustedIndex
+                        ? 'create-habit__step-indicator--active'
+                        : 'create-habit__step-indicator--pending'
+                  }`}
+                  aria-current={i - 1 === adjustedIndex ? 'step' : undefined}
+                >
+                  {i - 1 < adjustedIndex ? '✓' : i}
+                </div>
+                {i < 4 && (
+                  <div
+                    className={`create-habit__step-line ${i - 1 < adjustedIndex ? 'create-habit__step-line--completed' : ''}`}
+                  />
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
 
       {/* Contenu de l'étape */}
       {renderStepContent()}
 
-      {/* Footer avec boutons */}
-      <footer className="create-habit__footer">
-        <div className="create-habit__buttons">
-          <Button variant="ghost" onClick={handleBack}>
-            {step === 'type' ? 'Annuler' : 'Retour'}
-          </Button>
-          <Button
-            variant={step === 'confirm' ? 'success' : 'primary'}
-            onClick={handleNext}
-            disabled={!isStepValid}
-          >
-            {nextButtonText}
-          </Button>
-        </div>
-      </footer>
+      {/* Footer avec boutons (caché pour l'étape choose car navigation intégrée) */}
+      {step !== 'choose' && (
+        <footer className="create-habit__footer">
+          <div className="create-habit__buttons">
+            <Button variant="ghost" onClick={handleBack}>
+              {step === 'type' ? 'Retour' : 'Retour'}
+            </Button>
+            <Button
+              variant={step === 'confirm' ? 'success' : 'primary'}
+              onClick={handleNext}
+              disabled={!isStepValid}
+            >
+              {nextButtonText}
+            </Button>
+          </div>
+        </footer>
+      )}
     </div>
   )
 }

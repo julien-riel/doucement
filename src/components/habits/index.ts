@@ -49,3 +49,5 @@ export type { WeeklyReflectionInputProps } from './WeeklyReflectionInput'
 
 export { default as PatternInsights } from './PatternInsights'
 export type { PatternInsightsProps } from './PatternInsights'
+
+export { default as SuggestedHabitCard } from './SuggestedHabitCard'

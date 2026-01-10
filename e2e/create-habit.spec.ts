@@ -2,14 +2,14 @@ import { test, expect } from '@playwright/test';
 
 /**
  * Tests E2E pour le wizard de création d'habitude
- * Vérifie la création d'habitudes de différents types avec le wizard 4 étapes
+ * Vérifie la création d'habitudes de différents types avec le wizard 5 étapes
+ * (Choose → Type → Details → Intentions → Confirm)
  */
 
 test.describe('Création d\'habitude', () => {
   test.beforeEach(async ({ page }) => {
-    // Effacer le localStorage avant chaque test et compléter l'onboarding
-    await page.goto('/');
-    await page.evaluate(() => {
+    // Injecter le localStorage AVANT que la page charge pour éviter la redirection vers onboarding
+    await page.addInitScript(() => {
       localStorage.clear();
       localStorage.setItem('doucement_data', JSON.stringify({
         schemaVersion: 3,
@@ -18,13 +18,38 @@ test.describe('Création d\'habitude', () => {
         preferences: { onboardingCompleted: true }
       }));
     });
-    // Naviguer vers / pour que l'app lise le localStorage (on évite /onboarding dans l'historique)
-    await page.goto('/');
+    // Naviguer directement vers /create - le localStorage sera lu au chargement
     await page.goto('/create');
+    // Attendre que la page de création soit chargée
+    await page.waitForSelector('text=Nouvelle habitude');
   });
 
-  test('affiche l\'étape 1 - choix du type d\'habitude', async ({ page }) => {
+  test('affiche l\'étape de choix avec suggestions et option personnalisée', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Nouvelle habitude' })).toBeVisible();
+    await expect(page.getByText('Choisis une habitude à fort impact ou crée la tienne')).toBeVisible();
+
+    // Vérifier la section des suggestions
+    await expect(page.getByText('Habitudes à fort impact')).toBeVisible();
+    await expect(page.getByText('Basées sur la science')).toBeVisible();
+
+    // Vérifier les filtres de catégorie
+    await expect(page.getByRole('button', { name: 'Top 4' })).toBeVisible();
+
+    // Vérifier le bouton pour créer une habitude personnalisée
+    await expect(page.getByRole('button', { name: /Créer une habitude personnalisée/ })).toBeVisible();
+  });
+
+  test('sélectionner une suggestion pré-remplit le formulaire', async ({ page }) => {
+    // Cliquer sur une habitude suggérée (Marche quotidienne par exemple)
+    await page.locator('.suggested-habit-card').first().click();
+
+    // Devrait passer directement à l'étape intentions (les détails sont pré-remplis)
+    await expect(page.getByText('Quand et où ?')).toBeVisible();
+  });
+
+  test('créer une habitude personnalisée affiche l\'étape type', async ({ page }) => {
+    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+
     await expect(page.getByText('Quel type d\'habitude souhaitez-vous créer ?')).toBeVisible();
 
     // Vérifier les 3 options de type
@@ -37,11 +62,17 @@ test.describe('Création d\'habitude', () => {
   });
 
   test('sélectionner un type active le bouton Continuer', async ({ page }) => {
+    // Passer l'étape choose
+    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+
     await page.getByRole('button', { name: /Augmenter/ }).click();
     await expect(page.getByRole('button', { name: 'Continuer' })).toBeEnabled();
   });
 
   test('création complète d\'une habitude "Augmenter"', async ({ page }) => {
+    // Étape Choose: Aller vers personnalisé
+    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+
     // Étape 1: Choisir le type
     await page.getByRole('button', { name: /Augmenter/ }).click();
     await page.getByRole('button', { name: 'Continuer' }).click();
@@ -92,6 +123,9 @@ test.describe('Création d\'habitude', () => {
   });
 
   test('création d\'une habitude "Réduire"', async ({ page }) => {
+    // Étape Choose: Aller vers personnalisé
+    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+
     // Étape 1: Choisir le type Réduire
     await page.getByRole('button', { name: /Réduire/ }).click();
     await page.getByRole('button', { name: 'Continuer' }).click();
@@ -116,6 +150,9 @@ test.describe('Création d\'habitude', () => {
   });
 
   test('création d\'une habitude "Maintenir"', async ({ page }) => {
+    // Étape Choose: Aller vers personnalisé
+    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+
     // Étape 1: Choisir le type Maintenir
     await page.getByRole('button', { name: /Maintenir/ }).click();
     await page.getByRole('button', { name: 'Continuer' }).click();
@@ -142,22 +179,27 @@ test.describe('Création d\'habitude', () => {
   });
 
   test('navigation avec bouton Retour', async ({ page }) => {
-    // Aller à l'étape 2
+    // Passer l'étape choose
+    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+
+    // Aller à l'étape 2 (details)
     await page.getByRole('button', { name: /Augmenter/ }).click();
     await page.getByRole('button', { name: 'Continuer' }).click();
     await expect(page.getByText('Décrivez votre habitude')).toBeVisible();
 
-    // Revenir à l'étape 1
+    // Revenir à l'étape type
     await page.getByRole('button', { name: 'Retour' }).click();
     await expect(page.getByText('Quel type d\'habitude souhaitez-vous créer ?')).toBeVisible();
-  });
 
-  test('annuler la création redirige vers l\'accueil', async ({ page }) => {
-    await page.getByRole('button', { name: 'Annuler' }).click();
-    await expect(page).toHaveURL('/');
+    // Revenir à l'étape choose
+    await page.getByRole('button', { name: 'Retour' }).click();
+    await expect(page.getByText('Choisis une habitude à fort impact ou crée la tienne')).toBeVisible();
   });
 
   test('changer d\'emoji', async ({ page }) => {
+    // Passer l'étape choose
+    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+
     await page.getByRole('button', { name: /Augmenter/ }).click();
     await page.getByRole('button', { name: 'Continuer' }).click();
 
@@ -171,6 +213,9 @@ test.describe('Création d\'habitude', () => {
   });
 
   test('changer le mode de progression (% vs unités)', async ({ page }) => {
+    // Passer l'étape choose
+    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+
     await page.getByRole('button', { name: /Augmenter/ }).click();
     await page.getByRole('button', { name: 'Continuer' }).click();
 
@@ -180,5 +225,17 @@ test.describe('Création d\'habitude', () => {
     // Changer en unités
     await page.getByRole('button', { name: 'En unités' }).click();
     await expect(page.getByRole('spinbutton', { name: 'Unités' })).toBeVisible();
+  });
+
+  test('filtrer les suggestions par catégorie', async ({ page }) => {
+    // Vérifier que les filtres existent
+    await expect(page.getByRole('button', { name: 'Top 4' })).toBeVisible();
+    await expect(page.getByRole('button', { name: '😴' })).toBeVisible(); // Sommeil
+
+    // Cliquer sur le filtre sommeil
+    await page.getByRole('button', { name: '😴' }).click();
+
+    // Les habitudes de sommeil devraient être visibles
+    await expect(page.getByText('Se coucher à heure fixe')).toBeVisible();
   });
 });

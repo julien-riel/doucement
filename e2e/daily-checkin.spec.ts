@@ -7,11 +7,9 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Check-in quotidien', () => {
   test.beforeEach(async ({ page }) => {
-    // Créer un état avec une habitude pour tester le check-in
-    // D'abord créer l'habitude via l'interface pour éviter les problèmes de synchronisation
-    await page.goto('/');
-    await page.evaluate(() => localStorage.clear());
-    await page.evaluate(() => {
+    // Injecter le localStorage AVANT que la page charge pour éviter la redirection vers onboarding
+    await page.addInitScript(() => {
+      localStorage.clear();
       localStorage.setItem('doucement_data', JSON.stringify({
         schemaVersion: 3,
         habits: [],
@@ -22,6 +20,9 @@ test.describe('Check-in quotidien', () => {
 
     // Créer une habitude via le wizard
     await page.goto('/create');
+    await page.waitForSelector('text=Nouvelle habitude');
+    // Passer l'étape de choix (suggestions vs personnalisé)
+    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
     await page.getByRole('button', { name: /Augmenter/ }).click();
     await page.getByRole('button', { name: 'Continuer' }).click();
     await page.getByRole('textbox', { name: 'Nom de l\'habitude' }).fill('Push-ups');
@@ -140,15 +141,16 @@ test.describe('Check-in quotidien', () => {
 
 test.describe('Check-in avec données de test', () => {
   test('charger full-scenario.json et vérifier l\'affichage', async ({ page }) => {
-    // Charger les données de test
-    const testDataResponse = await page.request.get('/test-data/full-scenario.json');
+    // Charger les données de test via fetch avant d'aller sur la page
+    const testDataResponse = await page.request.get('http://localhost:4173/test-data/full-scenario.json');
     const testData = await testDataResponse.json();
 
-    await page.goto('/');
-    await page.evaluate((data) => {
+    // Injecter les données de test AVANT que la page charge
+    await page.addInitScript((data) => {
       localStorage.setItem('doucement_data', JSON.stringify(data));
     }, testData);
-    // Naviguer vers / pour que l'app lise le localStorage
+
+    // Naviguer vers / - le localStorage sera déjà configuré
     await page.goto('/');
     // Attendre que la page charge
     await page.waitForSelector('h3:has-text("Push-ups")');

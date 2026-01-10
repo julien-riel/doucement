@@ -1,12 +1,14 @@
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
-import { OnboardingStep } from '../components/onboarding'
+import { OnboardingStep, HabitSuggestions } from '../components/onboarding'
 import { Button } from '../components/ui'
+import { SuggestedHabit } from '../constants/suggestedHabits'
+import { CreateHabitInput } from '../types'
 import './Onboarding.css'
 
 /**
- * Contenu des étapes d'onboarding
+ * Contenu des étapes d'onboarding (conceptuelles)
  * Messages bienveillants tirés de la banque de messages
  */
 const ONBOARDING_STEPS = [
@@ -34,94 +36,153 @@ const ONBOARDING_STEPS = [
 ]
 
 /**
+ * Types d'étapes de l'onboarding
+ */
+type OnboardingStepType = 'intro' | 'suggestions'
+
+/**
  * Écran d'onboarding
  * Introduction à l'application pour les nouveaux utilisateurs
- * 4 écrans avec navigation, skip, et flag onboardingCompleted
+ * 4 écrans intro + 1 écran de suggestions d'habitudes
  */
 function Onboarding() {
-  const [currentStep, setCurrentStep] = useState(0)
+  const [stepType, setStepType] = useState<OnboardingStepType>('intro')
+  const [introStep, setIntroStep] = useState(0)
+  const [selectedHabits, setSelectedHabits] = useState<SuggestedHabit[]>([])
   const navigate = useNavigate()
-  const { updatePreferences } = useAppData()
+  const { updatePreferences, addHabit } = useAppData()
 
-  const isFirstStep = currentStep === 0
-  const isLastStep = currentStep === ONBOARDING_STEPS.length - 1
-  const step = ONBOARDING_STEPS[currentStep]
+  const isFirstIntroStep = introStep === 0
+  const isLastIntroStep = introStep === ONBOARDING_STEPS.length - 1
+  const step = ONBOARDING_STEPS[introStep]
 
   /**
-   * Termine l'onboarding et redirige vers l'écran principal
+   * Crée les habitudes sélectionnées et termine l'onboarding
    */
   const completeOnboarding = useCallback(() => {
+    // Créer les habitudes sélectionnées
+    selectedHabits.forEach((suggestedHabit) => {
+      const habitInput: CreateHabitInput = {
+        name: suggestedHabit.name,
+        emoji: suggestedHabit.emoji,
+        direction: suggestedHabit.direction,
+        startValue: suggestedHabit.startValue,
+        unit: suggestedHabit.unit,
+        progression: suggestedHabit.progression,
+      }
+      addHabit(habitInput)
+    })
+
     updatePreferences({ onboardingCompleted: true })
     navigate('/')
-  }, [updatePreferences, navigate])
+  }, [selectedHabits, addHabit, updatePreferences, navigate])
 
   /**
-   * Passe à l'étape suivante ou termine l'onboarding
+   * Passe à l'étape suivante
    */
   const handleNext = useCallback(() => {
-    if (isLastStep) {
-      completeOnboarding()
+    if (stepType === 'intro') {
+      if (isLastIntroStep) {
+        setStepType('suggestions')
+      } else {
+        setIntroStep((prev) => prev + 1)
+      }
     } else {
-      setCurrentStep((prev) => prev + 1)
+      completeOnboarding()
     }
-  }, [isLastStep, completeOnboarding])
+  }, [stepType, isLastIntroStep, completeOnboarding])
 
   /**
    * Retourne à l'étape précédente
    */
   const handlePrevious = useCallback(() => {
-    if (!isFirstStep) {
-      setCurrentStep((prev) => prev - 1)
+    if (stepType === 'suggestions') {
+      setStepType('intro')
+    } else if (!isFirstIntroStep) {
+      setIntroStep((prev) => prev - 1)
     }
-  }, [isFirstStep])
+  }, [stepType, isFirstIntroStep])
 
   /**
    * Skip l'onboarding entièrement
    */
   const handleSkip = useCallback(() => {
-    completeOnboarding()
-  }, [completeOnboarding])
+    updatePreferences({ onboardingCompleted: true })
+    navigate('/')
+  }, [updatePreferences, navigate])
+
+  /**
+   * Calcul du nombre total d'étapes pour les dots
+   */
+  const totalSteps = ONBOARDING_STEPS.length + 1
+  const currentStepIndex = stepType === 'intro' ? introStep : ONBOARDING_STEPS.length
+
+  /**
+   * Texte du bouton suivant
+   */
+  const getNextButtonText = () => {
+    if (stepType === 'suggestions') {
+      return selectedHabits.length > 0
+        ? `Créer ${selectedHabits.length} habitude${selectedHabits.length > 1 ? 's' : ''}`
+        : 'Commencer sans habitude'
+    }
+    return isLastIntroStep ? 'Choisir mes habitudes' : 'Suivant'
+  }
 
   return (
     <div className="page page-onboarding">
       <div className="onboarding__container">
-        <OnboardingStep
-          key={currentStep}
-          illustration={step.illustration}
-          title={step.title}
-          description={step.description}
-        />
+        {stepType === 'intro' ? (
+          <OnboardingStep
+            key={introStep}
+            illustration={step.illustration}
+            title={step.title}
+            description={step.description}
+          />
+        ) : (
+          <HabitSuggestions
+            selectedHabits={selectedHabits}
+            onSelectionChange={setSelectedHabits}
+            maxSelection={3}
+          />
+        )}
       </div>
 
       <footer className="onboarding__footer">
         <nav className="onboarding__navigation" aria-label="Navigation onboarding">
           {/* Indicateurs de progression */}
           <div className="onboarding__dots" role="tablist" aria-label="Étapes">
-            {ONBOARDING_STEPS.map((_, index) => (
+            {Array.from({ length: totalSteps }).map((_, index) => (
               <div
                 key={index}
-                className={`onboarding__dot ${index === currentStep ? 'onboarding__dot--active' : ''}`}
+                className={`onboarding__dot ${index === currentStepIndex ? 'onboarding__dot--active' : ''}`}
                 role="tab"
-                aria-selected={index === currentStep}
-                aria-label={`Étape ${index + 1} sur ${ONBOARDING_STEPS.length}`}
+                aria-selected={index === currentStepIndex}
+                aria-label={`Étape ${index + 1} sur ${totalSteps}`}
               />
             ))}
           </div>
 
           {/* Boutons de navigation */}
           <div className="onboarding__buttons">
-            {!isFirstStep && (
+            {(stepType === 'suggestions' || !isFirstIntroStep) && (
               <Button variant="ghost" onClick={handlePrevious} aria-label="Étape précédente">
                 Retour
               </Button>
             )}
-            <Button variant="primary" onClick={handleNext} fullWidth={isFirstStep}>
-              {isLastStep ? 'Commencer' : 'Suivant'}
+            <Button
+              variant={
+                stepType === 'suggestions' && selectedHabits.length > 0 ? 'success' : 'primary'
+              }
+              onClick={handleNext}
+              fullWidth={stepType === 'intro' && isFirstIntroStep}
+            >
+              {getNextButtonText()}
             </Button>
           </div>
 
           {/* Bouton Skip (sauf dernière étape) */}
-          {!isLastStep && (
+          {stepType === 'intro' && (
             <div className="onboarding__skip">
               <button type="button" className="onboarding__skip-button" onClick={handleSkip}>
                 Passer l'introduction

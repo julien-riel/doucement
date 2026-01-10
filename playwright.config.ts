@@ -14,8 +14,8 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI */
   workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use */
-  reporter: 'html',
+  /* Reporter to use - 'never' prevents auto-opening the report */
+  reporter: [['html', { open: 'never' }]],
   /* Shared settings for all the projects below */
   use: {
     /* Base URL to use in actions like `await page.goto('/')` */
