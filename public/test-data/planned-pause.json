@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 3,
+  "habits": [
+    {
+      "id": "habit-running-paused",
+      "name": "Course à pied",
+      "emoji": "🏃",
+      "description": "Actuellement en pause pour vacances",
+      "direction": "increase",
+      "startValue": 20,
+      "unit": "minutes",
+      "progression": {
+        "mode": "percentage",
+        "value": 5,
+        "period": "weekly"
+      },
+      "targetValue": null,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "detailed",
+      "plannedPause": {
+        "startDate": "2026-01-08",
+        "endDate": "2026-01-15",
+        "reason": "Vacances au ski"
+      }
+    },
+    {
+      "id": "habit-stretching-paused-ended",
+      "name": "Étirements",
+      "emoji": "🤸",
+      "description": "Pause terminée récemment",
+      "direction": "maintain",
+      "startValue": 10,
+      "unit": "minutes",
+      "progression": null,
+      "targetValue": null,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "simple",
+      "plannedPause": {
+        "startDate": "2025-12-28",
+        "endDate": "2026-01-05",
+        "reason": "Grippe"
+      }
+    },
+    {
+      "id": "habit-reading-no-pause",
+      "name": "Lecture",
+      "emoji": "📚",
+      "description": "Sans pause, pour comparaison",
+      "direction": "increase",
+      "startValue": 15,
+      "unit": "pages",
+      "progression": {
+        "mode": "absolute",
+        "value": 2,
+        "period": "weekly"
+      },
+      "targetValue": null,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "detailed"
+    }
+  ],
+  "entries": [
+    {"id": "pp1", "habitId": "habit-running-paused", "date": "2026-01-01", "targetDose": 26, "actualValue": 30, "createdAt": "2026-01-01T18:00:00Z", "updatedAt": "2026-01-01T18:00:00Z"},
+    {"id": "pp2", "habitId": "habit-stretching-paused-ended", "date": "2026-01-01", "targetDose": 10, "actualValue": 0, "note": "En pause - grippe", "createdAt": "2026-01-01T08:00:00Z", "updatedAt": "2026-01-01T08:00:00Z"},
+    {"id": "pp3", "habitId": "habit-reading-no-pause", "date": "2026-01-01", "targetDose": 21, "actualValue": 25, "createdAt": "2026-01-01T21:00:00Z", "updatedAt": "2026-01-01T21:00:00Z"},
+    {"id": "pp4", "habitId": "habit-running-paused", "date": "2026-01-02", "targetDose": 26, "actualValue": 28, "createdAt": "2026-01-02T18:00:00Z", "updatedAt": "2026-01-02T18:00:00Z"},
+    {"id": "pp5", "habitId": "habit-stretching-paused-ended", "date": "2026-01-02", "targetDose": 10, "actualValue": 0, "note": "En pause - grippe", "createdAt": "2026-01-02T08:00:00Z", "updatedAt": "2026-01-02T08:00:00Z"},
+    {"id": "pp6", "habitId": "habit-reading-no-pause", "date": "2026-01-02", "targetDose": 21, "actualValue": 20, "createdAt": "2026-01-02T21:00:00Z", "updatedAt": "2026-01-02T21:00:00Z"},
+    {"id": "pp7", "habitId": "habit-running-paused", "date": "2026-01-03", "targetDose": 26, "actualValue": 32, "createdAt": "2026-01-03T18:00:00Z", "updatedAt": "2026-01-03T18:00:00Z"},
+    {"id": "pp8", "habitId": "habit-stretching-paused-ended", "date": "2026-01-03", "targetDose": 10, "actualValue": 0, "note": "En pause - grippe", "createdAt": "2026-01-03T08:00:00Z", "updatedAt": "2026-01-03T08:00:00Z"},
+    {"id": "pp9", "habitId": "habit-reading-no-pause", "date": "2026-01-03", "targetDose": 21, "actualValue": 22, "createdAt": "2026-01-03T21:00:00Z", "updatedAt": "2026-01-03T21:00:00Z"},
+    {"id": "pp10", "habitId": "habit-running-paused", "date": "2026-01-04", "targetDose": 26, "actualValue": 30, "createdAt": "2026-01-04T18:00:00Z", "updatedAt": "2026-01-04T18:00:00Z"},
+    {"id": "pp11", "habitId": "habit-stretching-paused-ended", "date": "2026-01-04", "targetDose": 10, "actualValue": 0, "note": "En pause - grippe", "createdAt": "2026-01-04T08:00:00Z", "updatedAt": "2026-01-04T08:00:00Z"},
+    {"id": "pp12", "habitId": "habit-reading-no-pause", "date": "2026-01-04", "targetDose": 21, "actualValue": 21, "createdAt": "2026-01-04T21:00:00Z", "updatedAt": "2026-01-04T21:00:00Z"},
+    {"id": "pp13", "habitId": "habit-running-paused", "date": "2026-01-05", "targetDose": 26, "actualValue": 35, "createdAt": "2026-01-05T18:00:00Z", "updatedAt": "2026-01-05T18:00:00Z"},
+    {"id": "pp14", "habitId": "habit-stretching-paused-ended", "date": "2026-01-05", "targetDose": 10, "actualValue": 0, "note": "En pause - grippe", "createdAt": "2026-01-05T08:00:00Z", "updatedAt": "2026-01-05T08:00:00Z"},
+    {"id": "pp15", "habitId": "habit-reading-no-pause", "date": "2026-01-05", "targetDose": 21, "actualValue": 25, "createdAt": "2026-01-05T21:00:00Z", "updatedAt": "2026-01-05T21:00:00Z"},
+    {"id": "pp16", "habitId": "habit-running-paused", "date": "2026-01-06", "targetDose": 28, "actualValue": 30, "createdAt": "2026-01-06T18:00:00Z", "updatedAt": "2026-01-06T18:00:00Z"},
+    {"id": "pp17", "habitId": "habit-stretching-paused-ended", "date": "2026-01-06", "targetDose": 10, "actualValue": 8, "note": "Reprise après pause", "createdAt": "2026-01-06T08:00:00Z", "updatedAt": "2026-01-06T08:00:00Z"},
+    {"id": "pp18", "habitId": "habit-reading-no-pause", "date": "2026-01-06", "targetDose": 23, "actualValue": 23, "createdAt": "2026-01-06T21:00:00Z", "updatedAt": "2026-01-06T21:00:00Z"},
+    {"id": "pp19", "habitId": "habit-running-paused", "date": "2026-01-07", "targetDose": 28, "actualValue": 32, "createdAt": "2026-01-07T18:00:00Z", "updatedAt": "2026-01-07T18:00:00Z"},
+    {"id": "pp20", "habitId": "habit-stretching-paused-ended", "date": "2026-01-07", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-07T08:00:00Z", "updatedAt": "2026-01-07T08:00:00Z"},
+    {"id": "pp21", "habitId": "habit-reading-no-pause", "date": "2026-01-07", "targetDose": 23, "actualValue": 28, "createdAt": "2026-01-07T21:00:00Z", "updatedAt": "2026-01-07T21:00:00Z"},
+    {"id": "pp22", "habitId": "habit-stretching-paused-ended", "date": "2026-01-08", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-08T08:00:00Z", "updatedAt": "2026-01-08T08:00:00Z"},
+    {"id": "pp23", "habitId": "habit-reading-no-pause", "date": "2026-01-08", "targetDose": 23, "actualValue": 24, "createdAt": "2026-01-08T21:00:00Z", "updatedAt": "2026-01-08T21:00:00Z"},
+    {"id": "pp24", "habitId": "habit-stretching-paused-ended", "date": "2026-01-09", "targetDose": 10, "actualValue": 12, "createdAt": "2026-01-09T08:00:00Z", "updatedAt": "2026-01-09T08:00:00Z"},
+    {"id": "pp25", "habitId": "habit-reading-no-pause", "date": "2026-01-09", "targetDose": 23, "actualValue": 25, "createdAt": "2026-01-09T21:00:00Z", "updatedAt": "2026-01-09T21:00:00Z"}
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2026-01-05",
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    }
+  }
+}

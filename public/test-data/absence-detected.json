@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 3,
+  "habits": [
+    {
+      "id": "habit-reading",
+      "name": "Lecture",
+      "emoji": "📚",
+      "description": "Lire chaque jour",
+      "direction": "increase",
+      "startValue": 10,
+      "unit": "pages",
+      "progression": {
+        "mode": "absolute",
+        "value": 1,
+        "period": "weekly"
+      },
+      "targetValue": null,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "detailed"
+    },
+    {
+      "id": "habit-walking",
+      "name": "Marche",
+      "emoji": "🚶",
+      "description": "Marcher quotidiennement",
+      "direction": "maintain",
+      "startValue": 30,
+      "unit": "minutes",
+      "progression": null,
+      "targetValue": null,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "simple"
+    }
+  ],
+  "entries": [
+    {"id": "a1", "habitId": "habit-reading", "date": "2025-12-28", "targetDose": 14, "actualValue": 15, "createdAt": "2025-12-28T21:00:00Z", "updatedAt": "2025-12-28T21:00:00Z"},
+    {"id": "a2", "habitId": "habit-walking", "date": "2025-12-28", "targetDose": 30, "actualValue": 30, "createdAt": "2025-12-28T18:00:00Z", "updatedAt": "2025-12-28T18:00:00Z"},
+    {"id": "a3", "habitId": "habit-reading", "date": "2025-12-29", "targetDose": 14, "actualValue": 20, "createdAt": "2025-12-29T21:00:00Z", "updatedAt": "2025-12-29T21:00:00Z"},
+    {"id": "a4", "habitId": "habit-walking", "date": "2025-12-29", "targetDose": 30, "actualValue": 30, "createdAt": "2025-12-29T18:00:00Z", "updatedAt": "2025-12-29T18:00:00Z"},
+    {"id": "a5", "habitId": "habit-reading", "date": "2025-12-30", "targetDose": 14, "actualValue": 12, "createdAt": "2025-12-30T21:00:00Z", "updatedAt": "2025-12-30T21:00:00Z"},
+    {"id": "a6", "habitId": "habit-walking", "date": "2025-12-30", "targetDose": 30, "actualValue": 30, "createdAt": "2025-12-30T18:00:00Z", "updatedAt": "2025-12-30T18:00:00Z"},
+    {"id": "a7", "habitId": "habit-reading", "date": "2025-12-31", "targetDose": 14, "actualValue": 14, "createdAt": "2025-12-31T21:00:00Z", "updatedAt": "2025-12-31T21:00:00Z"},
+    {"id": "a8", "habitId": "habit-walking", "date": "2025-12-31", "targetDose": 30, "actualValue": 30, "createdAt": "2025-12-31T18:00:00Z", "updatedAt": "2025-12-31T18:00:00Z"},
+    {"id": "a9", "habitId": "habit-reading", "date": "2026-01-01", "targetDose": 15, "actualValue": 18, "createdAt": "2026-01-01T21:00:00Z", "updatedAt": "2026-01-01T21:00:00Z"},
+    {"id": "a10", "habitId": "habit-walking", "date": "2026-01-01", "targetDose": 30, "actualValue": 30, "createdAt": "2026-01-01T18:00:00Z", "updatedAt": "2026-01-01T18:00:00Z"},
+    {"id": "a11", "habitId": "habit-reading", "date": "2026-01-02", "targetDose": 15, "actualValue": 15, "createdAt": "2026-01-02T21:00:00Z", "updatedAt": "2026-01-02T21:00:00Z"},
+    {"id": "a12", "habitId": "habit-walking", "date": "2026-01-02", "targetDose": 30, "actualValue": 30, "createdAt": "2026-01-02T18:00:00Z", "updatedAt": "2026-01-02T18:00:00Z"},
+    {"id": "a13", "habitId": "habit-reading", "date": "2026-01-03", "targetDose": 15, "actualValue": 16, "createdAt": "2026-01-03T21:00:00Z", "updatedAt": "2026-01-03T21:00:00Z"},
+    {"id": "a14", "habitId": "habit-walking", "date": "2026-01-03", "targetDose": 30, "actualValue": 30, "createdAt": "2026-01-03T18:00:00Z", "updatedAt": "2026-01-03T18:00:00Z"},
+    {"id": "a15", "habitId": "habit-reading", "date": "2026-01-04", "targetDose": 15, "actualValue": 20, "createdAt": "2026-01-04T21:00:00Z", "updatedAt": "2026-01-04T21:00:00Z"},
+    {"id": "a16", "habitId": "habit-walking", "date": "2026-01-04", "targetDose": 30, "actualValue": 30, "createdAt": "2026-01-04T18:00:00Z", "updatedAt": "2026-01-04T18:00:00Z"},
+    {"id": "a17", "habitId": "habit-reading", "date": "2026-01-05", "targetDose": 15, "actualValue": 15, "createdAt": "2026-01-05T21:00:00Z", "updatedAt": "2026-01-05T21:00:00Z"},
+    {"id": "a18", "habitId": "habit-walking", "date": "2026-01-05", "targetDose": 30, "actualValue": 30, "createdAt": "2026-01-05T18:00:00Z", "updatedAt": "2026-01-05T18:00:00Z"},
+    {"id": "a19", "habitId": "habit-reading", "date": "2026-01-06", "targetDose": 15, "actualValue": 15, "createdAt": "2026-01-06T21:00:00Z", "updatedAt": "2026-01-06T21:00:00Z"},
+    {"id": "a20", "habitId": "habit-walking", "date": "2026-01-06", "targetDose": 30, "actualValue": 30, "createdAt": "2026-01-06T18:00:00Z", "updatedAt": "2026-01-06T18:00:00Z"}
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2025-12-29",
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    }
+  }
+}

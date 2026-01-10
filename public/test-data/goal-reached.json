@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 3,
+  "habits": [
+    {
+      "id": "habit-pushups-goal",
+      "name": "Push-ups",
+      "emoji": "💪",
+      "description": "Renforcement musculaire quotidien",
+      "direction": "increase",
+      "startValue": 10,
+      "unit": "répétitions",
+      "progression": {
+        "mode": "percentage",
+        "value": 5,
+        "period": "weekly"
+      },
+      "targetValue": 50,
+      "createdAt": "2025-11-25",
+      "archivedAt": null,
+      "trackingMode": "detailed",
+      "implementationIntention": {
+        "trigger": "Après le réveil",
+        "location": "Chambre",
+        "time": "07:00"
+      }
+    }
+  ],
+  "entries": [
+    {"id": "e1", "habitId": "habit-pushups-goal", "date": "2025-11-25", "targetDose": 10, "actualValue": 10, "createdAt": "2025-11-25T07:30:00Z", "updatedAt": "2025-11-25T07:30:00Z"},
+    {"id": "e2", "habitId": "habit-pushups-goal", "date": "2025-11-26", "targetDose": 10, "actualValue": 11, "createdAt": "2025-11-26T07:30:00Z", "updatedAt": "2025-11-26T07:30:00Z"},
+    {"id": "e3", "habitId": "habit-pushups-goal", "date": "2025-11-27", "targetDose": 10, "actualValue": 10, "createdAt": "2025-11-27T07:30:00Z", "updatedAt": "2025-11-27T07:30:00Z"},
+    {"id": "e4", "habitId": "habit-pushups-goal", "date": "2025-11-28", "targetDose": 10, "actualValue": 12, "createdAt": "2025-11-28T07:30:00Z", "updatedAt": "2025-11-28T07:30:00Z"},
+    {"id": "e5", "habitId": "habit-pushups-goal", "date": "2025-11-29", "targetDose": 10, "actualValue": 11, "createdAt": "2025-11-29T07:30:00Z", "updatedAt": "2025-11-29T07:30:00Z"},
+    {"id": "e6", "habitId": "habit-pushups-goal", "date": "2025-11-30", "targetDose": 10, "actualValue": 10, "createdAt": "2025-11-30T07:30:00Z", "updatedAt": "2025-11-30T07:30:00Z"},
+    {"id": "e7", "habitId": "habit-pushups-goal", "date": "2025-12-01", "targetDose": 10, "actualValue": 12, "createdAt": "2025-12-01T07:30:00Z", "updatedAt": "2025-12-01T07:30:00Z"},
+    {"id": "e8", "habitId": "habit-pushups-goal", "date": "2025-12-02", "targetDose": 11, "actualValue": 13, "createdAt": "2025-12-02T07:30:00Z", "updatedAt": "2025-12-02T07:30:00Z"},
+    {"id": "e9", "habitId": "habit-pushups-goal", "date": "2025-12-03", "targetDose": 11, "actualValue": 11, "createdAt": "2025-12-03T07:30:00Z", "updatedAt": "2025-12-03T07:30:00Z"},
+    {"id": "e10", "habitId": "habit-pushups-goal", "date": "2025-12-04", "targetDose": 11, "actualValue": 14, "createdAt": "2025-12-04T07:30:00Z", "updatedAt": "2025-12-04T07:30:00Z"},
+    {"id": "e11", "habitId": "habit-pushups-goal", "date": "2025-12-05", "targetDose": 11, "actualValue": 12, "createdAt": "2025-12-05T07:30:00Z", "updatedAt": "2025-12-05T07:30:00Z"},
+    {"id": "e12", "habitId": "habit-pushups-goal", "date": "2025-12-06", "targetDose": 11, "actualValue": 11, "createdAt": "2025-12-06T07:30:00Z", "updatedAt": "2025-12-06T07:30:00Z"},
+    {"id": "e13", "habitId": "habit-pushups-goal", "date": "2025-12-07", "targetDose": 11, "actualValue": 15, "createdAt": "2025-12-07T07:30:00Z", "updatedAt": "2025-12-07T07:30:00Z"},
+    {"id": "e14", "habitId": "habit-pushups-goal", "date": "2025-12-08", "targetDose": 11, "actualValue": 16, "createdAt": "2025-12-08T07:30:00Z", "updatedAt": "2025-12-08T07:30:00Z"},
+    {"id": "e15", "habitId": "habit-pushups-goal", "date": "2025-12-09", "targetDose": 12, "actualValue": 15, "createdAt": "2025-12-09T07:30:00Z", "updatedAt": "2025-12-09T07:30:00Z"},
+    {"id": "e16", "habitId": "habit-pushups-goal", "date": "2025-12-10", "targetDose": 12, "actualValue": 18, "createdAt": "2025-12-10T07:30:00Z", "updatedAt": "2025-12-10T07:30:00Z"},
+    {"id": "e17", "habitId": "habit-pushups-goal", "date": "2025-12-11", "targetDose": 12, "actualValue": 16, "createdAt": "2025-12-11T07:30:00Z", "updatedAt": "2025-12-11T07:30:00Z"},
+    {"id": "e18", "habitId": "habit-pushups-goal", "date": "2025-12-12", "targetDose": 12, "actualValue": 20, "createdAt": "2025-12-12T07:30:00Z", "updatedAt": "2025-12-12T07:30:00Z"},
+    {"id": "e19", "habitId": "habit-pushups-goal", "date": "2025-12-13", "targetDose": 12, "actualValue": 18, "createdAt": "2025-12-13T07:30:00Z", "updatedAt": "2025-12-13T07:30:00Z"},
+    {"id": "e20", "habitId": "habit-pushups-goal", "date": "2025-12-14", "targetDose": 12, "actualValue": 22, "createdAt": "2025-12-14T07:30:00Z", "updatedAt": "2025-12-14T07:30:00Z"},
+    {"id": "e21", "habitId": "habit-pushups-goal", "date": "2025-12-15", "targetDose": 12, "actualValue": 20, "createdAt": "2025-12-15T07:30:00Z", "updatedAt": "2025-12-15T07:30:00Z"},
+    {"id": "e22", "habitId": "habit-pushups-goal", "date": "2025-12-16", "targetDose": 13, "actualValue": 25, "createdAt": "2025-12-16T07:30:00Z", "updatedAt": "2025-12-16T07:30:00Z"},
+    {"id": "e23", "habitId": "habit-pushups-goal", "date": "2025-12-17", "targetDose": 13, "actualValue": 22, "createdAt": "2025-12-17T07:30:00Z", "updatedAt": "2025-12-17T07:30:00Z"},
+    {"id": "e24", "habitId": "habit-pushups-goal", "date": "2025-12-18", "targetDose": 13, "actualValue": 28, "createdAt": "2025-12-18T07:30:00Z", "updatedAt": "2025-12-18T07:30:00Z"},
+    {"id": "e25", "habitId": "habit-pushups-goal", "date": "2025-12-19", "targetDose": 13, "actualValue": 25, "createdAt": "2025-12-19T07:30:00Z", "updatedAt": "2025-12-19T07:30:00Z"},
+    {"id": "e26", "habitId": "habit-pushups-goal", "date": "2025-12-20", "targetDose": 13, "actualValue": 30, "createdAt": "2025-12-20T07:30:00Z", "updatedAt": "2025-12-20T07:30:00Z"},
+    {"id": "e27", "habitId": "habit-pushups-goal", "date": "2025-12-21", "targetDose": 13, "actualValue": 28, "createdAt": "2025-12-21T07:30:00Z", "updatedAt": "2025-12-21T07:30:00Z"},
+    {"id": "e28", "habitId": "habit-pushups-goal", "date": "2025-12-22", "targetDose": 13, "actualValue": 32, "createdAt": "2025-12-22T07:30:00Z", "updatedAt": "2025-12-22T07:30:00Z"},
+    {"id": "e29", "habitId": "habit-pushups-goal", "date": "2025-12-23", "targetDose": 14, "actualValue": 35, "createdAt": "2025-12-23T07:30:00Z", "updatedAt": "2025-12-23T07:30:00Z"},
+    {"id": "e30", "habitId": "habit-pushups-goal", "date": "2025-12-24", "targetDose": 14, "actualValue": 30, "createdAt": "2025-12-24T07:30:00Z", "updatedAt": "2025-12-24T07:30:00Z"},
+    {"id": "e31", "habitId": "habit-pushups-goal", "date": "2025-12-25", "targetDose": 14, "actualValue": 38, "createdAt": "2025-12-25T07:30:00Z", "updatedAt": "2025-12-25T07:30:00Z"},
+    {"id": "e32", "habitId": "habit-pushups-goal", "date": "2025-12-26", "targetDose": 14, "actualValue": 35, "createdAt": "2025-12-26T07:30:00Z", "updatedAt": "2025-12-26T07:30:00Z"},
+    {"id": "e33", "habitId": "habit-pushups-goal", "date": "2025-12-27", "targetDose": 14, "actualValue": 40, "createdAt": "2025-12-27T07:30:00Z", "updatedAt": "2025-12-27T07:30:00Z"},
+    {"id": "e34", "habitId": "habit-pushups-goal", "date": "2025-12-28", "targetDose": 14, "actualValue": 38, "createdAt": "2025-12-28T07:30:00Z", "updatedAt": "2025-12-28T07:30:00Z"},
+    {"id": "e35", "habitId": "habit-pushups-goal", "date": "2025-12-29", "targetDose": 14, "actualValue": 42, "createdAt": "2025-12-29T07:30:00Z", "updatedAt": "2025-12-29T07:30:00Z"},
+    {"id": "e36", "habitId": "habit-pushups-goal", "date": "2025-12-30", "targetDose": 15, "actualValue": 45, "createdAt": "2025-12-30T07:30:00Z", "updatedAt": "2025-12-30T07:30:00Z"},
+    {"id": "e37", "habitId": "habit-pushups-goal", "date": "2025-12-31", "targetDose": 15, "actualValue": 42, "createdAt": "2025-12-31T07:30:00Z", "updatedAt": "2025-12-31T07:30:00Z"},
+    {"id": "e38", "habitId": "habit-pushups-goal", "date": "2026-01-01", "targetDose": 15, "actualValue": 48, "createdAt": "2026-01-01T07:30:00Z", "updatedAt": "2026-01-01T07:30:00Z"},
+    {"id": "e39", "habitId": "habit-pushups-goal", "date": "2026-01-02", "targetDose": 15, "actualValue": 45, "createdAt": "2026-01-02T07:30:00Z", "updatedAt": "2026-01-02T07:30:00Z"},
+    {"id": "e40", "habitId": "habit-pushups-goal", "date": "2026-01-03", "targetDose": 15, "actualValue": 50, "createdAt": "2026-01-03T07:30:00Z", "updatedAt": "2026-01-03T07:30:00Z"},
+    {"id": "e41", "habitId": "habit-pushups-goal", "date": "2026-01-04", "targetDose": 15, "actualValue": 48, "createdAt": "2026-01-04T07:30:00Z", "updatedAt": "2026-01-04T07:30:00Z"},
+    {"id": "e42", "habitId": "habit-pushups-goal", "date": "2026-01-05", "targetDose": 15, "actualValue": 50, "createdAt": "2026-01-05T07:30:00Z", "updatedAt": "2026-01-05T07:30:00Z"},
+    {"id": "e43", "habitId": "habit-pushups-goal", "date": "2026-01-06", "targetDose": 16, "actualValue": 50, "createdAt": "2026-01-06T07:30:00Z", "updatedAt": "2026-01-06T07:30:00Z"},
+    {"id": "e44", "habitId": "habit-pushups-goal", "date": "2026-01-07", "targetDose": 16, "actualValue": 50, "createdAt": "2026-01-07T07:30:00Z", "updatedAt": "2026-01-07T07:30:00Z"},
+    {"id": "e45", "habitId": "habit-pushups-goal", "date": "2026-01-08", "targetDose": 16, "actualValue": 50, "createdAt": "2026-01-08T07:30:00Z", "updatedAt": "2026-01-08T07:30:00Z"},
+    {"id": "e46", "habitId": "habit-pushups-goal", "date": "2026-01-09", "targetDose": 16, "actualValue": 50, "createdAt": "2026-01-09T07:30:00Z", "updatedAt": "2026-01-09T07:30:00Z"}
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2026-01-05",
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    }
+  }
+}

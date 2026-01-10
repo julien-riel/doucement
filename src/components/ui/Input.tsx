@@ -1,7 +1,7 @@
 import { InputHTMLAttributes, forwardRef, useId } from 'react'
 import './Input.css'
 
-export type InputType = 'text' | 'number' | 'email'
+export type InputType = 'text' | 'number' | 'email' | 'date' | 'time'
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   /** Type d'input */

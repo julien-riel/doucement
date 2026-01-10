@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "habits": [
+    {
+      "id": "habit-meditation-plateau",
+      "name": "Méditation",
+      "emoji": "🧘",
+      "description": "Méditation quotidienne",
+      "direction": "increase",
+      "startValue": 5,
+      "unit": "minutes",
+      "progression": {
+        "mode": "percentage",
+        "value": 5,
+        "period": "weekly"
+      },
+      "targetValue": null,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "detailed"
+    }
+  ],
+  "entries": [
+    {"id": "p1", "habitId": "habit-meditation-plateau", "date": "2025-12-01", "targetDose": 5, "actualValue": 5, "createdAt": "2025-12-01T08:00:00Z", "updatedAt": "2025-12-01T08:00:00Z"},
+    {"id": "p2", "habitId": "habit-meditation-plateau", "date": "2025-12-02", "targetDose": 5, "actualValue": 5, "createdAt": "2025-12-02T08:00:00Z", "updatedAt": "2025-12-02T08:00:00Z"},
+    {"id": "p3", "habitId": "habit-meditation-plateau", "date": "2025-12-03", "targetDose": 5, "actualValue": 5, "createdAt": "2025-12-03T08:00:00Z", "updatedAt": "2025-12-03T08:00:00Z"},
+    {"id": "p4", "habitId": "habit-meditation-plateau", "date": "2025-12-04", "targetDose": 5, "actualValue": 5, "createdAt": "2025-12-04T08:00:00Z", "updatedAt": "2025-12-04T08:00:00Z"},
+    {"id": "p5", "habitId": "habit-meditation-plateau", "date": "2025-12-05", "targetDose": 5, "actualValue": 5, "createdAt": "2025-12-05T08:00:00Z", "updatedAt": "2025-12-05T08:00:00Z"},
+    {"id": "p6", "habitId": "habit-meditation-plateau", "date": "2025-12-06", "targetDose": 5, "actualValue": 5, "createdAt": "2025-12-06T08:00:00Z", "updatedAt": "2025-12-06T08:00:00Z"},
+    {"id": "p7", "habitId": "habit-meditation-plateau", "date": "2025-12-07", "targetDose": 5, "actualValue": 5, "createdAt": "2025-12-07T08:00:00Z", "updatedAt": "2025-12-07T08:00:00Z"},
+    {"id": "p8", "habitId": "habit-meditation-plateau", "date": "2025-12-08", "targetDose": 6, "actualValue": 6, "createdAt": "2025-12-08T08:00:00Z", "updatedAt": "2025-12-08T08:00:00Z"},
+    {"id": "p9", "habitId": "habit-meditation-plateau", "date": "2025-12-09", "targetDose": 6, "actualValue": 6, "createdAt": "2025-12-09T08:00:00Z", "updatedAt": "2025-12-09T08:00:00Z"},
+    {"id": "p10", "habitId": "habit-meditation-plateau", "date": "2025-12-10", "targetDose": 6, "actualValue": 6, "createdAt": "2025-12-10T08:00:00Z", "updatedAt": "2025-12-10T08:00:00Z"},
+    {"id": "p11", "habitId": "habit-meditation-plateau", "date": "2025-12-11", "targetDose": 6, "actualValue": 6, "createdAt": "2025-12-11T08:00:00Z", "updatedAt": "2025-12-11T08:00:00Z"},
+    {"id": "p12", "habitId": "habit-meditation-plateau", "date": "2025-12-12", "targetDose": 6, "actualValue": 6, "createdAt": "2025-12-12T08:00:00Z", "updatedAt": "2025-12-12T08:00:00Z"},
+    {"id": "p13", "habitId": "habit-meditation-plateau", "date": "2025-12-13", "targetDose": 6, "actualValue": 6, "createdAt": "2025-12-13T08:00:00Z", "updatedAt": "2025-12-13T08:00:00Z"},
+    {"id": "p14", "habitId": "habit-meditation-plateau", "date": "2025-12-14", "targetDose": 6, "actualValue": 6, "createdAt": "2025-12-14T08:00:00Z", "updatedAt": "2025-12-14T08:00:00Z"},
+    {"id": "p15", "habitId": "habit-meditation-plateau", "date": "2025-12-15", "targetDose": 7, "actualValue": 7, "createdAt": "2025-12-15T08:00:00Z", "updatedAt": "2025-12-15T08:00:00Z"},
+    {"id": "p16", "habitId": "habit-meditation-plateau", "date": "2025-12-16", "targetDose": 7, "actualValue": 7, "createdAt": "2025-12-16T08:00:00Z", "updatedAt": "2025-12-16T08:00:00Z"},
+    {"id": "p17", "habitId": "habit-meditation-plateau", "date": "2025-12-17", "targetDose": 7, "actualValue": 7, "createdAt": "2025-12-17T08:00:00Z", "updatedAt": "2025-12-17T08:00:00Z"},
+    {"id": "p18", "habitId": "habit-meditation-plateau", "date": "2025-12-18", "targetDose": 7, "actualValue": 7, "createdAt": "2025-12-18T08:00:00Z", "updatedAt": "2025-12-18T08:00:00Z"},
+    {"id": "p19", "habitId": "habit-meditation-plateau", "date": "2025-12-19", "targetDose": 7, "actualValue": 7, "createdAt": "2025-12-19T08:00:00Z", "updatedAt": "2025-12-19T08:00:00Z"},
+    {"id": "p20", "habitId": "habit-meditation-plateau", "date": "2025-12-20", "targetDose": 7, "actualValue": 7, "createdAt": "2025-12-20T08:00:00Z", "updatedAt": "2025-12-20T08:00:00Z"},
+    {"id": "p21", "habitId": "habit-meditation-plateau", "date": "2025-12-21", "targetDose": 7, "actualValue": 7, "createdAt": "2025-12-21T08:00:00Z", "updatedAt": "2025-12-21T08:00:00Z"},
+    {"id": "p22", "habitId": "habit-meditation-plateau", "date": "2025-12-22", "targetDose": 8, "actualValue": 8, "createdAt": "2025-12-22T08:00:00Z", "updatedAt": "2025-12-22T08:00:00Z"},
+    {"id": "p23", "habitId": "habit-meditation-plateau", "date": "2025-12-23", "targetDose": 8, "actualValue": 8, "createdAt": "2025-12-23T08:00:00Z", "updatedAt": "2025-12-23T08:00:00Z"},
+    {"id": "p24", "habitId": "habit-meditation-plateau", "date": "2025-12-24", "targetDose": 8, "actualValue": 8, "createdAt": "2025-12-24T08:00:00Z", "updatedAt": "2025-12-24T08:00:00Z"},
+    {"id": "p25", "habitId": "habit-meditation-plateau", "date": "2025-12-25", "targetDose": 8, "actualValue": 8, "createdAt": "2025-12-25T08:00:00Z", "updatedAt": "2025-12-25T08:00:00Z"},
+    {"id": "p26", "habitId": "habit-meditation-plateau", "date": "2025-12-26", "targetDose": 8, "actualValue": 8, "createdAt": "2025-12-26T08:00:00Z", "updatedAt": "2025-12-26T08:00:00Z"},
+    {"id": "p27", "habitId": "habit-meditation-plateau", "date": "2025-12-27", "targetDose": 8, "actualValue": 8, "createdAt": "2025-12-27T08:00:00Z", "updatedAt": "2025-12-27T08:00:00Z"},
+    {"id": "p28", "habitId": "habit-meditation-plateau", "date": "2025-12-28", "targetDose": 8, "actualValue": 8, "createdAt": "2025-12-28T08:00:00Z", "updatedAt": "2025-12-28T08:00:00Z"},
+    {"id": "p29", "habitId": "habit-meditation-plateau", "date": "2025-12-29", "targetDose": 9, "actualValue": 9, "createdAt": "2025-12-29T08:00:00Z", "updatedAt": "2025-12-29T08:00:00Z"},
+    {"id": "p30", "habitId": "habit-meditation-plateau", "date": "2025-12-30", "targetDose": 9, "actualValue": 9, "createdAt": "2025-12-30T08:00:00Z", "updatedAt": "2025-12-30T08:00:00Z"},
+    {"id": "p31", "habitId": "habit-meditation-plateau", "date": "2025-12-31", "targetDose": 9, "actualValue": 9, "createdAt": "2025-12-31T08:00:00Z", "updatedAt": "2025-12-31T08:00:00Z"},
+    {"id": "p32", "habitId": "habit-meditation-plateau", "date": "2026-01-01", "targetDose": 9, "actualValue": 9, "createdAt": "2026-01-01T08:00:00Z", "updatedAt": "2026-01-01T08:00:00Z"},
+    {"id": "p33", "habitId": "habit-meditation-plateau", "date": "2026-01-02", "targetDose": 9, "actualValue": 9, "createdAt": "2026-01-02T08:00:00Z", "updatedAt": "2026-01-02T08:00:00Z"},
+    {"id": "p34", "habitId": "habit-meditation-plateau", "date": "2026-01-03", "targetDose": 9, "actualValue": 9, "createdAt": "2026-01-03T08:00:00Z", "updatedAt": "2026-01-03T08:00:00Z"},
+    {"id": "p35", "habitId": "habit-meditation-plateau", "date": "2026-01-04", "targetDose": 9, "actualValue": 9, "createdAt": "2026-01-04T08:00:00Z", "updatedAt": "2026-01-04T08:00:00Z"},
+    {"id": "p36", "habitId": "habit-meditation-plateau", "date": "2026-01-05", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-05T08:00:00Z", "updatedAt": "2026-01-05T08:00:00Z"},
+    {"id": "p37", "habitId": "habit-meditation-plateau", "date": "2026-01-06", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-06T08:00:00Z", "updatedAt": "2026-01-06T08:00:00Z"},
+    {"id": "p38", "habitId": "habit-meditation-plateau", "date": "2026-01-07", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-07T08:00:00Z", "updatedAt": "2026-01-07T08:00:00Z"},
+    {"id": "p39", "habitId": "habit-meditation-plateau", "date": "2026-01-08", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-08T08:00:00Z", "updatedAt": "2026-01-08T08:00:00Z"},
+    {"id": "p40", "habitId": "habit-meditation-plateau", "date": "2026-01-09", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-09T08:00:00Z", "updatedAt": "2026-01-09T08:00:00Z"}
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2026-01-05",
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    }
+  }
+}

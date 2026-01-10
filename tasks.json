@@ -855,12 +855,146 @@
           "completedAt": "2026-01-10"
         }
       ]
+    },
+    {
+      "id": "phase-7",
+      "name": "Qualité, Tests & Mode Debug",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "7.1",
+          "name": "Créer la documentation des fichiers de test",
+          "description": "Documenter les différents scénarios de test et le format des fichiers de données de test",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.2",
+          "name": "Créer le fichier de test: Atteinte d'objectif",
+          "description": "Fichier JSON avec habitude progressive proche de sa targetValue pour tester les messages de félicitations",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.3",
+          "name": "Créer le fichier de test: Arrêt de croissance",
+          "description": "Fichier JSON avec habitude ayant stagné (entrées quotidiennes à la dose cible sans dépassement) pour tester la suggestion d'arrêt",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.4",
+          "name": "Créer le fichier de test: Rappel tâches non-faites",
+          "description": "Fichier JSON avec habitudes sans entrées récentes (2-3 jours) pour tester le WelcomeBackMessage",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.5",
+          "name": "Créer le fichier de test: Revue hebdomadaire",
+          "description": "Fichier JSON avec lastWeeklyReviewDate il y a 7+ jours et données variées pour tester WeeklyReview",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.6",
+          "name": "Créer le fichier de test: Habitudes chaînées",
+          "description": "Fichier JSON avec plusieurs habitudes liées par anchorHabitId pour tester l'affichage du habit stacking",
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.7",
+          "name": "Créer le fichier de test: Pause planifiée",
+          "description": "Fichier JSON avec habitude en pause planifiée active pour tester l'affichage et le comportement",
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.8",
+          "name": "Implémenter le mode debug: Activation",
+          "description": "Ajouter un flag debugMode dans UserPreferences et un moyen de l'activer (tap multiple sur version ou URL param)",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.9",
+          "name": "Implémenter le mode debug: Panneau debug",
+          "description": "Créer un composant DebugPanel accessible depuis Settings quand debugMode est activé",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.10",
+          "name": "Mode debug: Déclencher notification immédiate",
+          "description": "Bouton pour envoyer une notification de test instantanément",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.11",
+          "name": "Mode debug: Accès WeeklyReview forcé",
+          "description": "Bouton pour ouvrir la WeeklyReview quelle que soit la date",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.12",
+          "name": "Mode debug: Simuler date",
+          "description": "Permettre de simuler une date différente pour tester les calculs de progression",
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.13",
+          "name": "Mode debug: Charger fichier de test",
+          "description": "Sélecteur pour charger rapidement un des fichiers de test prédéfinis",
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.14",
+          "name": "Mode debug: Réinitialiser données",
+          "description": "Bouton pour effacer toutes les données et revenir à l'état initial (avec confirmation)",
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.15",
+          "name": "Mode debug: Afficher données brutes",
+          "description": "Afficher le contenu JSON brut du localStorage pour inspection",
+          "status": "completed",
+          "priority": "low",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "7.16",
+          "name": "Écrire les tests du mode debug",
+          "description": "Tests unitaires pour les fonctions du panneau debug",
+          "status": "pending",
+          "priority": "medium"
+        }
+      ]
     }
   ],
   "stats": {
-    "totalTasks": 100,
-    "completed": 91,
+    "totalTasks": 116,
+    "completed": 106,
     "inProgress": 0,
-    "pending": 9
+    "pending": 10
   }
 }

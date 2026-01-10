@@ -4,7 +4,7 @@
  */
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppData } from '../hooks'
+import { useAppData, useDebugMode } from '../hooks'
 import {
   exportData,
   importFromFile,
@@ -16,7 +16,13 @@ import { NotificationSettings as NotificationSettingsType } from '../types'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import NotificationSettings from '../components/ui/NotificationSettings'
+import { DebugPanel } from '../components/debug'
 import './Settings.css'
+
+/**
+ * Version de l'application
+ */
+const APP_VERSION = '1.0.0'
 
 type ModalType = 'import-confirm' | 'import-result' | 'reset-confirm' | null
 
@@ -32,10 +38,23 @@ interface ModalState {
 function Settings() {
   const navigate = useNavigate()
   const { data, updatePreferences, resetData, getEntriesForDate, activeHabits } = useAppData()
+  const { isDebugMode, handleVersionTap } = useDebugMode()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [modal, setModal] = useState<ModalState>({ type: null })
   const [isImporting, setIsImporting] = useState(false)
   const [exportMessage, setExportMessage] = useState<string | null>(null)
+  const [debugMessage, setDebugMessage] = useState<string | null>(null)
+
+  /**
+   * Gère le tap sur la version pour activer/désactiver le mode debug
+   */
+  const onVersionTap = useCallback(() => {
+    const activated = handleVersionTap()
+    if (activated) {
+      setDebugMessage(isDebugMode ? 'Mode debug désactivé' : 'Mode debug activé')
+      setTimeout(() => setDebugMessage(null), 2000)
+    }
+  }, [handleVersionTap, isDebugMode])
 
   // ============================================================================
   // NOTIFICATIONS
@@ -257,8 +276,29 @@ function Settings() {
             <strong>Doucement</strong> — {ABOUT_TEXT.description}
           </p>
           <p className="settings__about-text settings__about-privacy">🔒 {ABOUT_TEXT.privacy}</p>
+          <p
+            className="settings__about-version"
+            onClick={onVersionTap}
+            role="button"
+            tabIndex={0}
+            aria-label={`Version ${APP_VERSION}. Tapez 7 fois pour activer le mode debug.`}
+          >
+            v{APP_VERSION} {isDebugMode && <span className="settings__debug-badge">DEBUG</span>}
+          </p>
+          {debugMessage && (
+            <p className="settings__debug-message" role="status">
+              {debugMessage}
+            </p>
+          )}
         </Card>
       </section>
+
+      {/* Section: Debug Panel (visible only in debug mode) */}
+      {isDebugMode && (
+        <section className="settings__section" aria-labelledby="section-debug">
+          <DebugPanel />
+        </section>
+      )}
 
       {/* Section: Zone de danger */}
       <section

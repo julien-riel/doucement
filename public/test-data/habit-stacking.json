@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 3,
+  "habits": [
+    {
+      "id": "habit-coffee",
+      "name": "Café du matin",
+      "emoji": "☕",
+      "description": "Routine de base, point d'ancrage",
+      "direction": "maintain",
+      "startValue": 1,
+      "unit": "tasse",
+      "progression": null,
+      "targetValue": null,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "simple",
+      "implementationIntention": {
+        "trigger": "Au réveil",
+        "location": "Cuisine",
+        "time": "07:00"
+      }
+    },
+    {
+      "id": "habit-meditation-stacked",
+      "name": "Méditation",
+      "emoji": "🧘",
+      "description": "Après le café",
+      "direction": "increase",
+      "startValue": 5,
+      "unit": "minutes",
+      "progression": {
+        "mode": "absolute",
+        "value": 1,
+        "period": "weekly"
+      },
+      "targetValue": 20,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "detailed",
+      "anchorHabitId": "habit-coffee",
+      "implementationIntention": {
+        "trigger": "Après mon café",
+        "location": "Salon",
+        "time": "07:15"
+      }
+    },
+    {
+      "id": "habit-journal",
+      "name": "Journal",
+      "emoji": "📝",
+      "description": "Écriture après méditation",
+      "direction": "maintain",
+      "startValue": 5,
+      "unit": "minutes",
+      "progression": null,
+      "targetValue": null,
+      "createdAt": "2025-12-08",
+      "archivedAt": null,
+      "trackingMode": "simple",
+      "anchorHabitId": "habit-meditation-stacked",
+      "implementationIntention": {
+        "trigger": "Après la méditation",
+        "location": "Bureau",
+        "time": "07:30"
+      }
+    },
+    {
+      "id": "habit-sport",
+      "name": "Sport",
+      "emoji": "🏋️",
+      "description": "Indépendant - après le travail",
+      "direction": "increase",
+      "startValue": 20,
+      "unit": "minutes",
+      "progression": {
+        "mode": "percentage",
+        "value": 5,
+        "period": "weekly"
+      },
+      "targetValue": null,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "detailed",
+      "implementationIntention": {
+        "trigger": "Après le travail",
+        "location": "Salle de sport",
+        "time": "18:00"
+      }
+    }
+  ],
+  "entries": [
+    {"id": "s1", "habitId": "habit-coffee", "date": "2026-01-06", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-06T07:00:00Z", "updatedAt": "2026-01-06T07:00:00Z"},
+    {"id": "s2", "habitId": "habit-meditation-stacked", "date": "2026-01-06", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-06T07:15:00Z", "updatedAt": "2026-01-06T07:15:00Z"},
+    {"id": "s3", "habitId": "habit-journal", "date": "2026-01-06", "targetDose": 5, "actualValue": 5, "createdAt": "2026-01-06T07:30:00Z", "updatedAt": "2026-01-06T07:30:00Z"},
+    {"id": "s4", "habitId": "habit-sport", "date": "2026-01-06", "targetDose": 26, "actualValue": 30, "createdAt": "2026-01-06T18:30:00Z", "updatedAt": "2026-01-06T18:30:00Z"},
+    {"id": "s5", "habitId": "habit-coffee", "date": "2026-01-07", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-07T07:00:00Z", "updatedAt": "2026-01-07T07:00:00Z"},
+    {"id": "s6", "habitId": "habit-meditation-stacked", "date": "2026-01-07", "targetDose": 10, "actualValue": 12, "createdAt": "2026-01-07T07:15:00Z", "updatedAt": "2026-01-07T07:15:00Z"},
+    {"id": "s7", "habitId": "habit-journal", "date": "2026-01-07", "targetDose": 5, "actualValue": 5, "createdAt": "2026-01-07T07:30:00Z", "updatedAt": "2026-01-07T07:30:00Z"},
+    {"id": "s8", "habitId": "habit-sport", "date": "2026-01-07", "targetDose": 26, "actualValue": 25, "createdAt": "2026-01-07T18:30:00Z", "updatedAt": "2026-01-07T18:30:00Z"},
+    {"id": "s9", "habitId": "habit-coffee", "date": "2026-01-08", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-08T07:00:00Z", "updatedAt": "2026-01-08T07:00:00Z"},
+    {"id": "s10", "habitId": "habit-meditation-stacked", "date": "2026-01-08", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-08T07:15:00Z", "updatedAt": "2026-01-08T07:15:00Z"},
+    {"id": "s11", "habitId": "habit-journal", "date": "2026-01-08", "targetDose": 5, "actualValue": 5, "createdAt": "2026-01-08T07:30:00Z", "updatedAt": "2026-01-08T07:30:00Z"},
+    {"id": "s12", "habitId": "habit-sport", "date": "2026-01-08", "targetDose": 26, "actualValue": 35, "createdAt": "2026-01-08T18:30:00Z", "updatedAt": "2026-01-08T18:30:00Z"},
+    {"id": "s13", "habitId": "habit-coffee", "date": "2026-01-09", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-09T07:00:00Z", "updatedAt": "2026-01-09T07:00:00Z"},
+    {"id": "s14", "habitId": "habit-meditation-stacked", "date": "2026-01-09", "targetDose": 10, "actualValue": 15, "createdAt": "2026-01-09T07:15:00Z", "updatedAt": "2026-01-09T07:15:00Z"},
+    {"id": "s15", "habitId": "habit-journal", "date": "2026-01-09", "targetDose": 5, "actualValue": 5, "createdAt": "2026-01-09T07:30:00Z", "updatedAt": "2026-01-09T07:30:00Z"},
+    {"id": "s16", "habitId": "habit-sport", "date": "2026-01-09", "targetDose": 26, "actualValue": 28, "createdAt": "2026-01-09T18:30:00Z", "updatedAt": "2026-01-09T18:30:00Z"}
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2026-01-05",
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    }
+  }
+}

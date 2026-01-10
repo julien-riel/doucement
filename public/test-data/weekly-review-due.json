@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 3,
+  "habits": [
+    {
+      "id": "habit-exercise",
+      "name": "Exercice",
+      "emoji": "🏃",
+      "description": "Activité physique quotidienne",
+      "direction": "increase",
+      "startValue": 15,
+      "unit": "minutes",
+      "progression": {
+        "mode": "percentage",
+        "value": 3,
+        "period": "weekly"
+      },
+      "targetValue": null,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "detailed"
+    },
+    {
+      "id": "habit-sugar",
+      "name": "Sucre",
+      "emoji": "🍬",
+      "description": "Réduire la consommation de sucre",
+      "direction": "decrease",
+      "startValue": 5,
+      "unit": "portions",
+      "progression": {
+        "mode": "absolute",
+        "value": 1,
+        "period": "weekly"
+      },
+      "targetValue": 1,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "detailed"
+    },
+    {
+      "id": "habit-water",
+      "name": "Eau",
+      "emoji": "💧",
+      "description": "Boire suffisamment d'eau",
+      "direction": "maintain",
+      "startValue": 8,
+      "unit": "verres",
+      "progression": null,
+      "targetValue": null,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "simple"
+    }
+  ],
+  "entries": [
+    {"id": "w1", "habitId": "habit-exercise", "date": "2026-01-01", "targetDose": 20, "actualValue": 25, "createdAt": "2026-01-01T18:00:00Z", "updatedAt": "2026-01-01T18:00:00Z"},
+    {"id": "w2", "habitId": "habit-sugar", "date": "2026-01-01", "targetDose": 1, "actualValue": 2, "createdAt": "2026-01-01T20:00:00Z", "updatedAt": "2026-01-01T20:00:00Z"},
+    {"id": "w3", "habitId": "habit-water", "date": "2026-01-01", "targetDose": 8, "actualValue": 8, "createdAt": "2026-01-01T21:00:00Z", "updatedAt": "2026-01-01T21:00:00Z"},
+    {"id": "w4", "habitId": "habit-exercise", "date": "2026-01-02", "targetDose": 20, "actualValue": 30, "createdAt": "2026-01-02T18:00:00Z", "updatedAt": "2026-01-02T18:00:00Z"},
+    {"id": "w5", "habitId": "habit-sugar", "date": "2026-01-02", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-02T20:00:00Z", "updatedAt": "2026-01-02T20:00:00Z"},
+    {"id": "w6", "habitId": "habit-water", "date": "2026-01-02", "targetDose": 8, "actualValue": 8, "createdAt": "2026-01-02T21:00:00Z", "updatedAt": "2026-01-02T21:00:00Z"},
+    {"id": "w7", "habitId": "habit-exercise", "date": "2026-01-03", "targetDose": 20, "actualValue": 20, "createdAt": "2026-01-03T18:00:00Z", "updatedAt": "2026-01-03T18:00:00Z"},
+    {"id": "w8", "habitId": "habit-sugar", "date": "2026-01-03", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-03T20:00:00Z", "updatedAt": "2026-01-03T20:00:00Z"},
+    {"id": "w9", "habitId": "habit-water", "date": "2026-01-03", "targetDose": 8, "actualValue": 8, "createdAt": "2026-01-03T21:00:00Z", "updatedAt": "2026-01-03T21:00:00Z"},
+    {"id": "w10", "habitId": "habit-exercise", "date": "2026-01-04", "targetDose": 20, "actualValue": 15, "createdAt": "2026-01-04T18:00:00Z", "updatedAt": "2026-01-04T18:00:00Z"},
+    {"id": "w11", "habitId": "habit-sugar", "date": "2026-01-04", "targetDose": 1, "actualValue": 3, "createdAt": "2026-01-04T20:00:00Z", "updatedAt": "2026-01-04T20:00:00Z"},
+    {"id": "w12", "habitId": "habit-water", "date": "2026-01-04", "targetDose": 8, "actualValue": 6, "createdAt": "2026-01-04T21:00:00Z", "updatedAt": "2026-01-04T21:00:00Z"},
+    {"id": "w13", "habitId": "habit-exercise", "date": "2026-01-05", "targetDose": 20, "actualValue": 22, "createdAt": "2026-01-05T18:00:00Z", "updatedAt": "2026-01-05T18:00:00Z"},
+    {"id": "w14", "habitId": "habit-sugar", "date": "2026-01-05", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-05T20:00:00Z", "updatedAt": "2026-01-05T20:00:00Z"},
+    {"id": "w15", "habitId": "habit-water", "date": "2026-01-05", "targetDose": 8, "actualValue": 8, "createdAt": "2026-01-05T21:00:00Z", "updatedAt": "2026-01-05T21:00:00Z"},
+    {"id": "w16", "habitId": "habit-exercise", "date": "2026-01-06", "targetDose": 21, "actualValue": 35, "createdAt": "2026-01-06T18:00:00Z", "updatedAt": "2026-01-06T18:00:00Z"},
+    {"id": "w17", "habitId": "habit-sugar", "date": "2026-01-06", "targetDose": 1, "actualValue": 0, "createdAt": "2026-01-06T20:00:00Z", "updatedAt": "2026-01-06T20:00:00Z"},
+    {"id": "w18", "habitId": "habit-water", "date": "2026-01-06", "targetDose": 8, "actualValue": 10, "createdAt": "2026-01-06T21:00:00Z", "updatedAt": "2026-01-06T21:00:00Z"},
+    {"id": "w19", "habitId": "habit-exercise", "date": "2026-01-07", "targetDose": 21, "actualValue": 28, "createdAt": "2026-01-07T18:00:00Z", "updatedAt": "2026-01-07T18:00:00Z"},
+    {"id": "w20", "habitId": "habit-sugar", "date": "2026-01-07", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-07T20:00:00Z", "updatedAt": "2026-01-07T20:00:00Z"},
+    {"id": "w21", "habitId": "habit-water", "date": "2026-01-07", "targetDose": 8, "actualValue": 8, "createdAt": "2026-01-07T21:00:00Z", "updatedAt": "2026-01-07T21:00:00Z"},
+    {"id": "w22", "habitId": "habit-exercise", "date": "2026-01-08", "targetDose": 21, "actualValue": 21, "createdAt": "2026-01-08T18:00:00Z", "updatedAt": "2026-01-08T18:00:00Z"},
+    {"id": "w23", "habitId": "habit-sugar", "date": "2026-01-08", "targetDose": 1, "actualValue": 2, "createdAt": "2026-01-08T20:00:00Z", "updatedAt": "2026-01-08T20:00:00Z"},
+    {"id": "w24", "habitId": "habit-water", "date": "2026-01-08", "targetDose": 8, "actualValue": 7, "createdAt": "2026-01-08T21:00:00Z", "updatedAt": "2026-01-08T21:00:00Z"},
+    {"id": "w25", "habitId": "habit-exercise", "date": "2026-01-09", "targetDose": 21, "actualValue": 25, "createdAt": "2026-01-09T18:00:00Z", "updatedAt": "2026-01-09T18:00:00Z"},
+    {"id": "w26", "habitId": "habit-sugar", "date": "2026-01-09", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-09T20:00:00Z", "updatedAt": "2026-01-09T20:00:00Z"},
+    {"id": "w27", "habitId": "habit-water", "date": "2026-01-09", "targetDose": 8, "actualValue": 8, "createdAt": "2026-01-09T21:00:00Z", "updatedAt": "2026-01-09T21:00:00Z"}
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2025-12-29",
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    }
+  }
+}

@@ -225,6 +225,10 @@ export interface UserPreferences {
   notifications: NotificationSettings
   /** Réflexions hebdomadaires sauvegardées */
   weeklyReflections?: WeeklyReflection[]
+  /** Mode debug activé */
+  debugMode?: boolean
+  /** Date simulée pour le mode debug (YYYY-MM-DD) */
+  simulatedDate?: string | null
 }
 
 // ============================================================================
