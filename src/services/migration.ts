@@ -3,7 +3,7 @@
  * Gère les migrations entre versions du schéma
  */
 
-import { AppData, CURRENT_SCHEMA_VERSION, DEFAULT_NOTIFICATION_SETTINGS } from '../types';
+import { AppData, CURRENT_SCHEMA_VERSION, DEFAULT_NOTIFICATION_SETTINGS } from '../types'
 
 // ============================================================================
 // MIGRATION TYPES
@@ -13,37 +13,37 @@ import { AppData, CURRENT_SCHEMA_VERSION, DEFAULT_NOTIFICATION_SETTINGS } from '
  * Fonction de migration
  * Transforme les données d'une version vers la suivante
  */
-export type MigrationFunction = (data: Record<string, unknown>) => Record<string, unknown>;
+export type MigrationFunction = (data: Record<string, unknown>) => Record<string, unknown>
 
 /**
  * Définition d'une migration
  */
 export interface Migration {
   /** Version source */
-  fromVersion: number;
+  fromVersion: number
   /** Version cible */
-  toVersion: number;
+  toVersion: number
   /** Description de la migration */
-  description: string;
+  description: string
   /** Fonction de migration */
-  migrate: MigrationFunction;
+  migrate: MigrationFunction
 }
 
 /**
  * Résultat d'une migration
  */
 export interface MigrationResult {
-  success: boolean;
+  success: boolean
   /** Version de départ */
-  fromVersion: number;
+  fromVersion: number
   /** Version finale */
-  toVersion: number;
+  toVersion: number
   /** Migrations appliquées */
-  migrationsApplied: string[];
+  migrationsApplied: string[]
   /** Données migrées (si succès) */
-  data?: AppData;
+  data?: AppData
   /** Message d'erreur (si échec) */
-  error?: string;
+  error?: string
 }
 
 // ============================================================================
@@ -65,7 +65,7 @@ export const MIGRATIONS: Migration[] = [
     toVersion: 2,
     description: 'Ajout des paramètres de notifications aux préférences utilisateur',
     migrate: (data) => {
-      const preferences = data.preferences as Record<string, unknown> | undefined;
+      const preferences = data.preferences as Record<string, unknown> | undefined
       return {
         ...data,
         schemaVersion: 2,
@@ -73,7 +73,7 @@ export const MIGRATIONS: Migration[] = [
           ...preferences,
           notifications: DEFAULT_NOTIFICATION_SETTINGS,
         },
-      };
+      }
     },
   },
   {
@@ -87,10 +87,10 @@ export const MIGRATIONS: Migration[] = [
       return {
         ...data,
         schemaVersion: 3,
-      };
+      }
     },
   },
-];
+]
 
 // ============================================================================
 // MIGRATION FUNCTIONS
@@ -99,45 +99,42 @@ export const MIGRATIONS: Migration[] = [
 /**
  * Trouve les migrations à appliquer pour passer d'une version à une autre
  */
-function findMigrationPath(
-  fromVersion: number,
-  toVersion: number
-): Migration[] {
+function findMigrationPath(fromVersion: number, toVersion: number): Migration[] {
   if (fromVersion >= toVersion) {
-    return [];
+    return []
   }
 
-  const path: Migration[] = [];
-  let currentVersion = fromVersion;
+  const path: Migration[] = []
+  let currentVersion = fromVersion
 
   while (currentVersion < toVersion) {
-    const nextMigration = MIGRATIONS.find(m => m.fromVersion === currentVersion);
+    const nextMigration = MIGRATIONS.find((m) => m.fromVersion === currentVersion)
 
     if (!nextMigration) {
       // Pas de migration trouvée, on arrête
-      break;
+      break
     }
 
-    path.push(nextMigration);
-    currentVersion = nextMigration.toVersion;
+    path.push(nextMigration)
+    currentVersion = nextMigration.toVersion
   }
 
-  return path;
+  return path
 }
 
 /**
  * Vérifie si une migration est nécessaire
  */
 export function needsMigration(data: Record<string, unknown>): boolean {
-  const version = typeof data.schemaVersion === 'number' ? data.schemaVersion : 0;
-  return version < CURRENT_SCHEMA_VERSION;
+  const version = typeof data.schemaVersion === 'number' ? data.schemaVersion : 0
+  return version < CURRENT_SCHEMA_VERSION
 }
 
 /**
  * Exécute les migrations nécessaires sur les données
  */
 export function runMigrations(data: Record<string, unknown>): MigrationResult {
-  const fromVersion = typeof data.schemaVersion === 'number' ? data.schemaVersion : 0;
+  const fromVersion = typeof data.schemaVersion === 'number' ? data.schemaVersion : 0
 
   // Vérifie si la version est trop récente
   if (fromVersion > CURRENT_SCHEMA_VERSION) {
@@ -147,7 +144,7 @@ export function runMigrations(data: Record<string, unknown>): MigrationResult {
       toVersion: fromVersion,
       migrationsApplied: [],
       error: `Version de schéma non supportée: ${fromVersion}. Version maximale: ${CURRENT_SCHEMA_VERSION}`,
-    };
+    }
   }
 
   // Pas de migration nécessaire
@@ -158,11 +155,11 @@ export function runMigrations(data: Record<string, unknown>): MigrationResult {
       toVersion: fromVersion,
       migrationsApplied: [],
       data: data as unknown as AppData,
-    };
+    }
   }
 
   // Trouve le chemin de migration
-  const migrationPath = findMigrationPath(fromVersion, CURRENT_SCHEMA_VERSION);
+  const migrationPath = findMigrationPath(fromVersion, CURRENT_SCHEMA_VERSION)
 
   // Si pas de chemin complet et version différente
   if (migrationPath.length === 0 && fromVersion < CURRENT_SCHEMA_VERSION) {
@@ -177,21 +174,21 @@ export function runMigrations(data: Record<string, unknown>): MigrationResult {
         ...data,
         schemaVersion: CURRENT_SCHEMA_VERSION,
       } as unknown as AppData,
-    };
+    }
   }
 
   // Applique les migrations séquentiellement
-  let currentData = { ...data };
-  const appliedMigrations: string[] = [];
+  let currentData = { ...data }
+  const appliedMigrations: string[] = []
 
   try {
     for (const migration of migrationPath) {
-      currentData = migration.migrate(currentData);
-      appliedMigrations.push(migration.description);
+      currentData = migration.migrate(currentData)
+      appliedMigrations.push(migration.description)
     }
 
     // Assure que la version finale est correcte
-    currentData.schemaVersion = CURRENT_SCHEMA_VERSION;
+    currentData.schemaVersion = CURRENT_SCHEMA_VERSION
 
     return {
       success: true,
@@ -199,16 +196,16 @@ export function runMigrations(data: Record<string, unknown>): MigrationResult {
       toVersion: CURRENT_SCHEMA_VERSION,
       migrationsApplied: appliedMigrations,
       data: currentData as unknown as AppData,
-    };
+    }
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
+    const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue'
     return {
       success: false,
       fromVersion,
       toVersion: CURRENT_SCHEMA_VERSION,
       migrationsApplied: appliedMigrations,
       error: `Erreur lors de la migration: ${errorMessage}`,
-    };
+    }
   }
 }
 
@@ -217,21 +214,21 @@ export function runMigrations(data: Record<string, unknown>): MigrationResult {
  */
 export function formatMigrationResult(result: MigrationResult): string {
   if (!result.success) {
-    return `Migration échouée: ${result.error}`;
+    return `Migration échouée: ${result.error}`
   }
 
   if (result.migrationsApplied.length === 0) {
     if (result.fromVersion === result.toVersion) {
-      return `Données à jour (version ${result.toVersion})`;
+      return `Données à jour (version ${result.toVersion})`
     }
-    return `Données mises à jour de la version ${result.fromVersion} vers ${result.toVersion} (aucune transformation requise)`;
+    return `Données mises à jour de la version ${result.fromVersion} vers ${result.toVersion} (aucune transformation requise)`
   }
 
   const lines = [
     `Migration réussie de la version ${result.fromVersion} vers ${result.toVersion}`,
     `${result.migrationsApplied.length} migration(s) appliquée(s):`,
     ...result.migrationsApplied.map((desc, i) => `  ${i + 1}. ${desc}`),
-  ];
+  ]
 
-  return lines.join('\n');
+  return lines.join('\n')
 }

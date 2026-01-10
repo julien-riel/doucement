@@ -27,7 +27,7 @@ export interface WelcomeBackMessageProps {
  * - Encouragement à reprendre doucement
  */
 function WelcomeBackMessage({
-  daysSinceLastActivity,
+  daysSinceLastActivity: _daysSinceLastActivity,
   neglectedHabits,
   onDismiss,
 }: WelcomeBackMessageProps) {
@@ -53,9 +53,7 @@ function WelcomeBackMessage({
         {/* Message principal */}
         <div className="welcome-back__text">
           <p className="welcome-back__title">{welcomeMessage}</p>
-          <p className="welcome-back__subtitle">
-            {HABIT_NEGLECTED.encouragement}
-          </p>
+          <p className="welcome-back__subtitle">{HABIT_NEGLECTED.encouragement}</p>
         </div>
 
         {/* Bouton de fermeture */}
@@ -76,17 +74,11 @@ function WelcomeBackMessage({
         <div className="welcome-back__habits">
           {neglectedHabits.map((info) => (
             <div key={info.habit.id} className="welcome-back__habit">
-              <span className="welcome-back__habit-emoji">
-                {info.habit.emoji}
-              </span>
-              <span className="welcome-back__habit-name">
-                {info.habit.name}
-              </span>
+              <span className="welcome-back__habit-emoji">{info.habit.emoji}</span>
+              <span className="welcome-back__habit-name">{info.habit.name}</span>
               {info.daysSinceLastEntry > 0 && (
                 <span className="welcome-back__habit-days">
-                  {info.daysSinceLastEntry === 1
-                    ? 'hier'
-                    : `${info.daysSinceLastEntry} jours`}
+                  {info.daysSinceLastEntry === 1 ? 'hier' : `${info.daysSinceLastEntry} jours`}
                 </span>
               )}
             </div>

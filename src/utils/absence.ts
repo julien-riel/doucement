@@ -64,9 +64,7 @@ export function detectGlobalAbsence(entries: DailyEntry[]): AbsenceInfo {
   }
 
   // Trouve la date de la dernière entrée
-  const sortedEntries = [...entries].sort((a, b) =>
-    b.date.localeCompare(a.date)
-  )
+  const sortedEntries = [...entries].sort((a, b) => b.date.localeCompare(a.date))
   const lastEntryDate = sortedEntries[0].date
   const today = getCurrentDate()
   const daysSince = daysBetween(lastEntryDate, today)
@@ -85,10 +83,7 @@ export function detectGlobalAbsence(entries: DailyEntry[]): AbsenceInfo {
  * @param entries - Toutes les entrées quotidiennes
  * @returns Information sur l'absence pour cette habitude
  */
-export function detectHabitAbsence(
-  habit: Habit,
-  entries: DailyEntry[]
-): HabitAbsenceInfo {
+export function detectHabitAbsence(habit: Habit, entries: DailyEntry[]): HabitAbsenceInfo {
   // Filtre les entrées pour cette habitude
   const habitEntries = entries.filter((e) => e.habitId === habit.id)
 
@@ -106,9 +101,7 @@ export function detectHabitAbsence(
   }
 
   // Trouve la date de la dernière entrée pour cette habitude
-  const sortedEntries = [...habitEntries].sort((a, b) =>
-    b.date.localeCompare(a.date)
-  )
+  const sortedEntries = [...habitEntries].sort((a, b) => b.date.localeCompare(a.date))
   const lastEntryDate = sortedEntries[0].date
   const today = getCurrentDate()
   const daysSince = daysBetween(lastEntryDate, today)
@@ -128,10 +121,7 @@ export function detectHabitAbsence(
  * @param entries - Toutes les entrées quotidiennes
  * @returns Liste des habitudes avec leur information d'absence
  */
-export function detectAllHabitsAbsence(
-  habits: Habit[],
-  entries: DailyEntry[]
-): HabitAbsenceInfo[] {
+export function detectAllHabitsAbsence(habits: Habit[], entries: DailyEntry[]): HabitAbsenceInfo[] {
   return habits
     .filter((habit) => habit.archivedAt === null)
     .map((habit) => detectHabitAbsence(habit, entries))
@@ -144,10 +134,7 @@ export function detectAllHabitsAbsence(
  * @param entries - Toutes les entrées quotidiennes
  * @returns Liste des habitudes négligées avec leur info d'absence
  */
-export function getNeglectedHabits(
-  habits: Habit[],
-  entries: DailyEntry[]
-): HabitAbsenceInfo[] {
+export function getNeglectedHabits(habits: Habit[], entries: DailyEntry[]): HabitAbsenceInfo[] {
   return detectAllHabitsAbsence(habits, entries).filter((info) => info.isAbsent)
 }
 
@@ -159,10 +146,7 @@ export function getNeglectedHabits(
  * @param entries - Toutes les entrées quotidiennes
  * @returns true si l'utilisateur revient après une absence
  */
-export function isReturningAfterAbsence(
-  _habits: Habit[],
-  entries: DailyEntry[]
-): boolean {
+export function isReturningAfterAbsence(_habits: Habit[], entries: DailyEntry[]): boolean {
   const globalAbsence = detectGlobalAbsence(entries)
   return globalAbsence.isAbsent
 }
@@ -219,9 +203,7 @@ export function isPauseExpired(habit: Habit): boolean {
  * @returns Liste des habitudes actives et non en pause
  */
 export function getActiveNonPausedHabits(habits: Habit[], date?: string): Habit[] {
-  return habits.filter(
-    (habit) => habit.archivedAt === null && !isHabitPaused(habit, date)
-  )
+  return habits.filter((habit) => habit.archivedAt === null && !isHabitPaused(habit, date))
 }
 
 /**
@@ -232,7 +214,5 @@ export function getActiveNonPausedHabits(habits: Habit[], date?: string): Habit[
  * @returns Liste des habitudes actuellement en pause
  */
 export function getPausedHabits(habits: Habit[], date?: string): Habit[] {
-  return habits.filter(
-    (habit) => habit.archivedAt === null && isHabitPaused(habit, date)
-  )
+  return habits.filter((habit) => habit.archivedAt === null && isHabitPaused(habit, date))
 }

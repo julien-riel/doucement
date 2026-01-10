@@ -25,10 +25,7 @@ export interface HabitCardProps {
 /**
  * Messages de progression selon la direction de l'habitude
  */
-function getProgressionMessage(
-  habit: Habit,
-  targetDose: number
-): string | null {
+function getProgressionMessage(habit: Habit, targetDose: number): string | null {
   if (habit.direction === 'maintain') {
     return null
   }
@@ -101,9 +98,7 @@ function HabitCard({
           </span>
           <div className="habit-card__text">
             <h3 className="habit-card__name">{habit.name}</h3>
-            {habit.description && (
-              <p className="habit-card__description">{habit.description}</p>
-            )}
+            {habit.description && <p className="habit-card__description">{habit.description}</p>}
           </div>
         </div>
         <div className="habit-card__dose">
@@ -121,27 +116,19 @@ function HabitCard({
               {anchorHabitName}
             </p>
           )}
-          {intentionText && (
-            <p className="habit-card__when-where">{intentionText}</p>
-          )}
+          {intentionText && <p className="habit-card__when-where">{intentionText}</p>}
         </div>
       )}
 
-      {progressionMessage && (
-        <p className="habit-card__progression">{progressionMessage}</p>
-      )}
+      {progressionMessage && <p className="habit-card__progression">{progressionMessage}</p>}
 
       {currentValue !== undefined && currentValue > 0 && (
         <div className="habit-card__status">
           <span className="habit-card__status-value">
             {currentValue} / {targetDose} {habit.unit}
           </span>
-          {status === 'exceeded' && (
-            <span className="habit-card__status-badge">Dépassé !</span>
-          )}
-          {status === 'completed' && (
-            <span className="habit-card__status-badge">Complété</span>
-          )}
+          {status === 'exceeded' && <span className="habit-card__status-badge">Dépassé !</span>}
+          {status === 'completed' && <span className="habit-card__status-badge">Complété</span>}
         </div>
       )}
 

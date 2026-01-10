@@ -43,10 +43,7 @@ function Today() {
 
   const [welcomeDismissed, setWelcomeDismissed] = useState(false)
   const today = getCurrentDate()
-  const todayEntries = useMemo(
-    () => getEntriesForDate(today),
-    [getEntriesForDate, today]
-  )
+  const todayEntries = useMemo(() => getEntriesForDate(today), [getEntriesForDate, today])
 
   // Filtrer les habitudes actives créées avant aujourd'hui et non en pause
   const habitsForToday = useMemo(
@@ -95,10 +92,7 @@ function Today() {
   )
 
   // Détecter l'absence
-  const absenceInfo = useMemo(
-    () => detectGlobalAbsence(data.entries),
-    [data.entries]
-  )
+  const absenceInfo = useMemo(() => detectGlobalAbsence(data.entries), [data.entries])
 
   // Obtenir les habitudes négligées
   const neglectedHabits = useMemo(
@@ -107,10 +101,7 @@ function Today() {
   )
 
   // Détermine si on doit afficher le message de bienvenue
-  const showWelcomeMessage =
-    !welcomeDismissed &&
-    absenceInfo.isAbsent &&
-    habitsForToday.length > 0
+  const showWelcomeMessage = !welcomeDismissed && absenceInfo.isAbsent && habitsForToday.length > 0
 
   // Callback pour fermer le message de bienvenue
   const handleDismissWelcome = useCallback(() => {
@@ -144,12 +135,7 @@ function Today() {
   if (error) {
     return (
       <div className="page page-today page-today--error">
-        <ErrorBanner
-          error={error}
-          onRetry={retryLoad}
-          onReset={resetData}
-          onDismiss={clearError}
-        />
+        <ErrorBanner error={error} onRetry={retryLoad} onReset={resetData} onDismiss={clearError} />
       </div>
     )
   }

@@ -1,5 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { Onboarding, Today, HabitList, HabitDetail, CreateHabit, EditHabit, Settings, WeeklyReview } from './pages'
+import {
+  Onboarding,
+  Today,
+  HabitList,
+  HabitDetail,
+  CreateHabit,
+  EditHabit,
+  Settings,
+  WeeklyReview,
+} from './pages'
 import { MainLayout } from './components/layout'
 
 /**

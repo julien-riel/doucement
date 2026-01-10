@@ -50,10 +50,10 @@ function StepIntentions({ intention, onIntentionChange }: StepIntentionsProps) {
     <div className="step-intentions">
       {/* En-tête explicatif */}
       <div className="step-intentions__header">
-        <span className="step-intentions__icon" aria-hidden="true">🎯</span>
-        <p className="step-intentions__subtitle">
-          {IMPLEMENTATION_INTENTION.stepSubtitle}
-        </p>
+        <span className="step-intentions__icon" aria-hidden="true">
+          🎯
+        </span>
+        <p className="step-intentions__subtitle">{IMPLEMENTATION_INTENTION.stepSubtitle}</p>
       </div>
 
       <div className="step-intentions__form">
@@ -112,21 +112,15 @@ function StepIntentions({ intention, onIntentionChange }: StepIntentionsProps) {
         <div className="step-intentions__preview">
           <p className="step-intentions__preview-label">Ton plan :</p>
           <p className="step-intentions__preview-text">
-            {intention.trigger && (
-              <span>« {intention.trigger}</span>
-            )}
+            {intention.trigger && <span>« {intention.trigger}</span>}
             {intention.trigger && intention.location && (
               <span>, je ferai cette habitude {intention.location.toLowerCase()}</span>
             )}
-            {intention.trigger && !intention.location && (
-              <span>, je ferai cette habitude</span>
-            )}
+            {intention.trigger && !intention.location && <span>, je ferai cette habitude</span>}
             {!intention.trigger && intention.location && (
               <span>Je ferai cette habitude {intention.location.toLowerCase()}</span>
             )}
-            {intention.time && (
-              <span> vers {intention.time}</span>
-            )}
+            {intention.time && <span> vers {intention.time}</span>}
             <span> »</span>
           </p>
         </div>

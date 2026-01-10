@@ -11,13 +11,7 @@ import './HabitList.css'
  */
 function HabitList() {
   const navigate = useNavigate()
-  const {
-    activeHabits,
-    archivedHabits,
-    isLoading,
-    getEntriesForHabit,
-    restoreHabit,
-  } = useAppData()
+  const { activeHabits, archivedHabits, isLoading, getEntriesForHabit, restoreHabit } = useAppData()
 
   const [showArchived, setShowArchived] = useState(true)
 
@@ -28,9 +22,8 @@ function HabitList() {
   )
 
   const sortedArchivedHabits = useMemo(
-    () => [...archivedHabits].sort((a, b) =>
-      (b.archivedAt || '').localeCompare(a.archivedAt || '')
-    ),
+    () =>
+      [...archivedHabits].sort((a, b) => (b.archivedAt || '').localeCompare(a.archivedAt || '')),
     [archivedHabits]
   )
 
@@ -79,9 +72,7 @@ function HabitList() {
 
       {/* Habitudes actives */}
       <section className="habit-list__section" aria-label="Habitudes actives">
-        <h2 className="habit-list__section-title">
-          Actives ({sortedActiveHabits.length})
-        </h2>
+        <h2 className="habit-list__section-title">Actives ({sortedActiveHabits.length})</h2>
         {sortedActiveHabits.length > 0 ? (
           <div className="habit-list__items">
             {sortedActiveHabits.map((habit) => (
@@ -94,24 +85,23 @@ function HabitList() {
             ))}
           </div>
         ) : (
-          <p className="habit-list__empty-message">
-            Aucune habitude active pour le moment.
-          </p>
+          <p className="habit-list__empty-message">Aucune habitude active pour le moment.</p>
         )}
       </section>
 
       {/* Section archivées */}
       {archivedHabits.length > 0 && (
-        <section className="habit-list__section habit-list__section--archived" aria-label="Habitudes archivées">
+        <section
+          className="habit-list__section habit-list__section--archived"
+          aria-label="Habitudes archivées"
+        >
           <button
             type="button"
             className="habit-list__archived-toggle"
             onClick={toggleShowArchived}
             aria-expanded={showArchived}
           >
-            <h2 className="habit-list__section-title">
-              Archivées ({sortedArchivedHabits.length})
-            </h2>
+            <h2 className="habit-list__section-title">Archivées ({sortedArchivedHabits.length})</h2>
             <span className="habit-list__toggle-icon" aria-hidden="true">
               {showArchived ? '▼' : '▶'}
             </span>

@@ -23,12 +23,7 @@ export interface OnboardingStepProps {
  *   description="Commençons doucement..."
  * />
  */
-function OnboardingStep({
-  title,
-  illustration,
-  description,
-  children,
-}: OnboardingStepProps) {
+function OnboardingStep({ title, illustration, description, children }: OnboardingStepProps) {
   return (
     <div className="onboarding-step">
       {illustration && (
@@ -38,11 +33,7 @@ function OnboardingStep({
       )}
       <h1 className="onboarding-step__title">{title}</h1>
       <p className="onboarding-step__description">{description}</p>
-      {children && (
-        <div className="onboarding-step__content">
-          {children}
-        </div>
-      )}
+      {children && <div className="onboarding-step__content">{children}</div>}
     </div>
   )
 }

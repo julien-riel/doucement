@@ -34,12 +34,7 @@ function addDays(date: string, days: number): string {
 /**
  * Dialog pour configurer une pause planifiée
  */
-function PlannedPauseDialog({
-  isOpen,
-  onClose,
-  onConfirm,
-  habitName,
-}: PlannedPauseDialogProps) {
+function PlannedPauseDialog({ isOpen, onClose, onConfirm, habitName }: PlannedPauseDialogProps) {
   const today = getCurrentDate()
   const defaultEndDate = addDays(today, 7)
 
@@ -84,17 +79,12 @@ function PlannedPauseDialog({
           <p className="pause-dialog__habit-name">{habitName}</p>
         </header>
 
-        <p className="pause-dialog__description">
-          {PLANNED_PAUSE.dialogDescription}
-        </p>
+        <p className="pause-dialog__description">{PLANNED_PAUSE.dialogDescription}</p>
 
         <form className="pause-dialog__form" onSubmit={handleSubmit}>
           <div className="pause-dialog__dates">
             <div className="pause-dialog__field">
-              <label
-                htmlFor="pause-start-date"
-                className="pause-dialog__label"
-              >
+              <label htmlFor="pause-start-date" className="pause-dialog__label">
                 {PLANNED_PAUSE.startDateLabel}
               </label>
               <input
@@ -156,11 +146,7 @@ function PlannedPauseDialog({
           </div>
 
           <div className="pause-dialog__actions">
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={onClose}
-            >
+            <Button type="button" variant="ghost" onClick={onClose}>
               {PLANNED_PAUSE.cancelButton}
             </Button>
             <Button type="submit" variant="primary">

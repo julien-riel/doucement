@@ -5,7 +5,7 @@
 
 import { describe, it, expect } from 'vitest'
 import { buildIntentionText, buildHabitChains, HabitDataItem } from './habitDisplay'
-import { Habit, CompletionStatus } from '../types'
+import { Habit } from '../types'
 
 // ============================================================================
 // TEST FIXTURES
@@ -51,7 +51,7 @@ function createHabitDataItem(
 // ============================================================================
 
 describe('buildIntentionText', () => {
-  it('retourne null si pas d\'implementation intention', () => {
+  it("retourne null si pas d'implementation intention", () => {
     const habit = createHabit()
     expect(buildIntentionText(habit)).toBeNull()
   })
@@ -81,7 +81,7 @@ describe('buildIntentionText', () => {
     expect(buildIntentionText(habit)).toBe('à Dans le salon')
   })
 
-  it('affiche uniquement l\'heure', () => {
+  it("affiche uniquement l'heure", () => {
     const habit = createHabit({
       implementationIntention: {
         time: '08:00',
@@ -127,7 +127,7 @@ describe('buildIntentionText', () => {
 // ============================================================================
 
 describe('buildHabitChains', () => {
-  it('retourne un tableau vide si pas d\'habitudes', () => {
+  it("retourne un tableau vide si pas d'habitudes", () => {
     const result = buildHabitChains([], [])
     expect(result).toEqual([])
   })
@@ -136,10 +136,7 @@ describe('buildHabitChains', () => {
     const habit1 = createHabit({ id: 'h1', name: 'Habitude 1' })
     const habit2 = createHabit({ id: 'h2', name: 'Habitude 2' })
 
-    const habitData: HabitDataItem[] = [
-      createHabitDataItem(habit1),
-      createHabitDataItem(habit2),
-    ]
+    const habitData: HabitDataItem[] = [createHabitDataItem(habit1), createHabitDataItem(habit2)]
 
     const result = buildHabitChains(habitData, [habit1, habit2])
 
@@ -233,7 +230,7 @@ describe('buildHabitChains', () => {
     expect(result[1][1].habit.id).toBe('h4')
   })
 
-  it('gère une ancre dont l\'habitude n\'est pas dans la liste', () => {
+  it("gère une ancre dont l'habitude n'est pas dans la liste", () => {
     // L'habitude h1 est l'ancre mais n'est pas dans allHabits (archivée par ex.)
     const habit2 = createHabit({
       id: 'h2',
@@ -282,7 +279,7 @@ describe('buildHabitChains', () => {
     expect(branchIds).toContain('h3')
   })
 
-  it('préserve l\'ordre des habitudes non ancrées', () => {
+  it("préserve l'ordre des habitudes non ancrées", () => {
     const habit1 = createHabit({ id: 'h1', name: 'Solo 1' })
     const habit2 = createHabit({ id: 'h2', name: 'Solo 2' })
     const habit3 = createHabit({ id: 'h3', name: 'Solo 3' })

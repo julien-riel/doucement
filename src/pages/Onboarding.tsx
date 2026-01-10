@@ -13,8 +13,7 @@ const ONBOARDING_STEPS = [
   {
     illustration: '🌱',
     title: 'Bienvenue',
-    description:
-      'Doucement vous aide à améliorer vos habitudes progressivement, sans culpabilité.',
+    description: 'Doucement vous aide à améliorer vos habitudes progressivement, sans culpabilité.',
   },
   {
     illustration: '📊',
@@ -25,14 +24,12 @@ const ONBOARDING_STEPS = [
   {
     illustration: '📈',
     title: 'Progression douce',
-    description:
-      "Vos doses évoluent automatiquement. +1%, +2%... l'effet composé fait le travail.",
+    description: "Vos doses évoluent automatiquement. +1%, +2%... l'effet composé fait le travail.",
   },
   {
     illustration: '💚',
     title: 'Chaque effort compte',
-    description:
-      "Faire un peu, c'est déjà beaucoup. Ici, 70% c'est une victoire.",
+    description: "Faire un peu, c'est déjà beaucoup. Ici, 70% c'est une victoire.",
   },
 ]
 
@@ -114,19 +111,11 @@ function Onboarding() {
           {/* Boutons de navigation */}
           <div className="onboarding__buttons">
             {!isFirstStep && (
-              <Button
-                variant="ghost"
-                onClick={handlePrevious}
-                aria-label="Étape précédente"
-              >
+              <Button variant="ghost" onClick={handlePrevious} aria-label="Étape précédente">
                 Retour
               </Button>
             )}
-            <Button
-              variant="primary"
-              onClick={handleNext}
-              fullWidth={isFirstStep}
-            >
+            <Button variant="primary" onClick={handleNext} fullWidth={isFirstStep}>
               {isLastStep ? 'Commencer' : 'Suivant'}
             </Button>
           </div>
@@ -134,11 +123,7 @@ function Onboarding() {
           {/* Bouton Skip (sauf dernière étape) */}
           {!isLastStep && (
             <div className="onboarding__skip">
-              <button
-                type="button"
-                className="onboarding__skip-button"
-                onClick={handleSkip}
-              >
+              <button type="button" className="onboarding__skip-button" onClick={handleSkip}>
                 Passer l'introduction
               </button>
             </div>

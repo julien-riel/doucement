@@ -44,7 +44,8 @@ function SimpleCheckIn({
         disabled={disabled}
         className="simple-checkin__button simple-checkin__button--done"
       >
-        {isDone ? '✓ ' : ''}{SIMPLE_TRACKING.doneButton}
+        {isDone ? '✓ ' : ''}
+        {SIMPLE_TRACKING.doneButton}
       </Button>
       <Button
         variant={isNotToday ? 'secondary' : 'ghost'}

@@ -42,11 +42,7 @@ function DailyHeader({ date, completionPercentage }: DailyHeaderProps) {
           >
             {displayPercentage}%
           </span>
-          <Link
-            to="/settings"
-            className="daily-header__settings"
-            aria-label="Paramètres"
-          >
+          <Link to="/settings" className="daily-header__settings" aria-label="Paramètres">
             ⚙️
           </Link>
         </div>

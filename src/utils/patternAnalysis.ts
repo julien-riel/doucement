@@ -8,15 +8,7 @@ import type { DailyEntry, Habit } from '../types'
 /**
  * Noms des jours de la semaine en français
  */
-const DAY_NAMES = [
-  'dimanche',
-  'lundi',
-  'mardi',
-  'mercredi',
-  'jeudi',
-  'vendredi',
-  'samedi',
-] as const
+const DAY_NAMES = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'] as const
 
 /**
  * Périodes de la journée
@@ -93,10 +85,7 @@ function calculateCompletion(entry: DailyEntry): number {
 /**
  * Analyse les patterns d'une habitude spécifique
  */
-export function analyzeHabitPatterns(
-  habit: Habit,
-  entries: DailyEntry[]
-): PatternAnalysis {
+export function analyzeHabitPatterns(habit: Habit, entries: DailyEntry[]): PatternAnalysis {
   const habitEntries = entries.filter((e) => e.habitId === habit.id)
 
   if (habitEntries.length < MIN_ENTRIES_FOR_ANALYSIS) {
@@ -149,26 +138,28 @@ export function analyzeHabitPatterns(
   })
 
   const totalForTimeAnalysis = habitEntries.length
-  const timeOfDayStats: TimeStats[] = ([
-    {
-      period: 'morning' as const,
-      label: 'matin',
-      totalEntries: timeStatsMap.get('morning')!,
-      percentage: (timeStatsMap.get('morning')! / totalForTimeAnalysis) * 100,
-    },
-    {
-      period: 'afternoon' as const,
-      label: 'après-midi',
-      totalEntries: timeStatsMap.get('afternoon')!,
-      percentage: (timeStatsMap.get('afternoon')! / totalForTimeAnalysis) * 100,
-    },
-    {
-      period: 'evening' as const,
-      label: 'soir',
-      totalEntries: timeStatsMap.get('evening')!,
-      percentage: (timeStatsMap.get('evening')! / totalForTimeAnalysis) * 100,
-    },
-  ] as TimeStats[]).sort((a, b) => b.totalEntries - a.totalEntries)
+  const timeOfDayStats: TimeStats[] = (
+    [
+      {
+        period: 'morning' as const,
+        label: 'matin',
+        totalEntries: timeStatsMap.get('morning')!,
+        percentage: (timeStatsMap.get('morning')! / totalForTimeAnalysis) * 100,
+      },
+      {
+        period: 'afternoon' as const,
+        label: 'après-midi',
+        totalEntries: timeStatsMap.get('afternoon')!,
+        percentage: (timeStatsMap.get('afternoon')! / totalForTimeAnalysis) * 100,
+      },
+      {
+        period: 'evening' as const,
+        label: 'soir',
+        totalEntries: timeStatsMap.get('evening')!,
+        percentage: (timeStatsMap.get('evening')! / totalForTimeAnalysis) * 100,
+      },
+    ] as TimeStats[]
+  ).sort((a, b) => b.totalEntries - a.totalEntries)
 
   const bestTimeOfDay = timeOfDayStats[0].totalEntries > 0 ? timeOfDayStats[0] : null
 
@@ -183,10 +174,7 @@ export function analyzeHabitPatterns(
 /**
  * Analyse les patterns globaux de toutes les habitudes
  */
-export function analyzeGlobalPatterns(
-  _habits: Habit[],
-  entries: DailyEntry[]
-): PatternAnalysis {
+export function analyzeGlobalPatterns(_habits: Habit[], entries: DailyEntry[]): PatternAnalysis {
   if (entries.length < MIN_ENTRIES_FOR_ANALYSIS) {
     return {
       bestDays: [],
@@ -237,26 +225,28 @@ export function analyzeGlobalPatterns(
   })
 
   const totalForTimeAnalysis = entries.length
-  const timeOfDayStats: TimeStats[] = ([
-    {
-      period: 'morning' as const,
-      label: 'matin',
-      totalEntries: timeStatsMap.get('morning')!,
-      percentage: (timeStatsMap.get('morning')! / totalForTimeAnalysis) * 100,
-    },
-    {
-      period: 'afternoon' as const,
-      label: 'après-midi',
-      totalEntries: timeStatsMap.get('afternoon')!,
-      percentage: (timeStatsMap.get('afternoon')! / totalForTimeAnalysis) * 100,
-    },
-    {
-      period: 'evening' as const,
-      label: 'soir',
-      totalEntries: timeStatsMap.get('evening')!,
-      percentage: (timeStatsMap.get('evening')! / totalForTimeAnalysis) * 100,
-    },
-  ] as TimeStats[]).sort((a, b) => b.totalEntries - a.totalEntries)
+  const timeOfDayStats: TimeStats[] = (
+    [
+      {
+        period: 'morning' as const,
+        label: 'matin',
+        totalEntries: timeStatsMap.get('morning')!,
+        percentage: (timeStatsMap.get('morning')! / totalForTimeAnalysis) * 100,
+      },
+      {
+        period: 'afternoon' as const,
+        label: 'après-midi',
+        totalEntries: timeStatsMap.get('afternoon')!,
+        percentage: (timeStatsMap.get('afternoon')! / totalForTimeAnalysis) * 100,
+      },
+      {
+        period: 'evening' as const,
+        label: 'soir',
+        totalEntries: timeStatsMap.get('evening')!,
+        percentage: (timeStatsMap.get('evening')! / totalForTimeAnalysis) * 100,
+      },
+    ] as TimeStats[]
+  ).sort((a, b) => b.totalEntries - a.totalEntries)
 
   const bestTimeOfDay = timeOfDayStats[0].totalEntries > 0 ? timeOfDayStats[0] : null
 

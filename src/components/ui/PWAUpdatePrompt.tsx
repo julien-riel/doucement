@@ -17,9 +17,12 @@ export function PWAUpdatePrompt() {
     onRegisteredSW(swScriptUrl, registration) {
       // Check for updates every hour
       if (registration) {
-        setInterval(() => {
-          registration.update()
-        }, 60 * 60 * 1000)
+        setInterval(
+          () => {
+            registration.update()
+          },
+          60 * 60 * 1000
+        )
       }
       console.log('SW registered:', swScriptUrl)
     },
@@ -48,22 +51,12 @@ export function PWAUpdatePrompt() {
   return (
     <div className="pwa-update-prompt" role="alert" aria-live="polite">
       <div className="pwa-update-prompt__content">
-        <span className="pwa-update-prompt__message">
-          Une nouvelle version est disponible
-        </span>
+        <span className="pwa-update-prompt__message">Une nouvelle version est disponible</span>
         <div className="pwa-update-prompt__actions">
-          <Button
-            variant="ghost"
-            size="small"
-            onClick={handleDismiss}
-          >
+          <Button variant="ghost" size="small" onClick={handleDismiss}>
             Plus tard
           </Button>
-          <Button
-            variant="primary"
-            size="small"
-            onClick={handleUpdate}
-          >
+          <Button variant="primary" size="small" onClick={handleUpdate}>
             Mettre à jour
           </Button>
         </div>

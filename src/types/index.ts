@@ -11,7 +11,7 @@
  * Version du schéma de données
  * Incrémentée à chaque modification de structure pour permettre les migrations
  */
-export const CURRENT_SCHEMA_VERSION = 3;
+export const CURRENT_SCHEMA_VERSION = 3
 
 // ============================================================================
 // HABIT TYPES
@@ -20,28 +20,28 @@ export const CURRENT_SCHEMA_VERSION = 3;
 /**
  * Direction de progression d'une habitude
  */
-export type HabitDirection = 'increase' | 'decrease' | 'maintain';
+export type HabitDirection = 'increase' | 'decrease' | 'maintain'
 
 /**
  * Mode de progression (absolu ou pourcentage)
  */
-export type ProgressionMode = 'absolute' | 'percentage';
+export type ProgressionMode = 'absolute' | 'percentage'
 
 /**
  * Période de référence pour la progression
  */
-export type ProgressionPeriod = 'daily' | 'weekly';
+export type ProgressionPeriod = 'daily' | 'weekly'
 
 /**
  * Configuration de la progression d'une habitude
  */
 export interface ProgressionConfig {
   /** Mode de progression */
-  mode: ProgressionMode;
+  mode: ProgressionMode
   /** Valeur de progression (+/- unités ou %) */
-  value: number;
+  value: number
   /** Période de référence */
-  period: ProgressionPeriod;
+  period: ProgressionPeriod
 }
 
 /**
@@ -49,7 +49,7 @@ export interface ProgressionConfig {
  * - simple: binaire (fait / pas fait) - recommandé pour débuter
  * - detailed: quantitatif avec valeur précise
  */
-export type TrackingMode = 'simple' | 'detailed';
+export type TrackingMode = 'simple' | 'detailed'
 
 /**
  * Implementation Intention (si-alors)
@@ -58,11 +58,11 @@ export type TrackingMode = 'simple' | 'detailed';
  */
 export interface ImplementationIntention {
   /** Déclencheur de l'habitude (ex: "Après mon café du matin") */
-  trigger?: string;
+  trigger?: string
   /** Lieu où l'habitude sera effectuée (ex: "Dans le salon") */
-  location?: string;
+  location?: string
   /** Heure prévue (format HH:MM, optionnel) */
-  time?: string;
+  time?: string
 }
 
 /**
@@ -71,11 +71,11 @@ export interface ImplementationIntention {
  */
 export interface PlannedPause {
   /** Date de début de la pause (YYYY-MM-DD) */
-  startDate: string;
+  startDate: string
   /** Date de fin de la pause (YYYY-MM-DD) */
-  endDate: string;
+  endDate: string
   /** Raison optionnelle */
-  reason?: string;
+  reason?: string
 }
 
 /**
@@ -83,35 +83,35 @@ export interface PlannedPause {
  */
 export interface Habit {
   /** Identifiant unique */
-  id: string;
+  id: string
   /** Nom de l'habitude */
-  name: string;
+  name: string
   /** Emoji représentant l'habitude */
-  emoji: string;
+  emoji: string
   /** Description optionnelle */
-  description?: string;
+  description?: string
   /** Direction de progression */
-  direction: HabitDirection;
+  direction: HabitDirection
   /** Valeur de départ */
-  startValue: number;
+  startValue: number
   /** Unité de mesure (répétitions, minutes, etc.) */
-  unit: string;
+  unit: string
   /** Configuration de progression (null si maintain) */
-  progression: ProgressionConfig | null;
+  progression: ProgressionConfig | null
   /** Valeur cible finale (optionnelle) */
-  targetValue?: number;
+  targetValue?: number
   /** Date de création (YYYY-MM-DD) */
-  createdAt: string;
+  createdAt: string
   /** Date d'archivage (YYYY-MM-DD), null si active */
-  archivedAt: string | null;
+  archivedAt: string | null
   /** Mode de tracking: simple (binaire) ou detailed (quantitatif) */
-  trackingMode?: TrackingMode;
+  trackingMode?: TrackingMode
   /** Implementation Intention - plan si-alors (Phase 6) */
-  implementationIntention?: ImplementationIntention;
+  implementationIntention?: ImplementationIntention
   /** ID de l'habitude d'ancrage pour Habit Stacking (Phase 6) */
-  anchorHabitId?: string;
+  anchorHabitId?: string
   /** Pause planifiée active (Phase 6) */
-  plannedPause?: PlannedPause | null;
+  plannedPause?: PlannedPause | null
 }
 
 // ============================================================================
@@ -121,28 +121,28 @@ export interface Habit {
 /**
  * Statut de complétion d'une entrée
  */
-export type CompletionStatus = 'pending' | 'partial' | 'completed' | 'exceeded';
+export type CompletionStatus = 'pending' | 'partial' | 'completed' | 'exceeded'
 
 /**
  * Entrée quotidienne pour une habitude
  */
 export interface DailyEntry {
   /** Identifiant unique */
-  id: string;
+  id: string
   /** Référence à l'habitude */
-  habitId: string;
+  habitId: string
   /** Date de l'entrée (YYYY-MM-DD) */
-  date: string;
+  date: string
   /** Dose cible calculée pour ce jour */
-  targetDose: number;
+  targetDose: number
   /** Valeur réellement accomplie */
-  actualValue: number;
+  actualValue: number
   /** Note optionnelle */
-  note?: string;
+  note?: string
   /** Horodatage de création */
-  createdAt: string;
+  createdAt: string
   /** Horodatage de dernière modification */
-  updatedAt: string;
+  updatedAt: string
 }
 
 // ============================================================================
@@ -152,16 +152,16 @@ export interface DailyEntry {
 /**
  * Type de rappel de notification
  */
-export type ReminderType = 'morning' | 'evening' | 'weeklyReview';
+export type ReminderType = 'morning' | 'evening' | 'weeklyReview'
 
 /**
  * Configuration d'un rappel
  */
 export interface ReminderConfig {
   /** Rappel activé */
-  enabled: boolean;
+  enabled: boolean
   /** Heure du rappel (format HH:MM) */
-  time: string;
+  time: string
 }
 
 /**
@@ -169,13 +169,13 @@ export interface ReminderConfig {
  */
 export interface NotificationSettings {
   /** Notifications globalement activées (permission accordée) */
-  enabled: boolean;
+  enabled: boolean
   /** Rappel matinal */
-  morningReminder: ReminderConfig;
+  morningReminder: ReminderConfig
   /** Rappel du soir (si journée non enregistrée) */
-  eveningReminder: ReminderConfig;
+  eveningReminder: ReminderConfig
   /** Rappel de revue hebdomadaire (dimanche) */
-  weeklyReviewReminder: ReminderConfig;
+  weeklyReviewReminder: ReminderConfig
 }
 
 /**
@@ -195,7 +195,7 @@ export const DEFAULT_NOTIFICATION_SETTINGS: NotificationSettings = {
     enabled: false,
     time: '10:00',
   },
-};
+}
 
 // ============================================================================
 // USER PREFERENCES
@@ -206,11 +206,11 @@ export const DEFAULT_NOTIFICATION_SETTINGS: NotificationSettings = {
  */
 export interface WeeklyReflection {
   /** Semaine concernée (format YYYY-Www, ex: 2026-W02) */
-  week: string;
+  week: string
   /** Texte de réflexion */
-  text: string;
+  text: string
   /** Date d'enregistrement */
-  createdAt: string;
+  createdAt: string
 }
 
 /**
@@ -218,13 +218,13 @@ export interface WeeklyReflection {
  */
 export interface UserPreferences {
   /** Onboarding terminé */
-  onboardingCompleted: boolean;
+  onboardingCompleted: boolean
   /** Dernière date de revue hebdomadaire (YYYY-MM-DD) */
-  lastWeeklyReviewDate: string | null;
+  lastWeeklyReviewDate: string | null
   /** Paramètres de notifications */
-  notifications: NotificationSettings;
+  notifications: NotificationSettings
   /** Réflexions hebdomadaires sauvegardées */
-  weeklyReflections?: WeeklyReflection[];
+  weeklyReflections?: WeeklyReflection[]
 }
 
 // ============================================================================
@@ -237,13 +237,13 @@ export interface UserPreferences {
  */
 export interface AppData {
   /** Version du schéma pour migrations */
-  schemaVersion: number;
+  schemaVersion: number
   /** Liste des habitudes */
-  habits: Habit[];
+  habits: Habit[]
   /** Entrées quotidiennes */
-  entries: DailyEntry[];
+  entries: DailyEntry[]
   /** Préférences utilisateur */
-  preferences: UserPreferences;
+  preferences: UserPreferences
 }
 
 // ============================================================================
@@ -253,17 +253,17 @@ export interface AppData {
 /**
  * Données pour créer une nouvelle habitude
  */
-export type CreateHabitInput = Omit<Habit, 'id' | 'createdAt' | 'archivedAt'>;
+export type CreateHabitInput = Omit<Habit, 'id' | 'createdAt' | 'archivedAt'>
 
 /**
  * Données pour mettre à jour une habitude
  */
-export type UpdateHabitInput = Partial<Omit<Habit, 'id' | 'createdAt'>>;
+export type UpdateHabitInput = Partial<Omit<Habit, 'id' | 'createdAt'>>
 
 /**
  * Données pour créer une nouvelle entrée
  */
-export type CreateEntryInput = Omit<DailyEntry, 'id' | 'createdAt' | 'updatedAt'>;
+export type CreateEntryInput = Omit<DailyEntry, 'id' | 'createdAt' | 'updatedAt'>
 
 /**
  * Données initiales par défaut
@@ -277,4 +277,4 @@ export const DEFAULT_APP_DATA: AppData = {
     lastWeeklyReviewDate: null,
     notifications: DEFAULT_NOTIFICATION_SETTINGS,
   },
-};
+}

@@ -27,17 +27,17 @@ function getButtonLabels(direction?: HabitDirection) {
   if (direction === 'decrease') {
     // Pour réduction: "Un peu plus" = pas bien, "Moins" = bien
     return {
-      partial: 'Un peu +',      // J'en ai fait un peu plus que la dose
-      complete: 'Pile poil',    // J'ai fait exactement la dose
-      extra: 'Moins',           // J'ai fait moins que la dose (bien !)
-    };
+      partial: 'Un peu +', // J'en ai fait un peu plus que la dose
+      complete: 'Pile poil', // J'ai fait exactement la dose
+      extra: 'Moins', // J'ai fait moins que la dose (bien !)
+    }
   }
   // Pour augmentation/maintien
   return {
-    partial: 'Un peu',          // J'en ai fait un peu
-    complete: 'Fait !',         // J'ai fait la dose
-    extra: 'Encore +',          // J'en ai fait plus
-  };
+    partial: 'Un peu', // J'en ai fait un peu
+    complete: 'Fait !', // J'ai fait la dose
+    extra: 'Encore +', // J'en ai fait plus
+  }
 }
 
 /**
@@ -80,9 +80,7 @@ function CheckInButtons({
     setActiveInput('extra')
     // Pour réduction: suggérer moins que la dose (mieux !)
     // Pour augmentation: suggérer plus que la dose
-    const suggestedValue = direction === 'decrease'
-      ? Math.max(0, targetDose - 1)
-      : targetDose + 1
+    const suggestedValue = direction === 'decrease' ? Math.max(0, targetDose - 1) : targetDose + 1
     setInputValue(String(suggestedValue))
   }
 
@@ -149,13 +147,15 @@ function CheckInButtons({
   }
 
   // Détermine si c'est un "bon" résultat pour les indicateurs visuels
-  const isGoodResult = direction === 'decrease'
-    ? hasValue && currentValue <= targetDose  // Pour réduction: moins ou égal = bien
-    : hasValue && currentValue >= targetDose  // Pour augmentation: plus ou égal = bien
+  const isGoodResult =
+    direction === 'decrease'
+      ? hasValue && currentValue <= targetDose // Pour réduction: moins ou égal = bien
+      : hasValue && currentValue >= targetDose // Pour augmentation: plus ou égal = bien
 
-  const isExtraGood = direction === 'decrease'
-    ? hasValue && currentValue < targetDose   // Pour réduction: moins que la cible = super
-    : hasValue && currentValue > targetDose   // Pour augmentation: plus que la cible = super
+  const isExtraGood =
+    direction === 'decrease'
+      ? hasValue && currentValue < targetDose // Pour réduction: moins que la cible = super
+      : hasValue && currentValue > targetDose // Pour augmentation: plus que la cible = super
 
   return (
     <div className="checkin-buttons">

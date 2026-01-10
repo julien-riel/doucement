@@ -1,8 +1,5 @@
 import { useMemo } from 'react'
-import {
-  getEncouragingMessage,
-  TIME_OF_DAY_EMOJIS,
-} from '../../constants/messages'
+import { getEncouragingMessage, TIME_OF_DAY_EMOJIS } from '../../constants/messages'
 import './EncouragingMessage.css'
 
 export type TimeOfDay = 'morning' | 'afternoon' | 'evening'

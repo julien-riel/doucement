@@ -7,13 +7,13 @@
  * - 100% locales (aucun serveur push)
  * - Non intrusives (ton bienveillant)
  */
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react'
 import {
   NotificationSettings as NotificationSettingsType,
   ReminderConfig,
   ReminderType,
   DEFAULT_NOTIFICATION_SETTINGS,
-} from '../../types';
+} from '../../types'
 import {
   requestNotificationPermission,
   getNotificationPermissionState,
@@ -21,21 +21,21 @@ import {
   scheduleAllReminders,
   cancelAllReminders,
   NotificationPermissionState,
-} from '../../services/notifications';
-import Card from './Card';
-import Button from './Button';
-import './NotificationSettings.css';
+} from '../../services/notifications'
+import Card from './Card'
+import Button from './Button'
+import './NotificationSettings.css'
 
 /**
  * Props du composant NotificationSettings
  */
 interface NotificationSettingsProps {
   /** Paramètres de notifications actuels */
-  settings: NotificationSettingsType;
+  settings: NotificationSettingsType
   /** Callback appelé quand les paramètres changent */
-  onChange: (settings: NotificationSettingsType) => void;
+  onChange: (settings: NotificationSettingsType) => void
   /** Fonction pour vérifier si le rappel du soir doit être envoyé */
-  checkEveningCondition?: () => boolean;
+  checkEveningCondition?: () => boolean
 }
 
 /**
@@ -54,7 +54,7 @@ const REMINDER_LABELS: Record<ReminderType, { title: string; description: string
     title: 'Revue hebdomadaire',
     description: 'Chaque dimanche',
   },
-};
+}
 
 /**
  * Messages d'état de permission
@@ -64,7 +64,7 @@ const PERMISSION_MESSAGES: Record<NotificationPermissionState, string> = {
   denied: 'Notifications bloquées par le navigateur',
   default: 'Autorisez les notifications pour recevoir des rappels',
   unsupported: 'Votre navigateur ne supporte pas les notifications',
-};
+}
 
 /**
  * Composant pour configurer un rappel individuel
@@ -75,23 +75,23 @@ function ReminderToggle({
   disabled,
   onChange,
 }: {
-  type: ReminderType;
-  config: ReminderConfig;
-  disabled: boolean;
-  onChange: (config: ReminderConfig) => void;
+  type: ReminderType
+  config: ReminderConfig
+  disabled: boolean
+  onChange: (config: ReminderConfig) => void
 }) {
-  const { title, description } = REMINDER_LABELS[type];
+  const { title, description } = REMINDER_LABELS[type]
 
   const handleToggle = useCallback(() => {
-    onChange({ ...config, enabled: !config.enabled });
-  }, [config, onChange]);
+    onChange({ ...config, enabled: !config.enabled })
+  }, [config, onChange])
 
   const handleTimeChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange({ ...config, time: e.target.value });
+      onChange({ ...config, time: e.target.value })
     },
     [config, onChange]
-  );
+  )
 
   return (
     <div className={`reminder-toggle ${disabled ? 'reminder-toggle--disabled' : ''}`}>
@@ -126,7 +126,7 @@ function ReminderToggle({
         </div>
       )}
     </div>
-  );
+  )
 }
 
 /**
@@ -141,52 +141,61 @@ function NotificationSettings({
   const settings: NotificationSettingsType = {
     ...DEFAULT_NOTIFICATION_SETTINGS,
     ...rawSettings,
-    morningReminder: { ...DEFAULT_NOTIFICATION_SETTINGS.morningReminder, ...rawSettings?.morningReminder },
-    eveningReminder: { ...DEFAULT_NOTIFICATION_SETTINGS.eveningReminder, ...rawSettings?.eveningReminder },
-    weeklyReviewReminder: { ...DEFAULT_NOTIFICATION_SETTINGS.weeklyReviewReminder, ...rawSettings?.weeklyReviewReminder },
-  };
+    morningReminder: {
+      ...DEFAULT_NOTIFICATION_SETTINGS.morningReminder,
+      ...rawSettings?.morningReminder,
+    },
+    eveningReminder: {
+      ...DEFAULT_NOTIFICATION_SETTINGS.eveningReminder,
+      ...rawSettings?.eveningReminder,
+    },
+    weeklyReviewReminder: {
+      ...DEFAULT_NOTIFICATION_SETTINGS.weeklyReviewReminder,
+      ...rawSettings?.weeklyReviewReminder,
+    },
+  }
 
   const [permissionState, setPermissionState] = useState<NotificationPermissionState>(
     getNotificationPermissionState()
-  );
-  const [isRequesting, setIsRequesting] = useState(false);
+  )
+  const [isRequesting, setIsRequesting] = useState(false)
 
   // Mettre à jour l'état de permission au montage
   useEffect(() => {
-    setPermissionState(getNotificationPermissionState());
-  }, []);
+    setPermissionState(getNotificationPermissionState())
+  }, [])
 
   // Programmer les rappels quand les paramètres changent
   useEffect(() => {
     if (settings.enabled && permissionState === 'granted') {
-      scheduleAllReminders(settings, checkEveningCondition);
+      scheduleAllReminders(settings, checkEveningCondition)
     } else {
-      cancelAllReminders();
+      cancelAllReminders()
     }
 
     return () => {
       // Cleanup: annuler les rappels au démontage
-      cancelAllReminders();
-    };
-  }, [settings, permissionState, checkEveningCondition]);
+      cancelAllReminders()
+    }
+  }, [settings, permissionState, checkEveningCondition])
 
   /**
    * Demande la permission de notification
    */
   const handleRequestPermission = useCallback(async () => {
-    setIsRequesting(true);
-    const result = await requestNotificationPermission();
-    setPermissionState(result.state);
-    setIsRequesting(false);
+    setIsRequesting(true)
+    const result = await requestNotificationPermission()
+    setPermissionState(result.state)
+    setIsRequesting(false)
 
     if (result.success) {
       // Activer les notifications si permission accordée
       onChange({
         ...settings,
         enabled: true,
-      });
+      })
     }
-  }, [settings, onChange]);
+  }, [settings, onChange])
 
   /**
    * Active/désactive les notifications globalement
@@ -194,15 +203,15 @@ function NotificationSettings({
   const handleToggleEnabled = useCallback(() => {
     if (!settings.enabled && permissionState !== 'granted') {
       // Si on essaie d'activer mais pas de permission, demander d'abord
-      handleRequestPermission();
-      return;
+      handleRequestPermission()
+      return
     }
 
     onChange({
       ...settings,
       enabled: !settings.enabled,
-    });
-  }, [settings, permissionState, onChange, handleRequestPermission]);
+    })
+  }, [settings, permissionState, onChange, handleRequestPermission])
 
   /**
    * Met à jour un rappel spécifique
@@ -212,14 +221,14 @@ function NotificationSettings({
       const key = `${type}Reminder` as keyof Pick<
         NotificationSettingsType,
         'morningReminder' | 'eveningReminder' | 'weeklyReviewReminder'
-      >;
+      >
       onChange({
         ...settings,
         [key]: config,
-      });
+      })
     },
     [settings, onChange]
-  );
+  )
 
   /**
    * Réinitialise les paramètres par défaut
@@ -228,12 +237,12 @@ function NotificationSettings({
     onChange({
       ...DEFAULT_NOTIFICATION_SETTINGS,
       enabled: settings.enabled && permissionState === 'granted',
-    });
-  }, [settings.enabled, permissionState, onChange]);
+    })
+  }, [settings.enabled, permissionState, onChange])
 
-  const isSupported = isNotificationSupported();
-  const canEnable = isSupported && permissionState !== 'denied';
-  const isEnabled = settings.enabled && permissionState === 'granted';
+  const isSupported = isNotificationSupported()
+  const canEnable = isSupported && permissionState !== 'denied'
+  const isEnabled = settings.enabled && permissionState === 'granted'
 
   return (
     <div className="notification-settings">
@@ -255,7 +264,9 @@ function NotificationSettings({
                 type="checkbox"
                 checked={isEnabled}
                 onChange={handleToggleEnabled}
-                aria-label={isEnabled ? 'Désactiver les notifications' : 'Activer les notifications'}
+                aria-label={
+                  isEnabled ? 'Désactiver les notifications' : 'Activer les notifications'
+                }
               />
               <span className="reminder-toggle__slider" />
             </label>
@@ -287,7 +298,10 @@ function NotificationSettings({
 
       {/* Configuration des rappels */}
       {isEnabled && (
-        <Card variant="default" className="notification-settings__card notification-settings__reminders">
+        <Card
+          variant="default"
+          className="notification-settings__card notification-settings__reminders"
+        >
           <h4 className="notification-settings__section-title">Rappels</h4>
 
           <ReminderToggle
@@ -329,7 +343,7 @@ function NotificationSettings({
         </p>
       )}
     </div>
-  );
+  )
 }
 
-export default NotificationSettings;
+export default NotificationSettings

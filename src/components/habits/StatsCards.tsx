@@ -21,8 +21,8 @@ function StatsCards({ stats, unit }: StatsCardsProps) {
     totalProgression > 0
       ? `+${totalProgression}`
       : totalProgression < 0
-      ? `${totalProgression}`
-      : '0'
+        ? `${totalProgression}`
+        : '0'
 
   return (
     <div className="stats-cards">
@@ -39,9 +39,7 @@ function StatsCards({ stats, unit }: StatsCardsProps) {
       </Card>
 
       <Card variant="default" className="stats-cards__card">
-        <div className="stats-cards__value stats-cards__value--progression">
-          {progressionText}
-        </div>
+        <div className="stats-cards__value stats-cards__value--progression">{progressionText}</div>
         <div className="stats-cards__label">{unit}</div>
         <div className="stats-cards__sublabel">progression</div>
       </Card>

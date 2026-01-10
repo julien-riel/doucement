@@ -17,11 +17,7 @@ export interface ReflectionDelayProps {
  * Affiche un délai de réflexion de quelques secondes avant de permettre le check-in
  * Utilisé pour les habitudes à réduire (direction: 'decrease')
  */
-function ReflectionDelay({
-  delaySeconds = 5,
-  onContinue,
-  onCancel,
-}: ReflectionDelayProps) {
+function ReflectionDelay({ delaySeconds = 5, onContinue, onCancel }: ReflectionDelayProps) {
   const [secondsRemaining, setSecondsRemaining] = useState(delaySeconds)
   const [isComplete, setIsComplete] = useState(false)
 
@@ -50,12 +46,8 @@ function ReflectionDelay({
   return (
     <div className="reflection-delay">
       <div className="reflection-delay__content">
-        <h3 className="reflection-delay__title">
-          {INTENTIONAL_FRICTION.delayTitle}
-        </h3>
-        <p className="reflection-delay__message">
-          {INTENTIONAL_FRICTION.delayMessage}
-        </p>
+        <h3 className="reflection-delay__title">{INTENTIONAL_FRICTION.delayTitle}</h3>
+        <p className="reflection-delay__message">{INTENTIONAL_FRICTION.delayMessage}</p>
 
         {/* Visual timer */}
         <div className="reflection-delay__timer">
@@ -71,11 +63,7 @@ function ReflectionDelay({
       </div>
 
       <div className="reflection-delay__actions">
-        <Button
-          variant="ghost"
-          onClick={onCancel}
-          size="small"
-        >
+        <Button variant="ghost" onClick={onCancel} size="small">
           Annuler
         </Button>
         <Button

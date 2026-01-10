@@ -59,9 +59,7 @@ export function buildHabitChains(
 
   // Trouver les habitudes racines (sans ancre ou dont l'ancre n'est pas dans la liste)
   const rootHabits = habitData.filter(
-    (hd) =>
-      !hd.habit.anchorHabitId ||
-      !allHabits.some((h) => h.id === hd.habit.anchorHabitId)
+    (hd) => !hd.habit.anchorHabitId || !allHabits.some((h) => h.id === hd.habit.anchorHabitId)
   )
 
   // Construire les chaînes récursivement
@@ -71,8 +69,7 @@ export function buildHabitChains(
 
     // Trouver toutes les habitudes qui s'ancrent à celle-ci
     const children = habitData.filter(
-      (hd) =>
-        hd.habit.anchorHabitId === root.habit.id && !processed.has(hd.habit.id)
+      (hd) => hd.habit.anchorHabitId === root.habit.id && !processed.has(hd.habit.id)
     )
 
     for (const child of children) {

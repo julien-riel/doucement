@@ -3,17 +3,17 @@
  * Gestion du chargement et de la sauvegarde des données
  */
 
-import { AppData, DEFAULT_APP_DATA, CURRENT_SCHEMA_VERSION } from '../types';
+import { AppData, DEFAULT_APP_DATA, CURRENT_SCHEMA_VERSION } from '../types'
 
-const STORAGE_KEY = 'doucement_data';
+const STORAGE_KEY = 'doucement_data'
 
 /**
  * Résultat d'une opération de stockage
  */
 export interface StorageResult<T> {
-  success: boolean;
-  data?: T;
-  error?: StorageError;
+  success: boolean
+  data?: T
+  error?: StorageError
 }
 
 /**
@@ -24,15 +24,15 @@ export type StorageErrorType =
   | 'QUOTA_EXCEEDED'
   | 'PARSE_ERROR'
   | 'VALIDATION_ERROR'
-  | 'UNKNOWN_ERROR';
+  | 'UNKNOWN_ERROR'
 
 /**
  * Erreur de stockage
  */
 export interface StorageError {
-  type: StorageErrorType;
-  message: string;
-  originalError?: unknown;
+  type: StorageErrorType
+  message: string
+  originalError?: unknown
 }
 
 /**
@@ -40,12 +40,12 @@ export interface StorageError {
  */
 function isLocalStorageAvailable(): boolean {
   try {
-    const testKey = '__doucement_test__';
-    localStorage.setItem(testKey, 'test');
-    localStorage.removeItem(testKey);
-    return true;
+    const testKey = '__doucement_test__'
+    localStorage.setItem(testKey, 'test')
+    localStorage.removeItem(testKey)
+    return true
   } catch {
-    return false;
+    return false
   }
 }
 
@@ -54,10 +54,10 @@ function isLocalStorageAvailable(): boolean {
  */
 function isValidAppData(data: unknown): data is AppData {
   if (typeof data !== 'object' || data === null) {
-    return false;
+    return false
   }
 
-  const obj = data as Record<string, unknown>;
+  const obj = data as Record<string, unknown>
 
   return (
     typeof obj.schemaVersion === 'number' &&
@@ -65,7 +65,7 @@ function isValidAppData(data: unknown): data is AppData {
     Array.isArray(obj.entries) &&
     typeof obj.preferences === 'object' &&
     obj.preferences !== null
-  );
+  )
 }
 
 /**
@@ -77,22 +77,22 @@ export function loadData(): StorageResult<AppData> {
       success: false,
       error: {
         type: 'STORAGE_UNAVAILABLE',
-        message: 'localStorage n\'est pas disponible sur ce navigateur',
+        message: "localStorage n'est pas disponible sur ce navigateur",
       },
-    };
+    }
   }
 
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = localStorage.getItem(STORAGE_KEY)
 
     if (!stored) {
       return {
         success: true,
         data: { ...DEFAULT_APP_DATA },
-      };
+      }
     }
 
-    const parsed = JSON.parse(stored);
+    const parsed = JSON.parse(stored)
 
     if (!isValidAppData(parsed)) {
       return {
@@ -101,7 +101,7 @@ export function loadData(): StorageResult<AppData> {
           type: 'VALIDATION_ERROR',
           message: 'Les données stockées ne correspondent pas au format attendu',
         },
-      };
+      }
     }
 
     // Vérification de version pour migration future
@@ -112,13 +112,13 @@ export function loadData(): StorageResult<AppData> {
           type: 'VALIDATION_ERROR',
           message: `Version de schéma non supportée: ${parsed.schemaVersion}`,
         },
-      };
+      }
     }
 
     return {
       success: true,
       data: parsed,
-    };
+    }
   } catch (error) {
     if (error instanceof SyntaxError) {
       return {
@@ -128,7 +128,7 @@ export function loadData(): StorageResult<AppData> {
           message: 'Les données stockées sont corrompues',
           originalError: error,
         },
-      };
+      }
     }
 
     return {
@@ -138,7 +138,7 @@ export function loadData(): StorageResult<AppData> {
         message: 'Erreur inattendue lors du chargement',
         originalError: error,
       },
-    };
+    }
   }
 }
 
@@ -151,25 +151,25 @@ export function saveData(data: AppData): StorageResult<void> {
       success: false,
       error: {
         type: 'STORAGE_UNAVAILABLE',
-        message: 'localStorage n\'est pas disponible sur ce navigateur',
+        message: "localStorage n'est pas disponible sur ce navigateur",
       },
-    };
+    }
   }
 
   try {
-    const json = JSON.stringify(data);
-    localStorage.setItem(STORAGE_KEY, json);
-    return { success: true };
+    const json = JSON.stringify(data)
+    localStorage.setItem(STORAGE_KEY, json)
+    return { success: true }
   } catch (error) {
     if (error instanceof DOMException && error.name === 'QuotaExceededError') {
       return {
         success: false,
         error: {
           type: 'QUOTA_EXCEEDED',
-          message: 'L\'espace de stockage est plein',
+          message: "L'espace de stockage est plein",
           originalError: error,
         },
-      };
+      }
     }
 
     return {
@@ -179,7 +179,7 @@ export function saveData(data: AppData): StorageResult<void> {
         message: 'Erreur inattendue lors de la sauvegarde',
         originalError: error,
       },
-    };
+    }
   }
 }
 
@@ -193,14 +193,14 @@ export function clearData(): StorageResult<void> {
       success: false,
       error: {
         type: 'STORAGE_UNAVAILABLE',
-        message: 'localStorage n\'est pas disponible sur ce navigateur',
+        message: "localStorage n'est pas disponible sur ce navigateur",
       },
-    };
+    }
   }
 
   try {
-    localStorage.removeItem(STORAGE_KEY);
-    return { success: true };
+    localStorage.removeItem(STORAGE_KEY)
+    return { success: true }
   } catch (error) {
     return {
       success: false,
@@ -209,6 +209,6 @@ export function clearData(): StorageResult<void> {
         message: 'Erreur inattendue lors de la suppression',
         originalError: error,
       },
-    };
+    }
   }
 }

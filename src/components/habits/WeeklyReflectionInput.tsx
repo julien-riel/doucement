@@ -16,11 +16,7 @@ export interface WeeklyReflectionInputProps {
  * Composant d'entrée pour la réflexion hebdomadaire
  * Question: "Qu'est-ce qui a bien fonctionné cette semaine ?"
  */
-function WeeklyReflectionInput({
-  onSave,
-  onSkip,
-  initialValue = '',
-}: WeeklyReflectionInputProps) {
+function WeeklyReflectionInput({ onSave, onSkip, initialValue = '' }: WeeklyReflectionInputProps) {
   const [text, setText] = useState(initialValue)
   const [isSaved, setIsSaved] = useState(!!initialValue)
 
@@ -44,9 +40,7 @@ function WeeklyReflectionInput({
           <span className="weekly-reflection__saved-icon" aria-hidden="true">
             ✓
           </span>
-          <span className="weekly-reflection__saved-text">
-            {WEEKLY_REFLECTION.savedMessage}
-          </span>
+          <span className="weekly-reflection__saved-text">{WEEKLY_REFLECTION.savedMessage}</span>
         </div>
         <p className="weekly-reflection__saved-content">{text}</p>
       </Card>
@@ -55,12 +49,8 @@ function WeeklyReflectionInput({
 
   return (
     <Card variant="highlight" className="weekly-reflection">
-      <h3 className="weekly-reflection__title">
-        {WEEKLY_REFLECTION.questionTitle}
-      </h3>
-      <p className="weekly-reflection__question">
-        {WEEKLY_REFLECTION.mainQuestion}
-      </p>
+      <h3 className="weekly-reflection__title">{WEEKLY_REFLECTION.questionTitle}</h3>
+      <p className="weekly-reflection__question">{WEEKLY_REFLECTION.mainQuestion}</p>
 
       <textarea
         className="weekly-reflection__textarea"
@@ -76,12 +66,7 @@ function WeeklyReflectionInput({
         <Button variant="ghost" onClick={onSkip} size="small">
           {WEEKLY_REFLECTION.skipButton}
         </Button>
-        <Button
-          variant="primary"
-          onClick={handleSave}
-          size="small"
-          disabled={!text.trim()}
-        >
+        <Button variant="primary" onClick={handleSave} size="small" disabled={!text.trim()}>
           {WEEKLY_REFLECTION.saveButton}
         </Button>
       </div>

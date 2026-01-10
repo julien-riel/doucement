@@ -6,19 +6,29 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { Button, Input, Card } from '../components/ui'
-import {
-  ProgressionMode,
-  ProgressionPeriod,
-  UpdateHabitInput,
-} from '../types'
+import { ProgressionMode, ProgressionPeriod, UpdateHabitInput } from '../types'
 import './EditHabit.css'
 
 /**
  * Emojis suggérés pour les habitudes
  */
 const SUGGESTED_EMOJIS = [
-  '💪', '🏃', '🧘', '📚', '✍️', '💧', '🥗', '😴',
-  '🚭', '🍷', '📱', '🎯', '🌅', '🧠', '❤️', '🎨',
+  '💪',
+  '🏃',
+  '🧘',
+  '📚',
+  '✍️',
+  '💧',
+  '🥗',
+  '😴',
+  '🚭',
+  '🍷',
+  '📱',
+  '🎯',
+  '🌅',
+  '🧠',
+  '❤️',
+  '🎨',
 ]
 
 /**
@@ -111,7 +121,20 @@ function EditHabit() {
     } else {
       setIsSaving(false)
     }
-  }, [id, habit, isFormValid, name, emoji, unit, targetValue, progressionMode, progressionValue, progressionPeriod, updateHabit, navigate])
+  }, [
+    id,
+    habit,
+    isFormValid,
+    name,
+    emoji,
+    unit,
+    targetValue,
+    progressionMode,
+    progressionValue,
+    progressionPeriod,
+    updateHabit,
+    navigate,
+  ])
 
   const handleCancel = useCallback(() => {
     navigate(`/habits/${id}`)
@@ -287,8 +310,8 @@ function EditHabit() {
             onChange={(e) => setTargetValue(e.target.value ? Number(e.target.value) : null)}
             hint={
               habit.direction === 'increase'
-                ? 'La dose augmentera jusqu\'à atteindre cet objectif'
-                : 'La dose diminuera jusqu\'à atteindre cet objectif'
+                ? "La dose augmentera jusqu'à atteindre cet objectif"
+                : "La dose diminuera jusqu'à atteindre cet objectif"
             }
           />
         )}

@@ -3,10 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { StatsCards, WeeklyCalendar, ProgressChart, PlannedPauseDialog } from '../components/habits'
 import { Button, Card } from '../components/ui'
-import {
-  calculateTargetDose,
-  calculateHabitStats,
-} from '../services/progression'
+import { calculateTargetDose, calculateHabitStats } from '../services/progression'
 import { isHabitPaused } from '../utils/absence'
 import { PLANNED_PAUSE } from '../constants/messages'
 import type { PlannedPause } from '../types'
@@ -69,23 +66,14 @@ function getDirectionInfo(direction: 'increase' | 'decrease' | 'maintain'): {
 function HabitDetail() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const {
-    getHabitById,
-    getEntriesForHabit,
-    archiveHabit,
-    restoreHabit,
-    updateHabit,
-    isLoading,
-  } = useAppData()
+  const { getHabitById, getEntriesForHabit, archiveHabit, restoreHabit, updateHabit, isLoading } =
+    useAppData()
 
   const [showArchiveConfirm, setShowArchiveConfirm] = useState(false)
   const [showPauseDialog, setShowPauseDialog] = useState(false)
 
   const habit = id ? getHabitById(id) : undefined
-  const entries = useMemo(
-    () => (id ? getEntriesForHabit(id) : []),
-    [id, getEntriesForHabit]
-  )
+  const entries = useMemo(() => (id ? getEntriesForHabit(id) : []), [id, getEntriesForHabit])
 
   const today = getCurrentDate()
   const { startDate, endDate } = getLast7Days()
@@ -178,17 +166,13 @@ function HabitDetail() {
           {habit.emoji}
         </span>
         <h1 className="habit-detail__name">{habit.name}</h1>
-        {habit.description && (
-          <p className="habit-detail__description">{habit.description}</p>
-        )}
+        {habit.description && <p className="habit-detail__description">{habit.description}</p>}
         <div className="habit-detail__badges">
           <span className={`habit-detail__badge habit-detail__badge--${directionInfo.color}`}>
             {directionInfo.label}
           </span>
           {isArchived && (
-            <span className="habit-detail__badge habit-detail__badge--archived">
-              Archivée
-            </span>
+            <span className="habit-detail__badge habit-detail__badge--archived">Archivée</span>
           )}
           {isPaused && (
             <span className="habit-detail__badge habit-detail__badge--paused">
@@ -249,23 +233,19 @@ function HabitDetail() {
               <span className="habit-detail__info-value">
                 {habit.direction === 'decrease' ? '-' : '+'}
                 {habit.progression.value}
-                {habit.progression.mode === 'percentage' ? '%' : ` ${habit.unit}`}
-                /{habit.progression.period === 'daily' ? 'jour' : 'semaine'}
+                {habit.progression.mode === 'percentage' ? '%' : ` ${habit.unit}`}/
+                {habit.progression.period === 'daily' ? 'jour' : 'semaine'}
               </span>
             </div>
           )}
           <div className="habit-detail__info-row">
             <span className="habit-detail__info-label">Créée le</span>
-            <span className="habit-detail__info-value">
-              {formatDate(habit.createdAt)}
-            </span>
+            <span className="habit-detail__info-value">{formatDate(habit.createdAt)}</span>
           </div>
           {habit.archivedAt && (
             <div className="habit-detail__info-row">
               <span className="habit-detail__info-label">Archivée le</span>
-              <span className="habit-detail__info-value">
-                {formatDate(habit.archivedAt)}
-              </span>
+              <span className="habit-detail__info-value">{formatDate(habit.archivedAt)}</span>
             </div>
           )}
         </Card>
@@ -283,28 +263,16 @@ function HabitDetail() {
               Modifier
             </Button>
             {isPaused ? (
-              <Button
-                variant="primary"
-                fullWidth
-                onClick={handleEndPause}
-              >
+              <Button variant="primary" fullWidth onClick={handleEndPause}>
                 {PLANNED_PAUSE.resumeButton}
               </Button>
             ) : (
-              <Button
-                variant="ghost"
-                fullWidth
-                onClick={() => setShowPauseDialog(true)}
-              >
+              <Button variant="ghost" fullWidth onClick={() => setShowPauseDialog(true)}>
                 {PLANNED_PAUSE.buttonLabel}
               </Button>
             )}
             {!showArchiveConfirm ? (
-              <Button
-                variant="ghost"
-                fullWidth
-                onClick={() => setShowArchiveConfirm(true)}
-              >
+              <Button variant="ghost" fullWidth onClick={() => setShowArchiveConfirm(true)}>
                 Archiver
               </Button>
             ) : (
@@ -313,10 +281,7 @@ function HabitDetail() {
                   Tu pourras la restaurer plus tard si tu le souhaites.
                 </p>
                 <div className="habit-detail__confirm-buttons">
-                  <Button
-                    variant="ghost"
-                    onClick={() => setShowArchiveConfirm(false)}
-                  >
+                  <Button variant="ghost" onClick={() => setShowArchiveConfirm(false)}>
                     Annuler
                   </Button>
                   <Button variant="primary" onClick={handleArchive}>

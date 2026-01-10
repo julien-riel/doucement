@@ -117,7 +117,7 @@ function getStatusLabel(status: CompletionStatus | 'empty'): string {
       return 'En attente'
     case 'empty':
     default:
-      return 'Pas d\'activité'
+      return "Pas d'activité"
   }
 }
 

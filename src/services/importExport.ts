@@ -3,10 +3,10 @@
  * Gère l'export JSON et l'import avec validation et migration
  */
 
-import type { AppData } from '../types';
-import { loadData, saveData, StorageResult } from './storage';
-import { validateImportData, ValidationResult, formatValidationErrors } from './validation';
-import { runMigrations, needsMigration, MigrationResult, formatMigrationResult } from './migration';
+import type { AppData } from '../types'
+import { loadData, saveData, StorageResult } from './storage'
+import { validateImportData, ValidationResult, formatValidationErrors } from './validation'
+import { runMigrations, needsMigration, MigrationResult, formatMigrationResult } from './migration'
 
 // ============================================================================
 // EXPORT TYPES
@@ -16,26 +16,26 @@ import { runMigrations, needsMigration, MigrationResult, formatMigrationResult }
  * Résultat d'export
  */
 export interface ExportResult {
-  success: boolean;
-  filename?: string;
-  error?: string;
+  success: boolean
+  filename?: string
+  error?: string
 }
 
 /**
  * Résultat d'import
  */
 export interface ImportResult {
-  success: boolean;
+  success: boolean
   /** Résultat de validation */
-  validation?: ValidationResult;
+  validation?: ValidationResult
   /** Résultat de migration (si applicable) */
-  migration?: MigrationResult;
+  migration?: MigrationResult
   /** Nombre d'habitudes importées */
-  habitsCount?: number;
+  habitsCount?: number
   /** Nombre d'entrées importées */
-  entriesCount?: number;
+  entriesCount?: number
   /** Message d'erreur */
-  error?: string;
+  error?: string
 }
 
 // ============================================================================
@@ -46,10 +46,10 @@ export interface ImportResult {
  * Génère le nom de fichier pour l'export
  */
 function generateExportFilename(): string {
-  const now = new Date();
-  const date = now.toISOString().split('T')[0]; // YYYY-MM-DD
-  const time = now.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS
-  return `doucement-export-${date}-${time}.json`;
+  const now = new Date()
+  const date = now.toISOString().split('T')[0] // YYYY-MM-DD
+  const time = now.toTimeString().split(' ')[0].replace(/:/g, '-') // HH-MM-SS
+  return `doucement-export-${date}-${time}.json`
 }
 
 /**
@@ -57,46 +57,46 @@ function generateExportFilename(): string {
  */
 export function exportData(): ExportResult {
   // Charge les données actuelles
-  const loadResult = loadData();
+  const loadResult = loadData()
 
   if (!loadResult.success || !loadResult.data) {
     return {
       success: false,
       error: loadResult.error?.message ?? 'Impossible de charger les données',
-    };
+    }
   }
 
   try {
     // Prépare le JSON avec une indentation lisible
-    const jsonContent = JSON.stringify(loadResult.data, null, 2);
+    const jsonContent = JSON.stringify(loadResult.data, null, 2)
 
     // Crée un blob et un lien de téléchargement
-    const blob = new Blob([jsonContent], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
+    const blob = new Blob([jsonContent], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
 
-    const filename = generateExportFilename();
+    const filename = generateExportFilename()
 
     // Crée un élément <a> temporaire pour déclencher le téléchargement
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
 
     // Nettoie
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
 
     return {
       success: true,
       filename,
-    };
+    }
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Erreur inconnue';
+    const message = error instanceof Error ? error.message : 'Erreur inconnue'
     return {
       success: false,
       error: `Erreur lors de l'export: ${message}`,
-    };
+    }
   }
 }
 
@@ -104,21 +104,21 @@ export function exportData(): ExportResult {
  * Exporte les données sans déclencher le téléchargement (pour les tests)
  */
 export function exportDataAsJson(): StorageResult<string> {
-  const loadResult = loadData();
+  const loadResult = loadData()
 
   if (!loadResult.success || !loadResult.data) {
     return {
       success: false,
       error: loadResult.error,
-    };
+    }
   }
 
   try {
-    const jsonContent = JSON.stringify(loadResult.data, null, 2);
+    const jsonContent = JSON.stringify(loadResult.data, null, 2)
     return {
       success: true,
       data: jsonContent,
-    };
+    }
   } catch (error) {
     return {
       success: false,
@@ -127,7 +127,7 @@ export function exportDataAsJson(): StorageResult<string> {
         message: 'Erreur lors de la sérialisation',
         originalError: error,
       },
-    };
+    }
   }
 }
 
@@ -140,14 +140,14 @@ export function exportDataAsJson(): StorageResult<string> {
  */
 function parseJsonContent(content: string): { success: boolean; data?: unknown; error?: string } {
   try {
-    const data = JSON.parse(content);
-    return { success: true, data };
+    const data = JSON.parse(content)
+    return { success: true, data }
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Erreur de syntaxe JSON';
+    const message = error instanceof Error ? error.message : 'Erreur de syntaxe JSON'
     return {
       success: false,
       error: `Format JSON invalide: ${message}`,
-    };
+    }
   }
 }
 
@@ -157,54 +157,54 @@ function parseJsonContent(content: string): { success: boolean; data?: unknown; 
  */
 export function importDataReplace(jsonContent: string): ImportResult {
   // 1. Parse le JSON
-  const parseResult = parseJsonContent(jsonContent);
+  const parseResult = parseJsonContent(jsonContent)
   if (!parseResult.success) {
     return {
       success: false,
       error: parseResult.error,
-    };
+    }
   }
 
-  const rawData = parseResult.data as Record<string, unknown>;
+  const rawData = parseResult.data as Record<string, unknown>
 
   // 2. Valide la structure
-  const validationResult = validateImportData(rawData);
+  const validationResult = validateImportData(rawData)
   if (!validationResult.valid) {
     return {
       success: false,
       validation: validationResult,
       error: `Données invalides:\n${formatValidationErrors(validationResult)}`,
-    };
+    }
   }
 
   // 3. Applique les migrations si nécessaire
-  let migratedData: AppData;
-  let migrationResult: MigrationResult | undefined;
+  let migratedData: AppData
+  let migrationResult: MigrationResult | undefined
 
   if (needsMigration(rawData)) {
-    migrationResult = runMigrations(rawData);
+    migrationResult = runMigrations(rawData)
     if (!migrationResult.success || !migrationResult.data) {
       return {
         success: false,
         validation: validationResult,
         migration: migrationResult,
         error: formatMigrationResult(migrationResult),
-      };
+      }
     }
-    migratedData = migrationResult.data;
+    migratedData = migrationResult.data
   } else {
-    migratedData = rawData as unknown as AppData;
+    migratedData = rawData as unknown as AppData
   }
 
   // 4. Sauvegarde les données
-  const saveResult = saveData(migratedData);
+  const saveResult = saveData(migratedData)
   if (!saveResult.success) {
     return {
       success: false,
       validation: validationResult,
       migration: migrationResult,
       error: saveResult.error?.message ?? 'Erreur lors de la sauvegarde',
-    };
+    }
   }
 
   return {
@@ -213,7 +213,7 @@ export function importDataReplace(jsonContent: string): ImportResult {
     migration: migrationResult,
     habitsCount: migratedData.habits.length,
     entriesCount: migratedData.entries.length,
-  };
+  }
 }
 
 /**
@@ -221,23 +221,23 @@ export function importDataReplace(jsonContent: string): ImportResult {
  */
 export function readFileContent(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
+    const reader = new FileReader()
 
     reader.onload = (event) => {
-      const content = event.target?.result;
+      const content = event.target?.result
       if (typeof content === 'string') {
-        resolve(content);
+        resolve(content)
       } else {
-        reject(new Error('Impossible de lire le contenu du fichier'));
+        reject(new Error('Impossible de lire le contenu du fichier'))
       }
-    };
+    }
 
     reader.onerror = () => {
-      reject(new Error('Erreur lors de la lecture du fichier'));
-    };
+      reject(new Error('Erreur lors de la lecture du fichier'))
+    }
 
-    reader.readAsText(file);
-  });
+    reader.readAsText(file)
+  })
 }
 
 /**
@@ -251,20 +251,20 @@ export async function importFromFile(file: File): Promise<ImportResult> {
       return {
         success: false,
         error: 'Le fichier doit être au format JSON (.json)',
-      };
+      }
     }
 
     // Lit le contenu
-    const content = await readFileContent(file);
+    const content = await readFileContent(file)
 
     // Importe avec remplacement
-    return importDataReplace(content);
+    return importDataReplace(content)
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Erreur inconnue';
+    const message = error instanceof Error ? error.message : 'Erreur inconnue'
     return {
       success: false,
       error: `Erreur lors de l'import: ${message}`,
-    };
+    }
   }
 }
 
@@ -277,9 +277,9 @@ export async function importFromFile(file: File): Promise<ImportResult> {
  */
 export interface MergeOptions {
   /** Comment résoudre les conflits d'habitudes avec le même ID */
-  habitConflictStrategy: 'keep_local' | 'keep_imported' | 'keep_newest';
+  habitConflictStrategy: 'keep_local' | 'keep_imported' | 'keep_newest'
   /** Comment résoudre les conflits d'entrées avec le même ID */
-  entryConflictStrategy: 'keep_local' | 'keep_imported' | 'keep_newest';
+  entryConflictStrategy: 'keep_local' | 'keep_imported' | 'keep_newest'
 }
 
 /**
@@ -288,33 +288,33 @@ export interface MergeOptions {
 export const DEFAULT_MERGE_OPTIONS: MergeOptions = {
   habitConflictStrategy: 'keep_newest',
   entryConflictStrategy: 'keep_newest',
-};
+}
 
 /**
  * Résultat de fusion étendu
  */
 export interface MergeImportResult extends ImportResult {
   /** Nombre d'habitudes ajoutées (nouvelles) */
-  habitsAdded?: number;
+  habitsAdded?: number
   /** Nombre d'habitudes mises à jour (existantes) */
-  habitsUpdated?: number;
+  habitsUpdated?: number
   /** Nombre d'habitudes conservées (sans changement) */
-  habitsKept?: number;
+  habitsKept?: number
   /** Nombre d'entrées ajoutées (nouvelles) */
-  entriesAdded?: number;
+  entriesAdded?: number
   /** Nombre d'entrées mises à jour (existantes) */
-  entriesUpdated?: number;
+  entriesUpdated?: number
   /** Nombre d'entrées conservées (sans changement) */
-  entriesKept?: number;
+  entriesKept?: number
 }
 
 /**
  * Compare deux dates ISO et retourne la plus récente
  */
 function isNewer(date1: string | undefined, date2: string | undefined): boolean {
-  if (!date1) return false;
-  if (!date2) return true;
-  return new Date(date1) > new Date(date2);
+  if (!date1) return false
+  if (!date2) return true
+  return new Date(date1) > new Date(date2)
 }
 
 /**
@@ -327,18 +327,19 @@ function mergeHabit(
 ): { habit: import('../types').Habit; action: 'kept' | 'updated' } {
   switch (strategy) {
     case 'keep_local':
-      return { habit: local, action: 'kept' };
+      return { habit: local, action: 'kept' }
     case 'keep_imported':
-      return { habit: imported, action: 'updated' };
-    case 'keep_newest':
+      return { habit: imported, action: 'updated' }
+    case 'keep_newest': {
       // Compare archivedAt first (if one is archived and not the other)
       // Then compare createdAt as a proxy for "last modified"
-      const localDate = local.archivedAt ?? local.createdAt;
-      const importedDate = imported.archivedAt ?? imported.createdAt;
+      const localDate = local.archivedAt ?? local.createdAt
+      const importedDate = imported.archivedAt ?? imported.createdAt
       if (isNewer(importedDate, localDate)) {
-        return { habit: imported, action: 'updated' };
+        return { habit: imported, action: 'updated' }
       }
-      return { habit: local, action: 'kept' };
+      return { habit: local, action: 'kept' }
+    }
   }
 }
 
@@ -352,14 +353,14 @@ function mergeEntry(
 ): { entry: import('../types').DailyEntry; action: 'kept' | 'updated' } {
   switch (strategy) {
     case 'keep_local':
-      return { entry: local, action: 'kept' };
+      return { entry: local, action: 'kept' }
     case 'keep_imported':
-      return { entry: imported, action: 'updated' };
+      return { entry: imported, action: 'updated' }
     case 'keep_newest':
       if (isNewer(imported.updatedAt, local.updatedAt)) {
-        return { entry: imported, action: 'updated' };
+        return { entry: imported, action: 'updated' }
       }
-      return { entry: local, action: 'kept' };
+      return { entry: local, action: 'kept' }
   }
 }
 
@@ -372,57 +373,57 @@ export function importDataMerge(
   options: MergeOptions = DEFAULT_MERGE_OPTIONS
 ): MergeImportResult {
   // 1. Parse le JSON
-  const parseResult = parseJsonContent(jsonContent);
+  const parseResult = parseJsonContent(jsonContent)
   if (!parseResult.success) {
     return {
       success: false,
       error: parseResult.error,
-    };
+    }
   }
 
-  const rawData = parseResult.data as Record<string, unknown>;
+  const rawData = parseResult.data as Record<string, unknown>
 
   // 2. Valide la structure
-  const validationResult = validateImportData(rawData);
+  const validationResult = validateImportData(rawData)
   if (!validationResult.valid) {
     return {
       success: false,
       validation: validationResult,
       error: `Données invalides:\n${formatValidationErrors(validationResult)}`,
-    };
+    }
   }
 
   // 3. Applique les migrations si nécessaire
-  let importedData: AppData;
-  let migrationResult: MigrationResult | undefined;
+  let importedData: AppData
+  let migrationResult: MigrationResult | undefined
 
   if (needsMigration(rawData)) {
-    migrationResult = runMigrations(rawData);
+    migrationResult = runMigrations(rawData)
     if (!migrationResult.success || !migrationResult.data) {
       return {
         success: false,
         validation: validationResult,
         migration: migrationResult,
         error: formatMigrationResult(migrationResult),
-      };
+      }
     }
-    importedData = migrationResult.data;
+    importedData = migrationResult.data
   } else {
-    importedData = rawData as unknown as AppData;
+    importedData = rawData as unknown as AppData
   }
 
   // 4. Charge les données locales existantes
-  const localResult = loadData();
+  const localResult = loadData()
   if (!localResult.success || !localResult.data) {
     // Si pas de données locales, on fait un simple remplacement
-    const saveResult = saveData(importedData);
+    const saveResult = saveData(importedData)
     if (!saveResult.success) {
       return {
         success: false,
         validation: validationResult,
         migration: migrationResult,
         error: saveResult.error?.message ?? 'Erreur lors de la sauvegarde',
-      };
+      }
     }
     return {
       success: true,
@@ -436,37 +437,37 @@ export function importDataMerge(
       entriesAdded: importedData.entries.length,
       entriesUpdated: 0,
       entriesKept: 0,
-    };
+    }
   }
 
-  const localData = localResult.data;
+  const localData = localResult.data
 
   // 5. Fusionner les habitudes
-  const localHabitsMap = new Map(localData.habits.map(h => [h.id, h]));
-  const mergedHabits: AppData['habits'] = [];
-  let habitsAdded = 0;
-  let habitsUpdated = 0;
-  let habitsKept = 0;
+  const localHabitsMap = new Map(localData.habits.map((h) => [h.id, h]))
+  const mergedHabits: AppData['habits'] = []
+  let habitsAdded = 0
+  let habitsUpdated = 0
+  let habitsKept = 0
 
   // Traiter les habitudes importées
-  const processedHabitIds = new Set<string>();
+  const processedHabitIds = new Set<string>()
 
   for (const importedHabit of importedData.habits) {
-    processedHabitIds.add(importedHabit.id);
-    const localHabit = localHabitsMap.get(importedHabit.id);
+    processedHabitIds.add(importedHabit.id)
+    const localHabit = localHabitsMap.get(importedHabit.id)
 
     if (!localHabit) {
       // Nouvelle habitude
-      mergedHabits.push(importedHabit);
-      habitsAdded++;
+      mergedHabits.push(importedHabit)
+      habitsAdded++
     } else {
       // Habitude existante - fusionner
-      const { habit, action } = mergeHabit(localHabit, importedHabit, options.habitConflictStrategy);
-      mergedHabits.push(habit);
+      const { habit, action } = mergeHabit(localHabit, importedHabit, options.habitConflictStrategy)
+      mergedHabits.push(habit)
       if (action === 'updated') {
-        habitsUpdated++;
+        habitsUpdated++
       } else {
-        habitsKept++;
+        habitsKept++
       }
     }
   }
@@ -474,37 +475,37 @@ export function importDataMerge(
   // Ajouter les habitudes locales non présentes dans l'import
   for (const localHabit of localData.habits) {
     if (!processedHabitIds.has(localHabit.id)) {
-      mergedHabits.push(localHabit);
-      habitsKept++;
+      mergedHabits.push(localHabit)
+      habitsKept++
     }
   }
 
   // 6. Fusionner les entrées
-  const localEntriesMap = new Map(localData.entries.map(e => [e.id, e]));
-  const mergedEntries: AppData['entries'] = [];
-  let entriesAdded = 0;
-  let entriesUpdated = 0;
-  let entriesKept = 0;
+  const localEntriesMap = new Map(localData.entries.map((e) => [e.id, e]))
+  const mergedEntries: AppData['entries'] = []
+  let entriesAdded = 0
+  let entriesUpdated = 0
+  let entriesKept = 0
 
   // Traiter les entrées importées
-  const processedEntryIds = new Set<string>();
+  const processedEntryIds = new Set<string>()
 
   for (const importedEntry of importedData.entries) {
-    processedEntryIds.add(importedEntry.id);
-    const localEntry = localEntriesMap.get(importedEntry.id);
+    processedEntryIds.add(importedEntry.id)
+    const localEntry = localEntriesMap.get(importedEntry.id)
 
     if (!localEntry) {
       // Nouvelle entrée
-      mergedEntries.push(importedEntry);
-      entriesAdded++;
+      mergedEntries.push(importedEntry)
+      entriesAdded++
     } else {
       // Entrée existante - fusionner
-      const { entry, action } = mergeEntry(localEntry, importedEntry, options.entryConflictStrategy);
-      mergedEntries.push(entry);
+      const { entry, action } = mergeEntry(localEntry, importedEntry, options.entryConflictStrategy)
+      mergedEntries.push(entry)
       if (action === 'updated') {
-        entriesUpdated++;
+        entriesUpdated++
       } else {
-        entriesKept++;
+        entriesKept++
       }
     }
   }
@@ -512,8 +513,8 @@ export function importDataMerge(
   // Ajouter les entrées locales non présentes dans l'import
   for (const localEntry of localData.entries) {
     if (!processedEntryIds.has(localEntry.id)) {
-      mergedEntries.push(localEntry);
-      entriesKept++;
+      mergedEntries.push(localEntry)
+      entriesKept++
     }
   }
 
@@ -522,8 +523,9 @@ export function importDataMerge(
   const mergedPreferences: AppData['preferences'] = {
     ...localData.preferences,
     ...importedData.preferences,
-    onboardingCompleted: localData.preferences.onboardingCompleted || importedData.preferences.onboardingCompleted,
-  };
+    onboardingCompleted:
+      localData.preferences.onboardingCompleted || importedData.preferences.onboardingCompleted,
+  }
 
   // 8. Construire et sauvegarder les données fusionnées
   const mergedData: AppData = {
@@ -531,16 +533,16 @@ export function importDataMerge(
     habits: mergedHabits,
     entries: mergedEntries,
     preferences: mergedPreferences,
-  };
+  }
 
-  const saveResult = saveData(mergedData);
+  const saveResult = saveData(mergedData)
   if (!saveResult.success) {
     return {
       success: false,
       validation: validationResult,
       migration: migrationResult,
       error: saveResult.error?.message ?? 'Erreur lors de la sauvegarde',
-    };
+    }
   }
 
   return {
@@ -555,7 +557,7 @@ export function importDataMerge(
     entriesAdded,
     entriesUpdated,
     entriesKept,
-  };
+  }
 }
 
 /**
@@ -571,20 +573,20 @@ export async function importFromFileMerge(
       return {
         success: false,
         error: 'Le fichier doit être au format JSON (.json)',
-      };
+      }
     }
 
     // Lit le contenu
-    const content = await readFileContent(file);
+    const content = await readFileContent(file)
 
     // Importe avec fusion
-    return importDataMerge(content, options);
+    return importDataMerge(content, options)
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Erreur inconnue';
+    const message = error instanceof Error ? error.message : 'Erreur inconnue'
     return {
       success: false,
       error: `Erreur lors de l'import: ${message}`,
-    };
+    }
   }
 }
 
@@ -593,7 +595,7 @@ export async function importFromFileMerge(
  */
 export function formatMergeImportResult(result: MergeImportResult): string {
   if (!result.success) {
-    return result.error ?? 'Import échoué';
+    return result.error ?? 'Import échoué'
   }
 
   const lines = [
@@ -608,20 +610,20 @@ export function formatMergeImportResult(result: MergeImportResult): string {
     `  • ${result.entriesAdded ?? 0} ajoutée(s)`,
     `  • ${result.entriesUpdated ?? 0} mise(s) à jour`,
     `  • ${result.entriesKept ?? 0} conservée(s)`,
-  ];
+  ]
 
   if (result.migration?.migrationsApplied.length) {
-    lines.push('');
-    lines.push(formatMigrationResult(result.migration));
+    lines.push('')
+    lines.push(formatMigrationResult(result.migration))
   }
 
   if (result.validation?.warnings.length) {
-    lines.push('');
-    lines.push('Avertissements:');
-    result.validation.warnings.forEach(w => lines.push(`  ⚠ ${w}`));
+    lines.push('')
+    lines.push('Avertissements:')
+    result.validation.warnings.forEach((w) => lines.push(`  ⚠ ${w}`))
   }
 
-  return lines.join('\n');
+  return lines.join('\n')
 }
 
 /**
@@ -629,25 +631,25 @@ export function formatMergeImportResult(result: MergeImportResult): string {
  */
 export function formatImportResult(result: ImportResult): string {
   if (!result.success) {
-    return result.error ?? 'Import échoué';
+    return result.error ?? 'Import échoué'
   }
 
   const lines = [
     'Import réussi !',
     `  • ${result.habitsCount} habitude(s) importée(s)`,
     `  • ${result.entriesCount} entrée(s) importée(s)`,
-  ];
+  ]
 
   if (result.migration?.migrationsApplied.length) {
-    lines.push('');
-    lines.push(formatMigrationResult(result.migration));
+    lines.push('')
+    lines.push(formatMigrationResult(result.migration))
   }
 
   if (result.validation?.warnings.length) {
-    lines.push('');
-    lines.push('Avertissements:');
-    result.validation.warnings.forEach(w => lines.push(`  ⚠ ${w}`));
+    lines.push('')
+    lines.push('Avertissements:')
+    result.validation.warnings.forEach((w) => lines.push(`  ⚠ ${w}`))
   }
 
-  return lines.join('\n');
+  return lines.join('\n')
 }

@@ -3,11 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { Button, Input } from '../components/ui'
 import { StepIntentions, HabitAnchorSelector } from '../components/habits'
-import {
-  randomMessage,
-  HABIT_CREATED,
-  IMPLEMENTATION_INTENTION,
-} from '../constants/messages'
+import { randomMessage, HABIT_CREATED, IMPLEMENTATION_INTENTION } from '../constants/messages'
 import {
   HabitDirection,
   ProgressionMode,
@@ -55,8 +51,22 @@ const HABIT_TYPES: {
  * Emojis suggérés pour les habitudes
  */
 const SUGGESTED_EMOJIS = [
-  '💪', '🏃', '🧘', '📚', '✍️', '💧', '🥗', '😴',
-  '🚭', '🍷', '📱', '🎯', '🌅', '🧠', '❤️', '🎨',
+  '💪',
+  '🏃',
+  '🧘',
+  '📚',
+  '✍️',
+  '💧',
+  '🥗',
+  '😴',
+  '🚭',
+  '🍷',
+  '📱',
+  '🎯',
+  '🌅',
+  '🧠',
+  '❤️',
+  '🎨',
 ]
 
 /**
@@ -133,11 +143,7 @@ function CreateHabit() {
       case 'type':
         return form.direction !== null
       case 'details':
-        return (
-          form.name.trim().length > 0 &&
-          form.unit.trim().length > 0 &&
-          form.startValue > 0
-        )
+        return form.name.trim().length > 0 && form.unit.trim().length > 0 && form.startValue > 0
       case 'intentions':
         // Étape optionnelle, toujours valide
         return true
@@ -182,9 +188,7 @@ function CreateHabit() {
                 period: form.progressionPeriod,
               },
         targetValue: form.targetValue ?? undefined,
-        implementationIntention: hasIntention
-          ? form.implementationIntention
-          : undefined,
+        implementationIntention: hasIntention ? form.implementationIntention : undefined,
         anchorHabitId: form.anchorHabitId,
       }
 
@@ -333,17 +337,11 @@ function CreateHabit() {
             <div className="step-details__row">
               <Input
                 type="number"
-                label={
-                  form.progressionMode === 'percentage'
-                    ? 'Pourcentage'
-                    : 'Unités'
-                }
+                label={form.progressionMode === 'percentage' ? 'Pourcentage' : 'Unités'}
                 placeholder={form.progressionMode === 'percentage' ? '5' : '1'}
                 min={1}
                 value={form.progressionValue || ''}
-                onChange={(e) =>
-                  updateForm('progressionValue', Number(e.target.value))
-                }
+                onChange={(e) => updateForm('progressionValue', Number(e.target.value))}
                 hint={form.progressionMode === 'percentage' ? 'Ex: 5%' : undefined}
               />
               <div className="input-wrapper">
@@ -444,9 +442,7 @@ function CreateHabit() {
           </div>
           <div className="step-confirm__detail">
             <span className="step-confirm__detail-label">Progression</span>
-            <span className="step-confirm__detail-value">
-              {progressionSummary}
-            </span>
+            <span className="step-confirm__detail-value">{progressionSummary}</span>
           </div>
           {(form.implementationIntention.trigger || form.implementationIntention.location) && (
             <div className="step-confirm__detail">
@@ -458,9 +454,7 @@ function CreateHabit() {
                 {form.implementationIntention.location && (
                   <> → {form.implementationIntention.location}</>
                 )}
-                {form.implementationIntention.time && (
-                  <> ({form.implementationIntention.time})</>
-                )}
+                {form.implementationIntention.time && <> ({form.implementationIntention.time})</>}
               </span>
             </div>
           )}
@@ -469,7 +463,7 @@ function CreateHabit() {
               <span className="step-confirm__detail-label">Enchaîné après</span>
               <span className="step-confirm__detail-value step-confirm__detail-value--small">
                 {(() => {
-                  const anchorHabit = activeHabits.find(h => h.id === form.anchorHabitId)
+                  const anchorHabit = activeHabits.find((h) => h.id === form.anchorHabitId)
                   return anchorHabit
                     ? `${anchorHabit.emoji} ${anchorHabit.name}`
                     : 'Habitude non trouvée'
@@ -481,9 +475,7 @@ function CreateHabit() {
       </div>
 
       <div className="step-confirm__message">
-        <p className="step-confirm__message-text">
-          {randomMessage(HABIT_CREATED)}
-        </p>
+        <p className="step-confirm__message-text">{randomMessage(HABIT_CREATED)}</p>
       </div>
     </div>
   )

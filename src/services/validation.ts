@@ -3,12 +3,8 @@
  * Valide la structure et le contenu des données importées
  */
 
-import type {
-  HabitDirection,
-  ProgressionMode,
-  ProgressionPeriod,
-} from '../types';
-import { CURRENT_SCHEMA_VERSION } from '../types';
+import type { HabitDirection, ProgressionMode, ProgressionPeriod } from '../types'
+import { CURRENT_SCHEMA_VERSION } from '../types'
 
 // ============================================================================
 // VALIDATION RESULT TYPES
@@ -22,25 +18,25 @@ export type ValidationErrorType =
   | 'INVALID_TYPE'
   | 'INVALID_VALUE'
   | 'INVALID_FORMAT'
-  | 'SCHEMA_VERSION_ERROR';
+  | 'SCHEMA_VERSION_ERROR'
 
 /**
  * Erreur de validation individuelle
  */
 export interface ValidationError {
-  type: ValidationErrorType;
-  field: string;
-  message: string;
-  value?: unknown;
+  type: ValidationErrorType
+  field: string
+  message: string
+  value?: unknown
 }
 
 /**
  * Résultat de validation
  */
 export interface ValidationResult {
-  valid: boolean;
-  errors: ValidationError[];
-  warnings: string[];
+  valid: boolean
+  errors: ValidationError[]
+  warnings: string[]
 }
 
 // ============================================================================
@@ -51,54 +47,54 @@ export interface ValidationResult {
  * Vérifie si une valeur est une chaîne non vide
  */
 function isNonEmptyString(value: unknown): value is string {
-  return typeof value === 'string' && value.trim().length > 0;
+  return typeof value === 'string' && value.trim().length > 0
 }
 
 /**
  * Vérifie si une valeur est un nombre fini positif ou zéro
  */
 function isNonNegativeNumber(value: unknown): value is number {
-  return typeof value === 'number' && Number.isFinite(value) && value >= 0;
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0
 }
 
 /**
  * Vérifie si une valeur est un nombre fini positif
  */
 function isPositiveNumber(value: unknown): value is number {
-  return typeof value === 'number' && Number.isFinite(value) && value > 0;
+  return typeof value === 'number' && Number.isFinite(value) && value > 0
 }
 
 /**
  * Vérifie si une date est au format YYYY-MM-DD
  */
 function isValidDateFormat(value: unknown): boolean {
-  if (typeof value !== 'string') return false;
-  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-  if (!dateRegex.test(value)) return false;
+  if (typeof value !== 'string') return false
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+  if (!dateRegex.test(value)) return false
 
-  const date = new Date(value);
-  return !isNaN(date.getTime());
+  const date = new Date(value)
+  return !isNaN(date.getTime())
 }
 
 /**
  * Vérifie si une valeur est une direction valide
  */
 function isValidDirection(value: unknown): value is HabitDirection {
-  return value === 'increase' || value === 'decrease' || value === 'maintain';
+  return value === 'increase' || value === 'decrease' || value === 'maintain'
 }
 
 /**
  * Vérifie si une valeur est un mode de progression valide
  */
 function isValidProgressionMode(value: unknown): value is ProgressionMode {
-  return value === 'absolute' || value === 'percentage';
+  return value === 'absolute' || value === 'percentage'
 }
 
 /**
  * Vérifie si une valeur est une période de progression valide
  */
 function isValidProgressionPeriod(value: unknown): value is ProgressionPeriod {
-  return value === 'daily' || value === 'weekly';
+  return value === 'daily' || value === 'weekly'
 }
 
 // ============================================================================
@@ -108,14 +104,11 @@ function isValidProgressionPeriod(value: unknown): value is ProgressionPeriod {
 /**
  * Valide la configuration de progression
  */
-function validateProgressionConfig(
-  config: unknown,
-  fieldPrefix: string
-): ValidationError[] {
-  const errors: ValidationError[] = [];
+function validateProgressionConfig(config: unknown, fieldPrefix: string): ValidationError[] {
+  const errors: ValidationError[] = []
 
   if (config === null) {
-    return errors; // null est valide pour les habitudes "maintain"
+    return errors // null est valide pour les habitudes "maintain"
   }
 
   if (typeof config !== 'object') {
@@ -124,11 +117,11 @@ function validateProgressionConfig(
       field: fieldPrefix,
       message: 'La configuration de progression doit être un objet ou null',
       value: config,
-    });
-    return errors;
+    })
+    return errors
   }
 
-  const obj = config as Record<string, unknown>;
+  const obj = config as Record<string, unknown>
 
   // mode
   if (!isValidProgressionMode(obj.mode)) {
@@ -137,7 +130,7 @@ function validateProgressionConfig(
       field: `${fieldPrefix}.mode`,
       message: 'Le mode doit être "absolute" ou "percentage"',
       value: obj.mode,
-    });
+    })
   }
 
   // value
@@ -147,7 +140,7 @@ function validateProgressionConfig(
       field: `${fieldPrefix}.value`,
       message: 'La valeur de progression doit être un nombre positif',
       value: obj.value,
-    });
+    })
   }
 
   // period
@@ -157,10 +150,10 @@ function validateProgressionConfig(
       field: `${fieldPrefix}.period`,
       message: 'La période doit être "daily" ou "weekly"',
       value: obj.period,
-    });
+    })
   }
 
-  return errors;
+  return errors
 }
 
 // ============================================================================
@@ -170,37 +163,36 @@ function validateProgressionConfig(
 /**
  * Valide une habitude individuelle
  */
-export function validateHabit(
-  habit: unknown,
-  index?: number
-): ValidationResult {
-  const errors: ValidationError[] = [];
-  const warnings: string[] = [];
-  const fieldPrefix = index !== undefined ? `habits[${index}]` : 'habit';
+export function validateHabit(habit: unknown, index?: number): ValidationResult {
+  const errors: ValidationError[] = []
+  const warnings: string[] = []
+  const fieldPrefix = index !== undefined ? `habits[${index}]` : 'habit'
 
   if (typeof habit !== 'object' || habit === null) {
     return {
       valid: false,
-      errors: [{
-        type: 'INVALID_TYPE',
-        field: fieldPrefix,
-        message: 'L\'habitude doit être un objet',
-        value: habit,
-      }],
+      errors: [
+        {
+          type: 'INVALID_TYPE',
+          field: fieldPrefix,
+          message: "L'habitude doit être un objet",
+          value: habit,
+        },
+      ],
       warnings: [],
-    };
+    }
   }
 
-  const obj = habit as Record<string, unknown>;
+  const obj = habit as Record<string, unknown>
 
   // id (requis)
   if (!isNonEmptyString(obj.id)) {
     errors.push({
       type: 'MISSING_FIELD',
       field: `${fieldPrefix}.id`,
-      message: 'L\'identifiant est requis et doit être une chaîne non vide',
+      message: "L'identifiant est requis et doit être une chaîne non vide",
       value: obj.id,
-    });
+    })
   }
 
   // name (requis)
@@ -210,7 +202,7 @@ export function validateHabit(
       field: `${fieldPrefix}.name`,
       message: 'Le nom est requis et doit être une chaîne non vide',
       value: obj.name,
-    });
+    })
   }
 
   // emoji (requis)
@@ -218,9 +210,9 @@ export function validateHabit(
     errors.push({
       type: 'MISSING_FIELD',
       field: `${fieldPrefix}.emoji`,
-      message: 'L\'emoji est requis',
+      message: "L'emoji est requis",
       value: obj.emoji,
-    });
+    })
   }
 
   // description (optionnel mais doit être string si présent)
@@ -230,7 +222,7 @@ export function validateHabit(
       field: `${fieldPrefix}.description`,
       message: 'La description doit être une chaîne de caractères',
       value: obj.description,
-    });
+    })
   }
 
   // direction (requis)
@@ -240,7 +232,7 @@ export function validateHabit(
       field: `${fieldPrefix}.direction`,
       message: 'La direction doit être "increase", "decrease" ou "maintain"',
       value: obj.direction,
-    });
+    })
   }
 
   // startValue (requis)
@@ -250,7 +242,7 @@ export function validateHabit(
       field: `${fieldPrefix}.startValue`,
       message: 'La valeur de départ doit être un nombre positif ou zéro',
       value: obj.startValue,
-    });
+    })
   }
 
   // unit (requis)
@@ -258,9 +250,9 @@ export function validateHabit(
     errors.push({
       type: 'MISSING_FIELD',
       field: `${fieldPrefix}.unit`,
-      message: 'L\'unité est requise',
+      message: "L'unité est requise",
       value: obj.unit,
-    });
+    })
   }
 
   // progression (validation selon direction)
@@ -268,14 +260,14 @@ export function validateHabit(
     if (obj.progression !== null) {
       warnings.push(
         `${fieldPrefix}: Une habitude "maintain" ne devrait pas avoir de configuration de progression`
-      );
+      )
     }
   } else {
     const progressionErrors = validateProgressionConfig(
       obj.progression,
       `${fieldPrefix}.progression`
-    );
-    errors.push(...progressionErrors);
+    )
+    errors.push(...progressionErrors)
   }
 
   // targetValue (optionnel mais doit être un nombre positif si présent)
@@ -286,7 +278,7 @@ export function validateHabit(
         field: `${fieldPrefix}.targetValue`,
         message: 'La valeur cible doit être un nombre positif',
         value: obj.targetValue,
-      });
+      })
     }
   }
 
@@ -297,7 +289,7 @@ export function validateHabit(
       field: `${fieldPrefix}.createdAt`,
       message: 'La date de création doit être au format YYYY-MM-DD',
       value: obj.createdAt,
-    });
+    })
   }
 
   // archivedAt (nullable, format YYYY-MM-DD si présent)
@@ -306,9 +298,9 @@ export function validateHabit(
       errors.push({
         type: 'INVALID_FORMAT',
         field: `${fieldPrefix}.archivedAt`,
-        message: 'La date d\'archivage doit être au format YYYY-MM-DD ou null',
+        message: "La date d'archivage doit être au format YYYY-MM-DD ou null",
         value: obj.archivedAt,
-      });
+      })
     }
   }
 
@@ -316,7 +308,7 @@ export function validateHabit(
     valid: errors.length === 0,
     errors,
     warnings,
-  };
+  }
 }
 
 // ============================================================================
@@ -326,37 +318,36 @@ export function validateHabit(
 /**
  * Valide une entrée quotidienne
  */
-export function validateEntry(
-  entry: unknown,
-  index?: number
-): ValidationResult {
-  const errors: ValidationError[] = [];
-  const warnings: string[] = [];
-  const fieldPrefix = index !== undefined ? `entries[${index}]` : 'entry';
+export function validateEntry(entry: unknown, index?: number): ValidationResult {
+  const errors: ValidationError[] = []
+  const warnings: string[] = []
+  const fieldPrefix = index !== undefined ? `entries[${index}]` : 'entry'
 
   if (typeof entry !== 'object' || entry === null) {
     return {
       valid: false,
-      errors: [{
-        type: 'INVALID_TYPE',
-        field: fieldPrefix,
-        message: 'L\'entrée doit être un objet',
-        value: entry,
-      }],
+      errors: [
+        {
+          type: 'INVALID_TYPE',
+          field: fieldPrefix,
+          message: "L'entrée doit être un objet",
+          value: entry,
+        },
+      ],
       warnings: [],
-    };
+    }
   }
 
-  const obj = entry as Record<string, unknown>;
+  const obj = entry as Record<string, unknown>
 
   // id (requis)
   if (!isNonEmptyString(obj.id)) {
     errors.push({
       type: 'MISSING_FIELD',
       field: `${fieldPrefix}.id`,
-      message: 'L\'identifiant est requis',
+      message: "L'identifiant est requis",
       value: obj.id,
-    });
+    })
   }
 
   // habitId (requis)
@@ -364,9 +355,9 @@ export function validateEntry(
     errors.push({
       type: 'MISSING_FIELD',
       field: `${fieldPrefix}.habitId`,
-      message: 'La référence à l\'habitude est requise',
+      message: "La référence à l'habitude est requise",
       value: obj.habitId,
-    });
+    })
   }
 
   // date (requis, format YYYY-MM-DD)
@@ -376,7 +367,7 @@ export function validateEntry(
       field: `${fieldPrefix}.date`,
       message: 'La date doit être au format YYYY-MM-DD',
       value: obj.date,
-    });
+    })
   }
 
   // targetDose (requis)
@@ -386,7 +377,7 @@ export function validateEntry(
       field: `${fieldPrefix}.targetDose`,
       message: 'La dose cible doit être un nombre positif ou zéro',
       value: obj.targetDose,
-    });
+    })
   }
 
   // actualValue (requis)
@@ -396,7 +387,7 @@ export function validateEntry(
       field: `${fieldPrefix}.actualValue`,
       message: 'La valeur réelle doit être un nombre positif ou zéro',
       value: obj.actualValue,
-    });
+    })
   }
 
   // note (optionnel)
@@ -406,7 +397,7 @@ export function validateEntry(
       field: `${fieldPrefix}.note`,
       message: 'La note doit être une chaîne de caractères',
       value: obj.note,
-    });
+    })
   }
 
   // createdAt (requis, ISO timestamp)
@@ -414,9 +405,9 @@ export function validateEntry(
     errors.push({
       type: 'MISSING_FIELD',
       field: `${fieldPrefix}.createdAt`,
-      message: 'L\'horodatage de création est requis',
+      message: "L'horodatage de création est requis",
       value: obj.createdAt,
-    });
+    })
   }
 
   // updatedAt (requis, ISO timestamp)
@@ -424,16 +415,16 @@ export function validateEntry(
     errors.push({
       type: 'MISSING_FIELD',
       field: `${fieldPrefix}.updatedAt`,
-      message: 'L\'horodatage de mise à jour est requis',
+      message: "L'horodatage de mise à jour est requis",
       value: obj.updatedAt,
-    });
+    })
   }
 
   return {
     valid: errors.length === 0,
     errors,
     warnings,
-  };
+  }
 }
 
 // ============================================================================
@@ -444,23 +435,25 @@ export function validateEntry(
  * Valide les préférences utilisateur
  */
 function validatePreferences(preferences: unknown): ValidationResult {
-  const errors: ValidationError[] = [];
-  const warnings: string[] = [];
+  const errors: ValidationError[] = []
+  const warnings: string[] = []
 
   if (typeof preferences !== 'object' || preferences === null) {
     return {
       valid: false,
-      errors: [{
-        type: 'INVALID_TYPE',
-        field: 'preferences',
-        message: 'Les préférences doivent être un objet',
-        value: preferences,
-      }],
+      errors: [
+        {
+          type: 'INVALID_TYPE',
+          field: 'preferences',
+          message: 'Les préférences doivent être un objet',
+          value: preferences,
+        },
+      ],
       warnings: [],
-    };
+    }
   }
 
-  const obj = preferences as Record<string, unknown>;
+  const obj = preferences as Record<string, unknown>
 
   // onboardingCompleted (requis)
   if (typeof obj.onboardingCompleted !== 'boolean') {
@@ -469,7 +462,7 @@ function validatePreferences(preferences: unknown): ValidationResult {
       field: 'preferences.onboardingCompleted',
       message: 'Le champ onboardingCompleted doit être un booléen',
       value: obj.onboardingCompleted,
-    });
+    })
   }
 
   // lastWeeklyReviewDate (nullable)
@@ -480,7 +473,7 @@ function validatePreferences(preferences: unknown): ValidationResult {
         field: 'preferences.lastWeeklyReviewDate',
         message: 'La date de dernière revue doit être au format YYYY-MM-DD ou null',
         value: obj.lastWeeklyReviewDate,
-      });
+      })
     }
   }
 
@@ -488,7 +481,7 @@ function validatePreferences(preferences: unknown): ValidationResult {
     valid: errors.length === 0,
     errors,
     warnings,
-  };
+  }
 }
 
 // ============================================================================
@@ -499,24 +492,26 @@ function validatePreferences(preferences: unknown): ValidationResult {
  * Valide les données complètes de l'application pour l'import
  */
 export function validateImportData(data: unknown): ValidationResult {
-  const errors: ValidationError[] = [];
-  const warnings: string[] = [];
+  const errors: ValidationError[] = []
+  const warnings: string[] = []
 
   // Vérifie que c'est un objet
   if (typeof data !== 'object' || data === null) {
     return {
       valid: false,
-      errors: [{
-        type: 'INVALID_TYPE',
-        field: 'root',
-        message: 'Les données doivent être un objet',
-        value: data,
-      }],
+      errors: [
+        {
+          type: 'INVALID_TYPE',
+          field: 'root',
+          message: 'Les données doivent être un objet',
+          value: data,
+        },
+      ],
       warnings: [],
-    };
+    }
   }
 
-  const obj = data as Record<string, unknown>;
+  const obj = data as Record<string, unknown>
 
   // schemaVersion (requis)
   if (typeof obj.schemaVersion !== 'number') {
@@ -525,21 +520,21 @@ export function validateImportData(data: unknown): ValidationResult {
       field: 'schemaVersion',
       message: 'La version du schéma est requise',
       value: obj.schemaVersion,
-    });
+    })
   } else if (obj.schemaVersion > CURRENT_SCHEMA_VERSION) {
     errors.push({
       type: 'SCHEMA_VERSION_ERROR',
       field: 'schemaVersion',
       message: `Version de schéma non supportée: ${obj.schemaVersion}. Version maximale: ${CURRENT_SCHEMA_VERSION}`,
       value: obj.schemaVersion,
-    });
+    })
   } else if (obj.schemaVersion < 1) {
     errors.push({
       type: 'INVALID_VALUE',
       field: 'schemaVersion',
       message: 'La version du schéma doit être >= 1',
       value: obj.schemaVersion,
-    });
+    })
   }
 
   // habits (requis, array)
@@ -549,19 +544,19 @@ export function validateImportData(data: unknown): ValidationResult {
       field: 'habits',
       message: 'La liste des habitudes doit être un tableau',
       value: obj.habits,
-    });
+    })
   } else {
     // Valide chaque habitude
-    const habitIds = new Set<string>();
+    const habitIds = new Set<string>()
 
     obj.habits.forEach((habit, index) => {
-      const result = validateHabit(habit, index);
-      errors.push(...result.errors);
-      warnings.push(...result.warnings);
+      const result = validateHabit(habit, index)
+      errors.push(...result.errors)
+      warnings.push(...result.warnings)
 
       // Vérifie les doublons d'ID
       if (typeof habit === 'object' && habit !== null) {
-        const h = habit as Record<string, unknown>;
+        const h = habit as Record<string, unknown>
         if (typeof h.id === 'string') {
           if (habitIds.has(h.id)) {
             errors.push({
@@ -569,12 +564,12 @@ export function validateImportData(data: unknown): ValidationResult {
               field: `habits[${index}].id`,
               message: `ID d'habitude dupliqué: ${h.id}`,
               value: h.id,
-            });
+            })
           }
-          habitIds.add(h.id);
+          habitIds.add(h.id)
         }
       }
-    });
+    })
   }
 
   // entries (requis, array)
@@ -584,19 +579,19 @@ export function validateImportData(data: unknown): ValidationResult {
       field: 'entries',
       message: 'La liste des entrées doit être un tableau',
       value: obj.entries,
-    });
+    })
   } else {
     // Valide chaque entrée
-    const entryIds = new Set<string>();
+    const entryIds = new Set<string>()
 
     obj.entries.forEach((entry, index) => {
-      const result = validateEntry(entry, index);
-      errors.push(...result.errors);
-      warnings.push(...result.warnings);
+      const result = validateEntry(entry, index)
+      errors.push(...result.errors)
+      warnings.push(...result.warnings)
 
       // Vérifie les doublons d'ID
       if (typeof entry === 'object' && entry !== null) {
-        const e = entry as Record<string, unknown>;
+        const e = entry as Record<string, unknown>
         if (typeof e.id === 'string') {
           if (entryIds.has(e.id)) {
             errors.push({
@@ -604,41 +599,41 @@ export function validateImportData(data: unknown): ValidationResult {
               field: `entries[${index}].id`,
               message: `ID d'entrée dupliqué: ${e.id}`,
               value: e.id,
-            });
+            })
           }
-          entryIds.add(e.id);
+          entryIds.add(e.id)
         }
       }
-    });
+    })
 
     // Vérifie que les entrées référencent des habitudes existantes
     if (Array.isArray(obj.habits)) {
       const validHabitIds = new Set(
         (obj.habits as Array<Record<string, unknown>>)
-          .filter(h => typeof h?.id === 'string')
-          .map(h => h.id as string)
-      );
+          .filter((h) => typeof h?.id === 'string')
+          .map((h) => h.id as string)
+      )
 
-      (obj.entries as Array<Record<string, unknown>>).forEach((entry, index) => {
+      ;(obj.entries as Array<Record<string, unknown>>).forEach((entry, index) => {
         if (typeof entry?.habitId === 'string' && !validHabitIds.has(entry.habitId)) {
           warnings.push(
             `entries[${index}]: Référence à une habitude inexistante (${entry.habitId})`
-          );
+          )
         }
-      });
+      })
     }
   }
 
   // preferences (requis)
-  const prefsResult = validatePreferences(obj.preferences);
-  errors.push(...prefsResult.errors);
-  warnings.push(...prefsResult.warnings);
+  const prefsResult = validatePreferences(obj.preferences)
+  errors.push(...prefsResult.errors)
+  warnings.push(...prefsResult.warnings)
 
   return {
     valid: errors.length === 0,
     errors,
     warnings,
-  };
+  }
 }
 
 /**
@@ -646,22 +641,22 @@ export function validateImportData(data: unknown): ValidationResult {
  */
 export function formatValidationErrors(result: ValidationResult): string {
   if (result.valid) {
-    return 'Aucune erreur de validation';
+    return 'Aucune erreur de validation'
   }
 
-  const lines: string[] = [`${result.errors.length} erreur(s) trouvée(s):`];
+  const lines: string[] = [`${result.errors.length} erreur(s) trouvée(s):`]
 
   result.errors.forEach((error, index) => {
-    lines.push(`  ${index + 1}. [${error.field}] ${error.message}`);
-  });
+    lines.push(`  ${index + 1}. [${error.field}] ${error.message}`)
+  })
 
   if (result.warnings.length > 0) {
-    lines.push('');
-    lines.push(`${result.warnings.length} avertissement(s):`);
+    lines.push('')
+    lines.push(`${result.warnings.length} avertissement(s):`)
     result.warnings.forEach((warning, index) => {
-      lines.push(`  ${index + 1}. ${warning}`);
-    });
+      lines.push(`  ${index + 1}. ${warning}`)
+    })
   }
 
-  return lines.join('\n');
+  return lines.join('\n')
 }

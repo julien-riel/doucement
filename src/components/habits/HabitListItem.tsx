@@ -90,7 +90,9 @@ function HabitListItem({ habit, entries, onClick }: HabitListItemProps) {
             <span className="habit-list-item__stat-label">jours actifs</span>
           </div>
           <div className="habit-list-item__stat">
-            <span className="habit-list-item__stat-value">{Math.round(stats.averageCompletion)}%</span>
+            <span className="habit-list-item__stat-value">
+              {Math.round(stats.averageCompletion)}%
+            </span>
             <span className="habit-list-item__stat-label">moyenne</span>
           </div>
         </div>

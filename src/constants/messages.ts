@@ -15,7 +15,7 @@
  */
 export const CHECKIN_COMPLETED = [
   'Nickel. À demain.',
-  'C\'est fait. Beau travail.',
+  "C'est fait. Beau travail.",
   'Dose du jour : accomplie.',
   'Parfait. Un jour de plus sur la bonne voie.',
   '✓ Enregistré. Tu avances.',
@@ -25,10 +25,10 @@ export const CHECKIN_COMPLETED = [
  * Messages affichés après complétion partielle (50-99%)
  */
 export const CHECKIN_PARTIAL = [
-  'Chaque effort compte. C\'est noté.',
-  'Tu as avancé aujourd\'hui. C\'est l\'essentiel.',
-  'Pas 100%, mais tu n\'as pas abandonné.',
-  'L\'important, c\'est d\'avoir fait quelque chose.',
+  "Chaque effort compte. C'est noté.",
+  "Tu as avancé aujourd'hui. C'est l'essentiel.",
+  "Pas 100%, mais tu n'as pas abandonné.",
+  "L'important, c'est d'avoir fait quelque chose.",
   'Bien joué. Demain est un autre jour.',
 ] as const
 
@@ -37,16 +37,16 @@ export const CHECKIN_PARTIAL = [
  */
 export const CHECKIN_EXCEEDED = [
   'Au-delà de la dose. Impressionnant, mais pas obligatoire.',
-  'Tu en as fait plus. L\'élan est là.',
-  'Extra ! Mais souviens-toi : la régularité bat l\'intensité.',
+  "Tu en as fait plus. L'élan est là.",
+  "Extra ! Mais souviens-toi : la régularité bat l'intensité.",
 ] as const
 
 /**
  * Messages affichés pour une journée sans activité
  */
 export const CHECKIN_NO_ACTIVITY = [
-  'Pas d\'entrée aujourd\'hui. Ce n\'est pas grave.',
-  'Une pause, c\'est aussi avancer parfois.',
+  "Pas d'entrée aujourd'hui. Ce n'est pas grave.",
+  "Une pause, c'est aussi avancer parfois.",
   'Demain est une nouvelle occasion.',
 ] as const
 
@@ -61,7 +61,7 @@ export const WEEKLY_POSITIVE = [
   'Belle semaine. Tu construis quelque chose.',
   '7 jours de plus sur ta trajectoire.',
   'La constance paie. Continue comme ça.',
-  'Semaine solide. L\'effet composé fait son travail.',
+  "Semaine solide. L'effet composé fait son travail.",
 ] as const
 
 /**
@@ -69,8 +69,8 @@ export const WEEKLY_POSITIVE = [
  */
 export const WEEKLY_AVERAGE = [
   'Une semaine en demi-teinte, mais tu es toujours là.',
-  'Quelques jours actifs. C\'est mieux que zéro.',
-  'La semaine n\'a pas été parfaite. Et alors ? On continue.',
+  "Quelques jours actifs. C'est mieux que zéro.",
+  "La semaine n'a pas été parfaite. Et alors ? On continue.",
 ] as const
 
 /**
@@ -78,8 +78,8 @@ export const WEEKLY_AVERAGE = [
  */
 export const WEEKLY_DIFFICULT = [
   'Semaine compliquée ? Ça arrive.',
-  'Pas la meilleure semaine, mais ce n\'est qu\'une semaine.',
-  'L\'important n\'est pas de tomber, c\'est de se relever.',
+  "Pas la meilleure semaine, mais ce n'est qu'une semaine.",
+  "L'important n'est pas de tomber, c'est de se relever.",
   'Nouveau départ dans 3... 2... 1...',
 ] as const
 
@@ -89,11 +89,10 @@ export const WEEKLY_DIFFICULT = [
 export const MILESTONE_MESSAGES = {
   weeks: (count: number) =>
     `Ça fait ${count} semaines que tu as commencé. Regarde le chemin parcouru.`,
-  days: (count: number) =>
-    `${count} jours sur cette habitude. Tu n'es plus la même personne.`,
+  days: (count: number) => `${count} jours sur cette habitude. Tu n'es plus la même personne.`,
   months: (count: number) =>
     count === 1
-      ? 'Un mois. Puis deux. Puis trois. C\'est ça, l\'effet composé.'
+      ? "Un mois. Puis deux. Puis trois. C'est ça, l'effet composé."
       : `${count} mois. L'effet composé fait son travail.`,
 } as const
 
@@ -115,7 +114,7 @@ export const EMPTY_STATE = {
  */
 export const HABIT_CREATED = [
   'Habitude créée. Ta dose du jour commence demain.',
-  'C\'est parti. Tu verras ta première dose demain matin.',
+  "C'est parti. Tu verras ta première dose demain matin.",
 ] as const
 
 /**
@@ -123,7 +122,7 @@ export const HABIT_CREATED = [
  */
 export const HABIT_MODIFIED = [
   'Modification enregistrée.',
-  'C\'est noté. Ta nouvelle progression démarre maintenant.',
+  "C'est noté. Ta nouvelle progression démarre maintenant.",
 ] as const
 
 /**
@@ -143,7 +142,8 @@ export const EXPORT_SUCCESS = 'Export terminé. Tes données sont dans le fichie
  * Messages d'import
  */
 export const IMPORT_SUCCESS = 'Import réussi. Tes données sont restaurées.'
-export const IMPORT_ERROR = 'Ce fichier ne semble pas compatible. Vérifie qu\'il s\'agit d\'un export Doucement.'
+export const IMPORT_ERROR =
+  "Ce fichier ne semble pas compatible. Vérifie qu'il s'agit d'un export Doucement."
 
 // ============================================================================
 // MESSAGES DE PROGRESSION
@@ -153,29 +153,25 @@ export const IMPORT_ERROR = 'Ce fichier ne semble pas compatible. Vérifie qu\'i
  * Messages pour augmentation de dose
  */
 export const DOSE_INCREASE = {
-  template: (value: number) =>
-    `Nouvelle dose : ${value}. Tu as grandi depuis le début.`,
-  templateAlt: (value: number) =>
-    `Ta dose augmente à ${value}. Signe que tu progresses.`,
+  template: (value: number) => `Nouvelle dose : ${value}. Tu as grandi depuis le début.`,
+  templateAlt: (value: number) => `Ta dose augmente à ${value}. Signe que tu progresses.`,
 } as const
 
 /**
  * Messages pour diminution de dose
  */
 export const DOSE_DECREASE = {
-  template: (value: number) =>
-    `Nouvelle cible : ${value}. Tu te rapproches de ton objectif.`,
-  templateAlt: (value: number) =>
-    `Dose réduite à ${value}. Chaque jour, un peu moins.`,
+  template: (value: number) => `Nouvelle cible : ${value}. Tu te rapproches de ton objectif.`,
+  templateAlt: (value: number) => `Dose réduite à ${value}. Chaque jour, un peu moins.`,
 } as const
 
 /**
  * Messages pour objectif atteint
  */
 export const GOAL_REACHED = [
-  'Objectif atteint. Tu l\'as fait.',
+  "Objectif atteint. Tu l'as fait.",
   'La cible est atteinte. Félicitations, vraiment.',
-  'C\'est fait. Tu peux être fier·e de toi.',
+  "C'est fait. Tu peux être fier·e de toi.",
 ] as const
 
 // ============================================================================
@@ -189,18 +185,14 @@ export const ENCOURAGING_MESSAGES = {
   morning: [
     'Nouvelle journée, nouvelles possibilités',
     'Le matin est fait pour les premiers pas',
-    'Aujourd\'hui t\'appartient',
+    "Aujourd'hui t'appartient",
   ],
   afternoon: [
     'Tu as encore du temps devant toi',
-    'L\'après-midi est encore long',
+    "L'après-midi est encore long",
     'Continue sur ta lancée',
   ],
-  evening: [
-    'Termine en douceur',
-    'La journée touche à sa fin',
-    'Il reste encore un peu de temps',
-  ],
+  evening: ['Termine en douceur', 'La journée touche à sa fin', 'Il reste encore un peu de temps'],
 } as const
 
 /**
@@ -227,16 +219,16 @@ export const IMPLEMENTATION_INTENTION = {
   triggerHelp: 'Choisis un déclencheur qui fait déjà partie de ta routine.',
   locationLabel: 'Où ?',
   locationPlaceholder: 'Ex: Dans le salon',
-  locationHelp: 'Un lieu précis aide à automatiser l\'habitude.',
+  locationHelp: "Un lieu précis aide à automatiser l'habitude.",
   timeLabel: 'À quelle heure ?',
-  timeHelp: 'Optionnel. L\'heure approximative prévue.',
+  timeHelp: "Optionnel. L'heure approximative prévue.",
   skipButton: 'Passer cette étape',
   exampleTriggers: [
     'Après mon café du matin',
     'Après le déjeuner',
     'Avant de me coucher',
     'En rentrant du travail',
-    'Après m\'être brossé les dents',
+    "Après m'être brossé les dents",
   ],
 } as const
 
@@ -262,7 +254,7 @@ export const HABIT_STACKING = {
   selectorLabel: 'Après quelle habitude ?',
   selectorPlaceholder: 'Choisir une habitude...',
   selectorHelp: 'Enchaîne cette nouvelle habitude avec une que tu fais déjà.',
-  noHabitsAvailable: 'Crée d\'abord une autre habitude pour pouvoir les enchaîner.',
+  noHabitsAvailable: "Crée d'abord une autre habitude pour pouvoir les enchaîner.",
   linkedBadge: 'Enchaîné',
   afterLabel: 'Après :',
 } as const
@@ -280,7 +272,7 @@ export const WELCOME_BACK = [
   'De retour ? On reprend doucement.',
   'Te revoilà. Pas de pression, on continue.',
   'Bienvenue de retour. Chaque jour est une nouvelle chance.',
-  'Tu es revenu·e. C\'est déjà une victoire.',
+  "Tu es revenu·e. C'est déjà une victoire.",
 ] as const
 
 /**
@@ -290,8 +282,8 @@ export const HABIT_NEGLECTED = {
   title: 'Ça faisait longtemps',
   subtitle: (days: number) =>
     days === 1
-      ? 'Tu n\'as pas enregistré cette habitude hier.'
-      : `Tu n\'as pas enregistré cette habitude depuis ${days} jours.`,
+      ? "Tu n'as pas enregistré cette habitude hier."
+      : `Tu n'as pas enregistré cette habitude depuis ${days} jours.`,
   encouragement: 'Pas de souci. On reprend là où tu en es.',
   resumeButton: 'Reprendre',
 } as const
@@ -302,7 +294,8 @@ export const HABIT_NEGLECTED = {
 export const PLANNED_PAUSE = {
   buttonLabel: 'Prendre une pause',
   dialogTitle: 'Pause planifiée',
-  dialogDescription: 'Pendant une pause, cette habitude n\'apparaîtra pas dans ta dose du jour et n\'affectera pas tes stats.',
+  dialogDescription:
+    "Pendant une pause, cette habitude n'apparaîtra pas dans ta dose du jour et n'affectera pas tes stats.",
   reasonLabel: 'Raison (optionnel)',
   reasonPlaceholder: 'Vacances, maladie, projet...',
   startDateLabel: 'Début de la pause',
@@ -311,12 +304,7 @@ export const PLANNED_PAUSE = {
   cancelButton: 'Annuler',
   activePauseBadge: 'En pause',
   resumeButton: 'Reprendre',
-  pauseReasons: [
-    'Vacances',
-    'Maladie',
-    'Période chargée',
-    'Autre priorité',
-  ],
+  pauseReasons: ['Vacances', 'Maladie', 'Période chargée', 'Autre priorité'],
 } as const
 
 // ============================================================================
@@ -328,8 +316,9 @@ export const PLANNED_PAUSE = {
  */
 export const SIMPLE_TRACKING = {
   doneButton: 'Fait',
-  notTodayButton: 'Pas aujourd\'hui',
-  transitionSuggestion: 'Tu utilises cette habitude depuis 30 jours ! Veux-tu passer au suivi détaillé ?',
+  notTodayButton: "Pas aujourd'hui",
+  transitionSuggestion:
+    'Tu utilises cette habitude depuis 30 jours ! Veux-tu passer au suivi détaillé ?',
   transitionYes: 'Oui, passer au détaillé',
   transitionNo: 'Rester en mode simple',
 } as const
@@ -345,13 +334,7 @@ export const INTENTIONAL_FRICTION = {
   delayTitle: 'Un moment de réflexion',
   delayMessage: 'Prends quelques secondes pour réfléchir...',
   preLogQuestion: 'Comment te sens-tu en ce moment ?',
-  preLogOptions: [
-    'Stressé·e',
-    'Ennuyé·e',
-    'Fatigué·e',
-    'Par habitude',
-    'Vraiment envie',
-  ],
+  preLogOptions: ['Stressé·e', 'Ennuyé·e', 'Fatigué·e', 'Par habitude', 'Vraiment envie'],
   alternativeSuggestionTitle: 'Une alternative ?',
   alternativeSuggestionText: 'Et si tu essayais plutôt...',
   continueAnyway: 'Continuer quand même',
@@ -366,8 +349,8 @@ export const INTENTIONAL_FRICTION = {
  */
 export const WEEKLY_REFLECTION = {
   questionTitle: 'Réflexion de la semaine',
-  mainQuestion: 'Qu\'est-ce qui a bien fonctionné cette semaine ?',
-  placeholder: 'Note ce qui t\'a aidé à tenir tes habitudes...',
+  mainQuestion: "Qu'est-ce qui a bien fonctionné cette semaine ?",
+  placeholder: "Note ce qui t'a aidé à tenir tes habitudes...",
   saveButton: 'Enregistrer',
   skipButton: 'Passer',
   savedMessage: 'Réflexion enregistrée.',
@@ -411,16 +394,15 @@ export const ADJUSTMENT_SUGGESTIONS = {
  */
 export const ABOUT_TEXT = {
   description:
-    'Doucement est une application conçue pour t\'aider à améliorer tes habitudes progressivement, sans culpabilité.',
-  privacy:
-    'Tes données restent sur ton appareil. Aucune information n\'est collectée ni transmise.',
+    "Doucement est une application conçue pour t'aider à améliorer tes habitudes progressivement, sans culpabilité.",
+  privacy: "Tes données restent sur ton appareil. Aucune information n'est collectée ni transmise.",
 } as const
 
 /**
  * Texte Vie privée détaillé
  */
 export const PRIVACY_TEXT =
-  'Cette application fonctionne entièrement hors ligne. Aucune donnée personnelle n\'est collectée, stockée sur des serveurs ou partagée avec des tiers. Toutes tes informations restent exclusivement sur ton appareil.'
+  "Cette application fonctionne entièrement hors ligne. Aucune donnée personnelle n'est collectée, stockée sur des serveurs ou partagée avec des tiers. Toutes tes informations restent exclusivement sur ton appareil."
 
 // ============================================================================
 // UTILITAIRES
@@ -468,8 +450,6 @@ export function getWeeklyMessage(activeDaysRatio: number): string {
 /**
  * Sélectionne un message encourageant selon le moment de la journée
  */
-export function getEncouragingMessage(
-  timeOfDay: 'morning' | 'afternoon' | 'evening'
-): string {
+export function getEncouragingMessage(timeOfDay: 'morning' | 'afternoon' | 'evening'): string {
   return randomMessage(ENCOURAGING_MESSAGES[timeOfDay])
 }

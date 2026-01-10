@@ -64,13 +64,10 @@ function formatDateRange(startDate: string, endDate: string): string {
  */
 function getWeekId(date: string): string {
   const d = new Date(date)
-  const dayOfYear = Math.floor(
-    (d.getTime() - new Date(d.getFullYear(), 0, 0).getTime()) / 86400000
-  )
+  const dayOfYear = Math.floor((d.getTime() - new Date(d.getFullYear(), 0, 0).getTime()) / 86400000)
   const weekNumber = Math.ceil((dayOfYear + new Date(d.getFullYear(), 0, 1).getDay()) / 7)
   return `${d.getFullYear()}-W${String(weekNumber).padStart(2, '0')}`
 }
-
 
 /**
  * Calcule les statistiques globales de la semaine pour toutes les habitudes
@@ -88,12 +85,7 @@ interface WeeklyStats {
  */
 function WeeklyReview() {
   const navigate = useNavigate()
-  const {
-    activeHabits,
-    data,
-    updatePreferences,
-    isLoading,
-  } = useAppData()
+  const { activeHabits, data, updatePreferences, isLoading } = useAppData()
 
   const today = getCurrentDate()
   const { startDate, endDate, dates } = useMemo(() => getWeekDates(), [])
@@ -165,9 +157,8 @@ function WeeklyReview() {
 
     // Moyenne de complétion
     const totalCompletion = dailyCompletions.reduce((sum, c) => sum + c, 0)
-    const averageCompletion = dailyCompletions.length > 0
-      ? totalCompletion / dailyCompletions.length
-      : 0
+    const averageCompletion =
+      dailyCompletions.length > 0 ? totalCompletion / dailyCompletions.length : 0
 
     return {
       totalActiveDays: daysWithEntries,
@@ -179,9 +170,7 @@ function WeeklyReview() {
 
   // Message d'encouragement basé sur la performance
   const encouragingMessage = useMemo(() => {
-    const ratio = activeHabits.length > 0
-      ? weeklyStats.totalActiveDays / 7
-      : 0
+    const ratio = activeHabits.length > 0 ? weeklyStats.totalActiveDays / 7 : 0
     return getWeeklyMessage(ratio)
   }, [weeklyStats.totalActiveDays, activeHabits.length])
 
@@ -207,7 +196,9 @@ function WeeklyReview() {
     return (
       <div className="page page-weekly-review page-weekly-review--empty">
         <div className="weekly-review__empty">
-          <span className="weekly-review__empty-emoji" aria-hidden="true">📊</span>
+          <span className="weekly-review__empty-emoji" aria-hidden="true">
+            📊
+          </span>
           <h1>Pas encore d'habitudes</h1>
           <p>Crée ta première habitude pour voir ta revue hebdomadaire.</p>
           <Button variant="primary" onClick={() => navigate('/create')}>
@@ -229,7 +220,9 @@ function WeeklyReview() {
       {/* Message d'encouragement */}
       <section className="weekly-review__section" aria-label="Message">
         <Card variant="highlight" className="weekly-review__message">
-          <span className="weekly-review__message-emoji" aria-hidden="true">🌱</span>
+          <span className="weekly-review__message-emoji" aria-hidden="true">
+            🌱
+          </span>
           <p className="weekly-review__message-text">{encouragingMessage}</p>
         </Card>
       </section>
@@ -237,7 +230,10 @@ function WeeklyReview() {
       {/* Statistiques globales */}
       <section className="weekly-review__section" aria-label="Statistiques globales">
         <div className="weekly-review__global-stats">
-          <Card variant="elevated" className="weekly-review__stat-card weekly-review__stat-card--main">
+          <Card
+            variant="elevated"
+            className="weekly-review__stat-card weekly-review__stat-card--main"
+          >
             <div className="weekly-review__stat-value">{weeklyStats.averageCompletion}%</div>
             <div className="weekly-review__stat-label">Complétion cette semaine</div>
           </Card>
@@ -282,7 +278,10 @@ function WeeklyReview() {
               <div key={date} className={`weekly-review__day weekly-review__day--${status}`}>
                 <span className="weekly-review__day-name">{dayName}</span>
                 <span className="weekly-review__day-number">{dayNumber}</span>
-                <span className="weekly-review__day-indicator" aria-label={`${Math.round(completion)}%`}>
+                <span
+                  className="weekly-review__day-indicator"
+                  aria-label={`${Math.round(completion)}%`}
+                >
                   {status === 'completed' ? '●' : status === 'partial' ? '◐' : '○'}
                 </span>
               </div>

@@ -5,7 +5,12 @@
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
-import { exportData, importFromFile, formatImportResult, ImportResult } from '../services/importExport'
+import {
+  exportData,
+  importFromFile,
+  formatImportResult,
+  ImportResult,
+} from '../services/importExport'
 import { EXPORT_SUCCESS, ABOUT_TEXT } from '../constants/messages'
 import { NotificationSettings as NotificationSettingsType } from '../types'
 import Card from '../components/ui/Card'
@@ -39,11 +44,14 @@ function Settings() {
   /**
    * Met à jour les paramètres de notifications
    */
-  const handleNotificationSettingsChange = useCallback((settings: NotificationSettingsType) => {
-    updatePreferences({
-      notifications: settings,
-    })
-  }, [updatePreferences])
+  const handleNotificationSettingsChange = useCallback(
+    (settings: NotificationSettingsType) => {
+      updatePreferences({
+        notifications: settings,
+      })
+    },
+    [updatePreferences]
+  )
 
   /**
    * Vérifie si le rappel du soir doit être envoyé
@@ -68,7 +76,7 @@ function Settings() {
       setExportMessage(EXPORT_SUCCESS)
       setTimeout(() => setExportMessage(null), 4000)
     } else {
-      setExportMessage(result.error || 'Erreur lors de l\'export')
+      setExportMessage(result.error || "Erreur lors de l'export")
       setTimeout(() => setExportMessage(null), 4000)
     }
   }, [])
@@ -136,8 +144,8 @@ function Settings() {
   // STATS
   // ============================================================================
 
-  const habitsCount = data.habits.filter(h => h.archivedAt === null).length
-  const archivedCount = data.habits.filter(h => h.archivedAt !== null).length
+  const habitsCount = data.habits.filter((h) => h.archivedAt === null).length
+  const archivedCount = data.habits.filter((h) => h.archivedAt !== null).length
   const entriesCount = data.entries.length
 
   return (
@@ -148,13 +156,17 @@ function Settings() {
 
       {/* Section: Données */}
       <section className="settings__section" aria-labelledby="section-data">
-        <h2 id="section-data" className="settings__section-title">Tes données</h2>
+        <h2 id="section-data" className="settings__section-title">
+          Tes données
+        </h2>
 
         <Card variant="default" className="settings__card">
           <div className="settings__stats">
             <div className="settings__stat">
               <span className="settings__stat-value">{habitsCount}</span>
-              <span className="settings__stat-label">habitude{habitsCount !== 1 ? 's' : ''} active{habitsCount !== 1 ? 's' : ''}</span>
+              <span className="settings__stat-label">
+                habitude{habitsCount !== 1 ? 's' : ''} active{habitsCount !== 1 ? 's' : ''}
+              </span>
             </div>
             <div className="settings__stat">
               <span className="settings__stat-value">{archivedCount}</span>
@@ -205,7 +217,9 @@ function Settings() {
 
       {/* Section: Notifications */}
       <section className="settings__section" aria-labelledby="section-notifications">
-        <h2 id="section-notifications" className="settings__section-title">Rappels</h2>
+        <h2 id="section-notifications" className="settings__section-title">
+          Rappels
+        </h2>
 
         <NotificationSettings
           settings={data.preferences.notifications}
@@ -216,7 +230,9 @@ function Settings() {
 
       {/* Section: Application */}
       <section className="settings__section" aria-labelledby="section-app">
-        <h2 id="section-app" className="settings__section-title">Application</h2>
+        <h2 id="section-app" className="settings__section-title">
+          Application
+        </h2>
 
         <div className="settings__actions">
           <Button
@@ -232,21 +248,26 @@ function Settings() {
 
       {/* Section: À propos */}
       <section className="settings__section" aria-labelledby="section-about">
-        <h2 id="section-about" className="settings__section-title">À propos</h2>
+        <h2 id="section-about" className="settings__section-title">
+          À propos
+        </h2>
 
         <Card variant="default" className="settings__card settings__about-card">
           <p className="settings__about-text">
             <strong>Doucement</strong> — {ABOUT_TEXT.description}
           </p>
-          <p className="settings__about-text settings__about-privacy">
-            🔒 {ABOUT_TEXT.privacy}
-          </p>
+          <p className="settings__about-text settings__about-privacy">🔒 {ABOUT_TEXT.privacy}</p>
         </Card>
       </section>
 
       {/* Section: Zone de danger */}
-      <section className="settings__section settings__section--danger" aria-labelledby="section-danger">
-        <h2 id="section-danger" className="settings__section-title">Zone sensible</h2>
+      <section
+        className="settings__section settings__section--danger"
+        aria-labelledby="section-danger"
+      >
+        <h2 id="section-danger" className="settings__section-title">
+          Zone sensible
+        </h2>
 
         <div className="settings__actions">
           <Button
@@ -266,23 +287,25 @@ function Settings() {
       {/* Modal: Confirmation d'import */}
       {modal.type === 'import-confirm' && (
         <div className="settings__modal-overlay" onClick={handleCloseModal}>
-          <div className="settings__modal" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true">
+          <div
+            className="settings__modal"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+          >
             <h3 className="settings__modal-title">Importer des données</h3>
             <p className="settings__modal-text">
               L'import remplacera toutes tes données actuelles par celles du fichier.
             </p>
             <p className="settings__modal-text settings__modal-text--warning">
-              Cette action est irréversible. Pense à exporter tes données actuelles avant si tu veux les conserver.
+              Cette action est irréversible. Pense à exporter tes données actuelles avant si tu veux
+              les conserver.
             </p>
             <div className="settings__modal-actions">
               <Button variant="ghost" onClick={handleCloseModal}>
                 Annuler
               </Button>
-              <Button
-                variant="primary"
-                onClick={handleConfirmImport}
-                disabled={isImporting}
-              >
+              <Button variant="primary" onClick={handleConfirmImport} disabled={isImporting}>
                 {isImporting ? 'Import en cours...' : 'Importer'}
               </Button>
             </div>
@@ -293,7 +316,12 @@ function Settings() {
       {/* Modal: Résultat d'import */}
       {modal.type === 'import-result' && modal.result && (
         <div className="settings__modal-overlay" onClick={handleCloseModal}>
-          <div className="settings__modal" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true">
+          <div
+            className="settings__modal"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+          >
             <h3 className="settings__modal-title">
               {modal.result.success ? '✓ Import réussi' : 'Import échoué'}
             </h3>
@@ -312,7 +340,12 @@ function Settings() {
       {/* Modal: Confirmation de réinitialisation */}
       {modal.type === 'reset-confirm' && (
         <div className="settings__modal-overlay" onClick={handleCloseModal}>
-          <div className="settings__modal" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true">
+          <div
+            className="settings__modal"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+          >
             <h3 className="settings__modal-title">Réinitialiser l'application</h3>
             <p className="settings__modal-text">
               Tu vas supprimer toutes tes habitudes et ton historique.

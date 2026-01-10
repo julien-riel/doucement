@@ -52,12 +52,7 @@ function formatDayLabel(dateStr: string): string {
  * Composant ProgressChart
  * Graphique dose cible vs réalisé sur la période
  */
-function ProgressChart({
-  habit,
-  entries,
-  referenceDate,
-  daysToShow = 7,
-}: ProgressChartProps) {
+function ProgressChart({ habit, entries, referenceDate, daysToShow = 7 }: ProgressChartProps) {
   const today = referenceDate || new Date().toISOString().split('T')[0]
 
   const chartData = useMemo<DayData[]>(() => {
@@ -174,11 +169,7 @@ function ProgressChart({
         {/* Labels des jours */}
         <div className="progress-chart__labels">
           {chartData.map((day) => (
-            <span
-              key={day.date}
-              className="progress-chart__day-label"
-              aria-label={day.date}
-            >
+            <span key={day.date} className="progress-chart__day-label" aria-label={day.date}>
               {day.dayLabel}
             </span>
           ))}

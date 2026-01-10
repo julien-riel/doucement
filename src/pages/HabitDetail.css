@@ -104,7 +104,7 @@
 }
 
 .habit-detail__badge--paused {
-  background: #FBBF24; /* amber */
+  background: #fbbf24; /* amber */
   color: var(--neutral-800);
 }
 

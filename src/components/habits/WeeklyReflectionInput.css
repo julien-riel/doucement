@@ -31,7 +31,9 @@
   background: var(--neutral-0);
   resize: vertical;
   min-height: 80px;
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .weekly-reflection__textarea:focus {

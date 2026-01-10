@@ -8,7 +8,7 @@
  * - Non intrusives (ton bienveillant)
  */
 
-import { NotificationSettings, ReminderType, ReminderConfig } from '../types';
+import { NotificationSettings, ReminderType, ReminderConfig } from '../types'
 
 // ============================================================================
 // TYPES
@@ -17,34 +17,34 @@ import { NotificationSettings, ReminderType, ReminderConfig } from '../types';
 /**
  * État de permission des notifications
  */
-export type NotificationPermissionState = 'granted' | 'denied' | 'default' | 'unsupported';
+export type NotificationPermissionState = 'granted' | 'denied' | 'default' | 'unsupported'
 
 /**
  * Résultat d'une demande de permission
  */
 export interface PermissionResult {
-  success: boolean;
-  state: NotificationPermissionState;
-  error?: string;
+  success: boolean
+  state: NotificationPermissionState
+  error?: string
 }
 
 /**
  * Options pour une notification
  */
 export interface NotificationOptions {
-  title: string;
-  body: string;
-  icon?: string;
-  tag?: string;
-  requireInteraction?: boolean;
+  title: string
+  body: string
+  icon?: string
+  tag?: string
+  requireInteraction?: boolean
 }
 
 /**
  * Scheduled notification tracker
  */
 interface ScheduledReminder {
-  type: ReminderType;
-  timeoutId: ReturnType<typeof setTimeout>;
+  type: ReminderType
+  timeoutId: ReturnType<typeof setTimeout>
 }
 
 // ============================================================================
@@ -67,7 +67,7 @@ export const NOTIFICATION_MESSAGES = {
     title: 'Doucement',
     body: "C'est l'heure de votre revue hebdomadaire 📊",
   },
-};
+}
 
 // ============================================================================
 // SERVICE WORKER MESSAGE TYPES
@@ -80,7 +80,7 @@ const SW_MESSAGE_TYPES = {
   SCHEDULE_NOTIFICATION: 'SCHEDULE_NOTIFICATION',
   CANCEL_NOTIFICATION: 'CANCEL_NOTIFICATION',
   CANCEL_ALL_NOTIFICATIONS: 'CANCEL_ALL_NOTIFICATIONS',
-} as const;
+} as const
 
 // ============================================================================
 // STATE
@@ -89,7 +89,7 @@ const SW_MESSAGE_TYPES = {
 /**
  * Active scheduled reminders
  */
-const scheduledReminders: ScheduledReminder[] = [];
+const scheduledReminders: ScheduledReminder[] = []
 
 // ============================================================================
 // PERMISSION FUNCTIONS
@@ -99,7 +99,7 @@ const scheduledReminders: ScheduledReminder[] = [];
  * Vérifie si les notifications sont supportées par le navigateur
  */
 export function isNotificationSupported(): boolean {
-  return 'Notification' in window;
+  return 'Notification' in window
 }
 
 /**
@@ -107,9 +107,9 @@ export function isNotificationSupported(): boolean {
  */
 export function getNotificationPermissionState(): NotificationPermissionState {
   if (!isNotificationSupported()) {
-    return 'unsupported';
+    return 'unsupported'
   }
-  return Notification.permission as NotificationPermissionState;
+  return Notification.permission as NotificationPermissionState
 }
 
 /**
@@ -123,7 +123,7 @@ export async function requestNotificationPermission(): Promise<PermissionResult>
       success: false,
       state: 'unsupported',
       error: 'Les notifications ne sont pas supportées par ce navigateur',
-    };
+    }
   }
 
   // Already granted
@@ -131,7 +131,7 @@ export async function requestNotificationPermission(): Promise<PermissionResult>
     return {
       success: true,
       state: 'granted',
-    };
+    }
   }
 
   // Already denied - can't request again
@@ -139,26 +139,25 @@ export async function requestNotificationPermission(): Promise<PermissionResult>
     return {
       success: false,
       state: 'denied',
-      error: 'Les notifications ont été refusées. Modifiez les paramètres de votre navigateur pour les autoriser.',
-    };
+      error:
+        'Les notifications ont été refusées. Modifiez les paramètres de votre navigateur pour les autoriser.',
+    }
   }
 
   // Request permission
   try {
-    const permission = await Notification.requestPermission();
+    const permission = await Notification.requestPermission()
     return {
       success: permission === 'granted',
       state: permission as NotificationPermissionState,
-      error: permission === 'denied'
-        ? 'Permission refusée'
-        : undefined,
-    };
+      error: permission === 'denied' ? 'Permission refusée' : undefined,
+    }
   } catch (error) {
     return {
       success: false,
       state: 'default',
       error: error instanceof Error ? error.message : 'Erreur lors de la demande de permission',
-    };
+    }
   }
 }
 
@@ -174,7 +173,7 @@ export async function requestNotificationPermission(): Promise<PermissionResult>
  */
 export function showNotification(options: NotificationOptions): boolean {
   if (!isNotificationSupported() || Notification.permission !== 'granted') {
-    return false;
+    return false
   }
 
   try {
@@ -183,22 +182,22 @@ export function showNotification(options: NotificationOptions): boolean {
       icon: options.icon || '/icons/icon-192x192.png',
       tag: options.tag,
       requireInteraction: options.requireInteraction || false,
-    });
+    })
 
     // Auto-close after 10 seconds if not requiring interaction
     if (!options.requireInteraction) {
-      setTimeout(() => notification.close(), 10000);
+      setTimeout(() => notification.close(), 10000)
     }
 
     // Handle click - focus the app
     notification.onclick = () => {
-      window.focus();
-      notification.close();
-    };
+      window.focus()
+      notification.close()
+    }
 
-    return true;
+    return true
   } catch {
-    return false;
+    return false
   }
 }
 
@@ -213,18 +212,18 @@ export function showNotification(options: NotificationOptions): boolean {
  * @returns Délai en millisecondes
  */
 export function calculateDelayUntil(timeString: string): number {
-  const [hours, minutes] = timeString.split(':').map(Number);
-  const now = new Date();
-  const target = new Date();
+  const [hours, minutes] = timeString.split(':').map(Number)
+  const now = new Date()
+  const target = new Date()
 
-  target.setHours(hours, minutes, 0, 0);
+  target.setHours(hours, minutes, 0, 0)
 
   // Si l'heure est passée, programmer pour demain
   if (target <= now) {
-    target.setDate(target.getDate() + 1);
+    target.setDate(target.getDate() + 1)
   }
 
-  return target.getTime() - now.getTime();
+  return target.getTime() - now.getTime()
 }
 
 /**
@@ -234,23 +233,23 @@ export function calculateDelayUntil(timeString: string): number {
  * @returns Délai en millisecondes
  */
 export function calculateDelayUntilNextSunday(timeString: string): number {
-  const [hours, minutes] = timeString.split(':').map(Number);
-  const now = new Date();
-  const target = new Date();
+  const [hours, minutes] = timeString.split(':').map(Number)
+  const now = new Date()
+  const target = new Date()
 
-  target.setHours(hours, minutes, 0, 0);
+  target.setHours(hours, minutes, 0, 0)
 
   // Trouver le prochain dimanche (0 = dimanche)
-  const daysUntilSunday = (7 - target.getDay()) % 7;
+  const daysUntilSunday = (7 - target.getDay()) % 7
 
   if (daysUntilSunday === 0 && target <= now) {
     // C'est dimanche mais l'heure est passée, programmer pour dimanche prochain
-    target.setDate(target.getDate() + 7);
+    target.setDate(target.getDate() + 7)
   } else {
-    target.setDate(target.getDate() + daysUntilSunday);
+    target.setDate(target.getDate() + daysUntilSunday)
   }
 
-  return target.getTime() - now.getTime();
+  return target.getTime() - now.getTime()
 }
 
 /**
@@ -266,32 +265,32 @@ export function scheduleReminder(
   checkCondition?: () => boolean
 ): void {
   if (!config.enabled) {
-    return;
+    return
   }
 
   // Annuler le rappel existant de ce type
-  cancelReminder(type);
+  cancelReminder(type)
 
-  let delay: number;
+  let delay: number
 
   if (type === 'weeklyReview') {
-    delay = calculateDelayUntilNextSunday(config.time);
+    delay = calculateDelayUntilNextSunday(config.time)
   } else {
-    delay = calculateDelayUntil(config.time);
+    delay = calculateDelayUntil(config.time)
   }
 
-  const message = NOTIFICATION_MESSAGES[type];
+  const message = NOTIFICATION_MESSAGES[type]
 
   // Also schedule via Service Worker for background support
   // This allows notifications even when the app is closed (PWA only)
-  scheduleNotificationViaSW(type, message.title, message.body, delay);
+  scheduleNotificationViaSW(type, message.title, message.body, delay)
 
   const timeoutId = setTimeout(() => {
     // Vérifier la condition si fournie
     if (checkCondition && !checkCondition()) {
       // Re-programmer pour le lendemain/semaine prochaine
-      scheduleReminder(type, config, checkCondition);
-      return;
+      scheduleReminder(type, config, checkCondition)
+      return
     }
 
     // Afficher la notification
@@ -299,13 +298,13 @@ export function scheduleReminder(
       title: message.title,
       body: message.body,
       tag: `doucement-${type}`,
-    });
+    })
 
     // Re-programmer pour le lendemain/semaine prochaine
-    scheduleReminder(type, config, checkCondition);
-  }, delay);
+    scheduleReminder(type, config, checkCondition)
+  }, delay)
 
-  scheduledReminders.push({ type, timeoutId });
+  scheduledReminders.push({ type, timeoutId })
 }
 
 /**
@@ -314,23 +313,23 @@ export function scheduleReminder(
  * @param type Type de rappel à annuler
  */
 export function cancelReminder(type: ReminderType): void {
-  const index = scheduledReminders.findIndex(r => r.type === type);
+  const index = scheduledReminders.findIndex((r) => r.type === type)
   if (index !== -1) {
-    clearTimeout(scheduledReminders[index].timeoutId);
-    scheduledReminders.splice(index, 1);
+    clearTimeout(scheduledReminders[index].timeoutId)
+    scheduledReminders.splice(index, 1)
   }
   // Also cancel via Service Worker
-  cancelNotificationViaSW(type);
+  cancelNotificationViaSW(type)
 }
 
 /**
  * Annule tous les rappels programmés
  */
 export function cancelAllReminders(): void {
-  scheduledReminders.forEach(r => clearTimeout(r.timeoutId));
-  scheduledReminders.length = 0;
+  scheduledReminders.forEach((r) => clearTimeout(r.timeoutId))
+  scheduledReminders.length = 0
   // Also cancel via Service Worker
-  cancelAllNotificationsViaSW();
+  cancelAllNotificationsViaSW()
 }
 
 /**
@@ -344,17 +343,17 @@ export function scheduleAllReminders(
   checkEveningCondition?: () => boolean
 ): void {
   // Annuler tous les rappels existants
-  cancelAllReminders();
+  cancelAllReminders()
 
   // Si les notifications sont désactivées globalement, ne rien programmer
   if (!settings.enabled || Notification.permission !== 'granted') {
-    return;
+    return
   }
 
   // Programmer les rappels actifs
-  scheduleReminder('morning', settings.morningReminder);
-  scheduleReminder('evening', settings.eveningReminder, checkEveningCondition);
-  scheduleReminder('weeklyReview', settings.weeklyReviewReminder);
+  scheduleReminder('morning', settings.morningReminder)
+  scheduleReminder('evening', settings.eveningReminder, checkEveningCondition)
+  scheduleReminder('weeklyReview', settings.weeklyReviewReminder)
 }
 
 // ============================================================================
@@ -365,26 +364,26 @@ export function scheduleAllReminders(
  * Vérifie si les notifications peuvent être activées
  */
 export function canEnableNotifications(): boolean {
-  return isNotificationSupported() && Notification.permission !== 'denied';
+  return isNotificationSupported() && Notification.permission !== 'denied'
 }
 
 /**
  * Obtient un message descriptif de l'état de permission
  */
 export function getPermissionStateMessage(): string {
-  const state = getNotificationPermissionState();
+  const state = getNotificationPermissionState()
 
   switch (state) {
     case 'granted':
-      return 'Notifications autorisées';
+      return 'Notifications autorisées'
     case 'denied':
-      return 'Notifications bloquées. Modifiez les paramètres de votre navigateur.';
+      return 'Notifications bloquées. Modifiez les paramètres de votre navigateur.'
     case 'default':
-      return 'Cliquez pour activer les notifications';
+      return 'Cliquez pour activer les notifications'
     case 'unsupported':
-      return 'Les notifications ne sont pas supportées par ce navigateur';
+      return 'Les notifications ne sont pas supportées par ce navigateur'
     default:
-      return 'État inconnu';
+      return 'État inconnu'
   }
 }
 
@@ -396,7 +395,7 @@ export function getPermissionStateMessage(): string {
  * Vérifie si le Service Worker est disponible
  */
 export function isServiceWorkerAvailable(): boolean {
-  return 'serviceWorker' in navigator && navigator.serviceWorker.controller !== null;
+  return 'serviceWorker' in navigator && navigator.serviceWorker.controller !== null
 }
 
 /**
@@ -404,12 +403,12 @@ export function isServiceWorkerAvailable(): boolean {
  */
 async function postMessageToSW(message: { type: string; payload?: unknown }): Promise<void> {
   if (!isServiceWorkerAvailable()) {
-    return;
+    return
   }
 
   try {
-    const registration = await navigator.serviceWorker.ready;
-    registration.active?.postMessage(message);
+    const registration = await navigator.serviceWorker.ready
+    registration.active?.postMessage(message)
   } catch {
     // Service Worker not available, fallback to setTimeout
   }
@@ -435,7 +434,7 @@ export async function scheduleNotificationViaSW(
       icon: '/icons/icon-192x192.png',
       tag: `doucement-${id}`,
     },
-  });
+  })
 }
 
 /**
@@ -445,7 +444,7 @@ export async function cancelNotificationViaSW(id: string): Promise<void> {
   await postMessageToSW({
     type: SW_MESSAGE_TYPES.CANCEL_NOTIFICATION,
     payload: { id },
-  });
+  })
 }
 
 /**
@@ -454,5 +453,5 @@ export async function cancelNotificationViaSW(id: string): Promise<void> {
 export async function cancelAllNotificationsViaSW(): Promise<void> {
   await postMessageToSW({
     type: SW_MESSAGE_TYPES.CANCEL_ALL_NOTIFICATIONS,
-  });
+  })
 }

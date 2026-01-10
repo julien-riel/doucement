@@ -3,18 +3,18 @@
  * Composant bienveillant pour informer l'utilisateur des problèmes techniques
  */
 
-import { StorageError, StorageErrorType } from '../../services/storage';
-import './ErrorBanner.css';
+import { StorageError, StorageErrorType } from '../../services/storage'
+import './ErrorBanner.css'
 
 interface ErrorBannerProps {
   /** Erreur de stockage à afficher */
-  error: StorageError | null;
+  error: StorageError | null
   /** Callback pour réessayer l'opération */
-  onRetry?: () => void;
+  onRetry?: () => void
   /** Callback pour réinitialiser les données */
-  onReset?: () => void;
+  onReset?: () => void
   /** Callback pour fermer la bannière */
-  onDismiss?: () => void;
+  onDismiss?: () => void
 }
 
 /**
@@ -29,33 +29,33 @@ const ERROR_MESSAGES: Record<StorageErrorType, { title: string; description: str
   QUOTA_EXCEEDED: {
     title: 'Espace de stockage plein',
     description:
-      'L\'espace disponible sur votre appareil est insuffisant. Essayez de libérer de l\'espace ou d\'exporter vos données.',
+      "L'espace disponible sur votre appareil est insuffisant. Essayez de libérer de l'espace ou d'exporter vos données.",
   },
   PARSE_ERROR: {
     title: 'Données corrompues',
     description:
-      'Les données sauvegardées semblent endommagées. Vous pouvez réinitialiser l\'application ou importer une sauvegarde.',
+      "Les données sauvegardées semblent endommagées. Vous pouvez réinitialiser l'application ou importer une sauvegarde.",
   },
   VALIDATION_ERROR: {
     title: 'Format de données invalide',
     description:
-      'Les données sauvegardées ne sont pas dans le bon format. Vous pouvez réinitialiser l\'application ou importer une sauvegarde.',
+      "Les données sauvegardées ne sont pas dans le bon format. Vous pouvez réinitialiser l'application ou importer une sauvegarde.",
   },
   UNKNOWN_ERROR: {
     title: 'Problème technique',
     description:
-      'Un problème inattendu est survenu. Vous pouvez réessayer ou réinitialiser l\'application.',
+      "Un problème inattendu est survenu. Vous pouvez réessayer ou réinitialiser l'application.",
   },
-};
+}
 
 /**
  * Bannière d'erreur bienveillante
  */
 export function ErrorBanner({ error, onRetry, onReset, onDismiss }: ErrorBannerProps) {
-  if (!error) return null;
+  if (!error) return null
 
-  const message = ERROR_MESSAGES[error.type] || ERROR_MESSAGES.UNKNOWN_ERROR;
-  const showResetButton = error.type === 'PARSE_ERROR' || error.type === 'VALIDATION_ERROR';
+  const message = ERROR_MESSAGES[error.type] || ERROR_MESSAGES.UNKNOWN_ERROR
+  const showResetButton = error.type === 'PARSE_ERROR' || error.type === 'VALIDATION_ERROR'
 
   return (
     <div className="error-banner" role="alert" aria-live="polite">
@@ -95,5 +95,5 @@ export function ErrorBanner({ error, onRetry, onReset, onDismiss }: ErrorBannerP
         </div>
       </div>
     </div>
-  );
+  )
 }

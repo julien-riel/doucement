@@ -37,11 +37,7 @@ function HabitAnchorSelector({
    * - Exclut les habitudes archivées
    */
   const availableHabits = useMemo(() => {
-    return habits.filter(
-      (habit) =>
-        habit.id !== excludeHabitId &&
-        habit.archivedAt === null
-    )
+    return habits.filter((habit) => habit.id !== excludeHabitId && habit.archivedAt === null)
   }, [habits, excludeHabitId])
 
   /**
@@ -75,14 +71,12 @@ function HabitAnchorSelector({
     return (
       <div className="habit-anchor-selector habit-anchor-selector--empty">
         <div className="habit-anchor-selector__header">
-          <span className="habit-anchor-selector__icon" aria-hidden="true">🔗</span>
-          <p className="habit-anchor-selector__subtitle">
-            {HABIT_STACKING.selectorSubtitle}
-          </p>
+          <span className="habit-anchor-selector__icon" aria-hidden="true">
+            🔗
+          </span>
+          <p className="habit-anchor-selector__subtitle">{HABIT_STACKING.selectorSubtitle}</p>
         </div>
-        <p className="habit-anchor-selector__empty-message">
-          {HABIT_STACKING.noHabitsAvailable}
-        </p>
+        <p className="habit-anchor-selector__empty-message">{HABIT_STACKING.noHabitsAvailable}</p>
       </div>
     )
   }
@@ -90,17 +84,14 @@ function HabitAnchorSelector({
   return (
     <div className="habit-anchor-selector">
       <div className="habit-anchor-selector__header">
-        <span className="habit-anchor-selector__icon" aria-hidden="true">🔗</span>
-        <p className="habit-anchor-selector__subtitle">
-          {HABIT_STACKING.selectorSubtitle}
-        </p>
+        <span className="habit-anchor-selector__icon" aria-hidden="true">
+          🔗
+        </span>
+        <p className="habit-anchor-selector__subtitle">{HABIT_STACKING.selectorSubtitle}</p>
       </div>
 
       <div className="habit-anchor-selector__field">
-        <label
-          htmlFor="anchor-habit-select"
-          className="habit-anchor-selector__label"
-        >
+        <label htmlFor="anchor-habit-select" className="habit-anchor-selector__label">
           {HABIT_STACKING.selectorLabel}
         </label>
 
@@ -123,9 +114,7 @@ function HabitAnchorSelector({
           </span>
         </div>
 
-        <p className="habit-anchor-selector__help">
-          {HABIT_STACKING.selectorHelp}
-        </p>
+        <p className="habit-anchor-selector__help">{HABIT_STACKING.selectorHelp}</p>
       </div>
 
       {/* Aperçu de l'ancrage sélectionné */}

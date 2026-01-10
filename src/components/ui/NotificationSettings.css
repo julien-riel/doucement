@@ -264,7 +264,9 @@
   color: var(--neutral-800);
   min-width: 100px;
   cursor: pointer;
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .reminder-toggle__time-input:hover {
