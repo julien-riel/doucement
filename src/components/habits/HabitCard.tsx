@@ -128,6 +128,7 @@ function HabitCard({
         unit={habit.unit}
         currentValue={currentValue}
         onCheckIn={handleCheckIn}
+        direction={habit.direction}
       />
     </Card>
   )

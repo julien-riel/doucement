@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { HabitDirection } from '../../types'
 import Button from '../ui/Button'
 import './CheckInButtons.css'
 
@@ -15,15 +16,43 @@ export interface CheckInButtonsProps {
   onCheckIn: (value: number) => void
   /** Désactiver les boutons */
   disabled?: boolean
+  /** Direction de l'habitude (pour adapter les labels) */
+  direction?: HabitDirection
+}
+
+/**
+ * Labels des boutons selon la direction de l'habitude
+ */
+function getButtonLabels(direction?: HabitDirection) {
+  if (direction === 'decrease') {
+    // Pour réduction: "Un peu plus" = pas bien, "Moins" = bien
+    return {
+      partial: 'Un peu +',      // J'en ai fait un peu plus que la dose
+      complete: 'Pile poil',    // J'ai fait exactement la dose
+      extra: 'Moins',           // J'ai fait moins que la dose (bien !)
+    };
+  }
+  // Pour augmentation/maintien
+  return {
+    partial: 'Un peu',          // J'en ai fait un peu
+    complete: 'Fait !',         // J'ai fait la dose
+    extra: 'Encore +',          // J'en ai fait plus
+  };
 }
 
 /**
  * Boutons de check-in pour une habitude
- * Trois options: Un peu, Fait, Extra
+ * Trois options adaptées à la direction de l'habitude:
  *
- * - Un peu: demande une valeur personnalisée
+ * Augmentation:
+ * - Un peu: demande une valeur personnalisée (moins que la dose)
  * - Fait: enregistre la dose cible
- * - Extra: demande une valeur supérieure
+ * - Encore +: demande une valeur supérieure
+ *
+ * Réduction:
+ * - Un peu +: demande une valeur personnalisée (plus que la dose)
+ * - Pile poil: enregistre la dose cible
+ * - Moins: demande une valeur inférieure (mieux !)
  */
 function CheckInButtons({
   targetDose,
@@ -31,9 +60,11 @@ function CheckInButtons({
   currentValue,
   onCheckIn,
   disabled = false,
+  direction,
 }: CheckInButtonsProps) {
   const [activeInput, setActiveInput] = useState<CheckInType | null>(null)
   const [inputValue, setInputValue] = useState('')
+  const labels = getButtonLabels(direction)
 
   const handlePartialClick = () => {
     setActiveInput('partial')
@@ -47,7 +78,12 @@ function CheckInButtons({
 
   const handleExtraClick = () => {
     setActiveInput('extra')
-    setInputValue(String(targetDose + 1))
+    // Pour réduction: suggérer moins que la dose (mieux !)
+    // Pour augmentation: suggérer plus que la dose
+    const suggestedValue = direction === 'decrease'
+      ? Math.max(0, targetDose - 1)
+      : targetDose + 1
+    setInputValue(String(suggestedValue))
   }
 
   const handleInputSubmit = () => {
@@ -112,30 +148,39 @@ function CheckInButtons({
     )
   }
 
+  // Détermine si c'est un "bon" résultat pour les indicateurs visuels
+  const isGoodResult = direction === 'decrease'
+    ? hasValue && currentValue <= targetDose  // Pour réduction: moins ou égal = bien
+    : hasValue && currentValue >= targetDose  // Pour augmentation: plus ou égal = bien
+
+  const isExtraGood = direction === 'decrease'
+    ? hasValue && currentValue < targetDose   // Pour réduction: moins que la cible = super
+    : hasValue && currentValue > targetDose   // Pour augmentation: plus que la cible = super
+
   return (
     <div className="checkin-buttons">
       <Button
-        variant={hasValue && currentValue < targetDose ? 'secondary' : 'ghost'}
+        variant={hasValue && !isGoodResult ? 'secondary' : 'ghost'}
         onClick={handlePartialClick}
         disabled={disabled}
         size="small"
       >
-        Un peu
+        {labels.partial}
       </Button>
       <Button
-        variant={hasValue && currentValue >= targetDose ? 'success' : 'primary'}
+        variant={isGoodResult ? 'success' : 'primary'}
         onClick={handleCompleteClick}
         disabled={disabled}
       >
-        {hasValue ? '✓ Fait' : 'Fait'}
+        {hasValue ? `✓ ${labels.complete}` : labels.complete}
       </Button>
       <Button
-        variant={hasValue && currentValue > targetDose ? 'success' : 'ghost'}
+        variant={isExtraGood ? 'success' : 'ghost'}
         onClick={handleExtraClick}
         disabled={disabled}
         size="small"
       >
-        + Extra
+        {labels.extra}
       </Button>
     </div>
   )

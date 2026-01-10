@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { DailyEntry, CompletionStatus } from '../../types'
+import { DailyEntry, CompletionStatus, HabitDirection } from '../../types'
 import { getCompletionStatus } from '../../services/progression'
 import './WeeklyCalendar.css'
 
@@ -8,6 +8,8 @@ export interface WeeklyCalendarProps {
   entries: DailyEntry[]
   /** Date de référence (YYYY-MM-DD) */
   referenceDate: string
+  /** Direction de l'habitude (pour le calcul correct du statut) */
+  direction?: HabitDirection
 }
 
 interface DayData {
@@ -49,18 +51,18 @@ function getLast7Days(referenceDate: string): DayData[] {
  * Calendrier hebdomadaire avec états visuels
  * Affiche les 7 derniers jours avec indicateur de complétion
  */
-function WeeklyCalendar({ entries, referenceDate }: WeeklyCalendarProps) {
+function WeeklyCalendar({ entries, referenceDate, direction }: WeeklyCalendarProps) {
   const days = useMemo(() => {
     const baseDays = getLast7Days(referenceDate)
 
     return baseDays.map((day) => {
       const entry = entries.find((e) => e.date === day.date)
       if (entry) {
-        return { ...day, status: getCompletionStatus(entry) }
+        return { ...day, status: getCompletionStatus(entry, direction) }
       }
       return day
     })
-  }, [entries, referenceDate])
+  }, [entries, referenceDate, direction])
 
   return (
     <div className="weekly-calendar" role="group" aria-label="Activité de la semaine">

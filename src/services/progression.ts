@@ -220,15 +220,44 @@ export function calculateTargetDose(habit: Habit, date: string): number {
 /**
  * Calcule le pourcentage de complétion d'une entrée (3.6)
  *
+ * Pour les habitudes d'augmentation/maintien:
+ *   actualValue / targetDose * 100
+ *   Ex: cible 10, fait 8 → 80%
+ *
+ * Pour les habitudes de réduction:
+ *   La logique est inversée car faire MOINS est MIEUX
+ *   targetDose / actualValue * 100 (si actualValue > 0)
+ *   Ex: cible 4 cigarettes, fait 3 → 133% (mieux que prévu)
+ *   Ex: cible 4 cigarettes, fait 5 → 80% (un peu plus que voulu)
+ *
  * @param entry Entrée quotidienne
+ * @param direction Direction de l'habitude (optionnel pour rétrocompatibilité)
  * @returns Pourcentage (0-100+, peut dépasser 100 si dépassement)
  */
-export function calculateCompletionPercentage(entry: DailyEntry): number {
+export function calculateCompletionPercentage(
+  entry: DailyEntry,
+  direction?: Habit['direction']
+): number {
   if (entry.targetDose <= 0) {
-    // Si la cible est 0 ou négative, considérer comme complété si effort fait
+    // Cible à 0: pour réduction c'est l'objectif ultime atteint
+    if (direction === 'decrease') {
+      return entry.actualValue === 0 ? 100 : 0;
+    }
+    // Pour augmentation: si effort fait = 100%, sinon 0%
     return entry.actualValue > 0 ? 100 : 0;
   }
 
+  // Pour les habitudes de réduction: moins = mieux
+  if (direction === 'decrease') {
+    if (entry.actualValue === 0) {
+      // Fait 0 quand la cible était > 0: parfait !
+      return 100;
+    }
+    // targetDose / actualValue: moins on fait, plus le % est élevé
+    return (entry.targetDose / entry.actualValue) * 100;
+  }
+
+  // Pour augmentation/maintien: formule classique
   return (entry.actualValue / entry.targetDose) * 100;
 }
 
@@ -242,10 +271,14 @@ export function calculateCompletionPercentage(entry: DailyEntry): number {
  * - pending: 0%
  *
  * @param entry Entrée quotidienne
+ * @param direction Direction de l'habitude (optionnel pour rétrocompatibilité)
  * @returns Statut de complétion
  */
-export function getCompletionStatus(entry: DailyEntry): CompletionStatus {
-  const percentage = calculateCompletionPercentage(entry);
+export function getCompletionStatus(
+  entry: DailyEntry,
+  direction?: Habit['direction']
+): CompletionStatus {
+  const percentage = calculateCompletionPercentage(entry, direction);
 
   if (percentage > 100) {
     return 'exceeded';
@@ -265,15 +298,29 @@ export function getCompletionStatus(entry: DailyEntry): CompletionStatus {
  *
  * @param actualValue Valeur réalisée
  * @param targetDose Dose cible
+ * @param direction Direction de l'habitude (optionnel pour rétrocompatibilité)
  * @returns Pourcentage de complétion
  */
 export function calculateCompletionPercentageFromValues(
   actualValue: number,
-  targetDose: number
+  targetDose: number,
+  direction?: Habit['direction']
 ): number {
   if (targetDose <= 0) {
+    if (direction === 'decrease') {
+      return actualValue === 0 ? 100 : 0;
+    }
     return actualValue > 0 ? 100 : 0;
   }
+
+  // Pour les habitudes de réduction: moins = mieux
+  if (direction === 'decrease') {
+    if (actualValue === 0) {
+      return 100;
+    }
+    return (targetDose / actualValue) * 100;
+  }
+
   return (actualValue / targetDose) * 100;
 }
 
@@ -326,7 +373,7 @@ export function calculateHabitStats(
   let exceededDays = 0;
 
   for (const entry of habitEntries) {
-    const percentage = calculateCompletionPercentage(entry);
+    const percentage = calculateCompletionPercentage(entry, habit.direction);
     totalCompletionPercentage += percentage;
 
     if (percentage > 100) {
@@ -386,7 +433,7 @@ export function calculateDailyCompletionPercentage(
     const entry = entries.find((e) => e.habitId === habit.id && e.date === date);
     if (entry) {
       // Plafonner à 100% pour le calcul global
-      totalPercentage += Math.min(calculateCompletionPercentage(entry), 100);
+      totalPercentage += Math.min(calculateCompletionPercentage(entry, habit.direction), 100);
     }
     // Les habitudes sans entrée comptent comme 0%
   }

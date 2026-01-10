@@ -198,7 +198,7 @@ function HabitDetail() {
       {/* Calendrier */}
       <section className="habit-detail__section" aria-label="Calendrier">
         <h2 className="habit-detail__section-title">Activité récente</h2>
-        <WeeklyCalendar entries={entries} referenceDate={today} />
+        <WeeklyCalendar entries={entries} referenceDate={today} direction={habit.direction} />
       </section>
 
       {/* Infos */}

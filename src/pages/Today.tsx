@@ -60,7 +60,7 @@ function Today() {
       // Créer un pseudo-entry pour calculer le statut
       let status: CompletionStatus = 'pending'
       if (entry) {
-        status = getCompletionStatus(entry)
+        status = getCompletionStatus(entry, habit.direction)
       }
 
       return {

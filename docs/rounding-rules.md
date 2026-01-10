@@ -98,6 +98,47 @@ Réduction (decrease)      →   Plancher (floor)  →   Bienveillant, plus faci
 Maintien (maintain)       →   Standard (round)  →   Neutre
 ```
 
+## Calcul du pourcentage de complétion
+
+Le pourcentage de complétion est calculé différemment selon la direction de l'habitude.
+
+### Habitudes en augmentation (increase) / maintien (maintain)
+
+**Formule** : `(actualValue / targetDose) * 100`
+
+| Cible | Réalisé | Pourcentage | Statut |
+|-------|---------|-------------|--------|
+| 10    | 10      | 100%        | ✓ Complété |
+| 10    | 8       | 80%         | ✓ Complété (≥70%) |
+| 10    | 5       | 50%         | Partiel |
+| 10    | 12      | 120%        | Dépassé ! |
+
+### Habitudes en réduction (decrease)
+
+**Formule inversée** : `(targetDose / actualValue) * 100`
+
+Pour une habitude de réduction, **moins c'est mieux**. La formule est donc inversée pour que faire moins que la cible donne un pourcentage supérieur à 100%.
+
+| Cible | Réalisé | Pourcentage | Statut | Explication |
+|-------|---------|-------------|--------|-------------|
+| 4     | 4       | 100%        | ✓ Complété | Pile la dose |
+| 4     | 3       | 133%        | Dépassé ! | Encore mieux ! |
+| 4     | 5       | 80%         | ✓ Complété | Un peu plus, mais OK |
+| 4     | 10      | 40%         | Partiel | Beaucoup plus que voulu |
+| 4     | 0       | 100%        | ✓ Complété | Parfait ! |
+
+**Justification** : Cette logique inversée permet de célébrer quand l'utilisateur fait mieux que prévu. Si quelqu'un voulait fumer 4 cigarettes mais n'en a fumé que 3, c'est une victoire qui mérite d'être soulignée.
+
+### Cas spéciaux
+
+**Cible à 0 pour réduction** : Quand `targetDose = 0` (objectif ultime atteint) :
+- `actualValue = 0` → 100% (objectif atteint)
+- `actualValue > 0` → 0% (on n'a pas atteint l'objectif)
+
+**Réalisé à 0 pour réduction** : Quand `actualValue = 0` avec une cible > 0 :
+- → 100% (parfait ! on n'a rien consommé)
+
 ---
 
 *Document généré à partir de la tâche 3.10 - Janvier 2026*
+*Mis à jour en janvier 2026 pour inclure le calcul inversé des habitudes de réduction*

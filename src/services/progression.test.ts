@@ -336,34 +336,75 @@ describe('calculateTargetDose', () => {
 // ============================================================================
 
 describe('calculateCompletionPercentage', () => {
-  it('returns 100 for exact completion', () => {
-    const entry = createEntry({ targetDose: 10, actualValue: 10 });
-    expect(calculateCompletionPercentage(entry)).toBe(100);
+  describe('increase/maintain habits', () => {
+    it('returns 100 for exact completion', () => {
+      const entry = createEntry({ targetDose: 10, actualValue: 10 });
+      expect(calculateCompletionPercentage(entry)).toBe(100);
+      expect(calculateCompletionPercentage(entry, 'increase')).toBe(100);
+    });
+
+    it('returns 50 for half completion', () => {
+      const entry = createEntry({ targetDose: 10, actualValue: 5 });
+      expect(calculateCompletionPercentage(entry)).toBe(50);
+    });
+
+    it('returns 0 for no progress', () => {
+      const entry = createEntry({ targetDose: 10, actualValue: 0 });
+      expect(calculateCompletionPercentage(entry)).toBe(0);
+    });
+
+    it('returns > 100 for exceeded target', () => {
+      const entry = createEntry({ targetDose: 10, actualValue: 15 });
+      expect(calculateCompletionPercentage(entry)).toBe(150);
+    });
+
+    it('handles zero target dose with effort', () => {
+      const entry = createEntry({ targetDose: 0, actualValue: 5 });
+      expect(calculateCompletionPercentage(entry)).toBe(100);
+    });
+
+    it('handles zero target dose with no effort', () => {
+      const entry = createEntry({ targetDose: 0, actualValue: 0 });
+      expect(calculateCompletionPercentage(entry)).toBe(0);
+    });
   });
 
-  it('returns 50 for half completion', () => {
-    const entry = createEntry({ targetDose: 10, actualValue: 5 });
-    expect(calculateCompletionPercentage(entry)).toBe(50);
-  });
+  describe('decrease habits (inverted logic)', () => {
+    it('returns 100 for exact completion', () => {
+      // Cible 4 cigarettes, fait 4 = 100%
+      const entry = createEntry({ targetDose: 4, actualValue: 4 });
+      expect(calculateCompletionPercentage(entry, 'decrease')).toBe(100);
+    });
 
-  it('returns 0 for no progress', () => {
-    const entry = createEntry({ targetDose: 10, actualValue: 0 });
-    expect(calculateCompletionPercentage(entry)).toBe(0);
-  });
+    it('returns > 100 when doing less than target (better!)', () => {
+      // Cible 4 cigarettes, fait 3 = 133% (mieux que prévu)
+      const entry = createEntry({ targetDose: 4, actualValue: 3 });
+      expect(calculateCompletionPercentage(entry, 'decrease')).toBeCloseTo(133.33, 1);
+    });
 
-  it('returns > 100 for exceeded target', () => {
-    const entry = createEntry({ targetDose: 10, actualValue: 15 });
-    expect(calculateCompletionPercentage(entry)).toBe(150);
-  });
+    it('returns < 100 when doing more than target', () => {
+      // Cible 4 cigarettes, fait 5 = 80% (un peu plus que voulu)
+      const entry = createEntry({ targetDose: 4, actualValue: 5 });
+      expect(calculateCompletionPercentage(entry, 'decrease')).toBe(80);
+    });
 
-  it('handles zero target dose with effort', () => {
-    const entry = createEntry({ targetDose: 0, actualValue: 5 });
-    expect(calculateCompletionPercentage(entry)).toBe(100);
-  });
+    it('returns 100 when actualValue is 0 (perfect for reduction!)', () => {
+      // Cible 4 cigarettes, fait 0 = parfait !
+      const entry = createEntry({ targetDose: 4, actualValue: 0 });
+      expect(calculateCompletionPercentage(entry, 'decrease')).toBe(100);
+    });
 
-  it('handles zero target dose with no effort', () => {
-    const entry = createEntry({ targetDose: 0, actualValue: 0 });
-    expect(calculateCompletionPercentage(entry)).toBe(0);
+    it('handles zero target dose (goal achieved)', () => {
+      // Cible 0, fait 0 = objectif atteint
+      const entry = createEntry({ targetDose: 0, actualValue: 0 });
+      expect(calculateCompletionPercentage(entry, 'decrease')).toBe(100);
+    });
+
+    it('handles zero target dose with some consumption', () => {
+      // Cible 0, mais fait 2 = on n'a pas atteint l'objectif
+      const entry = createEntry({ targetDose: 0, actualValue: 2 });
+      expect(calculateCompletionPercentage(entry, 'decrease')).toBe(0);
+    });
   });
 });
 
@@ -379,30 +420,63 @@ describe('calculateCompletionPercentageFromValues', () => {
 // ============================================================================
 
 describe('getCompletionStatus', () => {
-  it('returns "pending" for 0%', () => {
-    const entry = createEntry({ targetDose: 10, actualValue: 0 });
-    expect(getCompletionStatus(entry)).toBe('pending');
+  describe('increase/maintain habits', () => {
+    it('returns "pending" for 0%', () => {
+      const entry = createEntry({ targetDose: 10, actualValue: 0 });
+      expect(getCompletionStatus(entry)).toBe('pending');
+    });
+
+    it('returns "partial" for 1-69%', () => {
+      const entry = createEntry({ targetDose: 10, actualValue: 1 });
+      expect(getCompletionStatus(entry)).toBe('partial');
+
+      entry.actualValue = 6;
+      expect(getCompletionStatus(entry)).toBe('partial');
+    });
+
+    it('returns "completed" for 70-100%', () => {
+      const entry = createEntry({ targetDose: 10, actualValue: 7 });
+      expect(getCompletionStatus(entry)).toBe('completed');
+
+      entry.actualValue = 10;
+      expect(getCompletionStatus(entry)).toBe('completed');
+    });
+
+    it('returns "exceeded" for > 100%', () => {
+      const entry = createEntry({ targetDose: 10, actualValue: 11 });
+      expect(getCompletionStatus(entry)).toBe('exceeded');
+    });
   });
 
-  it('returns "partial" for 1-69%', () => {
-    const entry = createEntry({ targetDose: 10, actualValue: 1 });
-    expect(getCompletionStatus(entry)).toBe('partial');
+  describe('decrease habits (inverted logic)', () => {
+    it('returns "completed" for exact target', () => {
+      const entry = createEntry({ targetDose: 4, actualValue: 4 });
+      expect(getCompletionStatus(entry, 'decrease')).toBe('completed');
+    });
 
-    entry.actualValue = 6;
-    expect(getCompletionStatus(entry)).toBe('partial');
-  });
+    it('returns "exceeded" when doing less than target (better!)', () => {
+      // Cible 4, fait 3 = 133% = exceeded
+      const entry = createEntry({ targetDose: 4, actualValue: 3 });
+      expect(getCompletionStatus(entry, 'decrease')).toBe('exceeded');
+    });
 
-  it('returns "completed" for 70-100%', () => {
-    const entry = createEntry({ targetDose: 10, actualValue: 7 });
-    expect(getCompletionStatus(entry)).toBe('completed');
+    it('returns "completed" when doing slightly more than target (70-100%)', () => {
+      // Cible 4, fait 5 = 80% = completed
+      const entry = createEntry({ targetDose: 4, actualValue: 5 });
+      expect(getCompletionStatus(entry, 'decrease')).toBe('completed');
+    });
 
-    entry.actualValue = 10;
-    expect(getCompletionStatus(entry)).toBe('completed');
-  });
+    it('returns "partial" when doing much more than target (<70%)', () => {
+      // Cible 4, fait 10 = 40% = partial
+      const entry = createEntry({ targetDose: 4, actualValue: 10 });
+      expect(getCompletionStatus(entry, 'decrease')).toBe('partial');
+    });
 
-  it('returns "exceeded" for > 100%', () => {
-    const entry = createEntry({ targetDose: 10, actualValue: 11 });
-    expect(getCompletionStatus(entry)).toBe('exceeded');
+    it('returns "completed" when actualValue is 0', () => {
+      // Cible 4, fait 0 = parfait = 100% = completed
+      const entry = createEntry({ targetDose: 4, actualValue: 0 });
+      expect(getCompletionStatus(entry, 'decrease')).toBe('completed');
+    });
   });
 });
 
