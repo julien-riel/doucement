@@ -149,7 +149,7 @@ Corrige ces erreurs en modifiant les fichiers appropriés."
 
     log_info "Appel de Claude pour correction..."
 
-    if claude -p "$prompt" --allowedTools "Read,Glob,Grep,Edit,Write,Bash" -y; then
+    if claude -p "$prompt" --allowedTools "Read,Glob,Grep,Edit,Write,Bash" --permission-mode acceptEdits; then
         log_success "Claude a tenté une correction"
         return 0
     else
@@ -176,7 +176,7 @@ main() {
         # Étape 1: Appeler claude /implement
         log_info "🤖 Appel de claude /implement..."
 
-        if claude -p "/implement" --allowedTools "Read,Glob,Grep,Edit,Write,Bash,TodoWrite" -y; then
+        if claude -p "/implement" --allowedTools "Read,Glob,Grep,Edit,Write,Bash,TodoWrite" --permission-mode acceptEdits; then
             log_success "Claude /implement terminé avec succès"
         else
             log_warning "Claude /implement terminé (possible fin des tâches)"

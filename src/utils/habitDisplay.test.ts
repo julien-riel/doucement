@@ -437,7 +437,7 @@ describe('getHabitsEligibleForTransition', () => {
     expect(getHabitsEligibleForTransition([habit], [], '2026-01-10')).toEqual([])
   })
 
-  it("filtre les habitudes avec moins de 5 entrées", () => {
+  it('filtre les habitudes avec moins de 5 entrées', () => {
     const habit = createHabit({
       id: 'h1',
       trackingMode: 'simple',
@@ -452,7 +452,7 @@ describe('getHabitsEligibleForTransition', () => {
     expect(getHabitsEligibleForTransition([habit], entries, '2026-01-10')).toEqual([])
   })
 
-  it("retourne les habitudes éligibles avec au moins 5 entrées", () => {
+  it('retourne les habitudes éligibles avec au moins 5 entrées', () => {
     const habit = createHabit({
       id: 'h1',
       trackingMode: 'simple',
@@ -470,7 +470,7 @@ describe('getHabitsEligibleForTransition', () => {
     expect(result[0].id).toBe('h1')
   })
 
-  it("filtre correctement parmi plusieurs habitudes", () => {
+  it('filtre correctement parmi plusieurs habitudes', () => {
     const habitEligible = createHabit({
       id: 'h1',
       name: 'Eligible',

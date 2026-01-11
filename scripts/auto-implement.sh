@@ -96,8 +96,8 @@ main() {
         # Étape 1: Appeler claude /implement
         log_info "Appel de claude /implement..."
 
-        # Utilise --print pour mode non-interactif, -y pour accepter automatiquement
-        if claude -p "/implement" --allowedTools "Read,Glob,Grep,Edit,Write,Bash,TodoWrite" -y; then
+        # Utilise --print pour mode non-interactif, --permission-mode pour accepter automatiquement
+        if claude -p "/implement" --allowedTools "Read,Glob,Grep,Edit,Write,Bash,TodoWrite" --permission-mode acceptEdits; then
             log_success "Claude /implement terminé"
         else
             log_warning "Claude /implement a retourné une erreur ou s'est terminé"
