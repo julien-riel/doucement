@@ -1,6 +1,17 @@
 {
-  "currentVersion": "1.7.0",
+  "currentVersion": "1.7.1",
   "releases": [
+    {
+      "version": "1.7.1",
+      "date": "2026-01-11",
+      "title": "Affichage de la date corrigé",
+      "highlights": [
+        {
+          "emoji": "check",
+          "text": "Toutes les pages affichent désormais la date correcte"
+        }
+      ]
+    },
     {
       "version": "1.7.0",
       "date": "2026-01-11",
