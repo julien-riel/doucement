@@ -41,7 +41,7 @@
     {
       "id": "phase-decrease",
       "name": "Amélioration des habitudes à réduire",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "dec.1",
@@ -65,9 +65,10 @@
           "id": "dec.3",
           "name": "Améliorer feedback visuel pour decrease",
           "description": "Utiliser la couleur verte (success) quand l'utilisateur fait MOINS que la cible pour une habitude decrease, car moins = mieux",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["src/components/habits/HabitCard.tsx", "src/components/habits/HabitCard.css"]
+          "files": ["src/components/habits/HabitCard.tsx", "src/components/habits/HabitCard.css"],
+          "completedAt": "2026-01-11"
         }
       ]
     },
@@ -215,17 +216,19 @@
           "id": "e2e-type.4",
           "name": "Test E2E saisie zéro decrease",
           "description": "Test saisie de 0 pour habitude decrease. Vérifier message de félicitations spécial",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["e2e/habit-decrease-zero.spec.ts"]
+          "files": ["e2e/habit-decrease-zero.spec.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "e2e-type.5",
           "name": "Test E2E habitude maintain",
           "description": "Test habitude maintien. Vérifier pas de progression, dose fixe",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["e2e/habit-maintain.spec.ts"]
+          "files": ["e2e/habit-maintain.spec.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "e2e-type.6",
@@ -274,8 +277,8 @@
   ],
   "stats": {
     "totalTasks": 25,
-    "completed": 15,
+    "completed": 18,
     "inProgress": 0,
-    "pending": 10
+    "pending": 7
   }
 }

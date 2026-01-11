@@ -189,3 +189,28 @@
   color: var(--white);
   background-color: var(--secondary-500);
 }
+
+/* ==========================================================================
+   FEEDBACK VISUEL POUR HABITUDES DECREASE
+   Pour les habitudes à réduire, moins = mieux
+   Donc "exceeded" (fait moins que la cible) est une victoire qui mérite du vert
+   ========================================================================== */
+
+/* Carte entière pour habitude decrease avec succès (fait moins que la cible) */
+.habit-card--decrease-success {
+  border-color: var(--secondary-400);
+  background-color: var(--secondary-50);
+}
+
+/* Bloc de statut pour decrease avec succès */
+.habit-card__status--decrease-success {
+  background-color: var(--secondary-100);
+  border: 1px solid var(--secondary-300);
+  border-radius: var(--radius-sm);
+}
+
+/* Badge pour decrease avec succès (fait moins que la cible) */
+.habit-card__status-badge--decrease-success {
+  color: var(--white);
+  background-color: var(--secondary-500);
+}

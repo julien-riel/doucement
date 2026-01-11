@@ -166,6 +166,22 @@ export const DECREASE_ZERO_MESSAGES = [
  */
 export const DECREASE_ZERO_BADGE = 'Journée sans' as const
 
+/**
+ * Messages de félicitations quand l'utilisateur fait MOINS que la cible pour une habitude decrease
+ * Car moins = mieux pour ces habitudes
+ */
+export const DECREASE_SUCCESS_MESSAGES = [
+  'Moins que prévu !',
+  'Belle maîtrise.',
+  'Tu gères.',
+  'En dessous de la cible.',
+] as const
+
+/**
+ * Texte du badge quand on fait moins que la cible (decrease)
+ */
+export const DECREASE_SUCCESS_BADGE = 'En contrôle' as const
+
 // ============================================================================
 // MESSAGES DE PROGRESSION
 // ============================================================================

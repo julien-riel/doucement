@@ -4,6 +4,7 @@ import {
   HABIT_STACKING,
   DECREASE_ZERO_MESSAGES,
   DECREASE_ZERO_BADGE,
+  DECREASE_SUCCESS_BADGE,
   randomMessage,
 } from '../../constants/messages'
 import { buildIntentionText, WeeklyProgressInfo } from '../../utils/habitDisplay'
@@ -64,6 +65,30 @@ function getCardVariant(status: CompletionStatus): 'default' | 'elevated' | 'hig
 }
 
 /**
+ * Génère les classes CSS pour le feedback visuel
+ * Pour les habitudes decrease, le feedback est inversé: moins = mieux
+ */
+function getHabitCardClasses(
+  status: CompletionStatus,
+  direction: Habit['direction'],
+  celebrating: boolean
+): string {
+  const baseClasses = ['habit-card', `habit-card--${status}`]
+
+  // Pour les habitudes decrease avec statut exceeded/completed,
+  // on ajoute une classe pour inverser le feedback visuel
+  if (direction === 'decrease' && (status === 'exceeded' || status === 'completed')) {
+    baseClasses.push('habit-card--decrease-success')
+  }
+
+  if (celebrating) {
+    baseClasses.push('habit-card--celebrating')
+  }
+
+  return baseClasses.join(' ')
+}
+
+/**
  * Carte d'habitude pour l'écran Aujourd'hui
  * Affiche l'habitude, sa dose cible et les boutons de check-in
  */
@@ -95,11 +120,10 @@ function HabitCard({
     onCheckIn(habit.id, value)
   }
 
+  const cardClasses = getHabitCardClasses(status, habit.direction, celebrating)
+
   return (
-    <Card
-      variant={cardVariant}
-      className={`habit-card habit-card--${status} ${celebrating ? 'habit-card--celebrating' : ''}`}
-    >
+    <Card variant={cardVariant} className={cardClasses}>
       <div className="habit-card__header">
         <div className="habit-card__info">
           <span className="habit-card__emoji" aria-hidden="true">
@@ -144,11 +168,22 @@ function HabitCard({
 
       {/* Affichage du statut pour les habitudes quotidiennes non-weekly */}
       {!isWeekly && currentValue !== undefined && currentValue > 0 && (
-        <div className="habit-card__status">
+        <div
+          className={`habit-card__status ${habit.direction === 'decrease' && status === 'exceeded' ? 'habit-card__status--decrease-success' : ''}`}
+        >
           <span className="habit-card__status-value">
             {currentValue} / {targetDose} {habit.unit}
           </span>
-          {status === 'exceeded' && <span className="habit-card__status-badge">Dépassé !</span>}
+          {/* Pour les habitudes decrease: exceeded = on a fait MOINS que la cible = victoire */}
+          {status === 'exceeded' && habit.direction === 'decrease' && (
+            <span className="habit-card__status-badge habit-card__status-badge--decrease-success">
+              {DECREASE_SUCCESS_BADGE}
+            </span>
+          )}
+          {/* Pour les habitudes increase: exceeded = on a fait PLUS que la cible */}
+          {status === 'exceeded' && habit.direction !== 'decrease' && (
+            <span className="habit-card__status-badge">Dépassé !</span>
+          )}
           {status === 'completed' && <span className="habit-card__status-badge">Complété</span>}
         </div>
       )}
