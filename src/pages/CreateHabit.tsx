@@ -558,6 +558,8 @@ function CreateHabit() {
 
   /**
    * Rendu de l'étape Intentions (optionnelle)
+   * Note: Le habit stacking n'est pas proposé pour les habitudes decrease
+   * car l'objectif est de les faire MOINS, pas de les planifier.
    */
   const renderStepIntentions = () => (
     <div className="create-habit__content step-intentions-combined">
@@ -566,17 +568,21 @@ function CreateHabit() {
         onIntentionChange={handleIntentionChange}
       />
 
-      {/* Séparateur */}
-      <div className="step-intentions-combined__separator">
-        <span className="step-intentions-combined__separator-text">ou</span>
-      </div>
+      {/* Habit Stacking - uniquement pour increase et maintain */}
+      {form.direction !== 'decrease' && (
+        <>
+          {/* Séparateur */}
+          <div className="step-intentions-combined__separator">
+            <span className="step-intentions-combined__separator-text">ou</span>
+          </div>
 
-      {/* Habit Stacking */}
-      <HabitAnchorSelector
-        habits={activeHabits}
-        selectedAnchorId={form.anchorHabitId}
-        onAnchorChange={handleAnchorChange}
-      />
+          <HabitAnchorSelector
+            habits={activeHabits}
+            selectedAnchorId={form.anchorHabitId}
+            onAnchorChange={handleAnchorChange}
+          />
+        </>
+      )}
     </div>
   )
 

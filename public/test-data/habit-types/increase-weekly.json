@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 7,
+  "habits": [
+    {
+      "id": "habit-bedtime-increase-weekly",
+      "name": "Se coucher à heure fixe",
+      "emoji": "🌙",
+      "description": "Aller au lit à la même heure chaque soir",
+      "direction": "increase",
+      "startValue": 3,
+      "unit": "soirs/semaine",
+      "progression": {
+        "mode": "absolute",
+        "value": 1,
+        "period": "weekly"
+      },
+      "targetValue": 7,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "simple",
+      "trackingFrequency": "weekly",
+      "implementationIntention": {
+        "trigger": "À 22h30",
+        "location": "Chambre"
+      }
+    }
+  ],
+  "entries": [
+    {"id": "e1", "habitId": "habit-bedtime-increase-weekly", "date": "2025-12-30", "targetDose": 4, "actualValue": 1, "createdAt": "2025-12-30T22:30:00Z", "updatedAt": "2025-12-30T22:30:00Z"},
+    {"id": "e2", "habitId": "habit-bedtime-increase-weekly", "date": "2025-12-31", "targetDose": 4, "actualValue": 1, "createdAt": "2025-12-31T22:30:00Z", "updatedAt": "2025-12-31T22:30:00Z"},
+    {"id": "e3", "habitId": "habit-bedtime-increase-weekly", "date": "2026-01-02", "targetDose": 4, "actualValue": 1, "createdAt": "2026-01-02T22:30:00Z", "updatedAt": "2026-01-02T22:30:00Z"},
+    {"id": "e4", "habitId": "habit-bedtime-increase-weekly", "date": "2026-01-04", "targetDose": 4, "actualValue": 1, "createdAt": "2026-01-04T22:30:00Z", "updatedAt": "2026-01-04T22:30:00Z"},
+    {"id": "e5", "habitId": "habit-bedtime-increase-weekly", "date": "2026-01-06", "targetDose": 5, "actualValue": 1, "createdAt": "2026-01-06T22:30:00Z", "updatedAt": "2026-01-06T22:30:00Z"},
+    {"id": "e6", "habitId": "habit-bedtime-increase-weekly", "date": "2026-01-07", "targetDose": 5, "actualValue": 1, "createdAt": "2026-01-07T22:30:00Z", "updatedAt": "2026-01-07T22:30:00Z"},
+    {"id": "e7", "habitId": "habit-bedtime-increase-weekly", "date": "2026-01-08", "targetDose": 5, "actualValue": 1, "createdAt": "2026-01-08T22:30:00Z", "updatedAt": "2026-01-08T22:30:00Z"},
+    {"id": "e8", "habitId": "habit-bedtime-increase-weekly", "date": "2026-01-09", "targetDose": 5, "actualValue": 1, "createdAt": "2026-01-09T22:30:00Z", "updatedAt": "2026-01-09T22:30:00Z"},
+    {"id": "e9", "habitId": "habit-bedtime-increase-weekly", "date": "2026-01-10", "targetDose": 5, "actualValue": 1, "createdAt": "2026-01-10T22:30:00Z", "updatedAt": "2026-01-10T22:30:00Z"}
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2026-01-05",
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    },
+    "theme": "system"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 7,
+  "habits": [
+    {
+      "id": "habit-pushups-increase-daily",
+      "name": "Push-ups",
+      "emoji": "💪",
+      "description": "Renforcement musculaire quotidien",
+      "direction": "increase",
+      "startValue": 10,
+      "unit": "répétitions",
+      "progression": {
+        "mode": "absolute",
+        "value": 2,
+        "period": "weekly"
+      },
+      "targetValue": 50,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "detailed",
+      "trackingFrequency": "daily",
+      "implementationIntention": {
+        "trigger": "Après le réveil",
+        "location": "Chambre",
+        "time": "07:00"
+      }
+    }
+  ],
+  "entries": [
+    {"id": "e1", "habitId": "habit-pushups-increase-daily", "date": "2026-01-04", "targetDose": 14, "actualValue": 15, "createdAt": "2026-01-04T07:00:00Z", "updatedAt": "2026-01-04T07:00:00Z"},
+    {"id": "e2", "habitId": "habit-pushups-increase-daily", "date": "2026-01-05", "targetDose": 14, "actualValue": 14, "createdAt": "2026-01-05T07:00:00Z", "updatedAt": "2026-01-05T07:00:00Z"},
+    {"id": "e3", "habitId": "habit-pushups-increase-daily", "date": "2026-01-06", "targetDose": 16, "actualValue": 12, "createdAt": "2026-01-06T07:00:00Z", "updatedAt": "2026-01-06T07:00:00Z"},
+    {"id": "e4", "habitId": "habit-pushups-increase-daily", "date": "2026-01-07", "targetDose": 16, "actualValue": 18, "createdAt": "2026-01-07T07:00:00Z", "updatedAt": "2026-01-07T07:00:00Z"},
+    {"id": "e5", "habitId": "habit-pushups-increase-daily", "date": "2026-01-08", "targetDose": 16, "actualValue": 20, "createdAt": "2026-01-08T07:00:00Z", "updatedAt": "2026-01-08T07:00:00Z"},
+    {"id": "e6", "habitId": "habit-pushups-increase-daily", "date": "2026-01-09", "targetDose": 16, "actualValue": 16, "createdAt": "2026-01-09T07:00:00Z", "updatedAt": "2026-01-09T07:00:00Z"},
+    {"id": "e7", "habitId": "habit-pushups-increase-daily", "date": "2026-01-10", "targetDose": 16, "actualValue": 22, "createdAt": "2026-01-10T07:00:00Z", "updatedAt": "2026-01-10T07:00:00Z"}
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2026-01-05",
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    },
+    "theme": "system"
+  }
+}

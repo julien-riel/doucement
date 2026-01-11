@@ -47,9 +47,10 @@
           "id": "dec.1",
           "name": "Désactiver habit stacking pour direction decrease",
           "description": "Dans StepIntentions.tsx, ne pas afficher le sélecteur d'ancrage (HabitAnchorSelector) si la direction de l'habitude est 'decrease'. Les habitudes à réduire ne doivent pas être chaînées.",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/components/habits/StepIntentions.tsx", "src/pages/CreateHabit.tsx"]
+          "files": ["src/components/habits/StepIntentions.tsx", "src/pages/CreateHabit.tsx"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "dec.2",
@@ -125,33 +126,37 @@
           "id": "fix-test.1",
           "name": "Créer fixture increase-daily.json",
           "description": "Fichier de test avec habitude direction=increase, trackingFrequency=daily, avec entrées variées",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["public/test-data/habit-types/increase-daily.json"]
+          "files": ["public/test-data/habit-types/increase-daily.json"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "fix-test.2",
           "name": "Créer fixture increase-weekly.json",
           "description": "Fichier de test avec habitude direction=increase, trackingFrequency=weekly",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["public/test-data/habit-types/increase-weekly.json"]
+          "files": ["public/test-data/habit-types/increase-weekly.json"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "fix-test.3",
           "name": "Créer fixture decrease-daily.json",
           "description": "Fichier de test avec habitude direction=decrease, avec entrées montrant que moins=mieux",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["public/test-data/habit-types/decrease-daily.json"]
+          "files": ["public/test-data/habit-types/decrease-daily.json"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "fix-test.4",
           "name": "Créer fixture decrease-weekly.json",
           "description": "Fichier de test avec habitude direction=decrease, trackingFrequency=weekly (ex: alcool)",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["public/test-data/habit-types/decrease-weekly.json"]
+          "files": ["public/test-data/habit-types/decrease-weekly.json"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "fix-test.5",
@@ -260,8 +265,8 @@
   ],
   "stats": {
     "totalTasks": 25,
-    "completed": 3,
+    "completed": 8,
     "inProgress": 0,
-    "pending": 22
+    "pending": 17
   }
 }

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 7,
+  "habits": [
+    {
+      "id": "habit-cigarettes-decrease-daily",
+      "name": "Réduire les cigarettes",
+      "emoji": "🚭",
+      "description": "Réduction progressive du tabac",
+      "direction": "decrease",
+      "startValue": 15,
+      "unit": "cigarettes",
+      "progression": {
+        "mode": "absolute",
+        "value": 1,
+        "period": "weekly"
+      },
+      "targetValue": 0,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "detailed",
+      "trackingFrequency": "daily"
+    }
+  ],
+  "entries": [
+    {"id": "e1", "habitId": "habit-cigarettes-decrease-daily", "date": "2026-01-04", "targetDose": 10, "actualValue": 12, "createdAt": "2026-01-04T20:00:00Z", "updatedAt": "2026-01-04T20:00:00Z"},
+    {"id": "e2", "habitId": "habit-cigarettes-decrease-daily", "date": "2026-01-05", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-05T20:00:00Z", "updatedAt": "2026-01-05T20:00:00Z"},
+    {"id": "e3", "habitId": "habit-cigarettes-decrease-daily", "date": "2026-01-06", "targetDose": 9, "actualValue": 8, "createdAt": "2026-01-06T20:00:00Z", "updatedAt": "2026-01-06T20:00:00Z"},
+    {"id": "e4", "habitId": "habit-cigarettes-decrease-daily", "date": "2026-01-07", "targetDose": 9, "actualValue": 9, "createdAt": "2026-01-07T20:00:00Z", "updatedAt": "2026-01-07T20:00:00Z"},
+    {"id": "e5", "habitId": "habit-cigarettes-decrease-daily", "date": "2026-01-08", "targetDose": 9, "actualValue": 7, "createdAt": "2026-01-08T20:00:00Z", "updatedAt": "2026-01-08T20:00:00Z"},
+    {"id": "e6", "habitId": "habit-cigarettes-decrease-daily", "date": "2026-01-09", "targetDose": 9, "actualValue": 5, "createdAt": "2026-01-09T20:00:00Z", "updatedAt": "2026-01-09T20:00:00Z"},
+    {"id": "e7", "habitId": "habit-cigarettes-decrease-daily", "date": "2026-01-10", "targetDose": 9, "actualValue": 6, "createdAt": "2026-01-10T20:00:00Z", "updatedAt": "2026-01-10T20:00:00Z"}
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2026-01-05",
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    },
+    "theme": "system"
+  }
+}
