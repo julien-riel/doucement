@@ -162,17 +162,19 @@
           "id": "fix-test.5",
           "name": "Créer fixture maintain-simple.json",
           "description": "Fichier de test avec habitude direction=maintain, trackingMode=simple",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["public/test-data/habit-types/maintain-simple.json"]
+          "files": ["public/test-data/habit-types/maintain-simple.json"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "fix-test.6",
           "name": "Créer fixture decrease-zero.json",
           "description": "Fichier de test avec habitude decrease ayant une entrée à 0 pour tester les messages de victoire",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["public/test-data/habit-types/decrease-zero.json"]
+          "files": ["public/test-data/habit-types/decrease-zero.json"],
+          "completedAt": "2026-01-11"
         }
       ]
     },
@@ -185,9 +187,10 @@
           "id": "e2e-type.1",
           "name": "Test E2E habitude increase daily",
           "description": "Test création et check-in d'une habitude increase/daily. Vérifier que >= cible = succès avec feedback positif",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["e2e/habit-increase-daily.spec.ts"]
+          "files": ["e2e/habit-increase-daily.spec.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "e2e-type.2",
@@ -201,9 +204,10 @@
           "id": "e2e-type.3",
           "name": "Test E2E habitude decrease daily",
           "description": "Test habitude à réduire. Vérifier que <= cible = succès, boutons adaptés (Moins = positif)",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["e2e/habit-decrease-daily.spec.ts"]
+          "files": ["e2e/habit-decrease-daily.spec.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "e2e-type.4",
@@ -225,9 +229,10 @@
           "id": "e2e-type.6",
           "name": "Test E2E pas de habit stacking pour decrease",
           "description": "Vérifier que l'option d'ancrage n'est pas proposée lors de la création d'une habitude decrease",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["e2e/habit-decrease-no-stacking.spec.ts"]
+          "files": ["e2e/habit-decrease-no-stacking.spec.ts"],
+          "completedAt": "2026-01-11"
         }
       ]
     },
@@ -240,9 +245,11 @@
           "id": "unit.1",
           "name": "Tests calcul score decrease",
           "description": "Tests unitaires pour vérifier que le calcul de complétion est correct pour decrease (moins = mieux)",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/services/progression.test.ts"]
+          "files": ["src/services/progression.test.ts"],
+          "completedAt": "2026-01-11",
+          "note": "Tests déjà présents dans progression.test.ts lignes 502-538 (calculateCompletionPercentage decrease) et 580-610 (getCompletionStatus decrease)"
         },
         {
           "id": "unit.2",
@@ -265,8 +272,8 @@
   ],
   "stats": {
     "totalTasks": 25,
-    "completed": 8,
+    "completed": 13,
     "inProgress": 0,
-    "pending": 17
+    "pending": 12
   }
 }

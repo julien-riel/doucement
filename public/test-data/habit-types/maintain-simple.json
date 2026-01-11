@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 7,
+  "habits": [
+    {
+      "id": "habit-vitamins-maintain-simple",
+      "name": "Prendre ses vitamines",
+      "emoji": "💊",
+      "description": "Prendre ses vitamines chaque jour",
+      "direction": "maintain",
+      "startValue": 1,
+      "unit": "prise",
+      "progression": null,
+      "createdAt": "2025-12-15",
+      "archivedAt": null,
+      "trackingMode": "simple",
+      "trackingFrequency": "daily"
+    }
+  ],
+  "entries": [
+    {"id": "e1", "habitId": "habit-vitamins-maintain-simple", "date": "2026-01-05", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-05T08:00:00Z", "updatedAt": "2026-01-05T08:00:00Z"},
+    {"id": "e2", "habitId": "habit-vitamins-maintain-simple", "date": "2026-01-06", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-06T08:00:00Z", "updatedAt": "2026-01-06T08:00:00Z"},
+    {"id": "e3", "habitId": "habit-vitamins-maintain-simple", "date": "2026-01-07", "targetDose": 1, "actualValue": 0, "createdAt": "2026-01-07T20:00:00Z", "updatedAt": "2026-01-07T20:00:00Z"},
+    {"id": "e4", "habitId": "habit-vitamins-maintain-simple", "date": "2026-01-08", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-08T08:00:00Z", "updatedAt": "2026-01-08T08:00:00Z"},
+    {"id": "e5", "habitId": "habit-vitamins-maintain-simple", "date": "2026-01-09", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-09T08:00:00Z", "updatedAt": "2026-01-09T08:00:00Z"},
+    {"id": "e6", "habitId": "habit-vitamins-maintain-simple", "date": "2026-01-10", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-10T08:00:00Z", "updatedAt": "2026-01-10T08:00:00Z"}
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2026-01-05",
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    },
+    "theme": "system"
+  }
+}
