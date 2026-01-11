@@ -1,0 +1,264 @@
+{
+  "project": "Doucement - Types d'Habitudes",
+  "description": "Tâches pour améliorer la gestion des différents types d'habitudes",
+  "createdAt": "2026-01-11",
+  "sourceDocument": "docs/habit-types-analysis.md",
+  "phases": [
+    {
+      "id": "phase-fix",
+      "name": "Corrections des habitudes suggérées",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "fix.1",
+          "name": "Corriger mindfulness-breathing période",
+          "description": "Changer progression.period de 'daily' à 'weekly' pour mindfulness-breathing dans suggestedHabits.ts",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/constants/suggestedHabits.ts"]
+        },
+        {
+          "id": "fix.2",
+          "name": "Ajouter trackingMode simple à movement-walk-after-meal",
+          "description": "Ajouter trackingMode: 'simple' à l'habitude movement-walk-after-meal",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/constants/suggestedHabits.ts"]
+        },
+        {
+          "id": "fix.3",
+          "name": "Ajouter trackingMode simple à reading-before-bed",
+          "description": "Ajouter trackingMode: 'simple' à l'habitude reading-before-bed",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/constants/suggestedHabits.ts"]
+        }
+      ]
+    },
+    {
+      "id": "phase-decrease",
+      "name": "Amélioration des habitudes à réduire",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "dec.1",
+          "name": "Désactiver habit stacking pour direction decrease",
+          "description": "Dans StepIntentions.tsx, ne pas afficher le sélecteur d'ancrage (HabitAnchorSelector) si la direction de l'habitude est 'decrease'. Les habitudes à réduire ne doivent pas être chaînées.",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/components/habits/StepIntentions.tsx", "src/pages/CreateHabit.tsx"]
+        },
+        {
+          "id": "dec.2",
+          "name": "Ajouter messages spéciaux pour valeur zéro",
+          "description": "Créer des messages de félicitations spéciaux quand l'utilisateur saisit 0 pour une habitude decrease. Ajouter dans messages.ts et afficher dans HabitCard/CheckInButtons",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/constants/messages.ts", "src/components/habits/CheckInButtons.tsx"]
+        },
+        {
+          "id": "dec.3",
+          "name": "Améliorer feedback visuel pour decrease",
+          "description": "Utiliser la couleur verte (success) quand l'utilisateur fait MOINS que la cible pour une habitude decrease, car moins = mieux",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/components/habits/HabitCard.tsx", "src/components/habits/HabitCard.css"]
+        }
+      ]
+    },
+    {
+      "id": "phase-cumulative",
+      "name": "Support saisie cumulative",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "cum.1",
+          "name": "Ajouter type EntryMode aux types",
+          "description": "Ajouter 'entryMode?: EntryMode' au type Habit où EntryMode = 'replace' | 'cumulative'. Mode par défaut: 'replace'",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/types/index.ts"]
+        },
+        {
+          "id": "cum.2",
+          "name": "Implémenter logique cumulative dans useAppData",
+          "description": "Modifier addEntry pour additionner la valeur si entryMode='cumulative' au lieu de remplacer",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/hooks/useAppData.ts"]
+        },
+        {
+          "id": "cum.3",
+          "name": "Afficher cumul dans HabitCard",
+          "description": "Afficher 'X (total aujourd'hui)' pour les habitudes en mode cumulative",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/components/habits/HabitCard.tsx"]
+        },
+        {
+          "id": "cum.4",
+          "name": "Ajouter option cumulative dans CreateHabit",
+          "description": "Permettre de choisir le mode de saisie (remplacer/cumuler) lors de la création d'habitude",
+          "status": "pending",
+          "priority": "low",
+          "files": ["src/pages/CreateHabit.tsx"]
+        },
+        {
+          "id": "cum.5",
+          "name": "Migration schéma pour entryMode",
+          "description": "Créer la migration pour le nouveau champ entryMode dans les habitudes existantes",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/services/migration.ts", "src/types/index.ts"]
+        }
+      ]
+    },
+    {
+      "id": "phase-tests-fixtures",
+      "name": "Fixtures de test pour types d'habitudes",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "fix-test.1",
+          "name": "Créer fixture increase-daily.json",
+          "description": "Fichier de test avec habitude direction=increase, trackingFrequency=daily, avec entrées variées",
+          "status": "pending",
+          "priority": "high",
+          "files": ["public/test-data/habit-types/increase-daily.json"]
+        },
+        {
+          "id": "fix-test.2",
+          "name": "Créer fixture increase-weekly.json",
+          "description": "Fichier de test avec habitude direction=increase, trackingFrequency=weekly",
+          "status": "pending",
+          "priority": "high",
+          "files": ["public/test-data/habit-types/increase-weekly.json"]
+        },
+        {
+          "id": "fix-test.3",
+          "name": "Créer fixture decrease-daily.json",
+          "description": "Fichier de test avec habitude direction=decrease, avec entrées montrant que moins=mieux",
+          "status": "pending",
+          "priority": "high",
+          "files": ["public/test-data/habit-types/decrease-daily.json"]
+        },
+        {
+          "id": "fix-test.4",
+          "name": "Créer fixture decrease-weekly.json",
+          "description": "Fichier de test avec habitude direction=decrease, trackingFrequency=weekly (ex: alcool)",
+          "status": "pending",
+          "priority": "high",
+          "files": ["public/test-data/habit-types/decrease-weekly.json"]
+        },
+        {
+          "id": "fix-test.5",
+          "name": "Créer fixture maintain-simple.json",
+          "description": "Fichier de test avec habitude direction=maintain, trackingMode=simple",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["public/test-data/habit-types/maintain-simple.json"]
+        },
+        {
+          "id": "fix-test.6",
+          "name": "Créer fixture decrease-zero.json",
+          "description": "Fichier de test avec habitude decrease ayant une entrée à 0 pour tester les messages de victoire",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["public/test-data/habit-types/decrease-zero.json"]
+        }
+      ]
+    },
+    {
+      "id": "phase-tests-e2e",
+      "name": "Tests E2E par type d'habitude",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "e2e-type.1",
+          "name": "Test E2E habitude increase daily",
+          "description": "Test création et check-in d'une habitude increase/daily. Vérifier que >= cible = succès avec feedback positif",
+          "status": "pending",
+          "priority": "high",
+          "files": ["e2e/habit-increase-daily.spec.ts"]
+        },
+        {
+          "id": "e2e-type.2",
+          "name": "Test E2E habitude increase weekly",
+          "description": "Test habitude hebdomadaire. Vérifier l'affichage X/Y, le compteur qui s'incrémente chaque jour fait",
+          "status": "pending",
+          "priority": "high",
+          "files": ["e2e/habit-increase-weekly.spec.ts"]
+        },
+        {
+          "id": "e2e-type.3",
+          "name": "Test E2E habitude decrease daily",
+          "description": "Test habitude à réduire. Vérifier que <= cible = succès, boutons adaptés (Moins = positif)",
+          "status": "pending",
+          "priority": "high",
+          "files": ["e2e/habit-decrease-daily.spec.ts"]
+        },
+        {
+          "id": "e2e-type.4",
+          "name": "Test E2E saisie zéro decrease",
+          "description": "Test saisie de 0 pour habitude decrease. Vérifier message de félicitations spécial",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["e2e/habit-decrease-zero.spec.ts"]
+        },
+        {
+          "id": "e2e-type.5",
+          "name": "Test E2E habitude maintain",
+          "description": "Test habitude maintien. Vérifier pas de progression, dose fixe",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["e2e/habit-maintain.spec.ts"]
+        },
+        {
+          "id": "e2e-type.6",
+          "name": "Test E2E pas de habit stacking pour decrease",
+          "description": "Vérifier que l'option d'ancrage n'est pas proposée lors de la création d'une habitude decrease",
+          "status": "pending",
+          "priority": "high",
+          "files": ["e2e/habit-decrease-no-stacking.spec.ts"]
+        }
+      ]
+    },
+    {
+      "id": "phase-tests-unit",
+      "name": "Tests unitaires",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "unit.1",
+          "name": "Tests calcul score decrease",
+          "description": "Tests unitaires pour vérifier que le calcul de complétion est correct pour decrease (moins = mieux)",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/services/progression.test.ts"]
+        },
+        {
+          "id": "unit.2",
+          "name": "Tests mode cumulative",
+          "description": "Tests unitaires pour le mode de saisie cumulative",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/hooks/useAppData.test.ts"]
+        },
+        {
+          "id": "unit.3",
+          "name": "Tests messages zéro",
+          "description": "Tests pour vérifier les messages appropriés quand valeur = 0 pour decrease",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/components/habits/CheckInButtons.test.tsx"]
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "totalTasks": 25,
+    "completed": 0,
+    "inProgress": 0,
+    "pending": 25
+  }
+}
