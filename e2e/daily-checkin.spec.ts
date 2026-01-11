@@ -29,8 +29,15 @@ test.describe('Check-in quotidien', () => {
     await page.getByRole('textbox', { name: 'Unité' }).fill('répétitions');
     await page.getByRole('spinbutton', { name: 'Dose de départ' }).fill('10');
     await page.getByRole('button', { name: 'Continuer' }).click();
+    // Étape intentions
+    await page.getByRole('button', { name: 'Continuer' }).click();
+    // Étape identity
     await page.getByRole('button', { name: 'Aperçu' }).click();
     await page.getByRole('button', { name: 'Créer l\'habitude' }).click();
+
+    // Étape first-checkin: Première victoire ?
+    await page.waitForSelector('text=Première victoire ?');
+    await page.getByRole('button', { name: 'Non, je commence demain' }).click();
 
     // Attendre d'être sur la page principale avec l'habitude
     await page.waitForSelector('h3:has-text("Push-ups")');

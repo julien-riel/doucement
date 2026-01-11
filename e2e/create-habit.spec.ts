@@ -93,7 +93,7 @@ test.describe('Création d\'habitude', () => {
 
     // Étape 3: Implementation Intentions (optionnel)
     await expect(page.getByText('Quand et où ?')).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Aperçu' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Continuer' })).toBeVisible();
 
     // Sélectionner un déclencheur suggéré
     await page.getByRole('button', { name: 'Après mon café du matin' }).click();
@@ -102,9 +102,13 @@ test.describe('Création d\'habitude', () => {
     // Remplir le lieu
     await page.getByRole('textbox', { name: 'Où ?' }).fill('Salon');
 
+    await page.getByRole('button', { name: 'Continuer' }).click();
+
+    // Étape 4: Identity (optionnel)
+    await expect(page.getByText('Qui voulez-vous devenir ?')).toBeVisible();
     await page.getByRole('button', { name: 'Aperçu' }).click();
 
-    // Étape 4: Confirmation
+    // Étape 5: Confirmation
     await expect(page.getByText('Vérifiez et confirmez')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Push-ups' })).toBeVisible();
     await expect(page.getByText('Augmenter')).toBeVisible();
@@ -113,6 +117,10 @@ test.describe('Création d\'habitude', () => {
 
     // Créer l'habitude
     await page.getByRole('button', { name: 'Créer l\'habitude' }).click();
+
+    // Étape first-checkin: Première victoire ?
+    await expect(page.getByText('Première victoire ?')).toBeVisible();
+    await page.getByRole('button', { name: 'Non, je commence demain' }).click();
 
     // Devrait rediriger vers l'écran principal
     await expect(page).toHaveURL('/');
@@ -138,11 +146,18 @@ test.describe('Création d\'habitude', () => {
     await page.getByRole('button', { name: 'Continuer' }).click();
 
     // Étape 3: Passer les intentions (optionnel)
+    await page.getByRole('button', { name: 'Continuer' }).click();
+
+    // Étape 4: Passer l'identity (optionnel)
     await page.getByRole('button', { name: 'Aperçu' }).click();
 
-    // Étape 4: Confirmation
+    // Étape 5: Confirmation
     await expect(page.getByText('Réduire')).toBeVisible();
     await page.getByRole('button', { name: 'Créer l\'habitude' }).click();
+
+    // Étape first-checkin: Première victoire ?
+    await expect(page.getByText('Première victoire ?')).toBeVisible();
+    await page.getByRole('button', { name: 'Non, je commence demain' }).click();
 
     // Vérifier la création
     await expect(page).toHaveURL('/');
@@ -166,12 +181,19 @@ test.describe('Création d\'habitude', () => {
     await page.getByRole('button', { name: 'Continuer' }).click();
 
     // Étape 3: Intentions
+    await page.getByRole('button', { name: 'Continuer' }).click();
+
+    // Étape 4: Identity
     await page.getByRole('button', { name: 'Aperçu' }).click();
 
-    // Étape 4: Confirmation
+    // Étape 5: Confirmation
     await expect(page.getByText('Maintenir')).toBeVisible();
     await expect(page.getByText('8 verres', { exact: true })).toBeVisible();
     await page.getByRole('button', { name: 'Créer l\'habitude' }).click();
+
+    // Étape first-checkin: Première victoire ?
+    await expect(page.getByText('Première victoire ?')).toBeVisible();
+    await page.getByRole('button', { name: 'Non, je commence demain' }).click();
 
     // Vérifier la création
     await expect(page).toHaveURL('/');
