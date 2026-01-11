@@ -13,7 +13,9 @@
     "test": "vitest run",
     "test:e2e": "npm run build && playwright test",
     "test:e2e:ui": "npm run build && playwright test --ui",
-    "test:e2e:head": "npm run build && playwright test --headed"
+    "test:e2e:head": "npm run build && playwright test --headed",
+    "auto-implement": "./scripts/auto-implement.sh",
+    "auto-implement:smart": "./scripts/auto-implement-smart.sh"
   },
   "dependencies": {
     "react": "^18.3.1",
