@@ -75,7 +75,7 @@
     {
       "id": "phase-cumulative",
       "name": "Support saisie cumulative",
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "cum.1",
@@ -108,9 +108,10 @@
           "id": "cum.4",
           "name": "Ajouter option cumulative dans CreateHabit",
           "description": "Permettre de choisir le mode de saisie (remplacer/cumuler) lors de la création d'habitude",
-          "status": "pending",
+          "status": "completed",
           "priority": "low",
-          "files": ["src/pages/CreateHabit.tsx"]
+          "files": ["src/pages/CreateHabit.tsx"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "cum.5",
@@ -283,8 +284,8 @@
   ],
   "stats": {
     "totalTasks": 25,
-    "completed": 24,
+    "completed": 25,
     "inProgress": 0,
-    "pending": 1
+    "pending": 0
   }
 }

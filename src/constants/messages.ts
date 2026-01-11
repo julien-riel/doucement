@@ -558,6 +558,23 @@ export const MILESTONE_CELEBRATION = {
 } as const
 
 // ============================================================================
+// MESSAGES MODE CUMULATIF
+// ============================================================================
+
+/**
+ * Textes pour l'option de mode de saisie (replace vs cumulative)
+ */
+export const ENTRY_MODE = {
+  sectionTitle: 'Mode de saisie',
+  sectionHint: 'Comment les valeurs sont enregistrées dans la journée',
+  replaceLabel: 'Remplacer',
+  replaceDescription: 'Chaque saisie remplace la précédente',
+  cumulativeLabel: 'Cumuler',
+  cumulativeDescription: "Les saisies s'additionnent dans la journée",
+  cumulativeHint: "Idéal pour : verres d'eau, grignotages, cigarettes...",
+} as const
+
+// ============================================================================
 // MESSAGES PREMIER CHECK-IN IMMÉDIAT (Phase 12)
 // ============================================================================
 

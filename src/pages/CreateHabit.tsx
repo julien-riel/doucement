@@ -14,6 +14,7 @@ import {
   HABIT_CREATED,
   IMPLEMENTATION_INTENTION,
   IDENTITY_STATEMENT,
+  ENTRY_MODE,
 } from '../constants/messages'
 import { calculateTargetDose } from '../services/progression'
 import {
@@ -30,6 +31,7 @@ import {
   CreateHabitInput,
   ImplementationIntention,
   TrackingFrequency,
+  EntryMode,
 } from '../types'
 import { getCurrentDate } from '../utils'
 import './CreateHabit.css'
@@ -114,6 +116,7 @@ interface HabitFormState {
   anchorHabitId: string | undefined
   trackingFrequency: TrackingFrequency
   identityStatement: string
+  entryMode: EntryMode
 }
 
 const INITIAL_FORM_STATE: HabitFormState = {
@@ -130,6 +133,7 @@ const INITIAL_FORM_STATE: HabitFormState = {
   anchorHabitId: undefined,
   trackingFrequency: 'daily',
   identityStatement: '',
+  entryMode: 'replace',
 }
 
 /**
@@ -189,6 +193,7 @@ function CreateHabit() {
       anchorHabitId: undefined,
       trackingFrequency: habit.trackingFrequency ?? 'daily',
       identityStatement: '',
+      entryMode: 'replace',
     })
     setStep('intentions')
   }, [])
@@ -266,6 +271,7 @@ function CreateHabit() {
         anchorHabitId: form.anchorHabitId,
         trackingFrequency: form.trackingFrequency,
         identityStatement: form.identityStatement.trim() || undefined,
+        entryMode: form.entryMode,
       }
 
       const newHabit = addHabit(habitInput)
@@ -522,6 +528,37 @@ function CreateHabit() {
             </div>
           </div>
         )}
+
+        {/* Mode de saisie */}
+        <div className="step-details__entry-mode-section">
+          <p className="step-details__entry-mode-title">{ENTRY_MODE.sectionTitle}</p>
+          <p className="step-details__entry-mode-hint">{ENTRY_MODE.sectionHint}</p>
+          <div className="step-details__entry-mode-options">
+            <button
+              type="button"
+              className={`step-details__entry-mode-option ${form.entryMode === 'replace' ? 'step-details__entry-mode-option--selected' : ''}`}
+              onClick={() => updateForm('entryMode', 'replace')}
+              aria-pressed={form.entryMode === 'replace'}
+            >
+              <span className="step-details__entry-mode-label">{ENTRY_MODE.replaceLabel}</span>
+              <span className="step-details__entry-mode-desc">{ENTRY_MODE.replaceDescription}</span>
+            </button>
+            <button
+              type="button"
+              className={`step-details__entry-mode-option ${form.entryMode === 'cumulative' ? 'step-details__entry-mode-option--selected' : ''}`}
+              onClick={() => updateForm('entryMode', 'cumulative')}
+              aria-pressed={form.entryMode === 'cumulative'}
+            >
+              <span className="step-details__entry-mode-label">{ENTRY_MODE.cumulativeLabel}</span>
+              <span className="step-details__entry-mode-desc">
+                {ENTRY_MODE.cumulativeDescription}
+              </span>
+            </button>
+          </div>
+          {form.entryMode === 'cumulative' && (
+            <p className="step-details__entry-mode-cumulative-hint">{ENTRY_MODE.cumulativeHint}</p>
+          )}
+        </div>
       </div>
     </div>
   )
@@ -661,6 +698,12 @@ function CreateHabit() {
               <span className="step-confirm__detail-value step-confirm__detail-value--small step-confirm__detail-value--identity">
                 Je deviens quelqu'un qui {form.identityStatement}
               </span>
+            </div>
+          )}
+          {form.entryMode === 'cumulative' && (
+            <div className="step-confirm__detail">
+              <span className="step-confirm__detail-label">Mode de saisie</span>
+              <span className="step-confirm__detail-value">{ENTRY_MODE.cumulativeLabel}</span>
             </div>
           )}
         </div>
