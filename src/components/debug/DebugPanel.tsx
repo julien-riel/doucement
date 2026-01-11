@@ -202,7 +202,8 @@ function DebugPanel() {
 
       {simulatedDate && (
         <div className="debug-panel__simulated-date-banner">
-          Date simulée: {(() => {
+          Date simulée:{' '}
+          {(() => {
             const [year, month, day] = simulatedDate.split('-').map(Number)
             return new Date(year, month - 1, day).toLocaleDateString('fr-FR')
           })()}
