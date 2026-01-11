@@ -236,16 +236,28 @@ export function useAppData(): UseAppDataReturn {
     }
 
     setData((prev) => {
-      // Remplace une entrée existante pour le même habit/date ou ajoute une nouvelle
+      // Cherche l'habitude pour vérifier son entryMode
+      const habit = prev.habits.find((h) => h.id === input.habitId)
+      const isCumulative = habit?.entryMode === 'cumulative'
+
+      // Cherche une entrée existante pour le même habit/date
       const existingIndex = prev.entries.findIndex(
         (e) => e.habitId === input.habitId && e.date === input.date
       )
 
       if (existingIndex >= 0) {
+        const existingEntry = prev.entries[existingIndex]
         const updatedEntries = [...prev.entries]
+
+        // En mode cumulative, additionne la nouvelle valeur à l'existante
+        const actualValue = isCumulative
+          ? existingEntry.actualValue + input.actualValue
+          : input.actualValue
+
         updatedEntries[existingIndex] = {
           ...newEntry,
-          createdAt: prev.entries[existingIndex].createdAt,
+          actualValue,
+          createdAt: existingEntry.createdAt,
         }
         return { ...prev, entries: updatedEntries }
       }

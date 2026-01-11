@@ -173,6 +173,9 @@ function HabitCard({
         >
           <span className="habit-card__status-value">
             {currentValue} / {targetDose} {habit.unit}
+            {habit.entryMode === 'cumulative' && (
+              <span className="habit-card__cumulative-indicator"> (cumul)</span>
+            )}
           </span>
           {/* Pour les habitudes decrease: exceeded = on a fait MOINS que la cible = victoire */}
           {status === 'exceeded' && habit.direction === 'decrease' && (

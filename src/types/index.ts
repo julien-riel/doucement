@@ -11,7 +11,7 @@
  * Version du schéma de données
  * Incrémentée à chaque modification de structure pour permettre les migrations
  */
-export const CURRENT_SCHEMA_VERSION = 7
+export const CURRENT_SCHEMA_VERSION = 8
 
 // ============================================================================
 // HABIT TYPES
@@ -57,6 +57,13 @@ export type TrackingMode = 'simple' | 'detailed'
  * - weekly: suivi hebdomadaire (X fois par semaine)
  */
 export type TrackingFrequency = 'daily' | 'weekly'
+
+/**
+ * Mode de saisie des valeurs
+ * - replace: chaque saisie remplace la précédente (défaut)
+ * - cumulative: les saisies s'additionnent dans la journée
+ */
+export type EntryMode = 'replace' | 'cumulative'
 
 /**
  * Préférence de thème
@@ -140,6 +147,8 @@ export interface Habit {
   trackingMode?: TrackingMode
   /** Fréquence de suivi: daily (quotidien) ou weekly (hebdomadaire) */
   trackingFrequency?: TrackingFrequency
+  /** Mode de saisie: replace (défaut) ou cumulative (les valeurs s'additionnent) */
+  entryMode?: EntryMode
   /** Implementation Intention - plan si-alors (Phase 6) */
   implementationIntention?: ImplementationIntention
   /** ID de l'habitude d'ancrage pour Habit Stacking (Phase 6) */

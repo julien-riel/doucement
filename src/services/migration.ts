@@ -146,6 +146,19 @@ export const MIGRATIONS: Migration[] = [
       }
     },
   },
+  {
+    fromVersion: 7,
+    toVersion: 8,
+    description: 'Ajout du mode de saisie cumulative (entryMode)',
+    migrate: (data) => {
+      // Le champ entryMode est optionnel
+      // Les habitudes existantes fonctionneront sans ce champ (undefined = 'replace' par défaut)
+      return {
+        ...data,
+        schemaVersion: 8,
+      }
+    },
+  },
 ]
 
 // ============================================================================
