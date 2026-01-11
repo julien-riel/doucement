@@ -6,7 +6,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { Button, Input, Card } from '../components/ui'
-import { ProgressionMode, ProgressionPeriod, UpdateHabitInput } from '../types'
+import { ProgressionMode, ProgressionPeriod, UpdateHabitInput, Habit } from '../types'
 import './EditHabit.css'
 
 /**
@@ -37,9 +37,14 @@ const SUGGESTED_EMOJIS = [
 function EditHabit() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { getHabitById, updateHabit, isLoading } = useAppData()
+  const { getHabitById, updateHabit, isLoading, activeHabits } = useAppData()
 
   const habit = id ? getHabitById(id) : undefined
+
+  // Get available habits for anchor selection (exclude current habit)
+  const availableAnchorHabits = useMemo(() => {
+    return activeHabits.filter((h: Habit) => h.id !== id)
+  }, [activeHabits, id])
 
   // Form state
   const [name, setName] = useState('')
@@ -49,6 +54,12 @@ function EditHabit() {
   const [progressionValue, setProgressionValue] = useState(5)
   const [progressionPeriod, setProgressionPeriod] = useState<ProgressionPeriod>('weekly')
   const [targetValue, setTargetValue] = useState<number | null>(null)
+  // Implementation Intention fields
+  const [trigger, setTrigger] = useState('')
+  const [location, setLocation] = useState('')
+  const [time, setTime] = useState('')
+  // Anchor habit for habit stacking
+  const [anchorHabitId, setAnchorHabitId] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
 
@@ -64,6 +75,12 @@ function EditHabit() {
         setProgressionPeriod(habit.progression.period)
       }
       setTargetValue(habit.targetValue ?? null)
+      // Implementation Intention
+      setTrigger(habit.implementationIntention?.trigger ?? '')
+      setLocation(habit.implementationIntention?.location ?? '')
+      setTime(habit.implementationIntention?.time ?? '')
+      // Anchor habit
+      setAnchorHabitId(habit.anchorHabitId ?? null)
     }
   }, [habit])
 
@@ -87,8 +104,18 @@ function EditHabit() {
         progressionPeriod !== habit.progression.period
     }
 
-    return nameChanged || emojiChanged || unitChanged || targetChanged || progressionChanged
-  }, [habit, name, emoji, unit, targetValue, progressionMode, progressionValue, progressionPeriod])
+    // Implementation Intention changes
+    const triggerChanged = trigger.trim() !== (habit.implementationIntention?.trigger ?? '')
+    const locationChanged = location.trim() !== (habit.implementationIntention?.location ?? '')
+    const timeChanged = time !== (habit.implementationIntention?.time ?? '')
+
+    // Anchor habit change
+    const anchorChanged = anchorHabitId !== (habit.anchorHabitId ?? null)
+
+    return nameChanged || emojiChanged || unitChanged || targetChanged || progressionChanged ||
+           triggerChanged || locationChanged || timeChanged || anchorChanged
+  }, [habit, name, emoji, unit, targetValue, progressionMode, progressionValue, progressionPeriod,
+      trigger, location, time, anchorHabitId])
 
   const handleSave = useCallback(() => {
     if (!id || !habit || !isFormValid) return
@@ -111,6 +138,23 @@ function EditHabit() {
       }
     }
 
+    // Build Implementation Intention
+    const trimmedTrigger = trigger.trim()
+    const trimmedLocation = location.trim()
+    if (trimmedTrigger || trimmedLocation || time) {
+      updates.implementationIntention = {
+        ...(trimmedTrigger && { trigger: trimmedTrigger }),
+        ...(trimmedLocation && { location: trimmedLocation }),
+        ...(time && { time }),
+      }
+    } else {
+      // Clear implementation intention if all fields are empty
+      updates.implementationIntention = undefined
+    }
+
+    // Anchor habit
+    updates.anchorHabitId = anchorHabitId ?? undefined
+
     const success = updateHabit(id, updates)
 
     if (success) {
@@ -132,6 +176,10 @@ function EditHabit() {
     progressionMode,
     progressionValue,
     progressionPeriod,
+    trigger,
+    location,
+    time,
+    anchorHabitId,
     updateHabit,
     navigate,
   ])
@@ -314,6 +362,64 @@ function EditHabit() {
                 : "La dose diminuera jusqu'à atteindre cet objectif"
             }
           />
+        )}
+
+        {/* Implementation Intention - Quand et Où */}
+        <div className="edit-habit__intention-section">
+          <p className="edit-habit__field-label">Intention de mise en œuvre (optionnel)</p>
+          <p className="edit-habit__field-hint">
+            Définir quand et où tu pratiques cette habitude augmente tes chances de réussite.
+          </p>
+
+          <Input
+            label="Déclencheur"
+            placeholder="Ex: Après mon café du matin"
+            value={trigger}
+            onChange={(e) => setTrigger(e.target.value)}
+            hint="Quel événement déclenche cette habitude ?"
+          />
+
+          <Input
+            label="Lieu"
+            placeholder="Ex: Dans le salon"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            hint="Où pratiques-tu cette habitude ?"
+          />
+
+          <Input
+            type="time"
+            label="Heure prévue"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            hint="À quelle heure (optionnel)"
+          />
+        </div>
+
+        {/* Habit Stacking - Lien avec une autre habitude */}
+        {availableAnchorHabits.length > 0 && (
+          <div className="edit-habit__stacking-section">
+            <p className="edit-habit__field-label">Enchaînement d'habitudes (optionnel)</p>
+            <p className="edit-habit__field-hint">
+              Lier cette habitude à une autre pour créer une routine.
+            </p>
+
+            <div className="input-wrapper">
+              <label className="input-label">Après quelle habitude ?</label>
+              <select
+                className="edit-habit__select"
+                value={anchorHabitId ?? ''}
+                onChange={(e) => setAnchorHabitId(e.target.value || null)}
+              >
+                <option value="">Aucune (habitude indépendante)</option>
+                {availableAnchorHabits.map((h: Habit) => (
+                  <option key={h.id} value={h.id}>
+                    {h.emoji} {h.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         )}
       </div>
 

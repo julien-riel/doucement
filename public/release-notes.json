@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.3.0",
+  "currentVersion": "1.4.0",
   "releases": [
+    {
+      "version": "1.4.0",
+      "date": "2026-01-10",
+      "title": "Édition des intentions",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Définis quand tu pratiques ton habitude (ex: Après mon café)"
+        },
+        {
+          "emoji": "target",
+          "text": "Choisis où tu pratiques ton habitude"
+        },
+        {
+          "emoji": "calendar",
+          "text": "Ajuste l'heure de ton habitude à tout moment"
+        },
+        {
+          "emoji": "tools",
+          "text": "Lie une habitude à une autre pour créer une routine"
+        }
+      ]
+    },
     {
       "version": "1.3.0",
       "date": "2026-01-10",

@@ -219,6 +219,48 @@
   flex: 1;
 }
 
+/* Implementation Intention Section */
+.edit-habit__intention-section {
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--neutral-200);
+}
+
+.edit-habit__field-hint {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  margin: var(--spacing-1) 0 var(--spacing-3) 0;
+}
+
+/* Habit Stacking Section */
+.edit-habit__stacking-section {
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--neutral-200);
+}
+
+.edit-habit__select {
+  width: 100%;
+  padding: var(--spacing-3);
+  background: var(--neutral-0);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--neutral-800);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--easing-gentle);
+}
+
+.edit-habit__select:hover {
+  border-color: var(--primary-400);
+}
+
+.edit-habit__select:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
 /* Footer Navigation */
 .edit-habit__footer {
   position: fixed;
