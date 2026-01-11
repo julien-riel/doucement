@@ -7,6 +7,9 @@ import { describe, it, expect } from 'vitest'
 import {
   daysBetween,
   weeksBetween,
+  getCurrentWeekDates,
+  isWeeklyHabit,
+  calculateWeeklyProgress,
   applyRounding,
   calculateTargetDose,
   calculateCompletionPercentage,
@@ -92,6 +95,131 @@ describe('weeksBetween', () => {
 
   it('returns fractional weeks', () => {
     expect(weeksBetween('2025-01-01', '2025-01-04')).toBeCloseTo(3 / 7)
+  })
+})
+
+// ============================================================================
+// WEEKLY TRACKING TESTS
+// ============================================================================
+
+describe('getCurrentWeekDates', () => {
+  it('returns array of 7 dates', () => {
+    const dates = getCurrentWeekDates('2026-01-10')
+    expect(dates).toHaveLength(7)
+  })
+
+  it('returns Monday to Sunday for a mid-week date', () => {
+    // 2026-01-10 is a Saturday
+    const dates = getCurrentWeekDates('2026-01-10')
+    expect(dates[0]).toBe('2026-01-05') // Monday
+    expect(dates[6]).toBe('2026-01-11') // Sunday
+  })
+
+  it('returns correct week for a Monday', () => {
+    // 2026-01-05 is a Monday
+    const dates = getCurrentWeekDates('2026-01-05')
+    expect(dates[0]).toBe('2026-01-05') // Monday
+    expect(dates[6]).toBe('2026-01-11') // Sunday
+  })
+
+  it('returns correct week for a Sunday', () => {
+    // 2026-01-11 is a Sunday
+    const dates = getCurrentWeekDates('2026-01-11')
+    expect(dates[0]).toBe('2026-01-05') // Monday
+    expect(dates[6]).toBe('2026-01-11') // Sunday
+  })
+
+  it('handles month boundaries', () => {
+    // 2026-02-02 is a Monday
+    const dates = getCurrentWeekDates('2026-02-01') // Sunday
+    expect(dates[0]).toBe('2026-01-26') // Monday of previous week
+    expect(dates[6]).toBe('2026-02-01') // Sunday
+  })
+})
+
+describe('isWeeklyHabit', () => {
+  it('returns true for weekly habit', () => {
+    const habit = createHabit({ trackingFrequency: 'weekly' })
+    expect(isWeeklyHabit(habit)).toBe(true)
+  })
+
+  it('returns false for daily habit', () => {
+    const habit = createHabit({ trackingFrequency: 'daily' })
+    expect(isWeeklyHabit(habit)).toBe(false)
+  })
+
+  it('returns false for habit without trackingFrequency (default to daily)', () => {
+    const habit = createHabit()
+    expect(isWeeklyHabit(habit)).toBe(false)
+  })
+})
+
+describe('calculateWeeklyProgress', () => {
+  it('returns 0 completed days when no entries', () => {
+    const habit = createHabit({
+      id: 'weekly-habit',
+      trackingFrequency: 'weekly',
+      startValue: 3,
+    })
+    const result = calculateWeeklyProgress(habit, [], '2026-01-10')
+    expect(result.completedDays).toBe(0)
+    expect(result.weeklyTarget).toBe(3)
+  })
+
+  it('counts days with actualValue > 0', () => {
+    const habit = createHabit({
+      id: 'weekly-habit',
+      trackingFrequency: 'weekly',
+      startValue: 3,
+    })
+    const entries: DailyEntry[] = [
+      createEntry({ habitId: 'weekly-habit', date: '2026-01-05', actualValue: 1 }),
+      createEntry({ habitId: 'weekly-habit', date: '2026-01-07', actualValue: 1 }),
+    ]
+    const result = calculateWeeklyProgress(habit, entries, '2026-01-10')
+    expect(result.completedDays).toBe(2)
+  })
+
+  it('ignores entries with actualValue 0', () => {
+    const habit = createHabit({
+      id: 'weekly-habit',
+      trackingFrequency: 'weekly',
+      startValue: 3,
+    })
+    const entries: DailyEntry[] = [
+      createEntry({ habitId: 'weekly-habit', date: '2026-01-05', actualValue: 1 }),
+      createEntry({ habitId: 'weekly-habit', date: '2026-01-06', actualValue: 0 }),
+    ]
+    const result = calculateWeeklyProgress(habit, entries, '2026-01-10')
+    expect(result.completedDays).toBe(1)
+  })
+
+  it('only counts entries for the current week', () => {
+    const habit = createHabit({
+      id: 'weekly-habit',
+      trackingFrequency: 'weekly',
+      startValue: 3,
+    })
+    const entries: DailyEntry[] = [
+      // Previous week
+      createEntry({ habitId: 'weekly-habit', date: '2026-01-01', actualValue: 1 }),
+      // Current week (Jan 5-11)
+      createEntry({ habitId: 'weekly-habit', date: '2026-01-05', actualValue: 1 }),
+      createEntry({ habitId: 'weekly-habit', date: '2026-01-10', actualValue: 1 }),
+    ]
+    const result = calculateWeeklyProgress(habit, entries, '2026-01-10')
+    expect(result.completedDays).toBe(2)
+  })
+
+  it('returns correct weekDates', () => {
+    const habit = createHabit({
+      id: 'weekly-habit',
+      trackingFrequency: 'weekly',
+      startValue: 3,
+    })
+    const result = calculateWeeklyProgress(habit, [], '2026-01-10')
+    expect(result.weekDates).toHaveLength(7)
+    expect(result.weekDates[0]).toBe('2026-01-05')
   })
 })
 

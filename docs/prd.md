@@ -81,14 +81,34 @@ Le public **n’est pas** :
 
 ### 4.2 Dose du jour
 
-Concept central de l’application.
+Concept central de l'application.
 
-L’utilisateur ne gère jamais un objectif lointain.
+L'utilisateur ne gère jamais un objectif lointain.
 Il voit uniquement :
 
-> « Voici la dose cible pour aujourd’hui »
+> « Voici la dose cible pour aujourd'hui »
 
 La progression est calculée automatiquement.
+
+### 4.3 Fréquence de suivi
+
+Les habitudes peuvent être suivies selon deux fréquences :
+
+1. **Quotidienne** (par défaut)
+   * L'utilisateur voit sa dose du jour
+   * Check-in journalier classique
+   * Exemple : "8 verres d'eau par jour"
+
+2. **Hebdomadaire**
+   * L'utilisateur voit sa progression de la semaine : "X/Y cette semaine"
+   * Utile pour des objectifs qui ne s'appliquent pas tous les jours
+   * Exemples :
+     * "3 soirs de coucher à heure fixe par semaine"
+     * "7 verres d'alcool maximum par semaine"
+   * Le check-in quotidien est binaire (fait/pas fait)
+   * Le compteur hebdomadaire s'incrémente automatiquement
+
+Cette distinction permet de mieux représenter les habitudes qui ont naturellement un rythme hebdomadaire plutôt que quotidien.
 
 ---
 

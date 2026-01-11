@@ -71,7 +71,7 @@ export function WhatsNewProvider({ children }: WhatsNewProviderProps) {
     }
   }, [])
 
-  const release = releaseNotes ? getLatestRelease(releaseNotes.releases) ?? null : null
+  const release = releaseNotes ? (getLatestRelease(releaseNotes.releases) ?? null) : null
 
   const dismissModal = useCallback(() => {
     setShowModal(false)
@@ -95,11 +95,7 @@ export function WhatsNewProvider({ children }: WhatsNewProviderProps) {
     isLoading,
   }
 
-  return (
-    <WhatsNewContext.Provider value={value}>
-      {children}
-    </WhatsNewContext.Provider>
-  )
+  return <WhatsNewContext.Provider value={value}>{children}</WhatsNewContext.Provider>
 }
 
 /**

@@ -112,10 +112,31 @@ function EditHabit() {
     // Anchor habit change
     const anchorChanged = anchorHabitId !== (habit.anchorHabitId ?? null)
 
-    return nameChanged || emojiChanged || unitChanged || targetChanged || progressionChanged ||
-           triggerChanged || locationChanged || timeChanged || anchorChanged
-  }, [habit, name, emoji, unit, targetValue, progressionMode, progressionValue, progressionPeriod,
-      trigger, location, time, anchorHabitId])
+    return (
+      nameChanged ||
+      emojiChanged ||
+      unitChanged ||
+      targetChanged ||
+      progressionChanged ||
+      triggerChanged ||
+      locationChanged ||
+      timeChanged ||
+      anchorChanged
+    )
+  }, [
+    habit,
+    name,
+    emoji,
+    unit,
+    targetValue,
+    progressionMode,
+    progressionValue,
+    progressionPeriod,
+    trigger,
+    location,
+    time,
+    anchorHabitId,
+  ])
 
   const handleSave = useCallback(() => {
     if (!id || !habit || !isFormValid) return

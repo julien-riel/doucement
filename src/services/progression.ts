@@ -32,6 +32,68 @@ export function weeksBetween(startDate: string, endDate: string): number {
   return daysBetween(startDate, endDate) / 7
 }
 
+/**
+ * Retourne les dates du lundi au dimanche de la semaine courante
+ * @param date Date de référence (YYYY-MM-DD)
+ * @returns Array des dates de la semaine [lundi, ..., dimanche] au format YYYY-MM-DD
+ */
+export function getCurrentWeekDates(date: string): string[] {
+  // Parse the date parts to avoid timezone issues
+  const [year, month, day] = date.split('-').map(Number)
+  const d = new Date(year, month - 1, day)
+
+  // getDay() retourne 0 pour dimanche, 1 pour lundi, etc.
+  const dayOfWeek = d.getDay()
+  // Calcul du lundi: si dimanche (0), on recule de 6 jours, sinon de (dayOfWeek - 1)
+  const mondayOffset = dayOfWeek === 0 ? -6 : -(dayOfWeek - 1)
+
+  const dates: string[] = []
+  for (let i = 0; i < 7; i++) {
+    const weekDate = new Date(year, month - 1, day + mondayOffset + i)
+    const y = weekDate.getFullYear()
+    const m = String(weekDate.getMonth() + 1).padStart(2, '0')
+    const dd = String(weekDate.getDate()).padStart(2, '0')
+    dates.push(`${y}-${m}-${dd}`)
+  }
+  return dates
+}
+
+/**
+ * Vérifie si une habitude a une fréquence hebdomadaire
+ * @param habit Habitude
+ * @returns true si l'habitude est hebdomadaire
+ */
+export function isWeeklyHabit(habit: Habit): boolean {
+  return habit.trackingFrequency === 'weekly'
+}
+
+/**
+ * Calcule la progression hebdomadaire d'une habitude
+ * @param habit Habitude
+ * @param entries Toutes les entrées
+ * @param date Date de référence (YYYY-MM-DD)
+ * @returns Objet avec le nombre de jours complétés et la cible hebdomadaire
+ */
+export function calculateWeeklyProgress(
+  habit: Habit,
+  entries: DailyEntry[],
+  date: string
+): { completedDays: number; weeklyTarget: number; weekDates: string[] } {
+  const weekDates = getCurrentWeekDates(date)
+  const weeklyTarget = calculateTargetDose(habit, date)
+
+  // Compter les jours où l'utilisateur a fait l'habitude cette semaine
+  let completedDays = 0
+  for (const weekDate of weekDates) {
+    const entry = entries.find((e) => e.habitId === habit.id && e.date === weekDate)
+    if (entry && entry.actualValue > 0) {
+      completedDays++
+    }
+  }
+
+  return { completedDays, weeklyTarget, weekDates }
+}
+
 // ============================================================================
 // ROUNDING RULES (3.4)
 // ============================================================================

@@ -15,11 +15,7 @@ function AppContent() {
       <RouterProvider router={router} />
       <PWAUpdatePrompt />
       {showModal && release && currentVersion && (
-        <WhatsNewModal
-          release={release}
-          version={currentVersion}
-          onDismiss={dismissModal}
-        />
+        <WhatsNewModal release={release} version={currentVersion} onDismiss={dismissModal} />
       )}
     </>
   )

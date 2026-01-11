@@ -32,6 +32,14 @@ export function buildIntentionText(habit: Habit): string | null {
 }
 
 /**
+ * Info de progression hebdomadaire pour les habitudes weekly
+ */
+export interface WeeklyProgressInfo {
+  completedDays: number
+  weeklyTarget: number
+}
+
+/**
  * Type pour un élément d'habitude avec ses données calculées
  */
 export interface HabitDataItem {
@@ -40,6 +48,7 @@ export interface HabitDataItem {
   currentValue: number | undefined
   status: 'pending' | 'partial' | 'completed' | 'exceeded'
   anchorHabitName: string | undefined
+  weeklyProgress?: WeeklyProgressInfo
 }
 
 /**

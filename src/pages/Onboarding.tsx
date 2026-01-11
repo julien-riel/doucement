@@ -16,18 +16,18 @@ const ONBOARDING_STEPS = [
     illustration: '🌱',
     title: 'Bienvenue',
     description:
-      'Doucement t\'aide à améliorer tes habitudes progressivement, sans culpabilité.\n\n🔒 Tes données restent sur ton appareil. Aucun compte, aucun cloud, aucun tracking.',
+      "Doucement t'aide à améliorer tes habitudes progressivement, sans culpabilité.\n\n🔒 Tes données restent sur ton appareil. Aucun compte, aucun cloud, aucun tracking.",
   },
   {
     illustration: '📊',
     title: 'La dose du jour',
     description:
-      'Oublie les objectifs intimidants. Concentre-toi uniquement sur ta dose du jour.\n\nLa dose évolue automatiquement selon ta progression : +1%, +2%... l\'effet composé fait le travail.',
+      "Oublie les objectifs intimidants. Concentre-toi uniquement sur ta dose du jour.\n\nLa dose évolue automatiquement selon ta progression : +1%, +2%... l'effet composé fait le travail.",
   },
   {
     illustration: '💚',
     title: 'Chaque effort compte',
-    description: 'Faire un peu, c\'est déjà beaucoup. Ici, 70% c\'est une victoire.',
+    description: "Faire un peu, c'est déjà beaucoup. Ici, 70% c'est une victoire.",
   },
 ]
 

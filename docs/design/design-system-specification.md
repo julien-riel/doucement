@@ -229,7 +229,7 @@ font-weight: 600;
 
 Composant central de l'écran "Aujourd'hui".
 
-**Structure :**
+**Structure (habitude quotidienne) :**
 ```
 ┌─────────────────────────────────────┐
 │ 💪 Push-ups          [15 répétitions]│
@@ -240,6 +240,26 @@ Composant central de l'écran "Aujourd'hui".
 │ [Un peu] [    ✓ Fait    ] [+ Extra]  │
 └─────────────────────────────────────┘
 ```
+
+**Structure (habitude hebdomadaire) :**
+```
+┌─────────────────────────────────────┐
+│ 🌙 Se coucher à heure fixe    [2/3] │
+│ cette semaine                        │
+│                                      │
+│ "Plus qu'un soir pour atteindre     │
+│  ton objectif de la semaine !"      │
+│                                      │
+│ [ Pas aujourd'hui ] [    ✓ Fait    ] │
+└─────────────────────────────────────┘
+```
+
+Pour les habitudes hebdomadaires :
+- La dose affiche "X/Y cette semaine" au lieu d'une valeur quotidienne
+- X = nombre de jours complétés cette semaine
+- Y = objectif hebdomadaire (ex: 3 soirs)
+- Le check-in est binaire : "Fait" ou "Pas aujourd'hui"
+- La progression hebdomadaire se réinitialise chaque lundi
 
 **États visuels :**
 

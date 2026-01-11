@@ -1094,12 +1094,98 @@
           "priority": "low"
         }
       ]
+    },
+    {
+      "id": "phase-8",
+      "name": "Fréquence de suivi hebdomadaire",
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "8.1",
+          "name": "Ajouter le type TrackingFrequency",
+          "description": "Nouveau type 'daily' | 'weekly' et champ trackingFrequency optionnel dans Habit",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "8.2",
+          "name": "Incrémenter la version du schéma à 5",
+          "description": "Mettre à jour CURRENT_SCHEMA_VERSION de 4 à 5 dans types/index.ts",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "8.3",
+          "name": "Créer la migration v4→v5",
+          "description": "Ajouter migration dans migration.ts pour le nouveau champ trackingFrequency",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "8.4",
+          "name": "Mettre à jour SuggestedHabit",
+          "description": "Ajouter trackingFrequency à l'interface et aux habitudes sleep-regular-bedtime et substance-alcohol",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "8.5",
+          "name": "Ajouter les fonctions de calcul hebdomadaire",
+          "description": "getCurrentWeekDates, calculateWeeklyProgress, isWeeklyHabit dans progression.ts",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "8.6",
+          "name": "Mettre à jour HabitCard pour les habitudes hebdomadaires",
+          "description": "Afficher 'X/Y cette semaine' au lieu de la dose quotidienne pour les habitudes weekly",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "8.7",
+          "name": "Mettre à jour Today.tsx",
+          "description": "Calculer weeklyProgress et le passer à HabitCard pour les habitudes hebdomadaires",
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "8.8",
+          "name": "Mettre à jour CreateHabit.tsx",
+          "description": "Ajouter trackingFrequency au formulaire et pré-remplir depuis les suggestions",
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "8.9",
+          "name": "Écrire les tests pour trackingFrequency",
+          "description": "Tests unitaires pour les nouvelles fonctions de calcul hebdomadaire",
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
+        },
+        {
+          "id": "8.10",
+          "name": "Mettre à jour la documentation",
+          "description": "Documenter trackingFrequency dans prd.md, plan-implementation.md et design-system-specification.md",
+          "status": "pending",
+          "priority": "medium"
+        }
+      ]
     }
   ],
   "stats": {
-    "totalTasks": 129,
-    "completed": 113,
+    "totalTasks": 139,
+    "completed": 122,
     "inProgress": 0,
-    "pending": 16
+    "pending": 17
   }
 }

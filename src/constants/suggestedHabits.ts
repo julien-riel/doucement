@@ -4,7 +4,7 @@
  * Source: docs/habitudes-prioritaires-doucement.docx
  */
 
-import { HabitDirection, ProgressionMode, ProgressionPeriod } from '../types'
+import { HabitDirection, ProgressionMode, ProgressionPeriod, TrackingFrequency } from '../types'
 
 /**
  * Niveau de preuve scientifique
@@ -40,6 +40,8 @@ export interface SuggestedHabit {
     value: number
     period: ProgressionPeriod
   } | null
+  /** Fréquence de suivi: daily (défaut) ou weekly */
+  trackingFrequency?: TrackingFrequency
   evidenceLevel: EvidenceLevel
   benefits: string[]
   scienceHighlight: string
@@ -119,6 +121,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
       value: 1,
       period: 'weekly',
     },
+    trackingFrequency: 'weekly',
     evidenceLevel: 'very_high',
     benefits: ['Santé mentale', 'Cognition', 'Énergie', 'Immunité'],
     scienceHighlight: "Améliorer le sommeil réduit la dépression de 63% et l'anxiété de 51%.",
@@ -368,6 +371,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
       value: 1,
       period: 'weekly',
     },
+    trackingFrequency: 'weekly',
     evidenceLevel: 'very_high',
     benefits: ['Sommeil', 'Santé mentale', 'Énergie'],
     scienceHighlight: "L'OMS recommande une approche de réduction des risques.",

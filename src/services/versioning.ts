@@ -79,10 +79,7 @@ export function isNewUser(): boolean {
 /**
  * Récupère la release correspondant à une version
  */
-export function getReleaseByVersion(
-  releases: Release[],
-  version: string
-): Release | undefined {
+export function getReleaseByVersion(releases: Release[], version: string): Release | undefined {
   return releases.find((r) => r.version === version)
 }
 
@@ -96,10 +93,7 @@ export function getLatestRelease(releases: Release[]): Release | undefined {
 /**
  * Incrémente une version semver
  */
-export function bumpVersion(
-  version: string,
-  type: 'major' | 'minor' | 'patch'
-): string {
+export function bumpVersion(version: string, type: 'major' | 'minor' | 'patch'): string {
   const parts = version.split('.').map(Number)
   const [major, minor, patch] = parts
 

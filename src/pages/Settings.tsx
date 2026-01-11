@@ -295,7 +295,8 @@ function Settings() {
 
         <Card variant="default" className="settings__card">
           <p className="settings__install-intro">
-            📱 Doucement peut être installée sur ton téléphone comme une vraie application, sans passer par un store.
+            📱 Doucement peut être installée sur ton téléphone comme une vraie application, sans
+            passer par un store.
           </p>
 
           <div className="settings__install-instructions">
@@ -303,7 +304,9 @@ function Settings() {
               <strong>🍎 Sur iPhone / iPad (Safari)</strong>
               <ol className="settings__install-steps">
                 <li>Ouvre cette page dans Safari</li>
-                <li>Appuie sur l'icône <span className="settings__install-icon">↑</span> (partager)</li>
+                <li>
+                  Appuie sur l'icône <span className="settings__install-icon">↑</span> (partager)
+                </li>
                 <li>Sélectionne « Sur l'écran d'accueil »</li>
               </ol>
             </div>
@@ -335,10 +338,12 @@ function Settings() {
             <strong>💡 Sauvegarde régulièrement tes données !</strong>
           </p>
           <p className="settings__backup-text">
-            Tes données sont stockées uniquement sur cet appareil. Si tu changes de téléphone, réinstalles l'app ou effaces le cache du navigateur, tu pourrais les perdre.
+            Tes données sont stockées uniquement sur cet appareil. Si tu changes de téléphone,
+            réinstalles l'app ou effaces le cache du navigateur, tu pourrais les perdre.
           </p>
           <p className="settings__backup-text">
-            <strong>Recommandation :</strong> Exporte tes données une fois par semaine et garde le fichier dans un endroit sûr (cloud, email, ordinateur).
+            <strong>Recommandation :</strong> Exporte tes données une fois par semaine et garde le
+            fichier dans un endroit sûr (cloud, email, ordinateur).
           </p>
           <Button
             variant="secondary"

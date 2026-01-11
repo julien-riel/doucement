@@ -1061,6 +1061,114 @@ function mergeData(
 
 ---
 
+## Phase 8 : Fréquence de suivi hebdomadaire
+
+### 8.1 Contexte
+
+Certaines habitudes ont naturellement une fréquence hebdomadaire plutôt que quotidienne. Par exemple :
+- "Se coucher à heure fixe 3 soirs par semaine"
+- "Maximum 7 verres d'alcool par semaine"
+
+Ces habitudes ne peuvent pas être représentées correctement avec une "dose du jour" quotidienne.
+
+### 8.2 Type TrackingFrequency
+
+```typescript
+// src/types/index.ts
+
+/**
+ * Fréquence de suivi d'une habitude
+ * - daily: suivi quotidien (par défaut)
+ * - weekly: suivi hebdomadaire (ex: 3 soirs/semaine)
+ */
+export type TrackingFrequency = 'daily' | 'weekly'
+
+// Dans Habit interface :
+export interface Habit {
+  // ... champs existants ...
+
+  /** Fréquence de suivi: quotidienne ou hebdomadaire */
+  trackingFrequency?: TrackingFrequency
+}
+```
+
+### 8.3 Fonctions de calcul hebdomadaire
+
+```typescript
+// src/services/progression.ts
+
+/**
+ * Retourne les dates de la semaine courante (lundi à dimanche)
+ */
+export function getCurrentWeekDates(referenceDate: string): string[]
+
+/**
+ * Calcule la progression hebdomadaire pour une habitude
+ */
+export function calculateWeeklyProgress(
+  habit: Habit,
+  entries: DailyEntry[],
+  referenceDate: string
+): { completed: number; target: number }
+
+/**
+ * Vérifie si une habitude est à fréquence hebdomadaire
+ */
+export function isWeeklyHabit(habit: Habit): boolean
+```
+
+### 8.4 Affichage dans HabitCard
+
+Pour les habitudes hebdomadaires, afficher "X/Y cette semaine" au lieu de la dose quotidienne :
+
+```
+┌─ HabitCard (weekly) ───────────────────┐
+│ 🌙 Se coucher à heure fixe  [2/3]     │
+│ cette semaine                          │
+│ [ Pas aujourd'hui ] [   Fait   ]       │
+└────────────────────────────────────────┘
+```
+
+Le check-in est binaire (Fait/Pas aujourd'hui) et incrémente le compteur hebdomadaire.
+
+### 8.5 Habitudes suggérées concernées
+
+Les habitudes suivantes dans `suggestedHabits.ts` utilisent `trackingFrequency: 'weekly'` :
+- `sleep-regular-bedtime` : "Se coucher à heure fixe" (3 soirs/semaine)
+- `substance-alcohol` : "Réduire l'alcool" (7 verres/semaine)
+
+### 8.6 Migration v4 → v5
+
+```typescript
+// src/services/migration.ts
+
+{
+  fromVersion: 4,
+  toVersion: 5,
+  description: 'Ajout du champ trackingFrequency',
+  migrate: (data) => ({
+    ...data,
+    schemaVersion: 5,
+    // trackingFrequency sera undefined pour les habitudes existantes
+    // ce qui équivaut à 'daily' par défaut
+  })
+}
+```
+
+### 8.7 Livrables Phase 8
+
+- [ ] Type `TrackingFrequency` ajouté à `types/index.ts`
+- [ ] Version du schéma incrémentée à 5
+- [ ] Migration v4→v5 dans `migration.ts`
+- [ ] Habitudes suggérées mises à jour avec `trackingFrequency`
+- [ ] Fonctions de calcul hebdomadaire dans `progression.ts`
+- [ ] Affichage "X/Y cette semaine" dans `HabitCard`
+- [ ] Calcul de `weeklyProgress` dans `Today.tsx`
+- [ ] Formulaire de création mis à jour
+- [ ] Tests unitaires pour les nouvelles fonctions
+
+---
+
 ## Résumé des livrables par phase
 
 | Phase | Durée estimée | Livrables clés |
@@ -1070,6 +1178,7 @@ function mergeData(
 | 3 | - | Calculs progression, arrondis, statistiques |
 | 4 | - | Import/export, validation, migrations |
 | 5 | - | 5 écrans fonctionnels, navigation complète |
+| 8 | - | Fréquence de suivi hebdomadaire (trackingFrequency) |
 
 ---
 

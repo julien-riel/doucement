@@ -13,6 +13,7 @@ import {
   calculateTargetDose,
   calculateDailyCompletionPercentage,
   getCompletionStatus,
+  calculateWeeklyProgress,
 } from '../services/progression'
 import { detectGlobalAbsence, getNeglectedHabits, buildHabitChains, isHabitPaused } from '../utils'
 import { CompletionStatus } from '../types'
@@ -70,15 +71,26 @@ function Today() {
         ? activeHabits.find((h) => h.id === habit.anchorHabitId)?.name
         : undefined
 
+      // Calculer la progression hebdomadaire si l'habitude est weekly
+      let weeklyProgress: { completedDays: number; weeklyTarget: number } | undefined
+      if (habit.trackingFrequency === 'weekly') {
+        const progress = calculateWeeklyProgress(habit, data.entries, today)
+        weeklyProgress = {
+          completedDays: progress.completedDays,
+          weeklyTarget: progress.weeklyTarget,
+        }
+      }
+
       return {
         habit,
         targetDose,
         currentValue,
         status,
         anchorHabitName,
+        weeklyProgress,
       }
     })
-  }, [habitsForToday, todayEntries, today, activeHabits])
+  }, [habitsForToday, todayEntries, today, activeHabits, data.entries])
 
   // Organiser les habitudes en chaînes (habit stacking)
   const habitChains = useMemo(
@@ -177,21 +189,27 @@ function Today() {
             key={chain[0].habit.id}
             className={`today__habit-chain ${chain.length > 1 ? 'today__habit-chain--connected' : ''}`}
           >
-            {chain.map(({ habit, targetDose, currentValue, status, anchorHabitName }, idx) => (
-              <div
-                key={habit.id}
-                className={`today__habit-wrapper ${idx > 0 ? 'today__habit-wrapper--chained' : ''}`}
-              >
-                <HabitCard
-                  habit={habit}
-                  targetDose={targetDose}
-                  currentValue={currentValue}
-                  status={status}
-                  onCheckIn={handleCheckIn}
-                  anchorHabitName={anchorHabitName}
-                />
-              </div>
-            ))}
+            {chain.map(
+              (
+                { habit, targetDose, currentValue, status, anchorHabitName, weeklyProgress },
+                idx
+              ) => (
+                <div
+                  key={habit.id}
+                  className={`today__habit-wrapper ${idx > 0 ? 'today__habit-wrapper--chained' : ''}`}
+                >
+                  <HabitCard
+                    habit={habit}
+                    targetDose={targetDose}
+                    currentValue={currentValue}
+                    status={status}
+                    onCheckIn={handleCheckIn}
+                    anchorHabitName={anchorHabitName}
+                    weeklyProgress={weeklyProgress}
+                  />
+                </div>
+              )
+            )}
           </div>
         ))}
       </section>

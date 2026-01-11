@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.4.0",
+  "currentVersion": "1.5.0",
   "releases": [
+    {
+      "version": "1.5.0",
+      "date": "2026-01-10",
+      "title": "Suivi hebdomadaire",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Nouveau mode de suivi hebdomadaire pour les habitudes (ex: 3 fois par semaine)"
+        },
+        {
+          "emoji": "moon",
+          "text": "L'habitude \"Se coucher à heure fixe\" utilise maintenant le suivi hebdomadaire"
+        },
+        {
+          "emoji": "chart",
+          "text": "Visualise ta progression X/Y cette semaine directement sur chaque habitude"
+        }
+      ]
+    },
     {
       "version": "1.4.0",
       "date": "2026-01-10",

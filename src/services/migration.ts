@@ -93,7 +93,7 @@ export const MIGRATIONS: Migration[] = [
   {
     fromVersion: 3,
     toVersion: 4,
-    description: "Ajout de la préférence de thème (clair/sombre/système)",
+    description: 'Ajout de la préférence de thème (clair/sombre/système)',
     migrate: (data) => {
       const preferences = data.preferences as Record<string, unknown> | undefined
       return {
@@ -104,6 +104,19 @@ export const MIGRATIONS: Migration[] = [
           // Valeur par défaut: suivre les préférences système
           theme: preferences?.theme ?? 'system',
         },
+      }
+    },
+  },
+  {
+    fromVersion: 4,
+    toVersion: 5,
+    description: 'Ajout de la fréquence de suivi hebdomadaire (trackingFrequency)',
+    migrate: (data) => {
+      // Le champ trackingFrequency est optionnel
+      // Les habitudes existantes fonctionneront sans ce champ (undefined = daily par défaut)
+      return {
+        ...data,
+        schemaVersion: 5,
       }
     },
   },

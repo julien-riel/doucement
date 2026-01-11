@@ -11,7 +11,7 @@
  * Version du schéma de données
  * Incrémentée à chaque modification de structure pour permettre les migrations
  */
-export const CURRENT_SCHEMA_VERSION = 4
+export const CURRENT_SCHEMA_VERSION = 5
 
 // ============================================================================
 // HABIT TYPES
@@ -50,6 +50,13 @@ export interface ProgressionConfig {
  * - detailed: quantitatif avec valeur précise
  */
 export type TrackingMode = 'simple' | 'detailed'
+
+/**
+ * Fréquence de suivi d'une habitude
+ * - daily: suivi quotidien classique (dose par jour)
+ * - weekly: suivi hebdomadaire (X fois par semaine)
+ */
+export type TrackingFrequency = 'daily' | 'weekly'
 
 /**
  * Préférence de thème
@@ -114,6 +121,8 @@ export interface Habit {
   archivedAt: string | null
   /** Mode de tracking: simple (binaire) ou detailed (quantitatif) */
   trackingMode?: TrackingMode
+  /** Fréquence de suivi: daily (quotidien) ou weekly (hebdomadaire) */
+  trackingFrequency?: TrackingFrequency
   /** Implementation Intention - plan si-alors (Phase 6) */
   implementationIntention?: ImplementationIntention
   /** ID de l'habitude d'ancrage pour Habit Stacking (Phase 6) */

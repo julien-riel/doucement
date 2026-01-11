@@ -61,9 +61,7 @@ export function WhatsNewModal({ release, version, onDismiss }: WhatsNewModalProp
         </header>
 
         <div className="whats-new-content">
-          {release.title && (
-            <h3 className="whats-new-release-title">{release.title}</h3>
-          )}
+          {release.title && <h3 className="whats-new-release-title">{release.title}</h3>}
 
           <ul className="whats-new-highlights">
             {release.highlights.map((highlight, index) => (
@@ -76,9 +74,7 @@ export function WhatsNewModal({ release, version, onDismiss }: WhatsNewModalProp
             ))}
           </ul>
 
-          {release.details && (
-            <p className="whats-new-details">{release.details}</p>
-          )}
+          {release.details && <p className="whats-new-details">{release.details}</p>}
         </div>
 
         <footer className="whats-new-footer">

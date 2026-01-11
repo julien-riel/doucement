@@ -16,6 +16,7 @@ import {
   ProgressionPeriod,
   CreateHabitInput,
   ImplementationIntention,
+  TrackingFrequency,
 } from '../types'
 import './CreateHabit.css'
 
@@ -90,6 +91,7 @@ interface HabitFormState {
   targetValue: number | null
   implementationIntention: ImplementationIntention
   anchorHabitId: string | undefined
+  trackingFrequency: TrackingFrequency
 }
 
 const INITIAL_FORM_STATE: HabitFormState = {
@@ -104,6 +106,7 @@ const INITIAL_FORM_STATE: HabitFormState = {
   targetValue: null,
   implementationIntention: {},
   anchorHabitId: undefined,
+  trackingFrequency: 'daily',
 }
 
 /**
@@ -160,6 +163,7 @@ function CreateHabit() {
       targetValue: null,
       implementationIntention: {},
       anchorHabitId: undefined,
+      trackingFrequency: habit.trackingFrequency ?? 'daily',
     })
     setStep('intentions')
   }, [])
@@ -231,6 +235,7 @@ function CreateHabit() {
         targetValue: form.targetValue ?? undefined,
         implementationIntention: hasIntention ? form.implementationIntention : undefined,
         anchorHabitId: form.anchorHabitId,
+        trackingFrequency: form.trackingFrequency,
       }
 
       const newHabit = addHabit(habitInput)

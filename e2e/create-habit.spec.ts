@@ -33,7 +33,7 @@ test.describe('Création d\'habitude', () => {
     await expect(page.getByText('Basées sur la science')).toBeVisible();
 
     // Vérifier les filtres de catégorie
-    await expect(page.getByRole('button', { name: 'Top 4' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Top 6' })).toBeVisible();
 
     // Vérifier le bouton pour créer une habitude personnalisée
     await expect(page.getByRole('button', { name: /Créer une habitude personnalisée/ })).toBeVisible();
@@ -229,7 +229,7 @@ test.describe('Création d\'habitude', () => {
 
   test('filtrer les suggestions par catégorie', async ({ page }) => {
     // Vérifier que les filtres existent
-    await expect(page.getByRole('button', { name: 'Top 4' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Top 6' })).toBeVisible();
     await expect(page.getByRole('button', { name: '😴' })).toBeVisible(); // Sommeil
 
     // Cliquer sur le filtre sommeil

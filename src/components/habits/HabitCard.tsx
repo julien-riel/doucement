@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Habit, CompletionStatus } from '../../types'
 import { HABIT_STACKING } from '../../constants/messages'
-import { buildIntentionText } from '../../utils/habitDisplay'
+import { buildIntentionText, WeeklyProgressInfo } from '../../utils/habitDisplay'
 import Card from '../ui/Card'
 import CheckInButtons from './CheckInButtons'
 import SimpleCheckIn from './SimpleCheckIn'
@@ -20,6 +20,8 @@ export interface HabitCardProps {
   onCheckIn: (habitId: string, value: number) => void
   /** Nom de l'habitude d'ancrage (si habit stacking) */
   anchorHabitName?: string
+  /** Progression hebdomadaire (pour les habitudes weekly) */
+  weeklyProgress?: WeeklyProgressInfo
 }
 
 /**
@@ -67,11 +69,13 @@ function HabitCard({
   status,
   onCheckIn,
   anchorHabitName,
+  weeklyProgress,
 }: HabitCardProps) {
   const [celebrating, setCelebrating] = useState(false)
   const progressionMessage = getProgressionMessage(habit, targetDose)
   const cardVariant = getCardVariant(status)
   const intentionText = buildIntentionText(habit)
+  const isWeekly = habit.trackingFrequency === 'weekly'
 
   // Animation de célébration quand on passe à completed/exceeded
   useEffect(() => {
@@ -102,8 +106,19 @@ function HabitCard({
           </div>
         </div>
         <div className="habit-card__dose">
-          <span className="habit-card__dose-value">{targetDose}</span>
-          <span className="habit-card__dose-unit">{habit.unit}</span>
+          {isWeekly && weeklyProgress ? (
+            <>
+              <span className="habit-card__dose-value">
+                {weeklyProgress.completedDays}/{weeklyProgress.weeklyTarget}
+              </span>
+              <span className="habit-card__dose-unit">cette semaine</span>
+            </>
+          ) : (
+            <>
+              <span className="habit-card__dose-value">{targetDose}</span>
+              <span className="habit-card__dose-unit">{habit.unit}</span>
+            </>
+          )}
         </div>
       </div>
 
@@ -122,7 +137,8 @@ function HabitCard({
 
       {progressionMessage && <p className="habit-card__progression">{progressionMessage}</p>}
 
-      {currentValue !== undefined && currentValue > 0 && (
+      {/* Affichage du statut pour les habitudes quotidiennes non-weekly */}
+      {!isWeekly && currentValue !== undefined && currentValue > 0 && (
         <div className="habit-card__status">
           <span className="habit-card__status-value">
             {currentValue} / {targetDose} {habit.unit}
@@ -132,7 +148,11 @@ function HabitCard({
         </div>
       )}
 
-      {habit.trackingMode === 'simple' ? (
+      {/* Boutons de check-in */}
+      {isWeekly ? (
+        // Les habitudes hebdomadaires utilisent toujours un check-in simple (binaire)
+        <SimpleCheckIn targetDose={1} currentValue={currentValue} onCheckIn={handleCheckIn} />
+      ) : habit.trackingMode === 'simple' ? (
         <SimpleCheckIn
           targetDose={targetDose}
           currentValue={currentValue}
