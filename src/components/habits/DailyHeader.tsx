@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { formatDateFr } from '../../utils'
 import './DailyHeader.css'
 
 export interface DailyHeaderProps {
@@ -9,25 +10,11 @@ export interface DailyHeaderProps {
 }
 
 /**
- * Formate une date en français
- * @param dateStr Date au format YYYY-MM-DD
- * @returns Date formatée (ex: "Vendredi 10 janvier")
- */
-function formatDate(dateStr: string): string {
-  const date = new Date(dateStr)
-  return date.toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  })
-}
-
-/**
  * En-tête de l'écran Aujourd'hui
  * Affiche la date du jour et le pourcentage de complétion global
  */
 function DailyHeader({ date, completionPercentage }: DailyHeaderProps) {
-  const formattedDate = formatDate(date)
+  const formattedDate = formatDateFr(date)
   const displayPercentage = Math.round(completionPercentage)
 
   return (

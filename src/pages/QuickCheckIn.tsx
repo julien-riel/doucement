@@ -6,19 +6,12 @@ import {
   getCompletionStatus,
   calculateWeeklyProgress,
 } from '../services/progression'
-import { isHabitPaused } from '../utils'
+import { isHabitPaused, getCurrentDate } from '../utils'
 import { CompletionStatus } from '../types'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import SimpleCheckIn from '../components/habits/SimpleCheckIn'
 import './QuickCheckIn.css'
-
-/**
- * Retourne la date actuelle au format YYYY-MM-DD
- */
-function getCurrentDate(): string {
-  return new Date().toISOString().split('T')[0]
-}
 
 /**
  * Page de check-in rapide

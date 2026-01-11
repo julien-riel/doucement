@@ -11,37 +11,29 @@ import {
 } from '../components/habits'
 import { Button, Card } from '../components/ui'
 import { calculateTargetDose, calculateHabitStats } from '../services/progression'
-import { isHabitPaused } from '../utils/absence'
+import { isHabitPaused, getCurrentDate, addDays } from '../utils'
 import { PLANNED_PAUSE, IDENTITY_REMINDER } from '../constants/messages'
 import type { PlannedPause } from '../types'
 import './HabitDetail.css'
 
 /**
- * Retourne la date actuelle au format YYYY-MM-DD
- */
-function getCurrentDate(): string {
-  return new Date().toISOString().split('T')[0]
-}
-
-/**
  * Calcule les dates pour les 7 derniers jours
  */
 function getLast7Days(): { startDate: string; endDate: string } {
-  const today = new Date()
-  const start = new Date(today)
-  start.setDate(start.getDate() - 6)
-
+  const today = getCurrentDate()
   return {
-    startDate: start.toISOString().split('T')[0],
-    endDate: today.toISOString().split('T')[0],
+    startDate: addDays(today, -6),
+    endDate: today,
   }
 }
 
 /**
  * Formate une date en français
+ * Parse la date en local pour éviter les décalages de timezone
  */
 function formatDate(dateStr: string): string {
-  const date = new Date(dateStr)
+  const [year, month, day] = dateStr.split('-').map(Number)
+  const date = new Date(year, month - 1, day)
   return date.toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'long',

@@ -28,10 +28,8 @@ import type { Habit, DailyEntry, PlannedPause } from '../types'
 // TEST FIXTURES
 // ============================================================================
 
-/**
- * Date de test fixe pour la cohérence des tests
- */
-const TEST_TODAY = '2025-01-15'
+// Date de test: 15 janvier 2025
+// Définie dans beforeEach avec new Date(2025, 0, 15, 12, 0, 0)
 
 /**
  * Crée une habitude de test
@@ -86,8 +84,9 @@ const mockCalculateTargetDose = vi.fn((habit: Habit, _date: string) => {
 
 beforeEach(() => {
   // Mock Date pour avoir une date de test fixe
+  // On utilise midi heure locale pour éviter les problèmes de timezone
   vi.useFakeTimers()
-  vi.setSystemTime(new Date(TEST_TODAY))
+  vi.setSystemTime(new Date(2025, 0, 15, 12, 0, 0)) // 15 janvier 2025 à midi
 })
 
 afterEach(() => {

@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { DailyEntry, CompletionStatus, HabitDirection } from '../../types'
 import { getCompletionStatus } from '../../services/progression'
+import { addDays } from '../../utils'
 import './WeeklyCalendar.css'
 
 export interface WeeklyCalendarProps {
@@ -29,12 +30,12 @@ const DAY_NAMES = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
  */
 function getLast7Days(referenceDate: string): DayData[] {
   const days: DayData[] = []
-  const ref = new Date(referenceDate)
 
   for (let i = 6; i >= 0; i--) {
-    const date = new Date(ref)
-    date.setDate(date.getDate() - i)
-    const dateStr = date.toISOString().split('T')[0]
+    const dateStr = addDays(referenceDate, -i)
+    // Parse la date en local pour obtenir le bon jour de semaine
+    const [year, month, day] = dateStr.split('-').map(Number)
+    const date = new Date(year, month - 1, day)
 
     days.push({
       date: dateStr,

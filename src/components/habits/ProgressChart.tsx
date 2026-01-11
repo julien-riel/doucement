@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { Habit, DailyEntry } from '../../types'
 import { calculateTargetDose } from '../../services/progression'
+import { getCurrentDate, addDays } from '../../utils'
 import Card from '../ui/Card'
 import './ProgressChart.css'
 
@@ -27,12 +28,9 @@ interface DayData {
  */
 function getLastNDays(referenceDate: string, n: number): string[] {
   const dates: string[] = []
-  const ref = new Date(referenceDate)
 
   for (let i = n - 1; i >= 0; i--) {
-    const d = new Date(ref)
-    d.setDate(d.getDate() - i)
-    dates.push(d.toISOString().split('T')[0])
+    dates.push(addDays(referenceDate, -i))
   }
 
   return dates
@@ -42,10 +40,11 @@ function getLastNDays(referenceDate: string, n: number): string[] {
  * Formate une date en jour abrégé (L, M, M, J, V, S, D)
  */
 function formatDayLabel(dateStr: string): string {
-  const date = new Date(dateStr)
-  const day = date.getDay()
+  const [year, month, day] = dateStr.split('-').map(Number)
+  const date = new Date(year, month - 1, day)
+  const dayOfWeek = date.getDay()
   const labels = ['D', 'L', 'M', 'M', 'J', 'V', 'S']
-  return labels[day]
+  return labels[dayOfWeek]
 }
 
 /**
@@ -53,7 +52,7 @@ function formatDayLabel(dateStr: string): string {
  * Graphique dose cible vs réalisé sur la période
  */
 function ProgressChart({ habit, entries, referenceDate, daysToShow = 7 }: ProgressChartProps) {
-  const today = referenceDate || new Date().toISOString().split('T')[0]
+  const today = referenceDate || getCurrentDate()
 
   const chartData = useMemo<DayData[]>(() => {
     const dates = getLastNDays(today, daysToShow)

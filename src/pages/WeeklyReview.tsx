@@ -10,32 +10,25 @@ import {
 } from '../services/progression'
 import { getWeeklyMessage, IDENTITY_REMINDER } from '../constants/messages'
 import { analyzeGlobalPatterns } from '../utils/patternAnalysis'
+import { getCurrentDate, addDays } from '../utils'
 import './WeeklyReview.css'
-
-/**
- * Retourne la date actuelle au format YYYY-MM-DD
- */
-function getCurrentDate(): string {
-  return new Date().toISOString().split('T')[0]
-}
 
 /**
  * Calcule les dates de la semaine écoulée (lundi à dimanche)
  */
 function getWeekDates(): { startDate: string; endDate: string; dates: string[] } {
-  const today = new Date()
-  const dayOfWeek = today.getDay()
+  const today = getCurrentDate()
+  const [year, month, day] = today.split('-').map(Number)
+  const todayDate = new Date(year, month - 1, day)
+  const dayOfWeek = todayDate.getDay()
   // Ajuster pour que lundi = 0
   const adjustedDay = dayOfWeek === 0 ? 6 : dayOfWeek - 1
 
-  const monday = new Date(today)
-  monday.setDate(today.getDate() - adjustedDay)
+  const mondayStr = addDays(today, -adjustedDay)
 
   const dates: string[] = []
   for (let i = 0; i < 7; i++) {
-    const date = new Date(monday)
-    date.setDate(monday.getDate() + i)
-    dates.push(date.toISOString().split('T')[0])
+    dates.push(addDays(mondayStr, i))
   }
 
   return {
@@ -46,11 +39,19 @@ function getWeekDates(): { startDate: string; endDate: string; dates: string[] }
 }
 
 /**
+ * Parse une date YYYY-MM-DD en date locale
+ */
+function parseLocalDate(dateStr: string): Date {
+  const [year, month, day] = dateStr.split('-').map(Number)
+  return new Date(year, month - 1, day)
+}
+
+/**
  * Formate une plage de dates en français
  */
 function formatDateRange(startDate: string, endDate: string): string {
-  const start = new Date(startDate)
-  const end = new Date(endDate)
+  const start = parseLocalDate(startDate)
+  const end = parseLocalDate(endDate)
 
   const startDay = start.getDate()
   const endDay = end.getDate()
@@ -63,7 +64,7 @@ function formatDateRange(startDate: string, endDate: string): string {
  * Calcule l'identifiant de la semaine (format ISO: YYYY-Www)
  */
 function getWeekId(date: string): string {
-  const d = new Date(date)
+  const d = parseLocalDate(date)
   const dayOfYear = Math.floor((d.getTime() - new Date(d.getFullYear(), 0, 0).getTime()) / 86400000)
   const weekNumber = Math.ceil((dayOfYear + new Date(d.getFullYear(), 0, 1).getDay()) / 7)
   return `${d.getFullYear()}-W${String(weekNumber).padStart(2, '0')}`
@@ -283,8 +284,9 @@ function WeeklyReview() {
               activeHabits,
               date
             )
-            const dayName = new Date(date).toLocaleDateString('fr-FR', { weekday: 'short' })
-            const dayNumber = new Date(date).getDate()
+            const parsedDate = parseLocalDate(date)
+            const dayName = parsedDate.toLocaleDateString('fr-FR', { weekday: 'short' })
+            const dayNumber = parsedDate.getDate()
 
             let status: 'empty' | 'partial' | 'completed'
             if (completion === 0) {

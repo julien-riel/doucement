@@ -19,6 +19,7 @@ import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import NotificationSettings from '../components/ui/NotificationSettings'
 import { DebugPanel } from '../components/debug'
+import { getCurrentDate } from '../utils'
 import './Settings.css'
 
 type ModalType = 'import-confirm' | 'import-result' | 'reset-confirm' | null
@@ -78,7 +79,7 @@ function Settings() {
    */
   const checkEveningCondition = useMemo(() => {
     return () => {
-      const today = new Date().toISOString().split('T')[0]
+      const today = getCurrentDate()
       const todayEntries = getEntriesForDate(today)
       // Envoyer le rappel si moins d'entrées que d'habitudes actives
       return todayEntries.length < activeHabits.length

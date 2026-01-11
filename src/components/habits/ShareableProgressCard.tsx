@@ -6,6 +6,7 @@
 
 import { useMemo, forwardRef } from 'react'
 import { calculateCompoundEffectMetrics, calculateHabitStats } from '../../services/progression'
+import { addDays } from '../../utils'
 import type { Habit, DailyEntry } from '../../types'
 import './ShareableProgressCard.css'
 
@@ -57,9 +58,7 @@ const ShareableProgressCard = forwardRef<HTMLDivElement, ShareableProgressCardPr
     const stats = useMemo(() => {
       // Calculer les stats sur les 30 derniers jours
       const endDate = referenceDate
-      const startDate = new Date(referenceDate)
-      startDate.setDate(startDate.getDate() - 30)
-      const startDateStr = startDate.toISOString().split('T')[0]
+      const startDateStr = addDays(referenceDate, -30)
       return calculateHabitStats(habit, habitEntries, startDateStr, endDate)
     }, [habit, habitEntries, referenceDate])
 

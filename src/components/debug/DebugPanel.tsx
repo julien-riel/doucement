@@ -15,6 +15,7 @@ import { STORAGE_KEY } from '../../services/storage'
 import Card from '../ui/Card'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
+import { getCurrentDate } from '../../utils'
 import './DebugPanel.css'
 
 /**
@@ -121,7 +122,7 @@ function DebugPanel() {
 
   const handleResetDate = useCallback(() => {
     resetSimulatedDate()
-    setDateInput(new Date().toISOString().split('T')[0])
+    setDateInput(getCurrentDate())
     showMessage('Date réinitialisée')
   }, [resetSimulatedDate, showMessage])
 
@@ -157,7 +158,7 @@ function DebugPanel() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `doucement-debug-${new Date().toISOString().split('T')[0]}.json`
+    a.download = `doucement-debug-${getCurrentDate()}.json`
     a.click()
     URL.revokeObjectURL(url)
     showMessage('Données exportées')
@@ -201,7 +202,10 @@ function DebugPanel() {
 
       {simulatedDate && (
         <div className="debug-panel__simulated-date-banner">
-          Date simulée: {new Date(simulatedDate).toLocaleDateString('fr-FR')}
+          Date simulée: {(() => {
+            const [year, month, day] = simulatedDate.split('-').map(Number)
+            return new Date(year, month - 1, day).toLocaleDateString('fr-FR')
+          })()}
         </div>
       )}
 

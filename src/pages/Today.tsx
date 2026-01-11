@@ -22,16 +22,10 @@ import {
   buildHabitChains,
   isHabitPaused,
   getHabitsEligibleForTransition,
+  getCurrentDate,
 } from '../utils'
 import { CompletionStatus } from '../types'
 import './Today.css'
-
-/**
- * Retourne la date actuelle au format YYYY-MM-DD
- */
-function getCurrentDate(): string {
-  return new Date().toISOString().split('T')[0]
-}
 
 /**
  * Écran Aujourd'hui

@@ -31,6 +31,7 @@ import {
   ImplementationIntention,
   TrackingFrequency,
 } from '../types'
+import { getCurrentDate } from '../utils'
 import './CreateHabit.css'
 
 /**
@@ -282,7 +283,7 @@ function CreateHabit() {
   const handleFirstCheckInResponse = useCallback(
     (actualValue: number | null) => {
       if (actualValue !== null && createdHabit) {
-        const today = new Date().toISOString().split('T')[0]
+        const today = getCurrentDate()
         const targetDose = calculateTargetDose(createdHabit, today)
         addEntry({
           habitId: createdHabit.id,

@@ -11,6 +11,7 @@ import {
   getNotificationPermissionState,
   isNotificationSupported,
 } from '../services/notifications'
+import { getCurrentDate } from '../utils'
 
 /**
  * Options du hook useNotifications
@@ -55,7 +56,7 @@ export function useNotifications({
    * Retourne true si moins d'entrées que d'habitudes actives
    */
   const checkEveningCondition = useCallback((): boolean => {
-    const today = new Date().toISOString().split('T')[0]
+    const today = getCurrentDate()
     const todayEntries = getEntriesRef.current(today)
     const habitsCount = activeHabitsRef.current.length
 

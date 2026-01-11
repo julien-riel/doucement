@@ -16,19 +16,13 @@ import {
   CURRENT_SCHEMA_VERSION,
   RecalibrationRecord,
 } from '../types'
+import { getCurrentDate } from '../utils'
 
 /**
  * Génère un identifiant unique
  */
 function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
-}
-
-/**
- * Retourne la date actuelle au format YYYY-MM-DD
- */
-function getCurrentDate(): string {
-  return new Date().toISOString().split('T')[0]
 }
 
 /**

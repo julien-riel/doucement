@@ -1,5 +1,6 @@
 import { Habit, DailyEntry } from '../../types'
 import { calculateHabitStats } from '../../services/progression'
+import { getCurrentDate, addDays } from '../../utils'
 import Card from '../ui/Card'
 import './HabitListItem.css'
 
@@ -16,13 +17,10 @@ export interface HabitListItemProps {
  * Calcule les 7 derniers jours pour les stats
  */
 function getLast7Days(): { startDate: string; endDate: string } {
-  const today = new Date()
-  const start = new Date(today)
-  start.setDate(start.getDate() - 6)
-
+  const today = getCurrentDate()
   return {
-    startDate: start.toISOString().split('T')[0],
-    endDate: today.toISOString().split('T')[0],
+    startDate: addDays(today, -6),
+    endDate: today,
   }
 }
 

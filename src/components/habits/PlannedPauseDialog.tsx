@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { PlannedPause } from '../../types'
 import { PLANNED_PAUSE } from '../../constants/messages'
+import { getCurrentDate, addDays } from '../../utils'
 import { Button } from '../ui'
 import './PlannedPauseDialog.css'
 
@@ -13,22 +14,6 @@ export interface PlannedPauseDialogProps {
   onConfirm: (pause: PlannedPause) => void
   /** Nom de l'habitude */
   habitName: string
-}
-
-/**
- * Retourne la date actuelle au format YYYY-MM-DD
- */
-function getCurrentDate(): string {
-  return new Date().toISOString().split('T')[0]
-}
-
-/**
- * Ajoute des jours à une date
- */
-function addDays(date: string, days: number): string {
-  const d = new Date(date)
-  d.setDate(d.getDate() + days)
-  return d.toISOString().split('T')[0]
 }
 
 /**

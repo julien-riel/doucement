@@ -5,6 +5,7 @@
 
 import { useCallback, useEffect, useMemo } from 'react'
 import { useAppData } from './useAppData'
+import { getCurrentDate, addDays } from '../utils'
 
 /**
  * Clé localStorage pour le mode debug (séparé des données app)
@@ -97,7 +98,7 @@ export function useDebugMode(): UseDebugModeReturn {
     if (simulatedDate) {
       return simulatedDate
     }
-    return new Date().toISOString().split('T')[0]
+    return getCurrentDate()
   }, [simulatedDate])
 
   // Active le mode debug
@@ -133,10 +134,8 @@ export function useDebugMode(): UseDebugModeReturn {
   // Avance d'un jour
   const advanceOneDay = useCallback(() => {
     if (!isDebugMode) return
-    const baseDate = simulatedDate || new Date().toISOString().split('T')[0]
-    const nextDate = new Date(baseDate)
-    nextDate.setDate(nextDate.getDate() + 1)
-    const newDate = nextDate.toISOString().split('T')[0]
+    const baseDate = simulatedDate || getCurrentDate()
+    const newDate = addDays(baseDate, 1)
     updatePreferences({ simulatedDate: newDate })
   }, [isDebugMode, simulatedDate, updatePreferences])
 

@@ -25,9 +25,11 @@ function getEmoji(name: string): string {
 
 /**
  * Formate une date ISO en français
+ * Parse la date en local pour éviter les décalages de timezone
  */
 function formatDate(dateStr: string): string {
-  const date = new Date(dateStr)
+  const [year, month, day] = dateStr.split('-').map(Number)
+  const date = new Date(year, month - 1, day)
   return date.toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'long',
