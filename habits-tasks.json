@@ -264,25 +264,27 @@
           "id": "unit.2",
           "name": "Tests mode cumulative",
           "description": "Tests unitaires pour le mode de saisie cumulative",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["src/hooks/useAppData.test.ts"]
+          "files": ["src/hooks/useAppData.test.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "unit.3",
           "name": "Tests messages zéro",
           "description": "Tests pour vérifier les messages appropriés quand valeur = 0 pour decrease",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["src/components/habits/CheckInButtons.test.tsx"]
+          "files": ["src/components/habits/CheckInButtons.test.tsx"],
+          "completedAt": "2026-01-11"
         }
       ]
     }
   ],
   "stats": {
     "totalTasks": 25,
-    "completed": 22,
+    "completed": 24,
     "inProgress": 0,
-    "pending": 3
+    "pending": 1
   }
 }
