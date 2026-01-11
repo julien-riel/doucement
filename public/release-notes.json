@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.7.2",
+  "currentVersion": "1.8.0",
   "releases": [
+    {
+      "version": "1.8.0",
+      "date": "2026-01-11",
+      "title": "Mode cumulatif et réduction",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Mode cumulatif : additionne tes doses au fil de la journée (verres d'eau, pas...)"
+        },
+        {
+          "emoji": "target",
+          "text": "Habitudes à réduire : félicitations spéciales quand tu atteins zéro"
+        },
+        {
+          "emoji": "check",
+          "text": "Feedback adapté : couleurs et messages selon le type d'habitude"
+        },
+        {
+          "emoji": "tools",
+          "text": "Suite de tests complète pour tous les types d'habitudes"
+        }
+      ]
+    },
     {
       "version": "1.7.2",
       "date": "2026-01-11",
