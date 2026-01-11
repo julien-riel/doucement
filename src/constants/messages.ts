@@ -146,6 +146,27 @@ export const IMPORT_ERROR =
   "Ce fichier ne semble pas compatible. Vérifie qu'il s'agit d'un export Doucement."
 
 // ============================================================================
+// MESSAGES SPÉCIAUX POUR ZÉRO (Habitudes decrease)
+// ============================================================================
+
+/**
+ * Messages de félicitations quand l'utilisateur saisit 0 pour une habitude decrease
+ * C'est une vraie victoire qui mérite une célébration !
+ */
+export const DECREASE_ZERO_MESSAGES = [
+  'Journée parfaite !',
+  'Zéro. Bravo !',
+  "Tu n'as pas cédé.",
+  'Victoire totale.',
+  'Rien du tout. Impressionnant.',
+] as const
+
+/**
+ * Texte du badge pour une journée à zéro
+ */
+export const DECREASE_ZERO_BADGE = 'Journée sans' as const
+
+// ============================================================================
 // MESSAGES DE PROGRESSION
 // ============================================================================
 

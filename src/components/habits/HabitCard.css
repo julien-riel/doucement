@@ -173,3 +173,19 @@
   padding: var(--spacing-1) var(--spacing-2);
   border-radius: var(--radius-full);
 }
+
+/* Style spécial pour la victoire "zéro" (habitudes decrease) */
+.habit-card__status--zero-victory {
+  background-color: var(--secondary-100);
+  border: 1px solid var(--secondary-300);
+}
+
+.habit-card__status-value--zero {
+  color: var(--secondary-700);
+  font-weight: var(--font-semibold);
+}
+
+.habit-card__status-badge--zero {
+  color: var(--white);
+  background-color: var(--secondary-500);
+}

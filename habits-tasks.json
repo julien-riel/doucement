@@ -56,9 +56,10 @@
           "id": "dec.2",
           "name": "Ajouter messages spéciaux pour valeur zéro",
           "description": "Créer des messages de félicitations spéciaux quand l'utilisateur saisit 0 pour une habitude decrease. Ajouter dans messages.ts et afficher dans HabitCard/CheckInButtons",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["src/constants/messages.ts", "src/components/habits/CheckInButtons.tsx"]
+          "files": ["src/constants/messages.ts", "src/components/habits/HabitCard.tsx"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "dec.3",
@@ -196,9 +197,10 @@
           "id": "e2e-type.2",
           "name": "Test E2E habitude increase weekly",
           "description": "Test habitude hebdomadaire. Vérifier l'affichage X/Y, le compteur qui s'incrémente chaque jour fait",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["e2e/habit-increase-weekly.spec.ts"]
+          "files": ["e2e/habit-increase-weekly.spec.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "e2e-type.3",
@@ -272,8 +274,8 @@
   ],
   "stats": {
     "totalTasks": 25,
-    "completed": 13,
+    "completed": 15,
     "inProgress": 0,
-    "pending": 12
+    "pending": 10
   }
 }

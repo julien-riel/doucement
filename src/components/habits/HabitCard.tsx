@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Habit, CompletionStatus } from '../../types'
-import { HABIT_STACKING } from '../../constants/messages'
+import {
+  HABIT_STACKING,
+  DECREASE_ZERO_MESSAGES,
+  DECREASE_ZERO_BADGE,
+  randomMessage,
+} from '../../constants/messages'
 import { buildIntentionText, WeeklyProgressInfo } from '../../utils/habitDisplay'
 import Card from '../ui/Card'
 import CheckInButtons from './CheckInButtons'
@@ -147,6 +152,21 @@ function HabitCard({
           {status === 'completed' && <span className="habit-card__status-badge">Complété</span>}
         </div>
       )}
+
+      {/* Message spécial pour les habitudes decrease avec valeur = 0 (grande victoire !) */}
+      {!isWeekly &&
+        habit.direction === 'decrease' &&
+        currentValue !== undefined &&
+        currentValue === 0 && (
+          <div className="habit-card__status habit-card__status--zero-victory">
+            <span className="habit-card__status-value habit-card__status-value--zero">
+              {randomMessage(DECREASE_ZERO_MESSAGES)}
+            </span>
+            <span className="habit-card__status-badge habit-card__status-badge--zero">
+              {DECREASE_ZERO_BADGE}
+            </span>
+          </div>
+        )}
 
       {/* Boutons de check-in */}
       {isWeekly ? (
