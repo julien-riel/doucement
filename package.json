@@ -16,7 +16,7 @@
     "test:e2e:head": "npm run build && playwright test --headed",
     "auto-implement": "./scripts/auto-implement.sh",
     "auto-implement:smart": "./scripts/auto-implement-smart.sh",
-    "auto-implement:habits": "./scripts/auto-implement-habits.sh"
+    "auto-implement:habits": "./scripts/auto-implement-habits.sh 10 true true true"
   },
   "dependencies": {
     "html2canvas": "^1.4.1",

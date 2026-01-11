@@ -7,31 +7,34 @@
     {
       "id": "phase-fix",
       "name": "Corrections des habitudes suggérées",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "fix.1",
           "name": "Corriger mindfulness-breathing période",
           "description": "Changer progression.period de 'daily' à 'weekly' pour mindfulness-breathing dans suggestedHabits.ts",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/constants/suggestedHabits.ts"]
+          "files": ["src/constants/suggestedHabits.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "fix.2",
           "name": "Ajouter trackingMode simple à movement-walk-after-meal",
           "description": "Ajouter trackingMode: 'simple' à l'habitude movement-walk-after-meal",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/constants/suggestedHabits.ts"]
+          "files": ["src/constants/suggestedHabits.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "fix.3",
           "name": "Ajouter trackingMode simple à reading-before-bed",
           "description": "Ajouter trackingMode: 'simple' à l'habitude reading-before-bed",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/constants/suggestedHabits.ts"]
+          "files": ["src/constants/suggestedHabits.ts"],
+          "completedAt": "2026-01-11"
         }
       ]
     },
@@ -257,8 +260,8 @@
   ],
   "stats": {
     "totalTasks": 25,
-    "completed": 0,
+    "completed": 3,
     "inProgress": 0,
-    "pending": 25
+    "pending": 22
   }
 }

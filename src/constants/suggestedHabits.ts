@@ -4,7 +4,13 @@
  * Source: docs/habitudes-prioritaires-doucement.docx
  */
 
-import { HabitDirection, ProgressionMode, ProgressionPeriod, TrackingFrequency } from '../types'
+import {
+  HabitDirection,
+  ProgressionMode,
+  ProgressionPeriod,
+  TrackingFrequency,
+  TrackingMode,
+} from '../types'
 
 /**
  * Niveau de preuve scientifique
@@ -42,6 +48,8 @@ export interface SuggestedHabit {
   } | null
   /** Fréquence de suivi: daily (défaut) ou weekly */
   trackingFrequency?: TrackingFrequency
+  /** Mode de tracking: simple (binaire) ou detailed (quantitatif) */
+  trackingMode?: TrackingMode
   evidenceLevel: EvidenceLevel
   benefits: string[]
   scienceHighlight: string
@@ -203,6 +211,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
       value: 2,
       period: 'weekly',
     },
+    trackingMode: 'simple',
     evidenceLevel: 'high',
     benefits: ['Digestion', 'Glycémie', 'Énergie'],
     scienceHighlight: 'La marche améliore aussi le sommeil et réduit le besoin de médicaments.',
@@ -285,7 +294,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     progression: {
       mode: 'absolute',
       value: 1,
-      period: 'daily',
+      period: 'weekly',
     },
     evidenceLevel: 'high',
     benefits: ['Stress', 'Calme', 'Concentration'],
@@ -329,6 +338,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
       value: 5,
       period: 'weekly',
     },
+    trackingMode: 'simple',
     evidenceLevel: 'moderate',
     benefits: ['Relaxation', 'Sommeil', 'Déconnexion'],
     scienceHighlight: 'Les lecteurs vivent en moyenne 2 ans de plus.',
