@@ -1,6 +1,48 @@
 {
-  "currentVersion": "1.5.0",
+  "currentVersion": "1.7.0",
   "releases": [
+    {
+      "version": "1.7.0",
+      "date": "2026-01-11",
+      "title": "Engagement renforcé",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Premier check-in immédiat : enregistre ta première dose dès la création de l'habitude"
+        },
+        {
+          "emoji": "chart",
+          "text": "Visualise l'effet composé : compare ton point de départ à aujourd'hui et célèbre tes paliers"
+        },
+        {
+          "emoji": "leaf",
+          "text": "Recalibration douce après une pause : reprends à ton rythme sans pression"
+        },
+        {
+          "emoji": "gift",
+          "text": "Partage ta progression en image avec tes proches"
+        }
+      ]
+    },
+    {
+      "version": "1.6.0",
+      "date": "2026-01-11",
+      "title": "Scripts d'automatisation",
+      "highlights": [
+        {
+          "emoji": "rocket",
+          "text": "Scripts auto-implement pour automatiser l'implémentation en boucle avec Claude"
+        },
+        {
+          "emoji": "tools",
+          "text": "Version smart qui demande à Claude de corriger les erreurs automatiquement"
+        },
+        {
+          "emoji": "zap",
+          "text": "Nouvelles commandes npm run auto-implement disponibles"
+        }
+      ]
+    },
     {
       "version": "1.5.0",
       "date": "2026-01-10",

@@ -1,7 +1,7 @@
 {
   "name": "doucement",
   "private": true,
-  "version": "1.5.0",
+  "version": "1.7.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -18,6 +18,7 @@
     "auto-implement:smart": "./scripts/auto-implement-smart.sh"
   },
   "dependencies": {
+    "html2canvas": "^1.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.12.0"

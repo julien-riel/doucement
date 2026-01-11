@@ -1,0 +1,209 @@
+/**
+ * ShareProgressModal Component - Styles
+ * Modal de prévisualisation et partage
+ */
+
+.share-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 25, 23, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-4);
+  z-index: 1000;
+  animation: fadeIn 200ms ease-out;
+}
+
+.share-modal {
+  background: var(--neutral-0);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-medium);
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 200ms ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+.share-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-5);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.share-modal__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0;
+}
+
+.share-modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: 24px;
+  color: var(--neutral-500);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.share-modal__close:hover {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+}
+
+/* Template selector */
+.share-modal__templates {
+  display: flex;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4) var(--spacing-5);
+  border-bottom: 1px solid var(--neutral-100);
+}
+
+.share-modal__template-btn {
+  flex: 1;
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--neutral-100);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--neutral-600);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.share-modal__template-btn:hover {
+  background: var(--neutral-200);
+  color: var(--neutral-700);
+}
+
+.share-modal__template-btn--active {
+  background: var(--primary-50);
+  border-color: var(--primary-500);
+  color: var(--primary-700);
+}
+
+/* Preview area */
+.share-modal__preview {
+  padding: var(--spacing-5);
+  display: flex;
+  justify-content: center;
+}
+
+.share-modal__preview .shareable-card {
+  /* Style preview - plus petit pour l'affichage */
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  min-height: 340px;
+  aspect-ratio: 1;
+  padding: var(--spacing-5);
+}
+
+.share-modal__preview .shareable-card__emoji {
+  font-size: 2.5rem;
+}
+
+.share-modal__preview .shareable-card__name {
+  font-size: var(--text-lg);
+}
+
+.share-modal__preview .shareable-card__value {
+  font-size: var(--text-2xl);
+}
+
+.share-modal__preview .shareable-card__arrow {
+  font-size: var(--text-xl);
+}
+
+.share-modal__preview .shareable-card__percentage {
+  font-size: var(--text-base);
+  padding: var(--spacing-1) var(--spacing-3);
+}
+
+.share-modal__preview .shareable-card__stat-value {
+  font-size: var(--text-lg);
+}
+
+/* Hidden export container - full size for actual export */
+.share-modal__export-container {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  pointer-events: none;
+}
+
+/* Feedback message */
+.share-modal__feedback {
+  margin: 0 var(--spacing-5);
+  padding: var(--spacing-3);
+  text-align: center;
+  font-size: var(--text-sm);
+}
+
+/* Actions */
+.share-modal__actions {
+  display: flex;
+  gap: var(--spacing-3);
+  padding: var(--spacing-5);
+  border-top: 1px solid var(--neutral-100);
+}
+
+.share-modal__actions > * {
+  flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .share-modal__overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .share-modal {
+    max-width: 100%;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    max-height: 85vh;
+  }
+
+  .share-modal__templates {
+    flex-wrap: wrap;
+  }
+
+  .share-modal__template-btn {
+    flex: 0 0 calc(50% - var(--spacing-1));
+  }
+}

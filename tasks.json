@@ -1192,98 +1192,110 @@
     {
       "id": "phase-9",
       "name": "Identité & Motivation (Pourquoi)",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "9.1",
           "name": "Ajouter le champ identityStatement au type Habit",
           "description": "Nouveau champ optionnel pour stocker la phrase identitaire ('Je suis quelqu'un qui...')",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "9.2",
           "name": "Créer l'étape Identité dans le wizard de création",
           "description": "Étape optionnelle après les détails pour définir 'Qui voulez-vous devenir ?'",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "9.3",
           "name": "Créer le composant IdentityPrompt",
           "description": "Composant avec exemples guidés : 'Je deviens quelqu'un qui prend soin de son corps'",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "9.4",
           "name": "Afficher la phrase identitaire sur HabitDetail",
           "description": "Montrer la phrase d'identité en haut de la page de détail d'habitude",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "9.5",
           "name": "Afficher la phrase identitaire dans WeeklyReview",
           "description": "Rappeler la phrase d'identité lors de la revue hebdomadaire pour renforcer la motivation",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "9.6",
           "name": "Ajouter les messages d'identité à la banque",
           "description": "Messages guidant la formulation de l'identité et son rappel",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "9.7",
           "name": "Créer la migration v5→v6 pour identityStatement",
           "description": "Migration pour le nouveau champ identityStatement",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "9.8",
           "name": "Écrire les tests pour l'identité",
           "description": "Tests unitaires pour le stockage et l'affichage de la phrase identitaire",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         }
       ]
     },
     {
       "id": "phase-10",
       "name": "Mode Rattrapage Intelligent",
-      "status": "pending",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "10.1",
           "name": "Implémenter la détection d'absence prolongée",
           "description": "Détecter une absence de 7+ jours sans check-in (différent des 2-3 jours existants)",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "10.2",
           "name": "Créer le composant RecalibrationPrompt",
           "description": "Modal proposant de recalibrer la dose au niveau réaliste après une longue absence",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "10.3",
           "name": "Implémenter recalibrateHabitDose",
           "description": "Fonction pour ajuster startingValue et startDate sans perdre l'historique",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "10.4",
           "name": "Créer le sélecteur de niveau de reprise",
           "description": "Interface pour choisir un niveau de reprise (50%, 75%, 100% de la dernière dose)",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "10.5",
@@ -1296,162 +1308,182 @@
           "id": "10.6",
           "name": "Ajouter les messages de recalibration à la banque",
           "description": "Messages bienveillants pour le retour après absence prolongée",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "10.7",
           "name": "Écrire les tests du mode rattrapage",
           "description": "Tests unitaires pour la détection et la recalibration",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         }
       ]
     },
     {
       "id": "phase-11",
       "name": "Visualisation de l'Effet Composé",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "11.1",
           "name": "Créer le composant ProgressComparison",
           "description": "Affichage simple 'Jour 1: X → Aujourd'hui: Y' sur HabitDetail",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "11.2",
           "name": "Calculer les métriques d'effet composé",
           "description": "Fonction pour calculer progression totale (%, valeur absolue) depuis le début",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "11.3",
           "name": "Afficher l'évolution dans WeeklyReview",
           "description": "Section 'Votre progression depuis le début' dans la revue hebdomadaire",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "11.4",
           "name": "Créer le composant MilestoneCard",
           "description": "Carte de célébration pour les jalons (+50%, +100%, doubler la dose, etc.)",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "11.5",
           "name": "Implémenter la détection de milestones",
           "description": "Détecter automatiquement les paliers significatifs atteints",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "11.6",
           "name": "Ajouter les messages de milestone à la banque",
           "description": "Messages de célébration pour les paliers de progression",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "11.7",
           "name": "Écrire les tests de visualisation",
           "description": "Tests pour le calcul des métriques et détection de milestones",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         }
       ]
     },
     {
       "id": "phase-12",
       "name": "Premier Check-in Immédiat (Day One)",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "12.1",
           "name": "Modifier StepConfirm pour proposer le premier check-in",
           "description": "Ajouter option 'Avez-vous déjà fait quelque chose aujourd'hui ?' après création",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "12.2",
           "name": "Créer le composant FirstCheckInPrompt",
           "description": "Modal de premier check-in immédiat après création d'habitude",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "12.3",
           "name": "Permettre le check-in avant startDate effective",
           "description": "Autoriser l'enregistrement d'une entrée le jour même de création",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "12.4",
           "name": "Afficher un message de première victoire",
           "description": "Célébration immédiate si l'utilisateur fait son premier check-in",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "12.5",
           "name": "Ajouter les messages de première victoire à la banque",
           "description": "Messages de célébration pour le premier check-in",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "12.6",
           "name": "Écrire les tests du premier check-in",
           "description": "Tests pour le flux de création avec check-in immédiat",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         }
       ]
     },
     {
       "id": "phase-13",
       "name": "Export Visuel Partageable",
-      "status": "pending",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "13.1",
           "name": "Créer le composant ShareableProgressCard",
           "description": "Carte visuelle avec résumé de progression (30 jours, habitude, stats)",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "13.2",
           "name": "Implémenter l'export en image (PNG)",
           "description": "Utiliser html2canvas ou équivalent pour générer une image",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "13.3",
           "name": "Créer le bouton de partage dans HabitDetail",
           "description": "Bouton 'Partager ma progression' dans l'écran de détail",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "13.4",
           "name": "Designer les templates d'images partageables",
           "description": "2-3 designs de cartes avec branding léger Doucement",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "13.5",
           "name": "Implémenter l'API Web Share (mobile)",
           "description": "Utiliser navigator.share() pour le partage natif sur mobile",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "13.6",
@@ -1464,43 +1496,48 @@
           "id": "13.7",
           "name": "Écrire les tests d'export visuel",
           "description": "Tests pour la génération d'images et le partage",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         }
       ]
     },
     {
       "id": "phase-14",
       "name": "Widget Mobile (PWA)",
-      "status": "pending",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "14.1",
           "name": "Rechercher les options de widget PWA",
           "description": "Évaluer Shortcuts API, Widgets API (expérimental), et alternatives",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "14.2",
           "name": "Implémenter les PWA Shortcuts",
           "description": "Ajouter shortcuts dans manifest.webmanifest pour accès rapide",
-          "status": "pending",
-          "priority": "high"
+          "status": "completed",
+          "priority": "high",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "14.3",
           "name": "Créer une page de check-in rapide",
           "description": "Page /quick-checkin minimaliste accessible via shortcut",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "14.4",
           "name": "Optimiser le temps de chargement de quick-checkin",
           "description": "Code splitting et lazy loading pour chargement < 1s",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "14.5",
@@ -1521,8 +1558,8 @@
   ],
   "stats": {
     "totalTasks": 180,
-    "completed": 130,
+    "completed": 163,
     "inProgress": 0,
-    "pending": 50
+    "pending": 17
   }
 }

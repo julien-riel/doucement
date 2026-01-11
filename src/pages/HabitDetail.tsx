@@ -1,11 +1,18 @@
 import { useMemo, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
-import { StatsCards, WeeklyCalendar, ProgressChart, PlannedPauseDialog } from '../components/habits'
+import {
+  StatsCards,
+  WeeklyCalendar,
+  ProgressChart,
+  PlannedPauseDialog,
+  ProgressComparison,
+  ShareProgressModal,
+} from '../components/habits'
 import { Button, Card } from '../components/ui'
 import { calculateTargetDose, calculateHabitStats } from '../services/progression'
 import { isHabitPaused } from '../utils/absence'
-import { PLANNED_PAUSE } from '../constants/messages'
+import { PLANNED_PAUSE, IDENTITY_REMINDER } from '../constants/messages'
 import type { PlannedPause } from '../types'
 import './HabitDetail.css'
 
@@ -71,6 +78,7 @@ function HabitDetail() {
 
   const [showArchiveConfirm, setShowArchiveConfirm] = useState(false)
   const [showPauseDialog, setShowPauseDialog] = useState(false)
+  const [showShareModal, setShowShareModal] = useState(false)
 
   const habit = id ? getHabitById(id) : undefined
   const entries = useMemo(() => (id ? getEntriesForHabit(id) : []), [id, getEntriesForHabit])
@@ -182,6 +190,16 @@ function HabitDetail() {
         </div>
       </section>
 
+      {/* Phrase identitaire */}
+      {habit.identityStatement && (
+        <Card variant="highlight" className="habit-detail__identity">
+          <span className="habit-detail__identity-label">{IDENTITY_REMINDER.headerLabel}</span>
+          <p className="habit-detail__identity-text">
+            Je deviens quelqu'un qui {habit.identityStatement}
+          </p>
+        </Card>
+      )}
+
       {/* Dose du jour */}
       <Card variant="highlight" className="habit-detail__today-dose">
         <div className="habit-detail__dose-label">Dose du jour</div>
@@ -189,6 +207,13 @@ function HabitDetail() {
           {todayDose} <span className="habit-detail__dose-unit">{habit.unit}</span>
         </div>
       </Card>
+
+      {/* Effet composé - D'où je viens */}
+      {habit.direction !== 'maintain' && (
+        <section className="habit-detail__section" aria-label="Progression depuis le début">
+          <ProgressComparison habit={habit} referenceDate={today} />
+        </section>
+      )}
 
       {/* Stats */}
       {stats && (
@@ -259,6 +284,9 @@ function HabitDetail() {
           </Button>
         ) : (
           <>
+            <Button variant="secondary" fullWidth onClick={() => setShowShareModal(true)}>
+              Partager ma progression
+            </Button>
             <Button variant="secondary" fullWidth onClick={handleEdit}>
               Modifier
             </Button>
@@ -300,6 +328,15 @@ function HabitDetail() {
         onClose={() => setShowPauseDialog(false)}
         onConfirm={handleStartPause}
         habitName={habit.name}
+      />
+
+      {/* Share Modal */}
+      <ShareProgressModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        habit={habit}
+        entries={entries}
+        referenceDate={today}
       />
     </div>
   )

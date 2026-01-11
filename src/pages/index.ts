@@ -1,4 +1,5 @@
 // Pages barrel export
+// Note: QuickCheckIn is lazy-loaded in router.tsx for optimal performance
 export { default as Onboarding } from './Onboarding'
 export { default as Today } from './Today'
 export { default as HabitList } from './HabitList'

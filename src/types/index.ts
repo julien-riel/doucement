@@ -11,7 +11,7 @@
  * Version du schéma de données
  * Incrémentée à chaque modification de structure pour permettre les migrations
  */
-export const CURRENT_SCHEMA_VERSION = 5
+export const CURRENT_SCHEMA_VERSION = 7
 
 // ============================================================================
 // HABIT TYPES
@@ -94,6 +94,23 @@ export interface PlannedPause {
 }
 
 /**
+ * Enregistrement d'une recalibration (Phase 10)
+ * Stocke l'historique des recalibrations pour analyse future
+ */
+export interface RecalibrationRecord {
+  /** Date de la recalibration (YYYY-MM-DD) */
+  date: string
+  /** Ancienne valeur de départ avant recalibration */
+  previousStartValue: number
+  /** Nouvelle valeur de départ après recalibration */
+  newStartValue: number
+  /** Ancienne date de début de progression */
+  previousStartDate: string
+  /** Niveau de recalibration choisi (0.5, 0.75 ou 1) */
+  level: number
+}
+
+/**
  * Habitude de l'utilisateur
  */
 export interface Habit {
@@ -129,6 +146,10 @@ export interface Habit {
   anchorHabitId?: string
   /** Pause planifiée active (Phase 6) */
   plannedPause?: PlannedPause | null
+  /** Déclaration d'identité (Phase 9) - "Je deviens quelqu'un qui..." */
+  identityStatement?: string
+  /** Historique des recalibrations (Phase 10) */
+  recalibrationHistory?: RecalibrationRecord[]
 }
 
 // ============================================================================

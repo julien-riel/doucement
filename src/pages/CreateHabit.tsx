@@ -2,8 +2,20 @@ import { useState, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { Button, Input } from '../components/ui'
-import { StepIntentions, HabitAnchorSelector, SuggestedHabitCard } from '../components/habits'
-import { randomMessage, HABIT_CREATED, IMPLEMENTATION_INTENTION } from '../constants/messages'
+import {
+  StepIntentions,
+  HabitAnchorSelector,
+  SuggestedHabitCard,
+  IdentityPrompt,
+  FirstCheckInPrompt,
+} from '../components/habits'
+import {
+  randomMessage,
+  HABIT_CREATED,
+  IMPLEMENTATION_INTENTION,
+  IDENTITY_STATEMENT,
+} from '../constants/messages'
+import { calculateTargetDose } from '../services/progression'
 import {
   SuggestedHabit,
   getTopPriorityHabits,
@@ -11,6 +23,7 @@ import {
   HabitCategory,
 } from '../constants/suggestedHabits'
 import {
+  Habit,
   HabitDirection,
   ProgressionMode,
   ProgressionPeriod,
@@ -23,7 +36,14 @@ import './CreateHabit.css'
 /**
  * Étapes du wizard
  */
-type WizardStep = 'choose' | 'type' | 'details' | 'intentions' | 'confirm'
+type WizardStep =
+  | 'choose'
+  | 'type'
+  | 'details'
+  | 'intentions'
+  | 'identity'
+  | 'confirm'
+  | 'first-checkin'
 
 /**
  * Options de type d'habitude
@@ -92,6 +112,7 @@ interface HabitFormState {
   implementationIntention: ImplementationIntention
   anchorHabitId: string | undefined
   trackingFrequency: TrackingFrequency
+  identityStatement: string
 }
 
 const INITIAL_FORM_STATE: HabitFormState = {
@@ -107,18 +128,20 @@ const INITIAL_FORM_STATE: HabitFormState = {
   implementationIntention: {},
   anchorHabitId: undefined,
   trackingFrequency: 'daily',
+  identityStatement: '',
 }
 
 /**
  * Écran Création d'habitude
- * Wizard en 5 étapes : Choix, Type, Détails, Intentions, Confirmation
+ * Wizard en 6 étapes : Choix, Type, Détails, Intentions, Identité, Confirmation
  */
 function CreateHabit() {
   const [step, setStep] = useState<WizardStep>('choose')
   const [form, setForm] = useState<HabitFormState>(INITIAL_FORM_STATE)
   const [activeCategory, setActiveCategory] = useState<HabitCategory | 'all'>('all')
+  const [createdHabit, setCreatedHabit] = useState<Habit | null>(null)
   const navigate = useNavigate()
-  const { addHabit, activeHabits } = useAppData()
+  const { addHabit, addEntry, activeHabits } = useAppData()
 
   const suggestedHabits = useMemo(() => getTopPriorityHabits(true), [])
   const categories = useMemo(() => {
@@ -133,7 +156,7 @@ function CreateHabit() {
   }, [suggestedHabits, activeCategory])
 
   const stepIndex = useMemo(() => {
-    const steps: WizardStep[] = ['choose', 'type', 'details', 'intentions', 'confirm']
+    const steps: WizardStep[] = ['choose', 'type', 'details', 'intentions', 'identity', 'confirm']
     return steps.indexOf(step)
   }, [step])
 
@@ -164,6 +187,7 @@ function CreateHabit() {
       implementationIntention: {},
       anchorHabitId: undefined,
       trackingFrequency: habit.trackingFrequency ?? 'daily',
+      identityStatement: '',
     })
     setStep('intentions')
   }, [])
@@ -191,6 +215,8 @@ function CreateHabit() {
         return form.name.trim().length > 0 && form.unit.trim().length > 0 && form.startValue > 0
       case 'intentions':
         return true
+      case 'identity':
+        return true
       case 'confirm':
         return true
       default:
@@ -211,6 +237,8 @@ function CreateHabit() {
     } else if (step === 'details') {
       setStep('intentions')
     } else if (step === 'intentions') {
+      setStep('identity')
+    } else if (step === 'identity') {
       setStep('confirm')
     } else if (step === 'confirm') {
       const hasIntention =
@@ -236,14 +264,37 @@ function CreateHabit() {
         implementationIntention: hasIntention ? form.implementationIntention : undefined,
         anchorHabitId: form.anchorHabitId,
         trackingFrequency: form.trackingFrequency,
+        identityStatement: form.identityStatement.trim() || undefined,
       }
 
       const newHabit = addHabit(habitInput)
       if (newHabit) {
-        navigate('/')
+        setCreatedHabit(newHabit)
+        setStep('first-checkin')
       }
     }
-  }, [step, isStepValid, form, addHabit, navigate])
+  }, [step, isStepValid, form, addHabit])
+
+  /**
+   * Gère la réponse au premier check-in
+   * Si value est non-null, crée une entrée pour aujourd'hui
+   */
+  const handleFirstCheckInResponse = useCallback(
+    (actualValue: number | null) => {
+      if (actualValue !== null && createdHabit) {
+        const today = new Date().toISOString().split('T')[0]
+        const targetDose = calculateTargetDose(createdHabit, today)
+        addEntry({
+          habitId: createdHabit.id,
+          date: today,
+          targetDose,
+          actualValue,
+        })
+      }
+      navigate('/')
+    },
+    [createdHabit, addEntry, navigate]
+  )
 
   /**
    * Retourne à l'étape précédente
@@ -255,8 +306,10 @@ function CreateHabit() {
       setStep('type')
     } else if (step === 'intentions') {
       setStep('details')
-    } else if (step === 'confirm') {
+    } else if (step === 'identity') {
       setStep('intentions')
+    } else if (step === 'confirm') {
+      setStep('identity')
     } else {
       navigate(-1)
     }
@@ -493,6 +546,16 @@ function CreateHabit() {
   )
 
   /**
+   * Met à jour la déclaration d'identité
+   */
+  const handleIdentityChange = useCallback(
+    (statement: string) => {
+      updateForm('identityStatement', statement)
+    },
+    [updateForm]
+  )
+
+  /**
    * Rendu de l'étape Intentions (optionnelle)
    */
   const renderStepIntentions = () => (
@@ -512,6 +575,18 @@ function CreateHabit() {
         habits={activeHabits}
         selectedAnchorId={form.anchorHabitId}
         onAnchorChange={handleAnchorChange}
+      />
+    </div>
+  )
+
+  /**
+   * Rendu de l'étape Identité (optionnelle)
+   */
+  const renderStepIdentity = () => (
+    <div className="create-habit__content step-identity">
+      <IdentityPrompt
+        identityStatement={form.identityStatement}
+        onIdentityChange={handleIdentityChange}
       />
     </div>
   )
@@ -573,6 +648,14 @@ function CreateHabit() {
               </span>
             </div>
           )}
+          {form.identityStatement && (
+            <div className="step-confirm__detail">
+              <span className="step-confirm__detail-label">Identité</span>
+              <span className="step-confirm__detail-value step-confirm__detail-value--small step-confirm__detail-value--identity">
+                Je deviens quelqu'un qui {form.identityStatement}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -581,6 +664,18 @@ function CreateHabit() {
       </div>
     </div>
   )
+
+  /**
+   * Rendu de l'étape Premier Check-in
+   */
+  const renderStepFirstCheckIn = () => {
+    if (!createdHabit) return null
+    return (
+      <div className="create-habit__content step-first-checkin">
+        <FirstCheckInPrompt habit={createdHabit} onResponse={handleFirstCheckInResponse} />
+      </div>
+    )
+  }
 
   /**
    * Rendu du contenu de l'étape courante
@@ -595,8 +690,12 @@ function CreateHabit() {
         return renderStepDetails()
       case 'intentions':
         return renderStepIntentions()
+      case 'identity':
+        return renderStepIdentity()
       case 'confirm':
         return renderStepConfirm()
+      case 'first-checkin':
+        return renderStepFirstCheckIn()
       default:
         return null
     }
@@ -614,6 +713,8 @@ function CreateHabit() {
       case 'details':
         return 'Continuer'
       case 'intentions':
+        return 'Continuer'
+      case 'identity':
         return 'Aperçu'
       case 'confirm':
         return "Créer l'habitude"
@@ -635,11 +736,22 @@ function CreateHabit() {
         return 'Décrivez votre habitude'
       case 'intentions':
         return IMPLEMENTATION_INTENTION.stepTitle
+      case 'identity':
+        return IDENTITY_STATEMENT.stepTitle
       case 'confirm':
         return 'Vérifiez et confirmez'
       default:
         return ''
     }
+  }
+
+  // L'étape first-checkin a un affichage simplifié (pas de header ni footer)
+  if (step === 'first-checkin') {
+    return (
+      <div className="page page-create-habit page-create-habit--first-checkin">
+        {renderStepFirstCheckIn()}
+      </div>
+    )
   }
 
   return (
@@ -652,7 +764,7 @@ function CreateHabit() {
       {/* Indicateur de progression (caché pour l'étape choose) */}
       {step !== 'choose' && (
         <div className="create-habit__progress" aria-label="Progression du wizard">
-          {[1, 2, 3, 4].map((i) => {
+          {[1, 2, 3, 4, 5].map((i) => {
             const adjustedIndex = stepIndex - 1
             return (
               <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
@@ -668,7 +780,7 @@ function CreateHabit() {
                 >
                   {i - 1 < adjustedIndex ? '✓' : i}
                 </div>
-                {i < 4 && (
+                {i < 5 && (
                   <div
                     className={`create-habit__step-line ${i - 1 < adjustedIndex ? 'create-habit__step-line--completed' : ''}`}
                   />

@@ -1,0 +1,103 @@
+/**
+ * MilestoneCard Component - Styles
+ * Carte de célébration des paliers de progression
+ */
+
+.milestone-card {
+  background: linear-gradient(135deg, var(--secondary-50), var(--secondary-100));
+  border: 1px solid var(--secondary-200);
+  text-align: center;
+  padding: var(--spacing-6);
+  animation: milestone-entrance 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes milestone-entrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.milestone-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.milestone-card__emoji {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  color: var(--secondary-600);
+  line-height: 1;
+  animation: celebrate 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+}
+
+@keyframes celebrate {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1) rotate(-2deg);
+  }
+  50% {
+    transform: scale(1.15) rotate(2deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(-1deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.milestone-card__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--secondary-700);
+  margin: 0;
+}
+
+.milestone-card__message {
+  font-size: var(--text-base);
+  color: var(--neutral-600);
+  margin: 0;
+  max-width: 280px;
+}
+
+.milestone-card__button {
+  margin-top: var(--spacing-2);
+  min-width: 160px;
+}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .milestone-card {
+    animation: none;
+  }
+
+  .milestone-card__emoji {
+    animation: none;
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .milestone-card {
+    padding: var(--spacing-5);
+  }
+
+  .milestone-card__emoji {
+    font-size: var(--text-3xl);
+  }
+
+  .milestone-card__title {
+    font-size: var(--text-lg);
+  }
+}

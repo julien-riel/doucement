@@ -1,0 +1,240 @@
+/**
+ * ShareableProgressCard Component - Styles
+ * Carte visuelle pour export et partage
+ * Dimensions optimisées pour le partage social (1080x1080)
+ */
+
+.shareable-card {
+  /* Dimensions pour export - carré Instagram/réseaux sociaux */
+  width: 540px;
+  height: 540px;
+  padding: var(--spacing-8);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+
+  /* Gradient warm neutral comme spécifié dans le design system */
+  background: linear-gradient(
+    135deg,
+    var(--neutral-50) 0%,
+    var(--primary-50) 50%,
+    var(--secondary-50) 100%
+  );
+
+  border-radius: var(--radius-xl);
+
+  /* Pour l'export, on veut un fond opaque */
+  box-sizing: border-box;
+
+  /* Texte bien rendu pour l'export */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header avec emoji et nom */
+.shareable-card__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  text-align: center;
+}
+
+.shareable-card__emoji {
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.shareable-card__name {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-900);
+  margin: 0;
+}
+
+/* Tagline */
+.shareable-card__tagline {
+  font-size: var(--text-base);
+  color: var(--neutral-600);
+  margin: 0;
+  text-align: center;
+}
+
+/* Section de progression principale */
+.shareable-card__progression {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-5);
+  margin: var(--spacing-4) 0;
+}
+
+.shareable-card__value-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.shareable-card__label {
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.shareable-card__value {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-700);
+  line-height: 1;
+}
+
+.shareable-card__value-group--current .shareable-card__value {
+  color: var(--primary-600);
+}
+
+.shareable-card__arrow {
+  font-size: var(--text-3xl);
+  color: var(--neutral-400);
+  padding: 0 var(--spacing-2);
+}
+
+/* Badge de pourcentage */
+.shareable-card__percentage {
+  display: inline-block;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-full);
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  background: var(--secondary-100);
+  color: var(--secondary-600);
+}
+
+/* Barre décorative */
+.shareable-card__divider {
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--neutral-200) 20%,
+    var(--neutral-200) 80%,
+    transparent 100%
+  );
+  margin: var(--spacing-3) 0;
+}
+
+/* Statistiques */
+.shareable-card__stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-6);
+  padding: var(--spacing-2) 0;
+}
+
+.shareable-card__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.shareable-card__stat-value {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-700);
+}
+
+.shareable-card__stat-label {
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+}
+
+/* Branding discret */
+.shareable-card__branding {
+  margin-top: auto;
+  padding-top: var(--spacing-4);
+}
+
+.shareable-card__brand-name {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--neutral-400);
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+
+/* ==========================================================================
+   Template: Minimal
+   ========================================================================== */
+
+.shareable-card--minimal {
+  gap: var(--spacing-5);
+}
+
+.shareable-card--minimal .shareable-card__stats {
+  display: none;
+}
+
+.shareable-card--minimal .shareable-card__tagline {
+  font-size: var(--text-lg);
+}
+
+/* ==========================================================================
+   Template: Detailed
+   ========================================================================== */
+
+.shareable-card--detailed {
+  gap: var(--spacing-3);
+}
+
+.shareable-card--detailed .shareable-card__stats {
+  gap: var(--spacing-5);
+}
+
+/* ==========================================================================
+   Preview mode (pour affichage dans l'app)
+   ========================================================================== */
+
+.shareable-card--preview {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  min-height: 340px;
+  aspect-ratio: 1;
+  padding: var(--spacing-5);
+}
+
+.shareable-card--preview .shareable-card__emoji {
+  font-size: 2.5rem;
+}
+
+.shareable-card--preview .shareable-card__name {
+  font-size: var(--text-lg);
+}
+
+.shareable-card--preview .shareable-card__value {
+  font-size: var(--text-2xl);
+}
+
+.shareable-card--preview .shareable-card__arrow {
+  font-size: var(--text-xl);
+}
+
+.shareable-card--preview .shareable-card__percentage {
+  font-size: var(--text-base);
+  padding: var(--spacing-1) var(--spacing-3);
+}
+
+.shareable-card--preview .shareable-card__stat-value {
+  font-size: var(--text-lg);
+}

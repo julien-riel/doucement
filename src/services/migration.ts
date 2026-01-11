@@ -120,6 +120,32 @@ export const MIGRATIONS: Migration[] = [
       }
     },
   },
+  {
+    fromVersion: 5,
+    toVersion: 6,
+    description: "Ajout de la déclaration d'identité (identityStatement)",
+    migrate: (data) => {
+      // Le champ identityStatement est optionnel
+      // Les habitudes existantes fonctionneront sans ce champ (undefined)
+      return {
+        ...data,
+        schemaVersion: 6,
+      }
+    },
+  },
+  {
+    fromVersion: 6,
+    toVersion: 7,
+    description: 'Ajout du mode rattrapage (recalibrationHistory)',
+    migrate: (data) => {
+      // Le champ recalibrationHistory est optionnel
+      // Les habitudes existantes fonctionneront sans ce champ (undefined = pas de recalibration)
+      return {
+        ...data,
+        schemaVersion: 7,
+      }
+    },
+  },
 ]
 
 // ============================================================================

@@ -2,13 +2,13 @@ import { useMemo, useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { Card, Button } from '../components/ui'
-import { WeeklyReflectionInput, PatternInsights } from '../components/habits'
+import { WeeklyReflectionInput, PatternInsights, WeeklyProgressSummary } from '../components/habits'
 import {
   calculateHabitStats,
   calculateDailyCompletionPercentage,
   HabitStats,
 } from '../services/progression'
-import { getWeeklyMessage } from '../constants/messages'
+import { getWeeklyMessage, IDENTITY_REMINDER } from '../constants/messages'
 import { analyzeGlobalPatterns } from '../utils/patternAnalysis'
 import './WeeklyReview.css'
 
@@ -227,6 +227,27 @@ function WeeklyReview() {
         </Card>
       </section>
 
+      {/* Rappel des identités */}
+      {activeHabits.some((h) => h.identityStatement) && (
+        <section className="weekly-review__section" aria-label="Identités">
+          <h2 className="weekly-review__section-title">{IDENTITY_REMINDER.weeklyReviewIntro}</h2>
+          <div className="weekly-review__identities">
+            {activeHabits
+              .filter((h) => h.identityStatement)
+              .map((habit) => (
+                <Card key={habit.id} variant="default" className="weekly-review__identity-card">
+                  <span className="weekly-review__identity-emoji" aria-hidden="true">
+                    {habit.emoji}
+                  </span>
+                  <p className="weekly-review__identity-text">
+                    Je deviens quelqu'un qui {habit.identityStatement}
+                  </p>
+                </Card>
+              ))}
+          </div>
+        </section>
+      )}
+
       {/* Statistiques globales */}
       <section className="weekly-review__section" aria-label="Statistiques globales">
         <div className="weekly-review__global-stats">
@@ -335,6 +356,11 @@ function WeeklyReview() {
       <section className="weekly-review__section" aria-label="Insights">
         <h2 className="weekly-review__section-title">Tes patterns</h2>
         <PatternInsights analysis={patternAnalysis} />
+      </section>
+
+      {/* Progression depuis le début (Effet Composé) */}
+      <section className="weekly-review__section" aria-label="Progression totale">
+        <WeeklyProgressSummary habits={activeHabits} referenceDate={today} />
       </section>
 
       {/* Guided Reflection */}

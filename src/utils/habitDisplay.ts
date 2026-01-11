@@ -4,7 +4,7 @@
  */
 
 import { Habit, DailyEntry } from '../types'
-import { INTENTION_DISPLAY } from '../constants/messages'
+import { INTENTION_DISPLAY, IDENTITY_STATEMENT } from '../constants/messages'
 
 /**
  * Nombre de jours avant de suggérer la transition du mode simple vers détaillé
@@ -34,6 +34,34 @@ export function buildIntentionText(habit: Habit): string | null {
   }
 
   return parts.length > 0 ? parts.join(' ') : null
+}
+
+/**
+ * Construit la phrase d'identité complète
+ * Format: "Je deviens quelqu'un qui [statement]"
+ *
+ * @param habit - L'habitude
+ * @returns La phrase d'identité complète ou null si non définie
+ */
+export function buildIdentityText(habit: Habit): string | null {
+  if (!habit.identityStatement || habit.identityStatement.trim() === '') {
+    return null
+  }
+  return `${IDENTITY_STATEMENT.inputLabel} ${habit.identityStatement}`
+}
+
+/**
+ * Vérifie si une habitude a une phrase d'identité
+ */
+export function hasIdentityStatement(habit: Habit): boolean {
+  return Boolean(habit.identityStatement && habit.identityStatement.trim() !== '')
+}
+
+/**
+ * Filtre les habitudes qui ont une phrase d'identité
+ */
+export function getHabitsWithIdentity(habits: Habit[]): Habit[] {
+  return habits.filter(hasIdentityStatement)
 }
 
 /**

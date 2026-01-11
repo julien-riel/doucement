@@ -17,6 +17,8 @@ import {
   calculateCompletionPercentageFromValues,
   calculateHabitStats,
   calculateDailyCompletionPercentage,
+  calculateCompoundEffectMetrics,
+  detectMilestone,
 } from './progression'
 import { Habit, DailyEntry } from '../types'
 
@@ -729,5 +731,151 @@ describe('calculateDailyCompletionPercentage', () => {
 
     const percentage = calculateDailyCompletionPercentage(entries, habits, '2025-01-15')
     expect(percentage).toBe(0)
+  })
+})
+
+// ============================================================================
+// COMPOUND EFFECT METRICS TESTS (11.2)
+// ============================================================================
+
+describe('calculateCompoundEffectMetrics', () => {
+  it('calculates metrics for an increase habit', () => {
+    const habit = createHabit({
+      direction: 'increase',
+      startValue: 10,
+      createdAt: '2025-01-01',
+      progression: { mode: 'percentage', value: 10, period: 'weekly' },
+    })
+
+    // After 2 weeks: 10 * 1.1^2 = 12.1 → 13 (ceil)
+    const metrics = calculateCompoundEffectMetrics(habit, '2025-01-15')
+
+    expect(metrics.startDose).toBe(10)
+    expect(metrics.currentDose).toBe(13)
+    expect(metrics.absoluteChange).toBe(3)
+    expect(metrics.percentageChange).toBe(30)
+    expect(metrics.daysElapsed).toBe(14)
+  })
+
+  it('calculates metrics for a decrease habit', () => {
+    const habit = createHabit({
+      direction: 'decrease',
+      startValue: 20,
+      createdAt: '2025-01-01',
+      progression: { mode: 'absolute', value: 1, period: 'weekly' },
+    })
+
+    // After 3 weeks: 20 - 3 = 17
+    const metrics = calculateCompoundEffectMetrics(habit, '2025-01-22')
+
+    expect(metrics.startDose).toBe(20)
+    expect(metrics.currentDose).toBe(17)
+    expect(metrics.absoluteChange).toBe(-3)
+    expect(metrics.percentageChange).toBe(-15)
+    expect(metrics.daysElapsed).toBe(21)
+  })
+
+  it('returns 0 change on day 0', () => {
+    const habit = createHabit({
+      direction: 'increase',
+      startValue: 10,
+      createdAt: '2025-01-15',
+      progression: { mode: 'percentage', value: 5, period: 'weekly' },
+    })
+
+    const metrics = calculateCompoundEffectMetrics(habit, '2025-01-15')
+
+    expect(metrics.startDose).toBe(10)
+    expect(metrics.currentDose).toBe(10)
+    expect(metrics.absoluteChange).toBe(0)
+    expect(metrics.percentageChange).toBe(0)
+    expect(metrics.daysElapsed).toBe(0)
+  })
+
+  it('handles maintain habits (no change)', () => {
+    const habit = createHabit({
+      direction: 'maintain',
+      startValue: 15,
+      createdAt: '2025-01-01',
+      progression: null,
+    })
+
+    const metrics = calculateCompoundEffectMetrics(habit, '2025-01-22')
+
+    expect(metrics.startDose).toBe(15)
+    expect(metrics.currentDose).toBe(15)
+    expect(metrics.absoluteChange).toBe(0)
+    expect(metrics.percentageChange).toBe(0)
+  })
+})
+
+describe('detectMilestone', () => {
+  it('detects double milestone for increase habits', () => {
+    const habit = createHabit({
+      direction: 'increase',
+      startValue: 10,
+      createdAt: '2025-01-01',
+      progression: { mode: 'percentage', value: 10, period: 'weekly' },
+    })
+
+    // After 8 weeks: 10 * 1.1^8 ≈ 21.4 → 22 (more than double)
+    const milestone = detectMilestone(habit, '2025-02-26')
+
+    expect(milestone).toBe('double')
+  })
+
+  it('detects half milestone for decrease habits', () => {
+    const habit = createHabit({
+      direction: 'decrease',
+      startValue: 20,
+      createdAt: '2025-01-01',
+      progression: { mode: 'absolute', value: 2, period: 'weekly' },
+    })
+
+    // After 5 weeks: 20 - 10 = 10 (half of original)
+    const milestone = detectMilestone(habit, '2025-02-05')
+
+    expect(milestone).toBe('half')
+  })
+
+  it('detects fifty_percent milestone', () => {
+    const habit = createHabit({
+      direction: 'increase',
+      startValue: 10,
+      createdAt: '2025-01-01',
+      progression: { mode: 'percentage', value: 10, period: 'weekly' },
+    })
+
+    // After 5 weeks: 10 * 1.1^5 ≈ 16.1 → 17 (+70%)
+    const milestone = detectMilestone(habit, '2025-02-05')
+
+    expect(milestone).toBe('fifty_percent')
+  })
+
+  it('returns null when no significant milestone', () => {
+    const habit = createHabit({
+      direction: 'increase',
+      startValue: 10,
+      createdAt: '2025-01-01',
+      progression: { mode: 'percentage', value: 3, period: 'weekly' },
+    })
+
+    // After 2 weeks: 10 * 1.03^2 ≈ 10.6 → 11 (+10%)
+    const milestone = detectMilestone(habit, '2025-01-15')
+
+    expect(milestone).toBe(null)
+  })
+
+  it('returns null for maintain habits', () => {
+    const habit = createHabit({
+      direction: 'maintain',
+      startValue: 10,
+      createdAt: '2025-01-01',
+      progression: null,
+    })
+
+    const milestone = detectMilestone(habit, '2025-03-01')
+
+    expect(milestone).toBe(null)
   })
 })

@@ -38,6 +38,22 @@ export default defineConfig({
             purpose: 'maskable',
           },
         ],
+        shortcuts: [
+          {
+            name: 'Check-in rapide',
+            short_name: 'Check-in',
+            description: 'Enregistrer rapidement vos habitudes du jour',
+            url: '/quick-checkin',
+            icons: [{ src: 'icon-192.svg', sizes: '192x192', type: 'image/svg+xml' }],
+          },
+          {
+            name: 'Nouvelle habitude',
+            short_name: 'Ajouter',
+            description: 'Créer une nouvelle habitude',
+            url: '/create',
+            icons: [{ src: 'icon-192.svg', sizes: '192x192', type: 'image/svg+xml' }],
+          },
+        ],
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,woff2}'],

@@ -11,6 +11,9 @@ import {
   getDaysSinceCreation,
   isEligibleForTransition,
   getHabitsEligibleForTransition,
+  buildIdentityText,
+  hasIdentityStatement,
+  getHabitsWithIdentity,
 } from './habitDisplay'
 import { Habit, DailyEntry } from '../types'
 
@@ -519,5 +522,127 @@ describe('getHabitsEligibleForTransition', () => {
 
     expect(result).toHaveLength(1)
     expect(result[0].id).toBe('h1')
+  })
+})
+
+// ============================================================================
+// buildIdentityText TESTS (Phase 9)
+// ============================================================================
+
+describe('buildIdentityText', () => {
+  it("retourne null si pas d'identityStatement", () => {
+    const habit = createHabit()
+    expect(buildIdentityText(habit)).toBeNull()
+  })
+
+  it('retourne null si identityStatement est une chaîne vide', () => {
+    const habit = createHabit({
+      identityStatement: '',
+    })
+    expect(buildIdentityText(habit)).toBeNull()
+  })
+
+  it('retourne null si identityStatement ne contient que des espaces', () => {
+    const habit = createHabit({
+      identityStatement: '   ',
+    })
+    expect(buildIdentityText(habit)).toBeNull()
+  })
+
+  it("retourne la phrase d'identité complète", () => {
+    const habit = createHabit({
+      identityStatement: 'prend soin de son corps',
+    })
+    expect(buildIdentityText(habit)).toBe("Je deviens quelqu'un qui... prend soin de son corps")
+  })
+
+  it('préserve le texte tel quel sans modification', () => {
+    const habit = createHabit({
+      identityStatement: "maîtrise son temps d'écran",
+    })
+    expect(buildIdentityText(habit)).toBe("Je deviens quelqu'un qui... maîtrise son temps d'écran")
+  })
+})
+
+// ============================================================================
+// hasIdentityStatement TESTS (Phase 9)
+// ============================================================================
+
+describe('hasIdentityStatement', () => {
+  it("retourne false si pas d'identityStatement", () => {
+    const habit = createHabit()
+    expect(hasIdentityStatement(habit)).toBe(false)
+  })
+
+  it('retourne false si identityStatement est une chaîne vide', () => {
+    const habit = createHabit({
+      identityStatement: '',
+    })
+    expect(hasIdentityStatement(habit)).toBe(false)
+  })
+
+  it('retourne false si identityStatement ne contient que des espaces', () => {
+    const habit = createHabit({
+      identityStatement: '   ',
+    })
+    expect(hasIdentityStatement(habit)).toBe(false)
+  })
+
+  it("retourne true si l'habitude a une identité", () => {
+    const habit = createHabit({
+      identityStatement: 'prend soin de son corps',
+    })
+    expect(hasIdentityStatement(habit)).toBe(true)
+  })
+})
+
+// ============================================================================
+// getHabitsWithIdentity TESTS (Phase 9)
+// ============================================================================
+
+describe('getHabitsWithIdentity', () => {
+  it('retourne un tableau vide si aucune habitude', () => {
+    expect(getHabitsWithIdentity([])).toEqual([])
+  })
+
+  it("retourne un tableau vide si aucune habitude n'a d'identité", () => {
+    const habit1 = createHabit({ id: 'h1' })
+    const habit2 = createHabit({ id: 'h2', identityStatement: '' })
+    expect(getHabitsWithIdentity([habit1, habit2])).toEqual([])
+  })
+
+  it('filtre uniquement les habitudes avec identité', () => {
+    const habitWithIdentity = createHabit({
+      id: 'h1',
+      identityStatement: 'prend soin de son corps',
+    })
+    const habitWithoutIdentity = createHabit({ id: 'h2' })
+    const habitWithEmptyIdentity = createHabit({ id: 'h3', identityStatement: '' })
+
+    const result = getHabitsWithIdentity([
+      habitWithIdentity,
+      habitWithoutIdentity,
+      habitWithEmptyIdentity,
+    ])
+
+    expect(result).toHaveLength(1)
+    expect(result[0].id).toBe('h1')
+  })
+
+  it('retourne plusieurs habitudes avec identité', () => {
+    const habit1 = createHabit({
+      id: 'h1',
+      identityStatement: 'prend soin de son corps',
+    })
+    const habit2 = createHabit({
+      id: 'h2',
+      identityStatement: 'lit chaque jour',
+    })
+    const habit3 = createHabit({ id: 'h3' })
+
+    const result = getHabitsWithIdentity([habit1, habit2, habit3])
+
+    expect(result).toHaveLength(2)
+    expect(result.map((h) => h.id)).toEqual(['h1', 'h2'])
   })
 })

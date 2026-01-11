@@ -14,6 +14,7 @@ import {
   CreateEntryInput,
   DEFAULT_APP_DATA,
   CURRENT_SCHEMA_VERSION,
+  RecalibrationRecord,
 } from '../types'
 
 /**
@@ -65,6 +66,8 @@ export interface UseAppDataActions {
   archiveHabit: (id: string) => boolean
   /** Restaure une habitude archivée */
   restoreHabit: (id: string) => boolean
+  /** Recalibre la dose d'une habitude après une absence prolongée */
+  recalibrateHabitDose: (id: string, newStartValue: number, level: number) => boolean
   /** Ajoute une entrée quotidienne */
   addEntry: (input: CreateEntryInput) => DailyEntry | null
   /** Récupère les entrées pour une date */
@@ -173,6 +176,49 @@ export function useAppData(): UseAppDataReturn {
       return updateHabit(id, { archivedAt: null })
     },
     [updateHabit]
+  )
+
+  /**
+   * Recalibre la dose d'une habitude après une absence prolongée
+   * Modifie startValue et createdAt, et enregistre dans l'historique
+   */
+  const recalibrateHabitDose = useCallback(
+    (id: string, newStartValue: number, level: number): boolean => {
+      let found = false
+      const today = getCurrentDate()
+
+      setData((prev) => ({
+        ...prev,
+        habits: prev.habits.map((habit) => {
+          if (habit.id === id) {
+            found = true
+
+            // Créer l'entrée d'historique de recalibration
+            const recalibrationRecord: RecalibrationRecord = {
+              date: today,
+              previousStartValue: habit.startValue,
+              newStartValue,
+              previousStartDate: habit.createdAt,
+              level,
+            }
+
+            // Ajouter à l'historique existant ou créer un nouveau tableau
+            const history = habit.recalibrationHistory ?? []
+
+            return {
+              ...habit,
+              startValue: newStartValue,
+              createdAt: today, // Nouveau point de départ pour le calcul de progression
+              recalibrationHistory: [...history, recalibrationRecord],
+            }
+          }
+          return habit
+        }),
+      }))
+
+      return found
+    },
+    []
   )
 
   const getHabitById = useCallback(
@@ -284,6 +330,7 @@ export function useAppData(): UseAppDataReturn {
     updateHabit,
     archiveHabit,
     restoreHabit,
+    recalibrateHabitDose,
     addEntry,
     getEntriesForDate,
     getEntriesForHabit,

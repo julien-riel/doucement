@@ -495,3 +495,108 @@ export function calculateDailyCompletionPercentage(
 
   return Math.round((totalPercentage / activeHabitsForDate.length) * 10) / 10
 }
+
+// ============================================================================
+// COMPOUND EFFECT METRICS (11.2)
+// ============================================================================
+
+/**
+ * Métriques de l'effet composé pour visualiser la progression depuis le début
+ */
+export interface CompoundEffectMetrics {
+  /** Dose initiale (jour 1) */
+  startDose: number
+  /** Dose actuelle (aujourd'hui) */
+  currentDose: number
+  /** Différence absolue (currentDose - startDose) */
+  absoluteChange: number
+  /** Pourcentage de progression depuis le début */
+  percentageChange: number
+  /** Nombre de jours depuis le début */
+  daysElapsed: number
+}
+
+/**
+ * Calcule les métriques de l'effet composé pour une habitude
+ * Permet de visualiser "D'où je viens → Où j'en suis"
+ *
+ * @param habit Habitude
+ * @param referenceDate Date de référence (YYYY-MM-DD), par défaut aujourd'hui
+ * @returns Métriques de l'effet composé
+ */
+export function calculateCompoundEffectMetrics(
+  habit: Habit,
+  referenceDate: string
+): CompoundEffectMetrics {
+  const startDose = habit.startValue
+  const currentDose = calculateTargetDose(habit, referenceDate)
+  const daysElapsed = daysBetween(habit.createdAt, referenceDate)
+
+  const absoluteChange = currentDose - startDose
+
+  // Calcul du pourcentage de changement
+  let percentageChange = 0
+  if (startDose > 0) {
+    percentageChange = ((currentDose - startDose) / startDose) * 100
+  } else if (currentDose > 0) {
+    // Si startDose est 0 et currentDose > 0, progression infinie (on met 100%)
+    percentageChange = 100
+  }
+
+  return {
+    startDose,
+    currentDose,
+    absoluteChange,
+    percentageChange: Math.round(percentageChange * 10) / 10, // 1 décimale
+    daysElapsed: Math.max(0, daysElapsed),
+  }
+}
+
+/**
+ * Type de milestone atteint
+ */
+export type MilestoneType =
+  | 'double' // ×2
+  | 'triple' // ×3
+  | 'half' // ÷2 (pour decrease)
+  | 'quarter' // ÷4 (pour decrease)
+  | 'fifty_percent' // +50%
+  | 'hundred_percent' // +100%
+  | 'two_hundred_percent' // +200%
+  | null
+
+/**
+ * Détecte si un milestone significatif a été atteint
+ * Utilisé pour les célébrations de progression
+ *
+ * @param habit Habitude
+ * @param referenceDate Date de référence
+ * @returns Type de milestone atteint ou null
+ */
+export function detectMilestone(habit: Habit, referenceDate: string): MilestoneType {
+  const metrics = calculateCompoundEffectMetrics(habit, referenceDate)
+
+  if (habit.direction === 'decrease') {
+    // Pour les habitudes de réduction: célébrer la diminution
+    if (metrics.startDose > 0 && metrics.currentDose > 0) {
+      const ratio = metrics.startDose / metrics.currentDose
+      if (ratio >= 4) return 'quarter' // Divisé par 4+
+      if (ratio >= 2) return 'half' // Divisé par 2+
+    }
+    return null
+  }
+
+  // Pour les habitudes d'augmentation
+  if (metrics.startDose > 0) {
+    const ratio = metrics.currentDose / metrics.startDose
+    if (ratio >= 3) return 'triple' // ×3
+    if (ratio >= 2) return 'double' // ×2
+  }
+
+  // Milestones basés sur le pourcentage
+  if (metrics.percentageChange >= 200) return 'two_hundred_percent'
+  if (metrics.percentageChange >= 100) return 'hundred_percent'
+  if (metrics.percentageChange >= 50) return 'fifty_percent'
+
+  return null
+}

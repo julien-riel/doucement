@@ -386,6 +386,158 @@ export const ADJUSTMENT_SUGGESTIONS = {
 } as const
 
 // ============================================================================
+// MESSAGES IDENTITÉ (Phase 9)
+// ============================================================================
+
+/**
+ * Textes pour la déclaration d'identité
+ */
+export const IDENTITY_STATEMENT = {
+  stepTitle: 'Qui voulez-vous devenir ?',
+  stepSubtitle:
+    "Le changement durable vient du changement d'identité, pas seulement du comportement.",
+  inputLabel: "Je deviens quelqu'un qui...",
+  inputPlaceholder: 'prend soin de son corps',
+  inputHelp: 'Décris la personne que tu veux devenir grâce à cette habitude.',
+  skipButton: 'Passer cette étape',
+  exampleStatements: [
+    'prend soin de son corps',
+    'lit chaque jour',
+    "maîtrise son temps d'écran",
+    'priorise son bien-être',
+    'tient ses engagements',
+  ],
+} as const
+
+/**
+ * Messages de rappel de l'identité (affichés dans WeeklyReview et HabitDetail)
+ */
+export const IDENTITY_REMINDER = {
+  headerLabel: 'Tu deviens',
+  weeklyReviewIntro: 'Souviens-toi de qui tu deviens :',
+} as const
+
+// ============================================================================
+// MESSAGES RECALIBRATION (Phase 10 - Mode Rattrapage)
+// ============================================================================
+
+/**
+ * Messages pour la recalibration après absence prolongée
+ */
+export const RECALIBRATION = {
+  title: 'On recalibre ensemble ?',
+  welcomeMessages: [
+    'Content·e de te revoir.',
+    "La vie a pris le dessus. Ce n'est pas un problème.",
+    'Te revoilà. Pas de pression.',
+    "Tu es de retour. C'est déjà une victoire.",
+  ],
+  explanation:
+    'Ta dose a évolué pendant ton absence. Pour reprendre en douceur, on peut ajuster le point de départ.',
+  currentDoseLabel: 'Dose actuelle',
+  lastDoneLabel: 'Dernière dose accomplie',
+  levelOptions: {
+    fifty: 'Reprendre à 50%',
+    fiftyDescription: 'Plus facile, reprise en douceur',
+    seventyFive: 'Reprendre à 75%',
+    seventyFiveDescription: 'Équilibré',
+    full: 'Reprendre là où tu en étais',
+    fullDescription: 'Ambitieux',
+    custom: 'Choisir une valeur personnalisée',
+    customDescription: 'Tu décides',
+  },
+  newDoseLabel: 'Nouvelle dose',
+  confirmButton: 'Recalibrer',
+  skipButton: 'Garder ma dose actuelle',
+  /** Messages de succès après recalibration */
+  successMessages: [
+    "C'est noté. Ta nouvelle dose démarre aujourd'hui.",
+    "Recalibration effectuée. L'important, c'est de reprendre.",
+    'Nouveau départ, même trajectoire.',
+  ],
+  /** Message si l'utilisateur refuse la recalibration */
+  skipMessage: (dose: number, unit: string) =>
+    `D'accord. Ta dose reste à ${dose} ${unit}. Tu peux toujours ajuster plus tard.`,
+  /** Conservé pour rétrocompatibilité */
+  successMessage: 'Dose recalibrée. On reprend doucement.',
+} as const
+
+// ============================================================================
+// MESSAGES EFFET COMPOSÉ (Phase 11)
+// ============================================================================
+
+/**
+ * Textes pour la visualisation de l'effet composé
+ */
+export const COMPOUND_EFFECT = {
+  sectionTitle: "D'où tu viens",
+  startLabel: 'Jour 1',
+  currentLabel: "Aujourd'hui",
+  progressArrow: '→',
+  noProgressYet: 'Ta progression se construira avec le temps.',
+  daysLabel: (days: number) =>
+    days === 1 ? '1 jour de progression' : `${days} jours de progression`,
+} as const
+
+/**
+ * Messages de milestone pour célébrer les paliers
+ */
+export const MILESTONE_CELEBRATION = {
+  double: {
+    title: 'Dose doublée !',
+    message: 'Tu as doublé ta dose initiale. Impressionnant.',
+    emoji: '×2',
+  },
+  triple: {
+    title: 'Dose triplée !',
+    message: 'Trois fois ta dose de départ. Incroyable progression.',
+    emoji: '×3',
+  },
+  half: {
+    title: 'Divisé par deux !',
+    message: 'Tu as réduit de moitié. Bel effort.',
+    emoji: '÷2',
+  },
+  quarter: {
+    title: 'Divisé par quatre !',
+    message: 'Un quart de ta dose initiale. Remarquable.',
+    emoji: '÷4',
+  },
+  fifty_percent: {
+    title: '+50% atteint !',
+    message: 'Tu as progressé de moitié depuis le début.',
+    emoji: '+50%',
+  },
+  hundred_percent: {
+    title: '+100% atteint !',
+    message: "Tu as doublé ta capacité. L'effet composé en action.",
+    emoji: '+100%',
+  },
+  two_hundred_percent: {
+    title: '+200% atteint !',
+    message: 'Triple de ta valeur initiale. Extraordinaire.',
+    emoji: '+200%',
+  },
+} as const
+
+// ============================================================================
+// MESSAGES PREMIER CHECK-IN IMMÉDIAT (Phase 12)
+// ============================================================================
+
+/**
+ * Textes pour le premier check-in après création d'habitude
+ */
+export const FIRST_CHECKIN = {
+  title: 'Première victoire ?',
+  subtitle: "Avez-vous déjà fait quelque chose aujourd'hui ?",
+  yesButton: "Oui, je l'enregistre",
+  noButton: 'Non, je commence demain',
+  successTitle: 'Première dose enregistrée',
+  successMessage: 'Le voyage commence maintenant.',
+  successEmoji: '✨',
+} as const
+
+// ============================================================================
 // TEXTES LÉGAUX ET PARAMÈTRES
 // ============================================================================
 

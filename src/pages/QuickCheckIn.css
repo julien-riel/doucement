@@ -1,0 +1,147 @@
+.quick-checkin {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--color-neutral-50);
+  padding: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+}
+
+.quick-checkin--loading,
+.quick-checkin--empty {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Header */
+.quick-checkin__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--color-neutral-200);
+}
+
+.quick-checkin__header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.quick-checkin__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-neutral-800);
+  margin: 0;
+}
+
+.quick-checkin__progress {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--color-primary-500);
+  background-color: var(--color-primary-50);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-full);
+}
+
+.quick-checkin__close {
+  font-size: var(--text-2xl);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* Empty state */
+.quick-checkin__empty-state {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  align-items: center;
+}
+
+.quick-checkin__empty-state p {
+  color: var(--color-neutral-600);
+  font-size: var(--text-lg);
+}
+
+/* List */
+.quick-checkin__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Cards */
+.quick-checkin__card {
+  padding: var(--spacing-4);
+}
+
+.quick-checkin__card--completed,
+.quick-checkin__card--exceeded {
+  background: linear-gradient(135deg, var(--color-secondary-50), var(--color-secondary-100));
+  border-color: var(--color-secondary-300);
+}
+
+.quick-checkin__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-3);
+}
+
+.quick-checkin__card-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.quick-checkin__emoji {
+  font-size: var(--text-xl);
+}
+
+.quick-checkin__name {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--color-neutral-800);
+}
+
+.quick-checkin__dose {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+}
+
+.quick-checkin__actions {
+  /* SimpleCheckIn component styling is handled by its own CSS */
+}
+
+/* Footer */
+.quick-checkin__footer {
+  margin-top: auto;
+  padding-top: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  align-items: center;
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+.quick-checkin__success {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-secondary-600);
+  margin: 0;
+}

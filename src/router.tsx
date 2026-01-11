@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import {
   Onboarding,
@@ -12,6 +13,34 @@ import {
 import { MainLayout } from './components/layout'
 
 /**
+ * Lazy-loaded QuickCheckIn component for optimal loading performance
+ * Loaded in its own chunk for fast PWA shortcut access
+ */
+const QuickCheckIn = lazy(() => import('./pages/QuickCheckIn'))
+
+/**
+ * Minimal loading fallback for quick-checkin page
+ * Styled inline to avoid loading additional CSS bundle
+ */
+function QuickCheckInFallback() {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        backgroundColor: '#FDFCFB',
+        fontFamily: 'system-ui, sans-serif',
+        color: '#57534E',
+      }}
+    >
+      <span>Chargement...</span>
+    </div>
+  )
+}
+
+/**
  * Configuration du routeur de l'application
  * Routes principales :
  * - / : Écran Aujourd'hui (par défaut)
@@ -20,6 +49,7 @@ import { MainLayout } from './components/layout'
  * - /habits/:id : Détail d'une habitude
  * - /create : Création d'une nouvelle habitude
  * - /settings : Paramètres de l'application
+ * - /quick-checkin : Check-in rapide (sans navigation, accessible via PWA shortcut)
  */
 export const router = createBrowserRouter([
   {
@@ -84,6 +114,14 @@ export const router = createBrowserRouter([
       <MainLayout>
         <WeeklyReview />
       </MainLayout>
+    ),
+  },
+  {
+    path: '/quick-checkin',
+    element: (
+      <Suspense fallback={<QuickCheckInFallback />}>
+        <QuickCheckIn />
+      </Suspense>
     ),
   },
 ])

@@ -98,6 +98,38 @@
   font-style: italic;
 }
 
+/* Identities section */
+.weekly-review__identities {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.weekly-review__identity-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background: linear-gradient(135deg, var(--primary-50), var(--secondary-50));
+  border-color: var(--primary-200);
+}
+
+.weekly-review__identity-emoji {
+  font-size: var(--text-2xl);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.weekly-review__identity-text {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  font-style: italic;
+  color: var(--neutral-800);
+  margin: 0;
+  line-height: 1.4;
+}
+
 /* Global stats */
 .weekly-review__global-stats {
   display: flex;
