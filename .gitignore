@@ -28,3 +28,4 @@ playwright-report/
 # Build cache
 .vite/
 dev-dist/
+tsconfig.app.tsbuildinfo

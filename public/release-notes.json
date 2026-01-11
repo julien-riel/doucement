@@ -1,6 +1,17 @@
 {
-  "currentVersion": "1.7.1",
+  "currentVersion": "1.7.2",
   "releases": [
+    {
+      "version": "1.7.2",
+      "date": "2026-01-11",
+      "title": "Correction des tests E2E",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "Tests adaptés au nouveau wizard avec les étapes identity et first-checkin"
+        }
+      ]
+    },
     {
       "version": "1.7.1",
       "date": "2026-01-11",
