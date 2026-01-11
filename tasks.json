@@ -1040,43 +1040,49 @@
           "id": "e2e.6",
           "name": "Créer le test E2E: Détection d'absence",
           "description": "Utiliser public/test-data/absence-detected.json, vérifier WelcomeBackMessage",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "e2e.7",
           "name": "Créer le test E2E: Revue hebdomadaire",
           "description": "Utiliser public/test-data/weekly-review-due.json, tester l'écran WeeklyReview",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "e2e.8",
           "name": "Créer le test E2E: Atteinte d'objectif",
           "description": "Utiliser public/test-data/goal-reached.json, vérifier les messages de félicitations",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "e2e.9",
           "name": "Créer le test E2E: Plateau de croissance",
           "description": "Utiliser public/test-data/growth-plateau.json, tester la détection de stagnation",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "e2e.10",
           "name": "Créer le test E2E: Habit stacking",
           "description": "Utiliser public/test-data/habit-stacking.json, vérifier l'affichage des chaînes",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "e2e.11",
           "name": "Créer le test E2E: Pause planifiée",
           "description": "Utiliser public/test-data/planned-pause.json, tester l'affichage et comportement",
-          "status": "pending",
-          "priority": "medium"
+          "status": "completed",
+          "priority": "medium",
+          "completedAt": "2026-01-10"
         },
         {
           "id": "e2e.12",
@@ -1184,8 +1190,8 @@
   ],
   "stats": {
     "totalTasks": 139,
-    "completed": 122,
+    "completed": 128,
     "inProgress": 0,
-    "pending": 17
+    "pending": 11
   }
 }

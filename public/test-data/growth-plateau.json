@@ -60,7 +60,8 @@
     {"id": "p37", "habitId": "habit-meditation-plateau", "date": "2026-01-06", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-06T08:00:00Z", "updatedAt": "2026-01-06T08:00:00Z"},
     {"id": "p38", "habitId": "habit-meditation-plateau", "date": "2026-01-07", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-07T08:00:00Z", "updatedAt": "2026-01-07T08:00:00Z"},
     {"id": "p39", "habitId": "habit-meditation-plateau", "date": "2026-01-08", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-08T08:00:00Z", "updatedAt": "2026-01-08T08:00:00Z"},
-    {"id": "p40", "habitId": "habit-meditation-plateau", "date": "2026-01-09", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-09T08:00:00Z", "updatedAt": "2026-01-09T08:00:00Z"}
+    {"id": "p40", "habitId": "habit-meditation-plateau", "date": "2026-01-09", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-09T08:00:00Z", "updatedAt": "2026-01-09T08:00:00Z"},
+    {"id": "p41", "habitId": "habit-meditation-plateau", "date": "2026-01-10", "targetDose": 10, "actualValue": 10, "createdAt": "2026-01-10T08:00:00Z", "updatedAt": "2026-01-10T08:00:00Z"}
   ],
   "preferences": {
     "onboardingCompleted": true,
