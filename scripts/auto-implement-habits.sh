@@ -282,6 +282,7 @@ main() {
         if [ "$validation_passed" = true ]; then
             log_success "✅ Itération $ITERATION réussie!"
             do_commit $ITERATION
+            do_release
         else
             log_error "❌ Itération $ITERATION échouée après $MAX_FIX_ATTEMPTS tentatives"
             log_info "Arrêt pour correction manuelle. Voir le log: $LOG_FILE"
