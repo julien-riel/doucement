@@ -2,3 +2,10 @@
 export * from './absence'
 export * from './habitDisplay'
 export * from './patternAnalysis'
+
+// Re-export specific functions for convenience
+export {
+  getDaysSinceCreation,
+  isEligibleForTransition,
+  getHabitsEligibleForTransition,
+} from './habitDisplay'

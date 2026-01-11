@@ -51,3 +51,6 @@ export { default as PatternInsights } from './PatternInsights'
 export type { PatternInsightsProps } from './PatternInsights'
 
 export { default as SuggestedHabitCard } from './SuggestedHabitCard'
+
+export { default as TransitionSuggestion } from './TransitionSuggestion'
+export type { TransitionSuggestionProps } from './TransitionSuggestion'

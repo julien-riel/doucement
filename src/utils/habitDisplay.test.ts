@@ -4,8 +4,15 @@
  */
 
 import { describe, it, expect } from 'vitest'
-import { buildIntentionText, buildHabitChains, HabitDataItem } from './habitDisplay'
-import { Habit } from '../types'
+import {
+  buildIntentionText,
+  buildHabitChains,
+  HabitDataItem,
+  getDaysSinceCreation,
+  isEligibleForTransition,
+  getHabitsEligibleForTransition,
+} from './habitDisplay'
+import { Habit, DailyEntry } from '../types'
 
 // ============================================================================
 // TEST FIXTURES
@@ -323,5 +330,194 @@ describe('buildHabitChains', () => {
     // Solo: h3
     expect(result[1]).toHaveLength(1)
     expect(result[1][0].habit.id).toBe('h3')
+  })
+})
+
+// ============================================================================
+// getDaysSinceCreation TESTS
+// ============================================================================
+
+describe('getDaysSinceCreation', () => {
+  it('retourne 0 si créé le même jour', () => {
+    const habit = createHabit({ createdAt: '2026-01-10' })
+    expect(getDaysSinceCreation(habit, '2026-01-10')).toBe(0)
+  })
+
+  it('retourne le nombre exact de jours', () => {
+    const habit = createHabit({ createdAt: '2026-01-01' })
+    expect(getDaysSinceCreation(habit, '2026-01-10')).toBe(9)
+  })
+
+  it('retourne 30 jours exactement', () => {
+    const habit = createHabit({ createdAt: '2025-12-11' })
+    expect(getDaysSinceCreation(habit, '2026-01-10')).toBe(30)
+  })
+
+  it('fonctionne sur plusieurs mois', () => {
+    const habit = createHabit({ createdAt: '2025-10-01' })
+    expect(getDaysSinceCreation(habit, '2026-01-10')).toBe(101)
+  })
+})
+
+// ============================================================================
+// isEligibleForTransition TESTS
+// ============================================================================
+
+describe('isEligibleForTransition', () => {
+  it("retourne false si l'habitude n'est pas en mode simple", () => {
+    const habit = createHabit({
+      trackingMode: 'detailed',
+      createdAt: '2025-12-01',
+    })
+    expect(isEligibleForTransition(habit, '2026-01-10')).toBe(false)
+  })
+
+  it("retourne false si l'habitude n'a pas de trackingMode (undefined)", () => {
+    const habit = createHabit({
+      createdAt: '2025-12-01',
+    })
+    expect(isEligibleForTransition(habit, '2026-01-10')).toBe(false)
+  })
+
+  it("retourne false si l'habitude a moins de 30 jours", () => {
+    const habit = createHabit({
+      trackingMode: 'simple',
+      createdAt: '2026-01-01',
+    })
+    expect(isEligibleForTransition(habit, '2026-01-10')).toBe(false)
+  })
+
+  it("retourne true si l'habitude est simple et a 30 jours", () => {
+    const habit = createHabit({
+      trackingMode: 'simple',
+      createdAt: '2025-12-11',
+    })
+    expect(isEligibleForTransition(habit, '2026-01-10')).toBe(true)
+  })
+
+  it("retourne true si l'habitude est simple et a plus de 30 jours", () => {
+    const habit = createHabit({
+      trackingMode: 'simple',
+      createdAt: '2025-11-01',
+    })
+    expect(isEligibleForTransition(habit, '2026-01-10')).toBe(true)
+  })
+})
+
+// ============================================================================
+// getHabitsEligibleForTransition TESTS
+// ============================================================================
+
+describe('getHabitsEligibleForTransition', () => {
+  /**
+   * Crée une entrée de test
+   */
+  function createEntry(overrides: Partial<DailyEntry> = {}): DailyEntry {
+    return {
+      id: 'test-entry',
+      habitId: 'test-habit',
+      date: '2026-01-10',
+      targetDose: 10,
+      actualValue: 10,
+      createdAt: '2026-01-10T10:00:00Z',
+      updatedAt: '2026-01-10T10:00:00Z',
+      ...overrides,
+    }
+  }
+
+  it('retourne un tableau vide si aucune habitude', () => {
+    expect(getHabitsEligibleForTransition([], [], '2026-01-10')).toEqual([])
+  })
+
+  it("retourne un tableau vide si aucune habitude n'est éligible", () => {
+    const habit = createHabit({
+      trackingMode: 'detailed',
+      createdAt: '2025-12-01',
+    })
+    expect(getHabitsEligibleForTransition([habit], [], '2026-01-10')).toEqual([])
+  })
+
+  it("filtre les habitudes avec moins de 5 entrées", () => {
+    const habit = createHabit({
+      id: 'h1',
+      trackingMode: 'simple',
+      createdAt: '2025-12-01',
+    })
+    const entries = [
+      createEntry({ id: 'e1', habitId: 'h1', date: '2026-01-05' }),
+      createEntry({ id: 'e2', habitId: 'h1', date: '2026-01-06' }),
+      createEntry({ id: 'e3', habitId: 'h1', date: '2026-01-07' }),
+      // Seulement 3 entrées - pas assez
+    ]
+    expect(getHabitsEligibleForTransition([habit], entries, '2026-01-10')).toEqual([])
+  })
+
+  it("retourne les habitudes éligibles avec au moins 5 entrées", () => {
+    const habit = createHabit({
+      id: 'h1',
+      trackingMode: 'simple',
+      createdAt: '2025-12-01',
+    })
+    const entries = [
+      createEntry({ id: 'e1', habitId: 'h1', date: '2026-01-05' }),
+      createEntry({ id: 'e2', habitId: 'h1', date: '2026-01-06' }),
+      createEntry({ id: 'e3', habitId: 'h1', date: '2026-01-07' }),
+      createEntry({ id: 'e4', habitId: 'h1', date: '2026-01-08' }),
+      createEntry({ id: 'e5', habitId: 'h1', date: '2026-01-09' }),
+    ]
+    const result = getHabitsEligibleForTransition([habit], entries, '2026-01-10')
+    expect(result).toHaveLength(1)
+    expect(result[0].id).toBe('h1')
+  })
+
+  it("filtre correctement parmi plusieurs habitudes", () => {
+    const habitEligible = createHabit({
+      id: 'h1',
+      name: 'Eligible',
+      trackingMode: 'simple',
+      createdAt: '2025-12-01',
+    })
+    const habitNotSimple = createHabit({
+      id: 'h2',
+      name: 'Not Simple',
+      trackingMode: 'detailed',
+      createdAt: '2025-12-01',
+    })
+    const habitTooRecent = createHabit({
+      id: 'h3',
+      name: 'Too Recent',
+      trackingMode: 'simple',
+      createdAt: '2026-01-01',
+    })
+    const habitNoEntries = createHabit({
+      id: 'h4',
+      name: 'No Entries',
+      trackingMode: 'simple',
+      createdAt: '2025-12-01',
+    })
+
+    const entries = [
+      // Entrées pour h1 (éligible)
+      createEntry({ id: 'e1', habitId: 'h1', date: '2026-01-05' }),
+      createEntry({ id: 'e2', habitId: 'h1', date: '2026-01-06' }),
+      createEntry({ id: 'e3', habitId: 'h1', date: '2026-01-07' }),
+      createEntry({ id: 'e4', habitId: 'h1', date: '2026-01-08' }),
+      createEntry({ id: 'e5', habitId: 'h1', date: '2026-01-09' }),
+      // Entrées pour h3 (trop récent mais a des entrées)
+      createEntry({ id: 'e6', habitId: 'h3', date: '2026-01-05' }),
+      createEntry({ id: 'e7', habitId: 'h3', date: '2026-01-06' }),
+      createEntry({ id: 'e8', habitId: 'h3', date: '2026-01-07' }),
+      createEntry({ id: 'e9', habitId: 'h3', date: '2026-01-08' }),
+      createEntry({ id: 'e10', habitId: 'h3', date: '2026-01-09' }),
+    ]
+
+    const result = getHabitsEligibleForTransition(
+      [habitEligible, habitNotSimple, habitTooRecent, habitNoEntries],
+      entries,
+      '2026-01-10'
+    )
+
+    expect(result).toHaveLength(1)
+    expect(result[0].id).toBe('h1')
   })
 })

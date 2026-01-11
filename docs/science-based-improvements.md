@@ -233,6 +233,175 @@ La réflexion régulière renforce l'apprentissage et permet l'ajustement des st
 
 ---
 
+## 9. Identité & Motivation (« Le Pourquoi »)
+
+### Fondement scientifique
+
+*Atomic Habits* (James Clear) insiste sur le pouvoir de l'identité : « Je suis quelqu'un qui fait de l'exercice » est plus puissant que « Je veux faire 50 pompes ». Le changement durable vient du changement d'identité, pas seulement du changement de comportement.
+
+La recherche en psychologie sociale montre que les déclarations d'identité :
+- Augmentent la cohérence comportementale
+- Renforcent la motivation intrinsèque
+- Créent un engagement plus fort envers le changement
+
+### Implémentation prévue
+
+#### Données
+
+```typescript
+interface Habit {
+  // ... champs existants
+  identityStatement?: string;  // "Je deviens quelqu'un qui prend soin de son corps"
+}
+```
+
+#### UX
+
+- Étape optionnelle dans le wizard de création
+- Question : « Qui voulez-vous devenir ? »
+- Exemples guidés :
+  - « Je deviens quelqu'un qui prend soin de son corps »
+  - « Je suis une personne qui lit chaque jour »
+  - « Je deviens quelqu'un qui maîtrise son temps »
+- Affichage sur HabitDetail et WeeklyReview
+
+---
+
+## 10. Mode Rattrapage Intelligent
+
+### Fondement scientifique
+
+Après une absence prolongée, la « dose cible » calculée peut être devenue irréaliste. Forcer l'utilisateur à atteindre un objectif impossible garantit l'abandon. La recherche sur la « règle des 2 jours » (Clear) suggère de ne jamais manquer deux fois de suite, mais la vraie clé est de faciliter le retour sans jugement.
+
+### Implémentation prévue
+
+#### Logique
+
+- Détecter 7+ jours sans check-in (différent des 2-3 jours du WelcomeBackMessage)
+- Proposer une recalibration de la dose au niveau réaliste
+- Conserver l'historique complet
+
+#### Données
+
+```typescript
+interface RecalibrationEvent {
+  date: string;
+  previousStartingValue: number;
+  newStartingValue: number;
+  reason: 'extended_absence' | 'user_request';
+}
+
+interface Habit {
+  // ... champs existants
+  recalibrationHistory?: RecalibrationEvent[];
+}
+```
+
+#### UX
+
+- Modal bienveillant : « Tu étais absent un moment. On recalibre ensemble ? »
+- Options de reprise : 50%, 75%, 100% de la dernière dose
+- Pas de compteur de « jours manqués »
+- Pas de culpabilisation
+
+---
+
+## 11. Visualisation de l'Effet Composé
+
+### Fondement scientifique
+
+L'effet composé est le cœur de la philosophie *Atomic Habits* : 1% d'amélioration quotidienne = 37x en un an. Mais sans visualisation, l'utilisateur ne perçoit pas cette progression invisible.
+
+La recherche montre que la « prise de conscience du progrès » :
+- Augmente la motivation
+- Crée un attachement émotionnel au comportement
+- Renforce le sentiment de compétence (Self-Determination Theory)
+
+### Implémentation prévue
+
+#### Données
+
+```typescript
+interface CompoundProgressMetrics {
+  startingValue: number;
+  currentValue: number;
+  percentageGrowth: number;
+  absoluteGrowth: number;
+  milestones: Milestone[];
+}
+
+interface Milestone {
+  type: 'double' | 'half' | 'percentage';
+  value: number;  // ex: 50, 100, 200
+  reachedAt: string;
+}
+```
+
+#### UX
+
+- Affichage simple sur HabitDetail : « Jour 1 : 8 pompes → Aujourd'hui : 14 pompes »
+- Détection automatique des milestones (+50%, +100%, double)
+- Célébration sobre des paliers
+- Section « Votre progression depuis le début » dans WeeklyReview
+
+---
+
+## 12. Premier Check-in Immédiat (Day One)
+
+### Fondement scientifique
+
+La théorie de l'engagement (Cialdini) montre qu'un premier pas, même petit, augmente significativement la probabilité de continuer. Le « foot-in-the-door » technique fonctionne aussi pour les habitudes.
+
+Le problème : après l'onboarding, l'utilisateur doit attendre le lendemain pour sa première « dose ». C'est un trou dans l'engagement.
+
+### Implémentation prévue
+
+#### UX
+
+- Après création : « Voulez-vous enregistrer ce que vous avez déjà fait aujourd'hui ? »
+- Check-in immédiat possible le jour de création
+- Message de première victoire : « Première dose enregistrée. Le voyage commence maintenant. »
+
+---
+
+## 13. Export Visuel Partageable
+
+### Fondement scientifique
+
+La célébration renforce les comportements positifs (BJ Fogg, *Tiny Habits*). Le partage social, bien que non compétitif, permet une célébration publique qui :
+- Renforce l'identité
+- Crée de la fierté
+- Peut inspirer d'autres sans les juger
+
+L'important est d'éviter la comparaison sociale tout en permettant la célébration personnelle.
+
+### Implémentation prévue
+
+#### UX
+
+- Carte visuelle générée en PNG
+- Contenu : emoji, nom, progression (jour 1 → aujourd'hui), jours actifs
+- Design sobre avec branding léger « Doucement »
+- Téléchargement ou partage via Web Share API
+
+---
+
+## 14. Widget Mobile (PWA)
+
+### Fondement scientifique
+
+La friction est l'ennemi des habitudes (Clear, Fogg). Chaque seconde de friction augmente le risque de non-action. Pour une app d'usage quotidien < 30 secondes, ouvrir l'app est déjà une friction significative.
+
+### Limitations techniques
+
+Les PWA ne supportent pas les widgets natifs iOS/Android. Les alternatives sont :
+
+1. **PWA Shortcuts** - Accès rapide via appui long sur l'icône
+2. **Page Quick Check-in** - Interface ultra-minimaliste
+3. **App Badge** - Nombre de doses restantes (support limité)
+
+---
+
 ## Priorisation
 
 | Priorité | Fonctionnalité | Effort | Impact | Phase |
@@ -240,11 +409,17 @@ La réflexion régulière renforce l'apprentissage et permet l'ajustement des st
 | Haute | Implementation intentions | Moyen | Très élevé | 6 |
 | Haute | Habit stacking | Moyen | Élevé | 6 |
 | Haute | Récupération bienveillante | Faible | Élevé | 6 |
+| Haute | **Identité & Motivation** | Moyen | Très élevé | 9 |
+| Haute | **Mode Rattrapage Intelligent** | Moyen | Très élevé | 10 |
+| Haute | **Visualisation Effet Composé** | Faible | Élevé | 11 |
 | Moyenne | Mode binaire débutant | Faible | Moyen | 6 |
 | Moyenne | Friction intentionnelle | Faible | Moyen | 6 |
 | Moyenne | Revue hebdomadaire enrichie | Moyen | Moyen | 6 |
+| Moyenne | **Premier Check-in Immédiat** | Faible | Moyen | 12 |
+| Moyenne | **Export Visuel Partageable** | Moyen | Moyen | 13 |
 | Basse | Visualisation mentale | Moyen | Moyen | Future |
 | Basse | Contextualisation temporelle | Moyen | Moyen | Future |
+| Basse | **Widget Mobile (PWA)** | Moyen | Moyen | 14 |
 
 ---
 

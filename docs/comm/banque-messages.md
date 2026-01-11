@@ -204,6 +204,145 @@ Ce document contient l'ensemble des messages, encouragements et micro-textes de 
 
 ---
 
+## Messages d'identité & motivation
+
+### Étape de création : Phrase identitaire
+
+**Titre :** « Qui voulez-vous devenir ? »
+**Sous-titre :** « Cette phrase vous rappellera pourquoi vous avez commencé. »
+**Placeholder :** « Je deviens quelqu'un qui... »
+
+**Exemples suggérés :**
+- « Je deviens quelqu'un qui prend soin de son corps »
+- « Je suis une personne qui lit chaque jour »
+- « Je deviens quelqu'un qui maîtrise son temps d'écran »
+- « Je suis quelqu'un qui honore ses engagements envers soi-même »
+
+**Bouton passer :** « Passer cette étape »
+
+### Rappel de l'identité (HabitDetail, WeeklyReview)
+
+- « Vous avez dit vouloir devenir : [phrase identitaire] »
+- « Rappelez-vous : [phrase identitaire] »
+- « Chaque jour, vous vous rapprochez de qui vous voulez être. »
+
+---
+
+## Messages de recalibration (retour après absence prolongée)
+
+### Détection d'absence prolongée (7+ jours)
+
+**Titre :** « Content·e de vous revoir »
+**Message :** « La vie a pris le dessus. Ce n'est pas un problème. »
+**Sous-titre :** « Votre dose a continué à évoluer. Voulez-vous recalibrer ? »
+
+### Options de recalibration
+
+- « Reprendre à 50% de ma dernière dose »
+- « Reprendre à 75% de ma dernière dose »
+- « Reprendre là où j'en étais »
+- « Choisir une valeur personnalisée »
+
+### Confirmation de recalibration
+
+- « C'est noté. Votre nouvelle dose démarre aujourd'hui. »
+- « Recalibration effectuée. L'important, c'est de reprendre. »
+- « Nouveau départ, même trajectoire. »
+
+### Message si l'utilisateur refuse la recalibration
+
+- « D'accord. Votre dose reste à [X]. Vous pouvez toujours ajuster plus tard. »
+
+---
+
+## Messages de visualisation de l'effet composé
+
+### Comparaison jour 1 → aujourd'hui
+
+- « Jour 1 : [X] → Aujourd'hui : [Y] »
+- « Depuis le début : +[Z]% de progression »
+- « Vous avez parcouru du chemin. »
+
+### Milestones de progression
+
+**+50% atteint :**
+- « Vous faites 50% de plus qu'au début. L'effet composé en action. »
+- « +50%. Pas mal, non ? »
+
+**+100% atteint (double) :**
+- « Vous avez doublé votre dose initiale. Impressionnant. »
+- « ×2. Vous avez doublé. »
+
+**+200% atteint (triple) :**
+- « ×3. Trois fois plus qu'au début. L'effet composé est puissant. »
+
+### Milestone dans WeeklyReview
+
+- « Cette semaine, vous avez atteint un nouveau palier : [milestone] »
+- « Votre progression depuis le début : [X] → [Y] »
+
+---
+
+## Messages de premier check-in (Day One)
+
+### Proposition après création d'habitude
+
+**Titre :** « Première victoire ? »
+**Message :** « Avez-vous déjà fait quelque chose aujourd'hui ? »
+**Bouton oui :** « Oui, je l'enregistre »
+**Bouton non :** « Non, je commence demain »
+
+### Confirmation du premier check-in
+
+- « Première dose enregistrée. Le voyage commence maintenant. »
+- « C'est parti. Votre première dose est dans les livres. »
+- « Premier pas fait. C'est le plus important. »
+
+### Si l'utilisateur choisit de commencer demain
+
+- « Parfait. Votre première dose vous attendra demain matin. »
+
+---
+
+## Messages d'export visuel partageable
+
+### Bouton de partage
+
+- « Partager ma progression »
+- « Célébrer mon parcours »
+
+### Titre de la carte partageable
+
+- « [X] jours sur ma trajectoire »
+- « Mon parcours avec [nom de l'habitude] »
+
+### Contenu de la carte
+
+- « Jour 1 : [X] → Maintenant : [Y] »
+- « [N] jours actifs »
+- « Avec Doucement »
+
+### Confirmation d'export
+
+- « Image téléchargée. Partagez votre fierté. »
+- « Votre progression est prête à être partagée. »
+
+---
+
+## Messages pour le quick check-in (widget/shortcut)
+
+### Écran de check-in rapide
+
+**Titre :** « Check-in rapide »
+**Sous-titre :** « Vos doses du jour »
+
+### Confirmation rapide
+
+- « ✓ Enregistré »
+- « C'est fait. »
+
+---
+
 ## Notes pour l'implémentation
 
 Les messages de check-in devraient être affichés de manière aléatoire parmi les options disponibles pour éviter la répétition et maintenir un sentiment de fraîcheur.

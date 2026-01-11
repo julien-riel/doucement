@@ -605,5 +605,191 @@ Avant de valider un écran :
 
 ---
 
+## 11. Nouveaux composants (Phases 9-14)
+
+### 11.1 Composant IdentityPrompt
+
+Étape optionnelle dans le wizard de création pour définir la phrase identitaire.
+
+**Structure :**
+```
+┌─────────────────────────────────────┐
+│                                     │
+│  Qui voulez-vous devenir ?          │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │ Je deviens quelqu'un qui... │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  Exemples :                         │
+│  • Prend soin de son corps          │
+│  • Lit chaque jour                  │
+│  • Maîtrise son temps d'écran       │
+│                                     │
+│  [Passer] [           Continuer    ]│
+└─────────────────────────────────────┘
+```
+
+**Spécifications :**
+- Input avec placeholder inspirant
+- Chips cliquables pour les exemples
+- Bouton « Passer » discret (ghost)
+
+### 11.2 Composant RecalibrationPrompt
+
+Modal affichée après détection d'absence prolongée (7+ jours).
+
+**Structure :**
+```
+┌─────────────────────────────────────┐
+│                                     │
+│  🌱 Content·e de vous revoir        │
+│                                     │
+│  La vie a pris le dessus.           │
+│  Ce n'est pas un problème.          │
+│                                     │
+│  Votre dose a évolué pendant        │
+│  votre absence. On recalibre ?      │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │ ○ Reprendre à 50%           │    │
+│  │ ○ Reprendre à 75%           │    │
+│  │ ● Reprendre là où j'en étais│    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  [Garder ma dose actuelle]          │
+│  [         Recalibrer             ] │
+└─────────────────────────────────────┘
+```
+
+**Spécifications :**
+- Fond : gradient primary-50 → secondary-50
+- Radio buttons pour les options
+- Aucun compteur de jours « manqués »
+
+### 11.3 Composant ProgressComparison
+
+Affichage de l'effet composé sur HabitDetail.
+
+**Structure :**
+```
+┌─────────────────────────────────────┐
+│                                     │
+│  D'où vous venez                    │
+│                                     │
+│  Jour 1          →      Aujourd'hui │
+│   8 pompes                14 pompes │
+│                                     │
+│  ─────────────────────────────────  │
+│                   +75%              │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Spécifications :**
+- Fond : neutral-100
+- Valeurs en text-2xl, font-bold
+- Pourcentage en secondary-500
+
+### 11.4 Composant MilestoneCard
+
+Célébration des paliers de progression.
+
+**Structure :**
+```
+┌─────────────────────────────────────┐
+│                                     │
+│  🎉 Nouveau palier atteint !        │
+│                                     │
+│         ×2                          │
+│  Vous avez doublé votre dose        │
+│  initiale. Impressionnant.          │
+│                                     │
+│  [         Continuer              ] │
+└─────────────────────────────────────┘
+```
+
+**Spécifications :**
+- Fond : gradient secondary-50 → secondary-100
+- Animation : celebrate (voir section 6)
+- Chiffre du palier en text-4xl
+
+### 11.5 Composant FirstCheckInPrompt
+
+Modal après création d'habitude pour le premier check-in.
+
+**Structure :**
+```
+┌─────────────────────────────────────┐
+│                                     │
+│  ✨ Première victoire ?             │
+│                                     │
+│  Avez-vous déjà fait quelque        │
+│  chose aujourd'hui ?                │
+│                                     │
+│  [Non, je commence demain]          │
+│  [      Oui, je l'enregistre      ] │
+└─────────────────────────────────────┘
+```
+
+**Spécifications :**
+- Bouton principal : success
+- Bouton secondaire : ghost
+
+### 11.6 Composant ShareableProgressCard
+
+Carte visuelle pour export/partage.
+
+**Structure (rendu image) :**
+```
+┌─────────────────────────────────────┐
+│                                     │
+│  💪 Push-ups                        │
+│  30 jours sur ma trajectoire        │
+│                                     │
+│  Jour 1 : 8   →   Maintenant : 24   │
+│                                     │
+│  ══════════════════════════════     │
+│  22 jours actifs                    │
+│                                     │
+│              doucement              │
+└─────────────────────────────────────┘
+```
+
+**Spécifications :**
+- Dimensions : 1080×1080 px (carré Instagram)
+- Fond : gradient warm neutral
+- Branding discret en bas
+
+### 11.7 Écran QuickCheckIn
+
+Page minimaliste pour le check-in rapide via shortcut.
+
+**Structure :**
+```
+┌─────────────────────────────────────┐
+│  Check-in rapide              [×]   │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │ 💪 Push-ups         [15]   │    │
+│  │         [    ✓ Fait      ] │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │ 🧘 Méditation        [5 min]│    │
+│  │         [    ✓ Fait      ] │    │
+│  └─────────────────────────────┘    │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Spécifications :**
+- Check-in en un seul tap
+- Pas de navigation bottom
+- Bouton fermer en haut à droite
+- Chargement optimisé (< 1s)
+
+---
+
 *Document maintenu par l'équipe Design*
-*Version 1.0 — Janvier 2025*
+*Version 1.1 — Janvier 2026*

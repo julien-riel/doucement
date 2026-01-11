@@ -344,7 +344,180 @@ Ces éléments pourront être envisagés **uniquement** si compatibles avec la v
 
 ---
 
-## 14. Améliorations basées sur la science comportementale
+## 14. Identité & Motivation (« Le Pourquoi »)
+
+> Document détaillé : `docs/science-based-improvements.md`
+
+### Fondement scientifique
+
+*Atomic Habits* insiste sur le pouvoir de l'identité : « Je suis quelqu'un qui fait de l'exercice » est plus puissant que « Je veux faire 50 pompes ». Le changement durable vient du changement d'identité, pas seulement du changement de comportement.
+
+### Fonctionnalité : Déclaration d'intention identitaire
+
+1. **Phrase d'identité optionnelle**
+   * Au moment de créer une habitude, l'utilisateur peut définir sa phrase identitaire
+   * Format : « Je deviens quelqu'un qui [description] »
+   * Exemples :
+     * « Je deviens quelqu'un qui prend soin de son corps »
+     * « Je suis une personne qui lit chaque jour »
+     * « Je deviens quelqu'un qui maîtrise son temps d'écran »
+
+2. **Rappel de l'identité**
+   * Affichée sur l'écran de détail de l'habitude
+   * Rappelée lors de la revue hebdomadaire
+   * Renforce la motivation intrinsèque
+
+### Ce qu'on n'implémente PAS
+
+* Pas de partage obligatoire de l'identité
+* Pas de validation externe de l'identité
+
+---
+
+## 15. Mode Rattrapage Intelligent
+
+### Problème adressé
+
+Après une absence prolongée (vacances, maladie, perte de motivation), la dose calculée peut être devenue irréaliste. L'utilisateur revient face à un objectif impossible, ce qui garantit l'abandon.
+
+### Fonctionnalité : Recalibration bienveillante
+
+1. **Détection d'absence prolongée**
+   * Si 7+ jours sans check-in sur une habitude progressive
+   * Différent du message de retour après 2-3 jours (déjà existant)
+
+2. **Proposition de recalibration**
+   * Message bienveillant : « Tu étais absent un moment. On recalibre ensemble ? »
+   * Options de reprise :
+     * Reprendre à 50% de la dernière dose
+     * Reprendre à 75% de la dernière dose
+     * Reprendre au niveau où j'en étais
+   * Sans jugement, sans compteur de « jours manqués »
+
+3. **Conservation de l'historique**
+   * L'historique reste intact
+   * Nouvelle date de départ pour le calcul de progression
+   * La recalibration est enregistrée pour analyse future
+
+---
+
+## 16. Visualisation de l'Effet Composé
+
+### Problème adressé
+
+Le produit repose sur l'effet composé, mais l'utilisateur ne le *voit* jamais. Après 3 semaines de +3%/semaine, il fait peut-être 15% de plus qu'au départ — mais il ne le réalise pas.
+
+### Fonctionnalité : Vue « D'où je viens »
+
+1. **Comparaison simple**
+   * Affichage sur l'écran de détail : « Jour 1 : 8 pompes → Aujourd'hui : 14 pompes »
+   * Pas de graphique complexe, juste un avant/après parlant
+
+2. **Métriques d'effet composé**
+   * Pourcentage de progression depuis le début (+75%)
+   * Différence en valeur absolue (+6 pompes)
+
+3. **Milestones de progression**
+   * Détection automatique des paliers significatifs
+   * Célébration quand l'utilisateur double sa dose initiale
+   * Célébration à +50%, +100%, +200%
+
+4. **Intégration dans WeeklyReview**
+   * Section « Votre progression depuis le début »
+   * Rappel du chemin parcouru
+
+---
+
+## 17. Premier Check-in Immédiat (Day One)
+
+### Problème adressé
+
+L'onboarding mène à créer une habitude, puis l'utilisateur doit attendre le lendemain pour voir sa première dose. C'est un trou dans l'engagement initial.
+
+### Fonctionnalité : Première victoire instantanée
+
+1. **Proposition après création**
+   * Après confirmation de l'habitude : « Voulez-vous enregistrer ce que vous avez déjà fait aujourd'hui ? »
+   * Option de faire son premier check-in immédiatement
+
+2. **Check-in du jour de création**
+   * Autoriser l'enregistrement d'une entrée le jour même
+   * La dose du jour 1 est égale à la dose de départ
+
+3. **Message de première victoire**
+   * Célébration immédiate si premier check-in effectué
+   * « Première dose enregistrée. Le voyage commence maintenant. »
+
+---
+
+## 18. Export Visuel Partageable
+
+### Problème adressé
+
+L'app exclut la comparaison sociale — très bien. Mais un export visuel permettrait à l'utilisateur de célébrer sans créer de compétition.
+
+### Fonctionnalité : Image de progression
+
+1. **Carte partageable**
+   * Image générée avec résumé de progression
+   * Format : 30 jours, habitude, statistiques clés
+   * Design sobre avec branding léger « Doucement »
+
+2. **Contenu de la carte**
+   * Emoji + nom de l'habitude
+   * « 30 jours sur ma trajectoire »
+   * Dose initiale → Dose actuelle
+   * Nombre de jours actifs
+
+3. **Partage**
+   * Téléchargement en PNG
+   * API Web Share sur mobile (partage natif)
+   * Option dans HabitDetail et WeeklyReview
+
+### Ce qu'on n'implémente PAS
+
+* Pas de lien vers l'app dans l'image
+* Pas de classement ou comparaison
+* Pas de partage automatique
+
+---
+
+## 19. Widget Mobile (PWA)
+
+### Problème adressé
+
+Pour une app d'usage quotidien de moins de 30 secondes, la friction d'ouverture de l'app est un risque de décrochage. Un widget affichant la dose du jour sans ouvrir l'app serait idéal.
+
+### Limitations PWA
+
+Les widgets natifs (iOS/Android) ne sont pas disponibles pour les PWA. Les alternatives sont :
+
+### Fonctionnalités implémentées
+
+1. **PWA Shortcuts**
+   * Accès rapide via appui long sur l'icône
+   * Shortcut « Check-in rapide » → page minimaliste
+
+2. **Page Quick Check-in**
+   * Route `/quick-checkin`
+   * Interface ultra-minimaliste
+   * Affiche uniquement les habitudes du jour
+   * Check-in en un tap
+
+3. **App Badge (expérimental)**
+   * Badge sur l'icône avec le nombre de doses restantes
+   * Via `navigator.setAppBadge()` (support limité)
+
+### Documentation utilisateur
+
+Guide expliquant :
+* Comment ajouter l'app à l'écran d'accueil
+* Comment utiliser les shortcuts
+* Les limitations par rapport aux widgets natifs
+
+---
+
+## 20. Améliorations basées sur la science comportementale
 
 > Document détaillé : `docs/science-based-improvements.md`
 
@@ -385,7 +558,20 @@ Basées sur la recherche en psychologie et sciences comportementales :
 
 ---
 
-## 15. Conclusion
+## 21. Ce qu'il ne faut PAS ajouter
+
+Ces fonctionnalités sont explicitement exclues car elles vont à l'encontre de la philosophie de l'application :
+
+* **Streaks visibles** — Créent de l'anxiété et transforment un jour manqué en catastrophe
+* **Badges/récompenses** — Gamification qui attire un public différent et dilue le message
+* **Classements** — Contradictoire avec « pas de comparaison sociale »
+* **Notifications agressives** — L'app doit rester un outil, pas un maître
+* **Objectifs imposés** — L'utilisateur définit son propre rythme
+* **Compteur de jours manqués** — Culpabilisant et contre-productif
+
+---
+
+## 22. Conclusion
 
 Cette application est volontairement **simple techniquement** mais **exigeante sur l’expérience humaine**.
 

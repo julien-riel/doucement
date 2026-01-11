@@ -3,8 +3,13 @@
  * Phase 6: Science-based improvements
  */
 
-import { Habit } from '../types'
+import { Habit, DailyEntry } from '../types'
 import { INTENTION_DISPLAY } from '../constants/messages'
+
+/**
+ * Nombre de jours avant de suggérer la transition du mode simple vers détaillé
+ */
+const TRANSITION_THRESHOLD_DAYS = 30
 
 /**
  * Construit le texte de l'implementation intention
@@ -103,4 +108,64 @@ export function buildHabitChains(
   }
 
   return chains
+}
+
+/**
+ * Calcule le nombre de jours depuis la création d'une habitude
+ * @param habit - L'habitude à vérifier
+ * @param currentDate - Date actuelle au format YYYY-MM-DD
+ * @returns Nombre de jours depuis la création
+ */
+export function getDaysSinceCreation(habit: Habit, currentDate: string): number {
+  const createdDate = new Date(habit.createdAt)
+  const today = new Date(currentDate)
+  const diffTime = today.getTime() - createdDate.getTime()
+  return Math.floor(diffTime / (1000 * 60 * 60 * 24))
+}
+
+/**
+ * Vérifie si une habitude est éligible à la transition simple → détaillé
+ * Conditions :
+ * - L'habitude est en mode 'simple'
+ * - L'habitude a au moins 30 jours
+ * - L'utilisateur n'a pas encore été notifié (pas de flag transitionDismissed)
+ *
+ * @param habit - L'habitude à vérifier
+ * @param currentDate - Date actuelle au format YYYY-MM-DD
+ * @returns true si la transition devrait être suggérée
+ */
+export function isEligibleForTransition(habit: Habit, currentDate: string): boolean {
+  // Vérifier que l'habitude est en mode simple
+  if (habit.trackingMode !== 'simple') {
+    return false
+  }
+
+  // Vérifier que l'habitude a au moins 30 jours
+  const daysSinceCreation = getDaysSinceCreation(habit, currentDate)
+  return daysSinceCreation >= TRANSITION_THRESHOLD_DAYS
+}
+
+/**
+ * Trouve les habitudes éligibles à la transition simple → détaillé
+ *
+ * @param habits - Liste des habitudes actives
+ * @param entries - Liste des entrées pour vérifier l'utilisation
+ * @param currentDate - Date actuelle au format YYYY-MM-DD
+ * @returns Liste des habitudes éligibles à la transition
+ */
+export function getHabitsEligibleForTransition(
+  habits: Habit[],
+  entries: DailyEntry[],
+  currentDate: string
+): Habit[] {
+  return habits.filter((habit) => {
+    // Vérifier l'éligibilité de base
+    if (!isEligibleForTransition(habit, currentDate)) {
+      return false
+    }
+
+    // Vérifier que l'habitude a au moins quelques entrées (utilisée activement)
+    const habitEntries = entries.filter((e) => e.habitId === habit.id)
+    return habitEntries.length >= 5
+  })
 }
