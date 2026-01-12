@@ -7,6 +7,17 @@
 
 $ARGUMENTS
 
+## Mode autonome (OBLIGATOIRE)
+
+**Cette commande est exécutée sans supervision humaine.**
+
+- **NE JAMAIS utiliser `AskUserQuestion`** — Prendre des décisions autonomes
+- **NE JAMAIS demander de clarification** — Utiliser le contexte disponible
+- **NE JAMAIS attendre de confirmation** — Exécuter directement
+- En cas d'ambiguïté, choisir l'option la plus conservatrice/sûre
+- En cas d'erreur de validation, tenter de corriger automatiquement (max 3 fois)
+- Si une tâche est bloquée, la marquer `blocked` avec une raison et passer à la suivante
+
 ## Workflow
 
 ### 1. Chargement du contexte (UNE SEULE FOIS)
