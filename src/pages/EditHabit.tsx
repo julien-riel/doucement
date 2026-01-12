@@ -14,8 +14,14 @@ import {
   TrackingFrequency,
   EntryMode,
   TrackingMode,
+  WeeklyAggregation,
 } from '../types'
-import { ENTRY_MODE, IDENTITY_STATEMENT } from '../constants/messages'
+import {
+  ENTRY_MODE,
+  IDENTITY_STATEMENT,
+  TRACKING_MODE,
+  WEEKLY_AGGREGATION,
+} from '../constants/messages'
 import './EditHabit.css'
 
 /**
@@ -79,6 +85,8 @@ function EditHabit() {
   const [identityStatement, setIdentityStatement] = useState('')
   // Description
   const [description, setDescription] = useState('')
+  // Weekly aggregation
+  const [weeklyAggregation, setWeeklyAggregation] = useState<WeeklyAggregation>('sum-units')
   const [isSaving, setIsSaving] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
 
@@ -110,6 +118,8 @@ function EditHabit() {
       setIdentityStatement(habit.identityStatement ?? '')
       // Description
       setDescription(habit.description ?? '')
+      // Weekly aggregation
+      setWeeklyAggregation(habit.weeklyAggregation ?? 'sum-units')
     }
   }, [habit])
 
@@ -156,6 +166,9 @@ function EditHabit() {
     // Description change
     const descriptionChanged = description.trim() !== (habit.description ?? '')
 
+    // Weekly aggregation change
+    const weeklyAggregationChanged = weeklyAggregation !== (habit.weeklyAggregation ?? 'sum-units')
+
     return (
       nameChanged ||
       emojiChanged ||
@@ -170,7 +183,8 @@ function EditHabit() {
       entryModeChanged ||
       trackingModeChanged ||
       identityStatementChanged ||
-      descriptionChanged
+      descriptionChanged ||
+      weeklyAggregationChanged
     )
   }, [
     habit,
@@ -190,6 +204,7 @@ function EditHabit() {
     trackingMode,
     identityStatement,
     description,
+    weeklyAggregation,
   ])
 
   const handleSave = useCallback(() => {
@@ -252,6 +267,13 @@ function EditHabit() {
     const trimmedDescription = description.trim()
     updates.description = trimmedDescription || undefined
 
+    // Weekly aggregation (only for weekly habits)
+    if (trackingFrequency === 'weekly') {
+      updates.weeklyAggregation = weeklyAggregation
+    } else {
+      updates.weeklyAggregation = undefined
+    }
+
     const success = updateHabit(id, updates)
 
     if (success) {
@@ -282,6 +304,7 @@ function EditHabit() {
     trackingMode,
     identityStatement,
     description,
+    weeklyAggregation,
     updateHabit,
     navigate,
   ])
@@ -429,10 +452,8 @@ function EditHabit() {
 
         {/* Mode de suivi */}
         <div className="edit-habit__tracking-mode-section">
-          <p className="edit-habit__field-label">Mode de suivi</p>
-          <p className="edit-habit__field-hint">
-            Simple (fait/pas fait) ou détaillé (valeur précise)
-          </p>
+          <p className="edit-habit__field-label">{TRACKING_MODE.sectionTitle}</p>
+          <p className="edit-habit__field-hint">{TRACKING_MODE.sectionHint}</p>
           <div className="edit-habit__tracking-mode-options">
             <button
               type="button"
@@ -440,8 +461,10 @@ function EditHabit() {
               onClick={() => setTrackingMode('simple')}
               aria-pressed={trackingMode === 'simple'}
             >
-              <span className="edit-habit__tracking-mode-label">Simple</span>
-              <span className="edit-habit__tracking-mode-desc">Fait / Pas fait</span>
+              <span className="edit-habit__tracking-mode-label">{TRACKING_MODE.simpleLabel}</span>
+              <span className="edit-habit__tracking-mode-desc">
+                {TRACKING_MODE.simpleDescription}
+              </span>
             </button>
             <button
               type="button"
@@ -449,42 +472,96 @@ function EditHabit() {
               onClick={() => setTrackingMode('detailed')}
               aria-pressed={trackingMode === 'detailed'}
             >
-              <span className="edit-habit__tracking-mode-label">Détaillé</span>
-              <span className="edit-habit__tracking-mode-desc">Valeur numérique</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Mode de saisie */}
-        <div className="edit-habit__entry-mode-section">
-          <p className="edit-habit__field-label">{ENTRY_MODE.sectionTitle}</p>
-          <p className="edit-habit__field-hint">{ENTRY_MODE.sectionHint}</p>
-          <div className="edit-habit__entry-mode-options">
-            <button
-              type="button"
-              className={`edit-habit__entry-mode-option ${entryMode === 'replace' ? 'edit-habit__entry-mode-option--selected' : ''}`}
-              onClick={() => setEntryMode('replace')}
-              aria-pressed={entryMode === 'replace'}
-            >
-              <span className="edit-habit__entry-mode-label">{ENTRY_MODE.replaceLabel}</span>
-              <span className="edit-habit__entry-mode-desc">{ENTRY_MODE.replaceDescription}</span>
+              <span className="edit-habit__tracking-mode-label">{TRACKING_MODE.detailedLabel}</span>
+              <span className="edit-habit__tracking-mode-desc">
+                {TRACKING_MODE.detailedDescription}
+              </span>
             </button>
             <button
               type="button"
-              className={`edit-habit__entry-mode-option ${entryMode === 'cumulative' ? 'edit-habit__entry-mode-option--selected' : ''}`}
-              onClick={() => setEntryMode('cumulative')}
-              aria-pressed={entryMode === 'cumulative'}
+              className={`edit-habit__tracking-mode-option ${trackingMode === 'counter' ? 'edit-habit__tracking-mode-option--selected' : ''}`}
+              onClick={() => setTrackingMode('counter')}
+              aria-pressed={trackingMode === 'counter'}
             >
-              <span className="edit-habit__entry-mode-label">{ENTRY_MODE.cumulativeLabel}</span>
-              <span className="edit-habit__entry-mode-desc">
-                {ENTRY_MODE.cumulativeDescription}
+              <span className="edit-habit__tracking-mode-label">{TRACKING_MODE.counterLabel}</span>
+              <span className="edit-habit__tracking-mode-desc">
+                {TRACKING_MODE.counterDescription}
               </span>
             </button>
           </div>
-          {entryMode === 'cumulative' && (
-            <p className="edit-habit__entry-mode-cumulative-hint">{ENTRY_MODE.cumulativeHint}</p>
+          {trackingMode === 'counter' && (
+            <p className="edit-habit__tracking-mode-counter-hint">{TRACKING_MODE.counterHint}</p>
           )}
         </div>
+
+        {/* Mode de saisie - seulement pour detailed (counter utilise toujours +1/-1) */}
+        {trackingMode === 'detailed' && (
+          <div className="edit-habit__entry-mode-section">
+            <p className="edit-habit__field-label">{ENTRY_MODE.sectionTitle}</p>
+            <p className="edit-habit__field-hint">{ENTRY_MODE.sectionHint}</p>
+            <div className="edit-habit__entry-mode-options">
+              <button
+                type="button"
+                className={`edit-habit__entry-mode-option ${entryMode === 'replace' ? 'edit-habit__entry-mode-option--selected' : ''}`}
+                onClick={() => setEntryMode('replace')}
+                aria-pressed={entryMode === 'replace'}
+              >
+                <span className="edit-habit__entry-mode-label">{ENTRY_MODE.replaceLabel}</span>
+                <span className="edit-habit__entry-mode-desc">{ENTRY_MODE.replaceDescription}</span>
+              </button>
+              <button
+                type="button"
+                className={`edit-habit__entry-mode-option ${entryMode === 'cumulative' ? 'edit-habit__entry-mode-option--selected' : ''}`}
+                onClick={() => setEntryMode('cumulative')}
+                aria-pressed={entryMode === 'cumulative'}
+              >
+                <span className="edit-habit__entry-mode-label">{ENTRY_MODE.cumulativeLabel}</span>
+                <span className="edit-habit__entry-mode-desc">
+                  {ENTRY_MODE.cumulativeDescription}
+                </span>
+              </button>
+            </div>
+            {entryMode === 'cumulative' && (
+              <p className="edit-habit__entry-mode-cumulative-hint">{ENTRY_MODE.cumulativeHint}</p>
+            )}
+          </div>
+        )}
+
+        {/* Mode d'agrégation hebdomadaire - seulement pour les habitudes weekly */}
+        {trackingFrequency === 'weekly' && (
+          <div className="edit-habit__weekly-aggregation-section">
+            <p className="edit-habit__field-label">{WEEKLY_AGGREGATION.sectionTitle}</p>
+            <p className="edit-habit__field-hint">{WEEKLY_AGGREGATION.sectionHint}</p>
+            <div className="edit-habit__weekly-aggregation-options">
+              <button
+                type="button"
+                className={`edit-habit__weekly-aggregation-option ${weeklyAggregation === 'count-days' ? 'edit-habit__weekly-aggregation-option--selected' : ''}`}
+                onClick={() => setWeeklyAggregation('count-days')}
+                aria-pressed={weeklyAggregation === 'count-days'}
+              >
+                <span className="edit-habit__weekly-aggregation-label">
+                  {WEEKLY_AGGREGATION.countDaysLabel}
+                </span>
+                <span className="edit-habit__weekly-aggregation-desc">
+                  {WEEKLY_AGGREGATION.countDaysDescription}
+                </span>
+              </button>
+              <button
+                type="button"
+                className={`edit-habit__weekly-aggregation-option ${weeklyAggregation === 'sum-units' ? 'edit-habit__weekly-aggregation-option--selected' : ''}`}
+                onClick={() => setWeeklyAggregation('sum-units')}
+                aria-pressed={weeklyAggregation === 'sum-units'}
+              >
+                <span className="edit-habit__weekly-aggregation-label">
+                  {WEEKLY_AGGREGATION.sumUnitsLabel}
+                </span>
+                <span className="edit-habit__weekly-aggregation-desc">
+                  {WEEKLY_AGGREGATION.sumUnitsDescription}
+                </span>
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Progression (sauf pour maintain) */}
         {habit.direction !== 'maintain' && (

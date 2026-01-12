@@ -518,7 +518,7 @@
     {
       "id": "phase-counter-ui",
       "name": "Interface utilisateur Compteur",
-      "status": "in_progress",
+      "status": "completed",
       "description": "Composants React pour l'interface des habitudes compteur",
       "tasks": [
         {
@@ -570,25 +570,27 @@
           "id": "ui.6",
           "name": "Édition mode compteur dans EditHabit",
           "description": "Permettre de modifier trackingMode vers/depuis 'counter' et weeklyAggregation",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["src/pages/EditHabit.tsx"]
+          "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
+          "completedAt": "2026-01-11"
         }
       ]
     },
     {
       "id": "phase-counter-migration",
       "name": "Migration schéma v9",
-      "status": "pending",
+      "status": "completed",
       "description": "Migration des données existantes pour le nouveau schéma",
       "tasks": [
         {
           "id": "mig.1",
           "name": "Créer migration vers schéma v9",
           "description": "Ajouter weeklyAggregation='sum-units' par défaut aux habitudes weekly existantes",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/services/migration.ts", "src/types/index.ts"]
+          "files": ["src/services/migration.ts", "src/types/index.ts"],
+          "completedAt": "2026-01-11"
         }
       ]
     },
@@ -602,9 +604,10 @@
           "id": "test.1",
           "name": "Tests unitaires CounterOperation",
           "description": "Tests pour calculateCounterValue, addCounterOperation, undoLastOperation",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/services/progression.test.ts", "src/hooks/useAppData.test.ts"]
+          "files": ["src/hooks/useAppData.test.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "test.2",

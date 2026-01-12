@@ -159,6 +159,36 @@ export const MIGRATIONS: Migration[] = [
       }
     },
   },
+  {
+    fromVersion: 8,
+    toVersion: 9,
+    description:
+      "Ajout du mode compteur (trackingMode='counter') et agrégation hebdomadaire (weeklyAggregation)",
+    migrate: (data) => {
+      // Les nouveaux champs sont optionnels :
+      // - trackingMode peut maintenant inclure 'counter' en plus de 'simple' et 'detailed'
+      // - weeklyAggregation est ajouté pour les habitudes weekly existantes (défaut: 'sum-units')
+      interface HabitLike {
+        trackingFrequency?: string
+        weeklyAggregation?: string
+      }
+      const habits = (data.habits as HabitLike[] | undefined) ?? []
+      const migratedHabits = habits.map((habit) => ({
+        ...habit,
+        // Ajouter weeklyAggregation='sum-units' par défaut aux habitudes weekly existantes
+        weeklyAggregation:
+          habit.trackingFrequency === 'weekly' && !habit.weeklyAggregation
+            ? 'sum-units'
+            : habit.weeklyAggregation,
+      }))
+
+      return {
+        ...data,
+        schemaVersion: 9,
+        habits: migratedHabits,
+      }
+    },
+  },
 ]
 
 // ============================================================================

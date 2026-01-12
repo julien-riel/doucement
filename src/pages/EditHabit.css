@@ -325,6 +325,69 @@
   margin: var(--spacing-2) 0 0;
 }
 
+/* Counter hint - matches step-details__tracking-mode-counter-hint */
+.edit-habit__tracking-mode-counter-hint {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  font-style: italic;
+  margin: var(--spacing-2) 0 0;
+}
+
+/*
+ * WEEKLY AGGREGATION SECTION
+ * Styles for weekly aggregation options (count-days / sum-units)
+ * Follows the same pattern as entry-mode and tracking-mode sections
+ */
+
+.edit-habit__weekly-aggregation-section {
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--neutral-200);
+}
+
+.edit-habit__weekly-aggregation-options {
+  display: flex;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-3);
+}
+
+.edit-habit__weekly-aggregation-option {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding: var(--spacing-4);
+  background: var(--neutral-100);
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-gentle);
+  text-align: left;
+}
+
+.edit-habit__weekly-aggregation-option:hover {
+  border-color: var(--primary-300);
+  background: var(--primary-50);
+}
+
+.edit-habit__weekly-aggregation-option--selected {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+}
+
+.edit-habit__weekly-aggregation-label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+}
+
+.edit-habit__weekly-aggregation-desc {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--neutral-600);
+}
+
 /* Identity Section - Unique to EditHabit, uses secondary color for identity theme */
 .edit-habit__identity-section {
   padding-top: var(--spacing-4);

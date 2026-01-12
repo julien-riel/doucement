@@ -1,6 +1,8 @@
 /**
  * Tests unitaires du hook useAppData
- * Couvre: le mode de saisie cumulative (entryMode)
+ * Couvre:
+ * - Mode de saisie cumulative (entryMode)
+ * - Opérations compteur (addCounterOperation, undoLastOperation)
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
@@ -79,13 +81,36 @@ function createCumulativeHabit(overrides: Partial<Habit> = {}): Habit {
 }
 
 /**
+ * Crée une habitude de test avec mode compteur
+ */
+function createCounterHabit(overrides: Partial<Habit> = {}): Habit {
+  return {
+    id: 'habit-counter',
+    name: 'Cigarettes',
+    emoji: '🚭',
+    direction: 'decrease',
+    startValue: 10,
+    unit: 'cigarettes',
+    progression: {
+      mode: 'absolute',
+      value: 1,
+      period: 'weekly',
+    },
+    createdAt: '2026-01-01',
+    archivedAt: null,
+    trackingMode: 'counter',
+    ...overrides,
+  }
+}
+
+/**
  * Crée les données initiales pour les tests
  */
 function createInitialData(habits: Habit[] = [], entries: DailyEntry[] = []) {
   return {
     success: true,
     data: {
-      schemaVersion: 8,
+      schemaVersion: 9,
       habits,
       entries,
       preferences: {
@@ -638,6 +663,491 @@ describe('useAppData - Fonctions helper', () => {
 
       const habitEntries = result.current.getEntriesForHabit(habit.id)
       expect(habitEntries).toHaveLength(2)
+    })
+  })
+})
+
+// ============================================================================
+// COUNTER OPERATION TESTS (test.1)
+// ============================================================================
+
+describe('useAppData - Counter Operations (test.1)', () => {
+  describe('addCounterOperation', () => {
+    it('crée une nouvelle entrée avec une opération add', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // Ajouter une opération +1
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      expect(result.current.data.entries).toHaveLength(1)
+      expect(result.current.data.entries[0].actualValue).toBe(1)
+      expect(result.current.data.entries[0].operations).toHaveLength(1)
+      expect(result.current.data.entries[0].operations![0].type).toBe('add')
+      expect(result.current.data.entries[0].operations![0].value).toBe(1)
+    })
+
+    it('crée une nouvelle entrée avec une opération subtract', async () => {
+      const habit = createCounterHabit({ direction: 'increase' })
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // Ajouter une opération -1
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'subtract', 1)
+      })
+
+      expect(result.current.data.entries).toHaveLength(1)
+      expect(result.current.data.entries[0].actualValue).toBe(-1)
+      expect(result.current.data.entries[0].operations![0].type).toBe('subtract')
+    })
+
+    it('ajoute des opérations à une entrée existante', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // +1
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      // +1
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      // +1
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      expect(result.current.data.entries).toHaveLength(1)
+      expect(result.current.data.entries[0].actualValue).toBe(3)
+      expect(result.current.data.entries[0].operations).toHaveLength(3)
+    })
+
+    it('calcule correctement les opérations mixtes add/subtract', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // +1
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      // +1
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      // -1 (correction)
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'subtract', 1)
+      })
+
+      // +3
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 3)
+      })
+
+      // 1 + 1 - 1 + 3 = 4
+      expect(result.current.data.entries[0].actualValue).toBe(4)
+      expect(result.current.data.entries[0].operations).toHaveLength(4)
+    })
+
+    it('utilise la valeur absolue pour les opérations', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // Passer une valeur négative - devrait être convertie en positive
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', -5)
+      })
+
+      expect(result.current.data.entries[0].actualValue).toBe(5)
+      expect(result.current.data.entries[0].operations![0].value).toBe(5)
+    })
+
+    it('retourne null pour une habitude inexistante', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      let entry: DailyEntry | null = null
+      act(() => {
+        entry = result.current.addCounterOperation('inexistant', TEST_TODAY, 'add', 1)
+      })
+
+      expect(entry).toBeNull()
+      expect(result.current.data.entries).toHaveLength(0)
+    })
+
+    it('ajoute une note optionnelle à l opération', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1, 'Après le café')
+      })
+
+      expect(result.current.data.entries[0].operations![0].note).toBe('Après le café')
+    })
+
+    it('génère un id unique pour chaque opération', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      const ops = result.current.data.entries[0].operations!
+      expect(ops[0].id).toBeDefined()
+      expect(ops[1].id).toBeDefined()
+      expect(ops[0].id).not.toBe(ops[1].id)
+    })
+
+    it('ajoute un timestamp à chaque opération', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      const timestamp = result.current.data.entries[0].operations![0].timestamp
+      expect(timestamp).toBeDefined()
+      expect(typeof timestamp).toBe('string')
+      // Vérifier que c'est une date ISO valide
+      expect(new Date(timestamp).toISOString()).toBe(timestamp)
+    })
+  })
+
+  describe('undoLastOperation', () => {
+    it('supprime la dernière opération', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // Ajouter 3 opérations
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      expect(result.current.data.entries[0].actualValue).toBe(3)
+      expect(result.current.data.entries[0].operations).toHaveLength(3)
+
+      // Annuler la dernière
+      act(() => {
+        result.current.undoLastOperation(habit.id, TEST_TODAY)
+      })
+
+      expect(result.current.data.entries[0].actualValue).toBe(2)
+      expect(result.current.data.entries[0].operations).toHaveLength(2)
+    })
+
+    it('recalcule correctement la valeur après undo', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // +2, +3, -1 = 4
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 2)
+      })
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 3)
+      })
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'subtract', 1)
+      })
+
+      expect(result.current.data.entries[0].actualValue).toBe(4)
+
+      // Undo le -1 -> 2 + 3 = 5
+      act(() => {
+        result.current.undoLastOperation(habit.id, TEST_TODAY)
+      })
+
+      expect(result.current.data.entries[0].actualValue).toBe(5)
+    })
+
+    it('retourne null si pas d entrée existante', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      let entry: DailyEntry | null = null
+      act(() => {
+        entry = result.current.undoLastOperation(habit.id, TEST_TODAY)
+      })
+
+      expect(entry).toBeNull()
+    })
+
+    it('retourne null si pas d opérations', async () => {
+      const habit = createCounterHabit()
+      const existingEntry: DailyEntry = {
+        id: 'entry-1',
+        habitId: habit.id,
+        date: TEST_TODAY,
+        targetDose: 10,
+        actualValue: 5,
+        createdAt: '2026-01-11T10:00:00.000Z',
+        updatedAt: '2026-01-11T10:00:00.000Z',
+        // Pas d'operations
+      }
+      mockLoadData.mockReturnValue(createInitialData([habit], [existingEntry]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      let entry: DailyEntry | null = null
+      act(() => {
+        entry = result.current.undoLastOperation(habit.id, TEST_TODAY)
+      })
+
+      expect(entry).toBeNull()
+    })
+
+    it('laisse un tableau vide après undo de toutes les opérations', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // Ajouter une opération
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 5)
+      })
+
+      expect(result.current.data.entries[0].actualValue).toBe(5)
+
+      // Annuler
+      act(() => {
+        result.current.undoLastOperation(habit.id, TEST_TODAY)
+      })
+
+      expect(result.current.data.entries[0].actualValue).toBe(0)
+      expect(result.current.data.entries[0].operations).toHaveLength(0)
+    })
+
+    it('met à jour updatedAt après undo', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      const updatedAtBefore = result.current.data.entries[0].updatedAt
+
+      // Petite pause pour avoir un timestamp différent
+      await new Promise((resolve) => setTimeout(resolve, 10))
+
+      act(() => {
+        result.current.undoLastOperation(habit.id, TEST_TODAY)
+      })
+
+      expect(result.current.data.entries[0].updatedAt).not.toBe(updatedAtBefore)
+    })
+  })
+
+  describe('opérations compteur - scénarios réels', () => {
+    it('simule une journée de suivi de cigarettes', async () => {
+      const habit = createCounterHabit({
+        name: 'Cigarettes',
+        direction: 'decrease',
+        startValue: 10,
+      })
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // Matin: 1 cigarette
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1, 'Matin')
+      })
+
+      // Pause café: 1 cigarette
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1, 'Pause café')
+      })
+
+      // Oops, erreur de saisie, annuler
+      act(() => {
+        result.current.undoLastOperation(habit.id, TEST_TODAY)
+      })
+
+      // Après-midi: 2 cigarettes
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 2, 'Après-midi')
+      })
+
+      // Soirée: 1 cigarette
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1, 'Soirée')
+      })
+
+      // Total: 1 + 2 + 1 = 4 (au lieu de 1 + 1 + 2 + 1 = 5 grâce à l'undo)
+      // 3 opérations: Matin, Après-midi, Soirée (Pause café a été annulé)
+      expect(result.current.data.entries[0].actualValue).toBe(4)
+      expect(result.current.data.entries[0].operations).toHaveLength(3)
+
+      // Vérifier les notes
+      const ops = result.current.data.entries[0].operations!
+      expect(ops[0].note).toBe('Matin')
+      expect(ops[1].note).toBe('Après-midi')
+      expect(ops[2].note).toBe('Soirée')
+    })
+
+    it('gère des entrées sur plusieurs jours indépendamment', async () => {
+      const habit = createCounterHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // Jour 1: 3 opérations
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+      act(() => {
+        result.current.addCounterOperation(habit.id, TEST_TODAY, 'add', 1)
+      })
+
+      // Jour 2: 2 opérations
+      const tomorrow = '2026-01-12'
+      act(() => {
+        result.current.addCounterOperation(habit.id, tomorrow, 'add', 1)
+      })
+      act(() => {
+        result.current.addCounterOperation(habit.id, tomorrow, 'add', 1)
+      })
+
+      expect(result.current.data.entries).toHaveLength(2)
+
+      const todayEntry = result.current.data.entries.find((e) => e.date === TEST_TODAY)
+      const tomorrowEntry = result.current.data.entries.find((e) => e.date === tomorrow)
+
+      expect(todayEntry?.actualValue).toBe(3)
+      expect(todayEntry?.operations).toHaveLength(3)
+
+      expect(tomorrowEntry?.actualValue).toBe(2)
+      expect(tomorrowEntry?.operations).toHaveLength(2)
+
+      // Undo sur aujourd'hui ne doit pas affecter demain
+      act(() => {
+        result.current.undoLastOperation(habit.id, TEST_TODAY)
+      })
+
+      const todayEntryAfterUndo = result.current.data.entries.find((e) => e.date === TEST_TODAY)
+      const tomorrowEntryAfterUndo = result.current.data.entries.find((e) => e.date === tomorrow)
+
+      expect(todayEntryAfterUndo?.actualValue).toBe(2)
+      expect(tomorrowEntryAfterUndo?.actualValue).toBe(2) // Inchangé
     })
   })
 })
