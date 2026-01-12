@@ -371,9 +371,259 @@
     }
   ],
   "stats": {
-    "totalTasks": 33,
+    "totalTasks": 54,
     "completed": 33,
     "inProgress": 0,
-    "pending": 0
-  }
+    "pending": 21
+  },
+  "nextPhases": [
+    {
+      "id": "phase-counter-types",
+      "name": "Types et modèle de données Compteur",
+      "status": "pending",
+      "description": "Nouveaux types TypeScript pour le mode compteur avec historique des opérations",
+      "tasks": [
+        {
+          "id": "counter.1",
+          "name": "Étendre TrackingMode avec 'counter'",
+          "description": "Modifier le type TrackingMode pour inclure 'counter' en plus de 'simple' et 'detailed'",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/types/index.ts"]
+        },
+        {
+          "id": "counter.2",
+          "name": "Créer interface CounterOperation",
+          "description": "Nouvelle interface pour tracer chaque opération: id, type (add/subtract), value, timestamp, note optionnelle",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/types/index.ts"]
+        },
+        {
+          "id": "counter.3",
+          "name": "Ajouter operations[] à DailyEntry",
+          "description": "Étendre DailyEntry avec un champ optionnel 'operations?: CounterOperation[]' pour l'historique",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/types/index.ts"]
+        },
+        {
+          "id": "counter.4",
+          "name": "Créer type WeeklyAggregation",
+          "description": "Nouveau type 'count-days' | 'sum-units' pour les habitudes hebdomadaires",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/types/index.ts"]
+        },
+        {
+          "id": "counter.5",
+          "name": "Ajouter weeklyAggregation à Habit",
+          "description": "Nouveau champ optionnel 'weeklyAggregation?: WeeklyAggregation' pour les habitudes weekly",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/types/index.ts"]
+        }
+      ]
+    },
+    {
+      "id": "phase-counter-logic",
+      "name": "Logique métier Compteur",
+      "status": "pending",
+      "description": "Implémentation de la logique pour les opérations compteur et agrégation hebdomadaire",
+      "tasks": [
+        {
+          "id": "logic.1",
+          "name": "Fonction addCounterOperation dans useAppData",
+          "description": "Nouvelle fonction pour ajouter une opération (add/subtract) à l'historique d'une entrée et recalculer actualValue",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/hooks/useAppData.ts"]
+        },
+        {
+          "id": "logic.2",
+          "name": "Fonction undoLastOperation dans useAppData",
+          "description": "Permet d'annuler la dernière opération d'un compteur (supprime le dernier élément de operations[])",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/hooks/useAppData.ts"]
+        },
+        {
+          "id": "logic.3",
+          "name": "Fonction calculateCounterValue",
+          "description": "Utilitaire pour calculer actualValue à partir de la liste des opérations",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/services/progression.ts"]
+        },
+        {
+          "id": "logic.4",
+          "name": "Logique agrégation count-days",
+          "description": "Dans calculateWeeklyProgress, implémenter le comptage du nombre de jours réussis (vs somme des unités)",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/services/progression.ts"]
+        },
+        {
+          "id": "logic.5",
+          "name": "Logique agrégation sum-units",
+          "description": "Adapter calculateWeeklyProgress pour le mode sum-units (somme totale sur la semaine)",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/services/progression.ts"]
+        }
+      ]
+    },
+    {
+      "id": "phase-day-watch",
+      "name": "Détection changement de journée",
+      "status": "pending",
+      "description": "Hook et logique pour détecter automatiquement le passage à un nouveau jour",
+      "tasks": [
+        {
+          "id": "day.1",
+          "name": "Créer hook useDateWatch",
+          "description": "Hook qui vérifie toutes les minutes si la date a changé et déclenche un callback",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/hooks/useDateWatch.ts"]
+        },
+        {
+          "id": "day.2",
+          "name": "Intégrer useDateWatch dans Today.tsx",
+          "description": "Utiliser le hook pour re-render automatique à minuit sans refresh manuel",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/pages/Today.tsx"]
+        },
+        {
+          "id": "day.3",
+          "name": "Notification nouvelle journée",
+          "description": "Afficher un toast ou message discret lors du passage à un nouveau jour",
+          "status": "pending",
+          "priority": "low",
+          "files": ["src/pages/Today.tsx", "src/constants/messages.ts"]
+        }
+      ]
+    },
+    {
+      "id": "phase-counter-ui",
+      "name": "Interface utilisateur Compteur",
+      "status": "pending",
+      "description": "Composants React pour l'interface des habitudes compteur",
+      "tasks": [
+        {
+          "id": "ui.1",
+          "name": "Créer composant CounterButtons",
+          "description": "Boutons +1/-1 avec affichage du total, dernière action et bouton annuler",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/components/habits/CounterButtons.tsx", "src/components/habits/CounterButtons.css"]
+        },
+        {
+          "id": "ui.2",
+          "name": "Intégrer CounterButtons dans HabitCard",
+          "description": "Afficher CounterButtons au lieu de CheckInButtons si trackingMode='counter'",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/components/habits/HabitCard.tsx"]
+        },
+        {
+          "id": "ui.3",
+          "name": "Couleurs selon direction pour compteur",
+          "description": "+1 vert pour increase, -1 vert pour decrease (couleurs inversées selon contexte)",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/components/habits/CounterButtons.css"]
+        },
+        {
+          "id": "ui.4",
+          "name": "Option mode compteur dans CreateHabit",
+          "description": "Ajouter le choix 'Compteur' (avec +/-) dans les options de trackingMode à la création",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/pages/CreateHabit.tsx"]
+        },
+        {
+          "id": "ui.5",
+          "name": "Option agrégation hebdo dans CreateHabit",
+          "description": "Si trackingFrequency=weekly, permettre de choisir count-days ou sum-units",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/pages/CreateHabit.tsx"]
+        },
+        {
+          "id": "ui.6",
+          "name": "Édition mode compteur dans EditHabit",
+          "description": "Permettre de modifier trackingMode vers/depuis 'counter' et weeklyAggregation",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/pages/EditHabit.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "phase-counter-migration",
+      "name": "Migration schéma v9",
+      "status": "pending",
+      "description": "Migration des données existantes pour le nouveau schéma",
+      "tasks": [
+        {
+          "id": "mig.1",
+          "name": "Créer migration vers schéma v9",
+          "description": "Ajouter weeklyAggregation='sum-units' par défaut aux habitudes weekly existantes",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/services/migration.ts", "src/types/index.ts"]
+        }
+      ]
+    },
+    {
+      "id": "phase-counter-tests",
+      "name": "Tests Compteur",
+      "status": "pending",
+      "description": "Tests unitaires et E2E pour le mode compteur",
+      "tasks": [
+        {
+          "id": "test.1",
+          "name": "Tests unitaires CounterOperation",
+          "description": "Tests pour calculateCounterValue, addCounterOperation, undoLastOperation",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/services/progression.test.ts", "src/hooks/useAppData.test.ts"]
+        },
+        {
+          "id": "test.2",
+          "name": "Tests unitaires agrégation hebdomadaire",
+          "description": "Tests pour count-days vs sum-units dans calculateWeeklyProgress",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/services/progression.test.ts"]
+        },
+        {
+          "id": "test.3",
+          "name": "Tests E2E habitude compteur",
+          "description": "Test création, +1, -1, annuler dernière action",
+          "status": "pending",
+          "priority": "high",
+          "files": ["e2e/habit-counter.spec.ts"]
+        },
+        {
+          "id": "test.4",
+          "name": "Tests E2E agrégation hebdomadaire",
+          "description": "Test count-days (jours réussis) vs sum-units (total semaine)",
+          "status": "pending",
+          "priority": "high",
+          "files": ["e2e/habit-weekly-aggregation.spec.ts"]
+        },
+        {
+          "id": "test.5",
+          "name": "Fixture counter-operations.json",
+          "description": "Fichier de test avec habitude compteur et historique d'opérations",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["public/test-data/habit-types/counter-operations.json"]
+        }
+      ]
+    }
+  ]
 }

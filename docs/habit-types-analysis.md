@@ -230,7 +230,225 @@ export const DECREASE_ZERO = {
 
 ---
 
-## 6. Tests E2E Recommandés
+## 6. Type Compteur avec Historique (À implémenter)
+
+### 6.1 Concept
+
+Un nouveau type d'habitude **"Compteur"** (`trackingMode: 'counter'`) distinct des modes `simple` et `detailed`, avec :
+- **Interface dédiée** : Boutons +1 / -1 pour incrémenter/décrémenter rapidement
+- **Historique des opérations** : Chaque modification est tracée individuellement
+- **Possibilité de soustraire** : Corriger une erreur, annuler la dernière action
+
+### 6.2 Nouveau Modèle de Données
+
+#### TrackingMode étendu
+```typescript
+export type TrackingMode = 'simple' | 'detailed' | 'counter'
+```
+
+#### Nouvelle structure CounterOperation
+```typescript
+/**
+ * Opération sur un compteur (historique des modifications)
+ */
+export interface CounterOperation {
+  /** Identifiant unique de l'opération */
+  id: string
+  /** Type d'opération */
+  type: 'add' | 'subtract'
+  /** Valeur absolue de la modification (toujours positive) */
+  value: number
+  /** Horodatage de l'opération */
+  timestamp: string
+  /** Note optionnelle */
+  note?: string
+}
+```
+
+#### Extension de DailyEntry
+```typescript
+export interface DailyEntry {
+  // ... champs existants ...
+
+  /** Historique des opérations pour les habitudes counter (optionnel) */
+  operations?: CounterOperation[]
+}
+```
+
+### 6.3 Mode d'Agrégation Hebdomadaire
+
+Pour les habitudes `trackingFrequency: 'weekly'`, deux modes de comptage :
+
+```typescript
+/**
+ * Mode d'agrégation pour les habitudes hebdomadaires
+ * - count-days: Compte le nombre de jours où l'objectif est atteint
+ * - sum-units: Additionne les unités sur toute la semaine
+ */
+export type WeeklyAggregation = 'count-days' | 'sum-units'
+```
+
+| Mode | Cas d'usage | Exemple |
+|------|-------------|---------|
+| `count-days` | Nombre de jours réussis | "3 soirs à se coucher tôt cette semaine" |
+| `sum-units` | Total d'unités sur la semaine | "Maximum 10 verres de vin par semaine" |
+
+#### Extension de Habit
+```typescript
+export interface Habit {
+  // ... champs existants ...
+
+  /** Mode d'agrégation hebdomadaire (uniquement si trackingFrequency='weekly') */
+  weeklyAggregation?: WeeklyAggregation
+}
+```
+
+### 6.4 Détection du Changement de Journée
+
+#### Hook useDateWatch
+```typescript
+/**
+ * Hook qui détecte le changement de journée et déclenche un callback
+ * Vérifie toutes les minutes si la date a changé
+ */
+export function useDateWatch(onDateChange: (newDate: string) => void): string {
+  const [currentDate, setCurrentDate] = useState(getCurrentDate())
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = getCurrentDate()
+      if (now !== currentDate) {
+        setCurrentDate(now)
+        onDateChange(now)
+      }
+    }, 60000) // Vérification toutes les minutes
+
+    return () => clearInterval(interval)
+  }, [currentDate, onDateChange])
+
+  return currentDate
+}
+```
+
+#### Intégration dans Today.tsx
+- Utiliser `useDateWatch` pour re-render automatique à minuit
+- Afficher une notification "Nouvelle journée ! 🌅" lors du changement
+
+### 6.5 Interface Utilisateur Compteur
+
+#### Composant CounterButtons
+```
+┌──────────────────────────────────────┐
+│  🚬 Cigarettes        5/8 aujourd'hui │
+│                                      │
+│    [ -1 ]    5    [ +1 ]             │
+│                                      │
+│  Dernière action: +1 à 14:32         │
+│  [Annuler dernière action]           │
+└──────────────────────────────────────┘
+```
+
+**Fonctionnalités :**
+- Boutons +1 / -1 avec feedback visuel
+- Affichage du total actuel
+- Historique de la dernière action avec heure
+- Bouton "Annuler" pour supprimer la dernière opération
+- Possibilité de saisir une valeur personnalisée (+3, -2, etc.)
+
+#### États visuels selon direction
+| Direction | +1 | -1 |
+|-----------|----|----|
+| `increase` | 🟢 Positif | 🟠 Correction |
+| `decrease` | 🟠 Attention | 🟢 Positif |
+
+### 6.6 Logique Métier
+
+#### Calcul de actualValue pour counter
+```typescript
+function calculateCounterValue(operations: CounterOperation[]): number {
+  return operations.reduce((total, op) => {
+    return op.type === 'add' ? total + op.value : total - op.value
+  }, 0)
+}
+```
+
+#### Annuler la dernière opération
+```typescript
+function undoLastOperation(entry: DailyEntry): DailyEntry {
+  if (!entry.operations?.length) return entry
+
+  const operations = entry.operations.slice(0, -1)
+  return {
+    ...entry,
+    operations,
+    actualValue: calculateCounterValue(operations)
+  }
+}
+```
+
+#### Agrégation hebdomadaire
+```typescript
+function calculateWeeklyValue(
+  habit: Habit,
+  entries: DailyEntry[],
+  weekDates: string[]
+): number {
+  const weekEntries = entries.filter(e => weekDates.includes(e.date))
+
+  if (habit.weeklyAggregation === 'count-days') {
+    // Compte les jours où l'objectif quotidien est atteint
+    return weekEntries.filter(e => {
+      const dailyTarget = calculateTargetDose(habit, e.date)
+      return habit.direction === 'decrease'
+        ? e.actualValue <= dailyTarget
+        : e.actualValue >= dailyTarget
+    }).length
+  } else {
+    // sum-units: Somme toutes les unités
+    return weekEntries.reduce((sum, e) => sum + e.actualValue, 0)
+  }
+}
+```
+
+### 6.7 Migration des Données
+
+#### Schéma Version 9
+```typescript
+export const CURRENT_SCHEMA_VERSION = 9
+
+// Migration: Ajouter weeklyAggregation par défaut aux habitudes weekly existantes
+function migrateToV9(data: AppData): AppData {
+  return {
+    ...data,
+    schemaVersion: 9,
+    habits: data.habits.map(habit => ({
+      ...habit,
+      // Les habitudes weekly existantes utilisent sum-units par défaut
+      weeklyAggregation: habit.trackingFrequency === 'weekly'
+        ? (habit.weeklyAggregation || 'sum-units')
+        : undefined
+    }))
+  }
+}
+```
+
+### 6.8 Résumé des Changements
+
+| Fichier | Modifications |
+|---------|--------------|
+| `src/types/index.ts` | Nouveaux types: `CounterOperation`, `WeeklyAggregation`, extension `TrackingMode` |
+| `src/hooks/useAppData.ts` | Nouvelles fonctions: `addCounterOperation`, `undoLastOperation` |
+| `src/hooks/useDateWatch.ts` | Nouveau hook pour détecter changement de jour |
+| `src/components/habits/CounterButtons.tsx` | Nouveau composant interface compteur |
+| `src/pages/Today.tsx` | Intégration `useDateWatch`, affichage compteur |
+| `src/pages/CreateHabit.tsx` | Option mode compteur, agrégation hebdo |
+| `src/pages/EditHabit.tsx` | Édition mode compteur, agrégation hebdo |
+| `src/services/progression.ts` | Logique agrégation `count-days` / `sum-units` |
+| `src/services/migration.ts` | Migration vers schéma v9 |
+
+---
+
+## 7. Tests E2E Recommandés
 
 ### 6.1 Test par type d'habitude
 
