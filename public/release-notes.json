@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.9.0",
+  "currentVersion": "1.10.0",
   "releases": [
+    {
+      "version": "1.10.0",
+      "date": "2026-01-11",
+      "title": "Compteur et agrégation",
+      "highlights": [
+        {
+          "emoji": "zap",
+          "text": "Mode compteur : utilise les boutons +1/-1 pour un suivi rapide et intuitif"
+        },
+        {
+          "emoji": "chart",
+          "text": "Agrégation hebdomadaire : choisis entre compter les jours réussis ou sommer les unités"
+        },
+        {
+          "emoji": "moon",
+          "text": "Détection automatique du changement de jour avec notification à minuit"
+        }
+      ]
+    },
     {
       "version": "1.9.0",
       "date": "2026-01-11",
