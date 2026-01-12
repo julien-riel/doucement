@@ -425,56 +425,61 @@
   ],
   "stats": {
     "totalTasks": 59,
-    "completed": 38,
+    "completed": 43,
     "inProgress": 0,
-    "pending": 21
+    "pending": 16
   },
   "nextPhases": [
     {
       "id": "phase-counter-logic",
       "name": "Logique métier Compteur",
-      "status": "pending",
+      "status": "completed",
       "description": "Implémentation de la logique pour les opérations compteur et agrégation hebdomadaire",
       "tasks": [
         {
           "id": "logic.1",
           "name": "Fonction addCounterOperation dans useAppData",
           "description": "Nouvelle fonction pour ajouter une opération (add/subtract) à l'historique d'une entrée et recalculer actualValue",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/hooks/useAppData.ts"]
+          "files": ["src/hooks/useAppData.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "logic.2",
           "name": "Fonction undoLastOperation dans useAppData",
           "description": "Permet d'annuler la dernière opération d'un compteur (supprime le dernier élément de operations[])",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/hooks/useAppData.ts"]
+          "files": ["src/hooks/useAppData.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "logic.3",
           "name": "Fonction calculateCounterValue",
           "description": "Utilitaire pour calculer actualValue à partir de la liste des opérations",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["src/services/progression.ts"]
+          "files": ["src/services/progression.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "logic.4",
           "name": "Logique agrégation count-days",
           "description": "Dans calculateWeeklyProgress, implémenter le comptage du nombre de jours réussis (vs somme des unités)",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/services/progression.ts"]
+          "files": ["src/services/progression.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "logic.5",
           "name": "Logique agrégation sum-units",
           "description": "Adapter calculateWeeklyProgress pour le mode sum-units (somme totale sur la semaine)",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/services/progression.ts"]
+          "files": ["src/services/progression.ts"],
+          "completedAt": "2026-01-11"
         }
       ]
     },

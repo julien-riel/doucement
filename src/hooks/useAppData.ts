@@ -15,7 +15,10 @@ import {
   DEFAULT_APP_DATA,
   CURRENT_SCHEMA_VERSION,
   RecalibrationRecord,
+  CounterOperation,
+  CounterOperationType,
 } from '../types'
+import { calculateCounterValue, calculateTargetDose } from '../services/progression'
 import { getCurrentDate } from '../utils'
 
 /**
@@ -64,6 +67,16 @@ export interface UseAppDataActions {
   recalibrateHabitDose: (id: string, newStartValue: number, level: number) => boolean
   /** Ajoute une entrée quotidienne */
   addEntry: (input: CreateEntryInput) => DailyEntry | null
+  /** Ajoute une opération compteur (+1/-1) à une entrée */
+  addCounterOperation: (
+    habitId: string,
+    date: string,
+    operationType: CounterOperationType,
+    value?: number,
+    note?: string
+  ) => DailyEntry | null
+  /** Annule la dernière opération compteur d'une entrée */
+  undoLastOperation: (habitId: string, date: string) => DailyEntry | null
   /** Récupère les entrées pour une date */
   getEntriesForDate: (date: string) => DailyEntry[]
   /** Récupère les entrées pour une habitude */
@@ -276,6 +289,133 @@ export function useAppData(): UseAppDataReturn {
     return newEntry
   }, [])
 
+  /**
+   * Ajoute une opération compteur (+1/-1) à une entrée
+   * Crée l'entrée si elle n'existe pas encore
+   */
+  const addCounterOperation = useCallback(
+    (
+      habitId: string,
+      date: string,
+      operationType: CounterOperationType,
+      value: number = 1,
+      note?: string
+    ): DailyEntry | null => {
+      const now = getCurrentTimestamp()
+      const habit = data.habits.find((h) => h.id === habitId)
+
+      if (!habit) {
+        return null
+      }
+
+      // Créer la nouvelle opération
+      const operation: CounterOperation = {
+        id: generateId(),
+        type: operationType,
+        value: Math.abs(value), // Toujours positif
+        timestamp: now,
+        note,
+      }
+
+      let resultEntry: DailyEntry | null = null
+
+      setData((prev) => {
+        const existingIndex = prev.entries.findIndex(
+          (e) => e.habitId === habitId && e.date === date
+        )
+
+        if (existingIndex >= 0) {
+          // Entrée existante : ajouter l'opération
+          const existingEntry = prev.entries[existingIndex]
+          const operations = [...(existingEntry.operations || []), operation]
+          const actualValue = calculateCounterValue(operations)
+
+          const updatedEntry: DailyEntry = {
+            ...existingEntry,
+            actualValue,
+            operations,
+            updatedAt: now,
+          }
+          resultEntry = updatedEntry
+
+          const updatedEntries = [...prev.entries]
+          updatedEntries[existingIndex] = updatedEntry
+          return { ...prev, entries: updatedEntries }
+        }
+
+        // Nouvelle entrée
+        const targetDose = calculateTargetDose(habit, date)
+        const operations = [operation]
+        const actualValue = calculateCounterValue(operations)
+
+        const newEntry: DailyEntry = {
+          id: generateId(),
+          habitId,
+          date,
+          targetDose,
+          actualValue,
+          operations,
+          createdAt: now,
+          updatedAt: now,
+        }
+        resultEntry = newEntry
+
+        return { ...prev, entries: [...prev.entries, newEntry] }
+      })
+
+      return resultEntry
+    },
+    [data.habits]
+  )
+
+  /**
+   * Annule la dernière opération compteur d'une entrée
+   */
+  const undoLastOperation = useCallback(
+    (habitId: string, date: string): DailyEntry | null => {
+      const existingEntry = data.entries.find((e) => e.habitId === habitId && e.date === date)
+
+      if (!existingEntry || !existingEntry.operations?.length) {
+        return null
+      }
+
+      const now = getCurrentTimestamp()
+      let resultEntry: DailyEntry | null = null
+
+      setData((prev) => {
+        const entryIndex = prev.entries.findIndex((e) => e.habitId === habitId && e.date === date)
+
+        if (entryIndex < 0) {
+          return prev
+        }
+
+        const entry = prev.entries[entryIndex]
+        if (!entry.operations?.length) {
+          return prev
+        }
+
+        // Supprimer la dernière opération
+        const operations = entry.operations.slice(0, -1)
+        const actualValue = calculateCounterValue(operations)
+
+        const updatedEntry: DailyEntry = {
+          ...entry,
+          actualValue,
+          operations,
+          updatedAt: now,
+        }
+        resultEntry = updatedEntry
+
+        const updatedEntries = [...prev.entries]
+        updatedEntries[entryIndex] = updatedEntry
+        return { ...prev, entries: updatedEntries }
+      })
+
+      return resultEntry
+    },
+    [data.entries]
+  )
+
   const getEntriesForDate = useCallback(
     (date: string): DailyEntry[] => {
       return data.entries.filter((e) => e.date === date)
@@ -346,6 +486,8 @@ export function useAppData(): UseAppDataReturn {
     restoreHabit,
     recalibrateHabitDose,
     addEntry,
+    addCounterOperation,
+    undoLastOperation,
     getEntriesForDate,
     getEntriesForHabit,
     getHabitById,

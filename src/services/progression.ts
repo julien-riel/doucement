@@ -3,7 +3,7 @@
  * Calcule les doses cibles, pourcentages de complétion et statistiques
  */
 
-import { Habit, DailyEntry, CompletionStatus } from '../types'
+import { Habit, DailyEntry, CompletionStatus, CounterOperation } from '../types'
 
 // ============================================================================
 // UTILITY FUNCTIONS
@@ -67,31 +67,104 @@ export function isWeeklyHabit(habit: Habit): boolean {
   return habit.trackingFrequency === 'weekly'
 }
 
+// ============================================================================
+// COUNTER OPERATIONS
+// ============================================================================
+
+/**
+ * Calcule la valeur totale à partir d'une liste d'opérations compteur
+ * @param operations Liste des opérations (add/subtract)
+ * @returns Valeur totale calculée
+ */
+export function calculateCounterValue(operations: CounterOperation[]): number {
+  return operations.reduce((total, op) => {
+    return op.type === 'add' ? total + op.value : total - op.value
+  }, 0)
+}
+
+/**
+ * Résultat du calcul de progression hebdomadaire
+ */
+export interface WeeklyProgressResult {
+  /** Nombre de jours complétés (pour count-days) ou valeur totale (pour sum-units) */
+  completedDays: number
+  /** Cible hebdomadaire */
+  weeklyTarget: number
+  /** Dates de la semaine */
+  weekDates: string[]
+  /** Somme totale des unités sur la semaine (pour sum-units) */
+  totalUnits?: number
+  /** Mode d'agrégation utilisé */
+  aggregationMode: 'count-days' | 'sum-units'
+}
+
 /**
  * Calcule la progression hebdomadaire d'une habitude
+ *
+ * Supporte deux modes d'agrégation (weeklyAggregation):
+ * - 'count-days': Compte le nombre de jours où l'objectif est atteint
+ *   Ex: "3 soirs à se coucher tôt cette semaine"
+ * - 'sum-units': Additionne les unités sur toute la semaine
+ *   Ex: "Maximum 10 verres de vin par semaine"
+ *
+ * Par défaut, utilise 'sum-units' pour rétrocompatibilité.
+ *
  * @param habit Habitude
  * @param entries Toutes les entrées
  * @param date Date de référence (YYYY-MM-DD)
- * @returns Objet avec le nombre de jours complétés et la cible hebdomadaire
+ * @returns Objet avec le nombre de jours complétés/unités totales et la cible hebdomadaire
  */
 export function calculateWeeklyProgress(
   habit: Habit,
   entries: DailyEntry[],
   date: string
-): { completedDays: number; weeklyTarget: number; weekDates: string[] } {
+): WeeklyProgressResult {
   const weekDates = getCurrentWeekDates(date)
   const weeklyTarget = calculateTargetDose(habit, date)
+  const aggregationMode = habit.weeklyAggregation || 'sum-units'
 
-  // Compter les jours où l'utilisateur a fait l'habitude cette semaine
-  let completedDays = 0
-  for (const weekDate of weekDates) {
-    const entry = entries.find((e) => e.habitId === habit.id && e.date === weekDate)
-    if (entry && entry.actualValue > 0) {
-      completedDays++
+  // Récupérer les entrées de la semaine pour cette habitude
+  const weekEntries = weekDates
+    .map((weekDate) => entries.find((e) => e.habitId === habit.id && e.date === weekDate))
+    .filter((entry): entry is DailyEntry => entry !== undefined)
+
+  if (aggregationMode === 'count-days') {
+    // Mode count-days: Compter les jours où l'objectif quotidien est atteint
+    let completedDays = 0
+    for (const entry of weekEntries) {
+      // Pour les habitudes decrease, succès si <= cible
+      // Pour les autres, succès si >= cible ou si actualValue > 0
+      if (habit.direction === 'decrease') {
+        if (entry.actualValue <= entry.targetDose) {
+          completedDays++
+        }
+      } else {
+        // Pour increase/maintain, on compte les jours avec effort
+        if (entry.actualValue > 0) {
+          completedDays++
+        }
+      }
+    }
+
+    return {
+      completedDays,
+      weeklyTarget,
+      weekDates,
+      aggregationMode: 'count-days',
     }
   }
 
-  return { completedDays, weeklyTarget, weekDates }
+  // Mode sum-units: Additionner les unités sur la semaine
+  const totalUnits = weekEntries.reduce((sum, entry) => sum + entry.actualValue, 0)
+
+  // Pour sum-units, completedDays représente la valeur totale pour rétrocompatibilité
+  return {
+    completedDays: totalUnits,
+    weeklyTarget,
+    weekDates,
+    totalUnits,
+    aggregationMode: 'sum-units',
+  }
 }
 
 // ============================================================================
