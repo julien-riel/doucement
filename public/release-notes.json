@@ -1,6 +1,44 @@
 {
-  "currentVersion": "1.12.0",
+  "currentVersion": "1.14.0",
   "releases": [
+    {
+      "version": "1.14.0",
+      "date": "2026-01-12",
+      "title": "Phase 4 - Célébrations",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Service de détection des jalons"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Composant CelebrationModal"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Intégration célébrations"
+        }
+      ]
+    },
+    {
+      "version": "1.13.0",
+      "date": "2026-01-12",
+      "title": "Phase 3 - Page Statistiques",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Page Statistics"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Navigation et routing"
+        },
+        {
+          "emoji": "rocket",
+          "text": "Section Projections"
+        }
+      ]
+    },
     {
       "version": "1.12.0",
       "date": "2026-01-12",
