@@ -575,6 +575,41 @@ export const ENTRY_MODE = {
 } as const
 
 // ============================================================================
+// MESSAGES MODE COMPTEUR
+// ============================================================================
+
+/**
+ * Textes pour l'option de mode de suivi (tracking mode)
+ */
+export const TRACKING_MODE = {
+  sectionTitle: 'Mode de suivi',
+  sectionHint: 'Comment tu enregistres tes progrès',
+  simpleLabel: 'Simple',
+  simpleDescription: 'Fait / Pas fait (binaire)',
+  simpleHint: 'Idéal pour débuter, réduit la friction',
+  detailedLabel: 'Détaillé',
+  detailedDescription: 'Saisie de la valeur exacte',
+  detailedHint: 'Pour un suivi précis avec 3 boutons',
+  counterLabel: 'Compteur',
+  counterDescription: 'Boutons +1 / -1 rapides',
+  counterHint: 'Idéal pour : cigarettes, verres, grignotages...',
+} as const
+
+/**
+ * Textes pour l'option d'agrégation hebdomadaire
+ */
+export const WEEKLY_AGGREGATION = {
+  sectionTitle: 'Mode de comptage hebdo',
+  sectionHint: 'Comment on compte ta progression de la semaine',
+  countDaysLabel: 'Jours réussis',
+  countDaysDescription: 'Compte les jours où tu atteins ton objectif',
+  countDaysHint: 'Ex: 3 soirs à se coucher tôt cette semaine',
+  sumUnitsLabel: 'Total semaine',
+  sumUnitsDescription: 'Additionne les unités sur toute la semaine',
+  sumUnitsHint: 'Ex: Maximum 10 verres par semaine',
+} as const
+
+// ============================================================================
 // MESSAGES PREMIER CHECK-IN IMMÉDIAT (Phase 12)
 // ============================================================================
 

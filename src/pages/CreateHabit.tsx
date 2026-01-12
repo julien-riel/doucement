@@ -15,6 +15,8 @@ import {
   IMPLEMENTATION_INTENTION,
   IDENTITY_STATEMENT,
   ENTRY_MODE,
+  TRACKING_MODE,
+  WEEKLY_AGGREGATION,
 } from '../constants/messages'
 import { calculateTargetDose } from '../services/progression'
 import {
@@ -31,7 +33,9 @@ import {
   CreateHabitInput,
   ImplementationIntention,
   TrackingFrequency,
+  TrackingMode,
   EntryMode,
+  WeeklyAggregation,
 } from '../types'
 import { getCurrentDate } from '../utils'
 import './CreateHabit.css'
@@ -115,8 +119,10 @@ interface HabitFormState {
   implementationIntention: ImplementationIntention
   anchorHabitId: string | undefined
   trackingFrequency: TrackingFrequency
+  trackingMode: TrackingMode
   identityStatement: string
   entryMode: EntryMode
+  weeklyAggregation: WeeklyAggregation
 }
 
 const INITIAL_FORM_STATE: HabitFormState = {
@@ -132,8 +138,10 @@ const INITIAL_FORM_STATE: HabitFormState = {
   implementationIntention: {},
   anchorHabitId: undefined,
   trackingFrequency: 'daily',
+  trackingMode: 'detailed',
   identityStatement: '',
   entryMode: 'replace',
+  weeklyAggregation: 'sum-units',
 }
 
 /**
@@ -192,8 +200,10 @@ function CreateHabit() {
       implementationIntention: {},
       anchorHabitId: undefined,
       trackingFrequency: habit.trackingFrequency ?? 'daily',
+      trackingMode: habit.trackingMode ?? 'detailed',
       identityStatement: '',
       entryMode: 'replace',
+      weeklyAggregation: 'sum-units',
     })
     setStep('intentions')
   }, [])
@@ -270,8 +280,10 @@ function CreateHabit() {
         implementationIntention: hasIntention ? form.implementationIntention : undefined,
         anchorHabitId: form.anchorHabitId,
         trackingFrequency: form.trackingFrequency,
+        trackingMode: form.trackingMode,
         identityStatement: form.identityStatement.trim() || undefined,
         entryMode: form.entryMode,
+        weeklyAggregation: form.trackingFrequency === 'weekly' ? form.weeklyAggregation : undefined,
       }
 
       const newHabit = addHabit(habitInput)
@@ -529,36 +541,130 @@ function CreateHabit() {
           </div>
         )}
 
-        {/* Mode de saisie */}
-        <div className="step-details__entry-mode-section">
-          <p className="step-details__entry-mode-title">{ENTRY_MODE.sectionTitle}</p>
-          <p className="step-details__entry-mode-hint">{ENTRY_MODE.sectionHint}</p>
-          <div className="step-details__entry-mode-options">
+        {/* Mode de suivi (tracking mode) */}
+        <div className="step-details__tracking-mode-section">
+          <p className="step-details__tracking-mode-title">{TRACKING_MODE.sectionTitle}</p>
+          <p className="step-details__tracking-mode-hint">{TRACKING_MODE.sectionHint}</p>
+          <div className="step-details__tracking-mode-options">
             <button
               type="button"
-              className={`step-details__entry-mode-option ${form.entryMode === 'replace' ? 'step-details__entry-mode-option--selected' : ''}`}
-              onClick={() => updateForm('entryMode', 'replace')}
-              aria-pressed={form.entryMode === 'replace'}
+              className={`step-details__tracking-mode-option ${form.trackingMode === 'simple' ? 'step-details__tracking-mode-option--selected' : ''}`}
+              onClick={() => updateForm('trackingMode', 'simple')}
+              aria-pressed={form.trackingMode === 'simple'}
             >
-              <span className="step-details__entry-mode-label">{ENTRY_MODE.replaceLabel}</span>
-              <span className="step-details__entry-mode-desc">{ENTRY_MODE.replaceDescription}</span>
+              <span className="step-details__tracking-mode-label">{TRACKING_MODE.simpleLabel}</span>
+              <span className="step-details__tracking-mode-desc">
+                {TRACKING_MODE.simpleDescription}
+              </span>
             </button>
             <button
               type="button"
-              className={`step-details__entry-mode-option ${form.entryMode === 'cumulative' ? 'step-details__entry-mode-option--selected' : ''}`}
-              onClick={() => updateForm('entryMode', 'cumulative')}
-              aria-pressed={form.entryMode === 'cumulative'}
+              className={`step-details__tracking-mode-option ${form.trackingMode === 'detailed' ? 'step-details__tracking-mode-option--selected' : ''}`}
+              onClick={() => updateForm('trackingMode', 'detailed')}
+              aria-pressed={form.trackingMode === 'detailed'}
             >
-              <span className="step-details__entry-mode-label">{ENTRY_MODE.cumulativeLabel}</span>
-              <span className="step-details__entry-mode-desc">
-                {ENTRY_MODE.cumulativeDescription}
+              <span className="step-details__tracking-mode-label">
+                {TRACKING_MODE.detailedLabel}
+              </span>
+              <span className="step-details__tracking-mode-desc">
+                {TRACKING_MODE.detailedDescription}
+              </span>
+            </button>
+            <button
+              type="button"
+              className={`step-details__tracking-mode-option ${form.trackingMode === 'counter' ? 'step-details__tracking-mode-option--selected' : ''}`}
+              onClick={() => updateForm('trackingMode', 'counter')}
+              aria-pressed={form.trackingMode === 'counter'}
+            >
+              <span className="step-details__tracking-mode-label">
+                {TRACKING_MODE.counterLabel}
+              </span>
+              <span className="step-details__tracking-mode-desc">
+                {TRACKING_MODE.counterDescription}
               </span>
             </button>
           </div>
-          {form.entryMode === 'cumulative' && (
-            <p className="step-details__entry-mode-cumulative-hint">{ENTRY_MODE.cumulativeHint}</p>
+          {form.trackingMode === 'counter' && (
+            <p className="step-details__tracking-mode-counter-hint">{TRACKING_MODE.counterHint}</p>
           )}
         </div>
+
+        {/* Mode de saisie - seulement pour detailed (counter utilise toujours +1/-1) */}
+        {form.trackingMode === 'detailed' && (
+          <div className="step-details__entry-mode-section">
+            <p className="step-details__entry-mode-title">{ENTRY_MODE.sectionTitle}</p>
+            <p className="step-details__entry-mode-hint">{ENTRY_MODE.sectionHint}</p>
+            <div className="step-details__entry-mode-options">
+              <button
+                type="button"
+                className={`step-details__entry-mode-option ${form.entryMode === 'replace' ? 'step-details__entry-mode-option--selected' : ''}`}
+                onClick={() => updateForm('entryMode', 'replace')}
+                aria-pressed={form.entryMode === 'replace'}
+              >
+                <span className="step-details__entry-mode-label">{ENTRY_MODE.replaceLabel}</span>
+                <span className="step-details__entry-mode-desc">
+                  {ENTRY_MODE.replaceDescription}
+                </span>
+              </button>
+              <button
+                type="button"
+                className={`step-details__entry-mode-option ${form.entryMode === 'cumulative' ? 'step-details__entry-mode-option--selected' : ''}`}
+                onClick={() => updateForm('entryMode', 'cumulative')}
+                aria-pressed={form.entryMode === 'cumulative'}
+              >
+                <span className="step-details__entry-mode-label">{ENTRY_MODE.cumulativeLabel}</span>
+                <span className="step-details__entry-mode-desc">
+                  {ENTRY_MODE.cumulativeDescription}
+                </span>
+              </button>
+            </div>
+            {form.entryMode === 'cumulative' && (
+              <p className="step-details__entry-mode-cumulative-hint">
+                {ENTRY_MODE.cumulativeHint}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Mode d'agrégation hebdomadaire - seulement pour les habitudes weekly */}
+        {form.trackingFrequency === 'weekly' && (
+          <div className="step-details__weekly-aggregation-section">
+            <p className="step-details__weekly-aggregation-title">
+              {WEEKLY_AGGREGATION.sectionTitle}
+            </p>
+            <p className="step-details__weekly-aggregation-hint">
+              {WEEKLY_AGGREGATION.sectionHint}
+            </p>
+            <div className="step-details__weekly-aggregation-options">
+              <button
+                type="button"
+                className={`step-details__weekly-aggregation-option ${form.weeklyAggregation === 'count-days' ? 'step-details__weekly-aggregation-option--selected' : ''}`}
+                onClick={() => updateForm('weeklyAggregation', 'count-days')}
+                aria-pressed={form.weeklyAggregation === 'count-days'}
+              >
+                <span className="step-details__weekly-aggregation-label">
+                  {WEEKLY_AGGREGATION.countDaysLabel}
+                </span>
+                <span className="step-details__weekly-aggregation-desc">
+                  {WEEKLY_AGGREGATION.countDaysDescription}
+                </span>
+              </button>
+              <button
+                type="button"
+                className={`step-details__weekly-aggregation-option ${form.weeklyAggregation === 'sum-units' ? 'step-details__weekly-aggregation-option--selected' : ''}`}
+                onClick={() => updateForm('weeklyAggregation', 'sum-units')}
+                aria-pressed={form.weeklyAggregation === 'sum-units'}
+              >
+                <span className="step-details__weekly-aggregation-label">
+                  {WEEKLY_AGGREGATION.sumUnitsLabel}
+                </span>
+                <span className="step-details__weekly-aggregation-desc">
+                  {WEEKLY_AGGREGATION.sumUnitsDescription}
+                </span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

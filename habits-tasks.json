@@ -425,9 +425,9 @@
   ],
   "stats": {
     "totalTasks": 59,
-    "completed": 43,
-    "inProgress": 0,
-    "pending": 16
+    "completed": 48,
+    "inProgress": 1,
+    "pending": 10
   },
   "nextPhases": [
     {
@@ -518,48 +518,53 @@
     {
       "id": "phase-counter-ui",
       "name": "Interface utilisateur Compteur",
-      "status": "pending",
+      "status": "in_progress",
       "description": "Composants React pour l'interface des habitudes compteur",
       "tasks": [
         {
           "id": "ui.1",
           "name": "Créer composant CounterButtons",
           "description": "Boutons +1/-1 avec affichage du total, dernière action et bouton annuler",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/components/habits/CounterButtons.tsx", "src/components/habits/CounterButtons.css"]
+          "files": ["src/components/habits/CounterButtons.tsx", "src/components/habits/CounterButtons.css"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "ui.2",
           "name": "Intégrer CounterButtons dans HabitCard",
           "description": "Afficher CounterButtons au lieu de CheckInButtons si trackingMode='counter'",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/components/habits/HabitCard.tsx"]
+          "files": ["src/components/habits/HabitCard.tsx"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "ui.3",
           "name": "Couleurs selon direction pour compteur",
           "description": "+1 vert pour increase, -1 vert pour decrease (couleurs inversées selon contexte)",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["src/components/habits/CounterButtons.css"]
+          "files": ["src/components/habits/CounterButtons.css"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "ui.4",
           "name": "Option mode compteur dans CreateHabit",
           "description": "Ajouter le choix 'Compteur' (avec +/-) dans les options de trackingMode à la création",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/pages/CreateHabit.tsx"]
+          "files": ["src/pages/CreateHabit.tsx"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "ui.5",
           "name": "Option agrégation hebdo dans CreateHabit",
           "description": "Si trackingFrequency=weekly, permettre de choisir count-days ou sum-units",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/pages/CreateHabit.tsx"]
+          "files": ["src/pages/CreateHabit.tsx"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "ui.6",

@@ -1,0 +1,145 @@
+/**
+ * CounterButtons Component Styles
+ * Interface compteur avec boutons +1/-1
+ */
+
+.counter-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-4);
+}
+
+/* Ligne principale avec boutons et valeur */
+.counter-buttons__main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+/* Boutons +1/-1 */
+.counter-buttons__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition:
+    background-color var(--duration-fast) var(--easing-gentle),
+    transform var(--duration-fast) var(--easing-gentle),
+    border-color var(--duration-fast) var(--easing-gentle);
+}
+
+.counter-buttons__btn:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+
+.counter-buttons__btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.counter-buttons__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Bouton positif (vert) - pour +1 increase ou -1 decrease */
+.counter-buttons__btn--positive {
+  background-color: var(--success-100);
+  color: var(--success-700);
+  border-color: var(--success-300);
+}
+
+.counter-buttons__btn--positive:hover:not(:disabled) {
+  background-color: var(--success-200);
+  border-color: var(--success-400);
+}
+
+/* Bouton attention (orange) - pour +1 decrease */
+.counter-buttons__btn--attention {
+  background-color: var(--primary-100);
+  color: var(--primary-700);
+  border-color: var(--primary-300);
+}
+
+.counter-buttons__btn--attention:hover:not(:disabled) {
+  background-color: var(--primary-200);
+  border-color: var(--primary-400);
+}
+
+/* Bouton neutre - pour -1 increase (correction) */
+.counter-buttons__btn--neutral {
+  background-color: var(--neutral-100);
+  color: var(--neutral-700);
+  border-color: var(--neutral-300);
+}
+
+.counter-buttons__btn--neutral:hover:not(:disabled) {
+  background-color: var(--neutral-200);
+  border-color: var(--neutral-400);
+}
+
+/* Affichage de la valeur centrale */
+.counter-buttons__value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px;
+}
+
+.counter-buttons__current {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-900);
+  line-height: 1;
+}
+
+.counter-buttons__target {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+}
+
+/* Zone du footer avec dernière action et annuler */
+.counter-buttons__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-height: 48px;
+}
+
+.counter-buttons__last-action {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+}
+
+.counter-buttons__undo {
+  font-size: var(--text-sm);
+}
+
+/* Animation de feedback visuel lors d'une action */
+@keyframes counterPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.counter-buttons__value--pulse {
+  animation: counterPulse var(--duration-normal) var(--easing-gentle);
+}

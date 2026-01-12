@@ -39,6 +39,8 @@ function Today() {
     data,
     getEntriesForDate,
     addEntry,
+    addCounterOperation,
+    undoLastOperation,
     updateHabit,
     retryLoad,
     resetData,
@@ -62,6 +64,7 @@ function Today() {
       const targetDose = calculateTargetDose(habit, today)
       const entry = todayEntries.find((e) => e.habitId === habit.id)
       const currentValue = entry?.actualValue
+      const operations = entry?.operations
 
       // Créer un pseudo-entry pour calculer le statut
       let status: CompletionStatus = 'pending'
@@ -91,6 +94,7 @@ function Today() {
         status,
         anchorHabitName,
         weeklyProgress,
+        operations,
       }
     })
   }, [habitsForToday, todayEntries, today, activeHabits, data.entries])
@@ -158,6 +162,30 @@ function Today() {
       actualValue: value,
     })
   }
+
+  // Gérer l'ajout d'une opération compteur (+1)
+  const handleCounterAdd = useCallback(
+    (habitId: string, value?: number) => {
+      addCounterOperation(habitId, today, 'add', value)
+    },
+    [addCounterOperation, today]
+  )
+
+  // Gérer la soustraction d'une opération compteur (-1)
+  const handleCounterSubtract = useCallback(
+    (habitId: string, value?: number) => {
+      addCounterOperation(habitId, today, 'subtract', value)
+    },
+    [addCounterOperation, today]
+  )
+
+  // Gérer l'annulation de la dernière opération compteur
+  const handleCounterUndo = useCallback(
+    (habitId: string) => {
+      undoLastOperation(habitId, today)
+    },
+    [undoLastOperation, today]
+  )
 
   if (isLoading) {
     return (
@@ -229,7 +257,15 @@ function Today() {
           >
             {chain.map(
               (
-                { habit, targetDose, currentValue, status, anchorHabitName, weeklyProgress },
+                {
+                  habit,
+                  targetDose,
+                  currentValue,
+                  status,
+                  anchorHabitName,
+                  weeklyProgress,
+                  operations,
+                },
                 idx
               ) => (
                 <div
@@ -244,6 +280,10 @@ function Today() {
                     onCheckIn={handleCheckIn}
                     anchorHabitName={anchorHabitName}
                     weeklyProgress={weeklyProgress}
+                    operations={operations}
+                    onCounterAdd={handleCounterAdd}
+                    onCounterSubtract={handleCounterSubtract}
+                    onCounterUndo={handleCounterUndo}
                   />
                 </div>
               )

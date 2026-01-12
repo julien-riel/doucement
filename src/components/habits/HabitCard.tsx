@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Habit, CompletionStatus } from '../../types'
+import { Habit, CompletionStatus, CounterOperation } from '../../types'
 import {
   HABIT_STACKING,
   DECREASE_ZERO_MESSAGES,
@@ -10,6 +10,7 @@ import {
 import { buildIntentionText, WeeklyProgressInfo } from '../../utils/habitDisplay'
 import Card from '../ui/Card'
 import CheckInButtons from './CheckInButtons'
+import CounterButtons from './CounterButtons'
 import SimpleCheckIn from './SimpleCheckIn'
 import './HabitCard.css'
 
@@ -28,6 +29,14 @@ export interface HabitCardProps {
   anchorHabitName?: string
   /** Progression hebdomadaire (pour les habitudes weekly) */
   weeklyProgress?: WeeklyProgressInfo
+  /** Opérations compteur pour cette journée (si trackingMode='counter') */
+  operations?: CounterOperation[]
+  /** Callback pour ajouter une opération compteur */
+  onCounterAdd?: (habitId: string, value?: number) => void
+  /** Callback pour soustraire une opération compteur */
+  onCounterSubtract?: (habitId: string, value?: number) => void
+  /** Callback pour annuler la dernière opération compteur */
+  onCounterUndo?: (habitId: string) => void
 }
 
 /**
@@ -100,6 +109,10 @@ function HabitCard({
   onCheckIn,
   anchorHabitName,
   weeklyProgress,
+  operations,
+  onCounterAdd,
+  onCounterSubtract,
+  onCounterUndo,
 }: HabitCardProps) {
   const [celebrating, setCelebrating] = useState(false)
   const progressionMessage = getProgressionMessage(habit, targetDose)
@@ -210,6 +223,18 @@ function HabitCard({
       {isWeekly ? (
         // Les habitudes hebdomadaires utilisent toujours un check-in simple (binaire)
         <SimpleCheckIn targetDose={1} currentValue={currentValue} onCheckIn={handleCheckIn} />
+      ) : habit.trackingMode === 'counter' && onCounterAdd && onCounterSubtract && onCounterUndo ? (
+        // Mode compteur avec boutons +1/-1
+        <CounterButtons
+          targetDose={targetDose}
+          unit={habit.unit}
+          currentValue={currentValue}
+          operations={operations}
+          onAdd={(value) => onCounterAdd(habit.id, value)}
+          onSubtract={(value) => onCounterSubtract(habit.id, value)}
+          onUndo={() => onCounterUndo(habit.id)}
+          direction={habit.direction}
+        />
       ) : habit.trackingMode === 'simple' ? (
         <SimpleCheckIn
           targetDose={targetDose}

@@ -12,6 +12,9 @@ export type { HabitCardProps } from './HabitCard'
 export { default as CheckInButtons } from './CheckInButtons'
 export type { CheckInButtonsProps, CheckInType } from './CheckInButtons'
 
+export { default as CounterButtons } from './CounterButtons'
+export type { CounterButtonsProps } from './CounterButtons'
+
 export { default as EmptyState } from './EmptyState'
 export type { EmptyStateProps } from './EmptyState'
 
