@@ -2,7 +2,7 @@
   "project": "Statistiques Avancées",
   "description": "Module de visualisation de la progression avec graphiques, projections et célébrations",
   "createdAt": "2026-01-12",
-  "lastRelease": "1.14.0",
+  "lastRelease": "1.15.1",
   "docs": [
     "docs/prd-statistics.md",
     "docs/design/design-system-specification.md",
@@ -275,6 +275,8 @@
       "description": "Fonctionnalité d'export des graphiques",
       "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.15.0",
+      "releasedAt": "2026-01-12",
       "tasks": [
         {
           "id": "5.1",
@@ -334,6 +336,8 @@
       "description": "Tests E2E et finitions",
       "status": "completed",
       "releaseType": "patch",
+      "releasedAs": "1.15.1",
+      "releasedAt": "2026-01-12",
       "tasks": [
         {
           "id": "6.1",

@@ -1,6 +1,48 @@
 {
-  "currentVersion": "1.14.0",
+  "currentVersion": "1.15.1",
   "releases": [
+    {
+      "version": "1.15.1",
+      "date": "2026-01-12",
+      "title": "Phase 6 - Tests et polish",
+      "highlights": [
+        {
+          "emoji": "check",
+          "text": "Tests E2E page Statistics"
+        },
+        {
+          "emoji": "check",
+          "text": "Tests E2E célébrations"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Accessibilité et responsive"
+        },
+        {
+          "emoji": "paint",
+          "text": "Messages et wording"
+        }
+      ]
+    },
+    {
+      "version": "1.15.0",
+      "date": "2026-01-12",
+      "title": "Phase 5 - Export visuel",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Service d'export image"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Service d'export PDF"
+        },
+        {
+          "emoji": "paint",
+          "text": "UI d'export"
+        }
+      ]
+    },
     {
       "version": "1.14.0",
       "date": "2026-01-12",
