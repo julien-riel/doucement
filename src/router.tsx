@@ -9,6 +9,7 @@ import {
   EditHabit,
   Settings,
   WeeklyReview,
+  Statistics,
 } from './pages'
 import { MainLayout } from './components/layout'
 
@@ -49,6 +50,7 @@ function QuickCheckInFallback() {
  * - /habits/:id : Détail d'une habitude
  * - /create : Création d'une nouvelle habitude
  * - /settings : Paramètres de l'application
+ * - /statistics : Page des statistiques et graphiques
  * - /quick-checkin : Check-in rapide (sans navigation, accessible via PWA shortcut)
  */
 export const router = createBrowserRouter([
@@ -113,6 +115,14 @@ export const router = createBrowserRouter([
     element: (
       <MainLayout>
         <WeeklyReview />
+      </MainLayout>
+    ),
+  },
+  {
+    path: '/statistics',
+    element: (
+      <MainLayout>
+        <Statistics />
       </MainLayout>
     ),
   },

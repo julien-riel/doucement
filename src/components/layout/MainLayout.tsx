@@ -37,13 +37,22 @@ function MainLayout({ children, hideNavigation = false }: MainLayoutProps) {
             <span className="nav-item__label">Aujourd'hui</span>
           </NavLink>
           <NavLink
-            to="/habits"
+            to="/statistics"
             className={({ isActive }) => `nav-item ${isActive ? 'nav-item--active' : ''}`}
           >
             <span className="nav-item__icon" aria-hidden="true">
               📊
             </span>
-            <span className="nav-item__label">Progrès</span>
+            <span className="nav-item__label">Stats</span>
+          </NavLink>
+          <NavLink
+            to="/habits"
+            className={({ isActive }) => `nav-item ${isActive ? 'nav-item--active' : ''}`}
+          >
+            <span className="nav-item__icon" aria-hidden="true">
+              🎯
+            </span>
+            <span className="nav-item__label">Habitudes</span>
           </NavLink>
         </nav>
       )}
