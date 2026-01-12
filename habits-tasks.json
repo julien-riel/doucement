@@ -291,19 +291,21 @@
           "id": "edit.1",
           "name": "Ajouter édition trackingFrequency (daily/weekly)",
           "description": "Permettre de changer la fréquence de suivi entre quotidien et hebdomadaire. Ajouter les boutons de sélection comme dans CreateHabit (step-details). ATTENTION: Ce changement peut impacter l'affichage des entrées existantes.",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
           "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
-          "notes": "Propriété: trackingFrequency: 'daily' | 'weekly'"
+          "notes": "Propriété: trackingFrequency: 'daily' | 'weekly'",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "edit.2",
           "name": "Ajouter édition entryMode (replace/cumulative)",
           "description": "Permettre de changer le mode de saisie entre remplacement et cumul. Réutiliser les composants/styles de CreateHabit (section entry-mode).",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
           "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
-          "notes": "Propriété: entryMode: 'replace' | 'cumulative'"
+          "notes": "Propriété: entryMode: 'replace' | 'cumulative'",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "edit.3",
@@ -336,10 +338,11 @@
           "id": "edit.6",
           "name": "Désactiver habit stacking pour direction decrease",
           "description": "Comme pour CreateHabit, ne pas afficher le sélecteur d'ancrage si l'habitude est de type 'decrease'. Le habit stacking n'a pas de sens pour les habitudes à réduire.",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
           "files": ["src/pages/EditHabit.tsx"],
-          "notes": "Cohérence avec CreateHabit: les habitudes decrease ne peuvent pas être chaînées"
+          "notes": "Cohérence avec CreateHabit: les habitudes decrease ne peuvent pas être chaînées",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "edit.7",
@@ -362,8 +365,8 @@
   ],
   "stats": {
     "totalTasks": 33,
-    "completed": 25,
+    "completed": 28,
     "inProgress": 0,
-    "pending": 8
+    "pending": 5
   }
 }

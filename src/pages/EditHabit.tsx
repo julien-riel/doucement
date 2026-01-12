@@ -6,7 +6,15 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { Button, Input, Card } from '../components/ui'
-import { ProgressionMode, ProgressionPeriod, UpdateHabitInput, Habit } from '../types'
+import {
+  ProgressionMode,
+  ProgressionPeriod,
+  UpdateHabitInput,
+  Habit,
+  TrackingFrequency,
+  EntryMode,
+} from '../types'
+import { ENTRY_MODE } from '../constants/messages'
 import './EditHabit.css'
 
 /**
@@ -60,6 +68,10 @@ function EditHabit() {
   const [time, setTime] = useState('')
   // Anchor habit for habit stacking
   const [anchorHabitId, setAnchorHabitId] = useState<string | null>(null)
+  // Tracking frequency
+  const [trackingFrequency, setTrackingFrequency] = useState<TrackingFrequency>('daily')
+  // Entry mode
+  const [entryMode, setEntryMode] = useState<EntryMode>('replace')
   const [isSaving, setIsSaving] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
 
@@ -81,6 +93,10 @@ function EditHabit() {
       setTime(habit.implementationIntention?.time ?? '')
       // Anchor habit
       setAnchorHabitId(habit.anchorHabitId ?? null)
+      // Tracking frequency
+      setTrackingFrequency(habit.trackingFrequency ?? 'daily')
+      // Entry mode
+      setEntryMode(habit.entryMode ?? 'replace')
     }
   }, [habit])
 
@@ -112,6 +128,12 @@ function EditHabit() {
     // Anchor habit change
     const anchorChanged = anchorHabitId !== (habit.anchorHabitId ?? null)
 
+    // Tracking frequency change
+    const trackingFrequencyChanged = trackingFrequency !== (habit.trackingFrequency ?? 'daily')
+
+    // Entry mode change
+    const entryModeChanged = entryMode !== (habit.entryMode ?? 'replace')
+
     return (
       nameChanged ||
       emojiChanged ||
@@ -121,7 +143,9 @@ function EditHabit() {
       triggerChanged ||
       locationChanged ||
       timeChanged ||
-      anchorChanged
+      anchorChanged ||
+      trackingFrequencyChanged ||
+      entryModeChanged
     )
   }, [
     habit,
@@ -136,6 +160,8 @@ function EditHabit() {
     location,
     time,
     anchorHabitId,
+    trackingFrequency,
+    entryMode,
   ])
 
   const handleSave = useCallback(() => {
@@ -173,8 +199,19 @@ function EditHabit() {
       updates.implementationIntention = undefined
     }
 
-    // Anchor habit
-    updates.anchorHabitId = anchorHabitId ?? undefined
+    // Anchor habit (only for non-decrease habits)
+    if (habit.direction !== 'decrease') {
+      updates.anchorHabitId = anchorHabitId ?? undefined
+    } else {
+      // Clear anchor for decrease habits
+      updates.anchorHabitId = undefined
+    }
+
+    // Tracking frequency
+    updates.trackingFrequency = trackingFrequency
+
+    // Entry mode
+    updates.entryMode = entryMode
 
     const success = updateHabit(id, updates)
 
@@ -201,6 +238,8 @@ function EditHabit() {
     location,
     time,
     anchorHabitId,
+    trackingFrequency,
+    entryMode,
     updateHabit,
     navigate,
   ])
@@ -310,6 +349,62 @@ function EditHabit() {
           </p>
         </Card>
 
+        {/* Fréquence de suivi */}
+        <div className="edit-habit__frequency-section">
+          <p className="edit-habit__field-label">Fréquence de suivi</p>
+          <div className="edit-habit__frequency-options">
+            <button
+              type="button"
+              className={`edit-habit__frequency-option ${trackingFrequency === 'daily' ? 'edit-habit__frequency-option--selected' : ''}`}
+              onClick={() => setTrackingFrequency('daily')}
+              aria-pressed={trackingFrequency === 'daily'}
+            >
+              <span className="edit-habit__frequency-label">Quotidien</span>
+              <span className="edit-habit__frequency-desc">Dose par jour</span>
+            </button>
+            <button
+              type="button"
+              className={`edit-habit__frequency-option ${trackingFrequency === 'weekly' ? 'edit-habit__frequency-option--selected' : ''}`}
+              onClick={() => setTrackingFrequency('weekly')}
+              aria-pressed={trackingFrequency === 'weekly'}
+            >
+              <span className="edit-habit__frequency-label">Hebdomadaire</span>
+              <span className="edit-habit__frequency-desc">X fois par semaine</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Mode de saisie */}
+        <div className="edit-habit__entry-mode-section">
+          <p className="edit-habit__field-label">{ENTRY_MODE.sectionTitle}</p>
+          <p className="edit-habit__field-hint">{ENTRY_MODE.sectionHint}</p>
+          <div className="edit-habit__entry-mode-options">
+            <button
+              type="button"
+              className={`edit-habit__entry-mode-option ${entryMode === 'replace' ? 'edit-habit__entry-mode-option--selected' : ''}`}
+              onClick={() => setEntryMode('replace')}
+              aria-pressed={entryMode === 'replace'}
+            >
+              <span className="edit-habit__entry-mode-label">{ENTRY_MODE.replaceLabel}</span>
+              <span className="edit-habit__entry-mode-desc">{ENTRY_MODE.replaceDescription}</span>
+            </button>
+            <button
+              type="button"
+              className={`edit-habit__entry-mode-option ${entryMode === 'cumulative' ? 'edit-habit__entry-mode-option--selected' : ''}`}
+              onClick={() => setEntryMode('cumulative')}
+              aria-pressed={entryMode === 'cumulative'}
+            >
+              <span className="edit-habit__entry-mode-label">{ENTRY_MODE.cumulativeLabel}</span>
+              <span className="edit-habit__entry-mode-desc">
+                {ENTRY_MODE.cumulativeDescription}
+              </span>
+            </button>
+          </div>
+          {entryMode === 'cumulative' && (
+            <p className="edit-habit__entry-mode-cumulative-hint">{ENTRY_MODE.cumulativeHint}</p>
+          )}
+        </div>
+
         {/* Progression (sauf pour maintain) */}
         {habit.direction !== 'maintain' && (
           <div className="edit-habit__progression-section">
@@ -417,8 +512,8 @@ function EditHabit() {
           />
         </div>
 
-        {/* Habit Stacking - Lien avec une autre habitude */}
-        {availableAnchorHabits.length > 0 && (
+        {/* Habit Stacking - Lien avec une autre habitude (sauf pour decrease) */}
+        {habit.direction !== 'decrease' && availableAnchorHabits.length > 0 && (
           <div className="edit-habit__stacking-section">
             <p className="edit-habit__field-label">Enchaînement d'habitudes (optionnel)</p>
             <p className="edit-habit__field-hint">
