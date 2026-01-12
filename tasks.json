@@ -273,7 +273,7 @@
       "id": "phase-5",
       "name": "Phase 5 - Export visuel",
       "description": "Fonctionnalité d'export des graphiques",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
@@ -296,7 +296,8 @@
           "id": "5.2",
           "name": "Service d'export PDF",
           "description": "Générer un PDF récapitulatif avec plusieurs graphiques et stats",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "medium",
           "dependsOn": ["5.1"],
           "files": ["src/services/exportPdf.ts", "package.json"],
@@ -312,7 +313,8 @@
           "id": "5.3",
           "name": "UI d'export",
           "description": "Boutons d'export sur la page Statistics et menus de partage",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "medium",
           "dependsOn": ["5.1", "5.2", "3.1"],
           "files": ["src/pages/Statistics.tsx", "src/components/ExportMenu.tsx"],
@@ -330,7 +332,7 @@
       "id": "phase-6",
       "name": "Phase 6 - Tests et polish",
       "description": "Tests E2E et finitions",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
       "tasks": [
         {
@@ -354,7 +356,8 @@
           "id": "6.2",
           "name": "Tests E2E célébrations",
           "description": "Tests pour valider le déclenchement des célébrations",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "medium",
           "dependsOn": ["4.3"],
           "files": ["e2e/celebrations.spec.ts"],
@@ -401,9 +404,9 @@
   ],
   "stats": {
     "totalTasks": 20,
-    "completed": 17,
+    "completed": 20,
     "inProgress": 0,
-    "pending": 3,
+    "pending": 0,
     "blocked": 0
   }
 }

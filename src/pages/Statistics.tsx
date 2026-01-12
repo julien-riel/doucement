@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAppData, useCelebrations } from '../hooks'
 import { ErrorBanner } from '../components/ui'
@@ -10,6 +10,7 @@ import ComparisonChart from '../components/charts/ComparisonChart'
 import StatCard from '../components/charts/StatCard'
 import ProjectionSection from '../components/charts/ProjectionSection'
 import CelebrationModal from '../components/CelebrationModal'
+import ExportMenu from '../components/ExportMenu'
 import { getCurrentDate } from '../utils'
 import './Statistics.css'
 
@@ -80,6 +81,9 @@ function Statistics() {
   const [period, setPeriod] = useState<StatsPeriod>('month')
   const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null)
   const [hasDetectedMilestones, setHasDetectedMilestones] = useState(false)
+
+  // Ref pour le graphique (export PNG)
+  const chartSectionRef = useRef<HTMLElement>(null)
 
   const today = getCurrentDate()
 
@@ -281,10 +285,24 @@ function Statistics() {
 
       {/* Graphique de progression */}
       {chartData && (
-        <section className="statistics__chart-section" aria-label="Graphique de progression">
+        <section
+          ref={chartSectionRef}
+          className="statistics__chart-section"
+          aria-label="Graphique de progression"
+        >
           <ProgressionChart data={chartData} period={period} showProjection={true} />
         </section>
       )}
+
+      {/* Bouton d'export */}
+      <section className="statistics__export-section">
+        <ExportMenu
+          chartRef={chartSectionRef}
+          habits={activeHabits}
+          entries={data.entries}
+          period={period}
+        />
+      </section>
 
       {/* Calendrier heatmap */}
       {selectedHabit && (

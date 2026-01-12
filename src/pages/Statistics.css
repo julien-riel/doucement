@@ -209,6 +209,13 @@
   margin: 0;
 }
 
+/* Export section */
+.statistics__export-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--spacing-5);
+}
+
 /* Responsive adjustments */
 @media (min-width: 768px) {
   .page-statistics {

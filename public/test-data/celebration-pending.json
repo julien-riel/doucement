@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 3,
+  "habits": [
+    {
+      "id": "habit-celebration-test",
+      "name": "Pompes",
+      "emoji": "💪",
+      "description": "Test célébration",
+      "direction": "increase",
+      "startValue": 10,
+      "unit": "répétitions",
+      "progression": {
+        "mode": "percentage",
+        "value": 5,
+        "period": "weekly"
+      },
+      "targetValue": 50,
+      "createdAt": "2025-12-01",
+      "archivedAt": null,
+      "trackingMode": "detailed",
+      "implementationIntention": null
+    }
+  ],
+  "entries": [
+    {"id": "e1", "habitId": "habit-celebration-test", "date": "2026-01-07", "targetDose": 10, "actualValue": 18, "createdAt": "2026-01-07T07:30:00Z", "updatedAt": "2026-01-07T07:30:00Z"},
+    {"id": "e2", "habitId": "habit-celebration-test", "date": "2026-01-08", "targetDose": 10, "actualValue": 18, "createdAt": "2026-01-08T07:30:00Z", "updatedAt": "2026-01-08T07:30:00Z"},
+    {"id": "e3", "habitId": "habit-celebration-test", "date": "2026-01-09", "targetDose": 10, "actualValue": 19, "createdAt": "2026-01-09T07:30:00Z", "updatedAt": "2026-01-09T07:30:00Z"}
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2026-01-05",
+    "milestones": {
+      "milestones": []
+    },
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    }
+  }
+}
