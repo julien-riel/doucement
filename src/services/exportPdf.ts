@@ -301,7 +301,7 @@ function addProjectionsSection(
   pdf: jsPDF,
   habits: Habit[],
   entries: DailyEntry[],
-  pageWidth: number,
+  _pageWidth: number,
   margin: number,
   startY: number
 ): number {
