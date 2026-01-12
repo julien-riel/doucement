@@ -183,6 +183,19 @@
       "eveningReminder": {"enabled": true, "time": "20:00"},
       "weeklyReviewReminder": {"enabled": true, "time": "10:00"}
     },
+    "milestones": {
+      "milestones": [
+        {"habitId": "habit-pushups-full", "level": 25, "reachedAt": "2025-12-15", "celebrated": true},
+        {"habitId": "habit-pushups-full", "level": 50, "reachedAt": "2026-01-05", "celebrated": true},
+        {"habitId": "habit-meditation-full", "level": 25, "reachedAt": "2025-12-08", "celebrated": true},
+        {"habitId": "habit-meditation-full", "level": 50, "reachedAt": "2025-12-22", "celebrated": true},
+        {"habitId": "habit-meditation-full", "level": 75, "reachedAt": "2026-01-07", "celebrated": true},
+        {"habitId": "habit-sugar-full", "level": 25, "reachedAt": "2025-12-08", "celebrated": true},
+        {"habitId": "habit-sugar-full", "level": 50, "reachedAt": "2025-12-15", "celebrated": true},
+        {"habitId": "habit-sugar-full", "level": 75, "reachedAt": "2025-12-22", "celebrated": true},
+        {"habitId": "habit-sugar-full", "level": 100, "reachedAt": "2026-01-05", "celebrated": true}
+      ]
+    },
     "weeklyReflections": [
       {
         "week": "2025-W49",

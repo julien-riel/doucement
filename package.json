@@ -1,7 +1,7 @@
 {
   "name": "doucement",
   "private": true,
-  "version": "1.7.0",
+  "version": "1.16.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -19,6 +19,7 @@
     "auto-implement:push": "./scripts/auto-implement.sh 10 true true"
   },
   "dependencies": {
+    "emoji-picker-react": "^4.16.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
     "react": "^18.3.1",

@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
-import { Button, Input } from '../components/ui'
+import { Button, Input, EmojiPicker } from '../components/ui'
 import {
   StepIntentions,
   HabitAnchorSelector,
@@ -79,28 +79,6 @@ const HABIT_TYPES: {
     title: 'Maintenir',
     description: 'Garder une dose stable chaque jour',
   },
-]
-
-/**
- * Emojis suggérés pour les habitudes
- */
-const SUGGESTED_EMOJIS = [
-  '💪',
-  '🏃',
-  '🧘',
-  '📚',
-  '✍️',
-  '💧',
-  '🥗',
-  '😴',
-  '🚭',
-  '🍷',
-  '📱',
-  '🎯',
-  '🌅',
-  '🧠',
-  '❤️',
-  '🎨',
 ]
 
 /**
@@ -440,23 +418,11 @@ function CreateHabit() {
     <div className="create-habit__content step-details">
       <div className="step-details__form">
         {/* Emoji */}
-        <div className="step-details__emoji-field">
-          <span className="step-details__emoji-label">Emoji</span>
-          <div className="step-details__emoji-grid" role="radiogroup">
-            {SUGGESTED_EMOJIS.map((emoji) => (
-              <button
-                key={emoji}
-                type="button"
-                className={`step-details__emoji-btn ${form.emoji === emoji ? 'step-details__emoji-btn--selected' : ''}`}
-                onClick={() => updateForm('emoji', emoji)}
-                aria-pressed={form.emoji === emoji}
-                aria-label={`Emoji ${emoji}`}
-              >
-                {emoji}
-              </button>
-            ))}
-          </div>
-        </div>
+        <EmojiPicker
+          label="Emoji"
+          value={form.emoji}
+          onChange={(emoji) => updateForm('emoji', emoji)}
+        />
 
         {/* Nom */}
         <Input

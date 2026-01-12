@@ -8,6 +8,9 @@ export type { CardProps, CardVariant } from './Card'
 export { default as Input } from './Input'
 export type { InputProps, InputType } from './Input'
 
+export { default as EmojiPicker } from './EmojiPicker'
+export type { EmojiPickerProps } from './EmojiPicker'
+
 export { ErrorBanner } from './ErrorBanner'
 
 export { PWAUpdatePrompt } from './PWAUpdatePrompt'

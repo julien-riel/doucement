@@ -161,7 +161,7 @@ test.describe('Habitude compteur increase', () => {
     await expect(page.locator('.counter-buttons__current').filter({ hasText: '3' })).toBeVisible();
 
     // Naviguer via la navigation SPA (pas de rechargement de page)
-    await page.getByRole('link', { name: 'Progrès' }).click();
+    await page.getByRole('link', { name: 'Habitudes' }).click();
     await page.waitForSelector('h1:has-text("Mes habitudes")');
 
     // Revenir à la page principale via navigation SPA

@@ -23,11 +23,17 @@ test.describe('Plateau de croissance', () => {
   test('affiche l\'habitude en plateau sur l\'écran principal', async ({ page }) => {
     await page.goto('/')
 
+    // Fermer le message WelcomeBack s'il est affiché
+    const welcomeBackClose = page.locator('.welcome-back__close, .welcome-back-message button')
+    if (await welcomeBackClose.isVisible({ timeout: 1000 }).catch(() => false)) {
+      await welcomeBackClose.click()
+    }
+
     // L'habitude Méditation doit être visible
     await expect(page.getByRole('heading', { name: 'Méditation' })).toBeVisible()
 
-    // L'émoji doit être visible
-    await expect(page.getByText('🧘')).toBeVisible()
+    // L'émoji doit être visible dans la section des habitudes
+    await expect(page.locator('.habit-card__emoji').filter({ hasText: '🧘' })).toBeVisible()
   })
 
   test('affiche les statistiques montrant la stagnation dans le détail', async ({ page }) => {

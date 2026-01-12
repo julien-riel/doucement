@@ -254,7 +254,7 @@ test.describe('Célébrations des jalons', () => {
       await expect(modal).toBeVisible({ timeout: 5000 })
 
       // Vérifier qu'on est bien sur le jalon 75%
-      await expect(page.getByText('Trois quarts !')).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'Trois quarts !' })).toBeVisible()
 
       // Appuyer sur Escape
       await page.keyboard.press('Escape')
@@ -410,6 +410,17 @@ test.describe('Célébrations des jalons', () => {
     const milestoneTestData = (level: number, message: string, title: string) => {
       const percentage = level / 100
       const currentValue = percentage * 100 // targetValue = 100
+
+      // Générer tous les milestones des niveaux inférieurs comme célébrés
+      const milestones = [25, 50, 75, 100]
+        .filter((l) => l <= level)
+        .map((l) => ({
+          habitId: `habit-level-${level}`,
+          level: l,
+          reachedAt: '2026-01-10',
+          celebrated: l < level, // Les niveaux inférieurs sont célébrés, le niveau cible ne l'est pas
+        }))
+
       return {
         level,
         title,
@@ -448,14 +459,7 @@ test.describe('Célébrations des jalons', () => {
             onboardingCompleted: true,
             lastWeeklyReviewDate: '2026-01-05',
             milestones: {
-              milestones: [
-                {
-                  habitId: `habit-level-${level}`,
-                  level,
-                  reachedAt: '2026-01-10',
-                  celebrated: false,
-                },
-              ],
+              milestones,
             },
             notifications: {
               enabled: false,
@@ -500,8 +504,8 @@ test.describe('Célébrations des jalons', () => {
       const modal = page.locator('[role="dialog"][aria-modal="true"]')
       await expect(modal).toBeVisible({ timeout: 5000 })
 
-      await expect(page.getByText(testCase.title)).toBeVisible()
-      await expect(page.getByText(testCase.message)).toBeVisible()
+      await expect(page.getByRole('heading', { name: testCase.title })).toBeVisible()
+      await expect(page.locator('.celebration-message')).toContainText(testCase.message)
     })
 
     test('affiche le message correct pour le jalon 100%', async ({ page }) => {
@@ -520,8 +524,8 @@ test.describe('Célébrations des jalons', () => {
       const modal = page.locator('[role="dialog"][aria-modal="true"]')
       await expect(modal).toBeVisible({ timeout: 5000 })
 
-      await expect(page.getByText(testCase.title)).toBeVisible()
-      await expect(page.getByText(testCase.message)).toBeVisible()
+      await expect(page.getByRole('heading', { name: testCase.title })).toBeVisible()
+      await expect(page.locator('.celebration-message')).toContainText(testCase.message)
     })
   })
 })

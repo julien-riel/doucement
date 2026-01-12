@@ -80,8 +80,8 @@ test.describe('Création d\'habitude', () => {
     // Étape 2: Détails
     await expect(page.getByText('Décrivez votre habitude')).toBeVisible();
 
-    // Vérifier que l'emoji par défaut est sélectionné
-    await expect(page.getByRole('button', { name: 'Emoji 💪' })).toHaveAttribute('aria-pressed', 'true');
+    // Vérifier que l'emoji par défaut est affiché
+    await expect(page.locator('.emoji-picker__current')).toHaveText('💪');
 
     // Remplir le formulaire
     await page.getByRole('textbox', { name: 'Nom de l\'habitude' }).fill('Push-ups');
@@ -138,8 +138,7 @@ test.describe('Création d\'habitude', () => {
     await page.getByRole('button', { name: /Réduire/ }).click();
     await page.getByRole('button', { name: 'Continuer' }).click();
 
-    // Étape 2: Détails
-    await page.getByRole('button', { name: 'Emoji 🚭' }).click();
+    // Étape 2: Détails (on garde l'emoji par défaut)
     await page.getByRole('textbox', { name: 'Nom de l\'habitude' }).fill('Cigarettes');
     await page.getByRole('textbox', { name: 'Unité' }).fill('cigarettes');
 
@@ -172,8 +171,7 @@ test.describe('Création d\'habitude', () => {
     await page.getByRole('button', { name: /Maintenir/ }).click();
     await page.getByRole('button', { name: 'Continuer' }).click();
 
-    // Étape 2: Détails (pas de section progression pour Maintenir)
-    await page.getByRole('button', { name: 'Emoji 💧' }).click();
+    // Étape 2: Détails (pas de section progression pour Maintenir, on garde l'emoji par défaut)
     await page.getByRole('textbox', { name: 'Nom de l\'habitude' }).fill('Eau');
     await page.getByRole('spinbutton', { name: 'Dose de départ' }).fill('8');
     await page.getByRole('textbox', { name: 'Unité' }).fill('verres');
@@ -226,12 +224,19 @@ test.describe('Création d\'habitude', () => {
     await page.getByRole('button', { name: 'Continuer' }).click();
 
     // Emoji par défaut
-    await expect(page.getByRole('button', { name: 'Emoji 💪' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.emoji-picker__current')).toHaveText('💪');
 
-    // Changer d'emoji
-    await page.getByRole('button', { name: 'Emoji 🧘' }).click();
-    await expect(page.getByRole('button', { name: 'Emoji 🧘' })).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.getByRole('button', { name: 'Emoji 💪' })).toHaveAttribute('aria-pressed', 'false');
+    // Ouvrir le picker et changer d'emoji
+    await page.locator('.emoji-picker__trigger').click();
+    await expect(page.locator('.emoji-picker__dropdown')).toBeVisible();
+
+    // Sélectionner un emoji différent (le 3ème visible - 😊)
+    const emojiButtons = page.locator('.emoji-picker__dropdown button.epr-emoji');
+    await emojiButtons.nth(2).click();
+
+    // Vérifier que l'emoji a changé (pas 💪)
+    await expect(page.locator('.emoji-picker__current')).not.toHaveText('💪');
+    await expect(page.locator('.emoji-picker__dropdown')).not.toBeVisible();
   });
 
   test('changer le mode de progression (% vs unités)', async ({ page }) => {

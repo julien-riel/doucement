@@ -69,6 +69,7 @@ function Statistics() {
   const {
     currentMilestone,
     currentHabit,
+    uncelebratedMilestones,
     isModalOpen,
     detectAllNewMilestones,
     showCelebration,
@@ -81,6 +82,7 @@ function Statistics() {
   const [period, setPeriod] = useState<StatsPeriod>('month')
   const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null)
   const [hasDetectedMilestones, setHasDetectedMilestones] = useState(false)
+  const [hasShownCelebration, setHasShownCelebration] = useState(false)
 
   // Ref pour le graphique (export PNG)
   const chartSectionRef = useRef<HTMLElement>(null)
@@ -124,24 +126,27 @@ function Statistics() {
   // Détecter les nouveaux jalons au chargement de la page
   useEffect(() => {
     if (!isLoading && !hasDetectedMilestones && activeHabits.length > 0) {
-      const newMilestones = detectAllNewMilestones(activeHabits, data.entries)
+      // Détecter et ajouter les nouveaux jalons
+      detectAllNewMilestones(activeHabits, data.entries)
       setHasDetectedMilestones(true)
+    }
+  }, [isLoading, hasDetectedMilestones, activeHabits, data.entries, detectAllNewMilestones])
 
-      // Si des nouveaux jalons ont été détectés et qu'il y a des non-célébrés, afficher le premier
-      if (newMilestones.length > 0) {
-        const firstMilestone = newMilestones[0]
-        const habit = activeHabits.find((h) => h.id === firstMilestone.habitId)
-        if (habit) {
-          showCelebration(firstMilestone, habit)
-        }
+  // Afficher la célébration pour le premier jalon non célébré (une seule fois par visite)
+  useEffect(() => {
+    if (hasDetectedMilestones && !hasShownCelebration && uncelebratedMilestones.length > 0) {
+      const firstUncelebrated = uncelebratedMilestones[0]
+      const habit = activeHabits.find((h) => h.id === firstUncelebrated.habitId)
+      if (habit) {
+        setHasShownCelebration(true)
+        showCelebration(firstUncelebrated, habit)
       }
     }
   }, [
-    isLoading,
     hasDetectedMilestones,
+    hasShownCelebration,
+    uncelebratedMilestones,
     activeHabits,
-    data.entries,
-    detectAllNewMilestones,
     showCelebration,
   ])
 
@@ -204,6 +209,17 @@ function Statistics() {
             {globalStats.totalActiveDays > 1 ? 's' : ''}.
           </p>
         </div>
+
+        {/* Modale de célébration (même avec peu de données) */}
+        {currentMilestone && currentHabit && (
+          <CelebrationModal
+            isOpen={isModalOpen}
+            onClose={closeCelebration}
+            milestone={currentMilestone}
+            habitName={currentHabit.name}
+            habitEmoji={currentHabit.emoji}
+          />
+        )}
       </div>
     )
   }

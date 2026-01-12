@@ -25,8 +25,18 @@ test.describe('Page Statistiques', () => {
         // Layout may not have testid, wait for content instead
       })
 
+      // Fermer les popups éventuels (WelcomeBack, TransitionSuggestion)
+      const welcomeBackClose = page.locator('.welcome-back__close, .welcome-back-message button')
+      if (await welcomeBackClose.isVisible({ timeout: 1000 }).catch(() => false)) {
+        await welcomeBackClose.click()
+      }
+      const transitionClose = page.getByRole('button', { name: /rester|mode simple/i })
+      if (await transitionClose.isVisible({ timeout: 1000 }).catch(() => false)) {
+        await transitionClose.click()
+      }
+
       // Cliquer sur le lien Statistiques dans la navigation
-      await page.getByRole('link', { name: /statistiques/i }).click()
+      await page.getByRole('link', { name: /stats/i }).click()
 
       // Vérifier qu'on est sur la page statistiques
       await expect(page).toHaveURL('/statistics')
@@ -44,6 +54,18 @@ test.describe('Page Statistiques', () => {
 
       await page.goto('/statistics')
 
+      // Attendre que la page soit chargée (le tablist est visible)
+      await expect(page.getByRole('tablist', { name: /période d'affichage/i })).toBeVisible()
+
+      // Fermer la modale de célébration si elle apparaît (attendre un peu plus)
+      const celebrationModal = page.locator('[role="dialog"][aria-modal="true"].celebration-overlay')
+      // Attendre un moment pour que les useEffects se terminent
+      await page.waitForTimeout(500)
+      if (await celebrationModal.isVisible().catch(() => false)) {
+        await page.getByRole('button', { name: 'Continuer' }).click()
+        await expect(celebrationModal).not.toBeVisible()
+      }
+
       // Vérifier que les éléments principaux sont présents
       await expect(page.getByRole('heading', { name: 'Mes statistiques' })).toBeVisible()
 
@@ -55,7 +77,8 @@ test.describe('Page Statistiques', () => {
       // Vérifier les StatCards
       await expect(page.getByText('Moyenne')).toBeVisible()
       await expect(page.getByText('Jours actifs')).toBeVisible()
-      await expect(page.getByText('Habitudes')).toBeVisible()
+      // Note: "Habitudes" apparaît aussi dans la navigation, utiliser un sélecteur plus précis
+      await expect(page.locator('.stat-card__label').filter({ hasText: 'Habitudes' })).toBeVisible()
 
       // Vérifier le sélecteur d'habitude
       await expect(page.getByLabel('Habitude :')).toBeVisible()
@@ -73,6 +96,18 @@ test.describe('Page Statistiques', () => {
       }, testData)
 
       await page.goto('/statistics')
+
+      // Attendre que la page soit chargée (le tablist est visible)
+      await expect(page.getByRole('tablist', { name: /période d'affichage/i })).toBeVisible()
+
+      // Fermer la modale de célébration si elle apparaît (attendre un peu plus)
+      const celebrationModal = page.locator('[role="dialog"][aria-modal="true"].celebration-overlay')
+      // Attendre un moment pour que les useEffects se terminent
+      await page.waitForTimeout(500)
+      if (await celebrationModal.isVisible().catch(() => false)) {
+        await page.getByRole('button', { name: 'Continuer' }).click()
+        await expect(celebrationModal).not.toBeVisible()
+      }
     })
 
     test('changement de période Semaine', async ({ page }) => {
@@ -130,7 +165,7 @@ test.describe('Page Statistiques', () => {
   })
 
   test.describe('Graphiques', () => {
-    test('affiche le graphique de progression', async ({ page }) => {
+    test.beforeEach(async ({ page }) => {
       const testDataPath = path.join(process.cwd(), 'public/test-data/full-scenario.json')
       const testData = JSON.parse(fs.readFileSync(testDataPath, 'utf-8'))
 
@@ -141,6 +176,20 @@ test.describe('Page Statistiques', () => {
 
       await page.goto('/statistics')
 
+      // Attendre que la page soit chargée (le tablist est visible)
+      await expect(page.getByRole('tablist', { name: /période d'affichage/i })).toBeVisible()
+
+      // Fermer la modale de célébration si elle apparaît (attendre un peu plus)
+      const celebrationModal = page.locator('[role="dialog"][aria-modal="true"].celebration-overlay')
+      // Attendre un moment pour que les useEffects se terminent
+      await page.waitForTimeout(500)
+      if (await celebrationModal.isVisible().catch(() => false)) {
+        await page.getByRole('button', { name: 'Continuer' }).click()
+        await expect(celebrationModal).not.toBeVisible()
+      }
+    })
+
+    test('affiche le graphique de progression', async ({ page }) => {
       // Vérifier que le graphique de progression est présent
       await expect(
         page.getByRole('region', { name: /graphique de progression/i })
@@ -148,16 +197,6 @@ test.describe('Page Statistiques', () => {
     })
 
     test('affiche le calendrier heatmap', async ({ page }) => {
-      const testDataPath = path.join(process.cwd(), 'public/test-data/full-scenario.json')
-      const testData = JSON.parse(fs.readFileSync(testDataPath, 'utf-8'))
-
-      await page.addInitScript((data) => {
-        localStorage.clear()
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, testData)
-
-      await page.goto('/statistics')
-
       // Vérifier que le calendrier heatmap est présent
       await expect(
         page.getByRole('region', { name: /calendrier de progression/i })
@@ -165,21 +204,12 @@ test.describe('Page Statistiques', () => {
     })
 
     test('affiche le graphique de comparaison quand plusieurs habitudes', async ({ page }) => {
-      const testDataPath = path.join(process.cwd(), 'public/test-data/full-scenario.json')
-      const testData = JSON.parse(fs.readFileSync(testDataPath, 'utf-8'))
-
-      await page.addInitScript((data) => {
-        localStorage.clear()
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, testData)
-
-      await page.goto('/statistics')
-
       // Vérifier que la section comparaison est présente (plusieurs habitudes dans le test)
       await expect(
         page.getByRole('region', { name: /comparaison des habitudes/i })
       ).toBeVisible()
-      await expect(page.getByRole('heading', { name: 'Comparaison' })).toBeVisible()
+      // Note: Il y a un h2 et un h3 "Comparaison", utiliser le h2 de la section
+      await expect(page.locator('.statistics__section-title').filter({ hasText: 'Comparaison' })).toBeVisible()
     })
   })
 

@@ -5,7 +5,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
-import { Button, Input, Card } from '../components/ui'
+import { Button, Input, Card, EmojiPicker } from '../components/ui'
 import {
   ProgressionMode,
   ProgressionPeriod,
@@ -23,28 +23,6 @@ import {
   WEEKLY_AGGREGATION,
 } from '../constants/messages'
 import './EditHabit.css'
-
-/**
- * Emojis suggérés pour les habitudes
- */
-const SUGGESTED_EMOJIS = [
-  '💪',
-  '🏃',
-  '🧘',
-  '📚',
-  '✍️',
-  '💧',
-  '🥗',
-  '😴',
-  '🚭',
-  '🍷',
-  '📱',
-  '🎯',
-  '🌅',
-  '🧠',
-  '❤️',
-  '🎨',
-]
 
 /**
  * Écran Modification d'habitude
@@ -359,23 +337,7 @@ function EditHabit() {
 
       <div className="edit-habit__form">
         {/* Emoji */}
-        <div className="edit-habit__field">
-          <span className="edit-habit__field-label">Emoji</span>
-          <div className="edit-habit__emoji-grid" role="radiogroup">
-            {SUGGESTED_EMOJIS.map((e) => (
-              <button
-                key={e}
-                type="button"
-                className={`edit-habit__emoji-btn ${emoji === e ? 'edit-habit__emoji-btn--selected' : ''}`}
-                onClick={() => setEmoji(e)}
-                aria-pressed={emoji === e}
-                aria-label={`Emoji ${e}`}
-              >
-                {e}
-              </button>
-            ))}
-          </div>
-        </div>
+        <EmojiPicker label="Emoji" value={emoji} onChange={setEmoji} />
 
         {/* Nom */}
         <Input

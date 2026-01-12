@@ -116,8 +116,8 @@ test.describe('Édition d\'habitude - Propriétés de base', () => {
   });
 
   test('accède à la page d\'édition depuis la page détail', async ({ page }) => {
-    // Aller à la page Progrès (liste des habitudes)
-    await page.getByRole('link', { name: 'Progrès' }).click();
+    // Aller à la page Habitudes (liste des habitudes)
+    await page.getByRole('link', { name: 'Habitudes' }).click();
     await expect(page).toHaveURL('/habits');
 
     // Cliquer sur l'habitude dans la liste
@@ -472,15 +472,20 @@ test.describe('Édition d\'habitude - Emoji', () => {
   });
 
   test('permet de changer l\'emoji', async ({ page }) => {
-    // Vérifier que l'emoji actuel est sélectionné
-    const currentEmoji = page.locator('.edit-habit__emoji-btn--selected');
-    await expect(currentEmoji).toHaveText('💪');
+    // Vérifier que l'emoji actuel est affiché
+    await expect(page.locator('.emoji-picker__current')).toHaveText('💪');
 
-    // Sélectionner un autre emoji (le second dans la grille)
-    await page.locator('.edit-habit__emoji-btn').filter({ hasText: '🏃' }).click();
+    // Ouvrir le picker et sélectionner un autre emoji
+    await page.locator('.emoji-picker__trigger').click();
+    await expect(page.locator('.emoji-picker__dropdown')).toBeVisible();
 
-    // Vérifier que le nouvel emoji est sélectionné
-    await expect(page.locator('.edit-habit__emoji-btn--selected')).toHaveText('🏃');
+    // Sélectionner un emoji différent (le 3ème visible)
+    const emojiButtons = page.locator('.emoji-picker__dropdown button.epr-emoji');
+    await emojiButtons.nth(2).click();
+
+    // Vérifier que le nouvel emoji est affiché (pas 💪)
+    await expect(page.locator('.emoji-picker__current')).not.toHaveText('💪');
+    await expect(page.locator('.emoji-picker__dropdown')).not.toBeVisible();
 
     // Sauvegarder
     await page.getByRole('button', { name: 'Enregistrer' }).click();

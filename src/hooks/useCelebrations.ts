@@ -3,7 +3,7 @@
  * Gère la détection et l'affichage des célébrations de jalons
  */
 
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import { Habit, DailyEntry } from '../types'
 import { Milestone, MilestonesState } from '../types/statistics'
 import {
@@ -64,8 +64,16 @@ interface UseCelebrationsOptions {
 export function useCelebrations(options: UseCelebrationsOptions = {}): UseCelebrationsReturn {
   const { initialMilestones = { milestones: [] }, onMilestonesUpdate } = options
 
-  // État local des jalons
+  // Utiliser une référence stable pour détecter les changements
+  const initialMilestonesRef = JSON.stringify(initialMilestones.milestones)
+
+  // État local des jalons - mis à jour quand initialMilestones change
   const [milestonesState, setMilestonesState] = useState<MilestonesState>(initialMilestones)
+
+  // Synchroniser l'état quand les milestones initiaux changent (après chargement des données)
+  useEffect(() => {
+    setMilestonesState(initialMilestones)
+  }, [initialMilestonesRef])
 
   // État de la modale
   const [currentMilestone, setCurrentMilestone] = useState<Milestone | null>(null)
@@ -117,9 +125,12 @@ export function useCelebrations(options: UseCelebrationsOptions = {}): UseCelebr
   /**
    * Détecte tous les jalons non enregistrés pour les habitudes données
    * Utile au chargement de la page statistiques
+   * Utilise initialMilestones directement pour éviter les problèmes de synchronisation
    */
   const detectAllNewMilestones = useCallback(
     (habits: Habit[], entries: DailyEntry[]): Milestone[] => {
+      // Utiliser initialMilestones car milestonesState peut être désynchronisé
+      const existingMilestones = initialMilestones.milestones
       const allNewMilestones: Milestone[] = []
 
       for (const habit of habits) {
@@ -134,23 +145,23 @@ export function useCelebrations(options: UseCelebrationsOptions = {}): UseCelebr
 
         const currentValue = habitEntries[0].actualValue
 
-        // Détecter les nouveaux jalons
-        const newMilestones = detectNewMilestones(habit, currentValue, milestonesState.milestones)
+        // Détecter les nouveaux jalons en utilisant les milestones du parent
+        const newMilestones = detectNewMilestones(habit, currentValue, existingMilestones)
 
         allNewMilestones.push(...newMilestones)
       }
 
       if (allNewMilestones.length > 0) {
-        // Ajouter tous les nouveaux jalons
+        // Ajouter tous les nouveaux jalons à la liste existante
         const updatedState = {
-          milestones: [...milestonesState.milestones, ...allNewMilestones],
+          milestones: [...existingMilestones, ...allNewMilestones],
         }
         updateMilestones(updatedState)
       }
 
       return allNewMilestones
     },
-    [milestonesState.milestones, updateMilestones]
+    [initialMilestones.milestones, updateMilestones]
   )
 
   /**

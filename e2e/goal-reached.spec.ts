@@ -24,11 +24,17 @@ test.describe('Atteinte d\'objectif', () => {
   }) => {
     await page.goto('/')
 
+    // Fermer le message WelcomeBack s'il est affiché
+    const welcomeBackClose = page.locator('.welcome-back__close, .welcome-back-message button')
+    if (await welcomeBackClose.isVisible({ timeout: 1000 }).catch(() => false)) {
+      await welcomeBackClose.click()
+    }
+
     // L'habitude Push-ups doit être visible
     await expect(page.getByRole('heading', { name: 'Push-ups' })).toBeVisible()
 
-    // L'émoji doit être visible
-    await expect(page.getByText('💪')).toBeVisible()
+    // L'émoji doit être visible dans la section des habitudes
+    await expect(page.locator('.habit-card__emoji').filter({ hasText: '💪' })).toBeVisible()
   })
 
   test('affiche l\'objectif final atteint dans le détail de l\'habitude', async ({ page }) => {
