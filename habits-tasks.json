@@ -359,17 +359,19 @@
           "id": "edit.8",
           "name": "Tests E2E édition habitude",
           "description": "Créer des tests E2E pour vérifier que toutes les nouvelles propriétés peuvent être modifiées correctement.",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["e2e/habit-edit.spec.ts"]
+          "files": ["e2e/habit-edit.spec.ts"],
+          "completedAt": "2026-01-11",
+          "notes": "23 tests E2E créés couvrant: propriétés de base (nom, description), fréquence de suivi, mode de suivi, mode de saisie, déclaration d'identité, habit stacking, validation UX, progression, et emoji. Bug corrigé dans useAppData.ts (updateHabit retournait toujours false)."
         }
       ]
     }
   ],
   "stats": {
     "totalTasks": 33,
-    "completed": 31,
+    "completed": 32,
     "inProgress": 0,
-    "pending": 2
+    "pending": 1
   }
 }

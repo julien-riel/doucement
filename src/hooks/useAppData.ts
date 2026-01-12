@@ -143,20 +143,28 @@ export function useAppData(): UseAppDataReturn {
     return newHabit
   }, [])
 
-  const updateHabit = useCallback((id: string, input: UpdateHabitInput): boolean => {
-    let found = false
-    setData((prev) => ({
-      ...prev,
-      habits: prev.habits.map((habit) => {
-        if (habit.id === id) {
-          found = true
-          return { ...habit, ...input }
-        }
-        return habit
-      }),
-    }))
-    return found
-  }, [])
+  const updateHabit = useCallback(
+    (id: string, input: UpdateHabitInput): boolean => {
+      // Check if habit exists before updating
+      const habitExists = data.habits.some((habit) => habit.id === id)
+      if (!habitExists) {
+        return false
+      }
+
+      setData((prev) => ({
+        ...prev,
+        habits: prev.habits.map((habit) => {
+          if (habit.id === id) {
+            return { ...habit, ...input }
+          }
+          return habit
+        }),
+      }))
+
+      return true
+    },
+    [data.habits]
+  )
 
   const archiveHabit = useCallback(
     (id: string): boolean => {
