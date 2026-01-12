@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.8.0",
+  "currentVersion": "1.9.0",
   "releases": [
+    {
+      "version": "1.9.0",
+      "date": "2026-01-11",
+      "title": "Édition complète des habitudes",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Modifie la fréquence (quotidien/hebdomadaire) et le mode (simple/détaillé) à tout moment"
+        },
+        {
+          "emoji": "chart",
+          "text": "Active ou désactive le cumul des doses sur tes habitudes existantes"
+        },
+        {
+          "emoji": "muscle",
+          "text": "Ajoute ou modifie ta déclaration d'identité « Je suis quelqu'un qui... »"
+        },
+        {
+          "emoji": "target",
+          "text": "Ajoute une note personnelle à chaque habitude"
+        }
+      ]
+    },
     {
       "version": "1.8.0",
       "date": "2026-01-11",
