@@ -7,6 +7,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useDebugMode } from './useDebugMode'
 import { DEFAULT_APP_DATA } from '../types'
+import { getCurrentDate, addDays } from '../utils'
 
 // ============================================================================
 // MOCKS
@@ -210,7 +211,7 @@ describe('useDebugMode - Date Simulation', () => {
 
   describe('effectiveDate', () => {
     it("retourne la date d'aujourd'hui si pas de simulation", () => {
-      const today = new Date().toISOString().split('T')[0]
+      const today = getCurrentDate()
       mockData.preferences.debugMode = false
 
       const { result } = renderHook(() => useDebugMode())
@@ -302,10 +303,8 @@ describe('useDebugMode - Date Simulation', () => {
       mockData.preferences.debugMode = true
       mockData.preferences.simulatedDate = null
 
-      const today = new Date()
-      const tomorrow = new Date(today)
-      tomorrow.setDate(tomorrow.getDate() + 1)
-      const expectedDate = tomorrow.toISOString().split('T')[0]
+      const today = getCurrentDate()
+      const expectedDate = addDays(today, 1)
 
       const { result } = renderHook(() => useDebugMode())
 
@@ -508,7 +507,7 @@ describe('useDebugMode - Cas limites', () => {
     const { result } = renderHook(() => useDebugMode())
 
     // Une chaîne vide est falsy, donc effectiveDate utilise la date actuelle
-    const today = new Date().toISOString().split('T')[0]
+    const today = getCurrentDate()
     expect(result.current.effectiveDate).toBe(today)
   })
 
