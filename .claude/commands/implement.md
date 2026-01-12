@@ -27,8 +27,11 @@ $ARGUMENTS
 
 Lire en parallèle :
 - `tasks.json` — Liste des tâches et leur statut
+- **Les documents listés dans `docs[]`** — PRD, design system, et autres références du projet
 - Les fichiers listés dans `files[]` de chaque tâche à implémenter
 - `CLAUDE.md` si présent — Instructions du projet
+
+**Important** : Le champ `docs[]` dans tasks.json contient les chemins vers les documents de spécification essentiels (PRD, design system, etc.). Ces documents DOIVENT être lus avant de commencer l'implémentation pour comprendre le contexte, l'architecture et les contraintes.
 
 ### 2. Sélection des tâches
 

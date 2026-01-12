@@ -67,14 +67,29 @@ Les suggestions doivent être :
 - Complémentaires à l'idée de base
 - Avec une valeur ajoutée claire
 
-### 5. Planification
+### 5. Génération du document PRD
+
+**Avant de créer les tâches**, générer un document de spécification dans `docs/prd-<nom-projet>.md` contenant :
+
+- **Objectif** : But du projet
+- **Contexte** : Situation actuelle et manque identifié
+- **Use cases** : Cas d'utilisation prioritaires
+- **Architecture technique** : Structure des fichiers, dépendances
+- **Structures de données** : Types TypeScript nécessaires
+- **Composants UI** : Props et comportement attendu
+- **Contraintes design** : Couleurs, accessibilité, responsive
+- **Critères de succès** : Métriques de validation
+
+Ce document sert de **référence unique** pour l'implémentation.
+
+### 6. Planification
 
 Créer un plan de réalisation avec :
 - Phases distinctes (logiquement séparées)
 - Tâches ordonnées par dépendances
 - Estimation de complexité (simple/moyen/complexe)
 
-### 6. Génération du tasks.json
+### 7. Génération du tasks.json
 
 Générer le fichier `tasks.json` avec :
 
@@ -84,6 +99,10 @@ Générer le fichier `tasks.json` avec :
   "description": "Description courte",
   "createdAt": "YYYY-MM-DD",
   "lastRelease": null,
+  "docs": [
+    "docs/prd-<nom-projet>.md",
+    "docs/design/design-system-specification.md"
+  ],
   "phases": [
     {
       "id": "phase-id",
@@ -116,7 +135,7 @@ Générer le fichier `tasks.json` avec :
 }
 ```
 
-### 7. Affichage du résumé
+### 8. Affichage du résumé
 
 Afficher un résumé clair du plan :
 
@@ -184,5 +203,7 @@ Afficher un résumé clair du plan :
 ## Notes
 
 - Toujours sauvegarder tasks.json à la racine du projet
+- **Générer le PRD avant les tâches** — Le document `docs/prd-<nom>.md` est obligatoire
+- Le champ `docs[]` référence les documents essentiels pour `/implement`
 - Mettre à jour stats après création
 - Proposer de lancer `/status` après génération

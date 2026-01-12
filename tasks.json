@@ -1,65 +1,387 @@
 {
-  "project": "Nom du projet",
-  "description": "Description courte du projet",
-  "createdAt": "2026-01-11",
+  "project": "Statistiques Avancées",
+  "description": "Module de visualisation de la progression avec graphiques, projections et célébrations",
+  "createdAt": "2026-01-12",
   "lastRelease": null,
+  "docs": [
+    "docs/prd-statistics.md",
+    "docs/design/design-system-specification.md",
+    "docs/comm/banque-messages.md"
+  ],
   "phases": [
     {
       "id": "phase-1",
       "name": "Phase 1 - Fondations",
-      "description": "Description de la phase",
-      "status": "pending",
+      "description": "Infrastructure technique et services de données",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
           "id": "1.1",
-          "name": "Tâche exemple",
-          "description": "Description détaillée de ce qui doit être fait",
-          "status": "pending",
+          "name": "Installer Recharts",
+          "description": "Ajouter la dépendance Recharts au projet et configurer les types TypeScript",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "high",
           "dependsOn": [],
-          "files": ["src/example.ts"],
-          "tests": ["e2e/example.spec.ts"],
+          "files": ["package.json"],
+          "tests": [],
           "acceptance": [
-            "Critère de validation 1",
-            "Critère de validation 2"
+            "Recharts est installé dans package.json",
+            "Import de Recharts fonctionne sans erreur TS"
           ]
         },
         {
           "id": "1.2",
-          "name": "Tâche dépendante",
-          "description": "Cette tâche dépend de 1.1",
-          "status": "pending",
-          "priority": "medium",
+          "name": "Service de calcul statistiques",
+          "description": "Créer un service pour calculer les métriques : moyenne, tendance, progression, projection future basée sur le taux de progression",
+          "status": "completed",
+          "completedAt": "2026-01-12",
+          "priority": "high",
           "dependsOn": ["1.1"],
-          "files": ["src/dependent.ts"]
+          "files": ["src/services/statistics.ts"],
+          "tests": ["src/services/statistics.test.ts"],
+          "acceptance": [
+            "Calcul de la moyenne sur une période",
+            "Calcul de la tendance (pente)",
+            "Projection de la valeur future selon le rythme actuel",
+            "Comparaison projection vs cible définie"
+          ]
+        },
+        {
+          "id": "1.3",
+          "name": "Types et interfaces",
+          "description": "Définir les types TypeScript pour les données statistiques, périodes, et options de graphiques",
+          "status": "completed",
+          "completedAt": "2026-01-12",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": ["src/types/statistics.ts"],
+          "tests": [],
+          "acceptance": [
+            "Types pour StatsPeriod (week, month, year, all)",
+            "Types pour ChartData et DataPoint",
+            "Types pour ProjectionData"
+          ]
         }
       ]
     },
     {
       "id": "phase-2",
-      "name": "Phase 2 - Tests",
-      "description": "Tests et validation",
+      "name": "Phase 2 - Composants graphiques",
+      "description": "Création des composants de visualisation réutilisables",
+      "status": "pending",
+      "releaseType": "minor",
+      "tasks": [
+        {
+          "id": "2.1",
+          "name": "Composant ProgressionChart",
+          "description": "Graphique en courbe montrant l'évolution d'une habitude dans le temps, avec ligne de tendance et projection future en pointillés",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["1.1", "1.2", "1.3"],
+          "files": ["src/components/charts/ProgressionChart.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Affiche les données historiques en courbe",
+            "Ligne de tendance visible",
+            "Zone de projection future en pointillés",
+            "Cible finale affichée comme ligne horizontale",
+            "Responsive et accessible",
+            "Couleurs conformes au design system (orange/vert, pas de rouge)"
+          ]
+        },
+        {
+          "id": "2.2",
+          "name": "Composant HeatmapCalendar",
+          "description": "Calendrier heatmap style GitHub contributions, montrant l'intensité de réalisation jour par jour",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["1.1", "1.3"],
+          "files": ["src/components/charts/HeatmapCalendar.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Vue calendrier avec cases colorées",
+            "Intensité basée sur % de dose réalisée",
+            "Dégradé de couleurs douces (pas de rouge pour les jours faibles)",
+            "Tooltip au survol avec détails du jour",
+            "Navigation entre les mois"
+          ]
+        },
+        {
+          "id": "2.3",
+          "name": "Composant ComparisonChart",
+          "description": "Graphique permettant de comparer plusieurs habitudes sur la même période",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["1.1", "1.2", "1.3"],
+          "files": ["src/components/charts/ComparisonChart.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Multi-séries avec légende",
+            "Sélection des habitudes à comparer",
+            "Normalisation possible (% de la cible)",
+            "Couleurs distinctes par habitude"
+          ]
+        },
+        {
+          "id": "2.4",
+          "name": "Composant StatCard",
+          "description": "Carte affichant une métrique clé avec icône, valeur et tendance",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["1.3"],
+          "files": ["src/components/charts/StatCard.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Affichage valeur principale",
+            "Indicateur de tendance (flèche haut/bas)",
+            "Cohérence avec le design system Card existant"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-3",
+      "name": "Phase 3 - Page Statistiques",
+      "description": "Assemblage des composants dans une page dédiée",
+      "status": "pending",
+      "releaseType": "minor",
+      "tasks": [
+        {
+          "id": "3.1",
+          "name": "Page Statistics",
+          "description": "Créer la page principale des statistiques avec sélecteur de période et vue d'ensemble",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["2.1", "2.2", "2.3", "2.4"],
+          "files": ["src/pages/Statistics.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Sélecteur de période (semaine/mois/année/tout)",
+            "Section résumé avec StatCards",
+            "Section graphiques principaux",
+            "Sélecteur d'habitude pour les vues détaillées",
+            "État vide si pas assez de données"
+          ]
+        },
+        {
+          "id": "3.2",
+          "name": "Navigation et routing",
+          "description": "Ajouter la page Statistics au router et à la navigation principale",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["3.1"],
+          "files": ["src/App.tsx", "src/components/Navigation.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Route /statistics accessible",
+            "Icône dans la navigation principale",
+            "Transition fluide depuis les autres pages"
+          ]
+        },
+        {
+          "id": "3.3",
+          "name": "Section Projections",
+          "description": "Ajouter une section dédiée aux projections futures : quand atteindra-t-on la cible au rythme actuel ?",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["3.1", "1.2"],
+          "files": ["src/pages/Statistics.tsx", "src/components/charts/ProjectionSection.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Affichage de la date estimée d'atteinte de cible",
+            "Comparaison rythme actuel vs rythme nécessaire",
+            "Message encourageant adapté au contexte"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-4",
+      "name": "Phase 4 - Célébrations",
+      "description": "Système de célébration des jalons atteints",
+      "status": "pending",
+      "releaseType": "minor",
+      "tasks": [
+        {
+          "id": "4.1",
+          "name": "Service de détection des jalons",
+          "description": "Service pour détecter quand un utilisateur atteint 25%, 50%, 75% ou 100% de sa cible finale",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["1.2"],
+          "files": ["src/services/milestones.ts"],
+          "tests": ["src/services/milestones.test.ts"],
+          "acceptance": [
+            "Détection des seuils 25/50/75/100%",
+            "Stockage des jalons déjà célébrés (éviter répétition)",
+            "Calcul basé sur la valeur actuelle vs targetValue"
+          ]
+        },
+        {
+          "id": "4.2",
+          "name": "Composant CelebrationModal",
+          "description": "Modal de célébration avec animation confetti et message personnalisé",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["4.1"],
+          "files": ["src/components/CelebrationModal.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Animation de confetti ou particules",
+            "Message encourageant selon le jalon (depuis banque-messages.md)",
+            "Bouton de fermeture",
+            "Animation fluide d'entrée/sortie"
+          ]
+        },
+        {
+          "id": "4.3",
+          "name": "Intégration célébrations",
+          "description": "Déclencher les célébrations au bon moment (après check-in ou sur la page stats)",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["4.1", "4.2"],
+          "files": ["src/pages/Today.tsx", "src/pages/Statistics.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Célébration déclenchée après un check-in qui fait passer un seuil",
+            "Possibilité de revoir les jalons atteints dans les stats"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-5",
+      "name": "Phase 5 - Export visuel",
+      "description": "Fonctionnalité d'export des graphiques",
+      "status": "pending",
+      "releaseType": "minor",
+      "tasks": [
+        {
+          "id": "5.1",
+          "name": "Service d'export image",
+          "description": "Service pour capturer les graphiques en PNG en utilisant html2canvas ou dom-to-image",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["2.1", "2.2"],
+          "files": ["src/services/exportImage.ts", "package.json"],
+          "tests": [],
+          "acceptance": [
+            "Export PNG d'un graphique spécifique",
+            "Qualité suffisante pour partage",
+            "Téléchargement automatique du fichier"
+          ]
+        },
+        {
+          "id": "5.2",
+          "name": "Service d'export PDF",
+          "description": "Générer un PDF récapitulatif avec plusieurs graphiques et stats",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["5.1"],
+          "files": ["src/services/exportPdf.ts", "package.json"],
+          "tests": [],
+          "acceptance": [
+            "PDF avec en-tête personnalisé",
+            "Inclusion des graphiques principaux",
+            "Tableau récapitulatif des stats",
+            "Mise en page propre"
+          ]
+        },
+        {
+          "id": "5.3",
+          "name": "UI d'export",
+          "description": "Boutons d'export sur la page Statistics et menus de partage",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["5.1", "5.2", "3.1"],
+          "files": ["src/pages/Statistics.tsx", "src/components/ExportMenu.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Bouton d'export visible sur la page stats",
+            "Menu avec options PNG/PDF",
+            "Feedback visuel pendant l'export",
+            "Message de succès après téléchargement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-6",
+      "name": "Phase 6 - Tests et polish",
+      "description": "Tests E2E et finitions",
       "status": "pending",
       "releaseType": "patch",
       "tasks": [
         {
-          "id": "2.1",
-          "name": "Tests unitaires",
-          "description": "Ajouter les tests unitaires",
+          "id": "6.1",
+          "name": "Tests E2E page Statistics",
+          "description": "Tests Playwright pour valider les parcours utilisateur sur la page stats",
           "status": "pending",
           "priority": "high",
-          "dependsOn": ["1.1", "1.2"],
-          "files": ["src/example.test.ts"]
+          "dependsOn": ["3.2"],
+          "files": ["e2e/statistics.spec.ts"],
+          "tests": ["e2e/statistics.spec.ts"],
+          "acceptance": [
+            "Test navigation vers la page",
+            "Test changement de période",
+            "Test affichage des graphiques avec données de test",
+            "Test état vide"
+          ]
+        },
+        {
+          "id": "6.2",
+          "name": "Tests E2E célébrations",
+          "description": "Tests pour valider le déclenchement des célébrations",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["4.3"],
+          "files": ["e2e/celebrations.spec.ts"],
+          "tests": ["e2e/celebrations.spec.ts"],
+          "acceptance": [
+            "Test déclenchement modal au passage de seuil",
+            "Test non-répétition des célébrations déjà vues"
+          ]
+        },
+        {
+          "id": "6.3",
+          "name": "Accessibilité et responsive",
+          "description": "Vérifier l'accessibilité des graphiques et le comportement responsive",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["3.1", "2.1", "2.2"],
+          "files": ["src/components/charts/*.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Labels ARIA sur les graphiques",
+            "Graphiques lisibles sur mobile",
+            "Textes alternatifs pour les données visuelles"
+          ]
+        },
+        {
+          "id": "6.4",
+          "name": "Messages et wording",
+          "description": "Ajouter les messages de la page stats à la banque de messages",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["3.1", "4.2"],
+          "files": ["docs/comm/banque-messages.md", "src/constants/messages.ts"],
+          "tests": [],
+          "acceptance": [
+            "Messages de célébration pour chaque jalon",
+            "Textes descriptifs des graphiques",
+            "Vocabulaire conforme au tone de l'app"
+          ]
         }
       ]
     }
   ],
   "stats": {
-    "totalTasks": 3,
-    "completed": 0,
+    "totalTasks": 20,
+    "completed": 3,
     "inProgress": 0,
-    "pending": 3,
+    "pending": 17,
     "blocked": 0
   }
 }
