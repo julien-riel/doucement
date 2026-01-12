@@ -1,6 +1,6 @@
 import { useMemo, useState, useCallback, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAppData, useDateWatch } from '../hooks'
+import { useAppData, useDateWatch, useCelebrations } from '../hooks'
 import { ErrorBanner } from '../components/ui'
 import {
   DailyHeader,
@@ -25,6 +25,7 @@ import {
 } from '../utils'
 import { NEW_DAY_MESSAGES, NEW_DAY_EMOJI, randomMessage } from '../constants/messages'
 import { CompletionStatus } from '../types'
+import CelebrationModal from '../components/CelebrationModal'
 import './Today.css'
 
 /**
@@ -42,10 +43,24 @@ function Today() {
     addCounterOperation,
     undoLastOperation,
     updateHabit,
+    updatePreferences,
     retryLoad,
     resetData,
     clearError,
   } = useAppData()
+
+  // Hook de célébrations
+  const {
+    currentMilestone,
+    currentHabit,
+    isModalOpen,
+    checkMilestonesAfterCheckIn,
+    showCelebration,
+    closeCelebration,
+  } = useCelebrations({
+    initialMilestones: data.preferences.milestones,
+    onMilestonesUpdate: (milestones) => updatePreferences({ milestones }),
+  })
 
   const [welcomeDismissed, setWelcomeDismissed] = useState(false)
   const [declinedTransitions, setDeclinedTransitions] = useState<Set<string>>(new Set())
@@ -175,12 +190,23 @@ function Today() {
 
     const targetDose = calculateTargetDose(habit, today)
 
+    // Récupérer la valeur précédente pour détecter les nouveaux jalons
+    const existingEntry = todayEntries.find((e) => e.habitId === habitId)
+    const previousValue = existingEntry?.actualValue ?? 0
+
     addEntry({
       habitId,
       date: today,
       targetDose,
       actualValue: value,
     })
+
+    // Vérifier si un nouveau jalon a été atteint
+    const newMilestone = checkMilestonesAfterCheckIn(habit, previousValue, value)
+    if (newMilestone) {
+      // Afficher la célébration
+      showCelebration(newMilestone, habit)
+    }
   }
 
   // Gérer l'ajout d'une opération compteur (+1)
@@ -319,6 +345,17 @@ function Today() {
           </div>
         ))}
       </section>
+
+      {/* Modale de célébration */}
+      {currentMilestone && currentHabit && (
+        <CelebrationModal
+          isOpen={isModalOpen}
+          onClose={closeCelebration}
+          milestone={currentMilestone}
+          habitName={currentHabit.name}
+          habitEmoji={currentHabit.emoji}
+        />
+      )}
     </div>
   )
 }

@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAppData } from '../hooks'
+import { useAppData, useCelebrations } from '../hooks'
 import { ErrorBanner } from '../components/ui'
 import { StatsPeriod, TrendDirection } from '../types/statistics'
 import { getGlobalStats, getChartData, getProjection } from '../services/statistics'
@@ -8,6 +8,8 @@ import ProgressionChart from '../components/charts/ProgressionChart'
 import HeatmapCalendar from '../components/charts/HeatmapCalendar'
 import ComparisonChart from '../components/charts/ComparisonChart'
 import StatCard from '../components/charts/StatCard'
+import ProjectionSection from '../components/charts/ProjectionSection'
+import CelebrationModal from '../components/CelebrationModal'
 import { getCurrentDate } from '../utils'
 import './Statistics.css'
 
@@ -51,10 +53,33 @@ function formatTrendValue(trend: number): string {
  * Affiche les graphiques de progression, le calendrier heatmap et les comparaisons
  */
 function Statistics() {
-  const { activeHabits, data, isLoading, error, retryLoad, resetData, clearError } = useAppData()
+  const {
+    activeHabits,
+    data,
+    isLoading,
+    error,
+    retryLoad,
+    resetData,
+    clearError,
+    updatePreferences,
+  } = useAppData()
+
+  // Hook de célébrations pour détecter les jalons non encore célébrés
+  const {
+    currentMilestone,
+    currentHabit,
+    isModalOpen,
+    detectAllNewMilestones,
+    showCelebration,
+    closeCelebration,
+  } = useCelebrations({
+    initialMilestones: data.preferences.milestones,
+    onMilestonesUpdate: (milestones) => updatePreferences({ milestones }),
+  })
 
   const [period, setPeriod] = useState<StatsPeriod>('month')
   const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null)
+  const [hasDetectedMilestones, setHasDetectedMilestones] = useState(false)
 
   const today = getCurrentDate()
 
@@ -91,6 +116,30 @@ function Statistics() {
 
   // Vérifie s'il y a assez de données
   const hasEnoughData = globalStats.totalActiveDays >= MIN_ENTRIES_FOR_STATS
+
+  // Détecter les nouveaux jalons au chargement de la page
+  useEffect(() => {
+    if (!isLoading && !hasDetectedMilestones && activeHabits.length > 0) {
+      const newMilestones = detectAllNewMilestones(activeHabits, data.entries)
+      setHasDetectedMilestones(true)
+
+      // Si des nouveaux jalons ont été détectés et qu'il y a des non-célébrés, afficher le premier
+      if (newMilestones.length > 0) {
+        const firstMilestone = newMilestones[0]
+        const habit = activeHabits.find((h) => h.id === firstMilestone.habitId)
+        if (habit) {
+          showCelebration(firstMilestone, habit)
+        }
+      }
+    }
+  }, [
+    isLoading,
+    hasDetectedMilestones,
+    activeHabits,
+    data.entries,
+    detectAllNewMilestones,
+    showCelebration,
+  ])
 
   if (isLoading) {
     return (
@@ -249,28 +298,8 @@ function Statistics() {
       )}
 
       {/* Section Projection */}
-      {projection && projection.estimatedCompletionDate && selectedHabit?.targetValue && (
-        <section className="statistics__projection-section">
-          <h2 className="statistics__section-title">Projection</h2>
-          <div className="statistics__projection-card">
-            <p className="statistics__projection-text">
-              Au rythme actuel, tu atteindras ta cible de{' '}
-              <strong>
-                {selectedHabit.targetValue} {selectedHabit.unit}
-              </strong>{' '}
-              dans environ <strong>{projection.daysRemaining} jours</strong>.
-            </p>
-            <div className="statistics__projection-meta">
-              <span className="statistics__projection-rate">
-                Progression : {projection.currentWeeklyRate > 0 ? '+' : ''}
-                {projection.currentWeeklyRate} {selectedHabit.unit}/semaine
-              </span>
-              <span className="statistics__projection-current">
-                Actuellement à {Math.round(projection.progressPercentage)}% de ton objectif
-              </span>
-            </div>
-          </div>
-        </section>
+      {projection && selectedHabit?.targetValue && (
+        <ProjectionSection projection={projection} habit={selectedHabit} />
       )}
 
       {/* Graphique de comparaison (si plusieurs habitudes) */}
@@ -284,6 +313,17 @@ function Statistics() {
             normalized={true}
           />
         </section>
+      )}
+
+      {/* Modale de célébration */}
+      {currentMilestone && currentHabit && (
+        <CelebrationModal
+          isOpen={isModalOpen}
+          onClose={closeCelebration}
+          milestone={currentMilestone}
+          habitName={currentHabit.name}
+          habitEmoji={currentHabit.emoji}
+        />
       )}
     </div>
   )

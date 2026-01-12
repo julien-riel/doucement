@@ -343,6 +343,113 @@ Ce document contient l'ensemble des messages, encouragements et micro-textes de 
 
 ---
 
+## Messages de la page Statistiques
+
+### Titre de la page
+
+- « Mes statistiques »
+
+### Périodes disponibles
+
+| Clé | Label |
+|-----|-------|
+| week | Semaine |
+| month | Mois |
+| quarter | Trimestre |
+| year | Année |
+| all | Tout |
+
+### Labels des StatCards
+
+- « Moyenne » (pourcentage de complétion)
+- « Jours actifs » (nombre de jours avec entrée)
+- « Habitudes » (nombre d'habitudes actives)
+- « Série » (jours consécutifs actuels)
+
+### État vide — Pas d'habitude
+
+**Titre :** « Pas encore de statistiques »
+**Message :** « Créez votre première habitude pour commencer à voir vos statistiques. »
+**Bouton :** « Créer une habitude »
+
+### État vide — Pas assez de données
+
+**Titre :** « Continue encore quelques jours »
+**Message :** « Tu en es à [X] jour(s). Reviens dans quelques jours pour voir tes statistiques. »
+
+### Section Projections
+
+**Titre :** « Projections »
+
+**Messages encourageants :**
+
+| Contexte | Emoji | Message |
+|----------|-------|---------|
+| Objectif atteint | 🎉 | Objectif atteint ! Tu peux être fier·e de toi. |
+| Moins de 30 jours restants | 🔥 | L'arrivée est proche ! Continue sur cette lancée. |
+| 75%+ de progression | 🌳 | Trois quarts du chemin parcouru. Tu y es presque ! |
+| 50%+ de progression | 🌿 | Mi-parcours atteint. Tu es sur la bonne voie. |
+| 25%+ de progression | 🌱 | Beau départ ! Chaque jour te rapproche de ton objectif. |
+| Progression positive | ✨ | Tu avances dans la bonne direction. Continue comme ça. |
+| Stagnation | 💪 | Chaque petit pas compte. L'important, c'est de continuer. |
+
+**Format de la date estimée :**
+- « Au rythme actuel, tu atteindras ta cible de [X] [unité] vers le [date]. »
+- « Soit dans environ [N] jours. »
+
+**Comparaison des rythmes :**
+- « Rythme actuel : [X] [unité]/semaine »
+- « Pour finir en 12 sem. : [X] [unité]/semaine »
+
+**Labels de progression :**
+- « Progression vers l'objectif : [X]% »
+- « Dans 30 jours : ~[X] [unité] »
+- « Dans 90 jours : ~[X] [unité] »
+
+---
+
+## Messages de célébration
+
+### Jalons de progression (% vers l'objectif)
+
+**25% atteint :**
+- Emoji : 🌱
+- Titre : « Quart du chemin parcouru ! »
+- Messages :
+  - « Tu as franchi le premier quart de ton objectif. C'est un excellent début ! »
+  - « 25%, c'est le début d'une belle aventure. Continue comme ça ! »
+
+**50% atteint :**
+- Emoji : 🌿
+- Titre : « Mi-parcours atteint ! »
+- Messages :
+  - « Tu es à mi-chemin de ton objectif. Tu peux être fier·e de toi. »
+  - « La moitié du chemin est faite. L'élan est là ! »
+
+**75% atteint :**
+- Emoji : 🌳
+- Titre : « Trois quarts du chemin ! »
+- Messages :
+  - « Plus que 25% pour atteindre ton objectif. Tu y es presque ! »
+  - « 75% accomplis. L'arrivée est en vue ! »
+
+**100% atteint :**
+- Emoji : 🎉
+- Titre : « Objectif atteint ! »
+- Messages :
+  - « Tu l'as fait ! Tu as atteint ton objectif. »
+  - « Mission accomplie. Tu peux être fier·e de ce que tu as accompli. »
+  - « C'est fait. Félicitations, vraiment. »
+
+### Modale de célébration
+
+**Bouton de fermeture :**
+- « Continuer »
+
+**Note :** Les confettis s'affichent automatiquement lors de l'ouverture de la modale.
+
+---
+
 ## Notes pour l'implémentation
 
 Les messages de check-in devraient être affichés de manière aléatoire parmi les options disponibles pour éviter la répétition et maintenir un sentiment de fraîcheur.

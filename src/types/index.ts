@@ -3,6 +3,8 @@
  * Définition des structures de données pour le stockage local
  */
 
+import { MilestonesState } from './statistics'
+
 // ============================================================================
 // SCHEMA VERSION
 // ============================================================================
@@ -312,6 +314,8 @@ export interface UserPreferences {
   simulatedDate?: string | null
   /** Préférence de thème (clair, sombre, système) */
   theme?: ThemePreference
+  /** État des jalons célébrés */
+  milestones?: MilestonesState
 }
 
 // ============================================================================

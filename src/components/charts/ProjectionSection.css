@@ -1,0 +1,227 @@
+/**
+ * ProjectionSection styles
+ * Section de projections avec message encourageant et visualisation de la progression
+ */
+
+.projection-section {
+  margin-bottom: var(--spacing-5);
+}
+
+.projection-section__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0 0 var(--spacing-3) 0;
+}
+
+.projection-section__card {
+  background: linear-gradient(135deg, var(--primary-50), var(--secondary-50));
+}
+
+/* Encouragement */
+.projection-section__encouragement {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.projection-section__emoji {
+  font-size: 32px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.projection-section__message {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--neutral-700);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Estimate */
+.projection-section__estimate {
+  margin-bottom: var(--spacing-4);
+}
+
+.projection-section__estimate-text {
+  font-size: var(--text-base);
+  color: var(--neutral-700);
+  line-height: 1.6;
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.projection-section__estimate-text strong {
+  color: var(--primary-600);
+}
+
+.projection-section__days-remaining {
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+  margin: 0;
+}
+
+.projection-section__days-remaining strong {
+  color: var(--secondary-600);
+}
+
+/* Rates comparison */
+.projection-section__rates {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.projection-section__rate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding: var(--spacing-3);
+  background: var(--neutral-0);
+  border-radius: var(--radius-md);
+}
+
+.projection-section__rate-label {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.projection-section__rate-value {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+}
+
+.projection-section__rate-value--current {
+  color: var(--primary-600);
+}
+
+.projection-section__rate-value--required {
+  color: var(--neutral-600);
+}
+
+/* Progress bar */
+.projection-section__progress {
+  margin-bottom: var(--spacing-4);
+}
+
+.projection-section__progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-2);
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+}
+
+.projection-section__progress-percentage {
+  font-weight: var(--font-semibold);
+  color: var(--secondary-600);
+}
+
+.projection-section__progress-bar {
+  position: relative;
+  height: 12px;
+  background: var(--neutral-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.projection-section__progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-400), var(--secondary-500));
+  border-radius: var(--radius-full);
+  transition: width 500ms ease;
+}
+
+.projection-section__markers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 25%;
+}
+
+.projection-section__marker {
+  width: 2px;
+  height: 100%;
+  background: var(--neutral-300);
+  opacity: 0.5;
+}
+
+.projection-section__marker--reached {
+  background: var(--neutral-0);
+  opacity: 0.8;
+}
+
+.projection-section__progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--spacing-1);
+  font-size: var(--text-xs);
+  color: var(--neutral-400);
+}
+
+/* Forecasts */
+.projection-section__forecasts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--neutral-200);
+}
+
+.projection-section__forecast {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  text-align: center;
+}
+
+.projection-section__forecast-label {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+}
+
+.projection-section__forecast-value {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--primary-600);
+}
+
+/* Responsive */
+@media (max-width: 479px) {
+  .projection-section__rates {
+    grid-template-columns: 1fr;
+  }
+
+  .projection-section__rate-value {
+    font-size: var(--text-base);
+  }
+}
+
+@media (min-width: 768px) {
+  .projection-section__encouragement {
+    align-items: center;
+  }
+
+  .projection-section__emoji {
+    font-size: 40px;
+  }
+
+  .projection-section__message {
+    font-size: var(--text-lg);
+  }
+}

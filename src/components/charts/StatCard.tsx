@@ -59,21 +59,47 @@ function TrendIcon({ direction }: { direction: TrendDirection }) {
  *   trendValue="+5%"
  * />
  */
+/**
+ * Retourne le texte de tendance pour l'accessibilité
+ */
+function getTrendLabel(trend: TrendDirection, trendValue?: string): string {
+  const trendLabels: Record<TrendDirection, string> = {
+    up: 'en hausse',
+    down: 'en baisse',
+    stable: 'stable',
+  }
+  const baseLabel = trendLabels[trend]
+  return trendValue ? `${baseLabel} de ${trendValue}` : baseLabel
+}
+
 function StatCard({ label, value, unit, trend, trendValue, className = '' }: StatCardProps) {
   const classNames = ['stat-card', className].filter(Boolean).join(' ')
 
+  // Construire le label accessible complet
+  const accessibleLabel = trend
+    ? `${label}: ${value}${unit || ''}, ${getTrendLabel(trend, trendValue)}`
+    : `${label}: ${value}${unit || ''}`
+
   return (
-    <Card variant="default" className={classNames}>
+    <Card variant="default" className={classNames} aria-label={accessibleLabel} role="group">
       <div className="stat-card__content">
         <div className="stat-card__value-row">
-          <span className="stat-card__value">{value}</span>
-          {unit && <span className="stat-card__unit">{unit}</span>}
+          <span className="stat-card__value" aria-hidden="true">
+            {value}
+          </span>
+          {unit && (
+            <span className="stat-card__unit" aria-hidden="true">
+              {unit}
+            </span>
+          )}
         </div>
 
-        <div className="stat-card__label">{label}</div>
+        <div className="stat-card__label" aria-hidden="true">
+          {label}
+        </div>
 
         {trend && (
-          <div className={`stat-card__trend stat-card__trend--${trend}`}>
+          <div className={`stat-card__trend stat-card__trend--${trend}`} aria-hidden="true">
             <TrendIcon direction={trend} />
             {trendValue && <span className="stat-card__trend-value">{trendValue}</span>}
           </div>

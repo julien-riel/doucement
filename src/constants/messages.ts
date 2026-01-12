@@ -645,6 +645,140 @@ export const FIRST_CHECKIN = {
 } as const
 
 // ============================================================================
+// MESSAGES PAGE STATISTIQUES
+// ============================================================================
+
+/**
+ * Labels pour les périodes d'affichage des statistiques
+ */
+export const STATS_PERIOD_LABELS = {
+  week: 'Semaine',
+  month: 'Mois',
+  quarter: 'Trimestre',
+  year: 'Année',
+  all: 'Tout',
+} as const
+
+/**
+ * État vide - pas d'habitude
+ */
+export const STATS_EMPTY_NO_HABITS = {
+  title: 'Pas encore de statistiques',
+  message: 'Créez votre première habitude pour commencer à voir vos statistiques.',
+  button: 'Créer une habitude',
+} as const
+
+/**
+ * État vide - pas assez de données
+ */
+export const STATS_EMPTY_NOT_ENOUGH_DATA = {
+  title: 'Continue encore quelques jours',
+  message: (days: number) =>
+    `Tu en es à ${days} jour${days > 1 ? 's' : ''}. Reviens dans quelques jours pour voir tes statistiques.`,
+} as const
+
+/**
+ * Labels des StatCards
+ */
+export const STAT_CARD_LABELS = {
+  average: 'Moyenne',
+  activeDays: 'Jours actifs',
+  habits: 'Habitudes',
+  streak: 'Série',
+} as const
+
+/**
+ * Messages de tendance pour les StatCards accessibles
+ */
+export const TREND_LABELS = {
+  up: 'en hausse',
+  down: 'en baisse',
+  stable: 'stable',
+} as const
+
+/**
+ * Messages encourageants de la section Projections
+ */
+export const PROJECTION_MESSAGES = {
+  goalReached: {
+    emoji: '🎉',
+    message: 'Objectif atteint ! Tu peux être fier·e de toi.',
+  },
+  almostThere: {
+    emoji: '🔥',
+    message: "L'arrivée est proche ! Continue sur cette lancée.",
+  },
+  threeQuarters: {
+    emoji: '🌳',
+    message: 'Trois quarts du chemin parcouru. Tu y es presque !',
+  },
+  halfWay: {
+    emoji: '🌿',
+    message: 'Mi-parcours atteint. Tu es sur la bonne voie.',
+  },
+  quarterWay: {
+    emoji: '🌱',
+    message: 'Beau départ ! Chaque jour te rapproche de ton objectif.',
+  },
+  positiveProgress: {
+    emoji: '✨',
+    message: 'Tu avances dans la bonne direction. Continue comme ça.',
+  },
+  stagnation: {
+    emoji: '💪',
+    message: "Chaque petit pas compte. L'important, c'est de continuer.",
+  },
+} as const
+
+// ============================================================================
+// MESSAGES DE CÉLÉBRATION (JALONS %)
+// ============================================================================
+
+/**
+ * Messages de célébration pour les jalons de progression
+ */
+export const CELEBRATION_MESSAGES = {
+  25: {
+    emoji: '🌱',
+    title: 'Quart du chemin parcouru !',
+    messages: [
+      "Tu as franchi le premier quart de ton objectif. C'est un excellent début !",
+      "25%, c'est le début d'une belle aventure. Continue comme ça !",
+    ],
+  },
+  50: {
+    emoji: '🌿',
+    title: 'Mi-parcours atteint !',
+    messages: [
+      'Tu es à mi-chemin de ton objectif. Tu peux être fier·e de toi.',
+      "La moitié du chemin est faite. L'élan est là !",
+    ],
+  },
+  75: {
+    emoji: '🌳',
+    title: 'Trois quarts du chemin !',
+    messages: [
+      'Plus que 25% pour atteindre ton objectif. Tu y es presque !',
+      "75% accomplis. L'arrivée est en vue !",
+    ],
+  },
+  100: {
+    emoji: '🎉',
+    title: 'Objectif atteint !',
+    messages: [
+      "Tu l'as fait ! Tu as atteint ton objectif.",
+      'Mission accomplie. Tu peux être fier·e de ce que tu as accompli.',
+      "C'est fait. Félicitations, vraiment.",
+    ],
+  },
+} as const
+
+/**
+ * Bouton de fermeture de la modale de célébration
+ */
+export const CELEBRATION_CLOSE_BUTTON = 'Continuer' as const
+
+// ============================================================================
 // TEXTES LÉGAUX ET PARAMÈTRES
 // ============================================================================
 
