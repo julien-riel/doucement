@@ -212,6 +212,24 @@ export const GOAL_REACHED = [
 ] as const
 
 // ============================================================================
+// MESSAGES NOUVELLE JOURNÉE
+// ============================================================================
+
+/**
+ * Messages affichés lors du passage à minuit (nouvelle journée)
+ */
+export const NEW_DAY_MESSAGES = [
+  'Nouvelle journée !',
+  'Minuit passé, nouveau départ',
+  'Un nouveau jour commence',
+] as const
+
+/**
+ * Emoji pour la notification nouvelle journée
+ */
+export const NEW_DAY_EMOJI = '🌅' as const
+
+// ============================================================================
 // MESSAGES ENCOURAGEANTS (ÉCRAN AUJOURD'HUI)
 // ============================================================================
 

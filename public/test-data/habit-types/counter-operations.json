@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 9,
+  "habits": [
+    {
+      "id": "habit-water-counter",
+      "name": "Boire de l'eau",
+      "emoji": "💧",
+      "description": "Hydratation quotidienne avec compteur",
+      "direction": "increase",
+      "startValue": 4,
+      "unit": "verres",
+      "progression": {
+        "mode": "absolute",
+        "value": 1,
+        "period": "weekly"
+      },
+      "targetValue": 8,
+      "createdAt": "2026-01-01",
+      "archivedAt": null,
+      "trackingMode": "counter",
+      "trackingFrequency": "daily"
+    },
+    {
+      "id": "habit-snacks-counter",
+      "name": "Réduire les grignotages",
+      "emoji": "🍪",
+      "description": "Comptage des grignotages pour réduire",
+      "direction": "decrease",
+      "startValue": 5,
+      "unit": "grignotages",
+      "progression": {
+        "mode": "absolute",
+        "value": 1,
+        "period": "weekly"
+      },
+      "targetValue": 0,
+      "createdAt": "2026-01-01",
+      "archivedAt": null,
+      "trackingMode": "counter",
+      "trackingFrequency": "daily"
+    }
+  ],
+  "entries": [
+    {
+      "id": "e1",
+      "habitId": "habit-water-counter",
+      "date": "2026-01-10",
+      "targetDose": 5,
+      "actualValue": 6,
+      "createdAt": "2026-01-10T08:00:00Z",
+      "updatedAt": "2026-01-10T18:30:00Z",
+      "operations": [
+        {"id": "op1", "type": "add", "value": 1, "timestamp": "2026-01-10T08:00:00Z"},
+        {"id": "op2", "type": "add", "value": 1, "timestamp": "2026-01-10T10:30:00Z"},
+        {"id": "op3", "type": "add", "value": 1, "timestamp": "2026-01-10T12:00:00Z"},
+        {"id": "op4", "type": "add", "value": 1, "timestamp": "2026-01-10T14:00:00Z"},
+        {"id": "op5", "type": "add", "value": 1, "timestamp": "2026-01-10T16:00:00Z", "note": "Après le sport"},
+        {"id": "op6", "type": "add", "value": 1, "timestamp": "2026-01-10T18:30:00Z"}
+      ]
+    },
+    {
+      "id": "e2",
+      "habitId": "habit-water-counter",
+      "date": "2026-01-09",
+      "targetDose": 5,
+      "actualValue": 4,
+      "createdAt": "2026-01-09T08:00:00Z",
+      "updatedAt": "2026-01-09T20:00:00Z",
+      "operations": [
+        {"id": "op7", "type": "add", "value": 1, "timestamp": "2026-01-09T08:00:00Z"},
+        {"id": "op8", "type": "add", "value": 1, "timestamp": "2026-01-09T11:00:00Z"},
+        {"id": "op9", "type": "add", "value": 1, "timestamp": "2026-01-09T14:00:00Z"},
+        {"id": "op10", "type": "add", "value": 1, "timestamp": "2026-01-09T17:00:00Z"},
+        {"id": "op11", "type": "add", "value": 1, "timestamp": "2026-01-09T19:00:00Z"},
+        {"id": "op12", "type": "subtract", "value": 1, "timestamp": "2026-01-09T20:00:00Z", "note": "Erreur corrigée"}
+      ]
+    },
+    {
+      "id": "e3",
+      "habitId": "habit-snacks-counter",
+      "date": "2026-01-10",
+      "targetDose": 4,
+      "actualValue": 3,
+      "createdAt": "2026-01-10T10:00:00Z",
+      "updatedAt": "2026-01-10T16:00:00Z",
+      "operations": [
+        {"id": "op13", "type": "add", "value": 1, "timestamp": "2026-01-10T10:00:00Z", "note": "Petit creux"},
+        {"id": "op14", "type": "add", "value": 1, "timestamp": "2026-01-10T14:30:00Z"},
+        {"id": "op15", "type": "add", "value": 1, "timestamp": "2026-01-10T16:00:00Z"}
+      ]
+    },
+    {
+      "id": "e4",
+      "habitId": "habit-snacks-counter",
+      "date": "2026-01-09",
+      "targetDose": 4,
+      "actualValue": 2,
+      "createdAt": "2026-01-09T11:00:00Z",
+      "updatedAt": "2026-01-09T15:00:00Z",
+      "operations": [
+        {"id": "op16", "type": "add", "value": 1, "timestamp": "2026-01-09T11:00:00Z"},
+        {"id": "op17", "type": "add", "value": 1, "timestamp": "2026-01-09T15:00:00Z"}
+      ]
+    },
+    {
+      "id": "e5",
+      "habitId": "habit-water-counter",
+      "date": "2026-01-08",
+      "targetDose": 5,
+      "actualValue": 7,
+      "createdAt": "2026-01-08T07:00:00Z",
+      "updatedAt": "2026-01-08T21:00:00Z",
+      "operations": [
+        {"id": "op18", "type": "add", "value": 1, "timestamp": "2026-01-08T07:00:00Z"},
+        {"id": "op19", "type": "add", "value": 1, "timestamp": "2026-01-08T09:00:00Z"},
+        {"id": "op20", "type": "add", "value": 1, "timestamp": "2026-01-08T11:00:00Z"},
+        {"id": "op21", "type": "add", "value": 1, "timestamp": "2026-01-08T13:00:00Z"},
+        {"id": "op22", "type": "add", "value": 1, "timestamp": "2026-01-08T15:00:00Z"},
+        {"id": "op23", "type": "add", "value": 1, "timestamp": "2026-01-08T17:00:00Z"},
+        {"id": "op24", "type": "add", "value": 1, "timestamp": "2026-01-08T21:00:00Z"}
+      ]
+    }
+  ],
+  "preferences": {
+    "onboardingCompleted": true,
+    "lastWeeklyReviewDate": "2026-01-05",
+    "notifications": {
+      "enabled": false,
+      "morningReminder": {"enabled": true, "time": "08:00"},
+      "eveningReminder": {"enabled": false, "time": "20:00"},
+      "weeklyReviewReminder": {"enabled": false, "time": "10:00"}
+    },
+    "theme": "system"
+  }
+}

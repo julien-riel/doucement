@@ -425,9 +425,9 @@
   ],
   "stats": {
     "totalTasks": 59,
-    "completed": 48,
-    "inProgress": 1,
-    "pending": 10
+    "completed": 50,
+    "inProgress": 0,
+    "pending": 9
   },
   "nextPhases": [
     {
@@ -486,7 +486,7 @@
     {
       "id": "phase-day-watch",
       "name": "Détection changement de journée",
-      "status": "in_progress",
+      "status": "completed",
       "description": "Hook et logique pour détecter automatiquement le passage à un nouveau jour",
       "tasks": [
         {
@@ -511,9 +511,10 @@
           "id": "day.3",
           "name": "Notification nouvelle journée",
           "description": "Afficher un toast ou message discret lors du passage à un nouveau jour",
-          "status": "pending",
+          "status": "completed",
           "priority": "low",
-          "files": ["src/pages/Today.tsx", "src/constants/messages.ts"]
+          "files": ["src/pages/Today.tsx", "src/constants/messages.ts", "src/pages/Today.css"],
+          "completedAt": "2026-01-11"
         }
       ]
     },
@@ -599,7 +600,7 @@
     {
       "id": "phase-counter-tests",
       "name": "Tests Compteur",
-      "status": "in_progress",
+      "status": "completed",
       "description": "Tests unitaires et E2E pour le mode compteur",
       "tasks": [
         {
@@ -642,9 +643,10 @@
           "id": "test.5",
           "name": "Fixture counter-operations.json",
           "description": "Fichier de test avec habitude compteur et historique d'opérations",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
-          "files": ["public/test-data/habit-types/counter-operations.json"]
+          "files": ["public/test-data/habit-types/counter-operations.json"],
+          "completedAt": "2026-01-11"
         }
       ]
     }

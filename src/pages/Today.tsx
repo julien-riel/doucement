@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react'
+import { useMemo, useState, useCallback, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAppData, useDateWatch } from '../hooks'
 import { ErrorBanner } from '../components/ui'
@@ -23,6 +23,7 @@ import {
   isHabitPaused,
   getHabitsEligibleForTransition,
 } from '../utils'
+import { NEW_DAY_MESSAGES, NEW_DAY_EMOJI, randomMessage } from '../constants/messages'
 import { CompletionStatus } from '../types'
 import './Today.css'
 
@@ -48,10 +49,17 @@ function Today() {
 
   const [welcomeDismissed, setWelcomeDismissed] = useState(false)
   const [declinedTransitions, setDeclinedTransitions] = useState<Set<string>>(new Set())
+  const [newDayToast, setNewDayToast] = useState<string | null>(null)
+
+  // Callback appelé quand la date change (à minuit)
+  const handleDateChange = useCallback(() => {
+    // Affiche un toast de nouvelle journée
+    setNewDayToast(randomMessage(NEW_DAY_MESSAGES))
+  }, [])
 
   // Utilise useDateWatch pour détecter automatiquement le changement de jour à minuit
   // Le composant se re-render automatiquement quand la date change
-  const today = useDateWatch()
+  const today = useDateWatch(handleDateChange)
   const todayEntries = useMemo(() => getEntriesForDate(today), [getEntriesForDate, today])
 
   // Filtrer les habitudes actives créées avant aujourd'hui et non en pause
@@ -124,6 +132,16 @@ function Today() {
 
   // Détermine si on doit afficher le message de bienvenue
   const showWelcomeMessage = !welcomeDismissed && absenceInfo.isAbsent && habitsForToday.length > 0
+
+  // Auto-fermer le toast de nouvelle journée après 4 secondes
+  useEffect(() => {
+    if (newDayToast) {
+      const timer = setTimeout(() => {
+        setNewDayToast(null)
+      }, 4000)
+      return () => clearTimeout(timer)
+    }
+  }, [newDayToast])
 
   // Trouver les habitudes éligibles à la transition simple → détaillé
   const eligibleForTransition = useMemo(() => {
@@ -222,6 +240,14 @@ function Today() {
 
   return (
     <div className="page page-today">
+      {/* Toast de nouvelle journée */}
+      {newDayToast && (
+        <div className="today__new-day-toast" role="status" aria-live="polite">
+          <span className="today__new-day-toast-emoji">{NEW_DAY_EMOJI}</span>
+          <span className="today__new-day-toast-text">{newDayToast}</span>
+        </div>
+      )}
+
       <DailyHeader date={today} completionPercentage={completionPercentage} />
 
       {/* Message de bienvenue après une absence */}
