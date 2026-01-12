@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.10.0",
+  "currentVersion": "1.11.0",
   "releases": [
+    {
+      "version": "1.11.0",
+      "date": "2026-01-12",
+      "title": "Phase 1 - Fondations",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Installer Recharts"
+        },
+        {
+          "emoji": "chart",
+          "text": "Service de calcul statistiques"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Types et interfaces"
+        }
+      ]
+    },
     {
       "version": "1.10.0",
       "date": "2026-01-11",
