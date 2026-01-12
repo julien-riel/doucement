@@ -1,6 +1,9 @@
 /**
  * EditHabit Page Styles
  * Styles for the habit modification form
+ *
+ * Note: This file shares many patterns with CreateHabit.css
+ * Common base styles (step-details__*) are defined in CreateHabit.css
  */
 
 .page-edit-habit {
@@ -31,7 +34,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-3);
-  animation: fadeInUp var(--duration-normal) var(--easing-gentle);
+  animation: editFadeInUp var(--duration-normal) var(--easing-gentle);
 }
 
 .edit-habit__success-icon {
@@ -84,7 +87,7 @@
   margin: 0;
 }
 
-/* Form */
+/* Form - Uses same pattern as step-details__form in CreateHabit */
 .edit-habit__form {
   display: flex;
   flex-direction: column;
@@ -105,7 +108,7 @@
   margin: 0;
 }
 
-/* Emoji Grid */
+/* Emoji Grid - Matches step-details__emoji-* in CreateHabit */
 .edit-habit__emoji-grid {
   display: flex;
   flex-wrap: wrap;
@@ -175,7 +178,7 @@
   font-style: italic;
 }
 
-/* Progression Section */
+/* Progression Section - Matches step-details__progression-* in CreateHabit */
 .edit-habit__progression-section {
   padding-top: var(--spacing-4);
   border-top: 1px solid var(--neutral-200);
@@ -210,6 +213,7 @@
   color: var(--neutral-800);
 }
 
+/* Row layout - Matches step-details__row in CreateHabit */
 .edit-habit__row {
   display: flex;
   gap: var(--spacing-4);
@@ -225,6 +229,7 @@
   border-top: 1px solid var(--neutral-200);
 }
 
+/* Common field hint - Similar to step-details__entry-mode-hint */
 .edit-habit__field-hint {
   font-family: var(--font-body);
   font-size: var(--text-xs);
@@ -232,129 +237,38 @@
   margin: var(--spacing-1) 0 var(--spacing-3) 0;
 }
 
-/* Frequency Section */
-.edit-habit__frequency-section {
-  padding-top: var(--spacing-4);
-  border-top: 1px solid var(--neutral-200);
-}
-
-.edit-habit__frequency-options {
-  display: flex;
-  gap: var(--spacing-3);
-  margin-top: var(--spacing-3);
-}
-
-.edit-habit__frequency-option {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-1);
-  padding: var(--spacing-4);
-  background: var(--neutral-100);
-  border: 2px solid transparent;
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--easing-gentle);
-  text-align: left;
-}
-
-.edit-habit__frequency-option:hover {
-  border-color: var(--primary-300);
-  background: var(--primary-50);
-}
-
-.edit-habit__frequency-option--selected {
-  background: var(--primary-100);
-  border-color: var(--primary-500);
-}
-
-.edit-habit__frequency-label {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: var(--font-semibold);
-  color: var(--neutral-800);
-}
-
-.edit-habit__frequency-desc {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  color: var(--neutral-600);
-}
-
-/* Entry Mode Section */
-.edit-habit__entry-mode-section {
-  padding-top: var(--spacing-4);
-  border-top: 1px solid var(--neutral-200);
-}
-
-.edit-habit__entry-mode-options {
-  display: flex;
-  gap: var(--spacing-3);
-  margin-top: var(--spacing-3);
-}
-
-.edit-habit__entry-mode-option {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-1);
-  padding: var(--spacing-4);
-  background: var(--neutral-100);
-  border: 2px solid transparent;
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--easing-gentle);
-  text-align: left;
-}
-
-.edit-habit__entry-mode-option:hover {
-  border-color: var(--primary-300);
-  background: var(--primary-50);
-}
-
-.edit-habit__entry-mode-option--selected {
-  background: var(--primary-100);
-  border-color: var(--primary-500);
-}
-
-.edit-habit__entry-mode-label {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: var(--font-semibold);
-  color: var(--neutral-800);
-}
-
-.edit-habit__entry-mode-desc {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  color: var(--neutral-600);
-}
-
-.edit-habit__entry-mode-cumulative-hint {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  color: var(--neutral-500);
-  font-style: italic;
-  margin: var(--spacing-2) 0 0;
-}
-
 /* Description Section */
 .edit-habit__description-section {
   margin-top: var(--spacing-2);
 }
 
-/* Tracking Mode Section */
+/*
+ * OPTION CARD STYLES
+ * These styles apply to frequency, entry-mode, and tracking-mode sections.
+ * They follow the same pattern as step-details__entry-mode-* in CreateHabit.css
+ * for visual consistency across the app.
+ */
+
+/* Generic section styling for bordered sections */
+.edit-habit__frequency-section,
+.edit-habit__entry-mode-section,
 .edit-habit__tracking-mode-section {
   padding-top: var(--spacing-4);
   border-top: 1px solid var(--neutral-200);
 }
 
+/* Generic options container */
+.edit-habit__frequency-options,
+.edit-habit__entry-mode-options,
 .edit-habit__tracking-mode-options {
   display: flex;
   gap: var(--spacing-3);
   margin-top: var(--spacing-3);
 }
 
+/* Generic option card - matches step-details__entry-mode-option */
+.edit-habit__frequency-option,
+.edit-habit__entry-mode-option,
 .edit-habit__tracking-mode-option {
   flex: 1;
   display: flex;
@@ -369,16 +283,23 @@
   text-align: left;
 }
 
+.edit-habit__frequency-option:hover,
+.edit-habit__entry-mode-option:hover,
 .edit-habit__tracking-mode-option:hover {
   border-color: var(--primary-300);
   background: var(--primary-50);
 }
 
+.edit-habit__frequency-option--selected,
+.edit-habit__entry-mode-option--selected,
 .edit-habit__tracking-mode-option--selected {
   background: var(--primary-100);
   border-color: var(--primary-500);
 }
 
+/* Option labels - matches step-details__entry-mode-label */
+.edit-habit__frequency-label,
+.edit-habit__entry-mode-label,
 .edit-habit__tracking-mode-label {
   font-family: var(--font-body);
   font-size: var(--text-sm);
@@ -386,13 +307,25 @@
   color: var(--neutral-800);
 }
 
+/* Option descriptions - matches step-details__entry-mode-desc */
+.edit-habit__frequency-desc,
+.edit-habit__entry-mode-desc,
 .edit-habit__tracking-mode-desc {
   font-family: var(--font-body);
   font-size: var(--text-xs);
   color: var(--neutral-600);
 }
 
-/* Identity Section */
+/* Cumulative hint - matches step-details__entry-mode-cumulative-hint */
+.edit-habit__entry-mode-cumulative-hint {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  font-style: italic;
+  margin: var(--spacing-2) 0 0;
+}
+
+/* Identity Section - Unique to EditHabit, uses secondary color for identity theme */
 .edit-habit__identity-section {
   padding-top: var(--spacing-4);
   border-top: 1px solid var(--neutral-200);
@@ -460,7 +393,7 @@
   line-height: 1.5;
 }
 
-/* Habit Stacking Section */
+/* Habit Stacking Section - Select dropdown for anchor habit */
 .edit-habit__stacking-section {
   padding-top: var(--spacing-4);
   border-top: 1px solid var(--neutral-200);
@@ -489,7 +422,7 @@
   box-shadow: 0 0 0 3px var(--primary-100);
 }
 
-/* Footer Navigation */
+/* Footer Navigation - Matches create-habit__footer in CreateHabit */
 .edit-habit__footer {
   position: fixed;
   bottom: 72px; /* Above bottom navigation */
@@ -513,8 +446,8 @@
   flex: 1;
 }
 
-/* Animation */
-@keyframes fadeInUp {
+/* Animation - Unique name to avoid conflicts with CreateHabit's fadeInUp */
+@keyframes editFadeInUp {
   from {
     opacity: 0;
     transform: translateY(12px);

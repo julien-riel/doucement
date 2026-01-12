@@ -284,7 +284,7 @@
     {
       "id": "phase-edit-habits",
       "name": "Amélioration de l'édition des habitudes",
-      "status": "pending",
+      "status": "completed",
       "description": "Permettre la modification de toutes les propriétés configurables d'une habitude, avec une expérience similaire à la création",
       "tasks": [
         {
@@ -351,9 +351,11 @@
           "id": "edit.7",
           "name": "Harmoniser les styles avec CreateHabit",
           "description": "S'assurer que les composants d'édition utilisent les mêmes classes CSS et styles que CreateHabit pour une expérience cohérente.",
-          "status": "pending",
+          "status": "completed",
           "priority": "low",
-          "files": ["src/pages/EditHabit.css", "src/pages/CreateHabit.css"]
+          "files": ["src/pages/EditHabit.css", "src/pages/CreateHabit.css"],
+          "completedAt": "2026-01-11",
+          "notes": "CSS refactorisé: sections regroupées avec commentaires, animation renommée (editFadeInUp), styles des options cards harmonisés avec step-details__* de CreateHabit."
         },
         {
           "id": "edit.8",
@@ -370,8 +372,8 @@
   ],
   "stats": {
     "totalTasks": 33,
-    "completed": 32,
+    "completed": 33,
     "inProgress": 0,
-    "pending": 1
+    "pending": 0
   }
 }
