@@ -223,6 +223,163 @@ describe('calculateWeeklyProgress', () => {
     expect(result.weekDates).toHaveLength(7)
     expect(result.weekDates[0]).toBe('2026-01-05')
   })
+
+  describe('weeklyAggregation modes', () => {
+    describe('count-days mode', () => {
+      it('counts days with actualValue > 0 for increase habits', () => {
+        const habit = createHabit({
+          id: 'weekly-habit',
+          trackingFrequency: 'weekly',
+          weeklyAggregation: 'count-days',
+          direction: 'increase',
+          startValue: 3,
+        })
+        const entries: DailyEntry[] = [
+          createEntry({
+            habitId: 'weekly-habit',
+            date: '2026-01-05',
+            actualValue: 5,
+            targetDose: 10,
+          }),
+          createEntry({
+            habitId: 'weekly-habit',
+            date: '2026-01-06',
+            actualValue: 0,
+            targetDose: 10,
+          }),
+          createEntry({
+            habitId: 'weekly-habit',
+            date: '2026-01-07',
+            actualValue: 8,
+            targetDose: 10,
+          }),
+        ]
+        const result = calculateWeeklyProgress(habit, entries, '2026-01-10')
+        expect(result.completedDays).toBe(2) // Only days with actualValue > 0
+        expect(result.aggregationMode).toBe('count-days')
+      })
+
+      it('counts days where actualValue <= targetDose for decrease habits', () => {
+        const habit = createHabit({
+          id: 'weekly-habit',
+          trackingFrequency: 'weekly',
+          weeklyAggregation: 'count-days',
+          direction: 'decrease',
+          startValue: 5,
+        })
+        const entries: DailyEntry[] = [
+          createEntry({
+            habitId: 'weekly-habit',
+            date: '2026-01-05',
+            actualValue: 3,
+            targetDose: 5,
+          }), // Success (3 <= 5)
+          createEntry({
+            habitId: 'weekly-habit',
+            date: '2026-01-06',
+            actualValue: 7,
+            targetDose: 5,
+          }), // Fail (7 > 5)
+          createEntry({
+            habitId: 'weekly-habit',
+            date: '2026-01-07',
+            actualValue: 0,
+            targetDose: 5,
+          }), // Success (0 <= 5)
+          createEntry({
+            habitId: 'weekly-habit',
+            date: '2026-01-08',
+            actualValue: 5,
+            targetDose: 5,
+          }), // Success (5 <= 5)
+        ]
+        const result = calculateWeeklyProgress(habit, entries, '2026-01-10')
+        expect(result.completedDays).toBe(3) // 3 days meeting the target
+        expect(result.aggregationMode).toBe('count-days')
+      })
+
+      it('returns 0 when no entries in count-days mode', () => {
+        const habit = createHabit({
+          id: 'weekly-habit',
+          trackingFrequency: 'weekly',
+          weeklyAggregation: 'count-days',
+          startValue: 3,
+        })
+        const result = calculateWeeklyProgress(habit, [], '2026-01-10')
+        expect(result.completedDays).toBe(0)
+        expect(result.aggregationMode).toBe('count-days')
+      })
+    })
+
+    describe('sum-units mode', () => {
+      it('sums all actualValues across the week', () => {
+        const habit = createHabit({
+          id: 'weekly-habit',
+          trackingFrequency: 'weekly',
+          weeklyAggregation: 'sum-units',
+          startValue: 10,
+        })
+        const entries: DailyEntry[] = [
+          createEntry({ habitId: 'weekly-habit', date: '2026-01-05', actualValue: 3 }),
+          createEntry({ habitId: 'weekly-habit', date: '2026-01-06', actualValue: 2 }),
+          createEntry({ habitId: 'weekly-habit', date: '2026-01-07', actualValue: 4 }),
+        ]
+        const result = calculateWeeklyProgress(habit, entries, '2026-01-10')
+        expect(result.completedDays).toBe(9) // Total: 3 + 2 + 4 = 9
+        expect(result.totalUnits).toBe(9)
+        expect(result.aggregationMode).toBe('sum-units')
+      })
+
+      it('returns 0 when no entries in sum-units mode', () => {
+        const habit = createHabit({
+          id: 'weekly-habit',
+          trackingFrequency: 'weekly',
+          weeklyAggregation: 'sum-units',
+          startValue: 10,
+        })
+        const result = calculateWeeklyProgress(habit, [], '2026-01-10')
+        expect(result.completedDays).toBe(0)
+        expect(result.totalUnits).toBe(0)
+        expect(result.aggregationMode).toBe('sum-units')
+      })
+
+      it('handles decrease habits with sum-units (total consumption)', () => {
+        const habit = createHabit({
+          id: 'weekly-habit',
+          trackingFrequency: 'weekly',
+          weeklyAggregation: 'sum-units',
+          direction: 'decrease',
+          startValue: 7, // Target: max 7 glasses/week
+        })
+        const entries: DailyEntry[] = [
+          createEntry({ habitId: 'weekly-habit', date: '2026-01-05', actualValue: 2 }),
+          createEntry({ habitId: 'weekly-habit', date: '2026-01-06', actualValue: 1 }),
+          createEntry({ habitId: 'weekly-habit', date: '2026-01-07', actualValue: 3 }),
+        ]
+        const result = calculateWeeklyProgress(habit, entries, '2026-01-10')
+        expect(result.completedDays).toBe(6) // Total: 2 + 1 + 3 = 6 (under target of 7)
+        expect(result.totalUnits).toBe(6)
+      })
+    })
+
+    describe('default aggregation mode', () => {
+      it('defaults to sum-units when weeklyAggregation is not set', () => {
+        const habit = createHabit({
+          id: 'weekly-habit',
+          trackingFrequency: 'weekly',
+          startValue: 10,
+          // weeklyAggregation not set
+        })
+        const entries: DailyEntry[] = [
+          createEntry({ habitId: 'weekly-habit', date: '2026-01-05', actualValue: 5 }),
+          createEntry({ habitId: 'weekly-habit', date: '2026-01-06', actualValue: 3 }),
+        ]
+        const result = calculateWeeklyProgress(habit, entries, '2026-01-10')
+        expect(result.aggregationMode).toBe('sum-units')
+        expect(result.completedDays).toBe(8) // 5 + 3 = 8
+      })
+    })
+  })
 })
 
 // ============================================================================

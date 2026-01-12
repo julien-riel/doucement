@@ -3,7 +3,7 @@
  * Phase 6: Science-based improvements
  */
 
-import { Habit, DailyEntry } from '../types'
+import { Habit, DailyEntry, CounterOperation } from '../types'
 import { INTENTION_DISPLAY, IDENTITY_STATEMENT } from '../constants/messages'
 
 /**
@@ -82,6 +82,8 @@ export interface HabitDataItem {
   status: 'pending' | 'partial' | 'completed' | 'exceeded'
   anchorHabitName: string | undefined
   weeklyProgress?: WeeklyProgressInfo
+  /** Historique des opérations pour les habitudes compteur */
+  operations?: CounterOperation[]
 }
 
 /**

@@ -1,6 +1,6 @@
 import { useMemo, useState, useCallback } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAppData } from '../hooks'
+import { useAppData, useDateWatch } from '../hooks'
 import { ErrorBanner } from '../components/ui'
 import {
   DailyHeader,
@@ -22,7 +22,6 @@ import {
   buildHabitChains,
   isHabitPaused,
   getHabitsEligibleForTransition,
-  getCurrentDate,
 } from '../utils'
 import { CompletionStatus } from '../types'
 import './Today.css'
@@ -49,7 +48,10 @@ function Today() {
 
   const [welcomeDismissed, setWelcomeDismissed] = useState(false)
   const [declinedTransitions, setDeclinedTransitions] = useState<Set<string>>(new Set())
-  const today = getCurrentDate()
+
+  // Utilise useDateWatch pour détecter automatiquement le changement de jour à minuit
+  // Le composant se re-render automatiquement quand la date change
+  const today = useDateWatch()
   const todayEntries = useMemo(() => getEntriesForDate(today), [getEntriesForDate, today])
 
   // Filtrer les habitudes actives créées avant aujourd'hui et non en pause

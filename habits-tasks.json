@@ -486,24 +486,26 @@
     {
       "id": "phase-day-watch",
       "name": "Détection changement de journée",
-      "status": "pending",
+      "status": "in_progress",
       "description": "Hook et logique pour détecter automatiquement le passage à un nouveau jour",
       "tasks": [
         {
           "id": "day.1",
           "name": "Créer hook useDateWatch",
           "description": "Hook qui vérifie toutes les minutes si la date a changé et déclenche un callback",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/hooks/useDateWatch.ts"]
+          "files": ["src/hooks/useDateWatch.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "day.2",
           "name": "Intégrer useDateWatch dans Today.tsx",
           "description": "Utiliser le hook pour re-render automatique à minuit sans refresh manuel",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/pages/Today.tsx"]
+          "files": ["src/pages/Today.tsx"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "day.3",
@@ -597,7 +599,7 @@
     {
       "id": "phase-counter-tests",
       "name": "Tests Compteur",
-      "status": "pending",
+      "status": "in_progress",
       "description": "Tests unitaires et E2E pour le mode compteur",
       "tasks": [
         {
@@ -613,25 +615,28 @@
           "id": "test.2",
           "name": "Tests unitaires agrégation hebdomadaire",
           "description": "Tests pour count-days vs sum-units dans calculateWeeklyProgress",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/services/progression.test.ts"]
+          "files": ["src/services/progression.test.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "test.3",
           "name": "Tests E2E habitude compteur",
           "description": "Test création, +1, -1, annuler dernière action",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["e2e/habit-counter.spec.ts"]
+          "files": ["e2e/habit-counter.spec.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "test.4",
           "name": "Tests E2E agrégation hebdomadaire",
           "description": "Test count-days (jours réussis) vs sum-units (total semaine)",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["e2e/habit-weekly-aggregation.spec.ts"]
+          "files": ["e2e/habit-weekly-aggregation.spec.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "test.5",
