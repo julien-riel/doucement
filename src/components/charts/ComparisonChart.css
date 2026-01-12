@@ -1,0 +1,190 @@
+/**
+ * ComparisonChart - Styles
+ * Graphique de comparaison multi-habitudes
+ */
+
+.comparison-chart {
+  overflow: hidden;
+}
+
+.comparison-chart__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding: var(--spacing-4);
+  padding-bottom: var(--spacing-2);
+}
+
+.comparison-chart__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0;
+}
+
+.comparison-chart__subtitle {
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+}
+
+/* ================================
+   HABIT SELECTOR
+   ================================ */
+
+.comparison-chart__selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  padding: 0 var(--spacing-4) var(--spacing-3);
+}
+
+.comparison-chart__habit-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--neutral-50);
+  border: 2px solid var(--neutral-200);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-gentle);
+}
+
+.comparison-chart__habit-button:hover {
+  background: var(--neutral-100);
+}
+
+.comparison-chart__habit-button--selected {
+  border-width: 2px;
+}
+
+.comparison-chart__habit-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+.comparison-chart__habit-emoji {
+  font-size: var(--text-base);
+}
+
+.comparison-chart__habit-name {
+  font-weight: var(--font-medium);
+}
+
+/* ================================
+   CONTAINER
+   ================================ */
+
+.comparison-chart__container {
+  padding: 0 var(--spacing-2) var(--spacing-3);
+}
+
+.comparison-chart__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8) var(--spacing-4);
+  text-align: center;
+}
+
+.comparison-chart__empty p {
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+  margin: 0;
+}
+
+/* ================================
+   TOOLTIP
+   ================================ */
+
+.comparison-chart__tooltip {
+  background: var(--neutral-0);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3);
+  box-shadow: var(--shadow-medium);
+  min-width: 160px;
+}
+
+.comparison-chart__tooltip-date {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin-bottom: var(--spacing-2);
+  text-transform: capitalize;
+}
+
+.comparison-chart__tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  margin-top: var(--spacing-1);
+}
+
+.comparison-chart__tooltip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.comparison-chart__tooltip-name {
+  flex: 1;
+}
+
+.comparison-chart__tooltip-value {
+  font-weight: var(--font-semibold);
+}
+
+/* ================================
+   LEGEND OVERRIDE
+   ================================ */
+
+.comparison-chart .recharts-legend-wrapper {
+  padding-top: var(--spacing-2) !important;
+}
+
+.comparison-chart .recharts-legend-item-text {
+  font-size: var(--text-sm) !important;
+  color: var(--neutral-600) !important;
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 480px) {
+  .comparison-chart__header {
+    padding: var(--spacing-3);
+    padding-bottom: var(--spacing-2);
+  }
+
+  .comparison-chart__selector {
+    padding: 0 var(--spacing-3) var(--spacing-2);
+  }
+
+  .comparison-chart__habit-button {
+    padding: var(--spacing-1) var(--spacing-2);
+    font-size: var(--text-xs);
+  }
+
+  .comparison-chart__container {
+    padding: 0 var(--spacing-1) var(--spacing-2);
+  }
+}
+
+/* ================================
+   ACCESSIBILITY
+   ================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .comparison-chart__habit-button {
+    transition: none;
+  }
+}

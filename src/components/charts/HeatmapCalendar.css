@@ -1,0 +1,259 @@
+/**
+ * HeatmapCalendar - Styles
+ * Calendrier heatmap style GitHub contributions
+ */
+
+.heatmap-calendar {
+  overflow: hidden;
+}
+
+.heatmap-calendar__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  padding-bottom: var(--spacing-2);
+}
+
+.heatmap-calendar__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.heatmap-calendar__emoji {
+  font-size: var(--text-xl);
+}
+
+.heatmap-calendar__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0;
+}
+
+/* ================================
+   NAVIGATION
+   ================================ */
+
+.heatmap-calendar__navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-3);
+}
+
+.heatmap-calendar__nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  color: var(--neutral-600);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-gentle);
+}
+
+.heatmap-calendar__nav-button:hover:not(:disabled) {
+  background: var(--neutral-200);
+  color: var(--neutral-800);
+}
+
+.heatmap-calendar__nav-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.heatmap-calendar__period {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--neutral-700);
+  min-width: 160px;
+  text-align: center;
+}
+
+/* ================================
+   CONTAINER
+   ================================ */
+
+.heatmap-calendar__container {
+  padding: 0 var(--spacing-4) var(--spacing-3);
+  overflow-x: auto;
+}
+
+.heatmap-calendar__weekdays {
+  display: flex;
+  gap: 3px;
+  margin-bottom: var(--spacing-1);
+  margin-left: 0;
+}
+
+.heatmap-calendar__weekday {
+  width: 14px;
+  height: 14px;
+  font-size: 10px;
+  font-weight: var(--font-medium);
+  color: var(--neutral-500);
+  text-align: center;
+  line-height: 14px;
+}
+
+/* ================================
+   GRID
+   ================================ */
+
+.heatmap-calendar__grid {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.heatmap-calendar__week {
+  display: flex;
+  gap: 3px;
+}
+
+.heatmap-calendar__cell {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--easing-gentle);
+}
+
+.heatmap-calendar__cell:hover:not(.heatmap-calendar__cell--empty) {
+  transform: scale(1.2);
+  outline: 2px solid var(--primary-400);
+  outline-offset: 1px;
+}
+
+.heatmap-calendar__cell--empty {
+  cursor: default;
+}
+
+/* ================================
+   TOOLTIP
+   ================================ */
+
+.heatmap-calendar__tooltip {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  background: var(--neutral-0);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-2) var(--spacing-3);
+  box-shadow: var(--shadow-medium);
+  z-index: 10;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.heatmap-calendar__tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--neutral-0);
+}
+
+.heatmap-calendar__tooltip-date {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  text-transform: capitalize;
+  margin-bottom: var(--spacing-1);
+}
+
+.heatmap-calendar__tooltip-value {
+  font-size: var(--text-sm);
+  color: var(--primary-600);
+  font-weight: var(--font-medium);
+}
+
+.heatmap-calendar__tooltip-target {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  margin-top: var(--spacing-1);
+}
+
+/* ================================
+   LEGEND
+   ================================ */
+
+.heatmap-calendar__legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-4);
+  border-top: 1px solid var(--neutral-100);
+}
+
+.heatmap-calendar__legend-label {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+}
+
+.heatmap-calendar__legend-scale {
+  display: flex;
+  gap: 2px;
+}
+
+.heatmap-calendar__legend-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 480px) {
+  .heatmap-calendar__header {
+    padding: var(--spacing-3);
+  }
+
+  .heatmap-calendar__container {
+    padding: 0 var(--spacing-3) var(--spacing-2);
+  }
+
+  .heatmap-calendar__cell {
+    width: 12px;
+    height: 12px;
+  }
+
+  .heatmap-calendar__weekday {
+    width: 12px;
+    height: 12px;
+    font-size: 9px;
+    line-height: 12px;
+  }
+
+  .heatmap-calendar__legend {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+}
+
+/* ================================
+   ACCESSIBILITY
+   ================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .heatmap-calendar__cell {
+    transition: none;
+  }
+
+  .heatmap-calendar__nav-button {
+    transition: none;
+  }
+}
