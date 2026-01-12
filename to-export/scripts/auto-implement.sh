@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Script d'implémentation automatique pour les types d'habitudes
-# - Lit habits-tasks.json pour trouver les tâches pending
-# - Appelle claude /implement-habits en boucle
-# - Valide avec format, lint, typecheck, test
-# - Lance les tests E2E si demandé
-# - Commit et push automatique si tout passe
+# Script d'implémentation automatique générique
+# - Lit tasks.json pour trouver les tâches pending
+# - Appelle claude /implement en boucle
+# - Valide avec format, lint, typecheck, test, test:e2e
+# - Commit automatique si tout passe
+# - Release automatique quand une phase est complète
 # - Continue jusqu'à succès ou max itérations
 
 set -e
@@ -24,9 +24,11 @@ ITERATION=0
 MAX_ITERATIONS=${1:-10}
 MAX_FIX_ATTEMPTS=3
 RUN_E2E=${2:-false}
-AUTO_COMMIT=${3:-true}
-AUTO_PUSH=${4:-false}
-LOG_FILE="auto-implement-habits-$(date +%Y%m%d-%H%M%S).log"
+AUTO_PUSH=${3:-false}
+LOG_FILE="auto-implement-$(date +%Y%m%d-%H%M%S).log"
+
+# Fichier de tâches
+TASKS_FILE="tasks.json"
 
 log_info() {
     echo -e "${BLUE}[INFO]${NC} $1" | tee -a "$LOG_FILE"
@@ -54,13 +56,37 @@ log_separator() {
     echo "" | tee -a "$LOG_FILE"
 }
 
-# Compte les tâches pending dans habits-tasks.json
+# Compte les tâches pending dans tasks.json
 count_pending_tasks() {
-    if [ -f "habits-tasks.json" ]; then
-        grep -o '"status": "pending"' habits-tasks.json | wc -l
+    if [ -f "$TASKS_FILE" ]; then
+        grep -o '"status": "pending"' "$TASKS_FILE" | wc -l
     else
         echo "0"
     fi
+}
+
+# Compte les tâches completed dans tasks.json
+count_completed_tasks() {
+    if [ -f "$TASKS_FILE" ]; then
+        grep -o '"status": "completed"' "$TASKS_FILE" | wc -l
+    else
+        echo "0"
+    fi
+}
+
+# Vérifie si une phase vient d'être complétée
+check_phase_completed() {
+    # Compare le nombre de tâches completed avant et après
+    local before=$1
+    local after=$2
+
+    if [ "$after" -gt "$before" ]; then
+        # Vérifier si toutes les tâches d'une phase sont complètes
+        # Cette logique simplifiée vérifie juste si le nombre a changé
+        # Une implémentation complète parserait le JSON
+        return 0
+    fi
+    return 1
 }
 
 # Validation complète
@@ -160,7 +186,7 @@ Erreurs de: $error_type
 
 $error_output
 
-Corrige ces erreurs en modifiant les fichiers appropriés. Consulte docs/habit-types-analysis.md si nécessaire."
+Corrige ces erreurs en modifiant les fichiers appropriés."
 
     log_info "Appel de Claude pour correction..."
 
@@ -177,55 +203,62 @@ Corrige ces erreurs en modifiant les fichiers appropriés. Consulte docs/habit-t
 do_commit() {
     local iteration=$1
 
-    if [ "$AUTO_COMMIT" = "true" ]; then
-        log_info "Commit automatique..."
+    log_info "Commit automatique..."
 
-        git add -A
+    git add -A
 
-        # Générer un message de commit intelligent
-        local pending_before=$(count_pending_tasks)
-        local commit_msg="feat(habits): auto-implement iteration $iteration
+    # Générer un message de commit
+    local pending=$(count_pending_tasks)
+    local completed=$(count_completed_tasks)
+    local commit_msg="feat: auto-implement iteration $iteration
 
-Tâches restantes: $pending_before
+Tâches complétées: $completed
+Tâches restantes: $pending
 
-Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+Co-Authored-By: Claude <noreply@anthropic.com>"
 
-        if git commit -m "$commit_msg"; then
-            log_success "Commit créé"
+    if git commit -m "$commit_msg"; then
+        log_success "Commit créé"
 
-            if [ "$AUTO_PUSH" = "true" ]; then
-                log_info "Push automatique..."
-                if git push; then
-                    log_success "Push réussi"
-                else
-                    log_warning "Push échoué (non-bloquant)"
-                fi
+        if [ "$AUTO_PUSH" = "true" ]; then
+            log_info "Push automatique..."
+            if git push; then
+                log_success "Push réussi"
+            else
+                log_warning "Push échoué (non-bloquant)"
             fi
-        else
-            log_warning "Rien à commiter"
         fi
+        return 0
+    else
+        log_warning "Rien à commiter"
+        return 1
     fi
 }
 
 # Release automatique
 do_release() {
-    log_phase "Lancement de la release..."
+    log_phase "Vérification si une release est nécessaire..."
 
-    # Appeler la commande /release de Claude
-    if claude -p "/release" --allowedTools "Read,Glob,Grep,Edit,Write,Bash,TodoWrite" --permission-mode acceptEdits; then
+    # Appeler la commande /auto-release de Claude
+    if claude -p "/auto-release" --allowedTools "Read,Glob,Grep,Edit,Write,Bash" --permission-mode acceptEdits; then
         log_success "Release terminée"
+
+        # Push de la release si auto_push activé
+        if [ "$AUTO_PUSH" = "true" ]; then
+            log_info "Push de la release..."
+            git push
+        fi
     else
-        log_warning "Release échouée ou interrompue"
+        log_info "Pas de release nécessaire ou release échouée"
     fi
 }
 
 # Boucle principale
 main() {
     log_separator
-    log_phase "Démarrage de l'implémentation automatique des types d'habitudes"
+    log_phase "Démarrage de l'implémentation automatique"
     log_info "Maximum d'itérations: $MAX_ITERATIONS"
     log_info "Tests E2E: $RUN_E2E"
-    log_info "Auto-commit: $AUTO_COMMIT"
     log_info "Auto-push: $AUTO_PUSH"
     log_info "Log file: $LOG_FILE"
 
@@ -243,17 +276,20 @@ main() {
             break
         fi
 
+        # Sauvegarder le nombre de tâches complétées avant
+        local completed_before=$(count_completed_tasks)
+
         log_separator
         log_phase "ITÉRATION $ITERATION / $MAX_ITERATIONS (${pending} tâches restantes)"
         log_separator
 
-        # Étape 1: Appeler claude /implement-habits
-        log_info "Appel de claude /implement-habits..."
+        # Étape 1: Appeler claude /implement
+        log_info "Appel de claude /implement..."
 
-        if claude -p "/implement-habits" --allowedTools "Read,Glob,Grep,Edit,Write,Bash,TodoWrite" --permission-mode acceptEdits; then
-            log_success "Claude /implement-habits terminé avec succès"
+        if claude -p "/implement" --allowedTools "Read,Glob,Grep,Edit,Write,Bash,TodoWrite" --permission-mode acceptEdits; then
+            log_success "Claude /implement terminé avec succès"
         else
-            log_warning "Claude /implement-habits terminé (possible fin des tâches)"
+            log_warning "Claude /implement terminé (possible fin des tâches)"
         fi
 
         # Étape 2: Validation avec tentatives de correction
@@ -281,8 +317,15 @@ main() {
 
         if [ "$validation_passed" = true ]; then
             log_success "✅ Itération $ITERATION réussie!"
-            do_commit $ITERATION
-            do_release
+
+            # Commit les changements
+            if do_commit $ITERATION; then
+                # Vérifier si une phase est complète
+                local completed_after=$(count_completed_tasks)
+                if check_phase_completed $completed_before $completed_after; then
+                    do_release
+                fi
+            fi
         else
             log_error "❌ Itération $ITERATION échouée après $MAX_FIX_ATTEMPTS tentatives"
             log_info "Arrêt pour correction manuelle. Voir le log: $LOG_FILE"
@@ -298,12 +341,8 @@ main() {
     if [ "$pending" -eq "0" ]; then
         log_success "🎉 Toutes les tâches sont terminées!"
 
-        # Proposer une release
-        read -p "Voulez-vous créer une release ? (y/n) " -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            do_release
-        fi
+        # Faire une release finale si nécessaire
+        do_release
     else
         log_warning "⚠ Il reste $pending tâches pending après $MAX_ITERATIONS itérations"
     fi
@@ -313,19 +352,18 @@ main() {
 
 # Affichage de l'aide
 show_help() {
-    echo "Usage: $0 [max_iterations] [run_e2e] [auto_commit] [auto_push]"
+    echo "Usage: $0 [max_iterations] [run_e2e] [auto_push]"
     echo ""
     echo "Arguments:"
     echo "  max_iterations  Nombre maximum d'itérations (défaut: 10)"
     echo "  run_e2e         Lancer les tests E2E: true/false (défaut: false)"
-    echo "  auto_commit     Commit automatique: true/false (défaut: true)"
     echo "  auto_push       Push automatique: true/false (défaut: false)"
     echo ""
     echo "Exemples:"
-    echo "  $0              # 10 itérations, pas d'E2E, commit auto, pas de push"
+    echo "  $0              # 10 itérations, pas d'E2E, pas de push"
     echo "  $0 5            # 5 itérations"
     echo "  $0 10 true      # Avec tests E2E"
-    echo "  $0 10 true true true  # Tout automatique avec push"
+    echo "  $0 10 true true # Tout automatique avec push"
 }
 
 # Gestion des arguments
@@ -343,9 +381,9 @@ if ! command -v claude &> /dev/null; then
     exit 1
 fi
 
-# Vérification que habits-tasks.json existe
-if [ ! -f "habits-tasks.json" ]; then
-    log_error "habits-tasks.json n'existe pas. Créez-le d'abord."
+# Vérification que tasks.json existe
+if [ ! -f "$TASKS_FILE" ]; then
+    log_error "$TASKS_FILE n'existe pas. Utilisez /tasks pour le créer."
     exit 1
 fi
 
