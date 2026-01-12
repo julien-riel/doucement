@@ -127,7 +127,7 @@
     {
       "id": "phase-tests-fixtures",
       "name": "Fixtures de test pour types d'habitudes",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "fix-test.1",
@@ -188,7 +188,7 @@
     {
       "id": "phase-tests-e2e",
       "name": "Tests E2E par type d'habitude",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "e2e-type.1",
@@ -249,7 +249,7 @@
     {
       "id": "phase-tests-unit",
       "name": "Tests unitaires",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "unit.1",
@@ -280,12 +280,90 @@
           "completedAt": "2026-01-11"
         }
       ]
+    },
+    {
+      "id": "phase-edit-habits",
+      "name": "Amélioration de l'édition des habitudes",
+      "status": "pending",
+      "description": "Permettre la modification de toutes les propriétés configurables d'une habitude, avec une expérience similaire à la création",
+      "tasks": [
+        {
+          "id": "edit.1",
+          "name": "Ajouter édition trackingFrequency (daily/weekly)",
+          "description": "Permettre de changer la fréquence de suivi entre quotidien et hebdomadaire. Ajouter les boutons de sélection comme dans CreateHabit (step-details). ATTENTION: Ce changement peut impacter l'affichage des entrées existantes.",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
+          "notes": "Propriété: trackingFrequency: 'daily' | 'weekly'"
+        },
+        {
+          "id": "edit.2",
+          "name": "Ajouter édition entryMode (replace/cumulative)",
+          "description": "Permettre de changer le mode de saisie entre remplacement et cumul. Réutiliser les composants/styles de CreateHabit (section entry-mode).",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
+          "notes": "Propriété: entryMode: 'replace' | 'cumulative'"
+        },
+        {
+          "id": "edit.3",
+          "name": "Ajouter édition identityStatement",
+          "description": "Permettre de modifier ou ajouter la déclaration d'identité. Réutiliser le composant IdentityPrompt ou créer une version simplifiée pour l'édition.",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
+          "notes": "Propriété: identityStatement?: string"
+        },
+        {
+          "id": "edit.4",
+          "name": "Ajouter édition trackingMode (simple/detailed)",
+          "description": "Permettre de changer entre le mode simple (binaire fait/pas fait) et détaillé (valeur numérique). Note: Cette option n'est pas encore dans CreateHabit mais existe dans le modèle de données.",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
+          "notes": "Propriété: trackingMode?: 'simple' | 'detailed'"
+        },
+        {
+          "id": "edit.5",
+          "name": "Ajouter édition description",
+          "description": "Permettre d'ajouter ou modifier une description optionnelle pour l'habitude. Champ texte multiligne.",
+          "status": "pending",
+          "priority": "low",
+          "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
+          "notes": "Propriété: description?: string"
+        },
+        {
+          "id": "edit.6",
+          "name": "Désactiver habit stacking pour direction decrease",
+          "description": "Comme pour CreateHabit, ne pas afficher le sélecteur d'ancrage si l'habitude est de type 'decrease'. Le habit stacking n'a pas de sens pour les habitudes à réduire.",
+          "status": "pending",
+          "priority": "high",
+          "files": ["src/pages/EditHabit.tsx"],
+          "notes": "Cohérence avec CreateHabit: les habitudes decrease ne peuvent pas être chaînées"
+        },
+        {
+          "id": "edit.7",
+          "name": "Harmoniser les styles avec CreateHabit",
+          "description": "S'assurer que les composants d'édition utilisent les mêmes classes CSS et styles que CreateHabit pour une expérience cohérente.",
+          "status": "pending",
+          "priority": "low",
+          "files": ["src/pages/EditHabit.css", "src/pages/CreateHabit.css"]
+        },
+        {
+          "id": "edit.8",
+          "name": "Tests E2E édition habitude",
+          "description": "Créer des tests E2E pour vérifier que toutes les nouvelles propriétés peuvent être modifiées correctement.",
+          "status": "pending",
+          "priority": "medium",
+          "files": ["e2e/habit-edit.spec.ts"]
+        }
+      ]
     }
   ],
   "stats": {
-    "totalTasks": 25,
+    "totalTasks": 33,
     "completed": 25,
     "inProgress": 0,
-    "pending": 0
+    "pending": 8
   }
 }

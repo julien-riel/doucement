@@ -64,16 +64,67 @@ Pour chaque tâche :
 
 ### 5. Phases disponibles
 
-| Phase | Description | Priorité |
-|-------|-------------|----------|
-| `phase-fix` | Corrections des habitudes suggérées | Haute |
-| `phase-decrease` | Amélioration habitudes à réduire | Haute |
-| `phase-cumulative` | Support saisie cumulative | Moyenne |
-| `phase-tests-fixtures` | Fixtures de test | Haute |
-| `phase-tests-e2e` | Tests E2E par type | Haute |
-| `phase-tests-unit` | Tests unitaires | Moyenne |
+| Phase | Description | Priorité | Statut |
+|-------|-------------|----------|--------|
+| `phase-fix` | Corrections des habitudes suggérées | Haute | ✅ Complète |
+| `phase-decrease` | Amélioration habitudes à réduire | Haute | ✅ Complète |
+| `phase-cumulative` | Support saisie cumulative | Moyenne | ✅ Complète |
+| `phase-tests-fixtures` | Fixtures de test | Haute | ✅ Complète |
+| `phase-tests-e2e` | Tests E2E par type | Haute | ✅ Complète |
+| `phase-tests-unit` | Tests unitaires | Moyenne | ✅ Complète |
+| `phase-edit-habits` | Amélioration édition des habitudes | Haute | 🔄 En cours |
 
-### 6. Finalisation
+### 6. Instructions pour phase-edit-habits
+
+Cette phase vise à rendre l'écran d'édition (`EditHabit.tsx`) aussi complet que l'écran de création (`CreateHabit.tsx`).
+
+#### Propriétés à rendre éditables
+
+| Propriété | Type | Priorité | Notes |
+|-----------|------|----------|-------|
+| `trackingFrequency` | `'daily' \| 'weekly'` | high | Fréquence quotidienne ou hebdomadaire |
+| `entryMode` | `'replace' \| 'cumulative'` | high | Mode de saisie des valeurs |
+| `identityStatement` | `string` | medium | Déclaration "Je deviens quelqu'un qui..." |
+| `trackingMode` | `'simple' \| 'detailed'` | medium | Binaire vs numérique |
+| `description` | `string` | low | Description optionnelle |
+
+#### Règles d'implémentation
+
+1. **Cohérence avec CreateHabit**
+   - Réutiliser les mêmes composants quand possible (ex: `IdentityPrompt`)
+   - Utiliser les mêmes classes CSS (préfixe `step-details__` ou créer équivalent `edit-habit__`)
+   - Utiliser les messages de `src/constants/messages.ts` (ex: `ENTRY_MODE`)
+
+2. **Habit Stacking et decrease**
+   - Ne PAS afficher le sélecteur d'ancrage pour les habitudes `direction === 'decrease'`
+   - Les habitudes à réduire ne doivent pas être chaînées
+
+3. **Gestion du changement**
+   - Inclure chaque nouvelle propriété dans `hasChanges` pour activer le bouton "Enregistrer"
+   - Initialiser les valeurs depuis `habit` dans `useEffect`
+
+4. **Ordre des sections dans EditHabit**
+   ```
+   1. Emoji (existant)
+   2. Nom (existant)
+   3. Unité (existant)
+   4. Description (nouveau - optionnel)
+   5. Card info readonly (existant)
+   6. Fréquence de suivi (nouveau - trackingFrequency)
+   7. Mode de suivi (nouveau - trackingMode)
+   8. Mode de saisie (nouveau - entryMode)
+   9. Progression (existant - sauf maintain)
+   10. Objectif final (existant - sauf maintain)
+   11. Intention de mise en œuvre (existant)
+   12. Enchaînement d'habitudes (existant - sauf decrease)
+   13. Déclaration d'identité (nouveau - identityStatement)
+   ```
+
+5. **Tests**
+   - Créer `e2e/habit-edit.spec.ts` pour tester les modifications
+   - Vérifier que les changements sont persistés après sauvegarde
+
+### 7. Finalisation
 
 Après chaque tâche :
 1. Mettre à jour `habits-tasks.json` avec `completedAt`
@@ -83,13 +134,17 @@ Après chaque tâche :
 ## Exemples
 
 ```bash
-# Corriger les habitudes suggérées
+# Améliorer l'édition des habitudes (phase active)
+/implement-habits phase phase-edit-habits
+
+# Implémenter une tâche spécifique d'édition
+/implement-habits edit.1
+
+# Implémenter les tâches high priority d'édition
+/implement-habits edit.1 edit.2 edit.6
+
+# Anciennes phases (complétées)
 /implement-habits phase phase-fix
-
-# Implémenter une tâche spécifique
-/implement-habits dec.1
-
-# Créer toutes les fixtures
 /implement-habits phase phase-tests-fixtures
 ```
 
