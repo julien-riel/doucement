@@ -311,28 +311,31 @@
           "id": "edit.3",
           "name": "Ajouter édition identityStatement",
           "description": "Permettre de modifier ou ajouter la déclaration d'identité. Réutiliser le composant IdentityPrompt ou créer une version simplifiée pour l'édition.",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
           "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
-          "notes": "Propriété: identityStatement?: string"
+          "notes": "Propriété: identityStatement?: string",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "edit.4",
           "name": "Ajouter édition trackingMode (simple/detailed)",
           "description": "Permettre de changer entre le mode simple (binaire fait/pas fait) et détaillé (valeur numérique). Note: Cette option n'est pas encore dans CreateHabit mais existe dans le modèle de données.",
-          "status": "pending",
+          "status": "completed",
           "priority": "medium",
           "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
-          "notes": "Propriété: trackingMode?: 'simple' | 'detailed'"
+          "notes": "Propriété: trackingMode?: 'simple' | 'detailed'",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "edit.5",
           "name": "Ajouter édition description",
           "description": "Permettre d'ajouter ou modifier une description optionnelle pour l'habitude. Champ texte multiligne.",
-          "status": "pending",
+          "status": "completed",
           "priority": "low",
           "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
-          "notes": "Propriété: description?: string"
+          "notes": "Propriété: description?: string",
+          "completedAt": "2026-01-11"
         },
         {
           "id": "edit.6",
@@ -365,8 +368,8 @@
   ],
   "stats": {
     "totalTasks": 33,
-    "completed": 28,
+    "completed": 31,
     "inProgress": 0,
-    "pending": 5
+    "pending": 2
   }
 }

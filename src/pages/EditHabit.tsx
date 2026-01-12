@@ -13,8 +13,9 @@ import {
   Habit,
   TrackingFrequency,
   EntryMode,
+  TrackingMode,
 } from '../types'
-import { ENTRY_MODE } from '../constants/messages'
+import { ENTRY_MODE, IDENTITY_STATEMENT } from '../constants/messages'
 import './EditHabit.css'
 
 /**
@@ -72,6 +73,12 @@ function EditHabit() {
   const [trackingFrequency, setTrackingFrequency] = useState<TrackingFrequency>('daily')
   // Entry mode
   const [entryMode, setEntryMode] = useState<EntryMode>('replace')
+  // Tracking mode
+  const [trackingMode, setTrackingMode] = useState<TrackingMode>('detailed')
+  // Identity statement
+  const [identityStatement, setIdentityStatement] = useState('')
+  // Description
+  const [description, setDescription] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
 
@@ -97,6 +104,12 @@ function EditHabit() {
       setTrackingFrequency(habit.trackingFrequency ?? 'daily')
       // Entry mode
       setEntryMode(habit.entryMode ?? 'replace')
+      // Tracking mode
+      setTrackingMode(habit.trackingMode ?? 'detailed')
+      // Identity statement
+      setIdentityStatement(habit.identityStatement ?? '')
+      // Description
+      setDescription(habit.description ?? '')
     }
   }, [habit])
 
@@ -134,6 +147,15 @@ function EditHabit() {
     // Entry mode change
     const entryModeChanged = entryMode !== (habit.entryMode ?? 'replace')
 
+    // Tracking mode change
+    const trackingModeChanged = trackingMode !== (habit.trackingMode ?? 'detailed')
+
+    // Identity statement change
+    const identityStatementChanged = identityStatement.trim() !== (habit.identityStatement ?? '')
+
+    // Description change
+    const descriptionChanged = description.trim() !== (habit.description ?? '')
+
     return (
       nameChanged ||
       emojiChanged ||
@@ -145,7 +167,10 @@ function EditHabit() {
       timeChanged ||
       anchorChanged ||
       trackingFrequencyChanged ||
-      entryModeChanged
+      entryModeChanged ||
+      trackingModeChanged ||
+      identityStatementChanged ||
+      descriptionChanged
     )
   }, [
     habit,
@@ -162,6 +187,9 @@ function EditHabit() {
     anchorHabitId,
     trackingFrequency,
     entryMode,
+    trackingMode,
+    identityStatement,
+    description,
   ])
 
   const handleSave = useCallback(() => {
@@ -213,6 +241,17 @@ function EditHabit() {
     // Entry mode
     updates.entryMode = entryMode
 
+    // Tracking mode
+    updates.trackingMode = trackingMode
+
+    // Identity statement
+    const trimmedIdentity = identityStatement.trim()
+    updates.identityStatement = trimmedIdentity || undefined
+
+    // Description
+    const trimmedDescription = description.trim()
+    updates.description = trimmedDescription || undefined
+
     const success = updateHabit(id, updates)
 
     if (success) {
@@ -240,6 +279,9 @@ function EditHabit() {
     anchorHabitId,
     trackingFrequency,
     entryMode,
+    trackingMode,
+    identityStatement,
+    description,
     updateHabit,
     navigate,
   ])
@@ -328,6 +370,17 @@ function EditHabit() {
           onChange={(e) => setUnit(e.target.value)}
         />
 
+        {/* Description (optionnel) */}
+        <div className="edit-habit__description-section">
+          <Input
+            label="Description (optionnel)"
+            placeholder="Décris cette habitude en quelques mots..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            hint="Une note personnelle pour te rappeler pourquoi cette habitude compte."
+          />
+        </div>
+
         {/* Info card - non modifiable */}
         <Card variant="default" className="edit-habit__info-card">
           <div className="edit-habit__info-row">
@@ -370,6 +423,34 @@ function EditHabit() {
             >
               <span className="edit-habit__frequency-label">Hebdomadaire</span>
               <span className="edit-habit__frequency-desc">X fois par semaine</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Mode de suivi */}
+        <div className="edit-habit__tracking-mode-section">
+          <p className="edit-habit__field-label">Mode de suivi</p>
+          <p className="edit-habit__field-hint">
+            Simple (fait/pas fait) ou détaillé (valeur précise)
+          </p>
+          <div className="edit-habit__tracking-mode-options">
+            <button
+              type="button"
+              className={`edit-habit__tracking-mode-option ${trackingMode === 'simple' ? 'edit-habit__tracking-mode-option--selected' : ''}`}
+              onClick={() => setTrackingMode('simple')}
+              aria-pressed={trackingMode === 'simple'}
+            >
+              <span className="edit-habit__tracking-mode-label">Simple</span>
+              <span className="edit-habit__tracking-mode-desc">Fait / Pas fait</span>
+            </button>
+            <button
+              type="button"
+              className={`edit-habit__tracking-mode-option ${trackingMode === 'detailed' ? 'edit-habit__tracking-mode-option--selected' : ''}`}
+              onClick={() => setTrackingMode('detailed')}
+              aria-pressed={trackingMode === 'detailed'}
+            >
+              <span className="edit-habit__tracking-mode-label">Détaillé</span>
+              <span className="edit-habit__tracking-mode-desc">Valeur numérique</span>
             </button>
           </div>
         </div>
@@ -537,6 +618,46 @@ function EditHabit() {
             </div>
           </div>
         )}
+
+        {/* Déclaration d'identité */}
+        <div className="edit-habit__identity-section">
+          <p className="edit-habit__field-label">{IDENTITY_STATEMENT.stepTitle}</p>
+          <p className="edit-habit__field-hint">{IDENTITY_STATEMENT.stepSubtitle}</p>
+
+          <Input
+            label={IDENTITY_STATEMENT.inputLabel}
+            placeholder={IDENTITY_STATEMENT.inputPlaceholder}
+            value={identityStatement}
+            onChange={(e) => setIdentityStatement(e.target.value)}
+            hint={IDENTITY_STATEMENT.inputHelp}
+          />
+
+          {/* Suggestions d'exemples */}
+          <div className="edit-habit__identity-suggestions">
+            {IDENTITY_STATEMENT.exampleStatements.map((example) => (
+              <button
+                key={example}
+                type="button"
+                className={`edit-habit__identity-suggestion ${
+                  identityStatement === example ? 'edit-habit__identity-suggestion--selected' : ''
+                }`}
+                onClick={() => setIdentityStatement(example)}
+              >
+                {example}
+              </button>
+            ))}
+          </div>
+
+          {/* Aperçu de l'identité */}
+          {identityStatement && (
+            <div className="edit-habit__identity-preview">
+              <p className="edit-habit__identity-preview-label">Ton identité :</p>
+              <p className="edit-habit__identity-preview-text">
+                « Je deviens quelqu'un qui {identityStatement} »
+              </p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Footer avec boutons */}
