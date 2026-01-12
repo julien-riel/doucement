@@ -48,8 +48,9 @@ export interface ProgressionConfig {
  * Mode de tracking d'une habitude
  * - simple: binaire (fait / pas fait) - recommandé pour débuter
  * - detailed: quantitatif avec valeur précise
+ * - counter: compteur avec boutons +1/-1 et historique des opérations
  */
-export type TrackingMode = 'simple' | 'detailed'
+export type TrackingMode = 'simple' | 'detailed' | 'counter'
 
 /**
  * Fréquence de suivi d'une habitude
@@ -64,6 +65,35 @@ export type TrackingFrequency = 'daily' | 'weekly'
  * - cumulative: les saisies s'additionnent dans la journée
  */
 export type EntryMode = 'replace' | 'cumulative'
+
+/**
+ * Type d'opération sur un compteur
+ */
+export type CounterOperationType = 'add' | 'subtract'
+
+/**
+ * Opération sur un compteur (historique des modifications)
+ * Permet de tracer chaque +1/-1 avec possibilité d'annuler
+ */
+export interface CounterOperation {
+  /** Identifiant unique de l'opération */
+  id: string
+  /** Type d'opération */
+  type: CounterOperationType
+  /** Valeur absolue de la modification (toujours positive) */
+  value: number
+  /** Horodatage de l'opération (ISO 8601) */
+  timestamp: string
+  /** Note optionnelle */
+  note?: string
+}
+
+/**
+ * Mode d'agrégation pour les habitudes hebdomadaires
+ * - count-days: Compte le nombre de jours où l'objectif est atteint
+ * - sum-units: Additionne les unités sur toute la semaine
+ */
+export type WeeklyAggregation = 'count-days' | 'sum-units'
 
 /**
  * Préférence de thème
@@ -147,6 +177,8 @@ export interface Habit {
   trackingMode?: TrackingMode
   /** Fréquence de suivi: daily (quotidien) ou weekly (hebdomadaire) */
   trackingFrequency?: TrackingFrequency
+  /** Mode d'agrégation hebdomadaire (uniquement si trackingFrequency='weekly') */
+  weeklyAggregation?: WeeklyAggregation
   /** Mode de saisie: replace (défaut) ou cumulative (les valeurs s'additionnent) */
   entryMode?: EntryMode
   /** Implementation Intention - plan si-alors (Phase 6) */
@@ -190,6 +222,8 @@ export interface DailyEntry {
   createdAt: string
   /** Horodatage de dernière modification */
   updatedAt: string
+  /** Historique des opérations pour les habitudes counter (optionnel) */
+  operations?: CounterOperation[]
 }
 
 // ============================================================================

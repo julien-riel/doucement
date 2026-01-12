@@ -368,63 +368,68 @@
           "notes": "23 tests E2E créés couvrant: propriétés de base (nom, description), fréquence de suivi, mode de suivi, mode de saisie, déclaration d'identité, habit stacking, validation UX, progression, et emoji. Bug corrigé dans useAppData.ts (updateHabit retournait toujours false)."
         }
       ]
-    }
-  ],
-  "stats": {
-    "totalTasks": 54,
-    "completed": 33,
-    "inProgress": 0,
-    "pending": 21
-  },
-  "nextPhases": [
+    },
     {
       "id": "phase-counter-types",
       "name": "Types et modèle de données Compteur",
-      "status": "pending",
+      "status": "completed",
       "description": "Nouveaux types TypeScript pour le mode compteur avec historique des opérations",
       "tasks": [
         {
           "id": "counter.1",
           "name": "Étendre TrackingMode avec 'counter'",
           "description": "Modifier le type TrackingMode pour inclure 'counter' en plus de 'simple' et 'detailed'",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/types/index.ts"]
+          "files": ["src/types/index.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "counter.2",
           "name": "Créer interface CounterOperation",
           "description": "Nouvelle interface pour tracer chaque opération: id, type (add/subtract), value, timestamp, note optionnelle",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/types/index.ts"]
+          "files": ["src/types/index.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "counter.3",
           "name": "Ajouter operations[] à DailyEntry",
           "description": "Étendre DailyEntry avec un champ optionnel 'operations?: CounterOperation[]' pour l'historique",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/types/index.ts"]
+          "files": ["src/types/index.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "counter.4",
           "name": "Créer type WeeklyAggregation",
           "description": "Nouveau type 'count-days' | 'sum-units' pour les habitudes hebdomadaires",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/types/index.ts"]
+          "files": ["src/types/index.ts"],
+          "completedAt": "2026-01-11"
         },
         {
           "id": "counter.5",
           "name": "Ajouter weeklyAggregation à Habit",
           "description": "Nouveau champ optionnel 'weeklyAggregation?: WeeklyAggregation' pour les habitudes weekly",
-          "status": "pending",
+          "status": "completed",
           "priority": "high",
-          "files": ["src/types/index.ts"]
+          "files": ["src/types/index.ts"],
+          "completedAt": "2026-01-11"
         }
       ]
-    },
+    }
+  ],
+  "stats": {
+    "totalTasks": 59,
+    "completed": 38,
+    "inProgress": 0,
+    "pending": 21
+  },
+  "nextPhases": [
     {
       "id": "phase-counter-logic",
       "name": "Logique métier Compteur",
