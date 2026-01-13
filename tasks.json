@@ -154,7 +154,8 @@
           "id": "3.2",
           "name": "Créer fichier de traduction français",
           "description": "Extraire tous les textes de l'application dans src/i18n/locales/fr.json. Organiser par namespace (common, habits, messages, onboarding, settings).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "high",
           "dependsOn": ["3.1"],
           "files": ["src/i18n/locales/fr.json"],
@@ -275,7 +276,8 @@
           "id": "5.1",
           "name": "Tests E2E filtres",
           "description": "Tests Playwright pour les nouveaux filtres de suggestions",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "medium",
           "dependsOn": ["2.2"],
           "files": ["e2e/suggestion-filters.spec.ts"],
@@ -323,9 +325,9 @@
   ],
   "stats": {
     "totalTasks": 16,
-    "completed": 6,
+    "completed": 8,
     "inProgress": 0,
-    "pending": 10,
+    "pending": 8,
     "blocked": 0
   }
 }

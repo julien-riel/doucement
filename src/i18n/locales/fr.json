@@ -9,49 +9,818 @@
     "close": "Fermer",
     "done": "Fait",
     "skip": "Passer",
-    "all": "Tous"
+    "all": "Tous",
+    "loading": "Chargement...",
+    "or": "ou",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "confirm": "Confirmer",
+    "restore": "Restaurer",
+    "archive": "Archiver",
+    "share": "Partager",
+    "seeMore": "En savoir plus"
   },
   "navigation": {
     "today": "Aujourd'hui",
     "habits": "Habitudes",
     "statistics": "Statistiques",
-    "settings": "Param\u00e8tres"
+    "settings": "Paramètres"
   },
   "habits": {
     "newHabit": "Nouvelle habitude",
-    "createHabit": "Cr\u00e9er l'habitude",
+    "createHabit": "Créer l'habitude",
     "editHabit": "Modifier l'habitude",
     "deleteHabit": "Archiver l'habitude",
     "dose": "Dose",
     "doseOfDay": "Dose du jour",
-    "unit": "Unit\u00e9",
+    "unit": "Unité",
+    "thisWeek": "cette semaine",
     "type": {
       "increase": "Augmenter",
-      "decrease": "R\u00e9duire",
+      "decrease": "Réduire",
       "maintain": "Maintenir"
+    },
+    "typeDescriptions": {
+      "increase": "Plus de push-ups, plus de lecture, plus de méditation...",
+      "decrease": "Moins de cigarettes, moins de sucre, moins d'écrans...",
+      "maintain": "Garder une dose stable chaque jour"
     },
     "difficulty": {
       "all": "Tous",
       "easy": "Facile",
-      "moderate": "Mod\u00e9r\u00e9",
+      "moderate": "Modéré",
       "challenging": "Exigeant"
     },
     "timeOfDay": {
       "all": "Tous",
       "morning": "Matin",
-      "afternoon": "Apr\u00e8s-midi",
+      "afternoon": "Après-midi",
       "evening": "Soir",
       "night": "Nuit"
     },
+    "timeOfDayEmojis": {
+      "morning": "🌅",
+      "afternoon": "☀️",
+      "evening": "🌙",
+      "night": "🌃"
+    },
     "resultCount": "{{count}} habitude",
-    "resultCount_plural": "{{count}} habitudes"
+    "resultCount_plural": "{{count}} habitudes",
+    "active": "Actives",
+    "activeCount": "Actives ({{count}})",
+    "archived": "Archivées",
+    "archivedCount": "Archivées ({{count}})",
+    "noActiveHabits": "Aucune habitude active pour le moment.",
+    "notFound": "Cette habitude n'existe pas.",
+    "backToList": "Retour à la liste",
+    "restoreHabit": "Restaurer cette habitude",
+    "shareProgress": "Partager ma progression",
+    "confirmArchiveText": "Tu pourras la restaurer plus tard si tu le souhaites."
+  },
+  "createHabit": {
+    "title": "Nouvelle habitude",
+    "subtitle": {
+      "choose": "Choisis une habitude à fort impact ou crée la tienne",
+      "type": "Quel type d'habitude souhaitez-vous créer ?",
+      "details": "Décrivez votre habitude",
+      "confirm": "Vérifiez et confirmez"
+    },
+    "highImpact": {
+      "title": "Habitudes à fort impact",
+      "description": "Basées sur la science, ces habitudes ont les plus grands bénéfices prouvés."
+    },
+    "top6": "Top 6",
+    "customize": "Personnaliser",
+    "createCustom": {
+      "title": "Créer une habitude personnalisée",
+      "description": "Définis ton propre objectif"
+    },
+    "form": {
+      "emoji": "Emoji",
+      "name": "Nom de l'habitude",
+      "namePlaceholder": "Ex: Push-ups, Méditation, Lecture...",
+      "startDose": "Dose de départ",
+      "unit": "Unité",
+      "unitPlaceholder": "répétitions, minutes...",
+      "progression": "Progression",
+      "inPercent": "En %",
+      "inUnits": "En unités",
+      "percentage": "Pourcentage",
+      "units": "Unités",
+      "per": "Par",
+      "week": "Semaine",
+      "day": "Jour"
+    },
+    "trackingMode": {
+      "title": "Mode de suivi",
+      "hint": "Comment tu enregistres tes progrès",
+      "simple": "Simple",
+      "simpleDesc": "Fait / Pas fait (binaire)",
+      "detailed": "Détaillé",
+      "detailedDesc": "Saisie de la valeur exacte",
+      "counter": "Compteur",
+      "counterDesc": "Boutons +1 / -1 rapides",
+      "counterHint": "Idéal pour : cigarettes, verres, grignotages..."
+    },
+    "entryMode": {
+      "title": "Mode de saisie",
+      "hint": "Comment les valeurs sont enregistrées dans la journée",
+      "replace": "Remplacer",
+      "replaceDesc": "Chaque saisie remplace la précédente",
+      "cumulative": "Cumuler",
+      "cumulativeDesc": "Les saisies s'additionnent dans la journée",
+      "cumulativeHint": "Idéal pour : verres d'eau, grignotages, cigarettes..."
+    },
+    "weeklyAggregation": {
+      "title": "Mode de comptage hebdo",
+      "hint": "Comment on compte ta progression de la semaine",
+      "countDays": "Jours réussis",
+      "countDaysDesc": "Compte les jours où tu atteins ton objectif",
+      "countDaysHint": "Ex: 3 soirs à se coucher tôt cette semaine",
+      "sumUnits": "Total semaine",
+      "sumUnitsDesc": "Additionne les unités sur toute la semaine",
+      "sumUnitsHint": "Ex: Maximum 10 verres par semaine"
+    },
+    "preview": "Aperçu",
+    "confirmButton": "Créer l'habitude",
+    "summary": {
+      "type": "Type",
+      "startDose": "Dose de départ",
+      "progression": "Progression",
+      "plan": "Plan",
+      "linkedAfter": "Enchaîné après",
+      "identity": "Identité",
+      "entryMode": "Mode de saisie",
+      "timeOfDay": "Moment"
+    }
+  },
+  "intentions": {
+    "stepTitle": "Quand et où ?",
+    "stepSubtitle": "Définir le moment et le lieu augmente tes chances de succès de 2 à 3 fois.",
+    "trigger": {
+      "label": "Après quoi ?",
+      "placeholder": "Ex: Après mon café du matin",
+      "help": "Choisis un déclencheur qui fait déjà partie de ta routine."
+    },
+    "location": {
+      "label": "Où ?",
+      "placeholder": "Ex: Dans le salon",
+      "help": "Un lieu précis aide à automatiser l'habitude."
+    },
+    "time": {
+      "label": "À quelle heure ?",
+      "help": "Optionnel. L'heure approximative prévue."
+    },
+    "skipButton": "Passer cette étape",
+    "examples": [
+      "Après mon café du matin",
+      "Après le déjeuner",
+      "Avant de me coucher",
+      "En rentrant du travail",
+      "Après m'être brossé les dents"
+    ]
+  },
+  "habitStacking": {
+    "title": "Associer à une habitude existante",
+    "subtitle": "Le habit stacking augmente le taux de réussite de 64%.",
+    "label": "Après quelle habitude ?",
+    "placeholder": "Choisir une habitude...",
+    "help": "Enchaîne cette nouvelle habitude avec une que tu fais déjà.",
+    "noHabits": "Crée d'abord une autre habitude pour pouvoir les enchaîner.",
+    "linkedBadge": "Enchaîné",
+    "afterLabel": "Après :"
+  },
+  "identity": {
+    "stepTitle": "Qui voulez-vous devenir ?",
+    "stepSubtitle": "Le changement durable vient du changement d'identité, pas seulement du comportement.",
+    "inputLabel": "Je deviens quelqu'un qui...",
+    "inputPlaceholder": "prend soin de son corps",
+    "inputHelp": "Décris la personne que tu veux devenir grâce à cette habitude.",
+    "skipButton": "Passer cette étape",
+    "examples": [
+      "prend soin de son corps",
+      "lit chaque jour",
+      "maîtrise son temps d'écran",
+      "priorise son bien-être",
+      "tient ses engagements"
+    ],
+    "reminder": {
+      "label": "Tu deviens",
+      "weeklyIntro": "Souviens-toi de qui tu deviens :",
+      "prefix": "Je deviens quelqu'un qui"
+    }
+  },
+  "firstCheckIn": {
+    "title": "Première victoire ?",
+    "subtitle": "Avez-vous déjà fait quelque chose aujourd'hui ?",
+    "yesButton": "Oui, je l'enregistre",
+    "noButton": "Non, je commence demain",
+    "successTitle": "Première dose enregistrée",
+    "successMessage": "Le voyage commence maintenant.",
+    "successEmoji": "✨"
+  },
+  "checkIn": {
+    "partial": "Un peu",
+    "done": "Fait",
+    "extra": "Extra",
+    "notToday": "Pas aujourd'hui",
+    "exceeded": "Dépassé !",
+    "completed": "Complété",
+    "cumulative": "(cumul)",
+    "undo": "Annuler",
+    "addCustom": "Ajouter",
+    "lastEntries": "Dernières saisies"
+  },
+  "decreaseMessages": {
+    "zero": [
+      "Journée parfaite !",
+      "Zéro. Bravo !",
+      "Tu n'as pas cédé.",
+      "Victoire totale.",
+      "Rien du tout. Impressionnant."
+    ],
+    "zeroBadge": "Journée sans",
+    "success": [
+      "Moins que prévu !",
+      "Belle maîtrise.",
+      "Tu gères.",
+      "En dessous de la cible."
+    ],
+    "successBadge": "En contrôle"
+  },
+  "onboarding": {
+    "steps": {
+      "welcome": {
+        "title": "Bienvenue",
+        "description": "Doucement t'aide à améliorer tes habitudes progressivement, sans culpabilité.\n\n🔒 Tes données restent sur ton appareil. Aucun compte, aucun cloud, aucun tracking."
+      },
+      "dose": {
+        "title": "La dose du jour",
+        "description": "Oublie les objectifs intimidants. Concentre-toi uniquement sur ta dose du jour.\n\nLa dose évolue automatiquement selon ta progression : +1%, +2%... l'effet composé fait le travail."
+      },
+      "effort": {
+        "title": "Chaque effort compte",
+        "description": "Faire un peu, c'est déjà beaucoup. Ici, 70% c'est une victoire."
+      }
+    },
+    "navigation": {
+      "next": "Suivant",
+      "chooseHabits": "Choisir mes habitudes",
+      "skip": "Passer l'introduction",
+      "createCount": "Créer {{count}} habitude",
+      "createCount_plural": "Créer {{count}} habitudes",
+      "startWithout": "Commencer sans habitude"
+    },
+    "suggestions": {
+      "title": "Suggestions d'habitudes",
+      "maxSelection": "Tu peux en choisir jusqu'à {{max}}"
+    }
   },
   "settings": {
-    "title": "Param\u00e8tres",
+    "title": "Paramètres",
     "language": "Langue",
-    "theme": "Th\u00e8me",
+    "theme": "Thème",
     "notifications": "Notifications",
-    "dataManagement": "Gestion des donn\u00e9es",
-    "about": "\u00c0 propos"
+    "dataManagement": "Gestion des données",
+    "about": "À propos",
+    "sections": {
+      "data": "Tes données",
+      "notifications": "Rappels",
+      "appearance": "Apparence",
+      "install": "Installer l'application",
+      "backup": "Conseils de sauvegarde",
+      "app": "Application",
+      "about": "À propos",
+      "danger": "Zone sensible"
+    },
+    "stats": {
+      "activeHabits": "habitude active",
+      "activeHabits_plural": "habitudes actives",
+      "archived": "archivée",
+      "archived_plural": "archivées",
+      "entries": "entrée",
+      "entries_plural": "entrées"
+    },
+    "actions": {
+      "export": "📥 Exporter mes données",
+      "import": "📤 Importer des données",
+      "exportNow": "📥 Exporter maintenant",
+      "replayOnboarding": "🎓 Revoir l'introduction",
+      "reset": "🗑️ Réinitialiser l'application",
+      "whatsNew": "Voir les nouveautés"
+    },
+    "theme": {
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système",
+      "hints": {
+        "system": "Le thème suit les préférences de ton appareil",
+        "dark": "Mode sombre activé",
+        "light": "Mode clair activé"
+      }
+    },
+    "install": {
+      "intro": "📱 Doucement peut être installée sur ton téléphone comme une vraie application, sans passer par un store.",
+      "ios": {
+        "title": "🍎 Sur iPhone / iPad (Safari)",
+        "step1": "Ouvre cette page dans Safari",
+        "step2": "Appuie sur l'icône ↑ (partager)",
+        "step3": "Sélectionne « Sur l'écran d'accueil »"
+      },
+      "android": {
+        "title": "🤖 Sur Android (Chrome)",
+        "step1": "Ouvre cette page dans Chrome",
+        "step2": "Appuie sur le menu ⋮ (trois points)",
+        "step3": "Sélectionne « Installer l'appli » ou « Ajouter à l'écran d'accueil »"
+      },
+      "benefit": "✨ Une fois installée, l'app fonctionne hors ligne et s'ouvre instantanément."
+    },
+    "backup": {
+      "title": "💡 Sauvegarde régulièrement tes données !",
+      "text1": "Tes données sont stockées uniquement sur cet appareil. Si tu changes de téléphone, réinstalles l'app ou effaces le cache du navigateur, tu pourrais les perdre.",
+      "text2": "Recommandation : Exporte tes données une fois par semaine et garde le fichier dans un endroit sûr (cloud, email, ordinateur)."
+    },
+    "reset": {
+      "warning": "Cette action supprimera toutes tes données. Elle est irréversible."
+    },
+    "about": {
+      "description": "Doucement est une application conçue pour t'aider à améliorer tes habitudes progressivement, sans culpabilité.",
+      "privacy": "Tes données restent sur ton appareil. Aucune information n'est collectée ni transmise.",
+      "version": "Version {{version}}",
+      "debugTapHint": "Tapez 7 fois pour activer le mode debug."
+    },
+    "modals": {
+      "import": {
+        "title": "Importer des données",
+        "warning": "L'import remplacera toutes tes données actuelles par celles du fichier.",
+        "irreversible": "Cette action est irréversible. Pense à exporter tes données actuelles avant si tu veux les conserver.",
+        "inProgress": "Import en cours...",
+        "button": "Importer",
+        "successTitle": "✓ Import réussi",
+        "failTitle": "Import échoué"
+      },
+      "reset": {
+        "title": "Réinitialiser l'application",
+        "text": "Tu vas supprimer toutes tes habitudes et ton historique.",
+        "irreversible": "Cette action est irréversible.",
+        "button": "Réinitialiser"
+      }
+    },
+    "messages": {
+      "exportSuccess": "Export terminé. Tes données sont dans le fichier téléchargé.",
+      "exportError": "Erreur lors de l'export",
+      "importSuccess": "Import réussi. Tes données sont restaurées.",
+      "importError": "Ce fichier ne semble pas compatible. Vérifie qu'il s'agit d'un export Doucement.",
+      "debugEnabled": "Mode debug activé",
+      "debugDisabled": "Mode debug désactivé"
+    }
+  },
+  "today": {
+    "yourDoses": "Tes doses du jour",
+    "newDay": {
+      "messages": [
+        "Nouvelle journée !",
+        "Minuit passé, nouveau départ",
+        "Un nouveau jour commence"
+      ],
+      "emoji": "🌅"
+    }
+  },
+  "encouragingMessages": {
+    "morning": [
+      "Nouvelle journée, nouvelles possibilités",
+      "Le matin est fait pour les premiers pas",
+      "Aujourd'hui t'appartient"
+    ],
+    "afternoon": [
+      "Tu as encore du temps devant toi",
+      "L'après-midi est encore long",
+      "Continue sur ta lancée"
+    ],
+    "evening": [
+      "Termine en douceur",
+      "La journée touche à sa fin",
+      "Il reste encore un peu de temps"
+    ]
+  },
+  "welcomeBack": {
+    "messages": [
+      "Content de te revoir.",
+      "De retour ? On reprend doucement.",
+      "Te revoilà. Pas de pression, on continue.",
+      "Bienvenue de retour. Chaque jour est une nouvelle chance.",
+      "Tu es revenu·e. C'est déjà une victoire."
+    ]
+  },
+  "habitNeglected": {
+    "title": "Ça faisait longtemps",
+    "subtitle": "Tu n'as pas enregistré cette habitude hier.",
+    "subtitle_plural": "Tu n'as pas enregistré cette habitude depuis {{days}} jours.",
+    "encouragement": "Pas de souci. On reprend là où tu en es.",
+    "resumeButton": "Reprendre"
+  },
+  "plannedPause": {
+    "buttonLabel": "Prendre une pause",
+    "dialogTitle": "Pause planifiée",
+    "dialogDescription": "Pendant une pause, cette habitude n'apparaîtra pas dans ta dose du jour et n'affectera pas tes stats.",
+    "reasonLabel": "Raison (optionnel)",
+    "reasonPlaceholder": "Vacances, maladie, projet...",
+    "startDateLabel": "Début de la pause",
+    "endDateLabel": "Fin de la pause",
+    "confirmButton": "Mettre en pause",
+    "cancelButton": "Annuler",
+    "activeBadge": "En pause",
+    "resumeButton": "Reprendre",
+    "reasons": ["Vacances", "Maladie", "Période chargée", "Autre priorité"]
+  },
+  "simpleTracking": {
+    "doneButton": "Fait",
+    "notTodayButton": "Pas aujourd'hui",
+    "transitionSuggestion": "Tu utilises cette habitude depuis 30 jours ! Veux-tu passer au suivi détaillé ?",
+    "transitionYes": "Oui, passer au détaillé",
+    "transitionNo": "Rester en mode simple"
+  },
+  "intentionalFriction": {
+    "delayTitle": "Un moment de réflexion",
+    "delayMessage": "Prends quelques secondes pour réfléchir...",
+    "preLogQuestion": "Comment te sens-tu en ce moment ?",
+    "preLogOptions": ["Stressé·e", "Ennuyé·e", "Fatigué·e", "Par habitude", "Vraiment envie"],
+    "alternativeTitle": "Une alternative ?",
+    "alternativeText": "Et si tu essayais plutôt...",
+    "continueAnyway": "Continuer quand même"
+  },
+  "weeklyReview": {
+    "title": "Ta semaine en résumé",
+    "noHabits": {
+      "title": "Pas encore d'habitudes",
+      "description": "Crée ta première habitude pour voir ta revue hebdomadaire."
+    },
+    "stats": {
+      "completion": "Complétion cette semaine",
+      "activeDays": "jours actifs",
+      "completedDays": "jours réussis"
+    },
+    "sections": {
+      "activity": "Activité",
+      "perHabit": "Par habitude",
+      "patterns": "Tes patterns"
+    },
+    "habitStats": {
+      "average": "moyenne",
+      "days": "jours"
+    },
+    "messages": {
+      "positive": [
+        "Belle semaine. Tu construis quelque chose.",
+        "7 jours de plus sur ta trajectoire.",
+        "La constance paie. Continue comme ça.",
+        "Semaine solide. L'effet composé fait son travail."
+      ],
+      "average": [
+        "Une semaine en demi-teinte, mais tu es toujours là.",
+        "Quelques jours actifs. C'est mieux que zéro.",
+        "La semaine n'a pas été parfaite. Et alors ? On continue."
+      ],
+      "difficult": [
+        "Semaine compliquée ? Ça arrive.",
+        "Pas la meilleure semaine, mais ce n'est qu'une semaine.",
+        "L'important n'est pas de tomber, c'est de se relever.",
+        "Nouveau départ dans 3... 2... 1..."
+      ]
+    }
+  },
+  "reflection": {
+    "title": "Réflexion de la semaine",
+    "question": "Qu'est-ce qui a bien fonctionné cette semaine ?",
+    "placeholder": "Note ce qui t'a aidé à tenir tes habitudes...",
+    "saveButton": "Enregistrer",
+    "skipButton": "Passer",
+    "savedMessage": "Réflexion enregistrée."
+  },
+  "patternAnalysis": {
+    "bestDaysTitle": "Tes meilleurs jours",
+    "bestDaysIntro": "Tu es particulièrement régulier·e le :",
+    "bestTimeTitle": "Ton meilleur moment",
+    "bestTimeIntro": "Tu enregistres souvent le :",
+    "noDataYet": "Pas encore assez de données pour identifier des patterns.",
+    "morning": "matin",
+    "afternoon": "après-midi",
+    "evening": "soir"
+  },
+  "adjustmentSuggestions": {
+    "slowDown": {
+      "title": "Suggestion",
+      "message": "Ta progression semble stagner. Et si tu ralentissais un peu le rythme ?",
+      "action": "Ajuster la progression"
+    },
+    "keepGoing": {
+      "title": "Continue comme ça !",
+      "message": "Tu es sur une bonne lancée. Garde ce rythme."
+    },
+    "overperform": {
+      "title": "Impressionnant !",
+      "message": "Tu dépasses régulièrement tes objectifs. Prêt·e à accélérer ?",
+      "action": "Augmenter la progression"
+    },
+    "dismissAction": "Non merci"
+  },
+  "recalibration": {
+    "title": "On recalibre ensemble ?",
+    "welcomeMessages": [
+      "Content·e de te revoir.",
+      "La vie a pris le dessus. Ce n'est pas un problème.",
+      "Te revoilà. Pas de pression.",
+      "Tu es de retour. C'est déjà une victoire."
+    ],
+    "explanation": "Ta dose a évolué pendant ton absence. Pour reprendre en douceur, on peut ajuster le point de départ.",
+    "currentDose": "Dose actuelle",
+    "lastDone": "Dernière dose accomplie",
+    "levels": {
+      "fifty": "Reprendre à 50%",
+      "fiftyDesc": "Plus facile, reprise en douceur",
+      "seventyFive": "Reprendre à 75%",
+      "seventyFiveDesc": "Équilibré",
+      "full": "Reprendre là où tu en étais",
+      "fullDesc": "Ambitieux",
+      "custom": "Choisir une valeur personnalisée",
+      "customDesc": "Tu décides"
+    },
+    "newDose": "Nouvelle dose",
+    "confirmButton": "Recalibrer",
+    "skipButton": "Garder ma dose actuelle",
+    "successMessages": [
+      "C'est noté. Ta nouvelle dose démarre aujourd'hui.",
+      "Recalibration effectuée. L'important, c'est de reprendre.",
+      "Nouveau départ, même trajectoire."
+    ],
+    "skipMessage": "D'accord. Ta dose reste à {{dose}} {{unit}}. Tu peux toujours ajuster plus tard."
+  },
+  "compoundEffect": {
+    "sectionTitle": "D'où tu viens",
+    "startLabel": "Jour 1",
+    "currentLabel": "Aujourd'hui",
+    "arrow": "→",
+    "noProgressYet": "Ta progression se construira avec le temps.",
+    "daysLabel": "{{count}} jour de progression",
+    "daysLabel_plural": "{{count}} jours de progression"
+  },
+  "milestones": {
+    "double": {
+      "title": "Dose doublée !",
+      "message": "Tu as doublé ta dose initiale. Impressionnant.",
+      "emoji": "×2"
+    },
+    "triple": {
+      "title": "Dose triplée !",
+      "message": "Trois fois ta dose de départ. Incroyable progression.",
+      "emoji": "×3"
+    },
+    "half": {
+      "title": "Divisé par deux !",
+      "message": "Tu as réduit de moitié. Bel effort.",
+      "emoji": "÷2"
+    },
+    "quarter": {
+      "title": "Divisé par quatre !",
+      "message": "Un quart de ta dose initiale. Remarquable.",
+      "emoji": "÷4"
+    },
+    "fiftyPercent": {
+      "title": "+50% atteint !",
+      "message": "Tu as progressé de moitié depuis le début.",
+      "emoji": "+50%"
+    },
+    "hundredPercent": {
+      "title": "+100% atteint !",
+      "message": "Tu as doublé ta capacité. L'effet composé en action.",
+      "emoji": "+100%"
+    },
+    "twoHundredPercent": {
+      "title": "+200% atteint !",
+      "message": "Triple de ta valeur initiale. Extraordinaire.",
+      "emoji": "+200%"
+    },
+    "weeks": "Ça fait {{count}} semaines que tu as commencé. Regarde le chemin parcouru.",
+    "days": "{{count}} jours sur cette habitude. Tu n'es plus la même personne.",
+    "months": "{{count}} mois. L'effet composé fait son travail.",
+    "monthsFirst": "Un mois. Puis deux. Puis trois. C'est ça, l'effet composé."
+  },
+  "celebrations": {
+    "25": {
+      "emoji": "🌱",
+      "title": "Quart du chemin parcouru !",
+      "messages": [
+        "Tu as franchi le premier quart de ton objectif. C'est un excellent début !",
+        "25%, c'est le début d'une belle aventure. Continue comme ça !"
+      ]
+    },
+    "50": {
+      "emoji": "🌿",
+      "title": "Mi-parcours atteint !",
+      "messages": [
+        "Tu es à mi-chemin de ton objectif. Tu peux être fier·e de toi.",
+        "La moitié du chemin est faite. L'élan est là !"
+      ]
+    },
+    "75": {
+      "emoji": "🌳",
+      "title": "Trois quarts du chemin !",
+      "messages": [
+        "Plus que 25% pour atteindre ton objectif. Tu y es presque !",
+        "75% accomplis. L'arrivée est en vue !"
+      ]
+    },
+    "100": {
+      "emoji": "🎉",
+      "title": "Objectif atteint !",
+      "messages": [
+        "Tu l'as fait ! Tu as atteint ton objectif.",
+        "Mission accomplie. Tu peux être fier·e de ce que tu as accompli.",
+        "C'est fait. Félicitations, vraiment."
+      ]
+    },
+    "closeButton": "Continuer"
+  },
+  "checkInMessages": {
+    "completed": [
+      "Nickel. À demain.",
+      "C'est fait. Beau travail.",
+      "Dose du jour : accomplie.",
+      "Parfait. Un jour de plus sur la bonne voie.",
+      "✓ Enregistré. Tu avances."
+    ],
+    "partial": [
+      "Chaque effort compte. C'est noté.",
+      "Tu as avancé aujourd'hui. C'est l'essentiel.",
+      "Pas 100%, mais tu n'as pas abandonné.",
+      "L'important, c'est d'avoir fait quelque chose.",
+      "Bien joué. Demain est un autre jour."
+    ],
+    "exceeded": [
+      "Au-delà de la dose. Impressionnant, mais pas obligatoire.",
+      "Tu en as fait plus. L'élan est là.",
+      "Extra ! Mais souviens-toi : la régularité bat l'intensité."
+    ],
+    "noActivity": [
+      "Pas d'entrée aujourd'hui. Ce n'est pas grave.",
+      "Une pause, c'est aussi avancer parfois.",
+      "Demain est une nouvelle occasion."
+    ]
+  },
+  "habitCreated": [
+    "Habitude créée. Ta dose du jour commence demain.",
+    "C'est parti. Tu verras ta première dose demain matin."
+  ],
+  "habitModified": [
+    "Modification enregistrée.",
+    "C'est noté. Ta nouvelle progression démarre maintenant."
+  ],
+  "habitArchived": [
+    "Habitude archivée. Son historique est conservé.",
+    "Habitude mise en pause. Tu pourras la réactiver quand tu voudras."
+  ],
+  "goalReached": [
+    "Objectif atteint. Tu l'as fait.",
+    "La cible est atteinte. Félicitations, vraiment.",
+    "C'est fait. Tu peux être fier·e de toi."
+  ],
+  "emptyState": {
+    "title": "Tout commence par une habitude",
+    "subtitle": "Créez votre première habitude pour démarrer votre progression.",
+    "button": "Créer une habitude"
+  },
+  "habitDetail": {
+    "back": "← Retour",
+    "badges": {
+      "increase": "Augmenter",
+      "decrease": "Réduire",
+      "maintain": "Maintenir",
+      "archived": "Archivée"
+    },
+    "sections": {
+      "thisWeek": "Cette semaine",
+      "recentActivity": "Activité récente",
+      "details": "Détails"
+    },
+    "info": {
+      "startValue": "Valeur de départ",
+      "targetValue": "Objectif final",
+      "progression": "Progression",
+      "createdAt": "Créée le",
+      "archivedAt": "Archivée le"
+    },
+    "progressionFormat": {
+      "daily": "jour",
+      "weekly": "semaine"
+    }
+  },
+  "statistics": {
+    "periods": {
+      "week": "Semaine",
+      "month": "Mois",
+      "quarter": "Trimestre",
+      "year": "Année",
+      "all": "Tout"
+    },
+    "empty": {
+      "noHabits": {
+        "title": "Pas encore de statistiques",
+        "message": "Créez votre première habitude pour commencer à voir vos statistiques."
+      },
+      "notEnoughData": {
+        "title": "Continue encore quelques jours",
+        "message": "Tu en es à {{days}} jour. Reviens dans quelques jours pour voir tes statistiques.",
+        "message_plural": "Tu en es à {{days}} jours. Reviens dans quelques jours pour voir tes statistiques."
+      }
+    },
+    "cards": {
+      "average": "Moyenne",
+      "activeDays": "Jours actifs",
+      "habits": "Habitudes",
+      "streak": "Série"
+    },
+    "trends": {
+      "up": "en hausse",
+      "down": "en baisse",
+      "stable": "stable"
+    },
+    "projections": {
+      "goalReached": {
+        "emoji": "🎉",
+        "message": "Objectif atteint ! Tu peux être fier·e de toi."
+      },
+      "almostThere": {
+        "emoji": "🔥",
+        "message": "L'arrivée est proche ! Continue sur cette lancée."
+      },
+      "threeQuarters": {
+        "emoji": "🌳",
+        "message": "Trois quarts du chemin parcouru. Tu y es presque !"
+      },
+      "halfWay": {
+        "emoji": "🌿",
+        "message": "Mi-parcours atteint. Tu es sur la bonne voie."
+      },
+      "quarterWay": {
+        "emoji": "🌱",
+        "message": "Beau départ ! Chaque jour te rapproche de ton objectif."
+      },
+      "positiveProgress": {
+        "emoji": "✨",
+        "message": "Tu avances dans la bonne direction. Continue comme ça."
+      },
+      "stagnation": {
+        "emoji": "💪",
+        "message": "Chaque petit pas compte. L'important, c'est de continuer."
+      }
+    }
+  },
+  "suggestedHabits": {
+    "evidence": "Preuve",
+    "evidenceLevels": {
+      "strong": "Forte",
+      "moderate": "Modérée",
+      "emerging": "Émergente"
+    },
+    "startDose": "Dose de départ"
+  },
+  "notifications": {
+    "morning": {
+      "title": "Rappel du matin",
+      "hint": "Un rappel pour commencer ta journée"
+    },
+    "evening": {
+      "title": "Rappel du soir",
+      "hint": "Un rappel si tu n'as pas encore enregistré aujourd'hui"
+    },
+    "enabled": "Activé",
+    "disabled": "Désactivé",
+    "permissionRequired": "Autorise les notifications pour recevoir des rappels",
+    "allowButton": "Autoriser les notifications"
+  },
+  "timeOfDaySelector": {
+    "title": "Moment de la journée",
+    "hint": "Optionnel. Quand préfères-tu faire cette habitude ?",
+    "none": "Non défini"
+  },
+  "daysOfWeek": {
+    "short": {
+      "mon": "lun.",
+      "tue": "mar.",
+      "wed": "mer.",
+      "thu": "jeu.",
+      "fri": "ven.",
+      "sat": "sam.",
+      "sun": "dim."
+    },
+    "long": {
+      "monday": "lundi",
+      "tuesday": "mardi",
+      "wednesday": "mercredi",
+      "thursday": "jeudi",
+      "friday": "vendredi",
+      "saturday": "samedi",
+      "sunday": "dimanche"
+    }
   }
 }
