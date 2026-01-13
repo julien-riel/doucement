@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.16.0",
+  "currentVersion": "1.17.0",
   "releases": [
+    {
+      "version": "1.17.0",
+      "date": "2026-01-12",
+      "title": "Modifications d'habitudes et nettoyage",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Changement de direction (augmenter/maintenir/diminuer) en modification"
+        },
+        {
+          "emoji": "tools",
+          "text": "Emoji picker corrigé sur mobile"
+        },
+        {
+          "emoji": "paint",
+          "text": "Habitudes archivées masquées par défaut"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Retrait de la suggestion transition 30 jours"
+        }
+      ]
+    },
     {
       "version": "1.16.0",
       "date": "2026-01-12",

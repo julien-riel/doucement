@@ -2,7 +2,7 @@
   "project": "Améliorations UX et Habitudes Prioritaires",
   "description": "15 améliorations UX : tri logique, carrousel, changement type, nouvelles habitudes avec sources",
   "createdAt": "2026-01-12",
-  "lastRelease": "1.16.0",
+  "lastRelease": "1.17.0",
   "docs": [
     "docs/prd-ux-improvements.md",
     "docs/design/design-system-specification.md",
@@ -267,7 +267,9 @@
       "id": "phase-5",
       "name": "Phase 5 - Modifications d'habitudes",
       "description": "Changement de type et correction emoji picker mobile",
-      "status": "pending",
+      "status": "completed",
+      "releasedAs": "1.17.0",
+      "releasedAt": "2026-01-12",
       "releaseType": "minor",
       "tasks": [
         {
@@ -308,7 +310,9 @@
       "id": "phase-6",
       "name": "Phase 6 - Liste des habitudes",
       "description": "Archivées collapsées par défaut",
-      "status": "pending",
+      "status": "completed",
+      "releasedAs": "1.17.0",
+      "releasedAt": "2026-01-12",
       "releaseType": "patch",
       "tasks": [
         {
@@ -427,7 +431,9 @@
       "id": "phase-9",
       "name": "Phase 9 - Nettoyage",
       "description": "Retirer la fonctionnalité transition 30 jours",
-      "status": "pending",
+      "status": "completed",
+      "releasedAs": "1.17.0",
+      "releasedAt": "2026-01-12",
       "releaseType": "patch",
       "tasks": [
         {
