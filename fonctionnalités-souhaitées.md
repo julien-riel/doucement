@@ -33,6 +33,14 @@ Je veux que les habitudes prioritaires soient mieux configurer. c'est à dire ut
 
 Je veux afficher des références vers les sources (articles scientifiques quand j'affiche des habitudes prioritaires) Voir le fichier sources.md
 
+-----------------------------------------
+
+Dans l'écran d'une nouvelles habitudes à fort impact, Quand je clique sur un emoji, on est au xième items dans le carroussel. Il faudrait revenir au premier.
+
+Dans l'écran d'une nouvelles habitudes à fort impact, je veux voir le nom de la catégorie pas juste l'icone.
+
+Feature: Traduire l'application
+
 
 
 

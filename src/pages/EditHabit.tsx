@@ -5,7 +5,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
-import { Button, Input, Card, EmojiPicker } from '../components/ui'
+import { Button, Input, Card, EmojiPicker, TimeOfDaySelector } from '../components/ui'
 import {
   ProgressionMode,
   ProgressionPeriod,
@@ -16,6 +16,7 @@ import {
   TrackingMode,
   WeeklyAggregation,
   HabitDirection,
+  TimeOfDay,
 } from '../types'
 import {
   ENTRY_MODE,
@@ -68,6 +69,8 @@ function EditHabit() {
   const [description, setDescription] = useState('')
   // Weekly aggregation
   const [weeklyAggregation, setWeeklyAggregation] = useState<WeeklyAggregation>('sum-units')
+  // Moment de la journée
+  const [timeOfDay, setTimeOfDay] = useState<TimeOfDay | null>(null)
   const [isSaving, setIsSaving] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
 
@@ -103,6 +106,8 @@ function EditHabit() {
       setDescription(habit.description ?? '')
       // Weekly aggregation
       setWeeklyAggregation(habit.weeklyAggregation ?? 'sum-units')
+      // Moment de la journée
+      setTimeOfDay(habit.timeOfDay ?? null)
     }
   }, [habit])
 
@@ -153,6 +158,9 @@ function EditHabit() {
     // Weekly aggregation change
     const weeklyAggregationChanged = weeklyAggregation !== (habit.weeklyAggregation ?? 'sum-units')
 
+    // Time of day change
+    const timeOfDayChanged = timeOfDay !== (habit.timeOfDay ?? null)
+
     return (
       nameChanged ||
       emojiChanged ||
@@ -169,7 +177,8 @@ function EditHabit() {
       trackingModeChanged ||
       identityStatementChanged ||
       descriptionChanged ||
-      weeklyAggregationChanged
+      weeklyAggregationChanged ||
+      timeOfDayChanged
     )
   }, [
     habit,
@@ -191,6 +200,7 @@ function EditHabit() {
     identityStatement,
     description,
     weeklyAggregation,
+    timeOfDay,
   ])
 
   const handleSave = useCallback(() => {
@@ -264,6 +274,9 @@ function EditHabit() {
       updates.weeklyAggregation = undefined
     }
 
+    // Moment de la journée
+    updates.timeOfDay = timeOfDay ?? undefined
+
     const success = updateHabit(id, updates)
 
     if (success) {
@@ -296,6 +309,7 @@ function EditHabit() {
     identityStatement,
     description,
     weeklyAggregation,
+    timeOfDay,
     updateHabit,
     navigate,
   ])
@@ -378,6 +392,9 @@ function EditHabit() {
             hint="Une note personnelle pour te rappeler pourquoi cette habitude compte."
           />
         </div>
+
+        {/* Moment de la journée */}
+        <TimeOfDaySelector value={timeOfDay} onChange={setTimeOfDay} />
 
         {/* Type d'habitude (direction) - modifiable */}
         <div className="edit-habit__direction-section">

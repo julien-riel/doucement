@@ -612,11 +612,32 @@
 
 .step-choose__filters {
   display: flex;
-  flex-wrap: wrap;
   gap: var(--spacing-2);
+  overflow-x: auto;
+  padding-bottom: var(--spacing-2);
+  margin-bottom: calc(-1 * var(--spacing-2));
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neutral-300) transparent;
+}
+
+.step-choose__filters::-webkit-scrollbar {
+  height: 4px;
+}
+
+.step-choose__filters::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.step-choose__filters::-webkit-scrollbar-thumb {
+  background: var(--neutral-300);
+  border-radius: var(--radius-full);
 }
 
 .step-choose__filter {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
   padding: var(--spacing-2) var(--spacing-3);
   border: 1px solid var(--neutral-200);
   border-radius: var(--radius-full);
@@ -625,6 +646,9 @@
   font-size: var(--text-sm);
   color: var(--neutral-600);
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-height: 44px;
   transition:
     background var(--duration-fast) var(--easing-gentle),
     border-color var(--duration-fast) var(--easing-gentle),
@@ -640,6 +664,14 @@
   background: var(--primary-500);
   border-color: var(--primary-500);
   color: white;
+}
+
+.step-choose__filter-emoji {
+  font-size: var(--text-base);
+}
+
+.step-choose__filter-name {
+  font-size: var(--text-sm);
 }
 
 /* Conteneur du carrousel d'habitudes suggérées */

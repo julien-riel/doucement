@@ -370,7 +370,8 @@ function CreateHabit() {
               className={`step-choose__filter ${activeCategory === cat ? 'step-choose__filter--active' : ''}`}
               onClick={() => setActiveCategory(cat)}
             >
-              {HABIT_CATEGORIES[cat].emoji}
+              <span className="step-choose__filter-emoji">{HABIT_CATEGORIES[cat].emoji}</span>
+              <span className="step-choose__filter-name">{HABIT_CATEGORIES[cat].name}</span>
             </button>
           ))}
         </div>
@@ -378,6 +379,7 @@ function CreateHabit() {
         {/* Carrousel d'habitudes suggérées */}
         <div className="step-choose__carousel-container">
           <HabitCarousel
+            key={activeCategory}
             itemsPerViewDesktop={2}
             itemsPerViewMobile={1}
             ariaLabel="Habitudes suggérées"
