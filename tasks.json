@@ -1,416 +1,490 @@
 {
-  "project": "Statistiques Avancées",
-  "description": "Module de visualisation de la progression avec graphiques, projections et célébrations",
+  "project": "Améliorations UX et Habitudes Prioritaires",
+  "description": "15 améliorations UX : tri logique, carrousel, changement type, nouvelles habitudes avec sources",
   "createdAt": "2026-01-12",
-  "lastRelease": "1.15.1",
+  "lastRelease": "1.16.0",
   "docs": [
-    "docs/prd-statistics.md",
+    "docs/prd-ux-improvements.md",
     "docs/design/design-system-specification.md",
     "docs/comm/banque-messages.md"
   ],
   "phases": [
     {
       "id": "phase-1",
-      "name": "Phase 1 - Fondations",
-      "description": "Infrastructure technique et services de données",
-      "status": "completed",
+      "name": "Phase 1 - Types et infrastructure",
+      "description": "Nouveaux types TypeScript et migration de schéma",
+      "status": "pending",
       "releaseType": "minor",
-      "releasedAs": "1.11.0",
-      "releasedAt": "2026-01-12",
       "tasks": [
         {
           "id": "1.1",
-          "name": "Installer Recharts",
-          "description": "Ajouter la dépendance Recharts au projet et configurer les types TypeScript",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Ajouter types TimeOfDay et Difficulty",
+          "description": "Définir les types TimeOfDay ('morning' | 'afternoon' | 'evening' | 'night'), HabitDifficulty ('easy' | 'moderate' | 'challenging') et CumulativeOperation",
+          "status": "pending",
           "priority": "high",
           "dependsOn": [],
-          "files": ["package.json"],
+          "files": ["src/types/index.ts"],
           "tests": [],
           "acceptance": [
-            "Recharts est installé dans package.json",
-            "Import de Recharts fonctionne sans erreur TS"
+            "Type TimeOfDay exporté",
+            "Type HabitDifficulty exporté",
+            "Type CumulativeOperation avec id, value, timestamp",
+            "Habit inclut timeOfDay optionnel et cumulativeOperations optionnel"
           ]
         },
         {
           "id": "1.2",
-          "name": "Service de calcul statistiques",
-          "description": "Créer un service pour calculer les métriques : moyenne, tendance, progression, projection future basée sur le taux de progression",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Migrer schéma de données",
+          "description": "Ajouter la migration pour les nouveaux champs dans le storage (timeOfDay, cumulativeOperations)",
+          "status": "pending",
           "priority": "high",
           "dependsOn": ["1.1"],
-          "files": ["src/services/statistics.ts"],
-          "tests": ["src/services/statistics.test.ts"],
+          "files": ["src/services/storage.ts"],
+          "tests": ["src/services/storage.test.ts"],
           "acceptance": [
-            "Calcul de la moyenne sur une période",
-            "Calcul de la tendance (pente)",
-            "Projection de la valeur future selon le rythme actuel",
-            "Comparaison projection vs cible définie"
-          ]
-        },
-        {
-          "id": "1.3",
-          "name": "Types et interfaces",
-          "description": "Définir les types TypeScript pour les données statistiques, périodes, et options de graphiques",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "medium",
-          "dependsOn": [],
-          "files": ["src/types/statistics.ts"],
-          "tests": [],
-          "acceptance": [
-            "Types pour StatsPeriod (week, month, year, all)",
-            "Types pour ChartData et DataPoint",
-            "Types pour ProjectionData"
+            "schemaVersion incrémenté",
+            "Migration ajoute les nouveaux champs optionnels",
+            "Données existantes préservées"
           ]
         }
       ]
     },
     {
       "id": "phase-2",
-      "name": "Phase 2 - Composants graphiques",
-      "description": "Création des composants de visualisation réutilisables",
-      "status": "completed",
+      "name": "Phase 2 - Nouvelles habitudes prioritaires",
+      "description": "Enrichir le catalogue avec 10 nouvelles habitudes et sources scientifiques",
+      "status": "pending",
       "releaseType": "minor",
-      "releasedAs": "1.12.0",
-      "releasedAt": "2026-01-12",
       "tasks": [
         {
           "id": "2.1",
-          "name": "Composant ProgressionChart",
-          "description": "Graphique en courbe montrant l'évolution d'une habitude dans le temps, avec ligne de tendance et projection future en pointillés",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Ajouter catégories manquantes",
+          "description": "Ajouter les catégories 'finance', 'hygiene', 'food', 'social', 'productivity', 'gratitude' à HabitCategory",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["1.1", "1.2", "1.3"],
-          "files": ["src/components/charts/ProgressionChart.tsx"],
+          "dependsOn": ["1.1"],
+          "files": ["src/constants/suggestedHabits.ts"],
           "tests": [],
           "acceptance": [
-            "Affiche les données historiques en courbe",
-            "Ligne de tendance visible",
-            "Zone de projection future en pointillés",
-            "Cible finale affichée comme ligne horizontale",
-            "Responsive et accessible",
-            "Couleurs conformes au design system (orange/vert, pas de rouge)"
+            "6 nouvelles catégories ajoutées",
+            "HABIT_CATEGORIES mis à jour avec emoji et tagline",
+            "Types TypeScript mis à jour"
           ]
         },
         {
           "id": "2.2",
-          "name": "Composant HeatmapCalendar",
-          "description": "Calendrier heatmap style GitHub contributions, montrant l'intensité de réalisation jour par jour",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Ajouter 10 nouvelles habitudes",
+          "description": "Boire eau, réduire café, économiser, langue, soie dentaire, restaurant, meal prep, temps qualité, deep work, gratitude",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["1.1", "1.3"],
-          "files": ["src/components/charts/HeatmapCalendar.tsx"],
+          "dependsOn": ["2.1"],
+          "files": ["src/constants/suggestedHabits.ts"],
           "tests": [],
           "acceptance": [
-            "Vue calendrier avec cases colorées",
-            "Intensité basée sur % de dose réalisée",
-            "Dégradé de couleurs douces (pas de rouge pour les jours faibles)",
-            "Tooltip au survol avec détails du jour",
-            "Navigation entre les mois"
+            "10 nouvelles SuggestedHabit ajoutées",
+            "Chaque habitude a timeOfDay et difficulty",
+            "Modes tracking/saisie appropriés pour chaque habitude",
+            "Priority et evidenceLevel définis"
           ]
         },
         {
           "id": "2.3",
-          "name": "Composant ComparisonChart",
-          "description": "Graphique permettant de comparer plusieurs habitudes sur la même période",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Ajouter sources scientifiques",
+          "description": "Ajouter le champ sources[] à toutes les habitudes suggérées avec les URLs pertinentes",
+          "status": "pending",
           "priority": "medium",
-          "dependsOn": ["1.1", "1.2", "1.3"],
-          "files": ["src/components/charts/ComparisonChart.tsx"],
+          "dependsOn": ["2.2"],
+          "files": ["src/constants/suggestedHabits.ts", "sources.md"],
           "tests": [],
           "acceptance": [
-            "Multi-séries avec légende",
-            "Sélection des habitudes à comparer",
-            "Normalisation possible (% de la cible)",
-            "Couleurs distinctes par habitude"
+            "Champ sources: string[] ajouté à SuggestedHabit",
+            "Habitudes existantes ont leurs sources",
+            "Nouvelles habitudes ont au moins 1 source chacune"
           ]
         },
         {
           "id": "2.4",
-          "name": "Composant StatCard",
-          "description": "Carte affichant une métrique clé avec icône, valeur et tendance",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Ajouter timeOfDay aux habitudes existantes",
+          "description": "Définir le moment de la journée pour les 15 habitudes existantes",
+          "status": "pending",
           "priority": "medium",
-          "dependsOn": ["1.3"],
-          "files": ["src/components/charts/StatCard.tsx"],
+          "dependsOn": ["2.1"],
+          "files": ["src/constants/suggestedHabits.ts"],
           "tests": [],
           "acceptance": [
-            "Affichage valeur principale",
-            "Indicateur de tendance (flèche haut/bas)",
-            "Cohérence avec le design system Card existant"
+            "Toutes les habitudes existantes ont un timeOfDay",
+            "Se coucher = evening/night",
+            "Marche quotidienne = morning/afternoon",
+            "Cohérence avec la nature de l'habitude"
           ]
         }
       ]
     },
     {
       "id": "phase-3",
-      "name": "Phase 3 - Page Statistiques",
-      "description": "Assemblage des composants dans une page dédiée",
-      "status": "completed",
+      "name": "Phase 3 - Page Aujourd'hui",
+      "description": "Tri logique et regroupement visuel par moment",
+      "status": "pending",
       "releaseType": "minor",
-      "releasedAs": "1.13.0",
-      "releasedAt": "2026-01-12",
       "tasks": [
         {
           "id": "3.1",
-          "name": "Page Statistics",
-          "description": "Créer la page principale des statistiques avec sélecteur de période et vue d'ensemble",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Créer composant TimeOfDaySection",
+          "description": "Composant pour afficher une section avec titre (🌅 Matin, etc.) et liste d'habitudes",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["2.1", "2.2", "2.3", "2.4"],
-          "files": ["src/pages/Statistics.tsx"],
+          "dependsOn": ["1.1"],
+          "files": ["src/components/TimeOfDaySection.tsx"],
           "tests": [],
           "acceptance": [
-            "Sélecteur de période (semaine/mois/année/tout)",
-            "Section résumé avec StatCards",
-            "Section graphiques principaux",
-            "Sélecteur d'habitude pour les vues détaillées",
-            "État vide si pas assez de données"
+            "Affiche emoji + label du moment",
+            "Rend les enfants (HabitCards)",
+            "Style cohérent avec le design system"
           ]
         },
         {
           "id": "3.2",
-          "name": "Navigation et routing",
-          "description": "Ajouter la page Statistics au router et à la navigation principale",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Regrouper habitudes par moment sur Today",
+          "description": "Modifier Today.tsx pour grouper et afficher les habitudes dans des sections par moment",
+          "status": "pending",
           "priority": "high",
           "dependsOn": ["3.1"],
-          "files": ["src/router.tsx", "src/components/layout/MainLayout.tsx"],
+          "files": ["src/pages/Today.tsx", "src/utils/habitDisplay.ts"],
           "tests": [],
           "acceptance": [
-            "Route /statistics accessible",
-            "Icône dans la navigation principale",
-            "Transition fluide depuis les autres pages"
-          ]
-        },
-        {
-          "id": "3.3",
-          "name": "Section Projections",
-          "description": "Ajouter une section dédiée aux projections futures : quand atteindra-t-on la cible au rythme actuel ?",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "medium",
-          "dependsOn": ["3.1", "1.2"],
-          "files": ["src/pages/Statistics.tsx", "src/components/charts/ProjectionSection.tsx"],
-          "tests": [],
-          "acceptance": [
-            "Affichage de la date estimée d'atteinte de cible",
-            "Comparaison rythme actuel vs rythme nécessaire",
-            "Message encourageant adapté au contexte"
+            "Habitudes groupées par timeOfDay",
+            "Ordre: Matin → Après-midi → Soir → Nuit → Non défini",
+            "Habitudes sans timeOfDay en fin de liste",
+            "Sections vides non affichées"
           ]
         }
       ]
     },
     {
       "id": "phase-4",
-      "name": "Phase 4 - Célébrations",
-      "description": "Système de célébration des jalons atteints",
-      "status": "completed",
+      "name": "Phase 4 - Wizard de création",
+      "description": "Carrousel, scroll auto, nom visible, emojis suggérés",
+      "status": "pending",
       "releaseType": "minor",
-      "releasedAs": "1.14.0",
-      "releasedAt": "2026-01-12",
       "tasks": [
         {
           "id": "4.1",
-          "name": "Service de détection des jalons",
-          "description": "Service pour détecter quand un utilisateur atteint 25%, 50%, 75% ou 100% de sa cible finale",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Créer composant HabitCarousel",
+          "description": "Carrousel horizontal pour les habitudes suggérées avec swipe et pagination",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["1.2"],
-          "files": ["src/services/milestones.ts"],
-          "tests": ["src/services/milestones.test.ts"],
+          "dependsOn": [],
+          "files": ["src/components/ui/HabitCarousel.tsx", "src/components/ui/HabitCarousel.css"],
+          "tests": [],
           "acceptance": [
-            "Détection des seuils 25/50/75/100%",
-            "Stockage des jalons déjà célébrés (éviter répétition)",
-            "Calcul basé sur la valeur actuelle vs targetValue"
+            "Défilement horizontal tactile",
+            "Points de pagination",
+            "Flèches nav sur desktop",
+            "Responsive (1 item mobile, 2-3 desktop)"
           ]
         },
         {
           "id": "4.2",
-          "name": "Composant CelebrationModal",
-          "description": "Modal de célébration avec animation confetti et message personnalisé",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Intégrer carrousel dans CreateHabit",
+          "description": "Remplacer la grille de cartes par le carrousel dans l'étape 'choose'",
+          "status": "pending",
           "priority": "high",
           "dependsOn": ["4.1"],
-          "files": ["src/components/CelebrationModal.tsx", "src/components/CelebrationModal.css"],
+          "files": ["src/pages/CreateHabit.tsx"],
           "tests": [],
           "acceptance": [
-            "Animation de confetti ou particules",
-            "Message encourageant selon le jalon (depuis banque-messages.md)",
-            "Bouton de fermeture",
-            "Animation fluide d'entrée/sortie"
+            "Carrousel affiché pour chaque catégorie filtrée",
+            "Sélection d'une habitude fonctionne",
+            "Transition fluide vers l'étape suivante"
           ]
         },
         {
           "id": "4.3",
-          "name": "Intégration célébrations",
-          "description": "Déclencher les célébrations au bon moment (après check-in ou sur la page stats)",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Ajouter sélecteur TimeOfDay",
+          "description": "Créer composant TimeOfDaySelector et l'intégrer à l'étape 3 (details)",
+          "status": "pending",
           "priority": "medium",
-          "dependsOn": ["4.1", "4.2"],
-          "files": ["src/pages/Today.tsx", "src/pages/Statistics.tsx", "src/hooks/useCelebrations.ts"],
+          "dependsOn": ["1.1"],
+          "files": ["src/components/ui/TimeOfDaySelector.tsx", "src/pages/CreateHabit.tsx"],
           "tests": [],
           "acceptance": [
-            "Célébration déclenchée après un check-in qui fait passer un seuil",
-            "Possibilité de revoir les jalons atteints dans les stats"
+            "4 boutons mutuellement exclusifs",
+            "Valeur sauvegardée dans l'habitude",
+            "Optionnel (peut être non défini)"
+          ]
+        },
+        {
+          "id": "4.4",
+          "name": "Afficher nom habitude aux étapes 3-4",
+          "description": "Montrer le nom de l'habitude en cours d'édition dans le header des étapes details et intentions",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": ["src/pages/CreateHabit.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Nom visible en sous-titre aux étapes 3 et 4",
+            "Emoji + nom affiché",
+            "Style cohérent avec le reste du wizard"
+          ]
+        },
+        {
+          "id": "4.5",
+          "name": "Scroll au top à chaque étape",
+          "description": "Scroller automatiquement en haut de page quand on passe à l'étape suivante",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": [],
+          "files": ["src/pages/CreateHabit.tsx"],
+          "tests": [],
+          "acceptance": [
+            "window.scrollTo(0, 0) à chaque changement d'étape",
+            "Animation smooth scroll"
+          ]
+        },
+        {
+          "id": "4.6",
+          "name": "Ajouter emojis suggérés",
+          "description": "Proposer des emojis pertinents selon la catégorie dans le picker",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": ["src/components/ui/EmojiPicker.tsx", "src/constants/suggestedHabits.ts"],
+          "tests": [],
+          "acceptance": [
+            "Section 'Suggestions' en haut du picker",
+            "6-8 emojis contextuels selon la catégorie",
+            "Clic sur suggestion ferme le picker"
           ]
         }
       ]
     },
     {
       "id": "phase-5",
-      "name": "Phase 5 - Export visuel",
-      "description": "Fonctionnalité d'export des graphiques",
-      "status": "completed",
+      "name": "Phase 5 - Modifications d'habitudes",
+      "description": "Changement de type et correction emoji picker mobile",
+      "status": "pending",
       "releaseType": "minor",
-      "releasedAs": "1.15.0",
-      "releasedAt": "2026-01-12",
       "tasks": [
         {
           "id": "5.1",
-          "name": "Service d'export image",
-          "description": "Service pour capturer les graphiques en PNG en utilisant html2canvas ou dom-to-image",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Permettre changement de type",
+          "description": "Ajouter un sélecteur de direction (augmenter/maintenir/diminuer) dans l'écran de modification",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["2.1", "2.2"],
-          "files": ["src/services/exportImage.ts", "package.json"],
+          "dependsOn": [],
+          "files": ["src/pages/EditHabit.tsx", "src/pages/CreateHabit.tsx"],
           "tests": [],
           "acceptance": [
-            "Export PNG d'un graphique spécifique",
-            "Qualité suffisante pour partage",
-            "Téléchargement automatique du fichier"
+            "Sélecteur direction accessible en mode édition",
+            "Progression conservée mais ignorée si maintenir",
+            "Message explicatif si changement de type"
           ]
         },
         {
           "id": "5.2",
-          "name": "Service d'export PDF",
-          "description": "Générer un PDF récapitulatif avec plusieurs graphiques et stats",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "medium",
-          "dependsOn": ["5.1"],
-          "files": ["src/services/exportPdf.ts", "package.json"],
+          "name": "Corriger emoji picker mobile",
+          "description": "Fixer le bug d'affichage des icônes trop gros sur mobile",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": [],
+          "files": ["src/components/ui/EmojiPicker.tsx", "src/components/ui/EmojiPicker.css"],
           "tests": [],
           "acceptance": [
-            "PDF avec en-tête personnalisé",
-            "Inclusion des graphiques principaux",
-            "Tableau récapitulatif des stats",
-            "Mise en page propre"
-          ]
-        },
-        {
-          "id": "5.3",
-          "name": "UI d'export",
-          "description": "Boutons d'export sur la page Statistics et menus de partage",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "medium",
-          "dependsOn": ["5.1", "5.2", "3.1"],
-          "files": ["src/pages/Statistics.tsx", "src/components/ExportMenu.tsx"],
-          "tests": [],
-          "acceptance": [
-            "Bouton d'export visible sur la page stats",
-            "Menu avec options PNG/PDF",
-            "Feedback visuel pendant l'export",
-            "Message de succès après téléchargement"
+            "Emojis bien dimensionnés sur mobile",
+            "Pas besoin de resize pour corriger",
+            "Test sur viewport 375px"
           ]
         }
       ]
     },
     {
       "id": "phase-6",
-      "name": "Phase 6 - Tests et polish",
-      "description": "Tests E2E et finitions",
-      "status": "completed",
+      "name": "Phase 6 - Liste des habitudes",
+      "description": "Archivées collapsées par défaut",
+      "status": "pending",
       "releaseType": "patch",
-      "releasedAs": "1.15.1",
-      "releasedAt": "2026-01-12",
       "tasks": [
         {
           "id": "6.1",
-          "name": "Tests E2E page Statistics",
-          "description": "Tests Playwright pour valider les parcours utilisateur sur la page stats",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Collapse archivées par défaut",
+          "description": "La section des habitudes archivées est fermée par défaut dans HabitList",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": ["src/pages/HabitList.tsx"],
+          "tests": [],
+          "acceptance": [
+            "showArchived = false par défaut",
+            "Section reste cliquable pour expand",
+            "État non persisté (reset à chaque visite)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-7",
+      "name": "Phase 7 - Saisies cumulatives",
+      "description": "Historique et annulation des saisies cumulatives",
+      "status": "pending",
+      "releaseType": "minor",
+      "tasks": [
+        {
+          "id": "7.1",
+          "name": "Stocker historique saisies cumulatives",
+          "description": "Enregistrer chaque saisie cumulative avec timestamp pour permettre l'annulation",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["3.2"],
-          "files": ["e2e/statistics.spec.ts"],
-          "tests": ["e2e/statistics.spec.ts"],
+          "dependsOn": ["1.1", "1.2"],
+          "files": ["src/services/storage.ts", "src/pages/CheckIn.tsx"],
+          "tests": ["src/services/storage.test.ts"],
           "acceptance": [
-            "Test navigation vers la page",
-            "Test changement de période",
-            "Test affichage des graphiques avec données de test",
-            "Test état vide"
+            "Chaque saisie ajoutée à cumulativeOperations",
+            "Format: { id, value, timestamp }",
+            "Total recalculé à partir de l'historique"
           ]
         },
         {
-          "id": "6.2",
-          "name": "Tests E2E célébrations",
-          "description": "Tests pour valider le déclenchement des célébrations",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "medium",
-          "dependsOn": ["4.3"],
-          "files": ["e2e/celebrations.spec.ts"],
-          "tests": ["e2e/celebrations.spec.ts"],
-          "acceptance": [
-            "Test déclenchement modal au passage de seuil",
-            "Test non-répétition des célébrations déjà vues"
-          ]
-        },
-        {
-          "id": "6.3",
-          "name": "Accessibilité et responsive",
-          "description": "Vérifier l'accessibilité des graphiques et le comportement responsive",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "medium",
-          "dependsOn": ["3.1", "2.1", "2.2"],
-          "files": ["src/components/charts/*.tsx"],
+          "id": "7.2",
+          "name": "UI annulation saisie cumulative",
+          "description": "Afficher l'historique des saisies et permettre d'annuler la dernière",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["7.1"],
+          "files": ["src/pages/CheckIn.tsx", "src/components/CumulativeHistory.tsx"],
           "tests": [],
           "acceptance": [
-            "Labels ARIA sur les graphiques",
-            "Graphiques lisibles sur mobile",
-            "Textes alternatifs pour les données visuelles"
+            "Liste des saisies visible (comme compteur)",
+            "Bouton annuler sur la dernière saisie",
+            "Mise à jour du total en temps réel"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-8",
+      "name": "Phase 8 - Sources et badges",
+      "description": "Affichage des sources scientifiques et badges de difficulté",
+      "status": "pending",
+      "releaseType": "minor",
+      "tasks": [
+        {
+          "id": "8.1",
+          "name": "Créer composant SourcesModal",
+          "description": "Modal affichant les sources scientifiques d'une habitude",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["2.3"],
+          "files": ["src/components/SourcesModal.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Affiche scienceHighlight en évidence",
+            "Liste des URLs avec icône lien externe",
+            "Bouton fermer",
+            "Accessible (focus trap, escape)"
           ]
         },
         {
-          "id": "6.4",
-          "name": "Messages et wording",
-          "description": "Ajouter les messages de la page stats à la banque de messages",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "id": "8.2",
+          "name": "Ajouter bouton sources sur SuggestedHabitCard",
+          "description": "Bouton 'En savoir plus' qui ouvre SourcesModal",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["8.1"],
+          "files": ["src/components/SuggestedHabitCard.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Bouton visible si sources.length > 0",
+            "Ouvre le modal au clic",
+            "Style discret (ghost ou link)"
+          ]
+        },
+        {
+          "id": "8.3",
+          "name": "Ajouter badge difficulté",
+          "description": "Badge coloré indiquant la difficulté sur les cartes d'habitudes suggérées",
+          "status": "pending",
           "priority": "low",
-          "dependsOn": ["3.1", "4.2"],
-          "files": ["docs/comm/banque-messages.md", "src/constants/messages.ts"],
+          "dependsOn": ["2.2"],
+          "files": ["src/components/SuggestedHabitCard.tsx", "src/components/ui/DifficultyBadge.tsx"],
           "tests": [],
           "acceptance": [
-            "Messages de célébration pour chaque jalon",
-            "Textes descriptifs des graphiques",
-            "Vocabulaire conforme au tone de l'app"
+            "Badge avec icône et texte",
+            "Couleurs: easy=vert, moderate=orange, challenging=violet",
+            "Tooltip explicatif au survol"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-9",
+      "name": "Phase 9 - Nettoyage",
+      "description": "Retirer la fonctionnalité transition 30 jours",
+      "status": "pending",
+      "releaseType": "patch",
+      "tasks": [
+        {
+          "id": "9.1",
+          "name": "Retirer TransitionSuggestion",
+          "description": "Supprimer le composant et la logique de suggestion de passage en saisie détaillée après 30 jours",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": [],
+          "files": ["src/pages/Today.tsx", "src/components/TransitionSuggestion.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Composant TransitionSuggestion supprimé",
+            "Plus de suggestion de transition",
+            "Code de détection 30 jours retiré"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-10",
+      "name": "Phase 10 - Tests et polish",
+      "description": "Tests E2E et vérifications finales",
+      "status": "pending",
+      "releaseType": "patch",
+      "tasks": [
+        {
+          "id": "10.1",
+          "name": "Tests E2E carrousel et tri",
+          "description": "Tests Playwright pour le carrousel et le tri par moment",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["3.2", "4.2"],
+          "files": ["e2e/habits-display.spec.ts"],
+          "tests": ["e2e/habits-display.spec.ts"],
+          "acceptance": [
+            "Test navigation carrousel",
+            "Test regroupement par moment",
+            "Test sur mobile et desktop"
+          ]
+        },
+        {
+          "id": "10.2",
+          "name": "Tests E2E changement type et cumul",
+          "description": "Tests pour le changement de type et l'annulation cumulative",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["5.1", "7.2"],
+          "files": ["e2e/habit-modification.spec.ts"],
+          "tests": ["e2e/habit-modification.spec.ts"],
+          "acceptance": [
+            "Test changement augmenter → maintenir",
+            "Test annulation saisie cumulative",
+            "Vérification persistance données"
           ]
         }
       ]
     }
   ],
   "stats": {
-    "totalTasks": 20,
-    "completed": 20,
+    "totalTasks": 24,
+    "completed": 0,
     "inProgress": 0,
-    "pending": 0,
+    "pending": 24,
     "blocked": 0
   }
 }
