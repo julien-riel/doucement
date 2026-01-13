@@ -41,12 +41,15 @@ Met à jour `public/release-notes.json` :
 - Ajoute la nouvelle release EN PREMIER dans le tableau `releases`
 - Date = date du jour au format YYYY-MM-DD
 
-### 5. Confirmation
+### 5. Publication
 
-Affiche un résumé de la release créée et propose de créer un commit avec le message :
+Affiche un résumé de la release créée et crée un commit avec le message :
 ```
 release: v{version} - {titre}
 ```
+
+Ensuite pousse sur main
+
 
 ## Structure du fichier release-notes.json
 
