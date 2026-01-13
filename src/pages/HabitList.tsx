@@ -13,7 +13,7 @@ function HabitList() {
   const navigate = useNavigate()
   const { activeHabits, archivedHabits, isLoading, getEntriesForHabit, restoreHabit } = useAppData()
 
-  const [showArchived, setShowArchived] = useState(true)
+  const [showArchived, setShowArchived] = useState(false)
 
   // Trier les habitudes par date de création (plus récentes en premier)
   const sortedActiveHabits = useMemo(

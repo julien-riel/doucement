@@ -5,8 +5,4 @@ export * from './habitDisplay'
 export * from './patternAnalysis'
 
 // Re-export specific functions for convenience
-export {
-  getDaysSinceCreation,
-  isEligibleForTransition,
-  getHabitsEligibleForTransition,
-} from './habitDisplay'
+export { getDaysSinceCreation } from './habitDisplay'

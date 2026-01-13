@@ -55,9 +55,6 @@ export type { PatternInsightsProps } from './PatternInsights'
 
 export { default as SuggestedHabitCard } from './SuggestedHabitCard'
 
-export { default as TransitionSuggestion } from './TransitionSuggestion'
-export type { TransitionSuggestionProps } from './TransitionSuggestion'
-
 export { default as IdentityPrompt } from './IdentityPrompt'
 
 export { default as RecalibrationPrompt } from './RecalibrationPrompt'

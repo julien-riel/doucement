@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
 import { Button, Input, EmojiPicker } from '../components/ui'
@@ -149,6 +149,11 @@ function CreateHabit() {
   const stepIndex = useMemo(() => {
     const steps: WizardStep[] = ['choose', 'type', 'details', 'intentions', 'identity', 'confirm']
     return steps.indexOf(step)
+  }, [step])
+
+  // Scroll au top à chaque changement d'étape
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [step])
 
   /**
@@ -867,6 +872,17 @@ function CreateHabit() {
     }
   }
 
+  /**
+   * Affichage du nom de l'habitude en cours d'édition (étapes 3+)
+   */
+  const getHabitPreview = () => {
+    // Afficher le nom seulement si on a un nom défini et qu'on est à l'étape details, intentions ou identity
+    if ((step === 'details' || step === 'intentions' || step === 'identity') && form.name.trim()) {
+      return `${form.emoji} ${form.name}`
+    }
+    return null
+  }
+
   // L'étape first-checkin a un affichage simplifié (pas de header ni footer)
   if (step === 'first-checkin') {
     return (
@@ -881,6 +897,7 @@ function CreateHabit() {
       <header className="create-habit__header">
         <h1 className="create-habit__title">Nouvelle habitude</h1>
         <p className="create-habit__subtitle">{getSubtitle()}</p>
+        {getHabitPreview() && <p className="create-habit__habit-preview">{getHabitPreview()}</p>}
       </header>
 
       {/* Indicateur de progression (caché pour l'étape choose) */}

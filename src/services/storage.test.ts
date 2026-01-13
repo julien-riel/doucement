@@ -598,4 +598,65 @@ describe('cas limites', () => {
     expect(result.data?.habits[0].progression).toBeNull()
     expect(result.data?.habits[0].archivedAt).toBeNull()
   })
+
+  it('préserve les nouveaux champs timeOfDay et cumulativeOperations', () => {
+    const testData = createValidAppData({
+      habits: [
+        {
+          id: 'habit-with-new-fields',
+          name: 'Habitude du matin',
+          emoji: '🌅',
+          direction: 'increase',
+          startValue: 10,
+          unit: 'minutes',
+          progression: { mode: 'absolute', value: 1, period: 'weekly' },
+          createdAt: '2025-01-01',
+          archivedAt: null,
+          timeOfDay: 'morning',
+          cumulativeOperations: [
+            { id: 'op-1', value: 5, timestamp: '2025-01-15T08:00:00Z' },
+            { id: 'op-2', value: 3, timestamp: '2025-01-15T12:00:00Z' },
+          ],
+        },
+      ],
+    })
+
+    saveData(testData)
+    const result = loadData()
+
+    expect(result.success).toBe(true)
+    expect(result.data?.habits[0].timeOfDay).toBe('morning')
+    expect(result.data?.habits[0].cumulativeOperations).toHaveLength(2)
+    expect(result.data?.habits[0].cumulativeOperations?.[0].value).toBe(5)
+    expect(result.data?.habits[0].cumulativeOperations?.[1].value).toBe(3)
+  })
+
+  it('préserve les données existantes sans nouveaux champs optionnels', () => {
+    const testData = createValidAppData({
+      habits: [
+        {
+          id: 'habit-legacy',
+          name: 'Habitude existante',
+          emoji: '💪',
+          direction: 'increase',
+          startValue: 10,
+          unit: 'répétitions',
+          progression: { mode: 'percentage', value: 5, period: 'weekly' },
+          createdAt: '2025-01-01',
+          archivedAt: null,
+          // Pas de timeOfDay ni cumulativeOperations
+        },
+      ],
+    })
+
+    saveData(testData)
+    const result = loadData()
+
+    expect(result.success).toBe(true)
+    expect(result.data?.habits[0].timeOfDay).toBeUndefined()
+    expect(result.data?.habits[0].cumulativeOperations).toBeUndefined()
+    // Vérifier que les autres champs sont préservés
+    expect(result.data?.habits[0].name).toBe('Habitude existante')
+    expect(result.data?.habits[0].startValue).toBe(10)
+  })
 })

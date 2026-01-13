@@ -108,5 +108,40 @@
 
   .emoji-picker__dropdown .EmojiPickerReact {
     height: 60vh !important;
+    /* Fix emoji button sizing for mobile viewport 375px */
+    --epr-emoji-size: 28px;
+    --epr-emoji-padding: 6px;
+    --epr-emoji-gap: 2px;
+  }
+
+  /* Ensure emoji buttons fit properly in mobile grid */
+  .emoji-picker__dropdown .EmojiPickerReact button.epr-emoji {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Fix category navigation icons size */
+  .emoji-picker__dropdown .EmojiPickerReact .epr-category-nav {
+    padding: 4px 8px;
+  }
+
+  .emoji-picker__dropdown .EmojiPickerReact .epr-category-nav button {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+
+  /* Improve search input on mobile */
+  .emoji-picker__dropdown .EmojiPickerReact .epr-search-container {
+    padding: 8px 12px;
+  }
+
+  .emoji-picker__dropdown .EmojiPickerReact .epr-search-container input {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    padding: 10px 12px;
   }
 }

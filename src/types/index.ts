@@ -6,14 +6,44 @@
 import { MilestonesState } from './statistics'
 
 // ============================================================================
+// TIME OF DAY & DIFFICULTY TYPES
+// ============================================================================
+
+/**
+ * Moment de la journée pour une habitude
+ * Permet le regroupement et le tri logique sur la page Aujourd'hui
+ */
+export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night'
+
+/**
+ * Niveau de difficulté d'une habitude suggérée
+ * Affiché comme badge sur les cartes d'habitudes
+ */
+export type HabitDifficulty = 'easy' | 'moderate' | 'challenging'
+
+/**
+ * Opération cumulative (historique des saisies)
+ * Permet de tracer chaque saisie cumulative avec possibilité d'annuler
+ */
+export interface CumulativeOperation {
+  /** Identifiant unique de l'opération */
+  id: string
+  /** Valeur de la saisie (positive ou négative) */
+  value: number
+  /** Horodatage de l'opération (ISO 8601) */
+  timestamp: string
+}
+
+// ============================================================================
 // SCHEMA VERSION
 // ============================================================================
 
 /**
  * Version du schéma de données
  * Incrémentée à chaque modification de structure pour permettre les migrations
+ * v10: Ajout de timeOfDay et cumulativeOperations sur Habit
  */
-export const CURRENT_SCHEMA_VERSION = 9
+export const CURRENT_SCHEMA_VERSION = 10
 
 // ============================================================================
 // HABIT TYPES
@@ -193,6 +223,10 @@ export interface Habit {
   identityStatement?: string
   /** Historique des recalibrations (Phase 10) */
   recalibrationHistory?: RecalibrationRecord[]
+  /** Moment de la journée pour cette habitude */
+  timeOfDay?: TimeOfDay
+  /** Historique des saisies cumulatives pour cette habitude */
+  cumulativeOperations?: CumulativeOperation[]
 }
 
 // ============================================================================

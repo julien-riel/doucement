@@ -15,6 +15,7 @@ import {
   EntryMode,
   TrackingMode,
   WeeklyAggregation,
+  HabitDirection,
 } from '../types'
 import {
   ENTRY_MODE,
@@ -43,6 +44,8 @@ function EditHabit() {
   const [name, setName] = useState('')
   const [emoji, setEmoji] = useState('💪')
   const [unit, setUnit] = useState('')
+  const [direction, setDirection] = useState<HabitDirection>('increase')
+  const [originalDirection, setOriginalDirection] = useState<HabitDirection>('increase')
   const [progressionMode, setProgressionMode] = useState<ProgressionMode>('percentage')
   const [progressionValue, setProgressionValue] = useState(5)
   const [progressionPeriod, setProgressionPeriod] = useState<ProgressionPeriod>('weekly')
@@ -74,6 +77,8 @@ function EditHabit() {
       setName(habit.name)
       setEmoji(habit.emoji)
       setUnit(habit.unit)
+      setDirection(habit.direction)
+      setOriginalDirection(habit.direction)
       if (habit.progression) {
         setProgressionMode(habit.progression.mode)
         setProgressionValue(habit.progression.value)
@@ -111,10 +116,11 @@ function EditHabit() {
     const nameChanged = name.trim() !== habit.name
     const emojiChanged = emoji !== habit.emoji
     const unitChanged = unit.trim() !== habit.unit
+    const directionChanged = direction !== habit.direction
     const targetChanged = targetValue !== (habit.targetValue ?? null)
 
     let progressionChanged = false
-    if (habit.progression && habit.direction !== 'maintain') {
+    if (habit.progression && direction !== 'maintain') {
       progressionChanged =
         progressionMode !== habit.progression.mode ||
         progressionValue !== habit.progression.value ||
@@ -151,6 +157,7 @@ function EditHabit() {
       nameChanged ||
       emojiChanged ||
       unitChanged ||
+      directionChanged ||
       targetChanged ||
       progressionChanged ||
       triggerChanged ||
@@ -169,6 +176,7 @@ function EditHabit() {
     name,
     emoji,
     unit,
+    direction,
     targetValue,
     progressionMode,
     progressionValue,
@@ -194,16 +202,20 @@ function EditHabit() {
       name: name.trim(),
       emoji,
       unit: unit.trim(),
+      direction,
       targetValue: targetValue ?? undefined,
     }
 
     // Only update progression if not maintain
-    if (habit.direction !== 'maintain') {
+    if (direction !== 'maintain') {
       updates.progression = {
         mode: progressionMode,
         value: progressionValue,
         period: progressionPeriod,
       }
+    } else {
+      // Si on passe en mode maintenir, on supprime la progression
+      updates.progression = null
     }
 
     // Build Implementation Intention
@@ -221,7 +233,7 @@ function EditHabit() {
     }
 
     // Anchor habit (only for non-decrease habits)
-    if (habit.direction !== 'decrease') {
+    if (direction !== 'decrease') {
       updates.anchorHabitId = anchorHabitId ?? undefined
     } else {
       // Clear anchor for decrease habits
@@ -269,6 +281,7 @@ function EditHabit() {
     name,
     emoji,
     unit,
+    direction,
     targetValue,
     progressionMode,
     progressionValue,
@@ -366,16 +379,52 @@ function EditHabit() {
           />
         </div>
 
-        {/* Info card - non modifiable */}
-        <Card variant="default" className="edit-habit__info-card">
-          <div className="edit-habit__info-row">
-            <span className="edit-habit__info-label">Type</span>
-            <span className="edit-habit__info-value edit-habit__info-value--readonly">
-              {habit.direction === 'increase' && 'Augmenter'}
-              {habit.direction === 'decrease' && 'Réduire'}
-              {habit.direction === 'maintain' && 'Maintenir'}
-            </span>
+        {/* Type d'habitude (direction) - modifiable */}
+        <div className="edit-habit__direction-section">
+          <p className="edit-habit__field-label">Type d'habitude</p>
+          <div className="edit-habit__direction-options">
+            <button
+              type="button"
+              className={`edit-habit__direction-option ${direction === 'increase' ? 'edit-habit__direction-option--selected' : ''}`}
+              onClick={() => setDirection('increase')}
+              aria-pressed={direction === 'increase'}
+            >
+              <span className="edit-habit__direction-icon">📈</span>
+              <span className="edit-habit__direction-label">Augmenter</span>
+            </button>
+            <button
+              type="button"
+              className={`edit-habit__direction-option ${direction === 'decrease' ? 'edit-habit__direction-option--selected' : ''}`}
+              onClick={() => setDirection('decrease')}
+              aria-pressed={direction === 'decrease'}
+            >
+              <span className="edit-habit__direction-icon">📉</span>
+              <span className="edit-habit__direction-label">Réduire</span>
+            </button>
+            <button
+              type="button"
+              className={`edit-habit__direction-option ${direction === 'maintain' ? 'edit-habit__direction-option--selected' : ''}`}
+              onClick={() => setDirection('maintain')}
+              aria-pressed={direction === 'maintain'}
+            >
+              <span className="edit-habit__direction-icon">⚖️</span>
+              <span className="edit-habit__direction-label">Maintenir</span>
+            </button>
           </div>
+          {/* Message si changement de type */}
+          {direction !== originalDirection && (
+            <div className="edit-habit__direction-warning">
+              <p className="edit-habit__direction-warning-text">
+                {direction === 'maintain'
+                  ? 'En passant en mode "Maintenir", la progression sera désactivée. La dose restera fixe.'
+                  : `Tu passes de "${originalDirection === 'increase' ? 'Augmenter' : originalDirection === 'decrease' ? 'Réduire' : 'Maintenir'}" à "${direction === 'increase' ? 'Augmenter' : 'Réduire'}". La progression sera adaptée.`}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Info card - valeur de départ non modifiable */}
+        <Card variant="default" className="edit-habit__info-card">
           <div className="edit-habit__info-row">
             <span className="edit-habit__info-label">Valeur de départ</span>
             <span className="edit-habit__info-value edit-habit__info-value--readonly">
@@ -383,7 +432,7 @@ function EditHabit() {
             </span>
           </div>
           <p className="edit-habit__info-note">
-            Ces valeurs ne peuvent pas être modifiées pour préserver ton historique.
+            Cette valeur ne peut pas être modifiée pour préserver ton historique.
           </p>
         </Card>
 
@@ -526,7 +575,7 @@ function EditHabit() {
         )}
 
         {/* Progression (sauf pour maintain) */}
-        {habit.direction !== 'maintain' && (
+        {direction !== 'maintain' && (
           <div className="edit-habit__progression-section">
             <p className="edit-habit__field-label">Progression</p>
 
@@ -583,17 +632,17 @@ function EditHabit() {
         )}
 
         {/* Objectif final (optionnel) */}
-        {habit.direction !== 'maintain' && (
+        {direction !== 'maintain' && (
           <Input
             type="number"
             label="Objectif final (optionnel)"
             placeholder="Laisser vide pour continuer indéfiniment"
-            min={habit.direction === 'increase' ? habit.startValue + 1 : 0}
-            max={habit.direction === 'decrease' ? habit.startValue - 1 : undefined}
+            min={direction === 'increase' ? habit.startValue + 1 : 0}
+            max={direction === 'decrease' ? habit.startValue - 1 : undefined}
             value={targetValue ?? ''}
             onChange={(e) => setTargetValue(e.target.value ? Number(e.target.value) : null)}
             hint={
-              habit.direction === 'increase'
+              direction === 'increase'
                 ? "La dose augmentera jusqu'à atteindre cet objectif"
                 : "La dose diminuera jusqu'à atteindre cet objectif"
             }
@@ -633,7 +682,7 @@ function EditHabit() {
         </div>
 
         {/* Habit Stacking - Lien avec une autre habitude (sauf pour decrease) */}
-        {habit.direction !== 'decrease' && availableAnchorHabits.length > 0 && (
+        {direction !== 'decrease' && availableAnchorHabits.length > 0 && (
           <div className="edit-habit__stacking-section">
             <p className="edit-habit__field-label">Enchaînement d'habitudes (optionnel)</p>
             <p className="edit-habit__field-hint">

@@ -8,7 +8,6 @@ import {
   HabitCard,
   EmptyState,
   WelcomeBackMessage,
-  TransitionSuggestion,
 } from '../components/habits'
 import {
   calculateTargetDose,
@@ -16,13 +15,7 @@ import {
   getCompletionStatus,
   calculateWeeklyProgress,
 } from '../services/progression'
-import {
-  detectGlobalAbsence,
-  getNeglectedHabits,
-  buildHabitChains,
-  isHabitPaused,
-  getHabitsEligibleForTransition,
-} from '../utils'
+import { detectGlobalAbsence, getNeglectedHabits, buildHabitChains, isHabitPaused } from '../utils'
 import { NEW_DAY_MESSAGES, NEW_DAY_EMOJI, randomMessage } from '../constants/messages'
 import { CompletionStatus } from '../types'
 import CelebrationModal from '../components/CelebrationModal'
@@ -42,7 +35,6 @@ function Today() {
     addEntry,
     addCounterOperation,
     undoLastOperation,
-    updateHabit,
     updatePreferences,
     retryLoad,
     resetData,
@@ -63,7 +55,6 @@ function Today() {
   })
 
   const [welcomeDismissed, setWelcomeDismissed] = useState(false)
-  const [declinedTransitions, setDeclinedTransitions] = useState<Set<string>>(new Set())
   const [newDayToast, setNewDayToast] = useState<string | null>(null)
 
   // Callback appelé quand la date change (à minuit)
@@ -158,29 +149,9 @@ function Today() {
     }
   }, [newDayToast])
 
-  // Trouver les habitudes éligibles à la transition simple → détaillé
-  const eligibleForTransition = useMemo(() => {
-    const eligible = getHabitsEligibleForTransition(activeHabits, data.entries, today)
-    // Filtrer celles qui ont été refusées dans cette session
-    return eligible.filter((h) => !declinedTransitions.has(h.id))
-  }, [activeHabits, data.entries, today, declinedTransitions])
-
   // Callback pour fermer le message de bienvenue
   const handleDismissWelcome = useCallback(() => {
     setWelcomeDismissed(true)
-  }, [])
-
-  // Callback pour accepter la transition simple → détaillé
-  const handleAcceptTransition = useCallback(
-    (habitId: string) => {
-      updateHabit(habitId, { trackingMode: 'detailed' })
-    },
-    [updateHabit]
-  )
-
-  // Callback pour refuser la transition (persiste dans la session)
-  const handleDeclineTransition = useCallback((habitId: string) => {
-    setDeclinedTransitions((prev) => new Set(prev).add(habitId))
   }, [])
 
   // Gérer le check-in d'une habitude
@@ -285,21 +256,6 @@ function Today() {
         />
       ) : (
         <EncouragingMessage />
-      )}
-
-      {/* Suggestions de transition simple → détaillé */}
-      {eligibleForTransition.length > 0 && (
-        <section className="today__transition-suggestions">
-          {eligibleForTransition.map((habit) => (
-            <TransitionSuggestion
-              key={habit.id}
-              habit={habit}
-              currentDate={today}
-              onAccept={handleAcceptTransition}
-              onDecline={handleDeclineTransition}
-            />
-          ))}
-        </section>
       )}
 
       <section className="today__habits" aria-label="Tes doses du jour">
