@@ -2,7 +2,7 @@
   "project": "Améliorations UX et Habitudes Prioritaires",
   "description": "15 améliorations UX : tri logique, carrousel, changement type, nouvelles habitudes avec sources",
   "createdAt": "2026-01-12",
-  "lastRelease": "1.17.0",
+  "lastRelease": "1.18.0",
   "docs": [
     "docs/prd-ux-improvements.md",
     "docs/design/design-system-specification.md",
@@ -13,7 +13,9 @@
       "id": "phase-1",
       "name": "Phase 1 - Types et infrastructure",
       "description": "Nouveaux types TypeScript et migration de schéma",
-      "status": "pending",
+      "status": "completed",
+      "releasedAs": "1.18.0",
+      "releasedAt": "2026-01-12",
       "releaseType": "minor",
       "tasks": [
         {
@@ -55,7 +57,9 @@
       "id": "phase-2",
       "name": "Phase 2 - Nouvelles habitudes prioritaires",
       "description": "Enrichir le catalogue avec 10 nouvelles habitudes et sources scientifiques",
-      "status": "pending",
+      "status": "completed",
+      "releasedAs": "1.18.0",
+      "releasedAt": "2026-01-12",
       "releaseType": "minor",
       "tasks": [
         {
@@ -130,7 +134,9 @@
       "id": "phase-3",
       "name": "Phase 3 - Page Aujourd'hui",
       "description": "Tri logique et regroupement visuel par moment",
-      "status": "pending",
+      "status": "completed",
+      "releasedAs": "1.18.0",
+      "releasedAt": "2026-01-12",
       "releaseType": "minor",
       "tasks": [
         {
@@ -172,7 +178,9 @@
       "id": "phase-4",
       "name": "Phase 4 - Wizard de création",
       "description": "Carrousel, scroll auto, nom visible, emojis suggérés",
-      "status": "pending",
+      "status": "completed",
+      "releasedAs": "1.18.0",
+      "releasedAt": "2026-01-12",
       "releaseType": "minor",
       "tasks": [
         {
@@ -347,7 +355,9 @@
       "id": "phase-7",
       "name": "Phase 7 - Saisies cumulatives",
       "description": "Historique et annulation des saisies cumulatives",
-      "status": "pending",
+      "status": "completed",
+      "releasedAs": "1.18.0",
+      "releasedAt": "2026-01-12",
       "releaseType": "minor",
       "tasks": [
         {
@@ -388,7 +398,9 @@
       "id": "phase-8",
       "name": "Phase 8 - Sources et badges",
       "description": "Affichage des sources scientifiques et badges de difficulté",
-      "status": "pending",
+      "status": "completed",
+      "releasedAs": "1.18.0",
+      "releasedAt": "2026-01-12",
       "releaseType": "minor",
       "tasks": [
         {

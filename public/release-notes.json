@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.17.0",
+  "currentVersion": "1.18.0",
   "releases": [
+    {
+      "version": "1.18.0",
+      "date": "2026-01-12",
+      "title": "Améliorations UX et nouvelles habitudes",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "10 nouvelles habitudes avec sources scientifiques"
+        },
+        {
+          "emoji": "paint",
+          "text": "Tri des habitudes par moment de la journée"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Carrousel pour parcourir les habitudes suggérées"
+        },
+        {
+          "emoji": "tools",
+          "text": "Historique et annulation des saisies cumulatives"
+        }
+      ]
+    },
     {
       "version": "1.17.0",
       "date": "2026-01-12",
