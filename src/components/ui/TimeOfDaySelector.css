@@ -1,0 +1,87 @@
+/**
+ * TimeOfDaySelector Component Styles
+ * Design system: Soft Organic
+ */
+
+.time-of-day-selector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.time-of-day-selector__label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--neutral-700);
+  margin: 0;
+}
+
+.time-of-day-selector__hint {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  margin: 0;
+}
+
+.time-of-day-selector__options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-2);
+}
+
+.time-of-day-selector__option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-3);
+  background: var(--neutral-100);
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-gentle);
+  min-height: 44px;
+}
+
+.time-of-day-selector__option:hover {
+  border-color: var(--primary-300);
+  background: var(--primary-50);
+}
+
+.time-of-day-selector__option:focus-visible {
+  outline: 2px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+.time-of-day-selector__option--selected {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+}
+
+.time-of-day-selector__emoji {
+  font-size: var(--text-xl);
+  line-height: 1;
+}
+
+.time-of-day-selector__option-label {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--neutral-700);
+}
+
+.time-of-day-selector__option--selected .time-of-day-selector__option-label {
+  color: var(--primary-700);
+}
+
+/* Responsive: Mobile */
+@media (max-width: 480px) {
+  .time-of-day-selector__options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .time-of-day-selector__option {
+    padding: var(--spacing-2);
+  }
+}

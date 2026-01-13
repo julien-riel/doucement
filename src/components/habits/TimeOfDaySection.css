@@ -1,0 +1,47 @@
+/**
+ * TimeOfDaySection Component Styles
+ * Design system: Soft Organic
+ */
+
+.time-of-day-section {
+  margin-bottom: var(--spacing-6);
+}
+
+.time-of-day-section__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-2);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.time-of-day-section__emoji {
+  font-size: var(--text-xl);
+  line-height: 1;
+}
+
+.time-of-day-section__label {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-700);
+  margin: 0;
+}
+
+.time-of-day-section__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+/* Responsive: légère adaptation mobile */
+@media (max-width: 480px) {
+  .time-of-day-section {
+    margin-bottom: var(--spacing-5);
+  }
+
+  .time-of-day-section__header {
+    margin-bottom: var(--spacing-3);
+  }
+}

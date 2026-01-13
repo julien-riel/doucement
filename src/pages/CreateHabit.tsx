@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../hooks'
-import { Button, Input, EmojiPicker } from '../components/ui'
+import { Button, Input, EmojiPicker, HabitCarousel, TimeOfDaySelector } from '../components/ui'
 import {
   StepIntentions,
   HabitAnchorSelector,
@@ -24,6 +24,7 @@ import {
   getTopPriorityHabits,
   HABIT_CATEGORIES,
   HabitCategory,
+  CATEGORY_EMOJIS,
 } from '../constants/suggestedHabits'
 import {
   Habit,
@@ -36,6 +37,7 @@ import {
   TrackingMode,
   EntryMode,
   WeeklyAggregation,
+  TimeOfDay,
 } from '../types'
 import { getCurrentDate } from '../utils'
 import './CreateHabit.css'
@@ -101,6 +103,7 @@ interface HabitFormState {
   identityStatement: string
   entryMode: EntryMode
   weeklyAggregation: WeeklyAggregation
+  timeOfDay: TimeOfDay | null
 }
 
 const INITIAL_FORM_STATE: HabitFormState = {
@@ -120,6 +123,7 @@ const INITIAL_FORM_STATE: HabitFormState = {
   identityStatement: '',
   entryMode: 'replace',
   weeklyAggregation: 'sum-units',
+  timeOfDay: null,
 }
 
 /**
@@ -130,6 +134,7 @@ function CreateHabit() {
   const [step, setStep] = useState<WizardStep>('choose')
   const [form, setForm] = useState<HabitFormState>(INITIAL_FORM_STATE)
   const [activeCategory, setActiveCategory] = useState<HabitCategory | 'all'>('all')
+  const [selectedCategory, setSelectedCategory] = useState<HabitCategory | null>(null)
   const [createdHabit, setCreatedHabit] = useState<Habit | null>(null)
   const navigate = useNavigate()
   const { addHabit, addEntry, activeHabits } = useAppData()
@@ -187,7 +192,9 @@ function CreateHabit() {
       identityStatement: '',
       entryMode: 'replace',
       weeklyAggregation: 'sum-units',
+      timeOfDay: habit.timeOfDay ?? null,
     })
+    setSelectedCategory(habit.category)
     setStep('intentions')
   }, [])
 
@@ -267,6 +274,7 @@ function CreateHabit() {
         identityStatement: form.identityStatement.trim() || undefined,
         entryMode: form.entryMode,
         weeklyAggregation: form.trackingFrequency === 'weekly' ? form.weeklyAggregation : undefined,
+        timeOfDay: form.timeOfDay ?? undefined,
       }
 
       const newHabit = addHabit(habitInput)
@@ -367,10 +375,17 @@ function CreateHabit() {
           ))}
         </div>
 
-        <div className="step-choose__suggestions">
-          {filteredSuggestions.map((habit) => (
-            <SuggestedHabitCard key={habit.id} habit={habit} onSelect={selectSuggestion} />
-          ))}
+        {/* Carrousel d'habitudes suggérées */}
+        <div className="step-choose__carousel-container">
+          <HabitCarousel
+            itemsPerViewDesktop={2}
+            itemsPerViewMobile={1}
+            ariaLabel="Habitudes suggérées"
+          >
+            {filteredSuggestions.map((habit) => (
+              <SuggestedHabitCard key={habit.id} habit={habit} onSelect={selectSuggestion} />
+            ))}
+          </HabitCarousel>
         </div>
       </div>
 
@@ -378,7 +393,17 @@ function CreateHabit() {
         <span>ou</span>
       </div>
 
-      <button type="button" className="step-choose__custom-btn" onClick={() => setStep('type')}>
+      <button
+        type="button"
+        className="step-choose__custom-btn"
+        onClick={() => {
+          // Si une catégorie est sélectionnée (autre que 'all'), la mémoriser pour les suggestions d'emojis
+          if (activeCategory !== 'all') {
+            setSelectedCategory(activeCategory)
+          }
+          setStep('type')
+        }}
+      >
         <span className="step-choose__custom-icon">✨</span>
         <div className="step-choose__custom-text">
           <span className="step-choose__custom-title">Créer une habitude personnalisée</span>
@@ -427,6 +452,7 @@ function CreateHabit() {
           label="Emoji"
           value={form.emoji}
           onChange={(emoji) => updateForm('emoji', emoji)}
+          suggestedEmojis={selectedCategory ? CATEGORY_EMOJIS[selectedCategory] : undefined}
         />
 
         {/* Nom */}
@@ -636,6 +662,12 @@ function CreateHabit() {
             </div>
           </div>
         )}
+
+        {/* Moment de la journée */}
+        <TimeOfDaySelector
+          value={form.timeOfDay}
+          onChange={(value) => updateForm('timeOfDay', value)}
+        />
       </div>
     </div>
   )
@@ -781,6 +813,17 @@ function CreateHabit() {
             <div className="step-confirm__detail">
               <span className="step-confirm__detail-label">Mode de saisie</span>
               <span className="step-confirm__detail-value">{ENTRY_MODE.cumulativeLabel}</span>
+            </div>
+          )}
+          {form.timeOfDay && (
+            <div className="step-confirm__detail">
+              <span className="step-confirm__detail-label">Moment</span>
+              <span className="step-confirm__detail-value">
+                {form.timeOfDay === 'morning' && '🌅 Matin'}
+                {form.timeOfDay === 'afternoon' && '☀️ Après-midi'}
+                {form.timeOfDay === 'evening' && '🌙 Soir'}
+                {form.timeOfDay === 'night' && '🌃 Nuit'}
+              </span>
             </div>
           )}
         </div>

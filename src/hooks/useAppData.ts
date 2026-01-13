@@ -270,17 +270,54 @@ export function useAppData(): UseAppDataReturn {
         const existingEntry = prev.entries[existingIndex]
         const updatedEntries = [...prev.entries]
 
-        // En mode cumulative, additionne la nouvelle valeur à l'existante
-        const actualValue = isCumulative
-          ? existingEntry.actualValue + input.actualValue
-          : input.actualValue
+        if (isCumulative) {
+          // En mode cumulative, stocker chaque saisie dans l'historique
+          const newOperation: CounterOperation = {
+            id: generateId(),
+            type: 'add',
+            value: input.actualValue,
+            timestamp: now,
+          }
+          const operations = [...(existingEntry.operations || []), newOperation]
+          // Recalculer la valeur totale depuis l'historique
+          const actualValue = calculateCounterValue(operations)
 
-        updatedEntries[existingIndex] = {
-          ...newEntry,
-          actualValue,
-          createdAt: existingEntry.createdAt,
+          updatedEntries[existingIndex] = {
+            ...existingEntry,
+            actualValue,
+            operations,
+            updatedAt: now,
+          }
+        } else {
+          // En mode replace, remplacer simplement la valeur
+          updatedEntries[existingIndex] = {
+            ...newEntry,
+            actualValue: input.actualValue,
+            createdAt: existingEntry.createdAt,
+          }
         }
         return { ...prev, entries: updatedEntries }
+      }
+
+      // Nouvelle entrée
+      if (isCumulative) {
+        // Pour une nouvelle entrée en mode cumulative, initialiser l'historique
+        const newOperation: CounterOperation = {
+          id: generateId(),
+          type: 'add',
+          value: input.actualValue,
+          timestamp: now,
+        }
+        return {
+          ...prev,
+          entries: [
+            ...prev.entries,
+            {
+              ...newEntry,
+              operations: [newOperation],
+            },
+          ],
+        }
       }
 
       return { ...prev, entries: [...prev.entries, newEntry] }

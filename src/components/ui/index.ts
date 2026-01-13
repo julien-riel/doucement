@@ -18,3 +18,12 @@ export { PWAUpdatePrompt } from './PWAUpdatePrompt'
 export { WhatsNewModal } from './WhatsNewModal'
 
 export { default as NotificationSettings } from './NotificationSettings'
+
+export { default as HabitCarousel } from './HabitCarousel'
+export type { HabitCarouselProps } from './HabitCarousel'
+
+export { default as TimeOfDaySelector } from './TimeOfDaySelector'
+export type { TimeOfDaySelectorProps } from './TimeOfDaySelector'
+
+export { default as DifficultyBadge } from './DifficultyBadge'
+export type { DifficultyBadgeProps } from './DifficultyBadge'

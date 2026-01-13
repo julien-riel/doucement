@@ -57,6 +57,56 @@
   overflow: hidden;
 }
 
+/* Suggested emojis section */
+.emoji-picker__suggestions {
+  padding: var(--spacing-3);
+  background: var(--neutral-50);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.emoji-picker__suggestions-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--neutral-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-2);
+}
+
+.emoji-picker__suggestions-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-1);
+}
+
+.emoji-picker__suggestion-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+  background: var(--neutral-0);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-gentle);
+}
+
+.emoji-picker__suggestion-btn:hover {
+  background: var(--primary-50);
+  border-color: var(--primary-300);
+  transform: scale(1.1);
+}
+
+.emoji-picker__suggestion-btn:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 2px var(--primary-100);
+}
+
 /* Override emoji-picker-react styles to match design system */
 .emoji-picker__dropdown .EmojiPickerReact {
   --epr-bg-color: #ffffff;

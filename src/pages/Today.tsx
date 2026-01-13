@@ -9,13 +9,19 @@ import {
   EmptyState,
   WelcomeBackMessage,
 } from '../components/habits'
+import TimeOfDaySection from '../components/habits/TimeOfDaySection'
 import {
   calculateTargetDose,
   calculateDailyCompletionPercentage,
   getCompletionStatus,
   calculateWeeklyProgress,
 } from '../services/progression'
-import { detectGlobalAbsence, getNeglectedHabits, buildHabitChains, isHabitPaused } from '../utils'
+import {
+  detectGlobalAbsence,
+  getNeglectedHabits,
+  isHabitPaused,
+  groupHabitsByTimeOfDay,
+} from '../utils'
 import { NEW_DAY_MESSAGES, NEW_DAY_EMOJI, randomMessage } from '../constants/messages'
 import { CompletionStatus } from '../types'
 import CelebrationModal from '../components/CelebrationModal'
@@ -115,11 +121,8 @@ function Today() {
     })
   }, [habitsForToday, todayEntries, today, activeHabits, data.entries])
 
-  // Organiser les habitudes en chaînes (habit stacking)
-  const habitChains = useMemo(
-    () => buildHabitChains(habitData, habitsForToday),
-    [habitData, habitsForToday]
-  )
+  // Regrouper les habitudes par moment de la journée
+  const habitsByTimeOfDay = useMemo(() => groupHabitsByTimeOfDay(habitData), [habitData])
 
   // Calculer le pourcentage global de complétion
   const completionPercentage = useMemo(
@@ -204,6 +207,14 @@ function Today() {
     [undoLastOperation, today]
   )
 
+  // Gérer l'annulation de la dernière saisie cumulative
+  const handleCumulativeUndo = useCallback(
+    (habitId: string) => {
+      undoLastOperation(habitId, today)
+    },
+    [undoLastOperation, today]
+  )
+
   if (isLoading) {
     return (
       <div className="page page-today page-today--loading">
@@ -259,46 +270,36 @@ function Today() {
       )}
 
       <section className="today__habits" aria-label="Tes doses du jour">
-        <h3 className="today__section-title">Tes doses du jour</h3>
-        {habitChains.map((chain) => (
-          <div
-            key={chain[0].habit.id}
-            className={`today__habit-chain ${chain.length > 1 ? 'today__habit-chain--connected' : ''}`}
-          >
-            {chain.map(
-              (
-                {
-                  habit,
-                  targetDose,
-                  currentValue,
-                  status,
-                  anchorHabitName,
-                  weeklyProgress,
-                  operations,
-                },
-                idx
-              ) => (
-                <div
+        {habitsByTimeOfDay.map((group) => (
+          <TimeOfDaySection key={group.timeOfDay ?? 'undefined'} timeOfDay={group.timeOfDay}>
+            {group.items.map(
+              ({
+                habit,
+                targetDose,
+                currentValue,
+                status,
+                anchorHabitName,
+                weeklyProgress,
+                operations,
+              }) => (
+                <HabitCard
                   key={habit.id}
-                  className={`today__habit-wrapper ${idx > 0 ? 'today__habit-wrapper--chained' : ''}`}
-                >
-                  <HabitCard
-                    habit={habit}
-                    targetDose={targetDose}
-                    currentValue={currentValue}
-                    status={status}
-                    onCheckIn={handleCheckIn}
-                    anchorHabitName={anchorHabitName}
-                    weeklyProgress={weeklyProgress}
-                    operations={operations}
-                    onCounterAdd={handleCounterAdd}
-                    onCounterSubtract={handleCounterSubtract}
-                    onCounterUndo={handleCounterUndo}
-                  />
-                </div>
+                  habit={habit}
+                  targetDose={targetDose}
+                  currentValue={currentValue}
+                  status={status}
+                  onCheckIn={handleCheckIn}
+                  anchorHabitName={anchorHabitName}
+                  weeklyProgress={weeklyProgress}
+                  operations={operations}
+                  onCounterAdd={handleCounterAdd}
+                  onCounterSubtract={handleCounterSubtract}
+                  onCounterUndo={handleCounterUndo}
+                  onCumulativeUndo={handleCumulativeUndo}
+                />
               )
             )}
-          </div>
+          </TimeOfDaySection>
         ))}
       </section>
 

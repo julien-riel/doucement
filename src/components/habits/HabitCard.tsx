@@ -12,6 +12,7 @@ import Card from '../ui/Card'
 import CheckInButtons from './CheckInButtons'
 import CounterButtons from './CounterButtons'
 import SimpleCheckIn from './SimpleCheckIn'
+import CumulativeHistory from './CumulativeHistory'
 import './HabitCard.css'
 
 export interface HabitCardProps {
@@ -37,6 +38,8 @@ export interface HabitCardProps {
   onCounterSubtract?: (habitId: string, value?: number) => void
   /** Callback pour annuler la dernière opération compteur */
   onCounterUndo?: (habitId: string) => void
+  /** Callback pour annuler la dernière saisie cumulative */
+  onCumulativeUndo?: (habitId: string) => void
 }
 
 /**
@@ -113,6 +116,7 @@ function HabitCard({
   onCounterAdd,
   onCounterSubtract,
   onCounterUndo,
+  onCumulativeUndo,
 }: HabitCardProps) {
   const [celebrating, setCelebrating] = useState(false)
   const progressionMessage = getProgressionMessage(habit, targetDose)
@@ -217,6 +221,19 @@ function HabitCard({
               {DECREASE_ZERO_BADGE}
             </span>
           </div>
+        )}
+
+      {/* Historique des saisies cumulatives avec bouton d'annulation */}
+      {!isWeekly &&
+        habit.entryMode === 'cumulative' &&
+        operations &&
+        operations.length > 0 &&
+        onCumulativeUndo && (
+          <CumulativeHistory
+            operations={operations}
+            unit={habit.unit}
+            onUndo={() => onCumulativeUndo(habit.id)}
+          />
         )}
 
       {/* Boutons de check-in */}

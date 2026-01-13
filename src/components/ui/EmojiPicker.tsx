@@ -9,6 +9,8 @@ export interface EmojiPickerProps {
   onChange: (emoji: string) => void
   /** Label affiché au-dessus du sélecteur */
   label?: string
+  /** Emojis suggérés contextuels (6-8 emojis) */
+  suggestedEmojis?: string[]
 }
 
 /**
@@ -21,12 +23,17 @@ export interface EmojiPickerProps {
  *   onChange={(e) => setEmoji(e)}
  * />
  */
-export default function EmojiPicker({ value, onChange, label }: EmojiPickerProps) {
+export default function EmojiPicker({ value, onChange, label, suggestedEmojis }: EmojiPickerProps) {
   const [isOpen, setIsOpen] = useState(false)
   const pickerRef = useRef<HTMLDivElement>(null)
 
   const handleEmojiClick = (emojiData: EmojiClickData) => {
     onChange(emojiData.emoji)
+    setIsOpen(false)
+  }
+
+  const handleSuggestedEmojiClick = (emoji: string) => {
+    onChange(emoji)
     setIsOpen(false)
   }
 
@@ -82,13 +89,32 @@ export default function EmojiPicker({ value, onChange, label }: EmojiPickerProps
 
       {isOpen && (
         <div className="emoji-picker__dropdown" role="dialog" aria-label="Sélecteur d'emoji">
+          {/* Section emojis suggérés */}
+          {suggestedEmojis && suggestedEmojis.length > 0 && (
+            <div className="emoji-picker__suggestions">
+              <span className="emoji-picker__suggestions-label">Suggestions</span>
+              <div className="emoji-picker__suggestions-grid">
+                {suggestedEmojis.map((emoji, index) => (
+                  <button
+                    key={`${emoji}-${index}`}
+                    type="button"
+                    className="emoji-picker__suggestion-btn"
+                    onClick={() => handleSuggestedEmojiClick(emoji)}
+                    aria-label={`Sélectionner ${emoji}`}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
           <EmojiPickerLib
             onEmojiClick={handleEmojiClick}
             theme={Theme.LIGHT}
             searchPlaceHolder="Rechercher..."
             skinTonesDisabled
             width="100%"
-            height={350}
+            height={suggestedEmojis && suggestedEmojis.length > 0 ? 300 : 350}
             categories={[
               { category: Categories.SUGGESTED, name: 'Récents' },
               { category: Categories.SMILEYS_PEOPLE, name: 'Visages' },

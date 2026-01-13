@@ -3,7 +3,7 @@
  * Phase 6: Science-based improvements
  */
 
-import { Habit, CounterOperation } from '../types'
+import { Habit, CounterOperation, TimeOfDay } from '../types'
 import { INTENTION_DISPLAY, IDENTITY_STATEMENT } from '../constants/messages'
 
 /**
@@ -146,4 +146,57 @@ export function getDaysSinceCreation(habit: Habit, currentDate: string): number 
   const today = new Date(currentDate)
   const diffTime = today.getTime() - createdDate.getTime()
   return Math.floor(diffTime / (1000 * 60 * 60 * 24))
+}
+
+/**
+ * Ordre des moments de la journée pour le tri
+ */
+export const TIME_OF_DAY_ORDER: (TimeOfDay | null)[] = [
+  'morning',
+  'afternoon',
+  'evening',
+  'night',
+  null, // habitudes sans moment défini à la fin
+]
+
+/**
+ * Type pour les habitudes groupées par moment
+ */
+export interface HabitsByTimeOfDay {
+  timeOfDay: TimeOfDay | null
+  items: HabitDataItem[]
+}
+
+/**
+ * Regroupe les habitudes par moment de la journée
+ * Respecte l'ordre: Matin → Après-midi → Soir → Nuit → Non défini
+ *
+ * @param habitData - Liste des habitudes avec leurs données
+ * @returns Array de groupes triés par moment
+ */
+export function groupHabitsByTimeOfDay(habitData: HabitDataItem[]): HabitsByTimeOfDay[] {
+  const groups = new Map<TimeOfDay | null, HabitDataItem[]>()
+
+  // Initialiser tous les groupes dans l'ordre
+  for (const timeOfDay of TIME_OF_DAY_ORDER) {
+    groups.set(timeOfDay, [])
+  }
+
+  // Répartir les habitudes dans les groupes
+  for (const item of habitData) {
+    const timeOfDay = item.habit.timeOfDay ?? null
+    const group = groups.get(timeOfDay)
+    if (group) {
+      group.push(item)
+    } else {
+      // Si timeOfDay non reconnu, mettre dans "non défini"
+      groups.get(null)?.push(item)
+    }
+  }
+
+  // Filtrer les groupes vides et retourner dans l'ordre
+  return TIME_OF_DAY_ORDER.map((timeOfDay) => ({
+    timeOfDay,
+    items: groups.get(timeOfDay) || [],
+  })).filter((group) => group.items.length > 0)
 }

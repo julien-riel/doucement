@@ -1,0 +1,215 @@
+/**
+ * SourcesModal Component Styles
+ * Design system: Soft Organic
+ */
+
+.sources-modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-4);
+  z-index: 1000;
+  animation: fadeIn var(--duration-normal) var(--easing-gentle);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.sources-modal {
+  background: var(--neutral-0);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp var(--duration-normal) var(--easing-gentle);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.sources-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.sources-modal__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0;
+}
+
+.sources-modal__close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: var(--text-lg);
+  color: var(--neutral-500);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-gentle);
+}
+
+.sources-modal__close:hover {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+}
+
+.sources-modal__close:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--primary-200);
+}
+
+.sources-modal__content {
+  padding: var(--spacing-4);
+}
+
+.sources-modal__habit-name {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--primary-600);
+  margin: 0 0 var(--spacing-3);
+}
+
+.sources-modal__highlight {
+  display: flex;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background: linear-gradient(135deg, var(--secondary-50), var(--primary-50));
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-4);
+}
+
+.sources-modal__highlight-icon {
+  font-size: var(--text-xl);
+  flex-shrink: 0;
+}
+
+.sources-modal__highlight-text {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-style: italic;
+  color: var(--neutral-700);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.sources-modal__sources {
+  margin-top: var(--spacing-3);
+}
+
+.sources-modal__sources-title {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--neutral-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--spacing-2);
+}
+
+.sources-modal__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.sources-modal__item {
+  margin: 0;
+}
+
+.sources-modal__link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3);
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--neutral-700);
+  transition: all var(--duration-fast) var(--easing-gentle);
+}
+
+.sources-modal__link:hover {
+  background: var(--primary-50);
+  color: var(--primary-700);
+}
+
+.sources-modal__link:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--primary-200);
+}
+
+.sources-modal__link-icon {
+  font-size: var(--text-base);
+  flex-shrink: 0;
+}
+
+.sources-modal__link-text {
+  flex: 1;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sources-modal__external-icon {
+  font-size: var(--text-sm);
+  color: var(--neutral-400);
+  flex-shrink: 0;
+}
+
+.sources-modal__footer {
+  padding: var(--spacing-4);
+  border-top: 1px solid var(--neutral-200);
+  display: flex;
+  justify-content: center;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .sources-modal__overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .sources-modal {
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    max-height: 85vh;
+  }
+}

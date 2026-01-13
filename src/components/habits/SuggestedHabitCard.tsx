@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { SuggestedHabit, EVIDENCE_LABELS } from '../../constants/suggestedHabits'
-import { Card } from '../ui'
+import { Card, DifficultyBadge, Button } from '../ui'
+import SourcesModal from '../SourcesModal'
 import './SuggestedHabitCard.css'
 
 interface SuggestedHabitCardProps {
@@ -18,6 +20,8 @@ function SuggestedHabitCard({
   onSelect,
   compact = false,
 }: SuggestedHabitCardProps) {
+  const [showSourcesModal, setShowSourcesModal] = useState(false)
+
   const handleClick = () => {
     onSelect?.(habit)
   }
@@ -27,6 +31,11 @@ function SuggestedHabitCard({
       e.preventDefault()
       onSelect?.(habit)
     }
+  }
+
+  const handleSourcesClick = (e: React.MouseEvent) => {
+    e.stopPropagation() // Empêcher la sélection de la carte
+    setShowSourcesModal(true)
   }
 
   return (
@@ -44,7 +53,12 @@ function SuggestedHabitCard({
           {habit.emoji}
         </span>
         <div className="suggested-habit-card__title-group">
-          <h3 className="suggested-habit-card__name">{habit.name}</h3>
+          <div className="suggested-habit-card__name-row">
+            <h3 className="suggested-habit-card__name">{habit.name}</h3>
+            {habit.difficulty && (
+              <DifficultyBadge difficulty={habit.difficulty} showLabel={!compact} />
+            )}
+          </div>
           {!compact && <p className="suggested-habit-card__description">{habit.description}</p>}
         </div>
         {selected && (
@@ -82,8 +96,26 @@ function SuggestedHabitCard({
               {habit.startValue} {habit.unit}
             </span>
           </div>
+
+          {/* Bouton En savoir plus si des sources sont disponibles */}
+          {habit.sources && habit.sources.length > 0 && (
+            <div className="suggested-habit-card__sources-btn">
+              <Button variant="ghost" size="small" onClick={handleSourcesClick}>
+                En savoir plus
+              </Button>
+            </div>
+          )}
         </>
       )}
+
+      {/* Modal des sources */}
+      <SourcesModal
+        isOpen={showSourcesModal}
+        onClose={() => setShowSourcesModal(false)}
+        habitName={habit.name}
+        scienceHighlight={habit.scienceHighlight}
+        sources={habit.sources || []}
+      />
     </Card>
   )
 }

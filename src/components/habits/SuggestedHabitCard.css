@@ -46,6 +46,13 @@
   min-width: 0;
 }
 
+.suggested-habit-card__name-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
 .suggested-habit-card__name {
   font-family: var(--font-heading);
   font-size: var(--text-lg);
@@ -145,6 +152,13 @@
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
   color: var(--primary-600);
+}
+
+/* Sources button */
+.suggested-habit-card__sources-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--spacing-2);
 }
 
 /* Compact mode adjustments */

@@ -74,3 +74,6 @@ export type { ShareableProgressCardProps } from './ShareableProgressCard'
 
 export { default as ShareProgressModal } from './ShareProgressModal'
 export type { ShareProgressModalProps } from './ShareProgressModal'
+
+export { default as CumulativeHistory } from './CumulativeHistory'
+export type { CumulativeHistoryProps } from './CumulativeHistory'

@@ -642,10 +642,10 @@
   color: white;
 }
 
-.step-choose__suggestions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-3);
+/* Conteneur du carrousel d'habitudes suggérées */
+.step-choose__carousel-container {
+  margin: var(--spacing-2) calc(-1 * var(--spacing-6));
+  padding: 0 var(--spacing-4);
 }
 
 .step-choose__divider {
