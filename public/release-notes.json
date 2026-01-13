@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.18.3",
+  "currentVersion": "1.19.0",
   "releases": [
+    {
+      "version": "1.19.0",
+      "date": "2026-01-12",
+      "title": "Filtres avancés",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Filtre par difficulté : Facile, Modéré ou Exigeant"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Filtre par moment : Matin, Après-midi, Soir ou Nuit"
+        },
+        {
+          "emoji": "tools",
+          "text": "Composant FilterChips réutilisable"
+        }
+      ]
+    },
     {
       "version": "1.18.3",
       "date": "2026-01-12",

@@ -2,7 +2,7 @@
   "project": "Filtres de suggestions et Internationalisation",
   "description": "Bug fix carrousel, filtres avancés pour suggestions, et support multi-langues",
   "createdAt": "2026-01-12",
-  "lastRelease": "1.18.3",
+  "lastRelease": "1.19.0",
   "docs": [
     "docs/prd-filtres-i18n.md",
     "docs/design/design-system-specification.md"
@@ -72,8 +72,10 @@
       "id": "phase-2",
       "name": "Phase 2 - Filtres avancés",
       "description": "Ajouter les filtres par difficulté et moment de la journée",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.19.0",
+      "releasedAt": "2026-01-12",
       "tasks": [
         {
           "id": "2.1",
