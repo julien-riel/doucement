@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.21.0",
+  "currentVersion": "1.22.0",
   "releases": [
+    {
+      "version": "1.22.0",
+      "date": "2026-01-13",
+      "title": "Phase 5 - Checklist de santé",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Script health-check.sh pour audit qualité"
+        },
+        {
+          "emoji": "tools",
+          "text": "Vérification documentation et matrice de cohérence"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Instructions d'audit périodique dans CLAUDE.md"
+        }
+      ]
+    },
     {
       "version": "1.21.0",
       "date": "2026-01-13",

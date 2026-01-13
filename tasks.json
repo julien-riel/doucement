@@ -2,7 +2,7 @@
   "project": "Audit Qualité et Cohérence du Codebase",
   "description": "Audit complet du codebase, élimination des incohérences, synchronisation de la documentation, création d'outils de maintenance",
   "createdAt": "2026-01-13",
-  "lastRelease": "1.21.0",
+  "lastRelease": "1.22.0",
   "docs": [
     "docs/prd-audit-qualite.md",
     "docs/design/design-system-specification.md"
@@ -383,6 +383,8 @@
       "description": "Créer un script d'audit périodique pour maintenir la qualité",
       "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.22.0",
+      "releasedAt": "2026-01-13",
       "tasks": [
         {
           "id": "5.1",
