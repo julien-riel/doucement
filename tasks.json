@@ -2,7 +2,7 @@
   "project": "Filtres de suggestions et Internationalisation",
   "description": "Bug fix carrousel, filtres avancés pour suggestions, et support multi-langues",
   "createdAt": "2026-01-12",
-  "lastRelease": "1.19.0",
+  "lastRelease": "1.20.0",
   "docs": [
     "docs/prd-filtres-i18n.md",
     "docs/design/design-system-specification.md"
@@ -133,8 +133,10 @@
       "id": "phase-3",
       "name": "Phase 3 - Infrastructure i18n",
       "description": "Mettre en place l'architecture d'internationalisation",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.20.0",
+      "releasedAt": "2026-01-13",
       "tasks": [
         {
           "id": "3.1",
