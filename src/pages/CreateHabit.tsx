@@ -133,10 +133,10 @@ function CreateHabit() {
   const categoryOptions = useMemo<FilterOption<HabitCategory>[]>(() => {
     return categories.map((cat) => ({
       value: cat,
-      label: HABIT_CATEGORIES[cat].name,
+      label: t(`categories.${cat}.name`, { defaultValue: HABIT_CATEGORIES[cat].name }),
       emoji: HABIT_CATEGORIES[cat].emoji,
     }))
-  }, [categories])
+  }, [categories, t])
 
   const difficultyOptions = useMemo<FilterOption<HabitDifficulty>[]>(() => {
     return [
@@ -216,30 +216,38 @@ function CreateHabit() {
 
   /**
    * Sélectionne une habitude suggérée et pré-remplit le formulaire
+   * Utilise les traductions i18n pour le nom et l'unité
    */
-  const selectSuggestion = useCallback((habit: SuggestedHabit) => {
-    setForm({
-      direction: habit.direction,
-      name: habit.name,
-      emoji: habit.emoji,
-      unit: habit.unit,
-      startValue: habit.startValue,
-      progressionMode: habit.progression?.mode ?? 'percentage',
-      progressionValue: habit.progression?.value ?? 5,
-      progressionPeriod: habit.progression?.period ?? 'weekly',
-      targetValue: null,
-      implementationIntention: {},
-      anchorHabitId: undefined,
-      trackingFrequency: habit.trackingFrequency ?? 'daily',
-      trackingMode: habit.trackingMode ?? 'detailed',
-      identityStatement: '',
-      entryMode: 'replace',
-      weeklyAggregation: 'sum-units',
-      timeOfDay: habit.timeOfDay ?? null,
-    })
-    setSelectedCategory(habit.category)
-    setStep('intentions')
-  }, [])
+  const selectSuggestion = useCallback(
+    (habit: SuggestedHabit) => {
+      // Get translated name and unit (with fallback to original)
+      const translatedName = t(`suggested.${habit.id}.name`, { defaultValue: habit.name })
+      const translatedUnit = t(`units.${habit.unitKey}`, { defaultValue: habit.unit })
+
+      setForm({
+        direction: habit.direction,
+        name: translatedName,
+        emoji: habit.emoji,
+        unit: translatedUnit,
+        startValue: habit.startValue,
+        progressionMode: habit.progression?.mode ?? 'percentage',
+        progressionValue: habit.progression?.value ?? 5,
+        progressionPeriod: habit.progression?.period ?? 'weekly',
+        targetValue: null,
+        implementationIntention: {},
+        anchorHabitId: undefined,
+        trackingFrequency: habit.trackingFrequency ?? 'daily',
+        trackingMode: habit.trackingMode ?? 'detailed',
+        identityStatement: '',
+        entryMode: 'replace',
+        weeklyAggregation: 'sum-units',
+        timeOfDay: habit.timeOfDay ?? null,
+      })
+      setSelectedCategory(habit.category)
+      setStep('intentions')
+    },
+    [t]
+  )
 
   /**
    * Sélectionne un type d'habitude

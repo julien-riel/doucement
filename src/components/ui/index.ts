@@ -30,3 +30,5 @@ export type { DifficultyBadgeProps } from './DifficultyBadge'
 
 export { default as FilterChips } from './FilterChips'
 export type { FilterChipsProps, FilterOption } from './FilterChips'
+
+export { default as LanguageSelector } from './LanguageSelector'

@@ -287,11 +287,20 @@
       "data": "Tes données",
       "notifications": "Rappels",
       "appearance": "Apparence",
+      "language": "Langue",
       "install": "Installer l'application",
       "backup": "Conseils de sauvegarde",
       "app": "Application",
       "about": "À propos",
       "danger": "Zone sensible"
+    },
+    "languageSelector": {
+      "title": "Langue",
+      "hint": "Choisis la langue de l'interface",
+      "languages": {
+        "fr": "🇫🇷 Français",
+        "en": "🇬🇧 English"
+      }
     },
     "stats": {
       "activeHabits": "habitude active",
@@ -778,9 +787,9 @@
   "suggestedHabits": {
     "evidence": "Preuve",
     "evidenceLevels": {
-      "strong": "Forte",
-      "moderate": "Modérée",
-      "emerging": "Émergente"
+      "very_high": "Très élevée",
+      "high": "Élevée",
+      "moderate": "Modérée"
     },
     "startDose": "Dose de départ"
   },

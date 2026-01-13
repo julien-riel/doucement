@@ -257,10 +257,11 @@
           "id": "4.3",
           "name": "Créer sélecteur de langue",
           "description": "Ajouter un sélecteur de langue dans les paramètres. Sauvegarder le choix dans localStorage.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "high",
           "dependsOn": ["4.1"],
-          "files": ["src/components/LanguageSelector.tsx", "src/pages/Settings.tsx"],
+          "files": ["src/components/ui/LanguageSelector.tsx", "src/components/ui/LanguageSelector.css", "src/pages/Settings.tsx"],
           "tests": [],
           "acceptance": [
             "Dropdown avec 🇫🇷 Français / 🇬🇧 English",
@@ -299,7 +300,8 @@
           "id": "5.2",
           "name": "Tests E2E i18n",
           "description": "Tests Playwright pour le changement de langue",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "medium",
           "dependsOn": ["4.3"],
           "files": ["e2e/i18n.spec.ts"],
@@ -314,7 +316,8 @@
           "id": "5.3",
           "name": "Vérification complète anglais",
           "description": "Parcourir toute l'app en anglais pour vérifier les traductions",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "low",
           "dependsOn": ["4.2"],
           "files": [],
@@ -331,9 +334,9 @@
   ],
   "stats": {
     "totalTasks": 16,
-    "completed": 12,
+    "completed": 16,
     "inProgress": 0,
-    "pending": 4,
+    "pending": 0,
     "blocked": 0
   }
 }

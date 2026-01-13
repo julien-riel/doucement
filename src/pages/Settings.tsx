@@ -18,6 +18,7 @@ import { NotificationSettings as NotificationSettingsType } from '../types'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import NotificationSettings from '../components/ui/NotificationSettings'
+import LanguageSelector from '../components/ui/LanguageSelector'
 import { DebugPanel } from '../components/debug'
 import { getCurrentDate } from '../utils'
 import './Settings.css'
@@ -291,6 +292,15 @@ function Settings() {
           </div>
           <p className="settings__theme-hint">{t(`settings.appearance.themeHints.${theme}`)}</p>
         </Card>
+      </section>
+
+      {/* Section: Langue */}
+      <section className="settings__section" aria-labelledby="section-language">
+        <h2 id="section-language" className="settings__section-title">
+          {t('settings.sections.language')}
+        </h2>
+
+        <LanguageSelector />
       </section>
 
       {/* Section: Installation PWA */}

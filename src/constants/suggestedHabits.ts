@@ -463,6 +463,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Quelques minutes de pleine conscience',
     direction: 'increase',
     unit: 'minutes',
+    unitKey: 'minutes',
     startValue: 2,
     progression: {
       mode: 'absolute',
@@ -473,6 +474,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'easy',
     evidenceLevel: 'high',
     benefits: ['Stress', 'Anxiété', 'Dépression', 'Régulation émotionnelle'],
+    benefitKeys: ['stress', 'anxiety', 'depression', 'emotionalRegulation'],
     scienceHighlight: "La méditation montre des effets modérés sur l'anxiété et la dépression.",
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/24395196/',
@@ -488,6 +490,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Respirations profondes par jour',
     direction: 'increase',
     unit: 'respirations',
+    unitKey: 'breaths',
     startValue: 3,
     progression: {
       mode: 'absolute',
@@ -498,6 +501,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'easy',
     evidenceLevel: 'high',
     benefits: ['Stress', 'Calme', 'Concentration'],
+    benefitKeys: ['stress', 'calm', 'concentration'],
     scienceHighlight: 'Même de courtes séances réduisent la réactivité du cortisol.',
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/29167011/',
@@ -517,6 +521,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Pages lues chaque jour',
     direction: 'increase',
     unit: 'pages',
+    unitKey: 'pages',
     startValue: 5,
     progression: {
       mode: 'absolute',
@@ -527,6 +532,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'easy',
     evidenceLevel: 'moderate',
     benefits: ['Stress', 'Cognition', 'Empathie', 'Longévité'],
+    benefitKeys: ['stress', 'cognition', 'empathy', 'longevity'],
     scienceHighlight: '6 minutes de lecture réduisent le stress de 68%.',
     sources: [
       'https://www.sciencedaily.com/releases/2009/03/090330125138.htm',
@@ -542,6 +548,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Lire au lieu des écrans le soir',
     direction: 'increase',
     unit: 'minutes',
+    unitKey: 'minutes',
     startValue: 10,
     progression: {
       mode: 'absolute',
@@ -553,6 +560,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'easy',
     evidenceLevel: 'moderate',
     benefits: ['Relaxation', 'Sommeil', 'Déconnexion'],
+    benefitKeys: ['relaxation', 'sleep', 'disconnection'],
     scienceHighlight: 'Les lecteurs vivent en moyenne 2 ans de plus.',
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/27471342/',
@@ -572,6 +580,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Réduction progressive du tabac',
     direction: 'decrease',
     unit: 'cigarettes',
+    unitKey: 'cigarettes',
     startValue: 10,
     progression: {
       mode: 'absolute',
@@ -581,6 +590,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'challenging',
     evidenceLevel: 'very_high',
     benefits: ['Longévité', 'Cardiovasculaire', 'Respiratoire'],
+    benefitKeys: ['longevity', 'cardiovascular', 'respiratory'],
     scienceHighlight: "La réduction graduelle a de meilleurs taux de succès que l'arrêt brutal.",
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/17134756/',
@@ -596,6 +606,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Réduction progressive de la consommation',
     direction: 'decrease',
     unit: 'verres/semaine',
+    unitKey: 'drinksPerWeek',
     startValue: 7,
     progression: {
       mode: 'absolute',
@@ -607,6 +618,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'challenging',
     evidenceLevel: 'very_high',
     benefits: ['Sommeil', 'Santé mentale', 'Énergie'],
+    benefitKeys: ['sleep', 'mentalHealth', 'energy'],
     scienceHighlight: "L'OMS recommande une approche de réduction des risques.",
     sources: [
       'https://www.who.int/health-topics/alcohol',
@@ -622,6 +634,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Moins de cafés par jour',
     direction: 'decrease',
     unit: 'cafés',
+    unitKey: 'coffees',
     startValue: 4,
     progression: {
       mode: 'absolute',
@@ -632,6 +645,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'moderate',
     evidenceLevel: 'moderate',
     benefits: ['Sommeil', 'Anxiété', 'Hydratation'],
+    benefitKeys: ['sleep', 'anxiety', 'hydration'],
     scienceHighlight: 'La réduction progressive évite les symptômes de sevrage.',
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/15635355/',
@@ -651,6 +665,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Augmenter sa consommation quotidienne',
     direction: 'increase',
     unit: 'verres',
+    unitKey: 'glasses',
     startValue: 4,
     progression: {
       mode: 'absolute',
@@ -662,6 +677,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'easy',
     evidenceLevel: 'high',
     benefits: ['Énergie', 'Concentration', 'Digestion', 'Peau'],
+    benefitKeys: ['energy', 'concentration', 'digestion', 'skin'],
     scienceHighlight: 'Une bonne hydratation améliore les performances cognitives de 10 à 15%.',
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/22855911/',
@@ -681,6 +697,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Mettre de côté un montant fixe',
     direction: 'increase',
     unit: '€/semaine',
+    unitKey: 'euroPerWeek',
     startValue: 10,
     progression: {
       mode: 'absolute',
@@ -691,6 +708,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'moderate',
     evidenceLevel: 'high',
     benefits: ['Sérénité', 'Sécurité', 'Objectifs'],
+    benefitKeys: ['serenity', 'security', 'goals'],
     scienceHighlight: "L'épargne automatique réduit le stress financier de 40%.",
     sources: [
       'https://www.apa.org/news/press/releases/stress/2022/concerned-future-inflation',
@@ -710,6 +728,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Pratiquer quotidiennement',
     direction: 'increase',
     unit: 'minutes',
+    unitKey: 'minutes',
     startValue: 5,
     progression: {
       mode: 'absolute',
@@ -720,6 +739,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'challenging',
     evidenceLevel: 'moderate',
     benefits: ['Cognition', 'Mémoire', 'Créativité'],
+    benefitKeys: ['cognition', 'memory', 'creativity'],
     scienceHighlight: "L'apprentissage d'une langue retarde le déclin cognitif de 4-5 ans.",
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/24222337/',
@@ -739,6 +759,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Nettoyer entre les dents',
     direction: 'increase',
     unit: 'fois/semaine',
+    unitKey: 'timesPerWeek',
     startValue: 2,
     progression: {
       mode: 'absolute',
@@ -751,6 +772,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'easy',
     evidenceLevel: 'very_high',
     benefits: ['Santé bucco-dentaire', 'Cœur', 'Prévention'],
+    benefitKeys: ['oralHealth', 'heart', 'prevention'],
     scienceHighlight: 'Le fil dentaire réduit les maladies cardiovasculaires de 20%.',
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/28759371/',
@@ -770,6 +792,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Réduire les repas au restaurant',
     direction: 'decrease',
     unit: 'repas/semaine',
+    unitKey: 'mealsPerWeek',
     startValue: 4,
     progression: {
       mode: 'absolute',
@@ -781,6 +804,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'moderate',
     evidenceLevel: 'moderate',
     benefits: ['Économies', 'Nutrition', 'Contrôle'],
+    benefitKeys: ['savings', 'nutrition', 'control'],
     scienceHighlight: 'Cuisiner à la maison réduit le risque de maladies chroniques de 28%.',
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/28284514/',
@@ -796,6 +820,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: "Cuisiner à l'avance pour la semaine",
     direction: 'increase',
     unit: 'repas/semaine',
+    unitKey: 'mealsPerWeek',
     startValue: 2,
     progression: {
       mode: 'absolute',
@@ -808,6 +833,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'moderate',
     evidenceLevel: 'moderate',
     benefits: ['Nutrition', 'Temps', 'Économies'],
+    benefitKeys: ['nutrition', 'time', 'savings'],
     scienceHighlight: 'Le meal prep améliore la qualité nutritionnelle de 50%.',
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/28284514/',
@@ -827,6 +853,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Moments dédiés avec ses proches',
     direction: 'increase',
     unit: 'minutes',
+    unitKey: 'minutes',
     startValue: 15,
     progression: {
       mode: 'absolute',
@@ -837,6 +864,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'easy',
     evidenceLevel: 'very_high',
     benefits: ['Bonheur', 'Santé mentale', 'Longévité'],
+    benefitKeys: ['happiness', 'mentalHealth', 'longevity'],
     scienceHighlight: "Les relations sociales augmentent l'espérance de vie de 50%.",
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/20668659/',
@@ -856,6 +884,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Blocs de concentration sans interruption',
     direction: 'increase',
     unit: 'minutes',
+    unitKey: 'minutes',
     startValue: 25,
     progression: {
       mode: 'absolute',
@@ -866,6 +895,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'challenging',
     evidenceLevel: 'high',
     benefits: ['Productivité', 'Qualité', 'Satisfaction'],
+    benefitKeys: ['productivity', 'quality', 'satisfaction'],
     scienceHighlight: '90 minutes de travail profond équivalent à 4h de travail fragmenté.',
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/27897124/',
@@ -885,6 +915,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Noter 3 choses positives',
     direction: 'increase',
     unit: 'entrées',
+    unitKey: 'entries',
     startValue: 1,
     progression: {
       mode: 'absolute',
@@ -896,6 +927,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'easy',
     evidenceLevel: 'high',
     benefits: ['Bonheur', 'Sommeil', 'Optimisme'],
+    benefitKeys: ['happiness', 'sleep', 'optimism'],
     scienceHighlight: 'La gratitude améliore le bien-être de 25% en 10 semaines.',
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/16045394/',
