@@ -16,6 +16,8 @@
       "description": "Évaluation des dimensions mesurables automatiquement ou semi-automatiquement",
       "status": "completed",
       "releaseType": "patch",
+      "releasedAs": "1.23.0",
+      "releasedAt": "2026-01-13",
       "tasks": [
         {
           "id": "1.1",
@@ -105,6 +107,8 @@
       "description": "Évaluation des dimensions nécessitant une analyse plus subjective",
       "status": "completed",
       "releaseType": "patch",
+      "releasedAs": "1.23.0",
+      "releasedAt": "2026-01-13",
       "tasks": [
         {
           "id": "2.1",
@@ -174,6 +178,8 @@
       "description": "Audit de cohérence cross-domaine et création de la matrice finale",
       "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.23.0",
+      "releasedAt": "2026-01-13",
       "tasks": [
         {
           "id": "3.1",
