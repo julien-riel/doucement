@@ -485,14 +485,16 @@
       "id": "phase-10",
       "name": "Phase 10 - Tests et polish",
       "description": "Tests E2E et vérifications finales",
-      "status": "pending",
+      "status": "completed",
+      "completedAt": "2026-01-12",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "10.1",
           "name": "Tests E2E carrousel et tri",
           "description": "Tests Playwright pour le carrousel et le tri par moment",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "medium",
           "dependsOn": ["3.2", "4.2"],
           "files": ["e2e/habits-display.spec.ts"],
@@ -507,7 +509,8 @@
           "id": "10.2",
           "name": "Tests E2E changement type et cumul",
           "description": "Tests pour le changement de type et l'annulation cumulative",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "medium",
           "dependsOn": ["5.1", "7.2"],
           "files": ["e2e/habit-modification.spec.ts"],
@@ -523,9 +526,9 @@
   ],
   "stats": {
     "totalTasks": 24,
-    "completed": 22,
+    "completed": 24,
     "inProgress": 0,
-    "pending": 2,
+    "pending": 0,
     "blocked": 0
   }
 }
