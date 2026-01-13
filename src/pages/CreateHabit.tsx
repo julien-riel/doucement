@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppData } from '../hooks'
 import { Button, Input, EmojiPicker, HabitCarousel, TimeOfDaySelector } from '../components/ui'
 import {
@@ -9,15 +10,7 @@ import {
   IdentityPrompt,
   FirstCheckInPrompt,
 } from '../components/habits'
-import {
-  randomMessage,
-  HABIT_CREATED,
-  IMPLEMENTATION_INTENTION,
-  IDENTITY_STATEMENT,
-  ENTRY_MODE,
-  TRACKING_MODE,
-  WEEKLY_AGGREGATION,
-} from '../constants/messages'
+import { randomMessage } from '../constants/messages'
 import { calculateTargetDose } from '../services/progression'
 import {
   SuggestedHabit,
@@ -56,33 +49,13 @@ type WizardStep =
   | 'first-checkin'
 
 /**
- * Options de type d'habitude
+ * Options de type d'habitude (icônes seulement, labels via i18n)
  */
-const HABIT_TYPES: {
-  direction: HabitDirection
-  icon: string
-  title: string
-  description: string
-}[] = [
-  {
-    direction: 'increase',
-    icon: '📈',
-    title: 'Augmenter',
-    description: 'Plus de push-ups, plus de lecture, plus de méditation...',
-  },
-  {
-    direction: 'decrease',
-    icon: '📉',
-    title: 'Réduire',
-    description: "Moins de cigarettes, moins de sucre, moins d'écrans...",
-  },
-  {
-    direction: 'maintain',
-    icon: '⚖️',
-    title: 'Maintenir',
-    description: 'Garder une dose stable chaque jour',
-  },
-]
+const HABIT_TYPE_ICONS: Record<HabitDirection, string> = {
+  increase: '📈',
+  decrease: '📉',
+  maintain: '⚖️',
+}
 
 /**
  * État du formulaire de création
@@ -132,6 +105,7 @@ const INITIAL_FORM_STATE: HabitFormState = {
  * Wizard en 6 étapes : Choix, Type, Détails, Intentions, Identité, Confirmation
  */
 function CreateHabit() {
+  const { t } = useTranslation()
   const [step, setStep] = useState<WizardStep>('choose')
   const [form, setForm] = useState<HabitFormState>(INITIAL_FORM_STATE)
   const [activeCategory, setActiveCategory] = useState<HabitCategory | 'all'>('all')
@@ -349,7 +323,7 @@ function CreateHabit() {
    */
   const progressionSummary = useMemo(() => {
     if (form.direction === 'maintain') {
-      return `${form.startValue} ${form.unit} par jour`
+      return `${form.startValue} ${form.unit} ${t('createHabit.form.per')} ${t('createHabit.form.day').toLowerCase()}`
     }
 
     const sign = form.direction === 'increase' ? '+' : '-'
@@ -357,10 +331,13 @@ function CreateHabit() {
       form.progressionMode === 'percentage'
         ? `${form.progressionValue}%`
         : `${form.progressionValue} ${form.unit}`
-    const periodStr = form.progressionPeriod === 'daily' ? 'jour' : 'semaine'
+    const periodStr =
+      form.progressionPeriod === 'daily'
+        ? t('createHabit.form.day').toLowerCase()
+        : t('createHabit.form.week').toLowerCase()
 
-    return `${sign}${valueStr} par ${periodStr}`
-  }, [form])
+    return `${sign}${valueStr} ${t('createHabit.form.per')} ${periodStr}`
+  }, [form, t])
 
   /**
    * Rendu de l'étape Choix (suggestions vs personnalisé)
@@ -368,10 +345,8 @@ function CreateHabit() {
   const renderStepChoose = () => (
     <div className="create-habit__content step-choose">
       <div className="step-choose__section">
-        <h3 className="step-choose__section-title">Habitudes à fort impact</h3>
-        <p className="step-choose__section-desc">
-          Basées sur la science, ces habitudes ont les plus grands bénéfices prouvés.
-        </p>
+        <h3 className="step-choose__section-title">{t('createHabit.highImpact.title')}</h3>
+        <p className="step-choose__section-desc">{t('createHabit.highImpact.description')}</p>
 
         {/* Category filters */}
         <div className="step-choose__filters">
@@ -380,7 +355,7 @@ function CreateHabit() {
             className={`step-choose__filter ${activeCategory === 'all' ? 'step-choose__filter--active' : ''}`}
             onClick={() => setActiveCategory('all')}
           >
-            Top 6
+            {t('createHabit.top6')}
           </button>
           {categories.map((cat) => (
             <button
@@ -402,28 +377,28 @@ function CreateHabit() {
             className={`step-choose__filter ${activeDifficulty === 'all' ? 'step-choose__filter--active' : ''}`}
             onClick={() => setActiveDifficulty('all')}
           >
-            Tous
+            {t('habits.difficulty.all')}
           </button>
           <button
             type="button"
             className={`step-choose__filter ${activeDifficulty === 'easy' ? 'step-choose__filter--active' : ''}`}
             onClick={() => setActiveDifficulty('easy')}
           >
-            Facile
+            {t('habits.difficulty.easy')}
           </button>
           <button
             type="button"
             className={`step-choose__filter ${activeDifficulty === 'moderate' ? 'step-choose__filter--active' : ''}`}
             onClick={() => setActiveDifficulty('moderate')}
           >
-            Modéré
+            {t('habits.difficulty.moderate')}
           </button>
           <button
             type="button"
             className={`step-choose__filter ${activeDifficulty === 'challenging' ? 'step-choose__filter--active' : ''}`}
             onClick={() => setActiveDifficulty('challenging')}
           >
-            Exigeant
+            {t('habits.difficulty.challenging')}
           </button>
         </div>
 
@@ -434,47 +409,47 @@ function CreateHabit() {
             className={`step-choose__filter ${activeTimeOfDay === 'all' ? 'step-choose__filter--active' : ''}`}
             onClick={() => setActiveTimeOfDay('all')}
           >
-            Tous
+            {t('habits.timeOfDay.all')}
           </button>
           <button
             type="button"
             className={`step-choose__filter ${activeTimeOfDay === 'morning' ? 'step-choose__filter--active' : ''}`}
             onClick={() => setActiveTimeOfDay('morning')}
           >
-            <span className="step-choose__filter-emoji">🌅</span>
-            <span className="step-choose__filter-name">Matin</span>
+            <span className="step-choose__filter-emoji">{t('habits.timeOfDayEmojis.morning')}</span>
+            <span className="step-choose__filter-name">{t('habits.timeOfDay.morning')}</span>
           </button>
           <button
             type="button"
             className={`step-choose__filter ${activeTimeOfDay === 'afternoon' ? 'step-choose__filter--active' : ''}`}
             onClick={() => setActiveTimeOfDay('afternoon')}
           >
-            <span className="step-choose__filter-emoji">☀️</span>
-            <span className="step-choose__filter-name">Après-midi</span>
+            <span className="step-choose__filter-emoji">
+              {t('habits.timeOfDayEmojis.afternoon')}
+            </span>
+            <span className="step-choose__filter-name">{t('habits.timeOfDay.afternoon')}</span>
           </button>
           <button
             type="button"
             className={`step-choose__filter ${activeTimeOfDay === 'evening' ? 'step-choose__filter--active' : ''}`}
             onClick={() => setActiveTimeOfDay('evening')}
           >
-            <span className="step-choose__filter-emoji">🌙</span>
-            <span className="step-choose__filter-name">Soir</span>
+            <span className="step-choose__filter-emoji">{t('habits.timeOfDayEmojis.evening')}</span>
+            <span className="step-choose__filter-name">{t('habits.timeOfDay.evening')}</span>
           </button>
           <button
             type="button"
             className={`step-choose__filter ${activeTimeOfDay === 'night' ? 'step-choose__filter--active' : ''}`}
             onClick={() => setActiveTimeOfDay('night')}
           >
-            <span className="step-choose__filter-emoji">🌃</span>
-            <span className="step-choose__filter-name">Nuit</span>
+            <span className="step-choose__filter-emoji">{t('habits.timeOfDayEmojis.night')}</span>
+            <span className="step-choose__filter-name">{t('habits.timeOfDay.night')}</span>
           </button>
         </div>
 
         {/* Result count */}
         <p className="step-choose__result-count">
-          {filteredSuggestions.length === 1
-            ? '1 habitude'
-            : `${filteredSuggestions.length} habitudes`}
+          {t('habits.resultCount', { count: filteredSuggestions.length })}
         </p>
 
         {/* Carrousel d'habitudes suggérées */}
@@ -483,7 +458,7 @@ function CreateHabit() {
             key={`${activeCategory}-${activeDifficulty}-${activeTimeOfDay}`}
             itemsPerViewDesktop={2}
             itemsPerViewMobile={1}
-            ariaLabel="Habitudes suggérées"
+            ariaLabel={t('createHabit.highImpact.title')}
           >
             {filteredSuggestions.map((habit) => (
               <SuggestedHabitCard key={habit.id} habit={habit} onSelect={selectSuggestion} />
@@ -493,7 +468,7 @@ function CreateHabit() {
       </div>
 
       <div className="step-choose__divider">
-        <span>ou</span>
+        <span>{t('common.or')}</span>
       </div>
 
       <button
@@ -509,8 +484,10 @@ function CreateHabit() {
       >
         <span className="step-choose__custom-icon">✨</span>
         <div className="step-choose__custom-text">
-          <span className="step-choose__custom-title">Créer une habitude personnalisée</span>
-          <span className="step-choose__custom-desc">Définis ton propre objectif</span>
+          <span className="step-choose__custom-title">{t('createHabit.createCustom.title')}</span>
+          <span className="step-choose__custom-desc">
+            {t('createHabit.createCustom.description')}
+          </span>
         </div>
         <span className="step-choose__custom-arrow">→</span>
       </button>
@@ -523,7 +500,7 @@ function CreateHabit() {
   const renderStepType = () => (
     <div className="create-habit__content step-type">
       <div className="step-type__options">
-        {HABIT_TYPES.map(({ direction, icon, title, description }) => (
+        {(['increase', 'decrease', 'maintain'] as HabitDirection[]).map((direction) => (
           <button
             key={direction}
             type="button"
@@ -532,11 +509,13 @@ function CreateHabit() {
             aria-pressed={form.direction === direction}
           >
             <span className="step-type__option-icon" aria-hidden="true">
-              {icon}
+              {HABIT_TYPE_ICONS[direction]}
             </span>
             <div className="step-type__option-content">
-              <p className="step-type__option-title">{title}</p>
-              <p className="step-type__option-description">{description}</p>
+              <p className="step-type__option-title">{t(`habits.type.${direction}`)}</p>
+              <p className="step-type__option-description">
+                {t(`habits.typeDescriptions.${direction}`)}
+              </p>
             </div>
           </button>
         ))}
@@ -552,7 +531,7 @@ function CreateHabit() {
       <div className="step-details__form">
         {/* Emoji */}
         <EmojiPicker
-          label="Emoji"
+          label={t('createHabit.form.emoji')}
           value={form.emoji}
           onChange={(emoji) => updateForm('emoji', emoji)}
           suggestedEmojis={
@@ -566,8 +545,8 @@ function CreateHabit() {
 
         {/* Nom */}
         <Input
-          label="Nom de l'habitude"
-          placeholder="Ex: Push-ups, Méditation, Lecture..."
+          label={t('createHabit.form.name')}
+          placeholder={t('createHabit.form.namePlaceholder')}
           value={form.name}
           onChange={(e) => updateForm('name', e.target.value)}
         />
@@ -576,15 +555,15 @@ function CreateHabit() {
         <div className="step-details__row">
           <Input
             type="number"
-            label="Dose de départ"
+            label={t('createHabit.form.startDose')}
             placeholder="10"
             min={1}
             value={form.startValue || ''}
             onChange={(e) => updateForm('startValue', Number(e.target.value))}
           />
           <Input
-            label="Unité"
-            placeholder="répétitions, minutes..."
+            label={t('createHabit.form.unit')}
+            placeholder={t('createHabit.form.unitPlaceholder')}
             value={form.unit}
             onChange={(e) => updateForm('unit', e.target.value)}
           />
@@ -593,7 +572,7 @@ function CreateHabit() {
         {/* Progression (sauf pour maintain) */}
         {form.direction !== 'maintain' && (
           <div className="step-details__progression-section">
-            <p className="step-details__progression-title">Progression</p>
+            <p className="step-details__progression-title">{t('createHabit.form.progression')}</p>
 
             {/* Mode de progression */}
             <div className="step-details__progression-options">
@@ -602,14 +581,14 @@ function CreateHabit() {
                 className={`step-details__progression-option ${form.progressionMode === 'percentage' ? 'step-details__progression-option--selected' : ''}`}
                 onClick={() => updateForm('progressionMode', 'percentage')}
               >
-                En %
+                {t('createHabit.form.inPercent')}
               </button>
               <button
                 type="button"
                 className={`step-details__progression-option ${form.progressionMode === 'absolute' ? 'step-details__progression-option--selected' : ''}`}
                 onClick={() => updateForm('progressionMode', 'absolute')}
               >
-                En unités
+                {t('createHabit.form.inUnits')}
               </button>
             </div>
 
@@ -617,7 +596,11 @@ function CreateHabit() {
             <div className="step-details__row">
               <Input
                 type="number"
-                label={form.progressionMode === 'percentage' ? 'Pourcentage' : 'Unités'}
+                label={
+                  form.progressionMode === 'percentage'
+                    ? t('createHabit.form.percentage')
+                    : t('createHabit.form.units')
+                }
                 placeholder={form.progressionMode === 'percentage' ? '5' : '1'}
                 min={1}
                 value={form.progressionValue || ''}
@@ -625,21 +608,21 @@ function CreateHabit() {
                 hint={form.progressionMode === 'percentage' ? 'Ex: 5%' : undefined}
               />
               <div className="input-wrapper">
-                <label className="input-label">Par</label>
+                <label className="input-label">{t('createHabit.form.per')}</label>
                 <div className="step-details__progression-options">
                   <button
                     type="button"
                     className={`step-details__progression-option ${form.progressionPeriod === 'weekly' ? 'step-details__progression-option--selected' : ''}`}
                     onClick={() => updateForm('progressionPeriod', 'weekly')}
                   >
-                    Semaine
+                    {t('createHabit.form.week')}
                   </button>
                   <button
                     type="button"
                     className={`step-details__progression-option ${form.progressionPeriod === 'daily' ? 'step-details__progression-option--selected' : ''}`}
                     onClick={() => updateForm('progressionPeriod', 'daily')}
                   >
-                    Jour
+                    {t('createHabit.form.day')}
                   </button>
                 </div>
               </div>
@@ -649,8 +632,8 @@ function CreateHabit() {
 
         {/* Mode de suivi (tracking mode) */}
         <div className="step-details__tracking-mode-section">
-          <p className="step-details__tracking-mode-title">{TRACKING_MODE.sectionTitle}</p>
-          <p className="step-details__tracking-mode-hint">{TRACKING_MODE.sectionHint}</p>
+          <p className="step-details__tracking-mode-title">{t('createHabit.trackingMode.title')}</p>
+          <p className="step-details__tracking-mode-hint">{t('createHabit.trackingMode.hint')}</p>
           <div className="step-details__tracking-mode-options">
             <button
               type="button"
@@ -658,9 +641,11 @@ function CreateHabit() {
               onClick={() => updateForm('trackingMode', 'simple')}
               aria-pressed={form.trackingMode === 'simple'}
             >
-              <span className="step-details__tracking-mode-label">{TRACKING_MODE.simpleLabel}</span>
+              <span className="step-details__tracking-mode-label">
+                {t('createHabit.trackingMode.simple')}
+              </span>
               <span className="step-details__tracking-mode-desc">
-                {TRACKING_MODE.simpleDescription}
+                {t('createHabit.trackingMode.simpleDesc')}
               </span>
             </button>
             <button
@@ -670,10 +655,10 @@ function CreateHabit() {
               aria-pressed={form.trackingMode === 'detailed'}
             >
               <span className="step-details__tracking-mode-label">
-                {TRACKING_MODE.detailedLabel}
+                {t('createHabit.trackingMode.detailed')}
               </span>
               <span className="step-details__tracking-mode-desc">
-                {TRACKING_MODE.detailedDescription}
+                {t('createHabit.trackingMode.detailedDesc')}
               </span>
             </button>
             <button
@@ -683,23 +668,25 @@ function CreateHabit() {
               aria-pressed={form.trackingMode === 'counter'}
             >
               <span className="step-details__tracking-mode-label">
-                {TRACKING_MODE.counterLabel}
+                {t('createHabit.trackingMode.counter')}
               </span>
               <span className="step-details__tracking-mode-desc">
-                {TRACKING_MODE.counterDescription}
+                {t('createHabit.trackingMode.counterDesc')}
               </span>
             </button>
           </div>
           {form.trackingMode === 'counter' && (
-            <p className="step-details__tracking-mode-counter-hint">{TRACKING_MODE.counterHint}</p>
+            <p className="step-details__tracking-mode-counter-hint">
+              {t('createHabit.trackingMode.counterHint')}
+            </p>
           )}
         </div>
 
         {/* Mode de saisie - seulement pour detailed (counter utilise toujours +1/-1) */}
         {form.trackingMode === 'detailed' && (
           <div className="step-details__entry-mode-section">
-            <p className="step-details__entry-mode-title">{ENTRY_MODE.sectionTitle}</p>
-            <p className="step-details__entry-mode-hint">{ENTRY_MODE.sectionHint}</p>
+            <p className="step-details__entry-mode-title">{t('createHabit.entryMode.title')}</p>
+            <p className="step-details__entry-mode-hint">{t('createHabit.entryMode.hint')}</p>
             <div className="step-details__entry-mode-options">
               <button
                 type="button"
@@ -707,9 +694,11 @@ function CreateHabit() {
                 onClick={() => updateForm('entryMode', 'replace')}
                 aria-pressed={form.entryMode === 'replace'}
               >
-                <span className="step-details__entry-mode-label">{ENTRY_MODE.replaceLabel}</span>
+                <span className="step-details__entry-mode-label">
+                  {t('createHabit.entryMode.replace')}
+                </span>
                 <span className="step-details__entry-mode-desc">
-                  {ENTRY_MODE.replaceDescription}
+                  {t('createHabit.entryMode.replaceDesc')}
                 </span>
               </button>
               <button
@@ -718,15 +707,17 @@ function CreateHabit() {
                 onClick={() => updateForm('entryMode', 'cumulative')}
                 aria-pressed={form.entryMode === 'cumulative'}
               >
-                <span className="step-details__entry-mode-label">{ENTRY_MODE.cumulativeLabel}</span>
+                <span className="step-details__entry-mode-label">
+                  {t('createHabit.entryMode.cumulative')}
+                </span>
                 <span className="step-details__entry-mode-desc">
-                  {ENTRY_MODE.cumulativeDescription}
+                  {t('createHabit.entryMode.cumulativeDesc')}
                 </span>
               </button>
             </div>
             {form.entryMode === 'cumulative' && (
               <p className="step-details__entry-mode-cumulative-hint">
-                {ENTRY_MODE.cumulativeHint}
+                {t('createHabit.entryMode.cumulativeHint')}
               </p>
             )}
           </div>
@@ -736,10 +727,10 @@ function CreateHabit() {
         {form.trackingFrequency === 'weekly' && (
           <div className="step-details__weekly-aggregation-section">
             <p className="step-details__weekly-aggregation-title">
-              {WEEKLY_AGGREGATION.sectionTitle}
+              {t('createHabit.weeklyAggregation.title')}
             </p>
             <p className="step-details__weekly-aggregation-hint">
-              {WEEKLY_AGGREGATION.sectionHint}
+              {t('createHabit.weeklyAggregation.hint')}
             </p>
             <div className="step-details__weekly-aggregation-options">
               <button
@@ -749,10 +740,10 @@ function CreateHabit() {
                 aria-pressed={form.weeklyAggregation === 'count-days'}
               >
                 <span className="step-details__weekly-aggregation-label">
-                  {WEEKLY_AGGREGATION.countDaysLabel}
+                  {t('createHabit.weeklyAggregation.countDays')}
                 </span>
                 <span className="step-details__weekly-aggregation-desc">
-                  {WEEKLY_AGGREGATION.countDaysDescription}
+                  {t('createHabit.weeklyAggregation.countDaysDesc')}
                 </span>
               </button>
               <button
@@ -762,10 +753,10 @@ function CreateHabit() {
                 aria-pressed={form.weeklyAggregation === 'sum-units'}
               >
                 <span className="step-details__weekly-aggregation-label">
-                  {WEEKLY_AGGREGATION.sumUnitsLabel}
+                  {t('createHabit.weeklyAggregation.sumUnits')}
                 </span>
                 <span className="step-details__weekly-aggregation-desc">
-                  {WEEKLY_AGGREGATION.sumUnitsDescription}
+                  {t('createHabit.weeklyAggregation.sumUnitsDesc')}
                 </span>
               </button>
             </div>
@@ -828,7 +819,7 @@ function CreateHabit() {
         <>
           {/* Séparateur */}
           <div className="step-intentions-combined__separator">
-            <span className="step-intentions-combined__separator-text">ou</span>
+            <span className="step-intentions-combined__separator-text">{t('common.or')}</span>
           </div>
 
           <HabitAnchorSelector
@@ -856,93 +847,106 @@ function CreateHabit() {
   /**
    * Rendu de l'étape Confirmation
    */
-  const renderStepConfirm = () => (
-    <div className="create-habit__content step-confirm">
-      <div className="step-confirm__summary">
-        <div className="step-confirm__header">
-          <span className="step-confirm__emoji">{form.emoji}</span>
-          <h3 className="step-confirm__name">{form.name}</h3>
-        </div>
+  const renderStepConfirm = () => {
+    const habitCreatedMessages = t('habitCreated', { returnObjects: true }) as string[]
+    return (
+      <div className="create-habit__content step-confirm">
+        <div className="step-confirm__summary">
+          <div className="step-confirm__header">
+            <span className="step-confirm__emoji">{form.emoji}</span>
+            <h3 className="step-confirm__name">{form.name}</h3>
+          </div>
 
-        <div className="step-confirm__details">
-          <div className="step-confirm__detail">
-            <span className="step-confirm__detail-label">Type</span>
-            <span className="step-confirm__detail-value">
-              {form.direction === 'increase' && 'Augmenter'}
-              {form.direction === 'decrease' && 'Réduire'}
-              {form.direction === 'maintain' && 'Maintenir'}
-            </span>
-          </div>
-          <div className="step-confirm__detail">
-            <span className="step-confirm__detail-label">Dose de départ</span>
-            <span className="step-confirm__detail-value">
-              {form.startValue} {form.unit}
-            </span>
-          </div>
-          <div className="step-confirm__detail">
-            <span className="step-confirm__detail-label">Progression</span>
-            <span className="step-confirm__detail-value">{progressionSummary}</span>
-          </div>
-          {(form.implementationIntention.trigger || form.implementationIntention.location) && (
+          <div className="step-confirm__details">
             <div className="step-confirm__detail">
-              <span className="step-confirm__detail-label">Plan</span>
-              <span className="step-confirm__detail-value step-confirm__detail-value--small">
-                {form.implementationIntention.trigger && (
-                  <>{form.implementationIntention.trigger}</>
-                )}
-                {form.implementationIntention.location && (
-                  <> → {form.implementationIntention.location}</>
-                )}
-                {form.implementationIntention.time && <> ({form.implementationIntention.time})</>}
-              </span>
-            </div>
-          )}
-          {form.anchorHabitId && (
-            <div className="step-confirm__detail">
-              <span className="step-confirm__detail-label">Enchaîné après</span>
-              <span className="step-confirm__detail-value step-confirm__detail-value--small">
-                {(() => {
-                  const anchorHabit = activeHabits.find((h) => h.id === form.anchorHabitId)
-                  return anchorHabit
-                    ? `${anchorHabit.emoji} ${anchorHabit.name}`
-                    : 'Habitude non trouvée'
-                })()}
-              </span>
-            </div>
-          )}
-          {form.identityStatement && (
-            <div className="step-confirm__detail">
-              <span className="step-confirm__detail-label">Identité</span>
-              <span className="step-confirm__detail-value step-confirm__detail-value--small step-confirm__detail-value--identity">
-                Je deviens quelqu'un qui {form.identityStatement}
-              </span>
-            </div>
-          )}
-          {form.entryMode === 'cumulative' && (
-            <div className="step-confirm__detail">
-              <span className="step-confirm__detail-label">Mode de saisie</span>
-              <span className="step-confirm__detail-value">{ENTRY_MODE.cumulativeLabel}</span>
-            </div>
-          )}
-          {form.timeOfDay && (
-            <div className="step-confirm__detail">
-              <span className="step-confirm__detail-label">Moment</span>
+              <span className="step-confirm__detail-label">{t('createHabit.summary.type')}</span>
               <span className="step-confirm__detail-value">
-                {form.timeOfDay === 'morning' && '🌅 Matin'}
-                {form.timeOfDay === 'afternoon' && '☀️ Après-midi'}
-                {form.timeOfDay === 'evening' && '🌙 Soir'}
-                {form.timeOfDay === 'night' && '🌃 Nuit'}
+                {form.direction && t(`habits.type.${form.direction}`)}
               </span>
             </div>
-          )}
+            <div className="step-confirm__detail">
+              <span className="step-confirm__detail-label">
+                {t('createHabit.summary.startDose')}
+              </span>
+              <span className="step-confirm__detail-value">
+                {form.startValue} {form.unit}
+              </span>
+            </div>
+            <div className="step-confirm__detail">
+              <span className="step-confirm__detail-label">
+                {t('createHabit.summary.progression')}
+              </span>
+              <span className="step-confirm__detail-value">{progressionSummary}</span>
+            </div>
+            {(form.implementationIntention.trigger || form.implementationIntention.location) && (
+              <div className="step-confirm__detail">
+                <span className="step-confirm__detail-label">{t('createHabit.summary.plan')}</span>
+                <span className="step-confirm__detail-value step-confirm__detail-value--small">
+                  {form.implementationIntention.trigger && (
+                    <>{form.implementationIntention.trigger}</>
+                  )}
+                  {form.implementationIntention.location && (
+                    <> → {form.implementationIntention.location}</>
+                  )}
+                  {form.implementationIntention.time && <> ({form.implementationIntention.time})</>}
+                </span>
+              </div>
+            )}
+            {form.anchorHabitId && (
+              <div className="step-confirm__detail">
+                <span className="step-confirm__detail-label">
+                  {t('createHabit.summary.linkedAfter')}
+                </span>
+                <span className="step-confirm__detail-value step-confirm__detail-value--small">
+                  {(() => {
+                    const anchorHabit = activeHabits.find((h) => h.id === form.anchorHabitId)
+                    return anchorHabit
+                      ? `${anchorHabit.emoji} ${anchorHabit.name}`
+                      : t('habits.notFound')
+                  })()}
+                </span>
+              </div>
+            )}
+            {form.identityStatement && (
+              <div className="step-confirm__detail">
+                <span className="step-confirm__detail-label">
+                  {t('createHabit.summary.identity')}
+                </span>
+                <span className="step-confirm__detail-value step-confirm__detail-value--small step-confirm__detail-value--identity">
+                  {t('identity.reminder.prefix')} {form.identityStatement}
+                </span>
+              </div>
+            )}
+            {form.entryMode === 'cumulative' && (
+              <div className="step-confirm__detail">
+                <span className="step-confirm__detail-label">
+                  {t('createHabit.summary.entryMode')}
+                </span>
+                <span className="step-confirm__detail-value">
+                  {t('createHabit.entryMode.cumulative')}
+                </span>
+              </div>
+            )}
+            {form.timeOfDay && (
+              <div className="step-confirm__detail">
+                <span className="step-confirm__detail-label">
+                  {t('createHabit.summary.timeOfDay')}
+                </span>
+                <span className="step-confirm__detail-value">
+                  {t(`habits.timeOfDayEmojis.${form.timeOfDay}`)}{' '}
+                  {t(`habits.timeOfDay.${form.timeOfDay}`)}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="step-confirm__message">
+          <p className="step-confirm__message-text">{randomMessage(habitCreatedMessages)}</p>
         </div>
       </div>
-
-      <div className="step-confirm__message">
-        <p className="step-confirm__message-text">{randomMessage(HABIT_CREATED)}</p>
-      </div>
-    </div>
-  )
+    )
+  }
 
   /**
    * Rendu de l'étape Premier Check-in
@@ -986,21 +990,21 @@ function CreateHabit() {
   const nextButtonText = useMemo(() => {
     switch (step) {
       case 'choose':
-        return 'Personnaliser'
+        return t('createHabit.buttons.customize')
       case 'type':
-        return 'Continuer'
+        return t('common.continue')
       case 'details':
-        return 'Continuer'
+        return t('common.continue')
       case 'intentions':
-        return 'Continuer'
+        return t('common.continue')
       case 'identity':
-        return 'Aperçu'
+        return t('createHabit.buttons.preview')
       case 'confirm':
-        return "Créer l'habitude"
+        return t('createHabit.buttons.create')
       default:
-        return 'Continuer'
+        return t('common.continue')
     }
-  }, [step])
+  }, [step, t])
 
   /**
    * Sous-titre selon l'étape
@@ -1008,17 +1012,17 @@ function CreateHabit() {
   const getSubtitle = () => {
     switch (step) {
       case 'choose':
-        return 'Choisis une habitude à fort impact ou crée la tienne'
+        return t('createHabit.steps.choose')
       case 'type':
-        return "Quel type d'habitude souhaitez-vous créer ?"
+        return t('createHabit.steps.type')
       case 'details':
-        return 'Décrivez votre habitude'
+        return t('createHabit.steps.details')
       case 'intentions':
-        return IMPLEMENTATION_INTENTION.stepTitle
+        return t('createHabit.steps.intentions')
       case 'identity':
-        return IDENTITY_STATEMENT.stepTitle
+        return t('createHabit.steps.identity')
       case 'confirm':
-        return 'Vérifiez et confirmez'
+        return t('createHabit.steps.confirm')
       default:
         return ''
     }
@@ -1047,7 +1051,7 @@ function CreateHabit() {
   return (
     <div className="page page-create-habit">
       <header className="create-habit__header">
-        <h1 className="create-habit__title">Nouvelle habitude</h1>
+        <h1 className="create-habit__title">{t('createHabit.title')}</h1>
         <p className="create-habit__subtitle">{getSubtitle()}</p>
         {getHabitPreview() && <p className="create-habit__habit-preview">{getHabitPreview()}</p>}
       </header>
@@ -1090,7 +1094,7 @@ function CreateHabit() {
         <footer className="create-habit__footer">
           <div className="create-habit__buttons">
             <Button variant="ghost" onClick={handleBack}>
-              {step === 'type' ? 'Retour' : 'Retour'}
+              {t('common.back')}
             </Button>
             <Button
               variant={step === 'confirm' ? 'success' : 'primary'}

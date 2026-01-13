@@ -170,7 +170,8 @@
           "id": "3.3",
           "name": "Migrer composants vers useTranslation",
           "description": "Remplacer les textes en dur par des appels à t() dans tous les composants. Commencer par les pages principales (Today, CreateHabit, Settings).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "high",
           "dependsOn": ["3.2"],
           "files": [
@@ -325,9 +326,9 @@
   ],
   "stats": {
     "totalTasks": 16,
-    "completed": 8,
+    "completed": 9,
     "inProgress": 0,
-    "pending": 8,
+    "pending": 7,
     "blocked": 0
   }
 }

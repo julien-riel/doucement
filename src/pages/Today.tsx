@@ -1,5 +1,6 @@
 import { useMemo, useState, useCallback, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppData, useDateWatch, useCelebrations } from '../hooks'
 import { ErrorBanner } from '../components/ui'
 import {
@@ -22,7 +23,7 @@ import {
   isHabitPaused,
   groupHabitsByTimeOfDay,
 } from '../utils'
-import { NEW_DAY_MESSAGES, NEW_DAY_EMOJI, randomMessage } from '../constants/messages'
+import { randomMessage } from '../constants/messages'
 import { CompletionStatus } from '../types'
 import CelebrationModal from '../components/CelebrationModal'
 import './Today.css'
@@ -32,6 +33,7 @@ import './Today.css'
  * Vue principale avec les doses du jour
  */
 function Today() {
+  const { t } = useTranslation()
   const {
     activeHabits,
     isLoading,
@@ -66,8 +68,9 @@ function Today() {
   // Callback appelé quand la date change (à minuit)
   const handleDateChange = useCallback(() => {
     // Affiche un toast de nouvelle journée
-    setNewDayToast(randomMessage(NEW_DAY_MESSAGES))
-  }, [])
+    const messages = t('today.newDay.messages', { returnObjects: true }) as string[]
+    setNewDayToast(randomMessage(messages))
+  }, [t])
 
   // Utilise useDateWatch pour détecter automatiquement le changement de jour à minuit
   // Le composant se re-render automatiquement quand la date change
@@ -218,7 +221,7 @@ function Today() {
   if (isLoading) {
     return (
       <div className="page page-today page-today--loading">
-        <p>Chargement...</p>
+        <p>{t('common.loading')}</p>
       </div>
     )
   }
@@ -251,7 +254,7 @@ function Today() {
       {/* Toast de nouvelle journée */}
       {newDayToast && (
         <div className="today__new-day-toast" role="status" aria-live="polite">
-          <span className="today__new-day-toast-emoji">{NEW_DAY_EMOJI}</span>
+          <span className="today__new-day-toast-emoji">{t('today.newDay.emoji')}</span>
           <span className="today__new-day-toast-text">{newDayToast}</span>
         </div>
       )}
@@ -269,7 +272,7 @@ function Today() {
         <EncouragingMessage />
       )}
 
-      <section className="today__habits" aria-label="Tes doses du jour">
+      <section className="today__habits" aria-label={t('today.yourDoses')}>
         {habitsByTimeOfDay.map((group) => (
           <TimeOfDaySection key={group.timeOfDay ?? 'undefined'} timeOfDay={group.timeOfDay}>
             {group.items.map(

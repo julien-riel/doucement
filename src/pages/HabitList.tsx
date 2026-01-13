@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppData } from '../hooks'
 import { HabitListItem, EmptyState } from '../components/habits'
 import Button from '../components/ui/Button'
@@ -10,6 +11,7 @@ import './HabitList.css'
  * Affiche toutes les habitudes actives et archivées
  */
 function HabitList() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { activeHabits, archivedHabits, isLoading, getEntriesForHabit, restoreHabit } = useAppData()
 
@@ -47,7 +49,7 @@ function HabitList() {
   if (isLoading) {
     return (
       <div className="page page-habit-list page-habit-list--loading">
-        <p>Chargement...</p>
+        <p>{t('common.loading')}</p>
       </div>
     )
   }
@@ -64,15 +66,17 @@ function HabitList() {
   return (
     <div className="page page-habit-list">
       <header className="habit-list__header">
-        <h1 className="habit-list__title">Mes habitudes</h1>
+        <h1 className="habit-list__title">{t('habitList.title')}</h1>
         <Button variant="primary" onClick={handleCreateHabit}>
-          + Nouvelle habitude
+          + {t('habitList.newHabit')}
         </Button>
       </header>
 
       {/* Habitudes actives */}
-      <section className="habit-list__section" aria-label="Habitudes actives">
-        <h2 className="habit-list__section-title">Actives ({sortedActiveHabits.length})</h2>
+      <section className="habit-list__section" aria-label={t('habitList.activeHabits')}>
+        <h2 className="habit-list__section-title">
+          {t('habitList.active')} ({sortedActiveHabits.length})
+        </h2>
         {sortedActiveHabits.length > 0 ? (
           <div className="habit-list__items">
             {sortedActiveHabits.map((habit) => (
@@ -85,7 +89,7 @@ function HabitList() {
             ))}
           </div>
         ) : (
-          <p className="habit-list__empty-message">Aucune habitude active pour le moment.</p>
+          <p className="habit-list__empty-message">{t('habitList.noActiveHabits')}</p>
         )}
       </section>
 
@@ -93,7 +97,7 @@ function HabitList() {
       {archivedHabits.length > 0 && (
         <section
           className="habit-list__section habit-list__section--archived"
-          aria-label="Habitudes archivées"
+          aria-label={t('habitList.archivedHabits')}
         >
           <button
             type="button"
@@ -101,7 +105,9 @@ function HabitList() {
             onClick={toggleShowArchived}
             aria-expanded={showArchived}
           >
-            <h2 className="habit-list__section-title">Archivées ({sortedArchivedHabits.length})</h2>
+            <h2 className="habit-list__section-title">
+              {t('habitList.archived')} ({sortedArchivedHabits.length})
+            </h2>
             <span className="habit-list__toggle-icon" aria-hidden="true">
               {showArchived ? '▼' : '▶'}
             </span>
@@ -121,9 +127,9 @@ function HabitList() {
                     size="small"
                     className="habit-list__restore-button"
                     onClick={(e) => handleRestoreHabit(habit.id, e)}
-                    aria-label={`Restaurer ${habit.name}`}
+                    aria-label={t('habitList.restoreLabel', { name: habit.name })}
                   >
-                    Restaurer
+                    {t('habitList.restore')}
                   </Button>
                 </div>
               ))}

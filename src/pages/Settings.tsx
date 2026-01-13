@@ -4,6 +4,7 @@
  */
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppData, useDebugMode, useTheme } from '../hooks'
 import { useWhatsNewContext } from '../contexts'
 import { ThemePreference } from '../types'
@@ -13,7 +14,6 @@ import {
   formatImportResult,
   ImportResult,
 } from '../services/importExport'
-import { EXPORT_SUCCESS, ABOUT_TEXT } from '../constants/messages'
 import { NotificationSettings as NotificationSettingsType } from '../types'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
@@ -34,6 +34,7 @@ interface ModalState {
  * Écran Paramètres
  */
 function Settings() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { data, updatePreferences, resetData, getEntriesForDate, activeHabits } = useAppData()
   const { isDebugMode, handleVersionTap } = useDebugMode()
@@ -52,10 +53,10 @@ function Settings() {
   const onVersionTap = useCallback(() => {
     const activated = handleVersionTap()
     if (activated) {
-      setDebugMessage(isDebugMode ? 'Mode debug désactivé' : 'Mode debug activé')
+      setDebugMessage(isDebugMode ? t('settings.debug.deactivated') : t('settings.debug.activated'))
       setTimeout(() => setDebugMessage(null), 2000)
     }
-  }, [handleVersionTap, isDebugMode])
+  }, [handleVersionTap, isDebugMode, t])
 
   // ============================================================================
   // NOTIFICATIONS
@@ -93,13 +94,13 @@ function Settings() {
   const handleExport = useCallback(() => {
     const result = exportData()
     if (result.success) {
-      setExportMessage(EXPORT_SUCCESS)
+      setExportMessage(t('settings.data.exportSuccess'))
       setTimeout(() => setExportMessage(null), 4000)
     } else {
-      setExportMessage(result.error || "Erreur lors de l'export")
+      setExportMessage(result.error || t('settings.data.exportError'))
       setTimeout(() => setExportMessage(null), 4000)
     }
-  }, [])
+  }, [t])
 
   // ============================================================================
   // IMPORT
@@ -171,13 +172,13 @@ function Settings() {
   return (
     <div className="page page-settings">
       <header className="settings__header">
-        <h1 className="settings__title">Paramètres</h1>
+        <h1 className="settings__title">{t('settings.title')}</h1>
       </header>
 
       {/* Section: Données */}
       <section className="settings__section" aria-labelledby="section-data">
         <h2 id="section-data" className="settings__section-title">
-          Tes données
+          {t('settings.data.title')}
         </h2>
 
         <Card variant="default" className="settings__card">
@@ -185,16 +186,20 @@ function Settings() {
             <div className="settings__stat">
               <span className="settings__stat-value">{habitsCount}</span>
               <span className="settings__stat-label">
-                habitude{habitsCount !== 1 ? 's' : ''} active{habitsCount !== 1 ? 's' : ''}
+                {t('settings.data.activeHabits', { count: habitsCount })}
               </span>
             </div>
             <div className="settings__stat">
               <span className="settings__stat-value">{archivedCount}</span>
-              <span className="settings__stat-label">archivée{archivedCount !== 1 ? 's' : ''}</span>
+              <span className="settings__stat-label">
+                {t('settings.data.archivedHabits', { count: archivedCount })}
+              </span>
             </div>
             <div className="settings__stat">
               <span className="settings__stat-value">{entriesCount}</span>
-              <span className="settings__stat-label">entrée{entriesCount !== 1 ? 's' : ''}</span>
+              <span className="settings__stat-label">
+                {t('settings.data.entries', { count: entriesCount })}
+              </span>
             </div>
           </div>
         </Card>
@@ -206,7 +211,7 @@ function Settings() {
             onClick={handleExport}
             className="settings__action-button"
           >
-            📥 Exporter mes données
+            📥 {t('settings.data.export')}
           </Button>
 
           <Button
@@ -215,7 +220,7 @@ function Settings() {
             onClick={handleImportClick}
             className="settings__action-button"
           >
-            📤 Importer des données
+            📤 {t('settings.data.import')}
           </Button>
 
           <input
@@ -224,7 +229,7 @@ function Settings() {
             accept=".json"
             onChange={handleFileSelect}
             style={{ display: 'none' }}
-            aria-label="Sélectionner un fichier JSON à importer"
+            aria-label={t('settings.data.selectFile')}
           />
 
           {exportMessage && (
@@ -238,7 +243,7 @@ function Settings() {
       {/* Section: Notifications */}
       <section className="settings__section" aria-labelledby="section-notifications">
         <h2 id="section-notifications" className="settings__section-title">
-          Rappels
+          {t('settings.notifications.title')}
         </h2>
 
         <NotificationSettings
@@ -251,16 +256,20 @@ function Settings() {
       {/* Section: Apparence */}
       <section className="settings__section" aria-labelledby="section-appearance">
         <h2 id="section-appearance" className="settings__section-title">
-          Apparence
+          {t('settings.appearance.title')}
         </h2>
 
         <Card variant="default" className="settings__card">
-          <div className="settings__theme-options" role="radiogroup" aria-label="Choix du thème">
+          <div
+            className="settings__theme-options"
+            role="radiogroup"
+            aria-label={t('settings.appearance.themeChoice')}
+          >
             {(
               [
-                { value: 'light', icon: '☀️', label: 'Clair' },
-                { value: 'dark', icon: '🌙', label: 'Sombre' },
-                { value: 'system', icon: '⚙️', label: 'Système' },
+                { value: 'light', icon: '☀️', labelKey: 'light' },
+                { value: 'dark', icon: '🌙', labelKey: 'dark' },
+                { value: 'system', icon: '⚙️', labelKey: 'system' },
               ] as const
             ).map((option) => (
               <button
@@ -274,77 +283,65 @@ function Settings() {
                 <span className="settings__theme-icon" aria-hidden="true">
                   {option.icon}
                 </span>
-                <span className="settings__theme-label">{option.label}</span>
+                <span className="settings__theme-label">
+                  {t(`settings.appearance.themes.${option.labelKey}`)}
+                </span>
               </button>
             ))}
           </div>
-          <p className="settings__theme-hint">
-            {theme === 'system'
-              ? 'Le thème suit les préférences de ton appareil'
-              : theme === 'dark'
-                ? 'Mode sombre activé'
-                : 'Mode clair activé'}
-          </p>
+          <p className="settings__theme-hint">{t(`settings.appearance.themeHints.${theme}`)}</p>
         </Card>
       </section>
 
       {/* Section: Installation PWA */}
       <section className="settings__section" aria-labelledby="section-install">
         <h2 id="section-install" className="settings__section-title">
-          Installer l'application
+          {t('settings.install.title')}
         </h2>
 
         <Card variant="default" className="settings__card">
-          <p className="settings__install-intro">
-            📱 Doucement peut être installée sur ton téléphone comme une vraie application, sans
-            passer par un store.
-          </p>
+          <p className="settings__install-intro">📱 {t('settings.install.intro')}</p>
 
           <div className="settings__install-instructions">
             <div className="settings__install-platform">
-              <strong>🍎 Sur iPhone / iPad (Safari)</strong>
+              <strong>🍎 {t('settings.install.ios.title')}</strong>
               <ol className="settings__install-steps">
-                <li>Ouvre cette page dans Safari</li>
+                <li>{t('settings.install.ios.step1')}</li>
                 <li>
-                  Appuie sur l'icône <span className="settings__install-icon">↑</span> (partager)
+                  {t('settings.install.ios.step2')}{' '}
+                  <span className="settings__install-icon">↑</span>
                 </li>
-                <li>Sélectionne « Sur l'écran d'accueil »</li>
+                <li>{t('settings.install.ios.step3')}</li>
               </ol>
             </div>
 
             <div className="settings__install-platform">
-              <strong>🤖 Sur Android (Chrome)</strong>
+              <strong>🤖 {t('settings.install.android.title')}</strong>
               <ol className="settings__install-steps">
-                <li>Ouvre cette page dans Chrome</li>
-                <li>Appuie sur le menu ⋮ (trois points)</li>
-                <li>Sélectionne « Installer l'appli » ou « Ajouter à l'écran d'accueil »</li>
+                <li>{t('settings.install.android.step1')}</li>
+                <li>{t('settings.install.android.step2')}</li>
+                <li>{t('settings.install.android.step3')}</li>
               </ol>
             </div>
           </div>
 
-          <p className="settings__install-benefit">
-            ✨ Une fois installée, l'app fonctionne hors ligne et s'ouvre instantanément.
-          </p>
+          <p className="settings__install-benefit">✨ {t('settings.install.benefit')}</p>
         </Card>
       </section>
 
       {/* Section: Sauvegarde */}
       <section className="settings__section" aria-labelledby="section-backup">
         <h2 id="section-backup" className="settings__section-title">
-          Conseils de sauvegarde
+          {t('settings.backup.title')}
         </h2>
 
         <Card variant="highlight" className="settings__card settings__backup-card">
           <p className="settings__backup-text">
-            <strong>💡 Sauvegarde régulièrement tes données !</strong>
+            <strong>💡 {t('settings.backup.warning')}</strong>
           </p>
+          <p className="settings__backup-text">{t('settings.backup.explanation')}</p>
           <p className="settings__backup-text">
-            Tes données sont stockées uniquement sur cet appareil. Si tu changes de téléphone,
-            réinstalles l'app ou effaces le cache du navigateur, tu pourrais les perdre.
-          </p>
-          <p className="settings__backup-text">
-            <strong>Recommandation :</strong> Exporte tes données une fois par semaine et garde le
-            fichier dans un endroit sûr (cloud, email, ordinateur).
+            <strong>{t('settings.backup.recommendation')}</strong>
           </p>
           <Button
             variant="secondary"
@@ -352,7 +349,7 @@ function Settings() {
             onClick={handleExport}
             className="settings__action-button"
           >
-            📥 Exporter maintenant
+            📥 {t('settings.backup.exportNow')}
           </Button>
         </Card>
       </section>
@@ -360,7 +357,7 @@ function Settings() {
       {/* Section: Application */}
       <section className="settings__section" aria-labelledby="section-app">
         <h2 id="section-app" className="settings__section-title">
-          Application
+          {t('settings.app.title')}
         </h2>
 
         <div className="settings__actions">
@@ -370,7 +367,7 @@ function Settings() {
             onClick={handleReplayOnboarding}
             className="settings__action-button"
           >
-            🎓 Revoir l'introduction
+            🎓 {t('settings.app.replayOnboarding')}
           </Button>
         </div>
       </section>
@@ -378,20 +375,22 @@ function Settings() {
       {/* Section: À propos */}
       <section className="settings__section" aria-labelledby="section-about">
         <h2 id="section-about" className="settings__section-title">
-          À propos
+          {t('settings.about.title')}
         </h2>
 
         <Card variant="default" className="settings__card settings__about-card">
           <p className="settings__about-text">
-            <strong>Doucement</strong> — {ABOUT_TEXT.description}
+            <strong>Doucement</strong> — {t('settings.about.description')}
           </p>
-          <p className="settings__about-text settings__about-privacy">🔒 {ABOUT_TEXT.privacy}</p>
+          <p className="settings__about-text settings__about-privacy">
+            🔒 {t('settings.about.privacy')}
+          </p>
           <p
             className="settings__about-version"
             onClick={onVersionTap}
             role="button"
             tabIndex={0}
-            aria-label={`Version ${appVersion}. Tapez 7 fois pour activer le mode debug.`}
+            aria-label={t('settings.about.versionLabel', { version: appVersion })}
           >
             v{appVersion} {isDebugMode && <span className="settings__debug-badge">DEBUG</span>}
           </p>
@@ -407,7 +406,7 @@ function Settings() {
               onClick={showWhatsNew}
               className="settings__whats-new-button"
             >
-              Voir les nouveautés
+              {t('settings.about.whatsNew')}
             </Button>
           )}
         </Card>
@@ -426,7 +425,7 @@ function Settings() {
         aria-labelledby="section-danger"
       >
         <h2 id="section-danger" className="settings__section-title">
-          Zone sensible
+          {t('settings.danger.title')}
         </h2>
 
         <div className="settings__actions">
@@ -436,11 +435,9 @@ function Settings() {
             onClick={handleResetClick}
             className="settings__action-button settings__action-button--danger"
           >
-            🗑️ Réinitialiser l'application
+            🗑️ {t('settings.danger.reset')}
           </Button>
-          <p className="settings__warning">
-            Cette action supprimera toutes tes données. Elle est irréversible.
-          </p>
+          <p className="settings__warning">{t('settings.danger.warning')}</p>
         </div>
       </section>
 
@@ -453,20 +450,17 @@ function Settings() {
             role="dialog"
             aria-modal="true"
           >
-            <h3 className="settings__modal-title">Importer des données</h3>
-            <p className="settings__modal-text">
-              L'import remplacera toutes tes données actuelles par celles du fichier.
-            </p>
+            <h3 className="settings__modal-title">{t('settings.modals.import.title')}</h3>
+            <p className="settings__modal-text">{t('settings.modals.import.text')}</p>
             <p className="settings__modal-text settings__modal-text--warning">
-              Cette action est irréversible. Pense à exporter tes données actuelles avant si tu veux
-              les conserver.
+              {t('settings.modals.import.warning')}
             </p>
             <div className="settings__modal-actions">
               <Button variant="ghost" onClick={handleCloseModal}>
-                Annuler
+                {t('common.cancel')}
               </Button>
               <Button variant="primary" onClick={handleConfirmImport} disabled={isImporting}>
-                {isImporting ? 'Import en cours...' : 'Importer'}
+                {isImporting ? t('settings.modals.import.importing') : t('common.import')}
               </Button>
             </div>
           </div>
@@ -483,14 +477,16 @@ function Settings() {
             aria-modal="true"
           >
             <h3 className="settings__modal-title">
-              {modal.result.success ? '✓ Import réussi' : 'Import échoué'}
+              {modal.result.success
+                ? t('settings.modals.importResult.success')
+                : t('settings.modals.importResult.failed')}
             </h3>
             <p className="settings__modal-text settings__modal-text--pre">
               {formatImportResult(modal.result)}
             </p>
             <div className="settings__modal-actions settings__modal-actions--single">
               <Button variant="primary" onClick={handleCloseModal}>
-                {modal.result.success ? 'Continuer' : 'Fermer'}
+                {modal.result.success ? t('common.continue') : t('common.close')}
               </Button>
             </div>
           </div>
@@ -506,23 +502,21 @@ function Settings() {
             role="dialog"
             aria-modal="true"
           >
-            <h3 className="settings__modal-title">Réinitialiser l'application</h3>
-            <p className="settings__modal-text">
-              Tu vas supprimer toutes tes habitudes et ton historique.
-            </p>
+            <h3 className="settings__modal-title">{t('settings.modals.reset.title')}</h3>
+            <p className="settings__modal-text">{t('settings.modals.reset.text')}</p>
             <p className="settings__modal-text settings__modal-text--warning">
-              Cette action est irréversible.
+              {t('settings.modals.reset.warning')}
             </p>
             <div className="settings__modal-actions">
               <Button variant="ghost" onClick={handleCloseModal}>
-                Annuler
+                {t('common.cancel')}
               </Button>
               <Button
                 variant="primary"
                 onClick={handleConfirmReset}
                 className="settings__button--danger"
               >
-                Réinitialiser
+                {t('settings.danger.reset')}
               </Button>
             </div>
           </div>

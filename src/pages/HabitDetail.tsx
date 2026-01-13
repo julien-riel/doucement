@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppData } from '../hooks'
 import {
   StatsCards,
@@ -12,7 +13,6 @@ import {
 import { Button, Card } from '../components/ui'
 import { calculateTargetDose, calculateHabitStats } from '../services/progression'
 import { isHabitPaused, getCurrentDate, addDays } from '../utils'
-import { PLANNED_PAUSE, IDENTITY_REMINDER } from '../constants/messages'
 import type { PlannedPause } from '../types'
 import './HabitDetail.css'
 
@@ -42,20 +42,12 @@ function formatDate(dateStr: string): string {
 }
 
 /**
- * Messages de direction
+ * Couleurs pour les directions
  */
-function getDirectionInfo(direction: 'increase' | 'decrease' | 'maintain'): {
-  label: string
-  color: string
-} {
-  switch (direction) {
-    case 'increase':
-      return { label: 'Augmenter', color: 'primary' }
-    case 'decrease':
-      return { label: 'Réduire', color: 'secondary' }
-    case 'maintain':
-      return { label: 'Maintenir', color: 'neutral' }
-  }
+const DIRECTION_COLORS: Record<'increase' | 'decrease' | 'maintain', string> = {
+  increase: 'primary',
+  decrease: 'secondary',
+  maintain: 'neutral',
 }
 
 /**
@@ -63,6 +55,7 @@ function getDirectionInfo(direction: 'increase' | 'decrease' | 'maintain'): {
  * Stats, calendrier hebdomadaire, actions
  */
 function HabitDetail() {
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { getHabitById, getEntriesForHabit, archiveHabit, restoreHabit, updateHabit, isLoading } =
@@ -126,7 +119,7 @@ function HabitDetail() {
   if (isLoading) {
     return (
       <div className="page page-habit-detail page-habit-detail--loading">
-        <p>Chargement...</p>
+        <p>{t('common.loading')}</p>
       </div>
     )
   }
@@ -134,9 +127,9 @@ function HabitDetail() {
   if (!habit) {
     return (
       <div className="page page-habit-detail page-habit-detail--not-found">
-        <p>Cette habitude n'existe pas.</p>
+        <p>{t('habitDetail.notFound')}</p>
         <Button variant="primary" onClick={handleBack}>
-          Retour à la liste
+          {t('habitDetail.backToList')}
         </Button>
       </div>
     )
@@ -144,7 +137,7 @@ function HabitDetail() {
 
   const isArchived = habit.archivedAt !== null
   const isPaused = isHabitPaused(habit)
-  const directionInfo = getDirectionInfo(habit.direction)
+  const directionColor = DIRECTION_COLORS[habit.direction]
 
   return (
     <div className="page page-habit-detail">
@@ -154,9 +147,9 @@ function HabitDetail() {
           type="button"
           className="habit-detail__back"
           onClick={handleBack}
-          aria-label="Retour à la liste"
+          aria-label={t('habitDetail.backToList')}
         >
-          ← Retour
+          ← {t('common.back')}
         </button>
       </header>
 
@@ -168,15 +161,17 @@ function HabitDetail() {
         <h1 className="habit-detail__name">{habit.name}</h1>
         {habit.description && <p className="habit-detail__description">{habit.description}</p>}
         <div className="habit-detail__badges">
-          <span className={`habit-detail__badge habit-detail__badge--${directionInfo.color}`}>
-            {directionInfo.label}
+          <span className={`habit-detail__badge habit-detail__badge--${directionColor}`}>
+            {t(`habits.type.${habit.direction}`)}
           </span>
           {isArchived && (
-            <span className="habit-detail__badge habit-detail__badge--archived">Archivée</span>
+            <span className="habit-detail__badge habit-detail__badge--archived">
+              {t('habitDetail.badges.archived')}
+            </span>
           )}
           {isPaused && (
             <span className="habit-detail__badge habit-detail__badge--paused">
-              {PLANNED_PAUSE.activePauseBadge}
+              {t('habitDetail.badges.paused')}
             </span>
           )}
         </div>
@@ -185,16 +180,16 @@ function HabitDetail() {
       {/* Phrase identitaire */}
       {habit.identityStatement && (
         <Card variant="highlight" className="habit-detail__identity">
-          <span className="habit-detail__identity-label">{IDENTITY_REMINDER.headerLabel}</span>
+          <span className="habit-detail__identity-label">{t('identity.reminder.label')}</span>
           <p className="habit-detail__identity-text">
-            Je deviens quelqu'un qui {habit.identityStatement}
+            {t('identity.reminder.prefix')} {habit.identityStatement}
           </p>
         </Card>
       )}
 
       {/* Dose du jour */}
       <Card variant="highlight" className="habit-detail__today-dose">
-        <div className="habit-detail__dose-label">Dose du jour</div>
+        <div className="habit-detail__dose-label">{t('habitDetail.todayDose')}</div>
         <div className="habit-detail__dose-value">
           {todayDose} <span className="habit-detail__dose-unit">{habit.unit}</span>
         </div>
@@ -202,43 +197,43 @@ function HabitDetail() {
 
       {/* Effet composé - D'où je viens */}
       {habit.direction !== 'maintain' && (
-        <section className="habit-detail__section" aria-label="Progression depuis le début">
+        <section className="habit-detail__section" aria-label={t('habitDetail.progressSinceStart')}>
           <ProgressComparison habit={habit} referenceDate={today} />
         </section>
       )}
 
       {/* Stats */}
       {stats && (
-        <section className="habit-detail__section" aria-label="Statistiques">
-          <h2 className="habit-detail__section-title">Cette semaine</h2>
+        <section className="habit-detail__section" aria-label={t('habitDetail.statistics')}>
+          <h2 className="habit-detail__section-title">{t('habitDetail.thisWeek')}</h2>
           <StatsCards stats={stats} unit={habit.unit} />
         </section>
       )}
 
       {/* Graphique de progression */}
-      <section className="habit-detail__section" aria-label="Graphique de progression">
+      <section className="habit-detail__section" aria-label={t('habitDetail.progressChart')}>
         <ProgressChart habit={habit} entries={entries} referenceDate={today} />
       </section>
 
       {/* Calendrier */}
-      <section className="habit-detail__section" aria-label="Calendrier">
-        <h2 className="habit-detail__section-title">Activité récente</h2>
+      <section className="habit-detail__section" aria-label={t('habitDetail.calendar')}>
+        <h2 className="habit-detail__section-title">{t('habitDetail.recentActivity')}</h2>
         <WeeklyCalendar entries={entries} referenceDate={today} direction={habit.direction} />
       </section>
 
       {/* Infos */}
-      <section className="habit-detail__section" aria-label="Informations">
-        <h2 className="habit-detail__section-title">Détails</h2>
+      <section className="habit-detail__section" aria-label={t('habitDetail.information')}>
+        <h2 className="habit-detail__section-title">{t('habitDetail.details')}</h2>
         <Card variant="default" className="habit-detail__info-card">
           <div className="habit-detail__info-row">
-            <span className="habit-detail__info-label">Valeur de départ</span>
+            <span className="habit-detail__info-label">{t('habitDetail.info.startValue')}</span>
             <span className="habit-detail__info-value">
               {habit.startValue} {habit.unit}
             </span>
           </div>
           {habit.targetValue !== undefined && (
             <div className="habit-detail__info-row">
-              <span className="habit-detail__info-label">Objectif final</span>
+              <span className="habit-detail__info-label">{t('habitDetail.info.targetValue')}</span>
               <span className="habit-detail__info-value">
                 {habit.targetValue} {habit.unit}
               </span>
@@ -246,22 +241,24 @@ function HabitDetail() {
           )}
           {habit.progression && (
             <div className="habit-detail__info-row">
-              <span className="habit-detail__info-label">Progression</span>
+              <span className="habit-detail__info-label">{t('habitDetail.info.progression')}</span>
               <span className="habit-detail__info-value">
                 {habit.direction === 'decrease' ? '-' : '+'}
                 {habit.progression.value}
                 {habit.progression.mode === 'percentage' ? '%' : ` ${habit.unit}`}/
-                {habit.progression.period === 'daily' ? 'jour' : 'semaine'}
+                {habit.progression.period === 'daily'
+                  ? t('createHabit.form.day').toLowerCase()
+                  : t('createHabit.form.week').toLowerCase()}
               </span>
             </div>
           )}
           <div className="habit-detail__info-row">
-            <span className="habit-detail__info-label">Créée le</span>
+            <span className="habit-detail__info-label">{t('habitDetail.info.createdAt')}</span>
             <span className="habit-detail__info-value">{formatDate(habit.createdAt)}</span>
           </div>
           {habit.archivedAt && (
             <div className="habit-detail__info-row">
-              <span className="habit-detail__info-label">Archivée le</span>
+              <span className="habit-detail__info-label">{t('habitDetail.info.archivedAt')}</span>
               <span className="habit-detail__info-value">{formatDate(habit.archivedAt)}</span>
             </div>
           )}
@@ -272,40 +269,40 @@ function HabitDetail() {
       <section className="habit-detail__actions">
         {isArchived ? (
           <Button variant="primary" fullWidth onClick={handleRestore}>
-            Restaurer cette habitude
+            {t('habitDetail.actions.restore')}
           </Button>
         ) : (
           <>
             <Button variant="secondary" fullWidth onClick={() => setShowShareModal(true)}>
-              Partager ma progression
+              {t('habitDetail.actions.share')}
             </Button>
             <Button variant="secondary" fullWidth onClick={handleEdit}>
-              Modifier
+              {t('habitDetail.actions.edit')}
             </Button>
             {isPaused ? (
               <Button variant="primary" fullWidth onClick={handleEndPause}>
-                {PLANNED_PAUSE.resumeButton}
+                {t('habitDetail.actions.resume')}
               </Button>
             ) : (
               <Button variant="ghost" fullWidth onClick={() => setShowPauseDialog(true)}>
-                {PLANNED_PAUSE.buttonLabel}
+                {t('habitDetail.actions.pause')}
               </Button>
             )}
             {!showArchiveConfirm ? (
               <Button variant="ghost" fullWidth onClick={() => setShowArchiveConfirm(true)}>
-                Archiver
+                {t('habitDetail.actions.archive')}
               </Button>
             ) : (
               <Card variant="default" className="habit-detail__confirm-archive">
                 <p className="habit-detail__confirm-text">
-                  Tu pourras la restaurer plus tard si tu le souhaites.
+                  {t('habitDetail.confirmArchive.message')}
                 </p>
                 <div className="habit-detail__confirm-buttons">
                   <Button variant="ghost" onClick={() => setShowArchiveConfirm(false)}>
-                    Annuler
+                    {t('common.cancel')}
                   </Button>
                   <Button variant="primary" onClick={handleArchive}>
-                    Confirmer
+                    {t('common.confirm')}
                   </Button>
                 </div>
               </Card>
