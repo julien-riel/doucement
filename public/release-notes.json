@@ -1,6 +1,21 @@
 {
-  "currentVersion": "1.18.0",
+  "currentVersion": "1.18.1",
   "releases": [
+    {
+      "version": "1.18.1",
+      "date": "2026-01-12",
+      "title": "Tests et polish",
+      "highlights": [
+        {
+          "emoji": "check",
+          "text": "Tests E2E carrousel et tri"
+        },
+        {
+          "emoji": "check",
+          "text": "Tests E2E changement type et cumul"
+        }
+      ]
+    },
     {
       "version": "1.18.0",
       "date": "2026-01-12",

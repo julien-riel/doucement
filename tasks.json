@@ -2,7 +2,7 @@
   "project": "Améliorations UX et Habitudes Prioritaires",
   "description": "15 améliorations UX : tri logique, carrousel, changement type, nouvelles habitudes avec sources",
   "createdAt": "2026-01-12",
-  "lastRelease": "1.18.0",
+  "lastRelease": "1.18.1",
   "docs": [
     "docs/prd-ux-improvements.md",
     "docs/design/design-system-specification.md",
@@ -487,6 +487,8 @@
       "description": "Tests E2E et vérifications finales",
       "status": "completed",
       "completedAt": "2026-01-12",
+      "releasedAs": "1.18.1",
+      "releasedAt": "2026-01-12",
       "releaseType": "patch",
       "tasks": [
         {
