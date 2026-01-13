@@ -803,6 +803,10 @@
     "hint": "Optionnel. Quand préfères-tu faire cette habitude ?",
     "none": "Non défini"
   },
+  "habitCard": {
+    "progressionIncrease": "Tu en étais à {{startValue}}. +{{diff}} aujourd'hui !",
+    "progressionDecrease": "Objectif : -{{diff}} depuis le début"
+  },
   "daysOfWeek": {
     "short": {
       "mon": "lun.",

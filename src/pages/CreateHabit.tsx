@@ -2,7 +2,15 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppData } from '../hooks'
-import { Button, Input, EmojiPicker, HabitCarousel, TimeOfDaySelector } from '../components/ui'
+import {
+  Button,
+  Input,
+  EmojiPicker,
+  HabitCarousel,
+  TimeOfDaySelector,
+  FilterChips,
+  FilterOption,
+} from '../components/ui'
 import {
   StepIntentions,
   HabitAnchorSelector,
@@ -120,6 +128,48 @@ function CreateHabit() {
   const categories = useMemo(() => {
     return Object.keys(HABIT_CATEGORIES) as HabitCategory[]
   }, [])
+
+  // Memoized filter options for FilterChips
+  const categoryOptions = useMemo<FilterOption<HabitCategory>[]>(() => {
+    return categories.map((cat) => ({
+      value: cat,
+      label: HABIT_CATEGORIES[cat].name,
+      emoji: HABIT_CATEGORIES[cat].emoji,
+    }))
+  }, [categories])
+
+  const difficultyOptions = useMemo<FilterOption<HabitDifficulty>[]>(() => {
+    return [
+      { value: 'easy', label: t('habits.difficulty.easy') },
+      { value: 'moderate', label: t('habits.difficulty.moderate') },
+      { value: 'challenging', label: t('habits.difficulty.challenging') },
+    ]
+  }, [t])
+
+  const timeOfDayOptions = useMemo<FilterOption<TimeOfDay>[]>(() => {
+    return [
+      {
+        value: 'morning',
+        label: t('habits.timeOfDay.morning'),
+        emoji: t('habits.timeOfDayEmojis.morning'),
+      },
+      {
+        value: 'afternoon',
+        label: t('habits.timeOfDay.afternoon'),
+        emoji: t('habits.timeOfDayEmojis.afternoon'),
+      },
+      {
+        value: 'evening',
+        label: t('habits.timeOfDay.evening'),
+        emoji: t('habits.timeOfDayEmojis.evening'),
+      },
+      {
+        value: 'night',
+        label: t('habits.timeOfDay.night'),
+        emoji: t('habits.timeOfDayEmojis.night'),
+      },
+    ]
+  }, [t])
 
   const filteredSuggestions = useMemo(() => {
     let filtered = suggestedHabits
@@ -349,103 +399,33 @@ function CreateHabit() {
         <p className="step-choose__section-desc">{t('createHabit.highImpact.description')}</p>
 
         {/* Category filters */}
-        <div className="step-choose__filters">
-          <button
-            type="button"
-            className={`step-choose__filter ${activeCategory === 'all' ? 'step-choose__filter--active' : ''}`}
-            onClick={() => setActiveCategory('all')}
-          >
-            {t('createHabit.top6')}
-          </button>
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              className={`step-choose__filter ${activeCategory === cat ? 'step-choose__filter--active' : ''}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              <span className="step-choose__filter-emoji">{HABIT_CATEGORIES[cat].emoji}</span>
-              <span className="step-choose__filter-name">{HABIT_CATEGORIES[cat].name}</span>
-            </button>
-          ))}
-        </div>
+        <FilterChips
+          options={categoryOptions}
+          value={activeCategory}
+          onChange={setActiveCategory}
+          allLabel={t('createHabit.top6')}
+          className="step-choose__filters"
+        />
 
         {/* Difficulty filters */}
-        <div className="step-choose__filters step-choose__filters--secondary">
-          <button
-            type="button"
-            className={`step-choose__filter ${activeDifficulty === 'all' ? 'step-choose__filter--active' : ''}`}
-            onClick={() => setActiveDifficulty('all')}
-          >
-            {t('habits.difficulty.all')}
-          </button>
-          <button
-            type="button"
-            className={`step-choose__filter ${activeDifficulty === 'easy' ? 'step-choose__filter--active' : ''}`}
-            onClick={() => setActiveDifficulty('easy')}
-          >
-            {t('habits.difficulty.easy')}
-          </button>
-          <button
-            type="button"
-            className={`step-choose__filter ${activeDifficulty === 'moderate' ? 'step-choose__filter--active' : ''}`}
-            onClick={() => setActiveDifficulty('moderate')}
-          >
-            {t('habits.difficulty.moderate')}
-          </button>
-          <button
-            type="button"
-            className={`step-choose__filter ${activeDifficulty === 'challenging' ? 'step-choose__filter--active' : ''}`}
-            onClick={() => setActiveDifficulty('challenging')}
-          >
-            {t('habits.difficulty.challenging')}
-          </button>
-        </div>
+        <FilterChips
+          options={difficultyOptions}
+          value={activeDifficulty}
+          onChange={setActiveDifficulty}
+          allLabel={t('habits.difficulty.all')}
+          variant="secondary"
+          className="step-choose__filters"
+        />
 
         {/* Time of day filters */}
-        <div className="step-choose__filters step-choose__filters--secondary">
-          <button
-            type="button"
-            className={`step-choose__filter ${activeTimeOfDay === 'all' ? 'step-choose__filter--active' : ''}`}
-            onClick={() => setActiveTimeOfDay('all')}
-          >
-            {t('habits.timeOfDay.all')}
-          </button>
-          <button
-            type="button"
-            className={`step-choose__filter ${activeTimeOfDay === 'morning' ? 'step-choose__filter--active' : ''}`}
-            onClick={() => setActiveTimeOfDay('morning')}
-          >
-            <span className="step-choose__filter-emoji">{t('habits.timeOfDayEmojis.morning')}</span>
-            <span className="step-choose__filter-name">{t('habits.timeOfDay.morning')}</span>
-          </button>
-          <button
-            type="button"
-            className={`step-choose__filter ${activeTimeOfDay === 'afternoon' ? 'step-choose__filter--active' : ''}`}
-            onClick={() => setActiveTimeOfDay('afternoon')}
-          >
-            <span className="step-choose__filter-emoji">
-              {t('habits.timeOfDayEmojis.afternoon')}
-            </span>
-            <span className="step-choose__filter-name">{t('habits.timeOfDay.afternoon')}</span>
-          </button>
-          <button
-            type="button"
-            className={`step-choose__filter ${activeTimeOfDay === 'evening' ? 'step-choose__filter--active' : ''}`}
-            onClick={() => setActiveTimeOfDay('evening')}
-          >
-            <span className="step-choose__filter-emoji">{t('habits.timeOfDayEmojis.evening')}</span>
-            <span className="step-choose__filter-name">{t('habits.timeOfDay.evening')}</span>
-          </button>
-          <button
-            type="button"
-            className={`step-choose__filter ${activeTimeOfDay === 'night' ? 'step-choose__filter--active' : ''}`}
-            onClick={() => setActiveTimeOfDay('night')}
-          >
-            <span className="step-choose__filter-emoji">{t('habits.timeOfDayEmojis.night')}</span>
-            <span className="step-choose__filter-name">{t('habits.timeOfDay.night')}</span>
-          </button>
-        </div>
+        <FilterChips
+          options={timeOfDayOptions}
+          value={activeTimeOfDay}
+          onChange={setActiveTimeOfDay}
+          allLabel={t('habits.timeOfDay.all')}
+          variant="secondary"
+          className="step-choose__filters"
+        />
 
         {/* Result count */}
         <p className="step-choose__result-count">

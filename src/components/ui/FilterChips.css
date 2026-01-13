@@ -1,0 +1,88 @@
+/**
+ * FilterChips Component Styles
+ *
+ * Composant de filtres horizontaux scrollables avec chips.
+ * Conforme au design system Doucement (Soft Organic).
+ */
+
+.filter-chips {
+  display: flex;
+  gap: var(--spacing-2);
+  overflow-x: auto;
+  padding-bottom: var(--spacing-2);
+  margin-bottom: calc(-1 * var(--spacing-2));
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neutral-300) transparent;
+}
+
+.filter-chips::-webkit-scrollbar {
+  height: 4px;
+}
+
+.filter-chips::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.filter-chips::-webkit-scrollbar-thumb {
+  background: var(--neutral-300);
+  border-radius: var(--radius-full);
+}
+
+/* Variante secondaire (espacement) */
+.filter-chips--secondary {
+  margin-top: var(--spacing-2);
+}
+
+/* Chip button */
+.filter-chips__chip {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-full);
+  background: var(--neutral-0);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-height: 44px;
+  transition:
+    background var(--duration-fast) var(--easing-gentle),
+    border-color var(--duration-fast) var(--easing-gentle),
+    color var(--duration-fast) var(--easing-gentle);
+}
+
+.filter-chips__chip:hover {
+  border-color: var(--primary-300);
+  color: var(--primary-600);
+}
+
+.filter-chips__chip:focus-visible {
+  outline: 2px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+.filter-chips__chip--active {
+  background: var(--primary-500);
+  border-color: var(--primary-500);
+  color: white;
+}
+
+.filter-chips__chip--active:hover {
+  background: var(--primary-600);
+  border-color: var(--primary-600);
+  color: white;
+}
+
+/* Emoji et label */
+.filter-chips__emoji {
+  font-size: var(--text-base);
+}
+
+.filter-chips__label {
+  font-size: var(--text-sm);
+}

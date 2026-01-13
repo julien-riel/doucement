@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Habit, CompletionStatus, CounterOperation } from '../../types'
-import {
-  HABIT_STACKING,
-  DECREASE_ZERO_MESSAGES,
-  DECREASE_ZERO_BADGE,
-  DECREASE_SUCCESS_BADGE,
-  randomMessage,
-} from '../../constants/messages'
+import { randomMessage } from '../../constants/messages'
 import { buildIntentionText, WeeklyProgressInfo } from '../../utils/habitDisplay'
 import Card from '../ui/Card'
 import CheckInButtons from './CheckInButtons'
@@ -45,7 +40,11 @@ export interface HabitCardProps {
 /**
  * Messages de progression selon la direction de l'habitude
  */
-function getProgressionMessage(habit: Habit, targetDose: number): string | null {
+function getProgressionMessage(
+  habit: Habit,
+  targetDose: number,
+  t: (key: string, options?: Record<string, unknown>) => string
+): string | null {
   if (habit.direction === 'maintain') {
     return null
   }
@@ -56,9 +55,9 @@ function getProgressionMessage(habit: Habit, targetDose: number): string | null 
   }
 
   if (habit.direction === 'increase') {
-    return `Tu en étais à ${habit.startValue}. +${diff} aujourd'hui !`
+    return t('habitCard.progressionIncrease', { startValue: habit.startValue, diff })
   }
-  return `Objectif : -${diff} depuis le début`
+  return t('habitCard.progressionDecrease', { diff })
 }
 
 /**
@@ -118,8 +117,9 @@ function HabitCard({
   onCounterUndo,
   onCumulativeUndo,
 }: HabitCardProps) {
+  const { t } = useTranslation()
   const [celebrating, setCelebrating] = useState(false)
-  const progressionMessage = getProgressionMessage(habit, targetDose)
+  const progressionMessage = getProgressionMessage(habit, targetDose, t)
   const cardVariant = getCardVariant(status)
   const intentionText = buildIntentionText(habit)
   const isWeekly = habit.trackingFrequency === 'weekly'
@@ -157,7 +157,7 @@ function HabitCard({
               <span className="habit-card__dose-value">
                 {weeklyProgress.completedDays}/{weeklyProgress.weeklyTarget}
               </span>
-              <span className="habit-card__dose-unit">cette semaine</span>
+              <span className="habit-card__dose-unit">{t('habits.thisWeek')}</span>
             </>
           ) : (
             <>
@@ -173,7 +173,7 @@ function HabitCard({
         <div className="habit-card__intention">
           {anchorHabitName && (
             <p className="habit-card__anchor">
-              <span className="habit-card__anchor-label">{HABIT_STACKING.afterLabel}</span>
+              <span className="habit-card__anchor-label">{t('habitStacking.afterLabel')}</span>
               {anchorHabitName}
             </p>
           )}
@@ -191,20 +191,22 @@ function HabitCard({
           <span className="habit-card__status-value">
             {currentValue} / {targetDose} {habit.unit}
             {habit.entryMode === 'cumulative' && (
-              <span className="habit-card__cumulative-indicator"> (cumul)</span>
+              <span className="habit-card__cumulative-indicator"> {t('checkIn.cumulative')}</span>
             )}
           </span>
           {/* Pour les habitudes decrease: exceeded = on a fait MOINS que la cible = victoire */}
           {status === 'exceeded' && habit.direction === 'decrease' && (
             <span className="habit-card__status-badge habit-card__status-badge--decrease-success">
-              {DECREASE_SUCCESS_BADGE}
+              {t('decreaseMessages.successBadge')}
             </span>
           )}
           {/* Pour les habitudes increase: exceeded = on a fait PLUS que la cible */}
           {status === 'exceeded' && habit.direction !== 'decrease' && (
-            <span className="habit-card__status-badge">Dépassé !</span>
+            <span className="habit-card__status-badge">{t('checkIn.exceeded')}</span>
           )}
-          {status === 'completed' && <span className="habit-card__status-badge">Complété</span>}
+          {status === 'completed' && (
+            <span className="habit-card__status-badge">{t('checkIn.completed')}</span>
+          )}
         </div>
       )}
 
@@ -215,10 +217,10 @@ function HabitCard({
         currentValue === 0 && (
           <div className="habit-card__status habit-card__status--zero-victory">
             <span className="habit-card__status-value habit-card__status-value--zero">
-              {randomMessage(DECREASE_ZERO_MESSAGES)}
+              {randomMessage(t('decreaseMessages.zero', { returnObjects: true }) as string[])}
             </span>
             <span className="habit-card__status-badge habit-card__status-badge--zero">
-              {DECREASE_ZERO_BADGE}
+              {t('decreaseMessages.zeroBadge')}
             </span>
           </div>
         )}

@@ -27,3 +27,6 @@ export type { TimeOfDaySelectorProps } from './TimeOfDaySelector'
 
 export { default as DifficultyBadge } from './DifficultyBadge'
 export type { DifficultyBadgeProps } from './DifficultyBadge'
+
+export { default as FilterChips } from './FilterChips'
+export type { FilterChipsProps, FilterOption } from './FilterChips'

@@ -113,7 +113,8 @@
           "id": "2.3",
           "name": "Créer composant FilterChips réutilisable",
           "description": "Extraire la logique des chips de filtre dans un composant réutilisable pour simplifier le code de CreateHabit.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "low",
           "dependsOn": ["2.2"],
           "files": ["src/components/ui/FilterChips.tsx", "src/components/ui/FilterChips.css", "src/pages/CreateHabit.tsx"],
@@ -192,7 +193,8 @@
           "id": "3.4",
           "name": "Migrer composants secondaires",
           "description": "Continuer la migration vers useTranslation pour les composants restants: onboarding, modals, cards, etc.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "medium",
           "dependsOn": ["3.3"],
           "files": [
@@ -326,9 +328,9 @@
   ],
   "stats": {
     "totalTasks": 16,
-    "completed": 9,
+    "completed": 11,
     "inProgress": 0,
-    "pending": 7,
+    "pending": 5,
     "blocked": 0
   }
 }

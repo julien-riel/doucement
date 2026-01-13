@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { SuggestedHabit, EVIDENCE_LABELS } from '../../constants/suggestedHabits'
+import { useTranslation } from 'react-i18next'
+import { SuggestedHabit } from '../../constants/suggestedHabits'
 import { Card, DifficultyBadge, Button } from '../ui'
 import SourcesModal from '../SourcesModal'
 import './SuggestedHabitCard.css'
@@ -20,6 +21,7 @@ function SuggestedHabitCard({
   onSelect,
   compact = false,
 }: SuggestedHabitCardProps) {
+  const { t } = useTranslation()
   const [showSourcesModal, setShowSourcesModal] = useState(false)
 
   const handleClick = () => {
@@ -86,12 +88,15 @@ function SuggestedHabitCard({
               ))}
             </div>
             <span className="suggested-habit-card__evidence">
-              Preuve : {EVIDENCE_LABELS[habit.evidenceLevel]}
+              {t('suggestedHabits.evidence')} :{' '}
+              {t(`suggestedHabits.evidenceLevels.${habit.evidenceLevel}`)}
             </span>
           </div>
 
           <div className="suggested-habit-card__dose">
-            <span className="suggested-habit-card__dose-label">Dose de départ :</span>
+            <span className="suggested-habit-card__dose-label">
+              {t('suggestedHabits.startDose')} :
+            </span>
             <span className="suggested-habit-card__dose-value">
               {habit.startValue} {habit.unit}
             </span>
@@ -101,7 +106,7 @@ function SuggestedHabitCard({
           {habit.sources && habit.sources.length > 0 && (
             <div className="suggested-habit-card__sources-btn">
               <Button variant="ghost" size="small" onClick={handleSourcesClick}>
-                En savoir plus
+                {t('common.seeMore')}
               </Button>
             </div>
           )}
