@@ -2,7 +2,7 @@
   "project": "Filtres de suggestions et Internationalisation",
   "description": "Bug fix carrousel, filtres avancés pour suggestions, et support multi-langues",
   "createdAt": "2026-01-12",
-  "lastRelease": "1.18.2",
+  "lastRelease": "1.18.3",
   "docs": [
     "docs/prd-filtres-i18n.md",
     "docs/design/design-system-specification.md"
@@ -12,8 +12,10 @@
       "id": "phase-1",
       "name": "Phase 1 - Bug fix et amélioration catégories",
       "description": "Corriger le bug du carrousel et afficher les noms de catégories",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
+      "releasedAs": "1.18.3",
+      "releasedAt": "2026-01-12",
       "tasks": [
         {
           "id": "1.1",

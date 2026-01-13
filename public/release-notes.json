@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.18.2",
+  "currentVersion": "1.18.3",
   "releases": [
+    {
+      "version": "1.18.3",
+      "date": "2026-01-12",
+      "title": "Bug fix et amélioration catégories",
+      "highlights": [
+        {
+          "emoji": "bug",
+          "text": "Réinitialiser carrousel au changement de filtre"
+        },
+        {
+          "emoji": "paint",
+          "text": "Afficher nom des catégories dans les filtres"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Ajouter compteur de résultats"
+        }
+      ]
+    },
     {
       "version": "1.18.2",
       "date": "2026-01-12",
