@@ -1,6 +1,21 @@
 {
-  "currentVersion": "1.22.0",
+  "currentVersion": "1.23.0",
   "releases": [
+    {
+      "version": "1.23.0",
+      "date": "2026-01-13",
+      "title": "Phase 4 - Plan d'action",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Prioriser les recommandations"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Créer roadmap de refonte"
+        }
+      ]
+    },
     {
       "version": "1.22.0",
       "date": "2026-01-13",

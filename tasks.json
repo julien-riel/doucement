@@ -2,7 +2,7 @@
   "project": "Audit de Maturité Multi-Dimensionnel",
   "description": "Bilan de santé complet du projet avec matrice de maturité scorée selon 8 dimensions de qualité",
   "createdAt": "2026-01-13",
-  "lastRelease": "1.22.0",
+  "lastRelease": "1.23.0",
   "docs": [
     "docs/prd-audit-maturite.md",
     "docs/prd.md",
@@ -237,6 +237,8 @@
       "description": "Élaboration du plan d'action basé sur les résultats de l'audit",
       "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.23.0",
+      "releasedAt": "2026-01-13",
       "tasks": [
         {
           "id": "4.1",
