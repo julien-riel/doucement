@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './base-test'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -17,6 +17,7 @@ test.describe('Page Statistiques', () => {
 
       await page.addInitScript((data) => {
         localStorage.clear()
+        localStorage.setItem('doucement-language', 'fr')
         localStorage.setItem('doucement_data', JSON.stringify(data))
       }, testData)
 
@@ -49,6 +50,7 @@ test.describe('Page Statistiques', () => {
 
       await page.addInitScript((data) => {
         localStorage.clear()
+        localStorage.setItem('doucement-language', 'fr')
         localStorage.setItem('doucement_data', JSON.stringify(data))
       }, testData)
 
@@ -92,6 +94,7 @@ test.describe('Page Statistiques', () => {
 
       await page.addInitScript((data) => {
         localStorage.clear()
+        localStorage.setItem('doucement-language', 'fr')
         localStorage.setItem('doucement_data', JSON.stringify(data))
       }, testData)
 
@@ -147,6 +150,7 @@ test.describe('Page Statistiques', () => {
 
       await page.addInitScript((data) => {
         localStorage.clear()
+        localStorage.setItem('doucement-language', 'fr')
         localStorage.setItem('doucement_data', JSON.stringify(data))
       }, testData)
 
@@ -171,6 +175,7 @@ test.describe('Page Statistiques', () => {
 
       await page.addInitScript((data) => {
         localStorage.clear()
+        localStorage.setItem('doucement-language', 'fr')
         localStorage.setItem('doucement_data', JSON.stringify(data))
       }, testData)
 
@@ -222,6 +227,7 @@ test.describe('Page Statistiques', () => {
 
       await page.addInitScript((data) => {
         localStorage.clear()
+        localStorage.setItem('doucement-language', 'fr')
         localStorage.setItem('doucement_data', JSON.stringify(data))
       }, testData)
 
@@ -318,6 +324,7 @@ test.describe('Page Statistiques', () => {
 
       await page.addInitScript((data) => {
         localStorage.clear()
+        localStorage.setItem('doucement-language', 'fr')
         localStorage.setItem('doucement_data', JSON.stringify(data))
       }, testData)
 
@@ -335,6 +342,7 @@ test.describe('Page Statistiques', () => {
 
       await page.addInitScript((data) => {
         localStorage.clear()
+        localStorage.setItem('doucement-language', 'fr')
         localStorage.setItem('doucement_data', JSON.stringify(data))
       }, testData)
 

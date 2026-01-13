@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { DailyEntry, CompletionStatus, HabitDirection } from '../../types'
 import { getCompletionStatus } from '../../services/progression'
 import { addDays } from '../../utils'
@@ -21,14 +22,9 @@ interface DayData {
 }
 
 /**
- * Noms des jours (abrégés)
- */
-const DAY_NAMES = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
-
-/**
  * Génère les 7 derniers jours à partir de la date de référence
  */
-function getLast7Days(referenceDate: string): DayData[] {
+function getLast7Days(referenceDate: string, dayNames: string[]): DayData[] {
   const days: DayData[] = []
 
   for (let i = 6; i >= 0; i--) {
@@ -39,7 +35,7 @@ function getLast7Days(referenceDate: string): DayData[] {
 
     days.push({
       date: dateStr,
-      dayName: DAY_NAMES[date.getDay()],
+      dayName: dayNames[date.getDay()],
       dayNumber: date.getDate(),
       status: 'empty',
     })
@@ -53,8 +49,11 @@ function getLast7Days(referenceDate: string): DayData[] {
  * Affiche les 7 derniers jours avec indicateur de complétion
  */
 function WeeklyCalendar({ entries, referenceDate, direction }: WeeklyCalendarProps) {
+  const { t } = useTranslation()
+  const dayNames = t('habitDetail.weeklyCalendar.dayNames', { returnObjects: true }) as string[]
+
   const days = useMemo(() => {
-    const baseDays = getLast7Days(referenceDate)
+    const baseDays = getLast7Days(referenceDate, dayNames)
 
     return baseDays.map((day) => {
       const entry = entries.find((e) => e.date === day.date)
@@ -63,10 +62,18 @@ function WeeklyCalendar({ entries, referenceDate, direction }: WeeklyCalendarPro
       }
       return day
     })
-  }, [entries, referenceDate, direction])
+  }, [entries, referenceDate, direction, dayNames])
+
+  const getStatusLabel = (status: CompletionStatus | 'empty'): string => {
+    return t(`habitDetail.weeklyCalendar.status.${status}`)
+  }
 
   return (
-    <div className="weekly-calendar" role="group" aria-label="Activité de la semaine">
+    <div
+      className="weekly-calendar"
+      role="group"
+      aria-label={t('habitDetail.weeklyCalendar.ariaLabel')}
+    >
       {days.map((day) => (
         <div
           key={day.date}
@@ -100,25 +107,6 @@ function getStatusIcon(status: CompletionStatus | 'empty'): string {
     case 'empty':
     default:
       return '·'
-  }
-}
-
-/**
- * Retourne le label accessible selon le statut
- */
-function getStatusLabel(status: CompletionStatus | 'empty'): string {
-  switch (status) {
-    case 'exceeded':
-      return 'Dépassé'
-    case 'completed':
-      return 'Complété'
-    case 'partial':
-      return 'Partiel'
-    case 'pending':
-      return 'En attente'
-    case 'empty':
-    default:
-      return "Pas d'activité"
   }
 }
 

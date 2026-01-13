@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './base-test';
 
 /**
  * Tests E2E pour les habitudes decrease avec saisie de zéro

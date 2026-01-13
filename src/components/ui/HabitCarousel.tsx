@@ -7,6 +7,7 @@ import {
   cloneElement,
   isValidElement,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import './HabitCarousel.css'
 
 export interface HabitCarouselProps {
@@ -34,8 +35,9 @@ function HabitCarousel({
   itemsPerViewDesktop = 2,
   itemsPerViewMobile = 1,
   className = '',
-  ariaLabel = "Carrousel d'habitudes",
+  ariaLabel,
 }: HabitCarouselProps) {
+  const { t } = useTranslation()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
@@ -150,11 +152,13 @@ function HabitCarousel({
     return null
   }
 
+  const effectiveAriaLabel = ariaLabel || t('carousel.habitCarouselLabel')
+
   return (
     <div
       className={`habit-carousel ${className}`}
       ref={containerRef}
-      aria-label={ariaLabel}
+      aria-label={effectiveAriaLabel}
       role="region"
     >
       {/* Flèche gauche (desktop) */}
@@ -163,7 +167,7 @@ function HabitCarousel({
           className={`habit-carousel__arrow habit-carousel__arrow--prev ${!canGoPrev ? 'habit-carousel__arrow--disabled' : ''}`}
           onClick={goToPrev}
           disabled={!canGoPrev}
-          aria-label="Précédent"
+          aria-label={t('carousel.previous')}
         >
           ‹
         </button>
@@ -201,7 +205,7 @@ function HabitCarousel({
           className={`habit-carousel__arrow habit-carousel__arrow--next ${!canGoNext ? 'habit-carousel__arrow--disabled' : ''}`}
           onClick={goToNext}
           disabled={!canGoNext}
-          aria-label="Suivant"
+          aria-label={t('carousel.next')}
         >
           ›
         </button>
@@ -209,7 +213,11 @@ function HabitCarousel({
 
       {/* Points de pagination */}
       {totalPages > 1 && (
-        <div className="habit-carousel__pagination" role="tablist" aria-label="Pages du carrousel">
+        <div
+          className="habit-carousel__pagination"
+          role="tablist"
+          aria-label={t('carousel.pagesLabel')}
+        >
           {Array.from({ length: totalPages }).map((_, index) => (
             <button
               key={index}
@@ -217,7 +225,7 @@ function HabitCarousel({
               onClick={() => goToPage(index)}
               role="tab"
               aria-selected={currentPage === index}
-              aria-label={`Page ${index + 1} sur ${totalPages}`}
+              aria-label={t('carousel.pageInfo', { current: index + 1, total: totalPages })}
             />
           ))}
         </div>

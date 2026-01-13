@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './base-test';
 
 /**
  * Tests E2E pour vérifier que le habit stacking n'est pas proposé
@@ -10,6 +10,7 @@ test.describe('Habitude decrease - pas de habit stacking', () => {
     // Créer des données avec une habitude existante pour pouvoir tester le stacking
     await page.addInitScript(() => {
       localStorage.clear();
+      localStorage.setItem('doucement-language', 'fr');
       localStorage.setItem('doucement_data', JSON.stringify({
         schemaVersion: 7,
         habits: [

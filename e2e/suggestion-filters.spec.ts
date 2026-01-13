@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './base-test';
 
 /**
  * Tests E2E pour les filtres de suggestions d'habitudes
@@ -10,6 +10,7 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
     // Injecter le localStorage AVANT que la page charge pour éviter la redirection vers onboarding
     await page.addInitScript(() => {
       localStorage.clear();
+      localStorage.setItem('doucement-language', 'fr');
       localStorage.setItem('doucement_data', JSON.stringify({
         schemaVersion: 3,
         habits: [],
@@ -73,7 +74,7 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
   test.describe('Filtres par difficulté', () => {
     test('affiche tous les filtres de difficulté', async ({ page }) => {
       // Vérifier les 4 filtres de difficulté
-      const difficultyFilters = page.locator('.step-choose__filters--secondary').first();
+      const difficultyFilters = page.locator('.step-choose__filters').nth(1);
       await expect(difficultyFilters.getByRole('button', { name: 'Tous' })).toBeVisible();
       await expect(difficultyFilters.getByRole('button', { name: 'Facile' })).toBeVisible();
       await expect(difficultyFilters.getByRole('button', { name: 'Modéré' })).toBeVisible();
@@ -85,7 +86,7 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
       await page.getByRole('button', { name: /🏃.*Mouvement/ }).click();
 
       // Cliquer sur Facile dans les filtres de difficulté
-      const difficultyFilters = page.locator('.step-choose__filters--secondary').first();
+      const difficultyFilters = page.locator('.step-choose__filters').nth(1);
       await difficultyFilters.getByRole('button', { name: 'Facile' }).click();
 
       // Vérifier que le filtre est actif
@@ -96,7 +97,7 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
     });
 
     test('filtre par difficulté Exigeant', async ({ page }) => {
-      const difficultyFilters = page.locator('.step-choose__filters--secondary').first();
+      const difficultyFilters = page.locator('.step-choose__filters').nth(1);
       await difficultyFilters.getByRole('button', { name: 'Exigeant' }).click();
 
       // Vérifier que le filtre est actif
@@ -107,13 +108,13 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
   test.describe('Filtres par moment de la journée', () => {
     test('affiche tous les filtres de moment avec emoji et nom', async ({ page }) => {
       // Les filtres de moment sont dans la deuxième ligne de filtres secondaires
-      const timeFilters = page.locator('.step-choose__filters--secondary').last();
+      const timeFilters = page.locator('.step-choose__filters').last();
 
       await expect(timeFilters.getByRole('button', { name: 'Tous' })).toBeVisible();
-      await expect(timeFilters.getByRole('button', { name: '🌅 Matin' })).toBeVisible();
-      await expect(timeFilters.getByRole('button', { name: '☀️ Après-midi' })).toBeVisible();
-      await expect(timeFilters.getByRole('button', { name: '🌙 Soir' })).toBeVisible();
-      await expect(timeFilters.getByRole('button', { name: '🌃 Nuit' })).toBeVisible();
+      await expect(timeFilters.getByRole('button', { name: /Matin/ })).toBeVisible();
+      await expect(timeFilters.getByRole('button', { name: /Après-midi/ })).toBeVisible();
+      await expect(timeFilters.getByRole('button', { name: /Soir/ })).toBeVisible();
+      await expect(timeFilters.getByRole('button', { name: /Nuit/ })).toBeVisible();
     });
 
     test('filtre par moment Matin', async ({ page }) => {
@@ -121,19 +122,19 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
       await page.getByRole('button', { name: /🏃.*Mouvement/ }).click();
 
       // Cliquer sur Matin
-      const timeFilters = page.locator('.step-choose__filters--secondary').last();
-      await timeFilters.getByRole('button', { name: '🌅 Matin' }).click();
+      const timeFilters = page.locator('.step-choose__filters').last();
+      await timeFilters.getByRole('button', { name: /Matin/ }).click();
 
       // Vérifier que le filtre est actif
-      await expect(timeFilters.getByRole('button', { name: '🌅 Matin' })).toHaveClass(/--active/);
+      await expect(timeFilters.getByRole('button', { name: /Matin/ })).toHaveClass(/--active/);
     });
 
     test('filtre par moment Soir', async ({ page }) => {
-      const timeFilters = page.locator('.step-choose__filters--secondary').last();
-      await timeFilters.getByRole('button', { name: '🌙 Soir' }).click();
+      const timeFilters = page.locator('.step-choose__filters').last();
+      await timeFilters.getByRole('button', { name: /Soir/ }).click();
 
       // Vérifier que le filtre est actif
-      await expect(timeFilters.getByRole('button', { name: '🌙 Soir' })).toHaveClass(/--active/);
+      await expect(timeFilters.getByRole('button', { name: /Soir/ })).toHaveClass(/--active/);
     });
   });
 
@@ -143,7 +144,7 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
       await page.getByRole('button', { name: /🏃.*Mouvement/ }).click();
 
       // Sélectionner difficulté Facile
-      const difficultyFilters = page.locator('.step-choose__filters--secondary').first();
+      const difficultyFilters = page.locator('.step-choose__filters').nth(1);
       await difficultyFilters.getByRole('button', { name: 'Facile' }).click();
 
       // Vérifier que les deux filtres sont actifs
@@ -159,12 +160,12 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
       await page.getByRole('button', { name: /😴.*Sommeil/ }).click();
 
       // Sélectionner moment Soir
-      const timeFilters = page.locator('.step-choose__filters--secondary').last();
-      await timeFilters.getByRole('button', { name: '🌙 Soir' }).click();
+      const timeFilters = page.locator('.step-choose__filters').last();
+      await timeFilters.getByRole('button', { name: /Soir/ }).click();
 
       // Vérifier que les deux filtres sont actifs
       await expect(page.getByRole('button', { name: /😴.*Sommeil/ })).toHaveClass(/--active/);
-      await expect(timeFilters.getByRole('button', { name: '🌙 Soir' })).toHaveClass(/--active/);
+      await expect(timeFilters.getByRole('button', { name: /Soir/ })).toHaveClass(/--active/);
     });
 
     test('combinaison triple : catégorie + difficulté + moment', async ({ page }) => {
@@ -172,17 +173,17 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
       await page.getByRole('button', { name: /🏃.*Mouvement/ }).click();
 
       // Sélectionner difficulté Facile
-      const difficultyFilters = page.locator('.step-choose__filters--secondary').first();
+      const difficultyFilters = page.locator('.step-choose__filters').nth(1);
       await difficultyFilters.getByRole('button', { name: 'Facile' }).click();
 
       // Sélectionner moment Matin
-      const timeFilters = page.locator('.step-choose__filters--secondary').last();
-      await timeFilters.getByRole('button', { name: '🌅 Matin' }).click();
+      const timeFilters = page.locator('.step-choose__filters').last();
+      await timeFilters.getByRole('button', { name: /Matin/ }).click();
 
       // Vérifier que les trois filtres sont actifs
       await expect(page.getByRole('button', { name: /🏃.*Mouvement/ })).toHaveClass(/--active/);
       await expect(difficultyFilters.getByRole('button', { name: 'Facile' })).toHaveClass(/--active/);
-      await expect(timeFilters.getByRole('button', { name: '🌅 Matin' })).toHaveClass(/--active/);
+      await expect(timeFilters.getByRole('button', { name: /Matin/ })).toHaveClass(/--active/);
 
       // Le compteur devrait être visible avec les résultats
       const resultCount = page.locator('.step-choose__result-count');
@@ -192,7 +193,7 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
     test('reset des filtres en revenant à Top 6', async ({ page }) => {
       // Appliquer des filtres
       await page.getByRole('button', { name: /🏃.*Mouvement/ }).click();
-      const difficultyFilters = page.locator('.step-choose__filters--secondary').first();
+      const difficultyFilters = page.locator('.step-choose__filters').nth(1);
       await difficultyFilters.getByRole('button', { name: 'Facile' }).click();
 
       // Revenir à Top 6
@@ -216,7 +217,7 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
       // Appliquer des filtres restrictifs pour avoir peu de résultats
       // Si on obtient 1 résultat, vérifier le singulier
       await page.getByRole('button', { name: /😴.*Sommeil/ }).click();
-      const difficultyFilters = page.locator('.step-choose__filters--secondary').first();
+      const difficultyFilters = page.locator('.step-choose__filters').nth(1);
       await difficultyFilters.getByRole('button', { name: 'Exigeant' }).click();
 
       // Vérifier que le compteur est mis à jour (peut être 0, 1 ou plus)
@@ -240,7 +241,7 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
       await expect(resultCount).toBeVisible();
 
       // Ajouter un filtre de difficulté
-      const difficultyFilters = page.locator('.step-choose__filters--secondary').first();
+      const difficultyFilters = page.locator('.step-choose__filters').nth(1);
       await difficultyFilters.getByRole('button', { name: 'Exigeant' }).click();
 
       // Le compteur devrait toujours être visible
@@ -271,7 +272,7 @@ test.describe('Filtres de suggestions d\'habitudes', () => {
       await expect(page.locator('.habit-carousel')).toBeVisible();
 
       // Changer la difficulté
-      const difficultyFilters = page.locator('.step-choose__filters--secondary').first();
+      const difficultyFilters = page.locator('.step-choose__filters').nth(1);
       await difficultyFilters.getByRole('button', { name: 'Facile' }).click();
 
       // Le carrousel devrait toujours être visible

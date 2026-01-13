@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Habit, DailyEntry } from '../../types'
 import { calculateHabitStats } from '../../services/progression'
 import { getCurrentDate, addDays } from '../../utils'
@@ -25,26 +26,11 @@ function getLast7Days(): { startDate: string; endDate: string } {
 }
 
 /**
- * Formate la direction en texte lisible
- */
-function getDirectionLabel(direction: Habit['direction']): string {
-  switch (direction) {
-    case 'increase':
-      return 'Augmenter'
-    case 'decrease':
-      return 'Réduire'
-    case 'maintain':
-      return 'Maintenir'
-    default:
-      return ''
-  }
-}
-
-/**
  * Item de liste d'habitude avec stats rapides
  * Affiche le nom, l'emoji, et les statistiques des 7 derniers jours
  */
 function HabitListItem({ habit, entries, onClick }: HabitListItemProps) {
+  const { t } = useTranslation()
   const { startDate, endDate } = getLast7Days()
   const stats = calculateHabitStats(habit, entries, startDate, endDate)
 
@@ -59,6 +45,8 @@ function HabitListItem({ habit, entries, onClick }: HabitListItemProps) {
     }
   }
 
+  const directionLabel = t(`habits.type.${habit.direction}`)
+
   return (
     <Card
       variant="default"
@@ -67,7 +55,7 @@ function HabitListItem({ habit, entries, onClick }: HabitListItemProps) {
       onKeyDown={handleKeyDown}
       role="button"
       tabIndex={0}
-      aria-label={`Voir les détails de ${habit.name}`}
+      aria-label={t('habitList.viewDetails', { name: habit.name })}
     >
       <div className="habit-list-item__content">
         <div className="habit-list-item__main">
@@ -77,7 +65,7 @@ function HabitListItem({ habit, entries, onClick }: HabitListItemProps) {
           <div className="habit-list-item__info">
             <h3 className="habit-list-item__name">{habit.name}</h3>
             <p className="habit-list-item__meta">
-              {getDirectionLabel(habit.direction)} · {habit.startValue} {habit.unit}
+              {directionLabel} · {habit.startValue} {habit.unit}
             </p>
           </div>
         </div>
@@ -85,13 +73,13 @@ function HabitListItem({ habit, entries, onClick }: HabitListItemProps) {
         <div className="habit-list-item__stats">
           <div className="habit-list-item__stat">
             <span className="habit-list-item__stat-value">{stats.activeDays}</span>
-            <span className="habit-list-item__stat-label">jours actifs</span>
+            <span className="habit-list-item__stat-label">{t('habitList.activeDays')}</span>
           </div>
           <div className="habit-list-item__stat">
             <span className="habit-list-item__stat-value">
               {Math.round(stats.averageCompletion)}%
             </span>
-            <span className="habit-list-item__stat-label">moyenne</span>
+            <span className="habit-list-item__stat-label">{t('habitList.average')}</span>
           </div>
         </div>
 

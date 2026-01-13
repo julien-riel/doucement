@@ -18,7 +18,15 @@
     "restore": "Restaurer",
     "archive": "Archiver",
     "share": "Partager",
-    "seeMore": "En savoir plus"
+    "seeMore": "En savoir plus",
+    "import": "Importer"
+  },
+  "carousel": {
+    "previous": "Précédent",
+    "next": "Suivant",
+    "pagesLabel": "Pages du carrousel",
+    "pageInfo": "Page {{current}} sur {{total}}",
+    "habitCarouselLabel": "Carrousel d'habitudes"
   },
   "navigation": {
     "today": "Aujourd'hui",
@@ -49,7 +57,13 @@
       "all": "Tous",
       "easy": "Facile",
       "moderate": "Modéré",
-      "challenging": "Exigeant"
+      "challenging": "Exigeant",
+      "label": "Difficulté",
+      "tooltips": {
+        "easy": "Idéal pour commencer doucement",
+        "moderate": "Demande un peu plus d'engagement",
+        "challenging": "Pour ceux qui aiment les défis"
+      }
     },
     "timeOfDay": {
       "all": "Tous",
@@ -77,13 +91,38 @@
     "shareProgress": "Partager ma progression",
     "confirmArchiveText": "Tu pourras la restaurer plus tard si tu le souhaites."
   },
+  "habitList": {
+    "title": "Mes habitudes",
+    "newHabit": "Nouvelle habitude",
+    "activeHabits": "Actives",
+    "active": "Actives",
+    "archivedHabits": "Archivées",
+    "archived": "Archivées",
+    "viewDetails": "Voir les détails de {{name}}",
+    "activeDays": "jours actifs",
+    "average": "moyenne"
+  },
   "createHabit": {
     "title": "Nouvelle habitude",
     "subtitle": {
       "choose": "Choisis une habitude à fort impact ou crée la tienne",
       "type": "Quel type d'habitude souhaitez-vous créer ?",
       "details": "Décrivez votre habitude",
+      "intentions": "Quand et où ?",
+      "identity": "Qui voulez-vous devenir ?",
       "confirm": "Vérifiez et confirmez"
+    },
+    "steps": {
+      "choose": "Choisis une habitude à fort impact ou crée la tienne",
+      "type": "Quel type d'habitude souhaitez-vous créer ?",
+      "details": "Décrivez votre habitude",
+      "intentions": "Quand et où ?",
+      "identity": "Qui voulez-vous devenir ?",
+      "confirm": "Vérifiez et confirmez"
+    },
+    "buttons": {
+      "preview": "Aperçu",
+      "create": "Créer l'habitude"
     },
     "highImpact": {
       "title": "Habitudes à fort impact",
@@ -283,6 +322,37 @@
     "notifications": "Notifications",
     "dataManagement": "Gestion des données",
     "about": "À propos",
+    "data": {
+      "title": "Tes données",
+      "activeHabits": "habitude active",
+      "activeHabits_plural": "habitudes actives",
+      "archivedHabits": "archivée",
+      "archivedHabits_plural": "archivées",
+      "entries": "entrée",
+      "entries_plural": "entrées",
+      "export": "Exporter mes données",
+      "import": "Importer des données",
+      "exportSuccess": "Export terminé. Tes données sont dans le fichier téléchargé.",
+      "exportError": "Erreur lors de l'export",
+      "selectFile": "Sélectionner un fichier"
+    },
+    "notifications": {
+      "title": "Rappels"
+    },
+    "appearance": {
+      "title": "Apparence",
+      "themeChoice": "Choix du thème",
+      "themes": {
+        "light": "Clair",
+        "dark": "Sombre",
+        "system": "Système"
+      },
+      "themeHints": {
+        "light": "Mode clair activé",
+        "dark": "Mode sombre activé",
+        "system": "Le thème suit les préférences de ton appareil"
+      }
+    },
     "sections": {
       "data": "Tes données",
       "notifications": "Rappels",
@@ -329,6 +399,7 @@
       }
     },
     "install": {
+      "title": "Installer l'application",
       "intro": "📱 Doucement peut être installée sur ton téléphone comme une vraie application, sans passer par un store.",
       "ios": {
         "title": "🍎 Sur iPhone / iPad (Safari)",
@@ -346,27 +417,53 @@
     },
     "backup": {
       "title": "💡 Sauvegarde régulièrement tes données !",
+      "warning": "Tes données sont uniquement stockées sur cet appareil.",
+      "explanation": "Si tu changes de téléphone, réinstalles l'app ou effaces le cache du navigateur, tu pourrais les perdre.",
+      "recommendation": "Recommandation : Exporte tes données une fois par semaine et garde le fichier dans un endroit sûr.",
+      "exportNow": "Exporter maintenant",
       "text1": "Tes données sont stockées uniquement sur cet appareil. Si tu changes de téléphone, réinstalles l'app ou effaces le cache du navigateur, tu pourrais les perdre.",
       "text2": "Recommandation : Exporte tes données une fois par semaine et garde le fichier dans un endroit sûr (cloud, email, ordinateur)."
+    },
+    "app": {
+      "title": "Application",
+      "replayOnboarding": "Revoir l'introduction"
+    },
+    "danger": {
+      "title": "Zone sensible",
+      "reset": "Réinitialiser l'application",
+      "warning": "Cette action supprimera toutes tes données. Elle est irréversible."
+    },
+    "debug": {
+      "activated": "Mode debug activé",
+      "deactivated": "Mode debug désactivé"
     },
     "reset": {
       "warning": "Cette action supprimera toutes tes données. Elle est irréversible."
     },
     "about": {
+      "title": "À propos",
       "description": "Doucement est une application conçue pour t'aider à améliorer tes habitudes progressivement, sans culpabilité.",
       "privacy": "Tes données restent sur ton appareil. Aucune information n'est collectée ni transmise.",
       "version": "Version {{version}}",
+      "versionLabel": "Version {{version}}",
+      "whatsNew": "Voir les nouveautés",
       "debugTapHint": "Tapez 7 fois pour activer le mode debug."
     },
     "modals": {
       "import": {
         "title": "Importer des données",
+        "text": "L'import remplacera toutes tes données actuelles par celles du fichier.",
         "warning": "L'import remplacera toutes tes données actuelles par celles du fichier.",
         "irreversible": "Cette action est irréversible. Pense à exporter tes données actuelles avant si tu veux les conserver.",
         "inProgress": "Import en cours...",
+        "importing": "Import en cours...",
         "button": "Importer",
         "successTitle": "✓ Import réussi",
         "failTitle": "Import échoué"
+      },
+      "importResult": {
+        "success": "✓ Import réussi",
+        "failed": "Import échoué"
       },
       "reset": {
         "title": "Réinitialiser l'application",
@@ -467,7 +564,10 @@
     "stats": {
       "completion": "Complétion cette semaine",
       "activeDays": "jours actifs",
-      "completedDays": "jours réussis"
+      "completedDays": "jours réussis",
+      "outOfDays": "sur {{count}} jours",
+      "successfulDays": "{{count}} jours réussis",
+      "progression": "progression"
     },
     "sections": {
       "activity": "Activité",
@@ -700,11 +800,41 @@
   },
   "habitDetail": {
     "back": "← Retour",
+    "backToList": "Retour à la liste",
+    "todayDose": "Dose du jour",
+    "progressSinceStart": "Progression depuis le début",
+    "statistics": "Statistiques",
+    "thisWeek": "Cette semaine",
+    "progressChart": "Graphique de progression",
+    "chart": {
+      "title": "Évolution",
+      "target": "Cible",
+      "achieved": "Réalisé",
+      "ariaLabel": "Graphique de progression sur {{days}} jours",
+      "max": "max",
+      "dayLabels": ["D", "L", "M", "M", "J", "V", "S"]
+    },
+    "calendar": "Calendrier",
+    "weeklyCalendar": {
+      "ariaLabel": "Activité de la semaine",
+      "dayNames": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+      "status": {
+        "exceeded": "Dépassé",
+        "completed": "Complété",
+        "partial": "Partiel",
+        "pending": "En attente",
+        "empty": "Pas d'activité"
+      }
+    },
+    "recentActivity": "Activité récente",
+    "information": "Informations",
+    "details": "Détails",
     "badges": {
       "increase": "Augmenter",
       "decrease": "Réduire",
       "maintain": "Maintenir",
-      "archived": "Archivée"
+      "archived": "Archivée",
+      "paused": "En pause"
     },
     "sections": {
       "thisWeek": "Cette semaine",
@@ -721,6 +851,14 @@
     "progressionFormat": {
       "daily": "jour",
       "weekly": "semaine"
+    },
+    "actions": {
+      "share": "Partager",
+      "edit": "Modifier",
+      "pause": "Mettre en pause",
+      "resume": "Reprendre",
+      "archive": "Archiver",
+      "restore": "Restaurer"
     }
   },
   "statistics": {

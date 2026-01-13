@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { HabitDifficulty } from '../../types'
 import './DifficultyBadge.css'
 
@@ -9,31 +10,12 @@ export interface DifficultyBadgeProps {
 }
 
 /**
- * Configuration pour chaque niveau de difficulté
+ * Configuration des icônes pour chaque niveau de difficulté
  */
-const DIFFICULTY_CONFIG: Record<
-  HabitDifficulty,
-  {
-    label: string
-    icon: string
-    tooltip: string
-  }
-> = {
-  easy: {
-    label: 'Facile',
-    icon: '🌱',
-    tooltip: 'Idéal pour commencer doucement',
-  },
-  moderate: {
-    label: 'Modéré',
-    icon: '🌿',
-    tooltip: "Demande un peu plus d'engagement",
-  },
-  challenging: {
-    label: 'Exigeant',
-    icon: '🌳',
-    tooltip: 'Pour ceux qui aiment les défis',
-  },
+const DIFFICULTY_ICONS: Record<HabitDifficulty, string> = {
+  easy: '🌱',
+  moderate: '🌿',
+  challenging: '🌳',
 }
 
 /**
@@ -41,18 +23,22 @@ const DIFFICULTY_CONFIG: Record<
  * Couleurs: easy=vert, moderate=orange, challenging=violet
  */
 function DifficultyBadge({ difficulty, showLabel = true }: DifficultyBadgeProps) {
-  const config = DIFFICULTY_CONFIG[difficulty]
+  const { t } = useTranslation()
+  const icon = DIFFICULTY_ICONS[difficulty]
+  const label = t(`habits.difficulty.${difficulty}`)
+  const tooltip = t(`habits.difficulty.tooltips.${difficulty}`)
+  const difficultyLabel = t('habits.difficulty.label')
 
   return (
     <span
       className={`difficulty-badge difficulty-badge--${difficulty}`}
-      title={config.tooltip}
-      aria-label={`Difficulté : ${config.label}. ${config.tooltip}`}
+      title={tooltip}
+      aria-label={`${difficultyLabel} : ${label}. ${tooltip}`}
     >
       <span className="difficulty-badge__icon" aria-hidden="true">
-        {config.icon}
+        {icon}
       </span>
-      {showLabel && <span className="difficulty-badge__label">{config.label}</span>}
+      {showLabel && <span className="difficulty-badge__label">{label}</span>}
     </span>
   )
 }

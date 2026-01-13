@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Habit, DailyEntry } from '../../types'
 import { calculateTargetDose } from '../../services/progression'
 import { getCurrentDate, addDays } from '../../utils'
@@ -37,14 +38,13 @@ function getLastNDays(referenceDate: string, n: number): string[] {
 }
 
 /**
- * Formate une date en jour abrégé (L, M, M, J, V, S, D)
+ * Formate une date en jour abrégé
  */
-function formatDayLabel(dateStr: string): string {
+function formatDayLabel(dateStr: string, dayLabels: string[]): string {
   const [year, month, day] = dateStr.split('-').map(Number)
   const date = new Date(year, month - 1, day)
   const dayOfWeek = date.getDay()
-  const labels = ['D', 'L', 'M', 'M', 'J', 'V', 'S']
-  return labels[dayOfWeek]
+  return dayLabels[dayOfWeek]
 }
 
 /**
@@ -52,7 +52,9 @@ function formatDayLabel(dateStr: string): string {
  * Graphique dose cible vs réalisé sur la période
  */
 function ProgressChart({ habit, entries, referenceDate, daysToShow = 7 }: ProgressChartProps) {
+  const { t } = useTranslation()
   const today = referenceDate || getCurrentDate()
+  const dayLabels = t('habitDetail.chart.dayLabels', { returnObjects: true }) as string[]
 
   const chartData = useMemo<DayData[]>(() => {
     const dates = getLastNDays(today, daysToShow)
@@ -63,12 +65,12 @@ function ProgressChart({ habit, entries, referenceDate, daysToShow = 7 }: Progre
 
       return {
         date,
-        dayLabel: formatDayLabel(date),
+        dayLabel: formatDayLabel(date, dayLabels),
         targetDose,
         actualValue: entry ? entry.actualValue : null,
       }
     })
-  }, [habit, entries, today, daysToShow])
+  }, [habit, entries, today, daysToShow, dayLabels])
 
   // Calcul de la valeur max pour l'échelle
   const maxValue = useMemo(() => {
@@ -99,15 +101,15 @@ function ProgressChart({ habit, entries, referenceDate, daysToShow = 7 }: Progre
   return (
     <Card variant="default" className="progress-chart">
       <div className="progress-chart__header">
-        <h3 className="progress-chart__title">Évolution</h3>
+        <h3 className="progress-chart__title">{t('habitDetail.chart.title')}</h3>
         <div className="progress-chart__legend">
           <span className="progress-chart__legend-item progress-chart__legend-item--target">
             <span className="progress-chart__legend-dot"></span>
-            Cible
+            {t('habitDetail.chart.target')}
           </span>
           <span className="progress-chart__legend-item progress-chart__legend-item--actual">
             <span className="progress-chart__legend-dot"></span>
-            Réalisé
+            {t('habitDetail.chart.achieved')}
           </span>
         </div>
       </div>
@@ -118,7 +120,7 @@ function ProgressChart({ habit, entries, referenceDate, daysToShow = 7 }: Progre
           viewBox={`0 0 ${chartWidth} ${chartHeight}`}
           preserveAspectRatio="xMidYMax meet"
           role="img"
-          aria-label={`Graphique de progression sur ${daysToShow} jours`}
+          aria-label={t('habitDetail.chart.ariaLabel', { days: daysToShow })}
         >
           {chartData.map((day, index) => {
             const groupX = index * (barWidth * 2 + barGap * 2)
@@ -178,7 +180,7 @@ function ProgressChart({ habit, entries, referenceDate, daysToShow = 7 }: Progre
       {/* Valeur max affichée */}
       <div className="progress-chart__scale">
         <span className="progress-chart__scale-value">
-          max: {maxValue} {habit.unit}
+          {t('habitDetail.chart.max')}: {maxValue} {habit.unit}
         </span>
       </div>
     </Card>

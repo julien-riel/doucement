@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './base-test';
 
 /**
  * Tests E2E pour les habitudes en mode compteur (trackingMode: 'counter')
@@ -132,7 +132,7 @@ test.describe('Habitude compteur increase', () => {
     await expect(page.getByText(/\+1 à/)).toBeVisible();
 
     // Vérifier que le bouton Annuler est visible
-    await expect(page.getByRole('button', { name: 'Annuler' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Annuler', exact: true })).toBeVisible();
   });
 
   test('bouton Annuler défait la dernière action', async ({ page }) => {
@@ -142,15 +142,15 @@ test.describe('Habitude compteur increase', () => {
     await expect(page.locator('.counter-buttons__current').filter({ hasText: '2' })).toBeVisible();
 
     // Annuler
-    await page.getByRole('button', { name: 'Annuler' }).click();
+    await page.getByRole('button', { name: 'Annuler', exact: true }).click();
     await expect(page.locator('.counter-buttons__current').filter({ hasText: '1' })).toBeVisible();
 
     // Annuler encore
-    await page.getByRole('button', { name: 'Annuler' }).click();
+    await page.getByRole('button', { name: 'Annuler', exact: true }).click();
     await expect(page.locator('.counter-buttons__current').filter({ hasText: '0' })).toBeVisible();
 
     // Le bouton Annuler devrait disparaître
-    await expect(page.getByRole('button', { name: 'Annuler' })).toBeHidden();
+    await expect(page.getByRole('button', { name: 'Annuler', exact: true })).toBeHidden();
   });
 
   test('données persistées après navigation SPA', async ({ page }) => {
@@ -214,7 +214,7 @@ test.describe('Habitude compteur decrease', () => {
     await expect(page.locator('.counter-buttons__current').filter({ hasText: '2' })).toBeVisible();
 
     // Annuler
-    await page.getByRole('button', { name: 'Annuler' }).click();
+    await page.getByRole('button', { name: 'Annuler', exact: true }).click();
     await expect(page.locator('.counter-buttons__current').filter({ hasText: '1' })).toBeVisible();
   });
 });

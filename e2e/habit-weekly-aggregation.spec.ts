@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './base-test';
 
 /**
  * Tests E2E pour les modes d'agrégation hebdomadaire
@@ -182,7 +182,7 @@ test.describe('Agrégation sum-units avec compteur daily', () => {
     await page.getByRole('button', { name: /Ajouter 1/i }).click();
     await expect(page.locator('.counter-buttons__current').filter({ hasText: '3' })).toBeVisible();
 
-    await page.getByRole('button', { name: 'Annuler' }).click();
+    await page.getByRole('button', { name: 'Annuler', exact: true }).click();
     await expect(page.locator('.counter-buttons__current').filter({ hasText: '2' })).toBeVisible();
   });
 });

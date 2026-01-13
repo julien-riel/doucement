@@ -18,7 +18,15 @@
     "restore": "Restore",
     "archive": "Archive",
     "share": "Share",
-    "seeMore": "Learn more"
+    "seeMore": "Learn more",
+    "import": "Import"
+  },
+  "carousel": {
+    "previous": "Previous",
+    "next": "Next",
+    "pagesLabel": "Carousel pages",
+    "pageInfo": "Page {{current}} of {{total}}",
+    "habitCarouselLabel": "Habit carousel"
   },
   "navigation": {
     "today": "Today",
@@ -49,7 +57,13 @@
       "all": "All",
       "easy": "Easy",
       "moderate": "Moderate",
-      "challenging": "Challenging"
+      "challenging": "Challenging",
+      "label": "Difficulty",
+      "tooltips": {
+        "easy": "Ideal for starting gently",
+        "moderate": "Requires a bit more commitment",
+        "challenging": "For those who like challenges"
+      }
     },
     "timeOfDay": {
       "all": "All",
@@ -77,13 +91,38 @@
     "shareProgress": "Share my progress",
     "confirmArchiveText": "You can restore it later if you want."
   },
+  "habitList": {
+    "title": "My habits",
+    "newHabit": "New habit",
+    "activeHabits": "Active",
+    "active": "Active",
+    "archivedHabits": "Archived",
+    "archived": "Archived",
+    "viewDetails": "View details of {{name}}",
+    "activeDays": "active days",
+    "average": "average"
+  },
   "createHabit": {
     "title": "New habit",
     "subtitle": {
       "choose": "Choose a high-impact habit or create your own",
       "type": "What type of habit do you want to create?",
       "details": "Describe your habit",
+      "intentions": "When and where?",
+      "identity": "Who do you want to become?",
       "confirm": "Review and confirm"
+    },
+    "steps": {
+      "choose": "Choose a high-impact habit or create your own",
+      "type": "What type of habit do you want to create?",
+      "details": "Describe your habit",
+      "intentions": "When and where?",
+      "identity": "Who do you want to become?",
+      "confirm": "Review and confirm"
+    },
+    "buttons": {
+      "preview": "Preview",
+      "create": "Create habit"
     },
     "highImpact": {
       "title": "High-impact habits",
@@ -279,10 +318,38 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
-    "theme": "Theme",
-    "notifications": "Notifications",
     "dataManagement": "Data management",
-    "about": "About",
+    "data": {
+      "title": "Your data",
+      "activeHabits": "active habit",
+      "activeHabits_plural": "active habits",
+      "archivedHabits": "archived",
+      "archivedHabits_plural": "archived",
+      "entries": "entry",
+      "entries_plural": "entries",
+      "export": "Export my data",
+      "import": "Import data",
+      "exportSuccess": "Export complete. Your data is in the downloaded file.",
+      "exportError": "Error during export",
+      "selectFile": "Select a file"
+    },
+    "notifications": {
+      "title": "Reminders"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "themeChoice": "Theme choice",
+      "themes": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      },
+      "themeHints": {
+        "light": "Light mode enabled",
+        "dark": "Dark mode enabled",
+        "system": "Theme follows your device preferences"
+      }
+    },
     "sections": {
       "data": "Your data",
       "notifications": "Reminders",
@@ -329,6 +396,7 @@
       }
     },
     "install": {
+      "title": "Install the app",
       "intro": "📱 Doucement can be installed on your phone like a real app, without going through a store.",
       "ios": {
         "title": "🍎 On iPhone / iPad (Safari)",
@@ -346,27 +414,53 @@
     },
     "backup": {
       "title": "💡 Back up your data regularly!",
+      "warning": "Your data is only stored on this device.",
+      "explanation": "If you switch phones, reinstall the app, or clear browser cache, you could lose it.",
+      "recommendation": "Recommendation: Export your data once a week and keep the file somewhere safe.",
+      "exportNow": "Export now",
       "text1": "Your data is stored only on this device. If you switch phones, reinstall the app, or clear browser cache, you could lose it.",
       "text2": "Recommendation: Export your data once a week and keep the file somewhere safe (cloud, email, computer)."
+    },
+    "app": {
+      "title": "Application",
+      "replayOnboarding": "Replay introduction"
+    },
+    "danger": {
+      "title": "Sensitive zone",
+      "reset": "Reset application",
+      "warning": "This action will delete all your data. It cannot be undone."
+    },
+    "debug": {
+      "activated": "Debug mode enabled",
+      "deactivated": "Debug mode disabled"
     },
     "reset": {
       "warning": "This action will delete all your data. It cannot be undone."
     },
     "about": {
+      "title": "About",
       "description": "Doucement is an app designed to help you improve your habits gradually, without guilt.",
       "privacy": "Your data stays on your device. No information is collected or transmitted.",
       "version": "Version {{version}}",
+      "versionLabel": "Version {{version}}",
+      "whatsNew": "What's new",
       "debugTapHint": "Tap 7 times to enable debug mode."
     },
     "modals": {
       "import": {
         "title": "Import data",
+        "text": "Importing will replace all your current data with the file's data.",
         "warning": "Importing will replace all your current data with the file's data.",
         "irreversible": "This action cannot be undone. Consider exporting your current data first if you want to keep it.",
         "inProgress": "Importing...",
+        "importing": "Importing...",
         "button": "Import",
         "successTitle": "✓ Import successful",
         "failTitle": "Import failed"
+      },
+      "importResult": {
+        "success": "✓ Import successful",
+        "failed": "Import failed"
       },
       "reset": {
         "title": "Reset application",
@@ -467,7 +561,10 @@
     "stats": {
       "completion": "Completion this week",
       "activeDays": "active days",
-      "completedDays": "successful days"
+      "completedDays": "successful days",
+      "outOfDays": "out of {{count}} days",
+      "successfulDays": "{{count}} successful days",
+      "progression": "progression"
     },
     "sections": {
       "activity": "Activity",
@@ -700,11 +797,41 @@
   },
   "habitDetail": {
     "back": "← Back",
+    "backToList": "Back to list",
+    "todayDose": "Today's dose",
+    "progressSinceStart": "Progress since start",
+    "statistics": "Statistics",
+    "thisWeek": "This week",
+    "progressChart": "Progress chart",
+    "chart": {
+      "title": "Evolution",
+      "target": "Target",
+      "achieved": "Achieved",
+      "ariaLabel": "Progress chart over {{days}} days",
+      "max": "max",
+      "dayLabels": ["S", "M", "T", "W", "T", "F", "S"]
+    },
+    "calendar": "Calendar",
+    "weeklyCalendar": {
+      "ariaLabel": "Week activity",
+      "dayNames": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      "status": {
+        "exceeded": "Exceeded",
+        "completed": "Completed",
+        "partial": "Partial",
+        "pending": "Pending",
+        "empty": "No activity"
+      }
+    },
+    "recentActivity": "Recent activity",
+    "information": "Information",
+    "details": "Details",
     "badges": {
       "increase": "Increase",
       "decrease": "Decrease",
       "maintain": "Maintain",
-      "archived": "Archived"
+      "archived": "Archived",
+      "paused": "Paused"
     },
     "sections": {
       "thisWeek": "This week",
@@ -721,6 +848,14 @@
     "progressionFormat": {
       "daily": "day",
       "weekly": "week"
+    },
+    "actions": {
+      "share": "Share",
+      "edit": "Edit",
+      "pause": "Pause",
+      "resume": "Resume",
+      "archive": "Archive",
+      "restore": "Restore"
     }
   },
   "statistics": {

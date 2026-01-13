@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './base-test';
 
 /**
  * Tests E2E pour le wizard de création d'habitude
@@ -11,6 +11,7 @@ test.describe('Création d\'habitude', () => {
     // Injecter le localStorage AVANT que la page charge pour éviter la redirection vers onboarding
     await page.addInitScript(() => {
       localStorage.clear();
+      localStorage.setItem('doucement-language', 'fr');
       localStorage.setItem('doucement_data', JSON.stringify({
         schemaVersion: 3,
         habits: [],

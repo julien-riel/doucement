@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './base-test';
 
 /**
  * Tests E2E pour le parcours d'onboarding
@@ -9,7 +9,10 @@ test.describe('Onboarding', () => {
   test.beforeEach(async ({ page }) => {
     // Effacer le localStorage avant chaque test pour avoir un état propre
     await page.goto('/');
-    await page.evaluate(() => localStorage.clear());
+    await page.evaluate(() => {
+      localStorage.clear();
+      localStorage.setItem('doucement-language', 'fr');
+    });
     await page.goto('/onboarding');
     // Attendre que la page charge
     await page.waitForSelector('h1:has-text("Bienvenue")');
@@ -25,13 +28,13 @@ test.describe('Onboarding', () => {
     await expect(page.getByText(/Tes données restent sur ton appareil/)).toBeVisible();
 
     // Vérifier les indicateurs d'étapes (4 étapes au total: 3 intro + suggestions)
-    await expect(page.getByRole('tab', { name: 'Étape 1 sur 4' })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('tab', { name: '1/4' })).toHaveAttribute('aria-selected', 'true');
 
     // Vérifier les boutons
     await expect(page.getByRole('button', { name: 'Suivant' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Passer l\'introduction' })).toBeVisible();
     // Pas de bouton Retour sur le premier écran
-    await expect(page.getByRole('button', { name: /Retour|précédente/i })).not.toBeVisible();
+    await expect(page.getByRole('button', { name: /Retour|Précédent/i })).not.toBeVisible();
   });
 
   test('navigation complète à travers les 3 étapes intro', async ({ page }) => {
@@ -44,15 +47,15 @@ test.describe('Onboarding', () => {
     await expect(page.getByText(/Oublie les objectifs intimidants/)).toBeVisible();
     await expect(page.getByText(/l'effet composé fait le travail/)).toBeVisible();
     await expect(page.getByText('📊')).toBeVisible();
-    await expect(page.getByRole('tab', { name: 'Étape 2 sur 4' })).toHaveAttribute('aria-selected', 'true');
-    await expect(page.getByRole('button', { name: /Retour|précédente/i })).toBeVisible();
+    await expect(page.getByRole('tab', { name: '2/4' })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('button', { name: /Retour|Précédent/i })).toBeVisible();
     await page.getByRole('button', { name: 'Suivant' }).click();
 
     // Étape 3: Chaque effort compte
     await expect(page.getByRole('heading', { name: 'Chaque effort compte' })).toBeVisible();
     await expect(page.getByText(/70% c'est une victoire/)).toBeVisible();
     await expect(page.getByText('💚')).toBeVisible();
-    await expect(page.getByRole('tab', { name: 'Étape 3 sur 4' })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('tab', { name: '3/4' })).toHaveAttribute('aria-selected', 'true');
     // Le bouton devient "Choisir mes habitudes" pour passer aux suggestions
     await expect(page.getByRole('button', { name: 'Choisir mes habitudes' })).toBeVisible();
   });
@@ -63,9 +66,9 @@ test.describe('Onboarding', () => {
     await expect(page.getByRole('heading', { name: 'La dose du jour' })).toBeVisible();
 
     // Revenir à l'étape 1
-    await page.getByRole('button', { name: /Retour|précédente/i }).click();
+    await page.getByRole('button', { name: /Retour|Précédent/i }).click();
     await expect(page.getByRole('heading', { name: 'Bienvenue' })).toBeVisible();
-    await expect(page.getByRole('tab', { name: 'Étape 1 sur 4' })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('tab', { name: '1/4' })).toHaveAttribute('aria-selected', 'true');
   });
 
   test('skip l\'onboarding redirige vers l\'écran principal', async ({ page }) => {
@@ -95,7 +98,7 @@ test.describe('Onboarding', () => {
     // Vérifier l'écran des suggestions
     await expect(page.getByRole('heading', { name: 'Habitudes à fort impact' })).toBeVisible();
     await expect(page.getByText('Basées sur la science')).toBeVisible();
-    await expect(page.getByRole('tab', { name: 'Étape 4 sur 4' })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('tab', { name: '4/4' })).toHaveAttribute('aria-selected', 'true');
 
     // Le bouton Skip n'est plus visible sur l'écran des suggestions
     await expect(page.getByRole('button', { name: 'Passer l\'introduction' })).not.toBeVisible();
@@ -157,7 +160,7 @@ test.describe('Onboarding', () => {
     await page.getByRole('button', { name: 'Choisir mes habitudes' }).click();
 
     // Revenir à l'étape précédente
-    await page.getByRole('button', { name: /Retour|précédente/i }).click();
+    await page.getByRole('button', { name: /Retour|Précédent/i }).click();
     await expect(page.getByRole('heading', { name: 'Chaque effort compte' })).toBeVisible();
   });
 

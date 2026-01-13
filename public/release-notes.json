@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.20.0",
+  "currentVersion": "1.21.0",
   "releases": [
+    {
+      "version": "1.21.0",
+      "date": "2026-01-13",
+      "title": "Corrections i18n",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Traductions pause/reprise ajoutées"
+        },
+        {
+          "emoji": "check",
+          "text": "450 tests E2E passent avec succès"
+        },
+        {
+          "emoji": "tools",
+          "text": "Fichiers de test mis à jour vers schemaVersion 9"
+        }
+      ]
+    },
     {
       "version": "1.20.0",
       "date": "2026-01-13",

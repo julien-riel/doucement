@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './base-test'
 
 /**
  * Tests E2E pour les pauses planifiées
@@ -15,6 +15,7 @@ test.describe('Pause planifiée', () => {
 
     // Injecter les données de test AVANT que la page charge
     await page.addInitScript((data) => {
+      localStorage.setItem('doucement-language', 'fr')
       localStorage.setItem('doucement_data', JSON.stringify(data))
     }, testData)
   })

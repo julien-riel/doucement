@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './base-test';
 
 /**
  * Tests E2E pour l'édition des habitudes
@@ -402,11 +402,11 @@ test.describe('Édition d\'habitude - Validation et UX', () => {
     await expect(saveButton).toBeDisabled();
   });
 
-  test('affiche les infos non modifiables (direction, startValue)', async ({ page }) => {
-    // Vérifier la carte d'info readonly
-    await expect(page.getByText('Ces valeurs ne peuvent pas être modifiées')).toBeVisible();
-    // Vérifier le type et la valeur de départ dans la carte info
-    await expect(page.locator('.edit-habit__info-value').filter({ hasText: 'Augmenter' })).toBeVisible();
+  test('affiche la valeur de départ non modifiable', async ({ page }) => {
+    // Vérifier la carte d'info readonly avec la valeur de départ
+    await expect(page.getByText('Valeur de départ')).toBeVisible();
+    await expect(page.getByText('Cette valeur ne peut pas être modifiée')).toBeVisible();
+    // Vérifier la valeur de départ dans la carte info
     await expect(page.locator('.edit-habit__info-value').filter({ hasText: '10 répétitions' })).toBeVisible();
   });
 
