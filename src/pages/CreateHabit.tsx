@@ -452,7 +452,13 @@ function CreateHabit() {
           label="Emoji"
           value={form.emoji}
           onChange={(emoji) => updateForm('emoji', emoji)}
-          suggestedEmojis={selectedCategory ? CATEGORY_EMOJIS[selectedCategory] : undefined}
+          suggestedEmojis={
+            selectedCategory
+              ? CATEGORY_EMOJIS[selectedCategory]
+              : activeCategory !== 'all'
+                ? CATEGORY_EMOJIS[activeCategory]
+                : ['💪', '🏃', '📚', '🧘', '💧', '😴', '🎯', '✨']
+          }
         />
 
         {/* Nom */}

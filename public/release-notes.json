@@ -1,6 +1,21 @@
 {
-  "currentVersion": "1.18.1",
+  "currentVersion": "1.18.2",
   "releases": [
+    {
+      "version": "1.18.2",
+      "date": "2026-01-12",
+      "title": "Suggestions d'emojis",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Suggestions contextuelles : les emojis s'adaptent à la catégorie choisie"
+        },
+        {
+          "emoji": "tools",
+          "text": "8 emojis populaires affichés par défaut lors de la création d'une habitude personnalisée"
+        }
+      ]
+    },
     {
       "version": "1.18.1",
       "date": "2026-01-12",
