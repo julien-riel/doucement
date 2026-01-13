@@ -826,5 +826,236 @@
       "saturday": "samedi",
       "sunday": "dimanche"
     }
+  },
+  "categories": {
+    "sleep": {
+      "name": "Sommeil",
+      "tagline": "Le multiplicateur universel"
+    },
+    "movement": {
+      "name": "Mouvement",
+      "tagline": "Chaque pas compte"
+    },
+    "mindfulness": {
+      "name": "Méditation",
+      "tagline": "Le régulateur de stress"
+    },
+    "screen": {
+      "name": "Écrans",
+      "tagline": "Le libérateur d'attention"
+    },
+    "reading": {
+      "name": "Lecture",
+      "tagline": "L'antidote au stress"
+    },
+    "substance": {
+      "name": "Substances",
+      "tagline": "La progression inversée"
+    },
+    "finance": {
+      "name": "Finances",
+      "tagline": "Construire sa sérénité"
+    },
+    "hygiene": {
+      "name": "Hygiène",
+      "tagline": "Les petits gestes qui comptent"
+    },
+    "food": {
+      "name": "Alimentation",
+      "tagline": "Nourrir corps et esprit"
+    },
+    "social": {
+      "name": "Social",
+      "tagline": "Cultiver ses liens"
+    },
+    "productivity": {
+      "name": "Productivité",
+      "tagline": "Focus et efficacité"
+    },
+    "gratitude": {
+      "name": "Gratitude",
+      "tagline": "Apprécier le présent"
+    }
+  },
+  "units": {
+    "eveningsPerWeek": "soirs/semaine",
+    "minutes": "minutes",
+    "steps": "pas",
+    "reps": "répétitions",
+    "breaths": "respirations",
+    "pages": "pages",
+    "cigarettes": "cigarettes",
+    "drinksPerWeek": "verres/semaine",
+    "coffees": "cafés",
+    "glasses": "verres",
+    "euroPerWeek": "€/semaine",
+    "timesPerWeek": "fois/semaine",
+    "mealsPerWeek": "repas/semaine",
+    "entries": "entrées"
+  },
+  "benefits": {
+    "mentalHealth": "Santé mentale",
+    "cognition": "Cognition",
+    "energy": "Énergie",
+    "immunity": "Immunité",
+    "sleepQuality": "Qualité du sommeil",
+    "fallingAsleep": "Endormissement",
+    "recovery": "Récupération",
+    "longevity": "Longévité",
+    "cardiovascular": "Cardiovasculaire",
+    "mood": "Humeur",
+    "strength": "Force",
+    "metabolism": "Métabolisme",
+    "digestion": "Digestion",
+    "bloodSugar": "Glycémie",
+    "anxiety": "Anxiété",
+    "depression": "Dépression",
+    "sleep": "Sommeil",
+    "wellBeing": "Bien-être",
+    "relaxation": "Relaxation",
+    "qualityOfLife": "Qualité de vie",
+    "stress": "Stress",
+    "emotionalRegulation": "Régulation émotionnelle",
+    "calm": "Calme",
+    "concentration": "Concentration",
+    "empathy": "Empathie",
+    "disconnection": "Déconnexion",
+    "respiratory": "Respiratoire",
+    "hydration": "Hydratation",
+    "skin": "Peau",
+    "serenity": "Sérénité",
+    "security": "Sécurité",
+    "goals": "Objectifs",
+    "memory": "Mémoire",
+    "creativity": "Créativité",
+    "oralHealth": "Santé bucco-dentaire",
+    "heart": "Cœur",
+    "prevention": "Prévention",
+    "savings": "Économies",
+    "nutrition": "Nutrition",
+    "control": "Contrôle",
+    "time": "Temps",
+    "happiness": "Bonheur",
+    "productivity": "Productivité",
+    "quality": "Qualité",
+    "satisfaction": "Satisfaction",
+    "optimism": "Optimisme"
+  },
+  "suggested": {
+    "sleep-regular-bedtime": {
+      "name": "Se coucher à heure fixe",
+      "description": "Aller au lit à la même heure chaque soir",
+      "scienceHighlight": "Améliorer le sommeil réduit la dépression de 63% et l'anxiété de 51%."
+    },
+    "sleep-screen-before-bed": {
+      "name": "Réduire les écrans avant le coucher",
+      "description": "Temps sans écran avant de dormir",
+      "scienceHighlight": "8% des décès prématurés sont attribuables à de mauvaises habitudes de sommeil."
+    },
+    "movement-daily-walk": {
+      "name": "Marche quotidienne",
+      "description": "Nombre de pas par jour",
+      "scienceHighlight": "Chaque 1000 pas supplémentaires réduisent la mortalité de 15%."
+    },
+    "movement-pushups": {
+      "name": "Pompes ou squats",
+      "description": "Exercices de renforcement simple",
+      "scienceHighlight": "15 minutes d'exercice par jour réduisent la mortalité de 20%."
+    },
+    "movement-walk-after-meal": {
+      "name": "Marche après les repas",
+      "description": "Courte marche digestive",
+      "scienceHighlight": "La marche améliore aussi le sommeil et réduit le besoin de médicaments."
+    },
+    "screen-social-media": {
+      "name": "Réduire les réseaux sociaux",
+      "description": "Temps quotidien sur les réseaux",
+      "scienceHighlight": "Une semaine sans réseaux réduit l'anxiété de 16% et la dépression de 25%."
+    },
+    "screen-before-sleep": {
+      "name": "Pas d'écran 1h avant le coucher",
+      "description": "Temps sans écran le soir",
+      "scienceHighlight": "Réduire l'écran à <3h/semaine améliore significativement le bien-être."
+    },
+    "mindfulness-meditation": {
+      "name": "Méditation guidée",
+      "description": "Quelques minutes de pleine conscience",
+      "scienceHighlight": "La méditation montre des effets modérés sur l'anxiété et la dépression."
+    },
+    "mindfulness-breathing": {
+      "name": "Exercices de respiration",
+      "description": "Respirations profondes par jour",
+      "scienceHighlight": "Même de courtes séances réduisent la réactivité du cortisol."
+    },
+    "reading-daily": {
+      "name": "Lecture quotidienne",
+      "description": "Pages lues chaque jour",
+      "scienceHighlight": "6 minutes de lecture réduisent le stress de 68%."
+    },
+    "reading-before-bed": {
+      "name": "Lecture avant le coucher",
+      "description": "Lire au lieu des écrans le soir",
+      "scienceHighlight": "Les lecteurs vivent en moyenne 2 ans de plus."
+    },
+    "substance-cigarettes": {
+      "name": "Réduire les cigarettes",
+      "description": "Réduction progressive du tabac",
+      "scienceHighlight": "La réduction graduelle a de meilleurs taux de succès que l'arrêt brutal."
+    },
+    "substance-alcohol": {
+      "name": "Réduire l'alcool",
+      "description": "Réduction progressive de la consommation",
+      "scienceHighlight": "L'OMS recommande une approche de réduction des risques."
+    },
+    "substance-caffeine": {
+      "name": "Réduire la caféine",
+      "description": "Moins de cafés par jour",
+      "scienceHighlight": "La réduction progressive évite les symptômes de sevrage."
+    },
+    "hydration-water": {
+      "name": "Boire plus d'eau",
+      "description": "Augmenter sa consommation quotidienne",
+      "scienceHighlight": "Une bonne hydratation améliore les performances cognitives de 10 à 15%."
+    },
+    "finance-savings": {
+      "name": "Économiser chaque semaine",
+      "description": "Mettre de côté un montant fixe",
+      "scienceHighlight": "L'épargne automatique réduit le stress financier de 40%."
+    },
+    "learning-language": {
+      "name": "Apprendre une langue",
+      "description": "Pratiquer quotidiennement",
+      "scienceHighlight": "L'apprentissage d'une langue retarde le déclin cognitif de 4-5 ans."
+    },
+    "hygiene-floss": {
+      "name": "Passer le fil dentaire",
+      "description": "Nettoyer entre les dents",
+      "scienceHighlight": "Le fil dentaire réduit les maladies cardiovasculaires de 20%."
+    },
+    "food-restaurant": {
+      "name": "Moins de restaurants",
+      "description": "Réduire les repas au restaurant",
+      "scienceHighlight": "Cuisiner à la maison réduit le risque de maladies chroniques de 28%."
+    },
+    "food-mealprep": {
+      "name": "Préparer ses repas",
+      "description": "Cuisiner à l'avance pour la semaine",
+      "scienceHighlight": "Le meal prep améliore la qualité nutritionnelle de 50%."
+    },
+    "social-quality-time": {
+      "name": "Temps de qualité",
+      "description": "Moments dédiés avec ses proches",
+      "scienceHighlight": "Les relations sociales augmentent l'espérance de vie de 50%."
+    },
+    "productivity-deep-work": {
+      "name": "Travail profond",
+      "description": "Blocs de concentration sans interruption",
+      "scienceHighlight": "90 minutes de travail profond équivalent à 4h de travail fragmenté."
+    },
+    "gratitude-journal": {
+      "name": "Journal de gratitude",
+      "description": "Noter 3 choses positives",
+      "scienceHighlight": "La gratitude améliore le bien-être de 25% en 10 semaines."
+    }
   }
 }

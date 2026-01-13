@@ -1,0 +1,1061 @@
+{
+  "common": {
+    "continue": "Continue",
+    "back": "Back",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "done": "Done",
+    "skip": "Skip",
+    "all": "All",
+    "loading": "Loading...",
+    "or": "or",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "restore": "Restore",
+    "archive": "Archive",
+    "share": "Share",
+    "seeMore": "Learn more"
+  },
+  "navigation": {
+    "today": "Today",
+    "habits": "Habits",
+    "statistics": "Statistics",
+    "settings": "Settings"
+  },
+  "habits": {
+    "newHabit": "New habit",
+    "createHabit": "Create habit",
+    "editHabit": "Edit habit",
+    "deleteHabit": "Archive habit",
+    "dose": "Dose",
+    "doseOfDay": "Today's dose",
+    "unit": "Unit",
+    "thisWeek": "this week",
+    "type": {
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "maintain": "Maintain"
+    },
+    "typeDescriptions": {
+      "increase": "More push-ups, more reading, more meditation...",
+      "decrease": "Less smoking, less sugar, less screen time...",
+      "maintain": "Keep a steady dose each day"
+    },
+    "difficulty": {
+      "all": "All",
+      "easy": "Easy",
+      "moderate": "Moderate",
+      "challenging": "Challenging"
+    },
+    "timeOfDay": {
+      "all": "All",
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening",
+      "night": "Night"
+    },
+    "timeOfDayEmojis": {
+      "morning": "🌅",
+      "afternoon": "☀️",
+      "evening": "🌙",
+      "night": "🌃"
+    },
+    "resultCount": "{{count}} habit",
+    "resultCount_plural": "{{count}} habits",
+    "active": "Active",
+    "activeCount": "Active ({{count}})",
+    "archived": "Archived",
+    "archivedCount": "Archived ({{count}})",
+    "noActiveHabits": "No active habits yet.",
+    "notFound": "This habit doesn't exist.",
+    "backToList": "Back to list",
+    "restoreHabit": "Restore this habit",
+    "shareProgress": "Share my progress",
+    "confirmArchiveText": "You can restore it later if you want."
+  },
+  "createHabit": {
+    "title": "New habit",
+    "subtitle": {
+      "choose": "Choose a high-impact habit or create your own",
+      "type": "What type of habit do you want to create?",
+      "details": "Describe your habit",
+      "confirm": "Review and confirm"
+    },
+    "highImpact": {
+      "title": "High-impact habits",
+      "description": "Science-backed habits with the greatest proven benefits."
+    },
+    "top6": "Top 6",
+    "customize": "Customize",
+    "createCustom": {
+      "title": "Create a custom habit",
+      "description": "Define your own goal"
+    },
+    "form": {
+      "emoji": "Emoji",
+      "name": "Habit name",
+      "namePlaceholder": "E.g., Push-ups, Meditation, Reading...",
+      "startDose": "Starting dose",
+      "unit": "Unit",
+      "unitPlaceholder": "reps, minutes...",
+      "progression": "Progression",
+      "inPercent": "In %",
+      "inUnits": "In units",
+      "percentage": "Percentage",
+      "units": "Units",
+      "per": "Per",
+      "week": "Week",
+      "day": "Day"
+    },
+    "trackingMode": {
+      "title": "Tracking mode",
+      "hint": "How you record your progress",
+      "simple": "Simple",
+      "simpleDesc": "Done / Not done (binary)",
+      "detailed": "Detailed",
+      "detailedDesc": "Enter the exact value",
+      "counter": "Counter",
+      "counterDesc": "Quick +1 / -1 buttons",
+      "counterHint": "Great for: cigarettes, drinks, snacks..."
+    },
+    "entryMode": {
+      "title": "Entry mode",
+      "hint": "How values are recorded throughout the day",
+      "replace": "Replace",
+      "replaceDesc": "Each entry replaces the previous one",
+      "cumulative": "Cumulative",
+      "cumulativeDesc": "Entries add up throughout the day",
+      "cumulativeHint": "Great for: glasses of water, snacks, cigarettes..."
+    },
+    "weeklyAggregation": {
+      "title": "Weekly counting mode",
+      "hint": "How we count your weekly progress",
+      "countDays": "Successful days",
+      "countDaysDesc": "Count days when you reach your goal",
+      "countDaysHint": "E.g., 3 evenings going to bed early this week",
+      "sumUnits": "Weekly total",
+      "sumUnitsDesc": "Add up units for the whole week",
+      "sumUnitsHint": "E.g., Maximum 10 drinks per week"
+    },
+    "preview": "Preview",
+    "confirmButton": "Create habit",
+    "summary": {
+      "type": "Type",
+      "startDose": "Starting dose",
+      "progression": "Progression",
+      "plan": "Plan",
+      "linkedAfter": "Linked after",
+      "identity": "Identity",
+      "entryMode": "Entry mode",
+      "timeOfDay": "Time of day"
+    }
+  },
+  "intentions": {
+    "stepTitle": "When and where?",
+    "stepSubtitle": "Defining when and where increases your chances of success 2-3 times.",
+    "trigger": {
+      "label": "After what?",
+      "placeholder": "E.g., After my morning coffee",
+      "help": "Choose a trigger that's already part of your routine."
+    },
+    "location": {
+      "label": "Where?",
+      "placeholder": "E.g., In the living room",
+      "help": "A specific place helps automate the habit."
+    },
+    "time": {
+      "label": "At what time?",
+      "help": "Optional. The approximate planned time."
+    },
+    "skipButton": "Skip this step",
+    "examples": [
+      "After my morning coffee",
+      "After lunch",
+      "Before bed",
+      "After getting home from work",
+      "After brushing my teeth"
+    ]
+  },
+  "habitStacking": {
+    "title": "Link to an existing habit",
+    "subtitle": "Habit stacking increases success rate by 64%.",
+    "label": "After which habit?",
+    "placeholder": "Choose a habit...",
+    "help": "Chain this new habit with one you already do.",
+    "noHabits": "Create another habit first to link them together.",
+    "linkedBadge": "Linked",
+    "afterLabel": "After:"
+  },
+  "identity": {
+    "stepTitle": "Who do you want to become?",
+    "stepSubtitle": "Lasting change comes from identity change, not just behavior.",
+    "inputLabel": "I'm becoming someone who...",
+    "inputPlaceholder": "takes care of their body",
+    "inputHelp": "Describe the person you want to become through this habit.",
+    "skipButton": "Skip this step",
+    "examples": [
+      "takes care of their body",
+      "reads every day",
+      "controls their screen time",
+      "prioritizes their well-being",
+      "keeps their commitments"
+    ],
+    "reminder": {
+      "label": "You're becoming",
+      "weeklyIntro": "Remember who you're becoming:",
+      "prefix": "I'm becoming someone who"
+    }
+  },
+  "firstCheckIn": {
+    "title": "First victory?",
+    "subtitle": "Did you already do something today?",
+    "yesButton": "Yes, I'll log it",
+    "noButton": "No, I'll start tomorrow",
+    "successTitle": "First dose logged",
+    "successMessage": "The journey begins now.",
+    "successEmoji": "✨"
+  },
+  "checkIn": {
+    "partial": "Partial",
+    "done": "Done",
+    "extra": "Extra",
+    "notToday": "Not today",
+    "exceeded": "Exceeded!",
+    "completed": "Completed",
+    "cumulative": "(cumulative)",
+    "undo": "Undo",
+    "addCustom": "Add",
+    "lastEntries": "Recent entries"
+  },
+  "decreaseMessages": {
+    "zero": [
+      "Perfect day!",
+      "Zero. Well done!",
+      "You didn't give in.",
+      "Total victory.",
+      "Nothing at all. Impressive."
+    ],
+    "zeroBadge": "Zero day",
+    "success": [
+      "Less than planned!",
+      "Great self-control.",
+      "You've got this.",
+      "Below target."
+    ],
+    "successBadge": "In control"
+  },
+  "onboarding": {
+    "steps": {
+      "welcome": {
+        "title": "Welcome",
+        "description": "Doucement helps you improve your habits gradually, without guilt.\n\n🔒 Your data stays on your device. No account, no cloud, no tracking."
+      },
+      "dose": {
+        "title": "Today's dose",
+        "description": "Forget intimidating goals. Focus only on your daily dose.\n\nThe dose automatically evolves based on your progress: +1%, +2%... compound effect does the work."
+      },
+      "effort": {
+        "title": "Every effort counts",
+        "description": "Doing a little is already a lot. Here, 70% is a win."
+      }
+    },
+    "navigation": {
+      "next": "Next",
+      "chooseHabits": "Choose my habits",
+      "skip": "Skip introduction",
+      "createCount": "Create {{count}} habit",
+      "createCount_plural": "Create {{count}} habits",
+      "startWithout": "Start without habits"
+    },
+    "suggestions": {
+      "title": "Habit suggestions",
+      "maxSelection": "You can choose up to {{max}}"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "notifications": "Notifications",
+    "dataManagement": "Data management",
+    "about": "About",
+    "sections": {
+      "data": "Your data",
+      "notifications": "Reminders",
+      "appearance": "Appearance",
+      "install": "Install the app",
+      "backup": "Backup tips",
+      "app": "Application",
+      "about": "About",
+      "danger": "Sensitive zone"
+    },
+    "stats": {
+      "activeHabits": "active habit",
+      "activeHabits_plural": "active habits",
+      "archived": "archived",
+      "archived_plural": "archived",
+      "entries": "entry",
+      "entries_plural": "entries"
+    },
+    "actions": {
+      "export": "📥 Export my data",
+      "import": "📤 Import data",
+      "exportNow": "📥 Export now",
+      "replayOnboarding": "🎓 Replay introduction",
+      "reset": "🗑️ Reset application",
+      "whatsNew": "What's new"
+    },
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System",
+      "hints": {
+        "system": "Theme follows your device preferences",
+        "dark": "Dark mode enabled",
+        "light": "Light mode enabled"
+      }
+    },
+    "install": {
+      "intro": "📱 Doucement can be installed on your phone like a real app, without going through a store.",
+      "ios": {
+        "title": "🍎 On iPhone / iPad (Safari)",
+        "step1": "Open this page in Safari",
+        "step2": "Tap the ↑ (share) icon",
+        "step3": "Select \"Add to Home Screen\""
+      },
+      "android": {
+        "title": "🤖 On Android (Chrome)",
+        "step1": "Open this page in Chrome",
+        "step2": "Tap the ⋮ (three dots) menu",
+        "step3": "Select \"Install app\" or \"Add to Home screen\""
+      },
+      "benefit": "✨ Once installed, the app works offline and opens instantly."
+    },
+    "backup": {
+      "title": "💡 Back up your data regularly!",
+      "text1": "Your data is stored only on this device. If you switch phones, reinstall the app, or clear browser cache, you could lose it.",
+      "text2": "Recommendation: Export your data once a week and keep the file somewhere safe (cloud, email, computer)."
+    },
+    "reset": {
+      "warning": "This action will delete all your data. It cannot be undone."
+    },
+    "about": {
+      "description": "Doucement is an app designed to help you improve your habits gradually, without guilt.",
+      "privacy": "Your data stays on your device. No information is collected or transmitted.",
+      "version": "Version {{version}}",
+      "debugTapHint": "Tap 7 times to enable debug mode."
+    },
+    "modals": {
+      "import": {
+        "title": "Import data",
+        "warning": "Importing will replace all your current data with the file's data.",
+        "irreversible": "This action cannot be undone. Consider exporting your current data first if you want to keep it.",
+        "inProgress": "Importing...",
+        "button": "Import",
+        "successTitle": "✓ Import successful",
+        "failTitle": "Import failed"
+      },
+      "reset": {
+        "title": "Reset application",
+        "text": "You are about to delete all your habits and history.",
+        "irreversible": "This action cannot be undone.",
+        "button": "Reset"
+      }
+    },
+    "messages": {
+      "exportSuccess": "Export complete. Your data is in the downloaded file.",
+      "exportError": "Error during export",
+      "importSuccess": "Import successful. Your data has been restored.",
+      "importError": "This file doesn't seem compatible. Make sure it's a Doucement export.",
+      "debugEnabled": "Debug mode enabled",
+      "debugDisabled": "Debug mode disabled"
+    }
+  },
+  "today": {
+    "yourDoses": "Your doses for today",
+    "newDay": {
+      "messages": [
+        "New day!",
+        "Past midnight, fresh start",
+        "A new day begins"
+      ],
+      "emoji": "🌅"
+    }
+  },
+  "encouragingMessages": {
+    "morning": [
+      "New day, new possibilities",
+      "Mornings are made for first steps",
+      "Today is yours"
+    ],
+    "afternoon": [
+      "You still have time ahead",
+      "The afternoon is still young",
+      "Keep up the momentum"
+    ],
+    "evening": [
+      "Wind down gently",
+      "The day is coming to an end",
+      "There's still a bit of time left"
+    ]
+  },
+  "welcomeBack": {
+    "messages": [
+      "Good to see you again.",
+      "Back? Let's ease into it.",
+      "You're here. No pressure, let's continue.",
+      "Welcome back. Every day is a new chance.",
+      "You came back. That's already a win."
+    ]
+  },
+  "habitNeglected": {
+    "title": "It's been a while",
+    "subtitle": "You haven't logged this habit yesterday.",
+    "subtitle_plural": "You haven't logged this habit for {{days}} days.",
+    "encouragement": "No worries. Let's pick up where you left off.",
+    "resumeButton": "Resume"
+  },
+  "plannedPause": {
+    "buttonLabel": "Take a break",
+    "dialogTitle": "Planned pause",
+    "dialogDescription": "During a pause, this habit won't appear in your daily dose and won't affect your stats.",
+    "reasonLabel": "Reason (optional)",
+    "reasonPlaceholder": "Vacation, illness, project...",
+    "startDateLabel": "Pause start",
+    "endDateLabel": "Pause end",
+    "confirmButton": "Pause",
+    "cancelButton": "Cancel",
+    "activeBadge": "On pause",
+    "resumeButton": "Resume",
+    "reasons": ["Vacation", "Illness", "Busy period", "Other priority"]
+  },
+  "simpleTracking": {
+    "doneButton": "Done",
+    "notTodayButton": "Not today",
+    "transitionSuggestion": "You've been using this habit for 30 days! Want to switch to detailed tracking?",
+    "transitionYes": "Yes, switch to detailed",
+    "transitionNo": "Stay in simple mode"
+  },
+  "intentionalFriction": {
+    "delayTitle": "A moment to reflect",
+    "delayMessage": "Take a few seconds to think...",
+    "preLogQuestion": "How are you feeling right now?",
+    "preLogOptions": ["Stressed", "Bored", "Tired", "Out of habit", "Really want to"],
+    "alternativeTitle": "An alternative?",
+    "alternativeText": "What if you tried instead...",
+    "continueAnyway": "Continue anyway"
+  },
+  "weeklyReview": {
+    "title": "Your week in review",
+    "noHabits": {
+      "title": "No habits yet",
+      "description": "Create your first habit to see your weekly review."
+    },
+    "stats": {
+      "completion": "Completion this week",
+      "activeDays": "active days",
+      "completedDays": "successful days"
+    },
+    "sections": {
+      "activity": "Activity",
+      "perHabit": "Per habit",
+      "patterns": "Your patterns"
+    },
+    "habitStats": {
+      "average": "average",
+      "days": "days"
+    },
+    "messages": {
+      "positive": [
+        "Great week. You're building something.",
+        "7 more days on your journey.",
+        "Consistency pays off. Keep it up.",
+        "Solid week. Compound effect is doing its work."
+      ],
+      "average": [
+        "A mixed week, but you're still here.",
+        "A few active days. Better than zero.",
+        "The week wasn't perfect. So what? Let's keep going."
+      ],
+      "difficult": [
+        "Tough week? It happens.",
+        "Not the best week, but it's just one week.",
+        "What matters isn't falling, it's getting back up.",
+        "Fresh start in 3... 2... 1..."
+      ]
+    }
+  },
+  "reflection": {
+    "title": "Weekly reflection",
+    "question": "What worked well this week?",
+    "placeholder": "Note what helped you stick to your habits...",
+    "saveButton": "Save",
+    "skipButton": "Skip",
+    "savedMessage": "Reflection saved."
+  },
+  "patternAnalysis": {
+    "bestDaysTitle": "Your best days",
+    "bestDaysIntro": "You're particularly consistent on:",
+    "bestTimeTitle": "Your best time",
+    "bestTimeIntro": "You often log in the:",
+    "noDataYet": "Not enough data yet to identify patterns.",
+    "morning": "morning",
+    "afternoon": "afternoon",
+    "evening": "evening"
+  },
+  "adjustmentSuggestions": {
+    "slowDown": {
+      "title": "Suggestion",
+      "message": "Your progress seems to be stalling. How about slowing down a bit?",
+      "action": "Adjust progression"
+    },
+    "keepGoing": {
+      "title": "Keep it up!",
+      "message": "You're on a roll. Maintain this pace."
+    },
+    "overperform": {
+      "title": "Impressive!",
+      "message": "You regularly exceed your goals. Ready to speed up?",
+      "action": "Increase progression"
+    },
+    "dismissAction": "No thanks"
+  },
+  "recalibration": {
+    "title": "Shall we recalibrate together?",
+    "welcomeMessages": [
+      "Good to see you again.",
+      "Life got in the way. That's okay.",
+      "You're back. No pressure.",
+      "You returned. That's already a win."
+    ],
+    "explanation": "Your dose has evolved while you were away. To ease back in, we can adjust your starting point.",
+    "currentDose": "Current dose",
+    "lastDone": "Last completed dose",
+    "levels": {
+      "fifty": "Resume at 50%",
+      "fiftyDesc": "Easier, gentle restart",
+      "seventyFive": "Resume at 75%",
+      "seventyFiveDesc": "Balanced",
+      "full": "Resume where you left off",
+      "fullDesc": "Ambitious",
+      "custom": "Choose a custom value",
+      "customDesc": "You decide"
+    },
+    "newDose": "New dose",
+    "confirmButton": "Recalibrate",
+    "skipButton": "Keep my current dose",
+    "successMessages": [
+      "Got it. Your new dose starts today.",
+      "Recalibration done. What matters is getting back on track.",
+      "New start, same trajectory."
+    ],
+    "skipMessage": "Alright. Your dose stays at {{dose}} {{unit}}. You can always adjust later."
+  },
+  "compoundEffect": {
+    "sectionTitle": "Where you started",
+    "startLabel": "Day 1",
+    "currentLabel": "Today",
+    "arrow": "→",
+    "noProgressYet": "Your progress will build over time.",
+    "daysLabel": "{{count}} day of progress",
+    "daysLabel_plural": "{{count}} days of progress"
+  },
+  "milestones": {
+    "double": {
+      "title": "Dose doubled!",
+      "message": "You've doubled your starting dose. Impressive.",
+      "emoji": "×2"
+    },
+    "triple": {
+      "title": "Dose tripled!",
+      "message": "Three times your starting dose. Incredible progress.",
+      "emoji": "×3"
+    },
+    "half": {
+      "title": "Cut in half!",
+      "message": "You've reduced by half. Great effort.",
+      "emoji": "÷2"
+    },
+    "quarter": {
+      "title": "Cut by four!",
+      "message": "A quarter of your starting dose. Remarkable.",
+      "emoji": "÷4"
+    },
+    "fiftyPercent": {
+      "title": "+50% reached!",
+      "message": "You've progressed by half since you started.",
+      "emoji": "+50%"
+    },
+    "hundredPercent": {
+      "title": "+100% reached!",
+      "message": "You've doubled your capacity. Compound effect in action.",
+      "emoji": "+100%"
+    },
+    "twoHundredPercent": {
+      "title": "+200% reached!",
+      "message": "Triple your starting value. Extraordinary.",
+      "emoji": "+200%"
+    },
+    "weeks": "It's been {{count}} weeks since you started. Look how far you've come.",
+    "days": "{{count}} days on this habit. You're not the same person anymore.",
+    "months": "{{count}} months. Compound effect is doing its work.",
+    "monthsFirst": "One month. Then two. Then three. That's compound effect."
+  },
+  "celebrations": {
+    "25": {
+      "emoji": "🌱",
+      "title": "Quarter of the way there!",
+      "messages": [
+        "You've passed the first quarter of your goal. Great start!",
+        "25% is the beginning of a great journey. Keep it up!"
+      ]
+    },
+    "50": {
+      "emoji": "🌿",
+      "title": "Halfway there!",
+      "messages": [
+        "You're halfway to your goal. You should be proud.",
+        "Half the journey is done. The momentum is there!"
+      ]
+    },
+    "75": {
+      "emoji": "🌳",
+      "title": "Three quarters done!",
+      "messages": [
+        "Only 25% left to reach your goal. You're almost there!",
+        "75% complete. The finish line is in sight!"
+      ]
+    },
+    "100": {
+      "emoji": "🎉",
+      "title": "Goal reached!",
+      "messages": [
+        "You did it! You've reached your goal.",
+        "Mission accomplished. You should be proud of what you've achieved.",
+        "Done. Congratulations, truly."
+      ]
+    },
+    "closeButton": "Continue"
+  },
+  "checkInMessages": {
+    "completed": [
+      "Nice. See you tomorrow.",
+      "Done. Great work.",
+      "Daily dose: accomplished.",
+      "Perfect. Another day on the right track.",
+      "✓ Logged. You're making progress."
+    ],
+    "partial": [
+      "Every effort counts. Logged.",
+      "You made progress today. That's what matters.",
+      "Not 100%, but you didn't give up.",
+      "What matters is you did something.",
+      "Well done. Tomorrow is another day."
+    ],
+    "exceeded": [
+      "Beyond the dose. Impressive, but not required.",
+      "You did more. The momentum is there.",
+      "Extra! But remember: consistency beats intensity."
+    ],
+    "noActivity": [
+      "No entry today. That's okay.",
+      "A break is sometimes progress too.",
+      "Tomorrow is a new opportunity."
+    ]
+  },
+  "habitCreated": [
+    "Habit created. Your daily dose starts tomorrow.",
+    "Here we go. You'll see your first dose tomorrow morning."
+  ],
+  "habitModified": [
+    "Changes saved.",
+    "Got it. Your new progression starts now."
+  ],
+  "habitArchived": [
+    "Habit archived. Its history is preserved.",
+    "Habit paused. You can reactivate it whenever you want."
+  ],
+  "goalReached": [
+    "Goal reached. You did it.",
+    "Target hit. Congratulations, truly.",
+    "It's done. You should be proud."
+  ],
+  "emptyState": {
+    "title": "Everything starts with one habit",
+    "subtitle": "Create your first habit to begin your progress.",
+    "button": "Create a habit"
+  },
+  "habitDetail": {
+    "back": "← Back",
+    "badges": {
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "maintain": "Maintain",
+      "archived": "Archived"
+    },
+    "sections": {
+      "thisWeek": "This week",
+      "recentActivity": "Recent activity",
+      "details": "Details"
+    },
+    "info": {
+      "startValue": "Starting value",
+      "targetValue": "Target value",
+      "progression": "Progression",
+      "createdAt": "Created on",
+      "archivedAt": "Archived on"
+    },
+    "progressionFormat": {
+      "daily": "day",
+      "weekly": "week"
+    }
+  },
+  "statistics": {
+    "periods": {
+      "week": "Week",
+      "month": "Month",
+      "quarter": "Quarter",
+      "year": "Year",
+      "all": "All"
+    },
+    "empty": {
+      "noHabits": {
+        "title": "No statistics yet",
+        "message": "Create your first habit to start seeing your statistics."
+      },
+      "notEnoughData": {
+        "title": "Keep going for a few more days",
+        "message": "You're at {{days}} day. Come back in a few days to see your statistics.",
+        "message_plural": "You're at {{days}} days. Come back in a few days to see your statistics."
+      }
+    },
+    "cards": {
+      "average": "Average",
+      "activeDays": "Active days",
+      "habits": "Habits",
+      "streak": "Streak"
+    },
+    "trends": {
+      "up": "up",
+      "down": "down",
+      "stable": "stable"
+    },
+    "projections": {
+      "goalReached": {
+        "emoji": "🎉",
+        "message": "Goal reached! You should be proud."
+      },
+      "almostThere": {
+        "emoji": "🔥",
+        "message": "The finish is close! Keep up this momentum."
+      },
+      "threeQuarters": {
+        "emoji": "🌳",
+        "message": "Three quarters of the way there. You're almost there!"
+      },
+      "halfWay": {
+        "emoji": "🌿",
+        "message": "Halfway there. You're on the right track."
+      },
+      "quarterWay": {
+        "emoji": "🌱",
+        "message": "Great start! Each day brings you closer to your goal."
+      },
+      "positiveProgress": {
+        "emoji": "✨",
+        "message": "You're moving in the right direction. Keep it up."
+      },
+      "stagnation": {
+        "emoji": "💪",
+        "message": "Every small step counts. What matters is to keep going."
+      }
+    }
+  },
+  "suggestedHabits": {
+    "evidence": "Evidence",
+    "evidenceLevels": {
+      "strong": "Strong",
+      "moderate": "Moderate",
+      "emerging": "Emerging"
+    },
+    "startDose": "Starting dose"
+  },
+  "notifications": {
+    "morning": {
+      "title": "Morning reminder",
+      "hint": "A reminder to start your day"
+    },
+    "evening": {
+      "title": "Evening reminder",
+      "hint": "A reminder if you haven't logged today"
+    },
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "permissionRequired": "Allow notifications to receive reminders",
+    "allowButton": "Allow notifications"
+  },
+  "timeOfDaySelector": {
+    "title": "Time of day",
+    "hint": "Optional. When do you prefer to do this habit?",
+    "none": "Not set"
+  },
+  "habitCard": {
+    "progressionIncrease": "You were at {{startValue}}. +{{diff}} today!",
+    "progressionDecrease": "Goal: -{{diff}} from the start"
+  },
+  "daysOfWeek": {
+    "short": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "long": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    }
+  },
+  "categories": {
+    "sleep": {
+      "name": "Sleep",
+      "tagline": "The universal multiplier"
+    },
+    "movement": {
+      "name": "Movement",
+      "tagline": "Every step counts"
+    },
+    "mindfulness": {
+      "name": "Meditation",
+      "tagline": "The stress regulator"
+    },
+    "screen": {
+      "name": "Screens",
+      "tagline": "The attention liberator"
+    },
+    "reading": {
+      "name": "Reading",
+      "tagline": "The stress antidote"
+    },
+    "substance": {
+      "name": "Substances",
+      "tagline": "Reverse progression"
+    },
+    "finance": {
+      "name": "Finances",
+      "tagline": "Building peace of mind"
+    },
+    "hygiene": {
+      "name": "Hygiene",
+      "tagline": "Small gestures that matter"
+    },
+    "food": {
+      "name": "Food",
+      "tagline": "Nourishing body and mind"
+    },
+    "social": {
+      "name": "Social",
+      "tagline": "Cultivating connections"
+    },
+    "productivity": {
+      "name": "Productivity",
+      "tagline": "Focus and efficiency"
+    },
+    "gratitude": {
+      "name": "Gratitude",
+      "tagline": "Appreciating the present"
+    }
+  },
+  "units": {
+    "eveningsPerWeek": "evenings/week",
+    "minutes": "minutes",
+    "steps": "steps",
+    "reps": "reps",
+    "breaths": "breaths",
+    "pages": "pages",
+    "cigarettes": "cigarettes",
+    "drinksPerWeek": "drinks/week",
+    "coffees": "coffees",
+    "glasses": "glasses",
+    "euroPerWeek": "€/week",
+    "timesPerWeek": "times/week",
+    "mealsPerWeek": "meals/week",
+    "entries": "entries"
+  },
+  "benefits": {
+    "mentalHealth": "Mental health",
+    "cognition": "Cognition",
+    "energy": "Energy",
+    "immunity": "Immunity",
+    "sleepQuality": "Sleep quality",
+    "fallingAsleep": "Falling asleep",
+    "recovery": "Recovery",
+    "longevity": "Longevity",
+    "cardiovascular": "Cardiovascular",
+    "mood": "Mood",
+    "strength": "Strength",
+    "metabolism": "Metabolism",
+    "digestion": "Digestion",
+    "bloodSugar": "Blood sugar",
+    "anxiety": "Anxiety",
+    "depression": "Depression",
+    "sleep": "Sleep",
+    "wellBeing": "Well-being",
+    "relaxation": "Relaxation",
+    "qualityOfLife": "Quality of life",
+    "stress": "Stress",
+    "emotionalRegulation": "Emotional regulation",
+    "calm": "Calm",
+    "concentration": "Concentration",
+    "empathy": "Empathy",
+    "disconnection": "Disconnection",
+    "respiratory": "Respiratory",
+    "hydration": "Hydration",
+    "skin": "Skin",
+    "serenity": "Serenity",
+    "security": "Security",
+    "goals": "Goals",
+    "memory": "Memory",
+    "creativity": "Creativity",
+    "oralHealth": "Oral health",
+    "heart": "Heart",
+    "prevention": "Prevention",
+    "savings": "Savings",
+    "nutrition": "Nutrition",
+    "control": "Control",
+    "time": "Time",
+    "happiness": "Happiness",
+    "productivity": "Productivity",
+    "quality": "Quality",
+    "satisfaction": "Satisfaction",
+    "optimism": "Optimism"
+  },
+  "suggested": {
+    "sleep-regular-bedtime": {
+      "name": "Regular bedtime",
+      "description": "Go to bed at the same time each night",
+      "scienceHighlight": "Improving sleep reduces depression by 63% and anxiety by 51%."
+    },
+    "sleep-screen-before-bed": {
+      "name": "Reduce screens before bed",
+      "description": "Screen-free time before sleeping",
+      "scienceHighlight": "8% of premature deaths are attributed to poor sleep habits."
+    },
+    "movement-daily-walk": {
+      "name": "Daily walk",
+      "description": "Number of steps per day",
+      "scienceHighlight": "Every additional 1000 steps reduces mortality by 15%."
+    },
+    "movement-pushups": {
+      "name": "Push-ups or squats",
+      "description": "Simple strengthening exercises",
+      "scienceHighlight": "15 minutes of exercise per day reduces mortality by 20%."
+    },
+    "movement-walk-after-meal": {
+      "name": "Post-meal walk",
+      "description": "Short digestive walk",
+      "scienceHighlight": "Walking also improves sleep and reduces medication needs."
+    },
+    "screen-social-media": {
+      "name": "Reduce social media",
+      "description": "Daily time on social networks",
+      "scienceHighlight": "One week without social media reduces anxiety by 16% and depression by 25%."
+    },
+    "screen-before-sleep": {
+      "name": "No screens 1h before bed",
+      "description": "Screen-free time in the evening",
+      "scienceHighlight": "Reducing screen time to <3h/week significantly improves well-being."
+    },
+    "mindfulness-meditation": {
+      "name": "Guided meditation",
+      "description": "A few minutes of mindfulness",
+      "scienceHighlight": "Meditation shows moderate effects on anxiety and depression."
+    },
+    "mindfulness-breathing": {
+      "name": "Breathing exercises",
+      "description": "Deep breaths per day",
+      "scienceHighlight": "Even short sessions reduce cortisol reactivity."
+    },
+    "reading-daily": {
+      "name": "Daily reading",
+      "description": "Pages read each day",
+      "scienceHighlight": "6 minutes of reading reduces stress by 68%."
+    },
+    "reading-before-bed": {
+      "name": "Reading before bed",
+      "description": "Read instead of screens at night",
+      "scienceHighlight": "Readers live on average 2 years longer."
+    },
+    "substance-cigarettes": {
+      "name": "Reduce cigarettes",
+      "description": "Gradual tobacco reduction",
+      "scienceHighlight": "Gradual reduction has better success rates than quitting cold turkey."
+    },
+    "substance-alcohol": {
+      "name": "Reduce alcohol",
+      "description": "Gradual reduction of consumption",
+      "scienceHighlight": "The WHO recommends a harm reduction approach."
+    },
+    "substance-caffeine": {
+      "name": "Reduce caffeine",
+      "description": "Fewer coffees per day",
+      "scienceHighlight": "Gradual reduction avoids withdrawal symptoms."
+    },
+    "hydration-water": {
+      "name": "Drink more water",
+      "description": "Increase daily water intake",
+      "scienceHighlight": "Good hydration improves cognitive performance by 10-15%."
+    },
+    "finance-savings": {
+      "name": "Save weekly",
+      "description": "Set aside a fixed amount",
+      "scienceHighlight": "Automatic saving reduces financial stress by 40%."
+    },
+    "learning-language": {
+      "name": "Learn a language",
+      "description": "Practice daily",
+      "scienceHighlight": "Learning a language delays cognitive decline by 4-5 years."
+    },
+    "hygiene-floss": {
+      "name": "Floss",
+      "description": "Clean between teeth",
+      "scienceHighlight": "Flossing reduces cardiovascular disease by 20%."
+    },
+    "food-restaurant": {
+      "name": "Fewer restaurants",
+      "description": "Reduce restaurant meals",
+      "scienceHighlight": "Cooking at home reduces chronic disease risk by 28%."
+    },
+    "food-mealprep": {
+      "name": "Meal prep",
+      "description": "Cook ahead for the week",
+      "scienceHighlight": "Meal prep improves nutritional quality by 50%."
+    },
+    "social-quality-time": {
+      "name": "Quality time",
+      "description": "Dedicated moments with loved ones",
+      "scienceHighlight": "Social relationships increase life expectancy by 50%."
+    },
+    "productivity-deep-work": {
+      "name": "Deep work",
+      "description": "Uninterrupted focus blocks",
+      "scienceHighlight": "90 minutes of deep work equals 4 hours of fragmented work."
+    },
+    "gratitude-journal": {
+      "name": "Gratitude journal",
+      "description": "Note 3 positive things",
+      "scienceHighlight": "Gratitude improves well-being by 25% in 10 weeks."
+    }
+  }
+}

@@ -37,6 +37,76 @@ export type HabitCategory =
   | 'gratitude'
 
 /**
+ * Clé de bénéfice pour i18n
+ */
+export type BenefitKey =
+  | 'mentalHealth'
+  | 'cognition'
+  | 'energy'
+  | 'immunity'
+  | 'sleepQuality'
+  | 'fallingAsleep'
+  | 'recovery'
+  | 'longevity'
+  | 'cardiovascular'
+  | 'mood'
+  | 'strength'
+  | 'metabolism'
+  | 'digestion'
+  | 'bloodSugar'
+  | 'anxiety'
+  | 'depression'
+  | 'sleep'
+  | 'wellBeing'
+  | 'relaxation'
+  | 'qualityOfLife'
+  | 'stress'
+  | 'emotionalRegulation'
+  | 'calm'
+  | 'concentration'
+  | 'empathy'
+  | 'disconnection'
+  | 'respiratory'
+  | 'hydration'
+  | 'skin'
+  | 'serenity'
+  | 'security'
+  | 'goals'
+  | 'memory'
+  | 'creativity'
+  | 'oralHealth'
+  | 'heart'
+  | 'prevention'
+  | 'savings'
+  | 'nutrition'
+  | 'control'
+  | 'time'
+  | 'happiness'
+  | 'productivity'
+  | 'quality'
+  | 'satisfaction'
+  | 'optimism'
+
+/**
+ * Clé d'unité pour i18n
+ */
+export type UnitKey =
+  | 'eveningsPerWeek'
+  | 'minutes'
+  | 'steps'
+  | 'reps'
+  | 'breaths'
+  | 'pages'
+  | 'cigarettes'
+  | 'drinksPerWeek'
+  | 'coffees'
+  | 'glasses'
+  | 'euroPerWeek'
+  | 'timesPerWeek'
+  | 'mealsPerWeek'
+  | 'entries'
+
+/**
  * Structure d'une habitude suggérée
  */
 export interface SuggestedHabit {
@@ -48,6 +118,8 @@ export interface SuggestedHabit {
   description: string
   direction: HabitDirection
   unit: string
+  /** Clé i18n pour l'unité (pour traduction) */
+  unitKey: UnitKey
   startValue: number
   progression: {
     mode: ProgressionMode
@@ -64,6 +136,8 @@ export interface SuggestedHabit {
   difficulty?: HabitDifficulty
   evidenceLevel: EvidenceLevel
   benefits: string[]
+  /** Clés i18n pour les bénéfices (pour traduction) */
+  benefitKeys: BenefitKey[]
   scienceHighlight: string
   /** URLs des sources scientifiques */
   sources?: string[]
@@ -185,6 +259,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Aller au lit à la même heure chaque soir',
     direction: 'increase',
     unit: 'soirs/semaine',
+    unitKey: 'eveningsPerWeek',
     startValue: 3,
     progression: {
       mode: 'absolute',
@@ -196,6 +271,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'moderate',
     evidenceLevel: 'very_high',
     benefits: ['Santé mentale', 'Cognition', 'Énergie', 'Immunité'],
+    benefitKeys: ['mentalHealth', 'cognition', 'energy', 'immunity'],
     scienceHighlight: "Améliorer le sommeil réduit la dépression de 63% et l'anxiété de 51%.",
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/34073814/',
@@ -211,6 +287,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Temps sans écran avant de dormir',
     direction: 'increase',
     unit: 'minutes',
+    unitKey: 'minutes',
     startValue: 15,
     progression: {
       mode: 'absolute',
@@ -221,6 +298,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'moderate',
     evidenceLevel: 'very_high',
     benefits: ['Qualité du sommeil', 'Endormissement', 'Récupération'],
+    benefitKeys: ['sleepQuality', 'fallingAsleep', 'recovery'],
     scienceHighlight:
       '8% des décès prématurés sont attribuables à de mauvaises habitudes de sommeil.',
     sources: [
@@ -241,6 +319,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Nombre de pas par jour',
     direction: 'increase',
     unit: 'pas',
+    unitKey: 'steps',
     startValue: 2000,
     progression: {
       mode: 'absolute',
@@ -251,6 +330,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'easy',
     evidenceLevel: 'very_high',
     benefits: ['Longévité', 'Cardiovasculaire', 'Humeur', 'Énergie'],
+    benefitKeys: ['longevity', 'cardiovascular', 'mood', 'energy'],
     scienceHighlight: 'Chaque 1000 pas supplémentaires réduisent la mortalité de 15%.',
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/32563261/',
@@ -266,6 +346,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Exercices de renforcement simple',
     direction: 'increase',
     unit: 'répétitions',
+    unitKey: 'reps',
     startValue: 5,
     progression: {
       mode: 'absolute',
@@ -276,6 +357,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'easy',
     evidenceLevel: 'very_high',
     benefits: ['Force', 'Métabolisme', 'Énergie'],
+    benefitKeys: ['strength', 'metabolism', 'energy'],
     scienceHighlight: "15 minutes d'exercice par jour réduisent la mortalité de 20%.",
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/31195227/',
@@ -291,6 +373,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Courte marche digestive',
     direction: 'increase',
     unit: 'minutes',
+    unitKey: 'minutes',
     startValue: 5,
     progression: {
       mode: 'absolute',
@@ -302,6 +385,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'easy',
     evidenceLevel: 'high',
     benefits: ['Digestion', 'Glycémie', 'Énergie'],
+    benefitKeys: ['digestion', 'bloodSugar', 'energy'],
     scienceHighlight: 'La marche améliore aussi le sommeil et réduit le besoin de médicaments.',
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/34598467/',
@@ -321,6 +405,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Temps quotidien sur les réseaux',
     direction: 'decrease',
     unit: 'minutes',
+    unitKey: 'minutes',
     startValue: 60,
     progression: {
       mode: 'absolute',
@@ -331,6 +416,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'challenging',
     evidenceLevel: 'high',
     benefits: ['Anxiété', 'Dépression', 'Sommeil', 'Bien-être'],
+    benefitKeys: ['anxiety', 'depression', 'sleep', 'wellBeing'],
     scienceHighlight: "Une semaine sans réseaux réduit l'anxiété de 16% et la dépression de 25%.",
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/35537640/',
@@ -346,6 +432,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     description: 'Temps sans écran le soir',
     direction: 'increase',
     unit: 'minutes',
+    unitKey: 'minutes',
     startValue: 15,
     progression: {
       mode: 'absolute',
@@ -356,6 +443,7 @@ export const SUGGESTED_HABITS: SuggestedHabit[] = [
     difficulty: 'moderate',
     evidenceLevel: 'high',
     benefits: ['Sommeil', 'Relaxation', 'Qualité de vie'],
+    benefitKeys: ['sleep', 'relaxation', 'qualityOfLife'],
     scienceHighlight: "Réduire l'écran à <3h/semaine améliore significativement le bien-être.",
     sources: [
       'https://pubmed.ncbi.nlm.nih.gov/31898836/',

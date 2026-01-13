@@ -24,6 +24,16 @@ function SuggestedHabitCard({
   const { t } = useTranslation()
   const [showSourcesModal, setShowSourcesModal] = useState(false)
 
+  // Use translated values with fallback to original values
+  const habitName = t(`suggested.${habit.id}.name`, { defaultValue: habit.name })
+  const habitDescription = t(`suggested.${habit.id}.description`, {
+    defaultValue: habit.description,
+  })
+  const habitScienceHighlight = t(`suggested.${habit.id}.scienceHighlight`, {
+    defaultValue: habit.scienceHighlight,
+  })
+  const habitUnit = t(`units.${habit.unitKey}`, { defaultValue: habit.unit })
+
   const handleClick = () => {
     onSelect?.(habit)
   }
@@ -56,12 +66,12 @@ function SuggestedHabitCard({
         </span>
         <div className="suggested-habit-card__title-group">
           <div className="suggested-habit-card__name-row">
-            <h3 className="suggested-habit-card__name">{habit.name}</h3>
+            <h3 className="suggested-habit-card__name">{habitName}</h3>
             {habit.difficulty && (
               <DifficultyBadge difficulty={habit.difficulty} showLabel={!compact} />
             )}
           </div>
-          {!compact && <p className="suggested-habit-card__description">{habit.description}</p>}
+          {!compact && <p className="suggested-habit-card__description">{habitDescription}</p>}
         </div>
         {selected && (
           <span className="suggested-habit-card__check" aria-hidden="true">
@@ -76,14 +86,14 @@ function SuggestedHabitCard({
             <span className="suggested-habit-card__science-icon" aria-hidden="true">
               🔬
             </span>
-            <p className="suggested-habit-card__science-text">{habit.scienceHighlight}</p>
+            <p className="suggested-habit-card__science-text">{habitScienceHighlight}</p>
           </div>
 
           <div className="suggested-habit-card__meta">
             <div className="suggested-habit-card__benefits">
-              {habit.benefits.slice(0, 3).map((benefit) => (
-                <span key={benefit} className="suggested-habit-card__benefit-tag">
-                  {benefit}
+              {habit.benefitKeys.slice(0, 3).map((benefitKey) => (
+                <span key={benefitKey} className="suggested-habit-card__benefit-tag">
+                  {t(`benefits.${benefitKey}`, { defaultValue: benefitKey })}
                 </span>
               ))}
             </div>
@@ -98,7 +108,7 @@ function SuggestedHabitCard({
               {t('suggestedHabits.startDose')} :
             </span>
             <span className="suggested-habit-card__dose-value">
-              {habit.startValue} {habit.unit}
+              {habit.startValue} {habitUnit}
             </span>
           </div>
 
@@ -117,8 +127,8 @@ function SuggestedHabitCard({
       <SourcesModal
         isOpen={showSourcesModal}
         onClose={() => setShowSourcesModal(false)}
-        habitName={habit.name}
-        scienceHighlight={habit.scienceHighlight}
+        habitName={habitName}
+        scienceHighlight={habitScienceHighlight}
         sources={habit.sources || []}
       />
     </Card>

@@ -225,7 +225,8 @@
           "id": "4.1",
           "name": "Créer fichier de traduction anglais",
           "description": "Traduire fr.json vers en.json. Adapter le ton bienveillant en anglais.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-12",
           "priority": "high",
           "dependsOn": ["3.4"],
           "files": ["src/i18n/locales/en.json"],
@@ -330,9 +331,9 @@
   ],
   "stats": {
     "totalTasks": 16,
-    "completed": 11,
+    "completed": 12,
     "inProgress": 0,
-    "pending": 5,
+    "pending": 4,
     "blocked": 0
   }
 }
