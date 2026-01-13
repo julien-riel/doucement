@@ -44,9 +44,6 @@ export type { PlannedPauseDialogProps } from './PlannedPauseDialog'
 export { default as SimpleCheckIn } from './SimpleCheckIn'
 export type { SimpleCheckInProps } from './SimpleCheckIn'
 
-export { default as ReflectionDelay } from './ReflectionDelay'
-export type { ReflectionDelayProps } from './ReflectionDelay'
-
 export { default as WeeklyReflectionInput } from './WeeklyReflectionInput'
 export type { WeeklyReflectionInputProps } from './WeeklyReflectionInput'
 
@@ -57,17 +54,11 @@ export { default as SuggestedHabitCard } from './SuggestedHabitCard'
 
 export { default as IdentityPrompt } from './IdentityPrompt'
 
-export { default as RecalibrationPrompt } from './RecalibrationPrompt'
-export type { RecalibrationPromptProps } from './RecalibrationPrompt'
-
 export { default as ProgressComparison } from './ProgressComparison'
 
 export { default as WeeklyProgressSummary } from './WeeklyProgressSummary'
 
 export { default as FirstCheckInPrompt } from './FirstCheckInPrompt'
-
-export { default as MilestoneCard } from './MilestoneCard'
-export type { MilestoneCardProps } from './MilestoneCard'
 
 export { default as ShareableProgressCard } from './ShareableProgressCard'
 export type { ShareableProgressCardProps } from './ShareableProgressCard'

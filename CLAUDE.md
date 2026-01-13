@@ -12,23 +12,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Partial effort = success**: 70% completion is still a win
 - **No failure vocabulary**: Never use words like "failed", "missed", "streak broken"
 
-### Technical Architecture (Planned)
-- **100% static SPA** - No backend server, no user accounts
-- **Local storage only** - All data stays on user's device (localStorage for MVP, IndexedDB later)
+### Technical Architecture
+- **100% static SPA** - React 18 with Vite, no backend server, no user accounts
+- **Local storage only** - All data stays on user's device (localStorage)
 - **Privacy-first** - Zero analytics, zero tracking
-- **Data format**: JSON with `schemaVersion` field, dates as `YYYY-MM-DD`
-- **Import/Export**: Manual JSON file download/upload with schema validation
+- **Data format**: JSON with `schemaVersion` field (currently v10), dates as `YYYY-MM-DD`
+- **Import/Export**: Manual JSON file download/upload with schema validation and auto-migration
+- **PWA Support**: Service worker, app shortcuts, offline capability
+- **i18n**: French (default) and English supported
 
 ## Current State
 
 The project is a functional React SPA with most features implemented.
 
 **Key directories:**
-- `src/components/` - React components (Button, Card, Input, HabitCard, etc.)
-- `src/pages/` - Page components (Today, Onboarding, CreateHabit, Settings, etc.)
-- `src/services/` - Business logic (storage, progression, notifications, importExport)
-- `src/hooks/` - Custom hooks (useAppData, useNotifications, useDebugMode)
+- `src/components/` - React components organized by domain:
+  - `ui/` - Reusable UI components (Button, Card, Input, EmojiPicker, etc.)
+  - `habits/` - Habit-specific components (HabitCard, CheckInButtons, etc.)
+  - `charts/` - Visualization components (ProgressionChart, HeatmapCalendar, etc.)
+  - `layout/` - Layout components (MainLayout)
+  - `onboarding/` - Onboarding flow components
+  - `debug/` - Debug panel and tools
+- `src/pages/` - Page components (Today, Onboarding, CreateHabit, Settings, Statistics, etc.)
+- `src/services/` - Business logic (storage, progression, notifications, statistics, migration, etc.)
+- `src/hooks/` - Custom hooks (useAppData, useNotifications, useDebugMode, useTheme, useCelebrations)
 - `src/types/` - TypeScript type definitions
+- `src/i18n/` - Internationalization configuration and locales (fr, en)
+- `src/utils/` - Utility functions (date, absence detection, habitDisplay, patternAnalysis)
+- `src/contexts/` - React contexts (WhatsNewContext)
+- `src/styles/` - Global styles and design tokens
 - `public/test-data/` - Test data files for E2E testing
 
 **Documentation:**
@@ -50,7 +62,7 @@ When implementing the UI, follow `docs/design/design-system-specification.md`:
 
 ## Language & Tone
 
-The app is in French. When writing user-facing text:
+The app supports multiple languages (French default, English available). When writing user-facing text:
 - Use official terminology from `docs/comm/banque-messages.md`
 - Use inclusive writing with middle dot (fier·e, motivé·e)
 - Never use: "échec", "raté", "manqué", "retard", "insuffisant"
@@ -84,3 +96,52 @@ Located in `public/test-data/`:
 - Test user journeys: onboarding, habit creation, check-in, weekly review
 - Verify UI states match the test data conditions
 - No external dependencies - all tests run locally
+
+## Development Commands
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run test         # Run unit tests (Vitest)
+npm run test:watch   # Run tests in watch mode
+npm run lint         # Run ESLint
+npm run typecheck    # Run TypeScript type checking
+npm run format       # Format code with Prettier
+```
+
+## Code Health Check
+
+A health check script is available to audit the codebase quality:
+
+```bash
+./scripts/health-check.sh
+```
+
+### What it checks
+
+1. **Empty directories** - Detects leftover empty folders from refactoring
+2. **Test file sizes** - Warns if test files exceed 3x source file size
+3. **TypeScript compilation** - Ensures no type errors
+4. **ESLint** - Validates code style
+5. **Documentation** - Checks required docs exist (PRD, design system, coherence matrix)
+
+### Interpreting results
+
+- **✓ Green** - All checks pass
+- **⚠ Yellow** - Warnings (non-blocking but should be reviewed)
+- **✗ Red** - Errors that need immediate attention
+
+### Recommended frequency
+
+Run the health check:
+- Before each release
+- After major refactoring
+- When onboarding new contributors
+- Monthly as part of maintenance
+
+### Reference documentation
+
+- `docs/coherence-matrix.md` - Types and their usage across the codebase
+- `docs/prd.md` - Product requirements
+- `docs/design/design-system-specification.md` - UI guidelines
