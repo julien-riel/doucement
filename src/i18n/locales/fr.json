@@ -1,0 +1,57 @@
+{
+  "common": {
+    "continue": "Continuer",
+    "back": "Retour",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "done": "Fait",
+    "skip": "Passer",
+    "all": "Tous"
+  },
+  "navigation": {
+    "today": "Aujourd'hui",
+    "habits": "Habitudes",
+    "statistics": "Statistiques",
+    "settings": "Param\u00e8tres"
+  },
+  "habits": {
+    "newHabit": "Nouvelle habitude",
+    "createHabit": "Cr\u00e9er l'habitude",
+    "editHabit": "Modifier l'habitude",
+    "deleteHabit": "Archiver l'habitude",
+    "dose": "Dose",
+    "doseOfDay": "Dose du jour",
+    "unit": "Unit\u00e9",
+    "type": {
+      "increase": "Augmenter",
+      "decrease": "R\u00e9duire",
+      "maintain": "Maintenir"
+    },
+    "difficulty": {
+      "all": "Tous",
+      "easy": "Facile",
+      "moderate": "Mod\u00e9r\u00e9",
+      "challenging": "Exigeant"
+    },
+    "timeOfDay": {
+      "all": "Tous",
+      "morning": "Matin",
+      "afternoon": "Apr\u00e8s-midi",
+      "evening": "Soir",
+      "night": "Nuit"
+    },
+    "resultCount": "{{count}} habitude",
+    "resultCount_plural": "{{count}} habitudes"
+  },
+  "settings": {
+    "title": "Param\u00e8tres",
+    "language": "Langue",
+    "theme": "Th\u00e8me",
+    "notifications": "Notifications",
+    "dataManagement": "Gestion des donn\u00e9es",
+    "about": "\u00c0 propos"
+  }
+}

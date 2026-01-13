@@ -674,6 +674,19 @@
   font-size: var(--text-sm);
 }
 
+/* Secondary filter row (difficulty) */
+.step-choose__filters--secondary {
+  margin-top: var(--spacing-2);
+}
+
+/* Result count */
+.step-choose__result-count {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+  margin: var(--spacing-1) 0 0;
+}
+
 /* Conteneur du carrousel d'habitudes suggérées */
 .step-choose__carousel-container {
   margin: var(--spacing-2) calc(-1 * var(--spacing-6));

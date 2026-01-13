@@ -29,6 +29,7 @@ import {
 import {
   Habit,
   HabitDirection,
+  HabitDifficulty,
   ProgressionMode,
   ProgressionPeriod,
   CreateHabitInput,
@@ -134,6 +135,8 @@ function CreateHabit() {
   const [step, setStep] = useState<WizardStep>('choose')
   const [form, setForm] = useState<HabitFormState>(INITIAL_FORM_STATE)
   const [activeCategory, setActiveCategory] = useState<HabitCategory | 'all'>('all')
+  const [activeDifficulty, setActiveDifficulty] = useState<HabitDifficulty | 'all'>('all')
+  const [activeTimeOfDay, setActiveTimeOfDay] = useState<TimeOfDay | 'all'>('all')
   const [selectedCategory, setSelectedCategory] = useState<HabitCategory | null>(null)
   const [createdHabit, setCreatedHabit] = useState<Habit | null>(null)
   const navigate = useNavigate()
@@ -145,11 +148,27 @@ function CreateHabit() {
   }, [])
 
   const filteredSuggestions = useMemo(() => {
+    let filtered = suggestedHabits
+
+    // Filter by category
     if (activeCategory === 'all') {
-      return suggestedHabits.slice(0, 6)
+      filtered = filtered.slice(0, 6)
+    } else {
+      filtered = filtered.filter((h) => h.category === activeCategory)
     }
-    return suggestedHabits.filter((h) => h.category === activeCategory)
-  }, [suggestedHabits, activeCategory])
+
+    // Filter by difficulty
+    if (activeDifficulty !== 'all') {
+      filtered = filtered.filter((h) => h.difficulty === activeDifficulty)
+    }
+
+    // Filter by time of day
+    if (activeTimeOfDay !== 'all') {
+      filtered = filtered.filter((h) => h.timeOfDay === activeTimeOfDay)
+    }
+
+    return filtered
+  }, [suggestedHabits, activeCategory, activeDifficulty, activeTimeOfDay])
 
   const stepIndex = useMemo(() => {
     const steps: WizardStep[] = ['choose', 'type', 'details', 'intentions', 'identity', 'confirm']
@@ -376,10 +395,92 @@ function CreateHabit() {
           ))}
         </div>
 
+        {/* Difficulty filters */}
+        <div className="step-choose__filters step-choose__filters--secondary">
+          <button
+            type="button"
+            className={`step-choose__filter ${activeDifficulty === 'all' ? 'step-choose__filter--active' : ''}`}
+            onClick={() => setActiveDifficulty('all')}
+          >
+            Tous
+          </button>
+          <button
+            type="button"
+            className={`step-choose__filter ${activeDifficulty === 'easy' ? 'step-choose__filter--active' : ''}`}
+            onClick={() => setActiveDifficulty('easy')}
+          >
+            Facile
+          </button>
+          <button
+            type="button"
+            className={`step-choose__filter ${activeDifficulty === 'moderate' ? 'step-choose__filter--active' : ''}`}
+            onClick={() => setActiveDifficulty('moderate')}
+          >
+            Modéré
+          </button>
+          <button
+            type="button"
+            className={`step-choose__filter ${activeDifficulty === 'challenging' ? 'step-choose__filter--active' : ''}`}
+            onClick={() => setActiveDifficulty('challenging')}
+          >
+            Exigeant
+          </button>
+        </div>
+
+        {/* Time of day filters */}
+        <div className="step-choose__filters step-choose__filters--secondary">
+          <button
+            type="button"
+            className={`step-choose__filter ${activeTimeOfDay === 'all' ? 'step-choose__filter--active' : ''}`}
+            onClick={() => setActiveTimeOfDay('all')}
+          >
+            Tous
+          </button>
+          <button
+            type="button"
+            className={`step-choose__filter ${activeTimeOfDay === 'morning' ? 'step-choose__filter--active' : ''}`}
+            onClick={() => setActiveTimeOfDay('morning')}
+          >
+            <span className="step-choose__filter-emoji">🌅</span>
+            <span className="step-choose__filter-name">Matin</span>
+          </button>
+          <button
+            type="button"
+            className={`step-choose__filter ${activeTimeOfDay === 'afternoon' ? 'step-choose__filter--active' : ''}`}
+            onClick={() => setActiveTimeOfDay('afternoon')}
+          >
+            <span className="step-choose__filter-emoji">☀️</span>
+            <span className="step-choose__filter-name">Après-midi</span>
+          </button>
+          <button
+            type="button"
+            className={`step-choose__filter ${activeTimeOfDay === 'evening' ? 'step-choose__filter--active' : ''}`}
+            onClick={() => setActiveTimeOfDay('evening')}
+          >
+            <span className="step-choose__filter-emoji">🌙</span>
+            <span className="step-choose__filter-name">Soir</span>
+          </button>
+          <button
+            type="button"
+            className={`step-choose__filter ${activeTimeOfDay === 'night' ? 'step-choose__filter--active' : ''}`}
+            onClick={() => setActiveTimeOfDay('night')}
+          >
+            <span className="step-choose__filter-emoji">🌃</span>
+            <span className="step-choose__filter-name">Nuit</span>
+          </button>
+        </div>
+
+        {/* Result count */}
+        <p className="step-choose__result-count">
+          {filteredSuggestions.length === 1
+            ? '1 habitude'
+            : `${filteredSuggestions.length} habitudes`}
+        </p>
+
         {/* Carrousel d'habitudes suggérées */}
         <div className="step-choose__carousel-container">
           <HabitCarousel
-            key={activeCategory}
+            key={`${activeCategory}-${activeDifficulty}-${activeTimeOfDay}`}
             itemsPerViewDesktop={2}
             itemsPerViewMobile={1}
             ariaLabel="Habitudes suggérées"
