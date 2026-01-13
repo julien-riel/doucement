@@ -1,446 +1,285 @@
 {
-  "project": "Audit Qualité et Cohérence du Codebase",
-  "description": "Audit complet du codebase, élimination des incohérences, synchronisation de la documentation, création d'outils de maintenance",
+  "project": "Audit de Maturité Multi-Dimensionnel",
+  "description": "Bilan de santé complet du projet avec matrice de maturité scorée selon 8 dimensions de qualité",
   "createdAt": "2026-01-13",
   "lastRelease": "1.22.0",
   "docs": [
-    "docs/prd-audit-qualite.md",
-    "docs/design/design-system-specification.md"
+    "docs/prd-audit-maturite.md",
+    "docs/prd.md",
+    "docs/design/design-system-specification.md",
+    "docs/coherence-matrix.md"
   ],
   "phases": [
     {
       "id": "phase-1",
-      "name": "Phase 1 - Nettoyage structure",
-      "description": "Supprimer les fichiers obsolètes et répertoires vides",
+      "name": "Phase 1 - Audits techniques",
+      "description": "Évaluation des dimensions mesurables automatiquement ou semi-automatiquement",
       "status": "completed",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "1.1",
-          "name": "Supprimer répertoires vides",
-          "description": "Supprimer les répertoires vides dans src/components/ : Button/, Card/, BottomNav/. Ces répertoires sont des vestiges de refactoring précédents.",
+          "name": "Audit Fonctionnalité",
+          "description": "Comparer le PRD avec l'implémentation actuelle. Vérifier chaque use case, identifier les fonctionnalités complètes/partielles/manquantes, lister les bugs connus.",
           "status": "completed",
           "completedAt": "2026-01-13",
           "priority": "high",
           "dependsOn": [],
           "files": [
-            "src/components/Button/",
-            "src/components/Card/",
-            "src/components/BottomNav/"
+            "docs/prd.md",
+            "src/pages/",
+            "src/components/"
           ],
           "tests": [],
           "acceptance": [
-            "Aucun répertoire vide dans src/components/",
-            "Build passe sans erreur",
-            "Pas de références cassées"
+            "Checklist PRD vs code complétée",
+            "Score fonctionnalité attribué (1-5)",
+            "Liste des limitations documentée"
           ]
         },
         {
           "id": "1.2",
-          "name": "Identifier fichiers orphelins",
-          "description": "Analyser le codebase pour trouver les fichiers non importés ou non utilisés. Utiliser les outils d'analyse statique pour détecter le code mort.",
+          "name": "Audit Maintenabilité",
+          "description": "Analyser la complexité du code, identifier les hot spots difficiles à maintenir, vérifier le respect des patterns, détecter le code mort ou dupliqué.",
           "status": "completed",
           "completedAt": "2026-01-13",
-          "priority": "medium",
-          "dependsOn": ["1.1"],
-          "files": [],
+          "priority": "high",
+          "dependsOn": [],
+          "files": [
+            "src/services/",
+            "src/hooks/",
+            "src/utils/"
+          ],
           "tests": [],
           "acceptance": [
-            "Liste des fichiers orphelins documentée",
-            "Décision pour chaque fichier (supprimer/garder)",
-            "Rapport généré"
-          ],
-          "report": {
-            "orphanFilesFound": 3,
-            "filesDeleted": [
-              "src/components/habits/ReflectionDelay.tsx",
-              "src/components/habits/RecalibrationPrompt.tsx",
-              "src/components/habits/MilestoneCard.tsx"
-            ],
-            "reason": "Components from future phases never integrated into UI"
-          }
+            "Rapport de complexité par module",
+            "Hot spots identifiés",
+            "Score maintenabilité attribué (1-5)"
+          ]
         },
         {
           "id": "1.3",
-          "name": "Nettoyer exports inutilisés",
-          "description": "Vérifier les barrel exports (index.ts) et supprimer les exports qui ne sont jamais importés ailleurs.",
+          "name": "Audit Performance",
+          "description": "Mesurer les performances: temps de chargement, taille bundle, réactivité UI, performance avec données volumineuses. Utiliser Lighthouse et profiling manuel.",
           "status": "completed",
           "completedAt": "2026-01-13",
-          "priority": "low",
-          "dependsOn": ["1.2"],
+          "priority": "high",
+          "dependsOn": [],
           "files": [
-            "src/services/index.ts",
-            "src/hooks/index.ts",
-            "src/utils/index.ts",
-            "src/contexts/index.ts"
+            "vite.config.ts",
+            "src/App.tsx",
+            "src/services/storage.ts"
           ],
           "tests": [],
           "acceptance": [
-            "Tous les exports sont utilisés",
-            "TypeScript compile sans warning",
-            "Tests passent"
+            "Métriques Lighthouse documentées",
+            "Profiling opérations critiques",
+            "Score performance attribué (1-5)"
+          ]
+        },
+        {
+          "id": "1.4",
+          "name": "Audit Structure de données",
+          "description": "Analyser le modèle de données: cohérence des types, normalisation, évolutivité du schéma, validation, support des migrations.",
+          "status": "completed",
+          "completedAt": "2026-01-13",
+          "priority": "high",
+          "dependsOn": [],
+          "files": [
+            "src/types/",
+            "src/services/migration.ts",
+            "src/services/storage.ts"
           ],
-          "report": {
-            "unusedExportsFound": 0,
-            "analysis": "All barrel exports are actively used in the codebase"
-          }
+          "tests": [],
+          "acceptance": [
+            "Analyse du schéma v10 complète",
+            "Problèmes de cohérence listés",
+            "Score structure données attribué (1-5)"
+          ]
         }
       ]
     },
     {
       "id": "phase-2",
-      "name": "Phase 2 - Consolidation des tests",
-      "description": "Analyser et consolider les fichiers de tests anormalement volumineux",
+      "name": "Phase 2 - Audits qualitatifs",
+      "description": "Évaluation des dimensions nécessitant une analyse plus subjective",
       "status": "completed",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "2.1",
-          "name": "Analyser tests useAppData",
-          "description": "Analyser useAppData.test.ts (33K lignes) pour identifier les tests dupliqués ou auto-générés. Documenter les patterns trouvés.",
+          "name": "Audit Documentation",
+          "description": "Évaluer la complétude et l'exactitude de toute la documentation: PRD, design system, CLAUDE.md, JSDoc inline, guides.",
           "status": "completed",
           "completedAt": "2026-01-13",
-          "priority": "high",
-          "dependsOn": [],
-          "files": ["src/hooks/useAppData.test.ts"],
+          "priority": "medium",
+          "dependsOn": ["1.1"],
+          "files": [
+            "docs/",
+            "CLAUDE.md",
+            "README.md"
+          ],
           "tests": [],
           "acceptance": [
-            "Rapport d'analyse des tests",
-            "Identification des doublons",
-            "Plan de consolidation"
-          ],
-          "report": {
-            "finding": "Tests already consolidated",
-            "currentSize": "1153 lines (source: 536 lines, ratio: 2.15x)",
-            "noActionNeeded": true,
-            "note": "PRD audit contained obsolete data - tests were already optimized"
-          }
+            "Chaque document audité",
+            "Manques identifiés",
+            "Score documentation attribué (1-5)"
+          ]
         },
         {
           "id": "2.2",
-          "name": "Consolider tests hooks",
-          "description": "Réduire la taille de useAppData.test.ts et useDebugMode.test.ts en éliminant les tests redondants tout en gardant la couverture.",
+          "name": "Audit UX",
+          "description": "Évaluer l'expérience utilisateur: cohérence avec design system, fluidité des parcours, accessibilité (a11y), messages/feedback, responsive.",
           "status": "completed",
           "completedAt": "2026-01-13",
-          "priority": "high",
-          "dependsOn": ["2.1"],
+          "priority": "medium",
+          "dependsOn": [],
           "files": [
-            "src/hooks/useAppData.test.ts",
-            "src/hooks/useDebugMode.test.ts"
+            "docs/design/design-system-specification.md",
+            "src/styles/design-tokens.css",
+            "src/pages/"
           ],
           "tests": [],
           "acceptance": [
-            "Fichiers < 2x taille du code source",
-            "Couverture de tests maintenue",
-            "Tests passent"
-          ],
-          "report": {
-            "finding": "Already within acceptable range",
-            "sizes": {
-              "useAppData.test.ts": "1153 lines (source: 536, ratio: 2.15x)",
-              "useDebugMode.test.ts": "534 lines (source: 223, ratio: 2.39x)"
-            },
-            "noActionNeeded": true
-          }
+            "Parcours utilisateurs testés",
+            "Problèmes UX listés",
+            "Score UX attribué (1-5)"
+          ]
         },
         {
           "id": "2.3",
-          "name": "Consolider tests utils",
-          "description": "Réduire la taille de absence.test.ts et habitDisplay.test.ts en éliminant les tests redondants.",
+          "name": "Audit Architecture",
+          "description": "Évaluer l'architecture logicielle: séparation des responsabilités, modularité, gestion des dépendances, patterns/anti-patterns, scalabilité.",
           "status": "completed",
           "completedAt": "2026-01-13",
           "priority": "medium",
-          "dependsOn": ["2.2"],
+          "dependsOn": ["1.2"],
           "files": [
-            "src/utils/absence.test.ts",
-            "src/utils/habitDisplay.test.ts"
+            "src/",
+            "package.json",
+            "vite.config.ts"
           ],
           "tests": [],
           "acceptance": [
-            "Fichiers < 2x taille du code source",
-            "Couverture maintenue",
-            "Tests passent"
-          ],
-          "report": {
-            "finding": "Already within acceptable range",
-            "sizes": {
-              "absence.test.ts": "517 lines (source: 359, ratio: 1.44x)",
-              "habitDisplay.test.ts": "483 lines (source: 202, ratio: 2.39x)"
-            },
-            "noActionNeeded": true
-          }
-        },
-        {
-          "id": "2.4",
-          "name": "Consolider tests composants",
-          "description": "Réduire la taille de CheckInButtons.test.tsx et FirstCheckInPrompt.test.tsx.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "medium",
-          "dependsOn": ["2.3"],
-          "files": [
-            "src/components/habits/CheckInButtons.test.tsx",
-            "src/components/habits/FirstCheckInPrompt.test.tsx"
-          ],
-          "tests": [],
-          "acceptance": [
-            "Fichiers < 2x taille du code source",
-            "Couverture maintenue",
-            "Tests passent"
-          ],
-          "report": {
-            "finding": "Already within acceptable range",
-            "sizes": {
-              "CheckInButtons.test.tsx": "518 lines (source: 189, ratio: 2.74x)",
-              "FirstCheckInPrompt.test.tsx": "367 lines (source: 133, ratio: 2.76x)"
-            },
-            "noActionNeeded": true
-          }
+            "Diagramme d'architecture créé",
+            "Couplages problématiques identifiés",
+            "Score architecture attribué (1-5)"
+          ]
         }
       ]
     },
     {
       "id": "phase-3",
-      "name": "Phase 3 - Synchronisation documentation",
-      "description": "Mettre à jour la documentation pour refléter l'état actuel du code",
+      "name": "Phase 3 - Cohérence et synthèse",
+      "description": "Audit de cohérence cross-domaine et création de la matrice finale",
       "status": "completed",
-      "releaseType": "patch",
+      "releaseType": "minor",
       "tasks": [
         {
           "id": "3.1",
-          "name": "Auditer PRD principal",
-          "description": "Comparer docs/prd.md avec l'implémentation actuelle. Identifier les écarts entre spécifications et code.",
+          "name": "Audit Cohérence Cross-Domaine",
+          "description": "Vérifier la cohérence entre dimensions: Types↔Docs, Architecture↔UX, Tests↔Features, Design system↔UI implémentée.",
           "status": "completed",
           "completedAt": "2026-01-13",
           "priority": "high",
-          "dependsOn": [],
-          "files": ["docs/prd.md"],
+          "dependsOn": ["1.1", "1.4", "2.1", "2.2", "2.3"],
+          "files": [
+            "docs/coherence-matrix.md"
+          ],
           "tests": [],
           "acceptance": [
-            "Liste des écarts documentée",
-            "Décisions pour chaque écart",
-            "PRD mis à jour si nécessaire"
-          ],
-          "report": {
-            "overallAlignment": "92%",
-            "totalDiscrepancies": 4,
-            "categories": {
-              "features": "95% aligned",
-              "architecture": "100% aligned",
-              "dataTypes": "100% aligned",
-              "uiComponents": "100% aligned",
-              "userFlows": "100% aligned"
-            },
-            "recommendedUpdates": [
-              "Add i18n support documentation to PRD",
-              "Clarify identity statements are standard not optional",
-              "Document schemaVersion at v10",
-              "Verify Phase 10 recalibration feature status"
-            ],
-            "conclusion": "Code is production-ready, PRD needs minor documentation updates"
-          }
+            "Matrice de cohérence inter-domaines",
+            "Points de friction identifiés",
+            "Score cohérence attribué (1-5)"
+          ]
         },
         {
           "id": "3.2",
-          "name": "Vérifier design system",
-          "description": "Comparer docs/design/design-system-specification.md avec les composants UI réels. Vérifier que les couleurs, espacements et styles correspondent.",
+          "name": "Créer Matrice de Maturité",
+          "description": "Consolider tous les scores dans la matrice de maturité avec forces, faiblesses et priorités pour chaque dimension.",
           "status": "completed",
           "completedAt": "2026-01-13",
-          "priority": "medium",
+          "priority": "high",
           "dependsOn": ["3.1"],
           "files": [
-            "docs/design/design-system-specification.md",
-            "src/components/ui/"
+            "docs/matrice-maturite.md"
           ],
           "tests": [],
           "acceptance": [
-            "Design system reflète le code",
-            "Pas de divergence de couleurs/espacements",
-            "Exemples de code à jour"
-          ],
-          "report": {
-            "finding": "100% compliant",
-            "details": "design-tokens.css matches design system spec exactly",
-            "colors": "All primary/secondary/neutral colors match",
-            "spacing": "All spacing tokens implemented",
-            "typography": "Fraunces and Source Sans 3 configured",
-            "darkMode": "Full dark mode support implemented",
-            "accessibility": "prefers-reduced-motion supported",
-            "cleanedUp": ["ReflectionDelay.css", "RecalibrationPrompt.css"]
-          }
+            "Tableau 8 dimensions avec scores",
+            "Score total calculé",
+            "Radar chart ASCII inclus"
+          ]
         },
         {
           "id": "3.3",
-          "name": "Mettre à jour CLAUDE.md",
-          "description": "Vérifier que CLAUDE.md reflète la structure actuelle du projet, les commandes disponibles et les conventions.",
+          "name": "Générer Rapport Final",
+          "description": "Créer le rapport d'audit complet avec résumé exécutif, détail par dimension et recommandations priorisées.",
           "status": "completed",
           "completedAt": "2026-01-13",
-          "priority": "medium",
-          "dependsOn": ["3.1"],
-          "files": ["CLAUDE.md"],
+          "priority": "high",
+          "dependsOn": ["3.2"],
+          "files": [
+            "docs/audit-maturite-2026-01-13.md"
+          ],
           "tests": [],
           "acceptance": [
-            "Structure de fichiers à jour",
-            "Commandes de test correctes",
-            "Conventions documentées"
-          ],
-          "report": {
-            "updates": [
-              "Updated architecture section (schemaVersion v10, PWA, i18n)",
-              "Added detailed component directory structure",
-              "Added i18n directory",
-              "Added utils and contexts directories",
-              "Updated language section for multi-language support",
-              "Added development commands section"
-            ]
-          }
-        },
-        {
-          "id": "3.4",
-          "name": "Archiver documentation obsolète",
-          "description": "Identifier et archiver ou supprimer les documents obsolètes (fonctionnalités-souhaitées.md si complété, anciens PRDs implémentés).",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "low",
-          "dependsOn": ["3.1", "3.2"],
-          "files": ["docs/"],
-          "tests": [],
-          "acceptance": [
-            "Pas de documentation obsolète",
-            "Historique préservé si nécessaire",
-            "Structure docs/ claire"
-          ],
-          "report": {
-            "reviewed": 14,
-            "kept": 13,
-            "removed": ["habitudes-prioritaires-doucement.docx"],
-            "reason": "Binary .docx file not suitable for version control",
-            "structure": "docs/ well-organized with PRDs, design, comm subdirectories"
-          }
+            "Résumé exécutif clair",
+            "Détail des 8 audits",
+            "Top 10 recommandations priorisées"
+          ]
         }
       ]
     },
     {
       "id": "phase-4",
-      "name": "Phase 4 - Matrice de cohérence",
-      "description": "Créer un document de référence croisant types, code et documentation",
+      "name": "Phase 4 - Plan d'action",
+      "description": "Élaboration du plan d'action basé sur les résultats de l'audit",
       "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
           "id": "4.1",
-          "name": "Créer matrice types principaux",
-          "description": "Documenter les types principaux (Habit, DailyEntry, AppData) avec leurs utilisations dans le code et leur documentation.",
+          "name": "Prioriser les recommandations",
+          "description": "Classer toutes les recommandations par impact (amélioration score), effort (complexité), et priorité (ratio impact/effort).",
           "status": "completed",
           "completedAt": "2026-01-13",
           "priority": "high",
-          "dependsOn": ["3.1"],
-          "files": ["docs/coherence-matrix.md"],
+          "dependsOn": ["3.3"],
+          "files": [
+            "docs/audit-maturite-2026-01-13.md"
+          ],
           "tests": [],
           "acceptance": [
-            "Tableau des types principaux",
-            "Colonnes: Type, Services, Composants, Docs",
-            "Statut de cohérence pour chaque type"
+            "Matrice impact/effort créée",
+            "Quick wins identifiés",
+            "Actions stratégiques listées"
           ]
         },
         {
           "id": "4.2",
-          "name": "Documenter flux de données",
-          "description": "Ajouter à la matrice les flux de données principaux: création d'habitude, check-in, calcul de progression.",
+          "name": "Créer roadmap de refonte",
+          "description": "Transformer les recommandations priorisées en roadmap actionnable avec phases et dépendances.",
           "status": "completed",
           "completedAt": "2026-01-13",
           "priority": "medium",
           "dependsOn": ["4.1"],
-          "files": ["docs/coherence-matrix.md"],
+          "files": [
+            "docs/roadmap-refonte.md"
+          ],
           "tests": [],
           "acceptance": [
-            "Diagrammes de flux ajoutés",
-            "Services impliqués listés",
-            "Points d'entrée/sortie clairs"
-          ]
-        },
-        {
-          "id": "4.3",
-          "name": "Ajouter légende et instructions",
-          "description": "Compléter la matrice avec une légende des statuts et des instructions pour la maintenir à jour.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "low",
-          "dependsOn": ["4.2"],
-          "files": ["docs/coherence-matrix.md"],
-          "tests": [],
-          "acceptance": [
-            "Légende claire (✓, ⚠, ✗)",
-            "Instructions de mise à jour",
-            "Template pour nouveaux types"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "phase-5",
-      "name": "Phase 5 - Checklist de santé",
-      "description": "Créer un script d'audit périodique pour maintenir la qualité",
-      "status": "completed",
-      "releaseType": "minor",
-      "releasedAs": "1.22.0",
-      "releasedAt": "2026-01-13",
-      "tasks": [
-        {
-          "id": "5.1",
-          "name": "Créer script d'analyse",
-          "description": "Créer scripts/health-check.sh qui vérifie: fichiers orphelins, types non utilisés, imports cassés, taille des fichiers de test.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "high",
-          "dependsOn": ["2.4"],
-          "files": ["scripts/health-check.sh"],
-          "tests": [],
-          "acceptance": [
-            "Script exécutable",
-            "Vérifie fichiers orphelins",
-            "Vérifie taille des tests",
-            "Vérifie imports"
-          ]
-        },
-        {
-          "id": "5.2",
-          "name": "Ajouter vérification documentation",
-          "description": "Étendre le script pour vérifier que la documentation est synchronisée avec la matrice de cohérence.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "medium",
-          "dependsOn": ["5.1", "4.3"],
-          "files": ["scripts/health-check.sh"],
-          "tests": [],
-          "acceptance": [
-            "Vérifie présence des docs requis",
-            "Alerte si matrice obsolète",
-            "Rapport clair"
-          ]
-        },
-        {
-          "id": "5.3",
-          "name": "Documenter processus d'audit",
-          "description": "Ajouter dans CLAUDE.md ou README les instructions pour exécuter l'audit périodique et interpréter les résultats.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "low",
-          "dependsOn": ["5.2"],
-          "files": ["CLAUDE.md"],
-          "tests": [],
-          "acceptance": [
-            "Instructions d'exécution",
-            "Interprétation des résultats",
-            "Fréquence recommandée"
+            "Phases de refonte définies",
+            "Dépendances identifiées",
+            "Critères de succès par phase"
           ]
         }
       ]
     }
   ],
   "stats": {
-    "totalTasks": 17,
-    "completed": 17,
+    "totalTasks": 11,
+    "completed": 11,
     "inProgress": 0,
     "pending": 0,
     "blocked": 0
