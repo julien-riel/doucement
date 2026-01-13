@@ -1,344 +1,341 @@
 {
-  "project": "Filtres de suggestions et Internationalisation",
-  "description": "Bug fix carrousel, filtres avancés pour suggestions, et support multi-langues",
-  "createdAt": "2026-01-12",
-  "lastRelease": "1.20.0",
+  "project": "Audit Qualité et Cohérence du Codebase",
+  "description": "Audit complet du codebase, élimination des incohérences, synchronisation de la documentation, création d'outils de maintenance",
+  "createdAt": "2026-01-13",
+  "lastRelease": "1.21.0",
   "docs": [
-    "docs/prd-filtres-i18n.md",
+    "docs/prd-audit-qualite.md",
     "docs/design/design-system-specification.md"
   ],
   "phases": [
     {
       "id": "phase-1",
-      "name": "Phase 1 - Bug fix et amélioration catégories",
-      "description": "Corriger le bug du carrousel et afficher les noms de catégories",
-      "status": "completed",
+      "name": "Phase 1 - Nettoyage structure",
+      "description": "Supprimer les fichiers obsolètes et répertoires vides",
+      "status": "pending",
       "releaseType": "patch",
-      "releasedAs": "1.18.3",
-      "releasedAt": "2026-01-12",
       "tasks": [
         {
           "id": "1.1",
-          "name": "Réinitialiser carrousel au changement de filtre",
-          "description": "Quand l'utilisateur clique sur un filtre catégorie (ou emoji dans les suggestions), le carrousel doit revenir au premier élément. Utiliser la technique de la prop 'key' qui change avec le filtre actif pour forcer le remount du carrousel.",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Supprimer répertoires vides",
+          "description": "Supprimer les répertoires vides dans src/components/ : Button/, Card/, BottomNav/. Ces répertoires sont des vestiges de refactoring précédents.",
+          "status": "pending",
           "priority": "high",
           "dependsOn": [],
-          "files": ["src/pages/CreateHabit.tsx"],
+          "files": [
+            "src/components/Button/",
+            "src/components/Card/",
+            "src/components/BottomNav/"
+          ],
           "tests": [],
           "acceptance": [
-            "Clic sur un filtre catégorie remet le carrousel à l'index 0",
-            "Clic sur emoji dans EmojiPicker ne laisse pas le carrousel sur un index invalide",
-            "Transition fluide, pas de flash visuel"
+            "Aucun répertoire vide dans src/components/",
+            "Build passe sans erreur",
+            "Pas de références cassées"
           ]
         },
         {
           "id": "1.2",
-          "name": "Afficher nom des catégories dans les filtres",
-          "description": "Remplacer les boutons emoji-seul par emoji + nom (ex: '😴 Sommeil'). Adapter le layout pour garder une bonne lisibilité avec scroll horizontal si nécessaire.",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "high",
-          "dependsOn": [],
-          "files": ["src/pages/CreateHabit.tsx", "src/pages/CreateHabit.css"],
+          "name": "Identifier fichiers orphelins",
+          "description": "Analyser le codebase pour trouver les fichiers non importés ou non utilisés. Utiliser les outils d'analyse statique pour détecter le code mort.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["1.1"],
+          "files": [],
           "tests": [],
           "acceptance": [
-            "Chaque filtre affiche emoji + nom de catégorie",
-            "Scroll horizontal si nécessaire sur mobile",
-            "Le bouton 'Top 6' reste sans emoji",
-            "Style cohérent avec le design system"
+            "Liste des fichiers orphelins documentée",
+            "Décision pour chaque fichier (supprimer/garder)",
+            "Rapport généré"
           ]
         },
         {
           "id": "1.3",
-          "name": "Ajouter compteur de résultats",
-          "description": "Afficher le nombre d'habitudes filtrées sous les filtres (ex: '6 habitudes'). Pluralisation correcte ('1 habitude' vs '6 habitudes').",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "medium",
+          "name": "Nettoyer exports inutilisés",
+          "description": "Vérifier les barrel exports (index.ts) et supprimer les exports qui ne sont jamais importés ailleurs.",
+          "status": "pending",
+          "priority": "low",
           "dependsOn": ["1.2"],
-          "files": ["src/pages/CreateHabit.tsx", "src/pages/CreateHabit.css"],
+          "files": [
+            "src/services/index.ts",
+            "src/hooks/index.ts",
+            "src/utils/index.ts",
+            "src/contexts/index.ts"
+          ],
           "tests": [],
           "acceptance": [
-            "Compteur visible sous les filtres",
-            "Mise à jour en temps réel au changement de filtre",
-            "Singulier/pluriel correct"
+            "Tous les exports sont utilisés",
+            "TypeScript compile sans warning",
+            "Tests passent"
           ]
         }
       ]
     },
     {
       "id": "phase-2",
-      "name": "Phase 2 - Filtres avancés",
-      "description": "Ajouter les filtres par difficulté et moment de la journée",
-      "status": "completed",
-      "releaseType": "minor",
-      "releasedAs": "1.19.0",
-      "releasedAt": "2026-01-12",
+      "name": "Phase 2 - Consolidation des tests",
+      "description": "Analyser et consolider les fichiers de tests anormalement volumineux",
+      "status": "pending",
+      "releaseType": "patch",
       "tasks": [
         {
           "id": "2.1",
-          "name": "Ajouter filtre par difficulté",
-          "description": "Ligne de chips pour filtrer par difficulté: Tous / Facile / Modéré / Exigeant. Labels positifs (pas 'Difficile').",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Analyser tests useAppData",
+          "description": "Analyser useAppData.test.ts (33K lignes) pour identifier les tests dupliqués ou auto-générés. Documenter les patterns trouvés.",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["1.2"],
-          "files": ["src/pages/CreateHabit.tsx", "src/pages/CreateHabit.css"],
+          "dependsOn": [],
+          "files": ["src/hooks/useAppData.test.ts"],
           "tests": [],
           "acceptance": [
-            "4 chips: Tous, Facile, Modéré, Exigeant",
-            "Filtrage combiné avec catégorie",
-            "Compteur mis à jour",
-            "Style cohérent"
+            "Rapport d'analyse des tests",
+            "Identification des doublons",
+            "Plan de consolidation"
           ]
         },
         {
           "id": "2.2",
-          "name": "Ajouter filtre par moment",
-          "description": "Ligne de chips pour filtrer par moment: Tous / 🌅 Matin / ☀️ Après-midi / 🌙 Soir / 🌃 Nuit",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Consolider tests hooks",
+          "description": "Réduire la taille de useAppData.test.ts et useDebugMode.test.ts en éliminant les tests redondants tout en gardant la couverture.",
+          "status": "pending",
           "priority": "high",
           "dependsOn": ["2.1"],
-          "files": ["src/pages/CreateHabit.tsx", "src/pages/CreateHabit.css"],
+          "files": [
+            "src/hooks/useAppData.test.ts",
+            "src/hooks/useDebugMode.test.ts"
+          ],
           "tests": [],
           "acceptance": [
-            "5 chips avec emojis",
-            "Filtrage combiné avec catégorie et difficulté",
-            "Compteur mis à jour",
-            "Style cohérent"
+            "Fichiers < 2x taille du code source",
+            "Couverture de tests maintenue",
+            "Tests passent"
           ]
         },
         {
           "id": "2.3",
-          "name": "Créer composant FilterChips réutilisable",
-          "description": "Extraire la logique des chips de filtre dans un composant réutilisable pour simplifier le code de CreateHabit.",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "low",
+          "name": "Consolider tests utils",
+          "description": "Réduire la taille de absence.test.ts et habitDisplay.test.ts en éliminant les tests redondants.",
+          "status": "pending",
+          "priority": "medium",
           "dependsOn": ["2.2"],
-          "files": ["src/components/ui/FilterChips.tsx", "src/components/ui/FilterChips.css", "src/pages/CreateHabit.tsx"],
+          "files": [
+            "src/utils/absence.test.ts",
+            "src/utils/habitDisplay.test.ts"
+          ],
           "tests": [],
           "acceptance": [
-            "Composant générique avec props options/value/onChange",
-            "Support du mode 'all' pour désélection",
-            "Réutilisé dans CreateHabit"
+            "Fichiers < 2x taille du code source",
+            "Couverture maintenue",
+            "Tests passent"
+          ]
+        },
+        {
+          "id": "2.4",
+          "name": "Consolider tests composants",
+          "description": "Réduire la taille de CheckInButtons.test.tsx et FirstCheckInPrompt.test.tsx.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["2.3"],
+          "files": [
+            "src/components/habits/CheckInButtons.test.tsx",
+            "src/components/habits/FirstCheckInPrompt.test.tsx"
+          ],
+          "tests": [],
+          "acceptance": [
+            "Fichiers < 2x taille du code source",
+            "Couverture maintenue",
+            "Tests passent"
           ]
         }
       ]
     },
     {
       "id": "phase-3",
-      "name": "Phase 3 - Infrastructure i18n",
-      "description": "Mettre en place l'architecture d'internationalisation",
-      "status": "completed",
-      "releaseType": "minor",
-      "releasedAs": "1.20.0",
-      "releasedAt": "2026-01-13",
+      "name": "Phase 3 - Synchronisation documentation",
+      "description": "Mettre à jour la documentation pour refléter l'état actuel du code",
+      "status": "pending",
+      "releaseType": "patch",
       "tasks": [
         {
           "id": "3.1",
-          "name": "Installer et configurer i18next",
-          "description": "Installer react-i18next, i18next, i18next-browser-languagedetector. Configurer avec détection automatique de langue et fallback sur français.",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Auditer PRD principal",
+          "description": "Comparer docs/prd.md avec l'implémentation actuelle. Identifier les écarts entre spécifications et code.",
+          "status": "pending",
           "priority": "high",
           "dependsOn": [],
-          "files": ["package.json", "src/i18n/index.ts", "src/main.tsx"],
+          "files": ["docs/prd.md"],
           "tests": [],
           "acceptance": [
-            "i18next initialisé au démarrage",
-            "Langue détectée depuis navigator.language",
-            "Fallback sur 'fr' si langue non supportée",
-            "Console sans erreurs"
+            "Liste des écarts documentée",
+            "Décisions pour chaque écart",
+            "PRD mis à jour si nécessaire"
           ]
         },
         {
           "id": "3.2",
-          "name": "Créer fichier de traduction français",
-          "description": "Extraire tous les textes de l'application dans src/i18n/locales/fr.json. Organiser par namespace (common, habits, messages, onboarding, settings).",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "high",
+          "name": "Vérifier design system",
+          "description": "Comparer docs/design/design-system-specification.md avec les composants UI réels. Vérifier que les couleurs, espacements et styles correspondent.",
+          "status": "pending",
+          "priority": "medium",
           "dependsOn": ["3.1"],
-          "files": ["src/i18n/locales/fr.json"],
+          "files": [
+            "docs/design/design-system-specification.md",
+            "src/components/ui/"
+          ],
           "tests": [],
           "acceptance": [
-            "Tous les textes UI extraits",
-            "Organisation claire par namespace",
-            "Interpolations pour valeurs dynamiques"
+            "Design system reflète le code",
+            "Pas de divergence de couleurs/espacements",
+            "Exemples de code à jour"
           ]
         },
         {
           "id": "3.3",
-          "name": "Migrer composants vers useTranslation",
-          "description": "Remplacer les textes en dur par des appels à t() dans tous les composants. Commencer par les pages principales (Today, CreateHabit, Settings).",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "high",
-          "dependsOn": ["3.2"],
-          "files": [
-            "src/pages/Today.tsx",
-            "src/pages/CreateHabit.tsx",
-            "src/pages/Settings.tsx",
-            "src/pages/HabitList.tsx",
-            "src/pages/HabitDetail.tsx"
-          ],
+          "name": "Mettre à jour CLAUDE.md",
+          "description": "Vérifier que CLAUDE.md reflète la structure actuelle du projet, les commandes disponibles et les conventions.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["3.1"],
+          "files": ["CLAUDE.md"],
           "tests": [],
           "acceptance": [
-            "Tous les textes utilisent t()",
-            "Application fonctionne identiquement en français",
-            "Pas de régression visuelle"
+            "Structure de fichiers à jour",
+            "Commandes de test correctes",
+            "Conventions documentées"
           ]
         },
         {
           "id": "3.4",
-          "name": "Migrer composants secondaires",
-          "description": "Continuer la migration vers useTranslation pour les composants restants: onboarding, modals, cards, etc.",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "medium",
-          "dependsOn": ["3.3"],
-          "files": [
-            "src/pages/Onboarding.tsx",
-            "src/components/habits/HabitCard.tsx",
-            "src/components/habits/SuggestedHabitCard.tsx",
-            "src/components/WeeklyReview.tsx"
-          ],
+          "name": "Archiver documentation obsolète",
+          "description": "Identifier et archiver ou supprimer les documents obsolètes (fonctionnalités-souhaitées.md si complété, anciens PRDs implémentés).",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["3.1", "3.2"],
+          "files": ["docs/"],
           "tests": [],
           "acceptance": [
-            "Tous les composants utilisent t()",
-            "Messages de la banque de messages traduits",
-            "constants/messages.ts refactoré pour utiliser i18n"
+            "Pas de documentation obsolète",
+            "Historique préservé si nécessaire",
+            "Structure docs/ claire"
           ]
         }
       ]
     },
     {
       "id": "phase-4",
-      "name": "Phase 4 - Traduction anglaise",
-      "description": "Créer la traduction anglaise complète",
+      "name": "Phase 4 - Matrice de cohérence",
+      "description": "Créer un document de référence croisant types, code et documentation",
       "status": "pending",
       "releaseType": "minor",
       "tasks": [
         {
           "id": "4.1",
-          "name": "Créer fichier de traduction anglais",
-          "description": "Traduire fr.json vers en.json. Adapter le ton bienveillant en anglais.",
-          "status": "completed",
-          "completedAt": "2026-01-12",
+          "name": "Créer matrice types principaux",
+          "description": "Documenter les types principaux (Habit, DailyEntry, AppData) avec leurs utilisations dans le code et leur documentation.",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["3.4"],
-          "files": ["src/i18n/locales/en.json"],
+          "dependsOn": ["3.1"],
+          "files": ["docs/coherence-matrix.md"],
           "tests": [],
           "acceptance": [
-            "Toutes les clés de fr.json présentes",
-            "Traductions naturelles (pas littérales)",
-            "Ton bienveillant préservé"
+            "Tableau des types principaux",
+            "Colonnes: Type, Services, Composants, Docs",
+            "Statut de cohérence pour chaque type"
           ]
         },
         {
           "id": "4.2",
-          "name": "Traduire habitudes suggérées",
-          "description": "Ajouter les traductions des noms, descriptions et scienceHighlight des habitudes suggérées dans en.json.",
+          "name": "Documenter flux de données",
+          "description": "Ajouter à la matrice les flux de données principaux: création d'habitude, check-in, calcul de progression.",
           "status": "pending",
-          "priority": "high",
+          "priority": "medium",
           "dependsOn": ["4.1"],
-          "files": ["src/i18n/locales/en.json", "src/constants/suggestedHabits.ts"],
+          "files": ["docs/coherence-matrix.md"],
           "tests": [],
           "acceptance": [
-            "Noms d'habitudes traduits",
-            "Descriptions traduites",
-            "scienceHighlight traduits",
-            "suggestedHabits.ts utilise les clés i18n"
+            "Diagrammes de flux ajoutés",
+            "Services impliqués listés",
+            "Points d'entrée/sortie clairs"
           ]
         },
         {
           "id": "4.3",
-          "name": "Créer sélecteur de langue",
-          "description": "Ajouter un sélecteur de langue dans les paramètres. Sauvegarder le choix dans localStorage.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "high",
-          "dependsOn": ["4.1"],
-          "files": ["src/components/ui/LanguageSelector.tsx", "src/components/ui/LanguageSelector.css", "src/pages/Settings.tsx"],
+          "name": "Ajouter légende et instructions",
+          "description": "Compléter la matrice avec une légende des statuts et des instructions pour la maintenir à jour.",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["4.2"],
+          "files": ["docs/coherence-matrix.md"],
           "tests": [],
           "acceptance": [
-            "Dropdown avec 🇫🇷 Français / 🇬🇧 English",
-            "Changement instantané de l'interface",
-            "Choix persisté dans localStorage",
-            "Section visible dans Settings"
+            "Légende claire (✓, ⚠, ✗)",
+            "Instructions de mise à jour",
+            "Template pour nouveaux types"
           ]
         }
       ]
     },
     {
       "id": "phase-5",
-      "name": "Phase 5 - Tests et polish",
-      "description": "Tests et vérifications finales",
+      "name": "Phase 5 - Checklist de santé",
+      "description": "Créer un script d'audit périodique pour maintenir la qualité",
       "status": "pending",
-      "releaseType": "patch",
+      "releaseType": "minor",
       "tasks": [
         {
           "id": "5.1",
-          "name": "Tests E2E filtres",
-          "description": "Tests Playwright pour les nouveaux filtres de suggestions",
-          "status": "completed",
-          "completedAt": "2026-01-12",
-          "priority": "medium",
-          "dependsOn": ["2.2"],
-          "files": ["e2e/suggestion-filters.spec.ts"],
-          "tests": ["e2e/suggestion-filters.spec.ts"],
+          "name": "Créer script d'analyse",
+          "description": "Créer scripts/health-check.sh qui vérifie: fichiers orphelins, types non utilisés, imports cassés, taille des fichiers de test.",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["2.4"],
+          "files": ["scripts/health-check.sh"],
+          "tests": [],
           "acceptance": [
-            "Test filtre catégorie",
-            "Test filtre difficulté",
-            "Test filtre moment",
-            "Test combinaison de filtres"
+            "Script exécutable",
+            "Vérifie fichiers orphelins",
+            "Vérifie taille des tests",
+            "Vérifie imports"
           ]
         },
         {
           "id": "5.2",
-          "name": "Tests E2E i18n",
-          "description": "Tests Playwright pour le changement de langue",
-          "status": "completed",
-          "completedAt": "2026-01-13",
+          "name": "Ajouter vérification documentation",
+          "description": "Étendre le script pour vérifier que la documentation est synchronisée avec la matrice de cohérence.",
+          "status": "pending",
           "priority": "medium",
-          "dependsOn": ["4.3"],
-          "files": ["e2e/i18n.spec.ts"],
-          "tests": ["e2e/i18n.spec.ts"],
+          "dependsOn": ["5.1", "4.3"],
+          "files": ["scripts/health-check.sh"],
+          "tests": [],
           "acceptance": [
-            "Test changement de langue",
-            "Test persistance du choix",
-            "Test détection automatique"
+            "Vérifie présence des docs requis",
+            "Alerte si matrice obsolète",
+            "Rapport clair"
           ]
         },
         {
           "id": "5.3",
-          "name": "Vérification complète anglais",
-          "description": "Parcourir toute l'app en anglais pour vérifier les traductions",
-          "status": "completed",
-          "completedAt": "2026-01-13",
+          "name": "Documenter processus d'audit",
+          "description": "Ajouter dans CLAUDE.md ou README les instructions pour exécuter l'audit périodique et interpréter les résultats.",
+          "status": "pending",
           "priority": "low",
-          "dependsOn": ["4.2"],
-          "files": [],
+          "dependsOn": ["5.2"],
+          "files": ["CLAUDE.md"],
           "tests": [],
           "acceptance": [
-            "Aucun texte français visible en mode anglais",
-            "Pas de clés i18n affichées",
-            "Ton cohérent",
-            "Formatage dates/nombres adapté"
+            "Instructions d'exécution",
+            "Interprétation des résultats",
+            "Fréquence recommandée"
           ]
         }
       ]
     }
   ],
   "stats": {
-    "totalTasks": 16,
-    "completed": 16,
+    "totalTasks": 17,
+    "completed": 0,
     "inProgress": 0,
-    "pending": 0,
+    "pending": 17,
     "blocked": 0
   }
 }
