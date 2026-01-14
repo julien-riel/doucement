@@ -15,7 +15,7 @@ Ce document référence les types principaux, leur utilisation dans le code et l
 | **Définition** | `src/types/index.ts:185-230` | ✓ |
 | **Services** | `storage.ts`, `progression.ts`, `statistics.ts`, `migration.ts` | ✓ |
 | **Composants** | `HabitCard`, `HabitDetail`, `CreateHabit`, `EditHabit`, `HabitList` | ✓ |
-| **Documentation** | `docs/prd.md §4`, `docs/habit-types-analysis.md` | ✓ |
+| **Documentation** | `docs/prd.md §4`, `docs/technical-reference.md` | ✓ |
 
 **Champs clés :**
 - `id`, `name`, `emoji`, `direction`, `startValue`, `unit`
@@ -86,7 +86,7 @@ Ce document référence les types principaux, leur utilisation dans le code et l
 | **Définition** | `src/types/index.ts:70-77` | ✓ |
 | **Services** | `progression.ts` (calculateTargetDose) | ✓ |
 | **Composants** | `CreateHabit`, `EditHabit`, `HabitCard` | ✓ |
-| **Documentation** | `docs/prd.md §8.5`, `docs/rounding-rules.md` | ✓ |
+| **Documentation** | `docs/prd.md §8.5`, `docs/technical-reference.md` | ✓ |
 
 **Champs clés :**
 - `mode` ('absolute' | 'percentage')

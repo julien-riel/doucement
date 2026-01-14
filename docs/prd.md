@@ -346,8 +346,6 @@ Ces éléments pourront être envisagés **uniquement** si compatibles avec la v
 
 ## 14. Identité & Motivation (« Le Pourquoi »)
 
-> Document détaillé : `docs/science-based-improvements.md`
-
 ### Fondement scientifique
 
 *Atomic Habits* insiste sur le pouvoir de l'identité : « Je suis quelqu'un qui fait de l'exercice » est plus puissant que « Je veux faire 50 pompes ». Le changement durable vient du changement d'identité, pas seulement du changement de comportement.
@@ -519,9 +517,7 @@ Guide expliquant :
 
 ## 20. Améliorations basées sur la science comportementale
 
-> Document détaillé : `docs/science-based-improvements.md`
-
-### Fonctionnalités planifiées (Phase 6)
+### Fonctionnalités implémentées
 
 Basées sur la recherche en psychologie et sciences comportementales :
 
