@@ -65,37 +65,37 @@ function createEntry(overrides: Partial<DailyEntry> = {}): DailyEntry {
 // ============================================================================
 
 describe('daysBetween', () => {
-  it('returns 0 for same date', () => {
+  it('retourne 0 pour la même date', () => {
     expect(daysBetween('2025-01-01', '2025-01-01')).toBe(0)
   })
 
-  it('returns positive number for future date', () => {
+  it('retourne un nombre positif pour une date future', () => {
     expect(daysBetween('2025-01-01', '2025-01-08')).toBe(7)
   })
 
-  it('returns negative number for past date', () => {
+  it('retourne un nombre négatif pour une date passée', () => {
     expect(daysBetween('2025-01-08', '2025-01-01')).toBe(-7)
   })
 
-  it('handles month boundaries', () => {
+  it('gère les limites de mois', () => {
     expect(daysBetween('2025-01-31', '2025-02-01')).toBe(1)
   })
 
-  it('handles year boundaries', () => {
+  it("gère les limites d'année", () => {
     expect(daysBetween('2024-12-31', '2025-01-01')).toBe(1)
   })
 })
 
 describe('weeksBetween', () => {
-  it('returns 0 for same date', () => {
+  it('retourne 0 pour la même date', () => {
     expect(weeksBetween('2025-01-01', '2025-01-01')).toBe(0)
   })
 
-  it('returns 1 for exactly one week', () => {
+  it('retourne 1 pour exactement une semaine', () => {
     expect(weeksBetween('2025-01-01', '2025-01-08')).toBe(1)
   })
 
-  it('returns fractional weeks', () => {
+  it('retourne des semaines fractionnaires', () => {
     expect(weeksBetween('2025-01-01', '2025-01-04')).toBeCloseTo(3 / 7)
   })
 })
@@ -105,33 +105,33 @@ describe('weeksBetween', () => {
 // ============================================================================
 
 describe('getCurrentWeekDates', () => {
-  it('returns array of 7 dates', () => {
+  it('retourne un tableau de 7 dates', () => {
     const dates = getCurrentWeekDates('2026-01-10')
     expect(dates).toHaveLength(7)
   })
 
-  it('returns Monday to Sunday for a mid-week date', () => {
+  it('retourne lundi à dimanche pour une date en milieu de semaine', () => {
     // 2026-01-10 is a Saturday
     const dates = getCurrentWeekDates('2026-01-10')
     expect(dates[0]).toBe('2026-01-05') // Monday
     expect(dates[6]).toBe('2026-01-11') // Sunday
   })
 
-  it('returns correct week for a Monday', () => {
+  it('retourne la bonne semaine pour un lundi', () => {
     // 2026-01-05 is a Monday
     const dates = getCurrentWeekDates('2026-01-05')
     expect(dates[0]).toBe('2026-01-05') // Monday
     expect(dates[6]).toBe('2026-01-11') // Sunday
   })
 
-  it('returns correct week for a Sunday', () => {
+  it('retourne la bonne semaine pour un dimanche', () => {
     // 2026-01-11 is a Sunday
     const dates = getCurrentWeekDates('2026-01-11')
     expect(dates[0]).toBe('2026-01-05') // Monday
     expect(dates[6]).toBe('2026-01-11') // Sunday
   })
 
-  it('handles month boundaries', () => {
+  it('gère les limites de mois', () => {
     // 2026-02-02 is a Monday
     const dates = getCurrentWeekDates('2026-02-01') // Sunday
     expect(dates[0]).toBe('2026-01-26') // Monday of previous week
@@ -140,24 +140,24 @@ describe('getCurrentWeekDates', () => {
 })
 
 describe('isWeeklyHabit', () => {
-  it('returns true for weekly habit', () => {
+  it('retourne true pour une habitude hebdomadaire', () => {
     const habit = createHabit({ trackingFrequency: 'weekly' })
     expect(isWeeklyHabit(habit)).toBe(true)
   })
 
-  it('returns false for daily habit', () => {
+  it('retourne false pour une habitude quotidienne', () => {
     const habit = createHabit({ trackingFrequency: 'daily' })
     expect(isWeeklyHabit(habit)).toBe(false)
   })
 
-  it('returns false for habit without trackingFrequency (default to daily)', () => {
+  it('retourne false pour habitude sans trackingFrequency (défaut quotidien)', () => {
     const habit = createHabit()
     expect(isWeeklyHabit(habit)).toBe(false)
   })
 })
 
 describe('calculateWeeklyProgress', () => {
-  it('returns 0 completed days when no entries', () => {
+  it("retourne 0 jours complétés quand pas d'entrées", () => {
     const habit = createHabit({
       id: 'weekly-habit',
       trackingFrequency: 'weekly',
@@ -213,7 +213,7 @@ describe('calculateWeeklyProgress', () => {
     expect(result.completedDays).toBe(2)
   })
 
-  it('returns correct weekDates', () => {
+  it('retourne les bonnes dates de semaine', () => {
     const habit = createHabit({
       id: 'weekly-habit',
       trackingFrequency: 'weekly',
@@ -298,7 +298,7 @@ describe('calculateWeeklyProgress', () => {
         expect(result.aggregationMode).toBe('count-days')
       })
 
-      it('returns 0 when no entries in count-days mode', () => {
+      it("retourne 0 quand pas d'entrées en mode count-days", () => {
         const habit = createHabit({
           id: 'weekly-habit',
           trackingFrequency: 'weekly',
@@ -330,7 +330,7 @@ describe('calculateWeeklyProgress', () => {
         expect(result.aggregationMode).toBe('sum-units')
       })
 
-      it('returns 0 when no entries in sum-units mode', () => {
+      it("retourne 0 quand pas d'entrées en mode sum-units", () => {
         const habit = createHabit({
           id: 'weekly-habit',
           trackingFrequency: 'weekly',
@@ -343,7 +343,7 @@ describe('calculateWeeklyProgress', () => {
         expect(result.aggregationMode).toBe('sum-units')
       })
 
-      it('handles decrease habits with sum-units (total consumption)', () => {
+      it('gère les habitudes decrease avec sum-units (consommation totale)', () => {
         const habit = createHabit({
           id: 'weekly-habit',
           trackingFrequency: 'weekly',
@@ -424,12 +424,12 @@ describe('applyRounding', () => {
 
 describe('calculateTargetDose', () => {
   describe('maintain mode (no progression)', () => {
-    it('returns startValue when no progression is set', () => {
+    it('retourne startValue quand pas de progression définie', () => {
       const habit = createHabit({ startValue: 15, progression: null })
       expect(calculateTargetDose(habit, '2025-01-15')).toBe(15)
     })
 
-    it('returns startValue for maintain direction even with progression config', () => {
+    it('retourne startValue pour direction maintain même avec config progression', () => {
       const habit = createHabit({
         direction: 'maintain',
         startValue: 20,
@@ -606,7 +606,7 @@ describe('calculateTargetDose', () => {
   })
 
   describe('edge cases', () => {
-    it('handles date before creation date', () => {
+    it('gère une date avant la date de création', () => {
       const habit = createHabit({
         startValue: 10,
         createdAt: '2025-01-15',
@@ -624,70 +624,70 @@ describe('calculateTargetDose', () => {
 
 describe('calculateCompletionPercentage', () => {
   describe('increase/maintain habits', () => {
-    it('returns 100 for exact completion', () => {
+    it('retourne 100 pour une complétion exacte', () => {
       const entry = createEntry({ targetDose: 10, actualValue: 10 })
       expect(calculateCompletionPercentage(entry)).toBe(100)
       expect(calculateCompletionPercentage(entry, 'increase')).toBe(100)
     })
 
-    it('returns 50 for half completion', () => {
+    it('retourne 50 pour une demi-complétion', () => {
       const entry = createEntry({ targetDose: 10, actualValue: 5 })
       expect(calculateCompletionPercentage(entry)).toBe(50)
     })
 
-    it('returns 0 for no progress', () => {
+    it('retourne 0 pour aucun progrès', () => {
       const entry = createEntry({ targetDose: 10, actualValue: 0 })
       expect(calculateCompletionPercentage(entry)).toBe(0)
     })
 
-    it('returns > 100 for exceeded target', () => {
+    it('retourne > 100 pour cible dépassée', () => {
       const entry = createEntry({ targetDose: 10, actualValue: 15 })
       expect(calculateCompletionPercentage(entry)).toBe(150)
     })
 
-    it('handles zero target dose with effort', () => {
+    it('gère une dose cible zéro avec effort', () => {
       const entry = createEntry({ targetDose: 0, actualValue: 5 })
       expect(calculateCompletionPercentage(entry)).toBe(100)
     })
 
-    it('handles zero target dose with no effort', () => {
+    it('gère une dose cible zéro sans effort', () => {
       const entry = createEntry({ targetDose: 0, actualValue: 0 })
       expect(calculateCompletionPercentage(entry)).toBe(0)
     })
   })
 
   describe('decrease habits (inverted logic)', () => {
-    it('returns 100 for exact completion', () => {
+    it('retourne 100 pour une complétion exacte', () => {
       // Cible 4 cigarettes, fait 4 = 100%
       const entry = createEntry({ targetDose: 4, actualValue: 4 })
       expect(calculateCompletionPercentage(entry, 'decrease')).toBe(100)
     })
 
-    it('returns > 100 when doing less than target (better!)', () => {
+    it('retourne > 100 quand fait moins que la cible (mieux!)', () => {
       // Cible 4 cigarettes, fait 3 = 133% (mieux que prévu)
       const entry = createEntry({ targetDose: 4, actualValue: 3 })
       expect(calculateCompletionPercentage(entry, 'decrease')).toBeCloseTo(133.33, 1)
     })
 
-    it('returns < 100 when doing more than target', () => {
+    it('retourne < 100 quand fait plus que la cible', () => {
       // Cible 4 cigarettes, fait 5 = 80% (un peu plus que voulu)
       const entry = createEntry({ targetDose: 4, actualValue: 5 })
       expect(calculateCompletionPercentage(entry, 'decrease')).toBe(80)
     })
 
-    it('returns 100 when actualValue is 0 (perfect for reduction!)', () => {
+    it('retourne 100 quand actualValue est 0 (parfait pour réduction!)', () => {
       // Cible 4 cigarettes, fait 0 = parfait !
       const entry = createEntry({ targetDose: 4, actualValue: 0 })
       expect(calculateCompletionPercentage(entry, 'decrease')).toBe(100)
     })
 
-    it('handles zero target dose (goal achieved)', () => {
+    it('gère dose cible zéro (objectif atteint)', () => {
       // Cible 0, fait 0 = objectif atteint
       const entry = createEntry({ targetDose: 0, actualValue: 0 })
       expect(calculateCompletionPercentage(entry, 'decrease')).toBe(100)
     })
 
-    it('handles zero target dose with some consumption', () => {
+    it('gère dose cible zéro avec consommation', () => {
       // Cible 0, mais fait 2 = on n'a pas atteint l'objectif
       const entry = createEntry({ targetDose: 0, actualValue: 2 })
       expect(calculateCompletionPercentage(entry, 'decrease')).toBe(0)
@@ -696,7 +696,7 @@ describe('calculateCompletionPercentage', () => {
 })
 
 describe('calculateCompletionPercentageFromValues', () => {
-  it('calculates correctly from raw values', () => {
+  it('calcule correctement depuis les valeurs brutes', () => {
     expect(calculateCompletionPercentageFromValues(7, 10)).toBe(70)
     expect(calculateCompletionPercentageFromValues(12, 10)).toBe(120)
   })
@@ -708,12 +708,12 @@ describe('calculateCompletionPercentageFromValues', () => {
 
 describe('getCompletionStatus', () => {
   describe('increase/maintain habits', () => {
-    it('returns "pending" for 0%', () => {
+    it('retourne "pending" pour 0%', () => {
       const entry = createEntry({ targetDose: 10, actualValue: 0 })
       expect(getCompletionStatus(entry)).toBe('pending')
     })
 
-    it('returns "partial" for 1-69%', () => {
+    it('retourne "partial" pour 1-69%', () => {
       const entry = createEntry({ targetDose: 10, actualValue: 1 })
       expect(getCompletionStatus(entry)).toBe('partial')
 
@@ -721,7 +721,7 @@ describe('getCompletionStatus', () => {
       expect(getCompletionStatus(entry)).toBe('partial')
     })
 
-    it('returns "completed" for 70-100%', () => {
+    it('retourne "completed" pour 70-100%', () => {
       const entry = createEntry({ targetDose: 10, actualValue: 7 })
       expect(getCompletionStatus(entry)).toBe('completed')
 
@@ -729,37 +729,37 @@ describe('getCompletionStatus', () => {
       expect(getCompletionStatus(entry)).toBe('completed')
     })
 
-    it('returns "exceeded" for > 100%', () => {
+    it('retourne "exceeded" pour > 100%', () => {
       const entry = createEntry({ targetDose: 10, actualValue: 11 })
       expect(getCompletionStatus(entry)).toBe('exceeded')
     })
   })
 
   describe('decrease habits (inverted logic)', () => {
-    it('returns "completed" for exact target', () => {
+    it('retourne "completed" pour cible exacte', () => {
       const entry = createEntry({ targetDose: 4, actualValue: 4 })
       expect(getCompletionStatus(entry, 'decrease')).toBe('completed')
     })
 
-    it('returns "exceeded" when doing less than target (better!)', () => {
+    it('retourne "exceeded" quand fait moins que la cible (mieux!)', () => {
       // Cible 4, fait 3 = 133% = exceeded
       const entry = createEntry({ targetDose: 4, actualValue: 3 })
       expect(getCompletionStatus(entry, 'decrease')).toBe('exceeded')
     })
 
-    it('returns "completed" when doing slightly more than target (70-100%)', () => {
+    it('retourne "completed" quand fait légèrement plus que la cible (70-100%)', () => {
       // Cible 4, fait 5 = 80% = completed
       const entry = createEntry({ targetDose: 4, actualValue: 5 })
       expect(getCompletionStatus(entry, 'decrease')).toBe('completed')
     })
 
-    it('returns "partial" when doing much more than target (<70%)', () => {
+    it('retourne "partial" quand fait beaucoup plus que la cible (<70%)', () => {
       // Cible 4, fait 10 = 40% = partial
       const entry = createEntry({ targetDose: 4, actualValue: 10 })
       expect(getCompletionStatus(entry, 'decrease')).toBe('partial')
     })
 
-    it('returns "completed" when actualValue is 0', () => {
+    it('retourne "completed" quand actualValue est 0', () => {
       // Cible 4, fait 0 = parfait = 100% = completed
       const entry = createEntry({ targetDose: 4, actualValue: 0 })
       expect(getCompletionStatus(entry, 'decrease')).toBe('completed')
@@ -772,7 +772,7 @@ describe('getCompletionStatus', () => {
 // ============================================================================
 
 describe('calculateHabitStats', () => {
-  it('calculates correct statistics for active period', () => {
+  it('calcule les statistiques correctes pour la période active', () => {
     const habit = createHabit({ id: 'habit-1', startValue: 10 })
     const entries: DailyEntry[] = [
       createEntry({ habitId: 'habit-1', date: '2025-01-01', targetDose: 10, actualValue: 10 }), // 100%
@@ -790,7 +790,7 @@ describe('calculateHabitStats', () => {
     expect(stats.averageCompletion).toBeCloseTo(87.5, 0) // (100+80+50+120)/4
   })
 
-  it('handles empty entries', () => {
+  it('gère les entrées vides', () => {
     const habit = createHabit()
     const stats = calculateHabitStats(habit, [], '2025-01-01', '2025-01-07')
 
@@ -799,7 +799,7 @@ describe('calculateHabitStats', () => {
     expect(stats.completedDays).toBe(0)
   })
 
-  it('calculates progression correctly', () => {
+  it('calcule la progression correctement', () => {
     const habit = createHabit({
       startValue: 10,
       createdAt: '2025-01-01',
@@ -814,7 +814,7 @@ describe('calculateHabitStats', () => {
 })
 
 describe('calculateDailyCompletionPercentage', () => {
-  it('calculates global percentage for all habits', () => {
+  it('calcule le pourcentage global pour toutes les habitudes', () => {
     const habits: Habit[] = [
       createHabit({ id: 'habit-1', createdAt: '2025-01-01' }),
       createHabit({ id: 'habit-2', createdAt: '2025-01-01' }),
@@ -882,7 +882,7 @@ describe('calculateDailyCompletionPercentage', () => {
     expect(percentage).toBe(100) // Only habit-1 counts
   })
 
-  it('returns 0 when no active habits', () => {
+  it("retourne 0 quand pas d'habitudes actives", () => {
     const habits: Habit[] = []
     const entries: DailyEntry[] = []
 
@@ -896,7 +896,7 @@ describe('calculateDailyCompletionPercentage', () => {
 // ============================================================================
 
 describe('calculateCompoundEffectMetrics', () => {
-  it('calculates metrics for an increase habit', () => {
+  it('calcule les métriques pour une habitude en augmentation', () => {
     const habit = createHabit({
       direction: 'increase',
       startValue: 10,
@@ -914,7 +914,7 @@ describe('calculateCompoundEffectMetrics', () => {
     expect(metrics.daysElapsed).toBe(14)
   })
 
-  it('calculates metrics for a decrease habit', () => {
+  it('calcule les métriques pour une habitude en diminution', () => {
     const habit = createHabit({
       direction: 'decrease',
       startValue: 20,
@@ -932,7 +932,7 @@ describe('calculateCompoundEffectMetrics', () => {
     expect(metrics.daysElapsed).toBe(21)
   })
 
-  it('returns 0 change on day 0', () => {
+  it('retourne 0 changement au jour 0', () => {
     const habit = createHabit({
       direction: 'increase',
       startValue: 10,
@@ -949,7 +949,7 @@ describe('calculateCompoundEffectMetrics', () => {
     expect(metrics.daysElapsed).toBe(0)
   })
 
-  it('handles maintain habits (no change)', () => {
+  it('gère les habitudes maintain (pas de changement)', () => {
     const habit = createHabit({
       direction: 'maintain',
       startValue: 15,
@@ -1009,7 +1009,7 @@ describe('detectMilestone', () => {
     expect(milestone).toBe('fifty_percent')
   })
 
-  it('returns null when no significant milestone', () => {
+  it('retourne null quand pas de jalon significatif', () => {
     const habit = createHabit({
       direction: 'increase',
       startValue: 10,
@@ -1023,7 +1023,7 @@ describe('detectMilestone', () => {
     expect(milestone).toBe(null)
   })
 
-  it('returns null for maintain habits', () => {
+  it('retourne null pour les habitudes maintain', () => {
     const habit = createHabit({
       direction: 'maintain',
       startValue: 10,

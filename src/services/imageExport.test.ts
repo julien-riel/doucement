@@ -60,7 +60,7 @@ describe('canShareFiles', () => {
     })
   })
 
-  it('returns true when navigator.share and navigator.canShare are available', () => {
+  it('retourne true quand navigator.share et navigator.canShare sont disponibles', () => {
     Object.defineProperty(global, 'navigator', {
       value: {
         share: vi.fn(),
@@ -72,7 +72,7 @@ describe('canShareFiles', () => {
     expect(canShareFiles()).toBe(true)
   })
 
-  it('returns false when navigator.share is not available', () => {
+  it("retourne false quand navigator.share n'est pas disponible", () => {
     Object.defineProperty(global, 'navigator', {
       value: {
         canShare: vi.fn(),
@@ -83,7 +83,7 @@ describe('canShareFiles', () => {
     expect(canShareFiles()).toBe(false)
   })
 
-  it('returns false when navigator.canShare is not available', () => {
+  it("retourne false quand navigator.canShare n'est pas disponible", () => {
     Object.defineProperty(global, 'navigator', {
       value: {
         share: vi.fn(),
@@ -94,7 +94,7 @@ describe('canShareFiles', () => {
     expect(canShareFiles()).toBe(false)
   })
 
-  it('returns false when navigator is undefined', () => {
+  it('retourne false quand navigator est undefined', () => {
     Object.defineProperty(global, 'navigator', {
       value: undefined,
       writable: true,
@@ -274,7 +274,7 @@ describe('exportElementAsImage', () => {
     vi.restoreAllMocks()
   })
 
-  it('creates and clicks a download link', async () => {
+  it('crée et clique un lien de téléchargement', async () => {
     const mockBlob = new Blob(['test'], { type: 'image/png' })
     const mockCanvas = createMockCanvas(mockBlob)
     vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
@@ -444,7 +444,7 @@ describe('shareImage', () => {
     expect(mockShare).not.toHaveBeenCalled()
   })
 
-  it('returns false when user cancels share', async () => {
+  it("retourne false quand l'utilisateur annule le partage", async () => {
     const abortError = new Error('User cancelled')
     abortError.name = 'AbortError'
     const mockShare = vi.fn().mockRejectedValue(abortError)

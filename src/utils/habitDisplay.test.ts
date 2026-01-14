@@ -14,28 +14,11 @@ import {
   getHabitsWithIdentity,
 } from './habitDisplay'
 import { Habit } from '../types'
+import { createHabit } from '../test/fixtures'
 
 // ============================================================================
-// TEST FIXTURES
+// FIXTURES SPÉCIFIQUES AU MODULE
 // ============================================================================
-
-/**
- * Crée une habitude de test avec des valeurs par défaut
- */
-function createHabit(overrides: Partial<Habit> = {}): Habit {
-  return {
-    id: 'test-habit',
-    name: 'Test Habit',
-    emoji: '💪',
-    direction: 'increase',
-    startValue: 10,
-    unit: 'répétitions',
-    progression: null,
-    createdAt: '2025-01-01',
-    archivedAt: null,
-    ...overrides,
-  }
-}
 
 /**
  * Crée un HabitDataItem de test

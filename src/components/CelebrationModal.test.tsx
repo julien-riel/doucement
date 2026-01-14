@@ -55,7 +55,7 @@ describe('CelebrationModal', () => {
   // ============================================================================
 
   describe('Rendering', () => {
-    it('renders nothing when isOpen is false', () => {
+    it("n'affiche rien quand isOpen est false", () => {
       const { container } = render(
         <CelebrationModal
           isOpen={false}
@@ -69,7 +69,7 @@ describe('CelebrationModal', () => {
       expect(container.querySelector('.celebration-modal')).toBeNull()
     })
 
-    it('renders modal when isOpen is true', () => {
+    it('affiche le modal quand isOpen est true', () => {
       render(
         <CelebrationModal
           isOpen={true}

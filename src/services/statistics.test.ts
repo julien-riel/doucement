@@ -58,7 +58,7 @@ const createEntry = (
 // ============================================================================
 
 describe('linearRegression', () => {
-  it('should return 0 slope for constant values', () => {
+  it('retourne une pente de 0 pour des valeurs constantes', () => {
     const points = [
       { x: 0, y: 10 },
       { x: 1, y: 10 },
@@ -69,7 +69,7 @@ describe('linearRegression', () => {
     expect(intercept).toBe(10)
   })
 
-  it('should calculate positive slope for increasing values', () => {
+  it('calcule une pente positive pour des valeurs croissantes', () => {
     const points = [
       { x: 0, y: 0 },
       { x: 1, y: 1 },
@@ -80,7 +80,7 @@ describe('linearRegression', () => {
     expect(intercept).toBeCloseTo(0)
   })
 
-  it('should calculate negative slope for decreasing values', () => {
+  it('calcule une pente négative pour des valeurs décroissantes', () => {
     const points = [
       { x: 0, y: 10 },
       { x: 1, y: 8 },
@@ -91,14 +91,14 @@ describe('linearRegression', () => {
     expect(intercept).toBeCloseTo(10)
   })
 
-  it('should handle single point', () => {
+  it('gère un point unique', () => {
     const points = [{ x: 0, y: 5 }]
     const { slope, intercept } = linearRegression(points)
     expect(slope).toBe(0)
     expect(intercept).toBe(5)
   })
 
-  it('should handle empty array', () => {
+  it('gère un tableau vide', () => {
     const { slope, intercept } = linearRegression([])
     expect(slope).toBe(0)
     expect(intercept).toBe(0)
@@ -106,19 +106,19 @@ describe('linearRegression', () => {
 })
 
 describe('addDays', () => {
-  it('should add positive days', () => {
+  it('ajoute des jours positifs', () => {
     expect(addDays('2026-01-01', 5)).toBe('2026-01-06')
   })
 
-  it('should subtract days with negative value', () => {
+  it('soustrait des jours avec une valeur négative', () => {
     expect(addDays('2026-01-10', -3)).toBe('2026-01-07')
   })
 
-  it('should handle month overflow', () => {
+  it('gère le dépassement de mois', () => {
     expect(addDays('2026-01-30', 5)).toBe('2026-02-04')
   })
 
-  it('should handle year overflow', () => {
+  it("gère le dépassement d'année", () => {
     expect(addDays('2026-12-30', 5)).toBe('2027-01-04')
   })
 })
@@ -128,7 +128,7 @@ describe('addDays', () => {
 // ============================================================================
 
 describe('getChartData', () => {
-  it('should generate chart data for a period', () => {
+  it('génère les données du graphique pour une période', () => {
     const habit = createHabit()
     const entries = [
       createEntry('2026-01-05', 10, 10),
@@ -145,7 +145,7 @@ describe('getChartData', () => {
     expect(result.dataPoints.length).toBe(8) // 7 days + today
   })
 
-  it('should include days without entries with 0 value', () => {
+  it('inclut les jours sans entrées avec valeur 0', () => {
     const habit = createHabit()
     const entries = [createEntry('2026-01-05', 10, 10)]
 
@@ -156,7 +156,7 @@ describe('getChartData', () => {
     expect(zeroDays.length).toBeGreaterThan(0)
   })
 
-  it('should calculate correct percentages', () => {
+  it('calcule les pourcentages correctement', () => {
     const habit = createHabit()
     const entries = [
       createEntry('2026-01-07', 5, 10), // 50%
@@ -175,7 +175,7 @@ describe('getChartData', () => {
     expect(day9?.percentage).toBe(150)
   })
 
-  it('should include finalTarget when habit has targetValue', () => {
+  it("inclut finalTarget quand l'habitude a une targetValue", () => {
     const habit = createHabit({ targetValue: 50 })
     const entries: DailyEntry[] = []
 
@@ -190,7 +190,7 @@ describe('getChartData', () => {
 // ============================================================================
 
 describe('getProjection', () => {
-  it('should calculate projection for increasing habit', () => {
+  it('calcule la projection pour une habitude en augmentation', () => {
     const habit = createHabit({ targetValue: 50 })
     const entries = [
       createEntry('2026-01-01', 10, 10),
@@ -207,7 +207,7 @@ describe('getProjection', () => {
     expect(result.currentWeeklyRate).toBeGreaterThan(0)
   })
 
-  it('should return null dates when not progressing towards target', () => {
+  it('retourne des dates null quand pas de progression vers la cible', () => {
     const habit = createHabit({ targetValue: 50 })
     // Constant values, no progression
     const entries = [
@@ -222,7 +222,7 @@ describe('getProjection', () => {
     expect(result.currentWeeklyRate).toBeCloseTo(0, 0)
   })
 
-  it('should handle decrease habit projection', () => {
+  it('gère la projection pour une habitude en diminution', () => {
     const habit = createHabit({
       direction: 'decrease',
       startValue: 20,
@@ -241,7 +241,7 @@ describe('getProjection', () => {
     expect(result.progressPercentage).toBeGreaterThan(0)
   })
 
-  it('should calculate 30 and 90 day projections', () => {
+  it('calcule les projections à 30 et 90 jours', () => {
     const habit = createHabit({ targetValue: 50 })
     const entries = [
       createEntry('2026-01-01', 10, 10),
@@ -261,7 +261,7 @@ describe('getProjection', () => {
 // ============================================================================
 
 describe('getHabitStats', () => {
-  it('should calculate basic stats', () => {
+  it('calcule les statistiques de base', () => {
     const habit = createHabit()
     const entries = [
       createEntry('2026-01-05', 10, 10), // 100%
@@ -276,7 +276,7 @@ describe('getHabitStats', () => {
     expect(result.averageCompletion).toBe(100) // (100 + 80 + 120) / 3 = 100
   })
 
-  it('should find best day', () => {
+  it('trouve le meilleur jour', () => {
     const habit = createHabit()
     const entries = [
       createEntry('2026-01-05', 10, 10), // 100%
@@ -290,7 +290,7 @@ describe('getHabitStats', () => {
     expect(result.bestDay?.percentage).toBe(150)
   })
 
-  it('should calculate streaks', () => {
+  it('calcule les séries', () => {
     const habit = createHabit()
     // 3 consecutive days >= 70%
     const entries = [
@@ -305,7 +305,7 @@ describe('getHabitStats', () => {
     expect(result.bestStreak).toBe(3)
   })
 
-  it('should break streak on low completion', () => {
+  it('interrompt la série sur faible complétion', () => {
     const habit = createHabit()
     const entries = [
       createEntry('2026-01-05', 10, 10), // 100%
@@ -319,7 +319,7 @@ describe('getHabitStats', () => {
     expect(result.bestStreak).toBe(1)
   })
 
-  it('should return zeros for no entries', () => {
+  it('retourne des zéros pour aucune entrée', () => {
     const habit = createHabit()
     const entries: DailyEntry[] = []
 
@@ -339,7 +339,7 @@ describe('getHabitStats', () => {
 // ============================================================================
 
 describe('calculateTrend', () => {
-  it('should return positive trend for increasing values', () => {
+  it('retourne une tendance positive pour des valeurs croissantes', () => {
     const entries = [
       createEntry('2026-01-01', 10, 10),
       createEntry('2026-01-02', 12, 10),
@@ -352,7 +352,7 @@ describe('calculateTrend', () => {
     expect(trend).toBeGreaterThan(0)
   })
 
-  it('should return negative trend for decreasing values', () => {
+  it('retourne une tendance négative pour des valeurs décroissantes', () => {
     const entries = [
       createEntry('2026-01-01', 20, 10),
       createEntry('2026-01-02', 18, 10),
@@ -365,7 +365,7 @@ describe('calculateTrend', () => {
     expect(trend).toBeLessThan(0)
   })
 
-  it('should return 0 for stable values', () => {
+  it('retourne 0 pour des valeurs stables', () => {
     const entries = [
       createEntry('2026-01-01', 10, 10),
       createEntry('2026-01-02', 10, 10),
@@ -377,7 +377,7 @@ describe('calculateTrend', () => {
     expect(trend).toBe(0)
   })
 
-  it('should be bounded between -1 and 1', () => {
+  it('est borné entre -1 et 1', () => {
     // Extreme increase
     const entriesUp = [createEntry('2026-01-01', 1, 10), createEntry('2026-01-02', 100, 10)]
     const trendUp = calculateTrend(entriesUp)
@@ -389,7 +389,7 @@ describe('calculateTrend', () => {
     expect(trendDown).toBeGreaterThanOrEqual(-1)
   })
 
-  it('should return 0 for less than 2 entries', () => {
+  it('retourne 0 pour moins de 2 entrées', () => {
     const entries = [createEntry('2026-01-01', 10, 10)]
     expect(calculateTrend(entries)).toBe(0)
     expect(calculateTrend([])).toBe(0)
@@ -401,7 +401,7 @@ describe('calculateTrend', () => {
 // ============================================================================
 
 describe('getHeatmapData', () => {
-  it('should generate cells for the period', () => {
+  it('génère les cellules pour la période', () => {
     const habit = createHabit()
     const entries = [createEntry('2026-01-05', 10, 10), createEntry('2026-01-06', 8, 10)]
 
@@ -412,7 +412,7 @@ describe('getHeatmapData', () => {
     expect(result.length).toBeLessThan(35)
   })
 
-  it('should include percentage and intensity data', () => {
+  it('inclut les données de pourcentage et intensité', () => {
     // Use a habit without progression to have stable target
     const habit = createHabit({
       direction: 'maintain',
@@ -428,7 +428,7 @@ describe('getHeatmapData', () => {
     expect(entryCell?.target).toBe(10)
   })
 
-  it('should show 0% for days without entries', () => {
+  it('affiche 0% pour les jours sans entrées', () => {
     const habit = createHabit()
     const entries: DailyEntry[] = []
 
@@ -443,7 +443,7 @@ describe('getHeatmapData', () => {
 // ============================================================================
 
 describe('getGlobalStats', () => {
-  it('should aggregate stats for multiple habits', () => {
+  it('agrège les stats pour plusieurs habitudes', () => {
     const habits = [
       createHabit({ id: 'habit-1' }),
       createHabit({ id: 'habit-2', name: 'Méditation', emoji: '🧘' }),
@@ -459,7 +459,7 @@ describe('getGlobalStats', () => {
     expect(result.habitStats.length).toBe(2)
   })
 
-  it('should exclude archived habits', () => {
+  it('exclut les habitudes archivées', () => {
     const habits = [
       createHabit({ id: 'habit-1' }),
       createHabit({ id: 'habit-2', archivedAt: '2026-01-05' }),
@@ -471,7 +471,7 @@ describe('getGlobalStats', () => {
     expect(result.totalHabits).toBe(1)
   })
 
-  it('should calculate average completion across habits', () => {
+  it('calcule la complétion moyenne pour toutes les habitudes', () => {
     const habits = [createHabit({ id: 'habit-1' }), createHabit({ id: 'habit-2' })]
     const entries = [
       createEntry('2026-01-07', 10, 10, 'habit-1'), // 100%
@@ -484,7 +484,7 @@ describe('getGlobalStats', () => {
     expect(result.averageCompletion).toBe(75)
   })
 
-  it('should count unique active days', () => {
+  it('compte les jours actifs uniques', () => {
     const habits = [createHabit()]
     const entries = [
       createEntry('2026-01-05', 10, 10),
@@ -497,7 +497,7 @@ describe('getGlobalStats', () => {
     expect(result.totalActiveDays).toBe(3)
   })
 
-  it('should handle no habits', () => {
+  it("gère l'absence d'habitudes", () => {
     const result = getGlobalStats([], [], 'week', '2026-01-07')
 
     expect(result.totalHabits).toBe(0)
