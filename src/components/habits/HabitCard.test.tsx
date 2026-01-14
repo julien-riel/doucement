@@ -51,7 +51,7 @@ const createMockHabit = (overrides?: Partial<Habit>): Habit => ({
 })
 
 describe('HabitCard', () => {
-  let mockOnCheckIn: ReturnType<typeof vi.fn>
+  let mockOnCheckIn: (habitId: string, value: number) => void
 
   beforeEach(() => {
     mockOnCheckIn = vi.fn()
@@ -228,8 +228,6 @@ describe('HabitCard', () => {
           weeklyProgress={{
             completedDays: 3,
             weeklyTarget: 5,
-            startOfWeek: '2026-01-06',
-            endOfWeek: '2026-01-12',
           }}
           onCheckIn={mockOnCheckIn}
         />

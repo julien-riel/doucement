@@ -35,10 +35,31 @@ function getSystemPreference(): ResolvedTheme {
 }
 
 /**
- * Hook pour gérer le thème de l'application
- * - Applique data-theme sur documentElement
- * - Écoute prefers-color-scheme pour mode 'system'
- * - Persiste le choix utilisateur
+ * Hook pour gérer le thème de l'application (clair, sombre, ou système).
+ *
+ * Fonctionnalités :
+ * - Applique l'attribut `data-theme` sur `document.documentElement`
+ * - Écoute `prefers-color-scheme` pour le mode "système"
+ * - Persiste le choix utilisateur dans les préférences
+ * - Expose le thème résolu (après application des préférences système)
+ *
+ * @returns {UseThemeReturn} État et actions pour la gestion du thème
+ *
+ * @example
+ * ```tsx
+ * function ThemeSelector() {
+ *   const { theme, setTheme, isDark } = useTheme()
+ *
+ *   return (
+ *     <div className={isDark ? 'dark-mode' : 'light-mode'}>
+ *       <button onClick={() => setTheme('light')}>☀️ Clair</button>
+ *       <button onClick={() => setTheme('dark')}>🌙 Sombre</button>
+ *       <button onClick={() => setTheme('system')}>⚙️ Système</button>
+ *       <p>Thème actuel: {theme}</p>
+ *     </div>
+ *   )
+ * }
+ * ```
  */
 export function useTheme(): UseThemeReturn {
   const { data, updatePreferences } = useAppData()

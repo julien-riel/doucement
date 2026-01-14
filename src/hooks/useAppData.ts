@@ -96,8 +96,34 @@ export interface UseAppDataActions {
 export type UseAppDataReturn = UseAppDataState & UseAppDataActions
 
 /**
- * Hook principal de gestion des données
- * Charge les données au montage et sauvegarde automatiquement les modifications
+ * Hook principal de gestion des données de l'application.
+ *
+ * Fournit un accès réactif aux données persistées (habitudes, entrées, préférences)
+ * avec auto-sauvegarde automatique dans localStorage.
+ *
+ * @returns {UseAppDataReturn} État et actions pour la gestion des données
+ *
+ * @example
+ * ```tsx
+ * function MyComponent() {
+ *   const { activeHabits, addHabit, addEntry, isLoading } = useAppData()
+ *
+ *   if (isLoading) return <Loading />
+ *
+ *   const handleCreate = () => {
+ *     const newHabit = addHabit({
+ *       name: 'Méditation',
+ *       emoji: '🧘',
+ *       direction: 'increase',
+ *       startValue: 5,
+ *       unit: 'minutes',
+ *       progression: { mode: 'fixed', value: 1, period: 'weekly' }
+ *     })
+ *   }
+ *
+ *   return <HabitList habits={activeHabits} />
+ * }
+ * ```
  */
 export function useAppData(): UseAppDataReturn {
   const [data, setData] = useState<AppData>(DEFAULT_APP_DATA)

@@ -28,12 +28,31 @@ interface UseNotificationsOptions {
 }
 
 /**
- * Hook pour gérer les notifications de l'application
+ * Hook pour gérer les notifications de l'application.
  *
  * Programme automatiquement les rappels selon les préférences utilisateur :
  * - Rappel matinal : "Votre dose du jour vous attend"
  * - Rappel du soir : Si aucune entrée enregistrée pour aujourd'hui
  * - Rappel revue hebdomadaire : Chaque dimanche
+ *
+ * @param {UseNotificationsOptions} options - Configuration du hook
+ * @returns {void} Ce hook n'a pas de valeur de retour, il gère les effets secondaires
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const { data, getEntriesForDate, activeHabits, isLoading } = useAppData()
+ *
+ *   useNotifications({
+ *     settings: data.preferences.notifications,
+ *     getEntriesForDate,
+ *     activeHabits,
+ *     isReady: !isLoading,
+ *   })
+ *
+ *   return <MainApp />
+ * }
+ * ```
  */
 export function useNotifications({
   settings,

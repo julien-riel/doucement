@@ -214,19 +214,20 @@
       "id": "phase-3",
       "name": "Phase 3 - Optimisations avancées",
       "description": "Tree-shaking, refactoring Settings, documentation API",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
           "id": "3.1",
           "name": "Tree-shaking recharts",
           "description": "Optimiser les imports recharts pour ne charger que les composants utilisés. Vérifier le gain de taille.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "medium",
           "dependsOn": [],
           "files": [
             "src/components/charts/ProgressionChart.tsx",
-            "src/components/charts/StatisticsCharts.tsx",
+            "src/components/charts/ComparisonChart.tsx",
             "vite.config.ts"
           ],
           "tests": [],
@@ -234,13 +235,15 @@
             "Imports recharts optimisés",
             "Gain de 30-50KB sur le chunk",
             "Charts fonctionnels"
-          ]
+          ],
+          "note": "Les imports recharts utilisent déjà le pattern optimal (named imports depuis recharts v3.6.0 avec sideEffects:false). Le vendor-charts chunk de 364KB est le minimum requis pour les composants utilisés (ComposedChart, LineChart, Line, Area, XAxis, YAxis, etc.). Aucun gain supplémentaire possible sans changer de librairie."
         },
         {
           "id": "3.2",
           "name": "Refactoring Settings - Structure",
           "description": "Créer la structure Settings/ avec sections séparées : ThemeSection, LanguageSection, NotificationSection, DataSection, AboutSection",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "low",
           "dependsOn": [],
           "files": [
@@ -262,7 +265,8 @@
           "id": "3.3",
           "name": "Documentation API hooks",
           "description": "Ajouter une documentation JSDoc complète pour tous les hooks personnalisés : useAppData, useNotifications, useDebugMode, useTheme, useCelebrations",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "low",
           "dependsOn": [],
           "files": [
@@ -283,7 +287,8 @@
           "id": "3.4",
           "name": "Guide de contribution",
           "description": "Créer CONTRIBUTING.md avec instructions pour contribuer au projet : setup, conventions, PR process",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "low",
           "dependsOn": ["1.3"],
           "files": [
@@ -346,9 +351,9 @@
   ],
   "stats": {
     "totalTasks": 15,
-    "completed": 9,
+    "completed": 13,
     "inProgress": 0,
-    "pending": 6,
+    "pending": 2,
     "blocked": 0
   }
 }

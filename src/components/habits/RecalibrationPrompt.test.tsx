@@ -54,13 +54,25 @@ const createMockHabit = (overrides?: Partial<Habit>): Habit => ({
   ...overrides,
 })
 
+type RecalibrationRecord = {
+  date: string
+  previousStartValue: number
+  newStartValue: number
+  previousStartDate: string
+  level: number
+}
+type OnRecalibrateFn = ((newStartValue: number, record: RecalibrationRecord) => void) & {
+  mock: { calls: [number, RecalibrationRecord][] }
+}
+type OnDismissFn = (() => void) & { mock: { calls: never[][] } }
+
 describe('RecalibrationPrompt', () => {
-  let mockOnRecalibrate: ReturnType<typeof vi.fn>
-  let mockOnDismiss: ReturnType<typeof vi.fn>
+  let mockOnRecalibrate: OnRecalibrateFn
+  let mockOnDismiss: OnDismissFn
 
   beforeEach(() => {
-    mockOnRecalibrate = vi.fn()
-    mockOnDismiss = vi.fn()
+    mockOnRecalibrate = vi.fn() as unknown as OnRecalibrateFn
+    mockOnDismiss = vi.fn() as unknown as OnDismissFn
     vi.clearAllMocks()
   })
 

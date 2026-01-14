@@ -17,18 +17,19 @@ import type { Habit } from '../../../types'
  */
 export function StepFirstCheckIn() {
   const navigate = useNavigate()
-  const { habits, addEntry } = useAppData()
+  const { activeHabits, archivedHabits, addEntry } = useAppData()
   const [createdHabit, setCreatedHabit] = useState<Habit | null>(null)
 
-  // Get the most recently created habit
+  // Get the most recently created habit from all habits
   useEffect(() => {
-    if (habits.length > 0) {
-      const sortedByCreation = [...habits].sort(
+    const allHabits = [...activeHabits, ...archivedHabits]
+    if (allHabits.length > 0) {
+      const sortedByCreation = [...allHabits].sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       )
       setCreatedHabit(sortedByCreation[0])
     }
-  }, [habits])
+  }, [activeHabits, archivedHabits])
 
   const handleResponse = (actualValue: number | null) => {
     if (actualValue !== null && createdHabit) {

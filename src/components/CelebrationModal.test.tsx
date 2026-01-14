@@ -33,14 +33,13 @@ vi.mock('../services/milestones', () => ({
 // Create a mock milestone
 const createMockMilestone = (level: MilestoneLevel): Milestone => ({
   level,
-  achievedAt: '2026-01-13',
+  reachedAt: '2026-01-13',
   habitId: 'habit-1',
-  currentValue: level,
-  targetValue: 100,
+  celebrated: false,
 })
 
 describe('CelebrationModal', () => {
-  let mockOnClose: ReturnType<typeof vi.fn>
+  let mockOnClose: () => void
 
   beforeEach(() => {
     mockOnClose = vi.fn()

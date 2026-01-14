@@ -63,7 +63,35 @@ let tapCount = 0
 let tapTimer: ReturnType<typeof setTimeout> | null = null
 
 /**
- * Hook de gestion du mode debug
+ * Hook de gestion du mode debug.
+ *
+ * Permet d'activer un mode développeur caché via :
+ * - 7 taps rapides sur le numéro de version dans les paramètres
+ * - Le paramètre URL `?debug=true`
+ * - La clé localStorage `doucement-debug`
+ *
+ * En mode debug, l'utilisateur peut :
+ * - Simuler une date différente pour tester les progressions
+ * - Charger des données de test
+ * - Accéder à des informations de debug
+ *
+ * @returns {UseDebugModeReturn} État et actions pour le mode debug
+ *
+ * @example
+ * ```tsx
+ * function Settings() {
+ *   const { isDebugMode, handleVersionTap, setSimulatedDate } = useDebugMode()
+ *
+ *   return (
+ *     <div>
+ *       <button onClick={handleVersionTap}>v1.0.0</button>
+ *       {isDebugMode && (
+ *         <DebugPanel onDateChange={setSimulatedDate} />
+ *       )}
+ *     </div>
+ *   )
+ * }
+ * ```
  */
 export function useDebugMode(): UseDebugModeReturn {
   const { data, updatePreferences } = useAppData()
