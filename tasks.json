@@ -1,295 +1,342 @@
 {
-  "project": "Audit de Maturité Multi-Dimensionnel",
-  "description": "Bilan de santé complet du projet avec matrice de maturité scorée selon 8 dimensions de qualité",
+  "project": "Optimisation suite à l'Audit de Maturité",
+  "description": "Implémentation des 10 recommandations de l'audit pour améliorer le score de 33/40 vers 37/40",
   "createdAt": "2026-01-13",
   "lastRelease": "1.23.0",
   "docs": [
-    "docs/prd-audit-maturite.md",
-    "docs/prd.md",
-    "docs/design/design-system-specification.md",
-    "docs/coherence-matrix.md"
+    "docs/prd-audit-optimization.md",
+    "docs/audit-maturite-2026-01-13.md",
+    "docs/design/design-system-specification.md"
   ],
   "phases": [
     {
       "id": "phase-1",
-      "name": "Phase 1 - Audits techniques",
-      "description": "Évaluation des dimensions mesurables automatiquement ou semi-automatiquement",
-      "status": "completed",
-      "releaseType": "patch",
-      "releasedAs": "1.23.0",
-      "releasedAt": "2026-01-13",
+      "name": "Phase 1 - Quick Wins Performance",
+      "description": "Optimisations à fort impact et faible effort : code splitting, vendor chunking, README",
+      "status": "pending",
+      "releaseType": "minor",
       "tasks": [
         {
           "id": "1.1",
-          "name": "Audit Fonctionnalité",
-          "description": "Comparer le PRD avec l'implémentation actuelle. Vérifier chaque use case, identifier les fonctionnalités complètes/partielles/manquantes, lister les bugs connus.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
+          "name": "Lazy loading des routes",
+          "description": "Implémenter React.lazy() et Suspense sur toutes les routes sauf Today. Ajouter des skeleton loaders pour le chargement.",
+          "status": "pending",
           "priority": "high",
           "dependsOn": [],
           "files": [
-            "docs/prd.md",
-            "src/pages/",
-            "src/components/"
+            "src/router.tsx",
+            "src/pages/index.ts",
+            "src/components/ui/Skeleton.tsx"
           ],
           "tests": [],
           "acceptance": [
-            "Checklist PRD vs code complétée",
-            "Score fonctionnalité attribué (1-5)",
-            "Liste des limitations documentée"
+            "Toutes les routes lazy-loadées sauf Today",
+            "Skeleton loader pendant le chargement",
+            "Pas de flash visible au changement de route"
           ]
         },
         {
           "id": "1.2",
-          "name": "Audit Maintenabilité",
-          "description": "Analyser la complexité du code, identifier les hot spots difficiles à maintenir, vérifier le respect des patterns, détecter le code mort ou dupliqué.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
+          "name": "Vendor chunking Vite",
+          "description": "Configurer manualChunks dans vite.config.ts pour séparer les vendors volumineux : react, recharts, jspdf, i18next, emoji-picker",
+          "status": "pending",
           "priority": "high",
           "dependsOn": [],
           "files": [
-            "src/services/",
-            "src/hooks/",
-            "src/utils/"
+            "vite.config.ts"
           ],
           "tests": [],
           "acceptance": [
-            "Rapport de complexité par module",
-            "Hot spots identifiés",
-            "Score maintenabilité attribué (1-5)"
+            "5 chunks vendors séparés créés",
+            "Bundle principal < 800KB",
+            "Build sans erreur"
           ]
         },
         {
           "id": "1.3",
-          "name": "Audit Performance",
-          "description": "Mesurer les performances: temps de chargement, taille bundle, réactivité UI, performance avec données volumineuses. Utiliser Lighthouse et profiling manuel.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
+          "name": "Créer README.md",
+          "description": "Créer un README.md standard avec : description, installation, usage, contribution, licence. Inclure badges et screenshots.",
+          "status": "pending",
           "priority": "high",
           "dependsOn": [],
           "files": [
-            "vite.config.ts",
-            "src/App.tsx",
-            "src/services/storage.ts"
+            "README.md"
           ],
           "tests": [],
           "acceptance": [
-            "Métriques Lighthouse documentées",
-            "Profiling opérations critiques",
-            "Score performance attribué (1-5)"
+            "README.md présent à la racine",
+            "Sections : About, Features, Install, Usage, Contributing, License",
+            "Au moins un screenshot inclus"
           ]
         },
         {
           "id": "1.4",
-          "name": "Audit Structure de données",
-          "description": "Analyser le modèle de données: cohérence des types, normalisation, évolutivité du schéma, validation, support des migrations.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "high",
-          "dependsOn": [],
+          "name": "Script métriques de build",
+          "description": "Créer un script qui analyse la taille du bundle après build et compare avec les seuils définis. Affiche un rapport formaté.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["1.2"],
           "files": [
-            "src/types/",
-            "src/services/migration.ts",
-            "src/services/storage.ts"
+            "scripts/bundle-metrics.sh"
           ],
           "tests": [],
           "acceptance": [
-            "Analyse du schéma v10 complète",
-            "Problèmes de cohérence listés",
-            "Score structure données attribué (1-5)"
+            "Script exécutable après npm run build",
+            "Affiche taille par chunk",
+            "Compare avec seuils (500KB, 150KB gzip)",
+            "Code de sortie 0 si OK, 1 si dépassé"
           ]
         }
       ]
     },
     {
       "id": "phase-2",
-      "name": "Phase 2 - Audits qualitatifs",
-      "description": "Évaluation des dimensions nécessitant une analyse plus subjective",
-      "status": "completed",
-      "releaseType": "patch",
-      "releasedAs": "1.23.0",
-      "releasedAt": "2026-01-13",
+      "name": "Phase 2 - Maintenabilité",
+      "description": "Refactoring des composants volumineux et ajout de fonctionnalités manquantes",
+      "status": "pending",
+      "releaseType": "minor",
       "tasks": [
         {
           "id": "2.1",
-          "name": "Audit Documentation",
-          "description": "Évaluer la complétude et l'exactitude de toute la documentation: PRD, design system, CLAUDE.md, JSDoc inline, guides.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "medium",
-          "dependsOn": ["1.1"],
+          "name": "Refactoring CreateHabit - Structure",
+          "description": "Créer la structure de répertoires pour CreateHabit : index.tsx, context, steps/, components/, hooks/",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": [],
           "files": [
-            "docs/",
-            "CLAUDE.md",
-            "README.md"
+            "src/pages/CreateHabit/index.tsx",
+            "src/pages/CreateHabit/CreateHabitContext.tsx",
+            "src/pages/CreateHabit/types.ts"
           ],
           "tests": [],
           "acceptance": [
-            "Chaque document audité",
-            "Manques identifiés",
-            "Score documentation attribué (1-5)"
+            "Structure de répertoires créée",
+            "Context pour état du wizard",
+            "Types extraits"
           ]
         },
         {
           "id": "2.2",
-          "name": "Audit UX",
-          "description": "Évaluer l'expérience utilisateur: cohérence avec design system, fluidité des parcours, accessibilité (a11y), messages/feedback, responsive.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "medium",
-          "dependsOn": [],
+          "name": "Refactoring CreateHabit - Étapes",
+          "description": "Extraire chaque étape du wizard dans son propre composant : BasicInfoStep, TrackingModeStep, ProgressionStep, FrequencyStep, ImplementationStep, SummaryStep",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["2.1"],
           "files": [
-            "docs/design/design-system-specification.md",
-            "src/styles/design-tokens.css",
-            "src/pages/"
+            "src/pages/CreateHabit/steps/BasicInfoStep.tsx",
+            "src/pages/CreateHabit/steps/TrackingModeStep.tsx",
+            "src/pages/CreateHabit/steps/ProgressionStep.tsx",
+            "src/pages/CreateHabit/steps/FrequencyStep.tsx",
+            "src/pages/CreateHabit/steps/ImplementationStep.tsx",
+            "src/pages/CreateHabit/steps/SummaryStep.tsx"
           ],
           "tests": [],
           "acceptance": [
-            "Parcours utilisateurs testés",
-            "Problèmes UX listés",
-            "Score UX attribué (1-5)"
+            "6 composants step créés",
+            "Chaque step < 150 lignes",
+            "Comportement identique à l'original"
           ]
         },
         {
           "id": "2.3",
-          "name": "Audit Architecture",
-          "description": "Évaluer l'architecture logicielle: séparation des responsabilités, modularité, gestion des dépendances, patterns/anti-patterns, scalabilité.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
+          "name": "Refactoring CreateHabit - Composants communs",
+          "description": "Extraire les composants partagés : StepIndicator, NavigationButtons et hook useCreateHabitForm",
+          "status": "pending",
           "priority": "medium",
-          "dependsOn": ["1.2"],
+          "dependsOn": ["2.2"],
           "files": [
-            "src/",
-            "package.json",
-            "vite.config.ts"
+            "src/pages/CreateHabit/components/StepIndicator.tsx",
+            "src/pages/CreateHabit/components/NavigationButtons.tsx",
+            "src/pages/CreateHabit/hooks/useCreateHabitForm.ts"
           ],
           "tests": [],
           "acceptance": [
-            "Diagramme d'architecture créé",
-            "Couplages problématiques identifiés",
-            "Score architecture attribué (1-5)"
+            "Composants partagés extraits",
+            "Hook de gestion du form créé",
+            "CreateHabit/index.tsx < 200 lignes"
+          ]
+        },
+        {
+          "id": "2.4",
+          "name": "Implémenter RecalibrationPrompt UI",
+          "description": "Créer le composant RecalibrationPrompt et l'intégrer dans HabitDetail. Permettre à l'utilisateur d'ajuster sa baseline quand il dépasse ses objectifs.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": [
+            "src/components/habits/RecalibrationPrompt.tsx",
+            "src/pages/HabitDetail.tsx"
+          ],
+          "tests": [
+            "src/components/habits/RecalibrationPrompt.test.tsx"
+          ],
+          "acceptance": [
+            "Composant RecalibrationPrompt créé",
+            "Accessible depuis HabitDetail",
+            "Ton bienveillant ('Tu as dépassé tes objectifs !')",
+            "Test unitaire présent"
+          ]
+        },
+        {
+          "id": "2.5",
+          "name": "Tests composants React",
+          "description": "Ajouter des tests pour 3 composants UI critiques : HabitCard, ProgressBar, CelebrationModal",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": [
+            "src/components/habits/HabitCard.test.tsx",
+            "src/components/ui/ProgressBar.test.tsx",
+            "src/components/CelebrationModal.test.tsx"
+          ],
+          "tests": [],
+          "acceptance": [
+            "3 nouveaux fichiers de tests",
+            "Couverture des cas principaux",
+            "Tests passants"
           ]
         }
       ]
     },
     {
       "id": "phase-3",
-      "name": "Phase 3 - Cohérence et synthèse",
-      "description": "Audit de cohérence cross-domaine et création de la matrice finale",
-      "status": "completed",
+      "name": "Phase 3 - Optimisations avancées",
+      "description": "Tree-shaking, refactoring Settings, documentation API",
+      "status": "pending",
       "releaseType": "minor",
-      "releasedAs": "1.23.0",
-      "releasedAt": "2026-01-13",
       "tasks": [
         {
           "id": "3.1",
-          "name": "Audit Cohérence Cross-Domaine",
-          "description": "Vérifier la cohérence entre dimensions: Types↔Docs, Architecture↔UX, Tests↔Features, Design system↔UI implémentée.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "high",
-          "dependsOn": ["1.1", "1.4", "2.1", "2.2", "2.3"],
+          "name": "Tree-shaking recharts",
+          "description": "Optimiser les imports recharts pour ne charger que les composants utilisés. Vérifier le gain de taille.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
           "files": [
-            "docs/coherence-matrix.md"
+            "src/components/charts/ProgressionChart.tsx",
+            "src/components/charts/StatisticsCharts.tsx",
+            "vite.config.ts"
           ],
           "tests": [],
           "acceptance": [
-            "Matrice de cohérence inter-domaines",
-            "Points de friction identifiés",
-            "Score cohérence attribué (1-5)"
+            "Imports recharts optimisés",
+            "Gain de 30-50KB sur le chunk",
+            "Charts fonctionnels"
           ]
         },
         {
           "id": "3.2",
-          "name": "Créer Matrice de Maturité",
-          "description": "Consolider tous les scores dans la matrice de maturité avec forces, faiblesses et priorités pour chaque dimension.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "high",
-          "dependsOn": ["3.1"],
+          "name": "Refactoring Settings - Structure",
+          "description": "Créer la structure Settings/ avec sections séparées : ThemeSection, LanguageSection, NotificationSection, DataSection, AboutSection",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": [],
           "files": [
-            "docs/matrice-maturite.md"
+            "src/pages/Settings/index.tsx",
+            "src/pages/Settings/sections/ThemeSection.tsx",
+            "src/pages/Settings/sections/LanguageSection.tsx",
+            "src/pages/Settings/sections/NotificationSection.tsx",
+            "src/pages/Settings/sections/DataSection.tsx",
+            "src/pages/Settings/sections/AboutSection.tsx"
           ],
           "tests": [],
           "acceptance": [
-            "Tableau 8 dimensions avec scores",
-            "Score total calculé",
-            "Radar chart ASCII inclus"
+            "5 sections extraites",
+            "Settings/index.tsx < 200 lignes",
+            "Comportement identique"
           ]
         },
         {
           "id": "3.3",
-          "name": "Générer Rapport Final",
-          "description": "Créer le rapport d'audit complet avec résumé exécutif, détail par dimension et recommandations priorisées.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "high",
-          "dependsOn": ["3.2"],
+          "name": "Documentation API hooks",
+          "description": "Ajouter une documentation JSDoc complète pour tous les hooks personnalisés : useAppData, useNotifications, useDebugMode, useTheme, useCelebrations",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": [],
           "files": [
-            "docs/audit-maturite-2026-01-13.md"
+            "src/hooks/useAppData.ts",
+            "src/hooks/useNotifications.ts",
+            "src/hooks/useDebugMode.ts",
+            "src/hooks/useTheme.ts",
+            "src/hooks/useCelebrations.ts"
           ],
           "tests": [],
           "acceptance": [
-            "Résumé exécutif clair",
-            "Détail des 8 audits",
-            "Top 10 recommandations priorisées"
+            "JSDoc sur chaque hook",
+            "Description, @param, @returns, @example",
+            "Types documentés"
+          ]
+        },
+        {
+          "id": "3.4",
+          "name": "Guide de contribution",
+          "description": "Créer CONTRIBUTING.md avec instructions pour contribuer au projet : setup, conventions, PR process",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["1.3"],
+          "files": [
+            "CONTRIBUTING.md"
+          ],
+          "tests": [],
+          "acceptance": [
+            "CONTRIBUTING.md présent",
+            "Sections : Setup, Conventions, PR, Code Review",
+            "Référence au design system"
           ]
         }
       ]
     },
     {
       "id": "phase-4",
-      "name": "Phase 4 - Plan d'action",
-      "description": "Élaboration du plan d'action basé sur les résultats de l'audit",
-      "status": "completed",
-      "releaseType": "minor",
-      "releasedAs": "1.23.0",
-      "releasedAt": "2026-01-13",
+      "name": "Phase 4 - Métriques & Qualité",
+      "description": "Audit Lighthouse et validation finale des objectifs",
+      "status": "pending",
+      "releaseType": "patch",
       "tasks": [
         {
           "id": "4.1",
-          "name": "Prioriser les recommandations",
-          "description": "Classer toutes les recommandations par impact (amélioration score), effort (complexité), et priorité (ratio impact/effort).",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "high",
-          "dependsOn": ["3.3"],
+          "name": "Intégrer audit Lighthouse",
+          "description": "Ajouter un script qui exécute Lighthouse en mode headless et vérifie les scores PWA/Performance. Intégrer au health-check.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["1.4"],
           "files": [
-            "docs/audit-maturite-2026-01-13.md"
+            "scripts/lighthouse-audit.sh",
+            "scripts/health-check.sh"
           ],
           "tests": [],
           "acceptance": [
-            "Matrice impact/effort créée",
-            "Quick wins identifiés",
-            "Actions stratégiques listées"
+            "Script Lighthouse fonctionnel",
+            "Score PWA > 90 vérifié",
+            "Intégré au health-check"
           ]
         },
         {
           "id": "4.2",
-          "name": "Créer roadmap de refonte",
-          "description": "Transformer les recommandations priorisées en roadmap actionnable avec phases et dépendances.",
-          "status": "completed",
-          "completedAt": "2026-01-13",
-          "priority": "medium",
-          "dependsOn": ["4.1"],
+          "name": "Validation métriques finales",
+          "description": "Exécuter tous les audits et documenter les résultats finaux. Comparer avec les objectifs définis.",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["4.1", "3.1", "3.2"],
           "files": [
-            "docs/roadmap-refonte.md"
+            "docs/audit-post-optimization.md"
           ],
           "tests": [],
           "acceptance": [
-            "Phases de refonte définies",
-            "Dépendances identifiées",
-            "Critères de succès par phase"
+            "Bundle JS < 600KB",
+            "Score Lighthouse PWA > 90",
+            "Score audit ≥ 36/40",
+            "Rapport comparatif avant/après"
           ]
         }
       ]
     }
   ],
   "stats": {
-    "totalTasks": 11,
-    "completed": 11,
+    "totalTasks": 15,
+    "completed": 0,
     "inProgress": 0,
-    "pending": 0,
+    "pending": 15,
     "blocked": 0
   }
 }
