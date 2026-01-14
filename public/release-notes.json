@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.23.0",
+  "currentVersion": "1.24.0",
   "releases": [
+    {
+      "version": "1.24.0",
+      "date": "2026-01-13",
+      "title": "Phase 1 - Quick Wins Performance",
+      "highlights": [
+        {
+          "emoji": "rocket",
+          "text": "Lazy loading des routes"
+        },
+        {
+          "emoji": "rocket",
+          "text": "Vendor chunking Vite"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Créer README.md"
+        },
+        {
+          "emoji": "chart",
+          "text": "Script métriques de build"
+        }
+      ]
+    },
     {
       "version": "1.23.0",
       "date": "2026-01-13",
