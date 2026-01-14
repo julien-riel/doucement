@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.24.0",
+  "currentVersion": "1.25.0",
   "releases": [
+    {
+      "version": "1.25.0",
+      "date": "2026-01-13",
+      "title": "Phase 2 - Maintenabilité",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "Refactoring CreateHabit en composants modulaires"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Composant RecalibrationPrompt"
+        },
+        {
+          "emoji": "check",
+          "text": "Tests composants React (HabitCard, CelebrationModal)"
+        },
+        {
+          "emoji": "tools",
+          "text": "Context et hooks extraits pour le wizard"
+        }
+      ]
+    },
     {
       "version": "1.24.0",
       "date": "2026-01-13",
