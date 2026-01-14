@@ -26,7 +26,7 @@ WARNINGS=0
 # ==============================================================================
 # 1. Vérification des répertoires vides
 # ==============================================================================
-echo -e "${BLUE}[1/5] Vérification des répertoires vides...${NC}"
+echo -e "${BLUE}[1/6] Vérification des répertoires vides...${NC}"
 
 EMPTY_DIRS=$(find src -type d -empty 2>/dev/null || true)
 if [ -n "$EMPTY_DIRS" ]; then
@@ -43,7 +43,7 @@ fi
 # 2. Vérification de la taille des fichiers de test
 # ==============================================================================
 echo ""
-echo -e "${BLUE}[2/5] Vérification de la taille des fichiers de test...${NC}"
+echo -e "${BLUE}[2/6] Vérification de la taille des fichiers de test...${NC}"
 
 # Ratio maximum test/source (3x)
 MAX_RATIO=3
@@ -82,7 +82,7 @@ echo -e "${GREEN}  ✓ Ratio test/source vérifié${NC}"
 # 3. Vérification des imports cassés (TypeScript)
 # ==============================================================================
 echo ""
-echo -e "${BLUE}[3/5] Vérification TypeScript...${NC}"
+echo -e "${BLUE}[3/6] Vérification TypeScript...${NC}"
 
 if npm run typecheck --silent 2>/dev/null; then
     echo -e "${GREEN}  ✓ TypeScript compile sans erreur${NC}"
@@ -95,7 +95,7 @@ fi
 # 4. Vérification du lint
 # ==============================================================================
 echo ""
-echo -e "${BLUE}[4/5] Vérification ESLint...${NC}"
+echo -e "${BLUE}[4/6] Vérification ESLint...${NC}"
 
 if npm run lint --silent 2>/dev/null; then
     echo -e "${GREEN}  ✓ Lint passe sans erreur${NC}"
@@ -105,10 +105,52 @@ else
 fi
 
 # ==============================================================================
-# 5. Vérification de la cohérence de la documentation
+# 5. Vérification Lighthouse (optionnel)
 # ==============================================================================
 echo ""
-echo -e "${BLUE}[5/5] Vérification de la documentation...${NC}"
+echo -e "${BLUE}[5/6] Vérification Lighthouse...${NC}"
+
+# Vérifier si le dossier dist existe pour éviter un build inutile
+if [ -d "dist" ]; then
+    # Vérifier si Lighthouse est disponible
+    if command -v npx &> /dev/null && npx lighthouse --version &> /dev/null; then
+        # Vérifier si un rapport récent existe (moins d'une heure)
+        RECENT_REPORT=$(find lighthouse-reports -name "*.json" -mmin -60 2>/dev/null | head -1)
+
+        if [ -n "$RECENT_REPORT" ]; then
+            echo -e "${GREEN}  ✓ Rapport Lighthouse récent trouvé${NC}"
+            echo -e "    Fichier: $RECENT_REPORT"
+
+            # Vérifier le score PWA du rapport existant
+            PWA_SCORE=$(grep -o '"pwa":{[^}]*"score":[0-9.]*' "$RECENT_REPORT" 2>/dev/null | head -1 | grep -o '"score":[0-9.]*' | cut -d':' -f2)
+            if [ -n "$PWA_SCORE" ] && [ "$PWA_SCORE" != "null" ]; then
+                PWA_PERCENT=$(echo "$PWA_SCORE * 100" | bc | cut -d'.' -f1)
+                if [ "$PWA_PERCENT" -ge 90 ]; then
+                    echo -e "${GREEN}  ✓ Score PWA: ${PWA_PERCENT}% (seuil: 90%)${NC}"
+                else
+                    echo -e "${YELLOW}  ⚠ Score PWA: ${PWA_PERCENT}% (seuil: 90%)${NC}"
+                    WARNINGS=$((WARNINGS + 1))
+                fi
+            fi
+        else
+            echo -e "${YELLOW}  ⚠ Aucun rapport Lighthouse récent${NC}"
+            echo -e "    Exécutez: ./scripts/lighthouse-audit.sh"
+            WARNINGS=$((WARNINGS + 1))
+        fi
+    else
+        echo -e "${YELLOW}  ⚠ Lighthouse non disponible (npx lighthouse)${NC}"
+        WARNINGS=$((WARNINGS + 1))
+    fi
+else
+    echo -e "${YELLOW}  ⚠ Dossier dist absent, build requis pour Lighthouse${NC}"
+    WARNINGS=$((WARNINGS + 1))
+fi
+
+# ==============================================================================
+# 6. Vérification de la cohérence de la documentation
+# ==============================================================================
+echo ""
+echo -e "${BLUE}[6/6] Vérification de la documentation...${NC}"
 
 REQUIRED_DOCS=(
     "docs/prd.md"
