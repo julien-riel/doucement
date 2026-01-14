@@ -8,8 +8,8 @@
   align-items: flex-start;
   gap: var(--spacing-3);
   padding: var(--spacing-4);
-  background: linear-gradient(135deg, #fffbeb, #fef3c7);
-  border: 1px solid #fcd34d;
+  background: linear-gradient(135deg, var(--warning-50), var(--warning-100));
+  border: 1px solid var(--warning-300);
   border-radius: var(--radius-lg);
   margin: var(--spacing-4);
   animation: fadeInUp var(--duration-normal) var(--easing-gentle);
@@ -23,7 +23,7 @@
   align-items: center;
   justify-content: center;
   font-size: var(--text-xl);
-  background-color: #fef3c7;
+  background-color: var(--warning-100);
   border-radius: var(--radius-full);
 }
 
@@ -78,7 +78,7 @@
 
 .error-banner__button--primary {
   background-color: var(--primary-500);
-  color: white;
+  color: var(--neutral-0);
 }
 
 .error-banner__button--primary:hover {

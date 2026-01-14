@@ -233,7 +233,7 @@
 
 .settings__debug-badge {
   background: var(--primary-500);
-  color: white;
+  color: var(--neutral-0);
   font-size: 10px;
   font-weight: var(--font-bold);
   padding: 2px 6px;
@@ -246,7 +246,7 @@
   font-size: var(--text-sm);
   color: var(--primary-600);
   margin-top: var(--spacing-2);
-  animation: fadeIn 150ms ease-out;
+  animation: fadeIn var(--duration-fast) var(--easing-gentle);
 }
 
 /* Modal Overlay */
@@ -258,18 +258,11 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-5);
-  z-index: 100;
-  animation: fadeIn 150ms ease-out;
+  z-index: var(--z-modal);
+  animation: fadeIn var(--duration-fast) var(--easing-gentle);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+/* Keyframes centralisées dans design-tokens.css */
 
 /* Modal */
 .settings__modal {
@@ -279,18 +272,7 @@
   max-width: 400px;
   width: 100%;
   box-shadow: var(--shadow-medium);
-  animation: slideUp 200ms ease-out;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  animation: slideUp var(--duration-fast) var(--easing-gentle);
 }
 
 .settings__modal-title {

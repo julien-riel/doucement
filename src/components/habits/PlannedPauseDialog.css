@@ -10,9 +10,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: var(--z-modal);
   padding: var(--spacing-4);
-  animation: fadeIn 150ms ease-out;
+  animation: fadeIn var(--duration-fast) var(--easing-gentle);
 }
 
 .pause-dialog {
@@ -23,28 +23,10 @@
   max-width: 400px;
   max-height: 90vh;
   overflow-y: auto;
-  animation: slideUp 200ms ease-out;
+  animation: slideUp var(--duration-fast) var(--easing-gentle);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Keyframes centralisées dans design-tokens.css */
 
 .pause-dialog__header {
   padding: var(--spacing-5);
@@ -53,7 +35,7 @@
 }
 
 .pause-dialog__title {
-  font-family: var(--font-family-heading);
+  font-family: var(--font-heading);
   font-size: var(--text-xl);
   font-weight: var(--font-semibold);
   color: var(--neutral-900);

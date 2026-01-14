@@ -3,8 +3,8 @@
  */
 
 .debug-panel {
-  background: linear-gradient(135deg, var(--color-primary-50), var(--color-neutral-50));
-  border: 2px dashed var(--color-primary-300);
+  background: linear-gradient(135deg, var(--primary-50), var(--neutral-50));
+  border: 2px dashed var(--primary-300);
   border-radius: var(--radius-lg);
   padding: var(--spacing-4);
   margin-top: var(--spacing-4);
@@ -16,14 +16,14 @@
   align-items: center;
   margin-bottom: var(--spacing-4);
   padding-bottom: var(--spacing-3);
-  border-bottom: 1px solid var(--color-primary-200);
+  border-bottom: 1px solid var(--primary-200);
 }
 
 .debug-panel__title {
-  font-family: var(--font-headings);
+  font-family: var(--font-heading);
   font-size: var(--text-lg);
   font-weight: var(--font-semibold);
-  color: var(--color-primary-700);
+  color: var(--primary-700);
   margin: 0;
   display: flex;
   align-items: center;
@@ -35,19 +35,19 @@
 }
 
 .debug-panel__message {
-  background: var(--color-primary-100);
-  color: var(--color-primary-700);
+  background: var(--primary-100);
+  color: var(--primary-700);
   padding: var(--spacing-2) var(--spacing-3);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   margin-bottom: var(--spacing-3);
   text-align: center;
-  animation: fadeIn 0.2s ease-out;
+  animation: fadeIn var(--duration-fast) var(--easing-gentle);
 }
 
 .debug-panel__simulated-date-banner {
-  background: var(--color-primary-500);
-  color: white;
+  background: var(--primary-500);
+  color: var(--neutral-0);
   padding: var(--spacing-2) var(--spacing-3);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
@@ -59,7 +59,7 @@
 .debug-panel__section {
   margin-bottom: var(--spacing-4);
   padding-bottom: var(--spacing-3);
-  border-bottom: 1px solid var(--color-neutral-200);
+  border-bottom: 1px solid var(--neutral-200);
 }
 
 .debug-panel__section:last-of-type {
@@ -71,7 +71,7 @@
 .debug-panel__section-title {
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
-  color: var(--color-neutral-600);
+  color: var(--neutral-600);
   margin: 0 0 var(--spacing-2) 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -104,14 +104,14 @@
 .debug-panel__date-controls input[type='date'] {
   font-size: var(--text-sm);
   padding: var(--spacing-2);
-  border: 1px solid var(--color-neutral-300);
+  border: 1px solid var(--neutral-300);
   border-radius: var(--radius-md);
-  background: var(--color-neutral-0);
+  background: var(--neutral-0);
 }
 
 .debug-panel__info {
   font-size: var(--text-xs);
-  color: var(--color-neutral-500);
+  color: var(--neutral-500);
   margin: var(--spacing-1) 0 0 0;
 }
 
@@ -127,16 +127,17 @@
   white-space: pre-wrap;
   word-break: break-all;
   margin: 0;
-  color: var(--color-neutral-700);
+  color: var(--neutral-700);
 }
 
+/* Utilise amber/warning au lieu de rouge (design system: pas de rouge) */
 .debug-panel__button--danger {
-  color: #dc2626 !important;
-  border-color: #dc2626 !important;
+  color: var(--color-warning) !important;
+  border-color: var(--color-warning) !important;
 }
 
 .debug-panel__button--danger:hover {
-  background: #fee2e2 !important;
+  background: var(--primary-50) !important;
 }
 
 /* Modal */
@@ -150,12 +151,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: var(--z-modal);
   padding: var(--spacing-4);
 }
 
 .debug-panel__modal {
-  background: var(--color-neutral-0);
+  background: var(--neutral-0);
   border-radius: var(--radius-xl);
   padding: var(--spacing-5);
   max-width: 400px;
@@ -164,16 +165,16 @@
 }
 
 .debug-panel__modal-title {
-  font-family: var(--font-headings);
+  font-family: var(--font-heading);
   font-size: var(--text-xl);
   font-weight: var(--font-semibold);
-  color: var(--color-neutral-800);
+  color: var(--neutral-800);
   margin: 0 0 var(--spacing-3) 0;
 }
 
 .debug-panel__modal-text {
   font-size: var(--text-base);
-  color: var(--color-neutral-600);
+  color: var(--neutral-600);
   margin: 0 0 var(--spacing-4) 0;
 }
 
@@ -183,14 +184,4 @@
   gap: var(--spacing-3);
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Keyframes centralisées dans design-tokens.css */

@@ -1,28 +1,19 @@
 .pwa-update-prompt {
   position: fixed;
-  bottom: calc(var(--bottom-nav-height, 64px) + var(--space-3));
-  left: var(--space-3);
-  right: var(--space-3);
+  bottom: calc(var(--bottom-nav-height) + var(--spacing-3));
+  left: var(--spacing-3);
+  right: var(--spacing-3);
   z-index: var(--z-tooltip);
-  animation: slideUp 0.3s ease-out;
+  animation: slideUp var(--duration-normal) var(--easing-gentle);
 }
 
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+/* Keyframes centralisées dans design-tokens.css */
 
 .pwa-update-prompt__content {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  padding: var(--space-4);
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
   background: var(--color-surface);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
@@ -36,7 +27,7 @@
 
 .pwa-update-prompt__actions {
   display: flex;
-  gap: var(--space-2);
+  gap: var(--spacing-2);
   justify-content: center;
 }
 
@@ -46,18 +37,7 @@
     right: auto;
     transform: translateX(-50%);
     max-width: 400px;
-    width: calc(100% - var(--space-6));
-  }
-
-  @keyframes slideUp {
-    from {
-      transform: translateX(-50%) translateY(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
+    width: calc(100% - var(--spacing-6));
   }
 
   .pwa-update-prompt__content {

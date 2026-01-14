@@ -38,8 +38,8 @@
   border-top: 1px solid var(--neutral-200);
   padding: var(--spacing-2) var(--spacing-4);
   padding-bottom: max(var(--spacing-2), env(safe-area-inset-bottom));
-  height: 72px;
-  box-shadow: 0 -2px 8px rgba(28, 25, 23, 0.04);
+  height: var(--bottom-nav-height);
+  box-shadow: var(--shadow-nav);
 }
 
 /* ================================

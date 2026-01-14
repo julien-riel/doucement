@@ -34,7 +34,7 @@
 
 .card--elevated:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(28, 25, 23, 0.1);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ================================

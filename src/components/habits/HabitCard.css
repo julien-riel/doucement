@@ -194,7 +194,7 @@
 }
 
 .habit-card__status-badge--zero {
-  color: var(--white);
+  color: var(--neutral-0);
   background-color: var(--secondary-500);
 }
 
@@ -219,6 +219,6 @@
 
 /* Badge pour decrease avec succès (fait moins que la cible) */
 .habit-card__status-badge--decrease-success {
-  color: var(--white);
+  color: var(--neutral-0);
   background-color: var(--secondary-500);
 }

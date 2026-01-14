@@ -46,12 +46,25 @@
   --neutral-900: #1c1917;
 
   /* ================================
+     COULEURS WARNING - Ambre
+     Pour rappels bienveillants (jamais de rouge)
+     ================================ */
+  --warning-50: #fffbeb;
+  --warning-100: #fef3c7;
+  --warning-200: #fde68a;
+  --warning-300: #fcd34d;
+  --warning-400: #fbbf24;
+  --warning-500: #f59e0b;
+  --warning-600: #d97706;
+  --warning-700: #b45309;
+
+  /* ================================
      COULEURS SÉMANTIQUES
      ================================ */
   --color-success: var(--secondary-500);
   --color-in-progress: var(--primary-400);
   --color-neutral: var(--neutral-200);
-  --color-warning: #fbbf24; /* Ambre - rappel bienveillant */
+  --color-warning: var(--warning-400);
 
   /* ================================
      ESPACEMENTS
@@ -127,6 +140,64 @@
      ================================ */
   --touch-target-min: 44px;
   --touch-target-recommended: 48px;
+
+  /* ================================
+     ALIAS SPACING (compatibilité)
+     ================================ */
+  --spacing-xs: var(--spacing-1); /* 4px */
+  --spacing-sm: var(--spacing-2); /* 8px */
+  --spacing-md: var(--spacing-4); /* 16px */
+  --spacing-lg: var(--spacing-6); /* 24px */
+  --spacing-xl: var(--spacing-8); /* 32px */
+
+  /* ================================
+     COULEURS SÉMANTIQUES UI
+     ================================ */
+  --color-text: var(--neutral-800);
+  --color-text-secondary: var(--neutral-500);
+  --color-background: var(--neutral-0);
+  --color-background-hover: var(--neutral-100);
+  --color-surface: var(--neutral-50);
+  --color-border: var(--neutral-200);
+  --color-primary: var(--primary-500);
+  --color-primary-light: var(--primary-100);
+
+  /* ================================
+     COULEURS TERTIAIRES - Violet
+     Pour niveau "challenging"
+     ================================ */
+  --tertiary-50: #f5f3ff;
+  --tertiary-100: #ede9fe;
+  --tertiary-200: #ddd6fe;
+  --tertiary-300: #c4b5fd;
+  --tertiary-400: #a78bfa;
+  --tertiary-500: #8b5cf6;
+  --tertiary-600: #7c3aed;
+  --tertiary-700: #6d28d9;
+
+  /* ================================
+     Z-INDEX SCALE
+     ================================ */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+
+  /* ================================
+     OMBRES ÉTENDUES
+     ================================ */
+  --shadow-xs: 0 1px 2px rgba(28, 25, 23, 0.04);
+  --shadow-nav: 0 -2px 8px rgba(28, 25, 23, 0.04);
+  --shadow-lg: 0 10px 40px rgba(28, 25, 23, 0.12);
+  --shadow-xl: 0 20px 60px rgba(28, 25, 23, 0.16);
+
+  /* ================================
+     LAYOUT
+     ================================ */
+  --bottom-nav-height: 72px;
 }
 
 /* ================================
@@ -176,6 +247,18 @@
   --secondary-600: #86efac;
 
   /* ================================
+     COULEURS TERTIAIRES - Violet (dark)
+     ================================ */
+  --tertiary-50: #2e1f3d;
+  --tertiary-100: #3d2a5c;
+  --tertiary-200: #5c3d8a;
+  --tertiary-300: #7c3aed;
+  --tertiary-400: #8b5cf6;
+  --tertiary-500: #a78bfa;
+  --tertiary-600: #c4b5fd;
+  --tertiary-700: #ddd6fe;
+
+  /* ================================
      COULEURS SÉMANTIQUES
      ================================ */
   --color-success: var(--secondary-500);
@@ -184,11 +267,25 @@
   --color-warning: #fcd34d;
 
   /* ================================
+     COULEURS SÉMANTIQUES UI (dark)
+     ================================ */
+  --color-text: var(--neutral-800);
+  --color-text-secondary: var(--neutral-500);
+  --color-background: var(--neutral-0);
+  --color-background-hover: var(--neutral-100);
+  --color-surface: var(--neutral-50);
+  --color-border: var(--neutral-200);
+  --color-primary: var(--primary-500);
+  --color-primary-light: var(--primary-100);
+
+  /* ================================
      OMBRES - Adaptées au dark
      ================================ */
   --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.4);
   --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.5);
   --shadow-glow: 0 0 24px rgba(255, 154, 61, 0.25);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 /* Préférence système pour dark mode */
@@ -233,6 +330,18 @@
     --secondary-600: #86efac;
 
     /* ================================
+       COULEURS TERTIAIRES - Violet (dark)
+       ================================ */
+    --tertiary-50: #2e1f3d;
+    --tertiary-100: #3d2a5c;
+    --tertiary-200: #5c3d8a;
+    --tertiary-300: #7c3aed;
+    --tertiary-400: #8b5cf6;
+    --tertiary-500: #a78bfa;
+    --tertiary-600: #c4b5fd;
+    --tertiary-700: #ddd6fe;
+
+    /* ================================
        COULEURS SÉMANTIQUES
        ================================ */
     --color-success: var(--secondary-500);
@@ -241,11 +350,25 @@
     --color-warning: #fcd34d;
 
     /* ================================
+       COULEURS SÉMANTIQUES UI (dark)
+       ================================ */
+    --color-text: var(--neutral-800);
+    --color-text-secondary: var(--neutral-500);
+    --color-background: var(--neutral-0);
+    --color-background-hover: var(--neutral-100);
+    --color-surface: var(--neutral-50);
+    --color-border: var(--neutral-200);
+    --color-primary: var(--primary-500);
+    --color-primary-light: var(--primary-100);
+
+    /* ================================
        OMBRES - Adaptées au dark
        ================================ */
     --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.4);
     --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.5);
     --shadow-glow: 0 0 24px rgba(255, 154, 61, 0.25);
+    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
   }
 }
 
@@ -297,6 +420,37 @@
   }
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

@@ -49,9 +49,9 @@
   top: 100%;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: var(--z-dropdown);
   margin-top: var(--spacing-2);
-  background-color: #ffffff;
+  background-color: var(--neutral-0);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   overflow: hidden;

@@ -14,18 +14,11 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-4);
-  z-index: 1000;
+  z-index: var(--z-modal);
   animation: fadeIn var(--duration-normal) var(--easing-gentle);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+/* Keyframes centralisées dans design-tokens.css */
 
 .sources-modal {
   background: var(--neutral-0);
@@ -36,17 +29,6 @@
   max-height: 90vh;
   overflow-y: auto;
   animation: slideUp var(--duration-normal) var(--easing-gentle);
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
 }
 
 .sources-modal__header {
