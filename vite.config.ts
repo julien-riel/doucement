@@ -4,6 +4,24 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Core React libraries
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          // Charting library (heavy)
+          'vendor-charts': ['recharts'],
+          // Export functionality (html2canvas + jspdf are heavy)
+          'vendor-export': ['html2canvas', 'jspdf'],
+          // Internationalization
+          'vendor-i18n': ['i18next', 'react-i18next'],
+          // Emoji picker
+          'vendor-emoji': ['emoji-picker-react'],
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     VitePWA({

@@ -1,0 +1,80 @@
+/**
+ * Skeleton Component Styles
+ * Design system: Soft Organic
+ *
+ * Animation pulse douce pour indiquer le chargement
+ * sans être agressive ou stressante.
+ */
+
+@keyframes skeleton-pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.skeleton {
+  background-color: var(--neutral-200);
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* ================================
+   VARIANT: Text
+   Ligne de texte avec hauteur standard
+   ================================ */
+.skeleton--text {
+  height: 1em;
+  border-radius: var(--radius-sm);
+  width: 100%;
+}
+
+.skeleton-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* ================================
+   VARIANT: Circular
+   Pour avatars et icônes
+   ================================ */
+.skeleton--circular {
+  border-radius: var(--radius-full);
+  width: 48px;
+  height: 48px;
+}
+
+/* ================================
+   VARIANT: Rectangular
+   Pour images et zones rectangulaires
+   ================================ */
+.skeleton--rectangular {
+  border-radius: var(--radius-md);
+  width: 100%;
+  height: 100px;
+}
+
+/* ================================
+   VARIANT: Card
+   Pour cartes d'habitudes
+   ================================ */
+.skeleton--card {
+  border-radius: var(--radius-lg);
+  width: 100%;
+  height: 120px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* ================================
+   ACCESSIBILITÉ
+   ================================ */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

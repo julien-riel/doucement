@@ -13,14 +13,15 @@
       "id": "phase-1",
       "name": "Phase 1 - Quick Wins Performance",
       "description": "Optimisations à fort impact et faible effort : code splitting, vendor chunking, README",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
           "id": "1.1",
           "name": "Lazy loading des routes",
           "description": "Implémenter React.lazy() et Suspense sur toutes les routes sauf Today. Ajouter des skeleton loaders pour le chargement.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -39,7 +40,8 @@
           "id": "1.2",
           "name": "Vendor chunking Vite",
           "description": "Configurer manualChunks dans vite.config.ts pour séparer les vendors volumineux : react, recharts, jspdf, i18next, emoji-picker",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -56,7 +58,8 @@
           "id": "1.3",
           "name": "Créer README.md",
           "description": "Créer un README.md standard avec : description, installation, usage, contribution, licence. Inclure badges et screenshots.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -73,7 +76,8 @@
           "id": "1.4",
           "name": "Script métriques de build",
           "description": "Créer un script qui analyse la taille du bundle après build et compare avec les seuils définis. Affiche un rapport formaté.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "medium",
           "dependsOn": ["1.2"],
           "files": [
@@ -334,9 +338,9 @@
   ],
   "stats": {
     "totalTasks": 15,
-    "completed": 0,
+    "completed": 4,
     "inProgress": 0,
-    "pending": 15,
+    "pending": 11,
     "blocked": 0
   }
 }

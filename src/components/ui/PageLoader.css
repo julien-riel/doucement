@@ -1,0 +1,25 @@
+/**
+ * PageLoader Component Styles
+ * Design system: Soft Organic
+ *
+ * Skeleton loader pour les pages lazy-loadées.
+ */
+
+.page-loader {
+  padding: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  min-height: 100vh;
+  background-color: var(--neutral-50);
+}
+
+.page-loader__header {
+  padding: var(--spacing-4) 0;
+}
+
+.page-loader__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
