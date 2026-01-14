@@ -8,6 +8,7 @@ import CheckInButtons from './CheckInButtons'
 import CounterButtons from './CounterButtons'
 import SimpleCheckIn from './SimpleCheckIn'
 import CumulativeHistory from './CumulativeHistory'
+import CumulativeCheckIn from './CumulativeCheckIn'
 import './HabitCard.css'
 
 export interface HabitCardProps {
@@ -254,6 +255,9 @@ function HabitCard({
           onUndo={() => onCounterUndo(habit.id)}
           direction={habit.direction}
         />
+      ) : habit.entryMode === 'cumulative' ? (
+        // Mode cumulative avec champ de saisie et bouton Ajouter
+        <CumulativeCheckIn targetDose={targetDose} unit={habit.unit} onAdd={handleCheckIn} />
       ) : habit.trackingMode === 'simple' ? (
         <SimpleCheckIn
           targetDose={targetDose}

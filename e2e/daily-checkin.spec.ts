@@ -1,74 +1,67 @@
 import { test, expect } from './base-test';
+import {
+  setupLocalStorage,
+  setupFreshLocalStorage,
+  createEmptyAppData,
+  completeHabitWizard,
+  TodayPage,
+} from './fixtures';
 
 /**
  * Tests E2E pour le check-in quotidien
  * Vérifie les boutons Un peu / Fait ! / Encore + sur l'écran Aujourd'hui
+ *
+ * Refactorisé pour utiliser les fixtures centralisées et Page Objects
  */
 
 test.describe('Check-in quotidien', () => {
   test.beforeEach(async ({ page }) => {
-    // Injecter le localStorage AVANT que la page charge pour éviter la redirection vers onboarding
-    await page.addInitScript(() => {
-      localStorage.clear();
-      localStorage.setItem('doucement-language', 'fr');
-      localStorage.setItem('doucement_data', JSON.stringify({
-        schemaVersion: 3,
-        habits: [],
-        entries: [],
-        preferences: { onboardingCompleted: true }
-      }));
-    });
+    // Utiliser les fixtures centralisées au lieu de données inline
+    await setupLocalStorage(page, createEmptyAppData());
 
-    // Créer une habitude via le wizard
+    // Créer une habitude via le wizard (utilise le helper centralisé)
     await page.goto('/create');
     await page.waitForSelector('text=Nouvelle habitude');
-    // Passer l'étape de choix (suggestions vs personnalisé)
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
-    await page.getByRole('button', { name: /Augmenter/ }).click();
-    await page.getByRole('button', { name: 'Continuer' }).click();
-    await page.getByRole('textbox', { name: 'Nom de l\'habitude' }).fill('Push-ups');
-    await page.getByRole('textbox', { name: 'Unité' }).fill('répétitions');
-    await page.getByRole('spinbutton', { name: 'Dose de départ' }).fill('10');
-    await page.getByRole('button', { name: 'Continuer' }).click();
-    // Étape intentions
-    await page.getByRole('button', { name: 'Continuer' }).click();
-    // Étape identity
-    await page.getByRole('button', { name: 'Aperçu' }).click();
-    await page.getByRole('button', { name: 'Créer l\'habitude' }).click();
 
-    // Étape first-checkin: Première victoire ?
-    await page.waitForSelector('text=Première victoire ?');
-    await page.getByRole('button', { name: 'Non, je commence demain' }).click();
+    await completeHabitWizard(page, {
+      name: 'Push-ups',
+      unit: 'répétitions',
+      startValue: 10,
+      direction: 'increase',
+      skipFirstCheckIn: true,
+    });
 
     // Attendre d'être sur la page principale avec l'habitude
     await page.waitForSelector('h3:has-text("Push-ups")');
   });
 
   test('affiche l\'écran Aujourd\'hui avec les habitudes', async ({ page }) => {
-    await expect(page.getByRole('heading', { level: 2, name: 'Aujourd\'hui' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Push-ups' })).toBeVisible();
+    const todayPage = new TodayPage(page);
+
+    await todayPage.expectLoaded();
+    await expect(todayPage.getHabitHeading('Push-ups')).toBeVisible();
     await expect(page.getByText('💪')).toBeVisible();
 
     // Vérifier les boutons de check-in
-    await expect(page.getByRole('button', { name: 'Un peu' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Fait !' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Encore +' })).toBeVisible();
+    const buttons = todayPage.getCheckInButtons('Push-ups');
+    await expect(buttons.unPeu).toBeVisible();
+    await expect(buttons.fait).toBeVisible();
+    await expect(buttons.encorePlus).toBeVisible();
 
     // Vérifier le pourcentage initial (0%)
-    await expect(page.getByRole('status', { name: /complété/ })).toContainText('0%');
+    await todayPage.expectCompletionPercentage(0);
   });
 
   test('check-in avec "Fait !" marque l\'habitude comme complétée', async ({ page }) => {
-    await page.getByRole('button', { name: 'Fait !' }).click();
+    const todayPage = new TodayPage(page);
 
-    // Le bouton devrait montrer qu'il est actif/sélectionné
-    await expect(page.getByRole('button', { name: /Fait/ })).toBeVisible();
+    await todayPage.checkInDone('Push-ups');
 
     // Le pourcentage devrait passer à 100%
-    await expect(page.getByRole('status', { name: /complété/ })).toContainText('100%');
+    await todayPage.expectCompletionPercentage(100);
 
     // Vérifier que le statut "Complété" est affiché
-    await expect(page.getByText('Complété')).toBeVisible();
+    await todayPage.expectHabitCompleted('Push-ups');
   });
 
   test('check-in avec "Un peu" ouvre le champ de saisie', async ({ page }) => {
@@ -84,29 +77,27 @@ test.describe('Check-in quotidien', () => {
   });
 
   test('saisie partielle avec "Un peu" et validation', async ({ page }) => {
-    await page.getByRole('button', { name: 'Un peu' }).click();
+    const todayPage = new TodayPage(page);
 
-    // Saisir une valeur partielle
-    await page.getByRole('spinbutton', { name: /répétitions/i }).fill('5');
-
-    // Le bouton Valider devrait être actif
-    await expect(page.getByRole('button', { name: 'Valider' })).toBeEnabled();
-    await page.getByRole('button', { name: 'Valider' }).click();
+    await todayPage.checkInPartial(5, 'Push-ups');
 
     // L'entrée devrait être enregistrée
     await expect(page.getByText(/5 \/ 10/)).toBeVisible();
   });
 
   test('annuler la saisie "Un peu"', async ({ page }) => {
+    const todayPage = new TodayPage(page);
+
     await page.getByRole('button', { name: 'Un peu' }).click();
     await page.getByRole('spinbutton', { name: /répétitions/i }).fill('3');
 
     // Annuler
-    await page.getByRole('button', { name: 'Annuler' }).click();
+    await todayPage.cancelCheckIn();
 
     // Les boutons de check-in devraient réapparaître
-    await expect(page.getByRole('button', { name: 'Un peu' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Fait !' })).toBeVisible();
+    const buttons = todayPage.getCheckInButtons('Push-ups');
+    await expect(buttons.unPeu).toBeVisible();
+    await expect(buttons.fait).toBeVisible();
   });
 
   test('check-in avec "Encore +" ouvre le champ avec valeur pré-remplie', async ({ page }) => {
@@ -122,25 +113,23 @@ test.describe('Check-in quotidien', () => {
   });
 
   test('valider "Encore +" enregistre le dépassement', async ({ page }) => {
-    await page.getByRole('button', { name: 'Encore +' }).click();
+    const todayPage = new TodayPage(page);
 
-    // Modifier la valeur pour un grand dépassement
-    await page.getByRole('spinbutton', { name: /répétitions/i }).fill('15');
-    await page.getByRole('button', { name: 'Valider' }).click();
+    await todayPage.checkInExceeded(15, 'Push-ups');
 
     // Devrait afficher le dépassement
     await expect(page.getByText(/15 \/ 10/)).toBeVisible();
   });
 
   test('modifier un check-in existant', async ({ page }) => {
+    const todayPage = new TodayPage(page);
+
     // Premier check-in
-    await page.getByRole('button', { name: 'Fait !' }).click();
-    await expect(page.getByText('Complété')).toBeVisible();
+    await todayPage.checkInDone('Push-ups');
+    await todayPage.expectHabitCompleted('Push-ups');
 
     // Modifier avec "Un peu"
-    await page.getByRole('button', { name: 'Un peu' }).click();
-    await page.getByRole('spinbutton', { name: /répétitions/i }).fill('7');
-    await page.getByRole('button', { name: 'Valider' }).click();
+    await todayPage.checkInPartial(7, 'Push-ups');
 
     // La nouvelle valeur devrait être affichée
     await expect(page.getByText(/7 \/ 10/)).toBeVisible();
@@ -153,19 +142,15 @@ test.describe('Check-in avec données de test', () => {
     const testDataResponse = await page.request.get('http://localhost:4173/test-data/full-scenario.json');
     const testData = await testDataResponse.json();
 
-    // Injecter les données de test AVANT que la page charge
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement_data', JSON.stringify(data));
-    }, testData);
+    // Utiliser le helper de setup
+    await setupLocalStorage(page, testData);
 
-    // Naviguer vers / - le localStorage sera déjà configuré
-    await page.goto('/');
-    // Attendre que la page charge
-    await page.waitForSelector('h3:has-text("Push-ups")');
+    const todayPage = new TodayPage(page);
+    await todayPage.gotoAndWaitForHabit('Push-ups');
 
     // Vérifier que les habitudes du fichier de test sont affichées
-    await expect(page.getByRole('heading', { name: 'Push-ups' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Méditation' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Sucre' })).toBeVisible();
+    await expect(todayPage.getHabitHeading('Push-ups')).toBeVisible();
+    await expect(todayPage.getHabitHeading('Méditation')).toBeVisible();
+    await expect(todayPage.getHabitHeading('Sucre')).toBeVisible();
   });
 });

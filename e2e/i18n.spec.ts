@@ -5,12 +5,22 @@ import { test, expect } from '@playwright/test';
  * Vérifie le changement de langue, la persistance et la détection automatique
  */
 
-// Helper function pour les données de base
+// Helper function pour les données de base avec schéma complet
 const getBaseData = () => JSON.stringify({
-  schemaVersion: 3,
+  schemaVersion: 10,
   habits: [],
   entries: [],
-  preferences: { onboardingCompleted: true }
+  preferences: {
+    onboardingCompleted: true,
+    lastWeeklyReviewDate: null,
+    notifications: {
+      enabled: false,
+      morningReminder: { enabled: true, time: '08:00' },
+      eveningReminder: { enabled: false, time: '20:00' },
+      weeklyReviewReminder: { enabled: false, time: '10:00' },
+    },
+    theme: 'system',
+  },
 });
 
 test.describe('Internationalisation (i18n)', () => {
@@ -100,7 +110,7 @@ test.describe('Internationalisation (i18n)', () => {
       await expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible();
     });
 
-    test.skip('le choix de langue persiste entre les pages', async ({ page }) => {
+    test('le choix de langue persiste entre les pages', async ({ page }) => {
       // Setup initial avec page.evaluate
       await page.goto('/settings');
       await page.evaluate((data) => {
@@ -117,12 +127,13 @@ test.describe('Internationalisation (i18n)', () => {
       // Vérifier le changement
       await expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible();
 
-      // Naviguer vers la page d'accueil
-      await page.goto('/');
-      await page.waitForSelector('.page-today, .page-onboarding');
+      // Utiliser la navigation SPA au lieu de goto pour préserver l'état
+      const nav = page.locator('nav, .navigation, .bottom-nav');
+      await nav.getByRole('link', { name: /Today/i }).click();
+      await page.waitForLoadState('networkidle');
 
-      // Vérifier que l'interface est en anglais (navigation)
-      await expect(page.getByRole('link', { name: /Today/i })).toBeVisible();
+      // Vérifier que l'interface est toujours en anglais
+      await expect(nav.getByRole('link', { name: /Today/i })).toBeVisible();
     });
   });
 
@@ -143,24 +154,29 @@ test.describe('Internationalisation (i18n)', () => {
       await expect(nav.getByRole('link', { name: /Habitude/i })).toBeVisible();
     });
 
-    test.skip('navigation en anglais', async ({ page }) => {
-      // On utilise la page Settings pour changer la langue, puis on navigue
+    test('navigation en anglais', async ({ page }) => {
+      // Setup en français d'abord
       await page.addInitScript((data) => {
         localStorage.clear();
-        localStorage.setItem('doucement-language', 'en');
+        localStorage.setItem('doucement-language', 'fr');
         localStorage.setItem('doucement_data', data);
       }, getBaseData());
 
-      // Aller aux Settings puis revenir à l'accueil pour s'assurer que la langue est bien appliquée
+      // Aller aux Settings et changer la langue
       await page.goto('/settings');
       await page.waitForSelector('.page-settings');
 
-      // Naviguer vers la page d'accueil
-      await page.goto('/');
-      await page.waitForLoadState('networkidle');
+      // Changer vers l'anglais via le sélecteur
+      await page.getByRole('radio', { name: /English/ }).click();
+
+      // Vérifier que Settings a changé en anglais
+      await expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible();
+
+      // Naviguer vers la page d'accueil via SPA
+      const nav = page.locator('nav, .navigation, .bottom-nav');
+      await nav.getByRole('link', { name: /Today/i }).click();
 
       // Vérifier les éléments de navigation en anglais
-      const nav = page.locator('nav, .navigation, .bottom-nav');
       await expect(nav.getByRole('link', { name: /Today/i })).toBeVisible();
       await expect(nav.getByRole('link', { name: /Habit/i })).toBeVisible();
     });

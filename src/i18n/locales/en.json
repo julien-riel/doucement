@@ -290,6 +290,8 @@
     "cumulative": "(cumulative)",
     "undo": "Undo",
     "addCustom": "Add",
+    "add": "Add",
+    "addValue": "Enter the number of {{unit}}",
     "lastEntries": "Recent entries"
   },
   "decreaseMessages": {

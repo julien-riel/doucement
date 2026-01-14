@@ -1,4 +1,11 @@
 import { test, expect } from './base-test'
+import {
+  setupLocalStorage,
+  createAppData,
+  createIncreaseHabit,
+  createDecreaseHabit,
+  createMaintainHabit,
+} from './fixtures'
 
 /**
  * Tests E2E pour l'affichage des habitudes
@@ -116,85 +123,57 @@ test.describe('Carrousel d\'habitudes suggérées', () => {
   })
 })
 
-// TODO: Ces tests vérifient les sections par moment de la journée qui ne sont pas implémentées
-// Le composant Today n'affiche pas les habitudes groupées par moment
-test.describe.skip('Regroupement par moment de la journée', () => {
+test.describe('Regroupement par moment de la journée', () => {
   test.beforeEach(async ({ page }) => {
     // Créer des habitudes avec différents moments de la journée
-    await page.addInitScript(() => {
-      const today = new Date().toISOString().split('T')[0]
-      localStorage.clear()
-      localStorage.setItem('doucement-language', 'fr')
-      localStorage.setItem(
-        'doucement_data',
-        JSON.stringify({
-          schemaVersion: 3,
-          habits: [
-            {
-              id: 'habit-morning',
-              name: 'Méditation matinale',
-              emoji: '🧘',
-              direction: 'increase',
-              startValue: 5,
-              unit: 'minutes',
-              progression: { mode: 'absolute', value: 1, period: 'weekly' },
-              createdAt: '2025-01-01',
-              trackingMode: 'simple',
-              timeOfDay: 'morning',
-            },
-            {
-              id: 'habit-afternoon',
-              name: 'Marche',
-              emoji: '🚶',
-              direction: 'increase',
-              startValue: 10,
-              unit: 'minutes',
-              progression: { mode: 'percentage', value: 5, period: 'weekly' },
-              createdAt: '2025-01-01',
-              trackingMode: 'detailed',
-              timeOfDay: 'afternoon',
-            },
-            {
-              id: 'habit-evening',
-              name: 'Lecture',
-              emoji: '📚',
-              direction: 'increase',
-              startValue: 10,
-              unit: 'pages',
-              progression: { mode: 'percentage', value: 3, period: 'weekly' },
-              createdAt: '2025-01-01',
-              trackingMode: 'detailed',
-              timeOfDay: 'evening',
-            },
-            {
-              id: 'habit-night',
-              name: 'Se coucher tôt',
-              emoji: '😴',
-              direction: 'decrease',
-              startValue: 1,
-              unit: 'écart',
-              progression: { mode: 'absolute', value: 0, period: 'weekly' },
-              createdAt: '2025-01-01',
-              trackingMode: 'simple',
-              timeOfDay: 'night',
-            },
-            {
-              id: 'habit-undefined',
-              name: 'Eau',
-              emoji: '💧',
-              direction: 'maintain',
-              startValue: 8,
-              unit: 'verres',
-              createdAt: '2025-01-01',
-              trackingMode: 'counter',
-              // Pas de timeOfDay
-            },
-          ],
-          entries: [],
-          preferences: { onboardingCompleted: true },
-        })
-      )
+    const testData = createAppData({
+      habits: [
+        createIncreaseHabit({
+          id: 'habit-morning',
+          name: 'Méditation matinale',
+          emoji: '🧘',
+          startValue: 5,
+          unit: 'minutes',
+          timeOfDay: 'morning',
+          trackingMode: 'simple',
+        }),
+        createIncreaseHabit({
+          id: 'habit-afternoon',
+          name: 'Marche',
+          emoji: '🚶',
+          startValue: 10,
+          unit: 'minutes',
+          timeOfDay: 'afternoon',
+        }),
+        createIncreaseHabit({
+          id: 'habit-evening',
+          name: 'Lecture',
+          emoji: '📚',
+          startValue: 10,
+          unit: 'pages',
+          timeOfDay: 'evening',
+        }),
+        createDecreaseHabit({
+          id: 'habit-night',
+          name: 'Se coucher tôt',
+          emoji: '😴',
+          startValue: 1,
+          unit: 'écart',
+          timeOfDay: 'night',
+          trackingMode: 'simple',
+        }),
+        createMaintainHabit({
+          id: 'habit-undefined',
+          name: 'Eau',
+          emoji: '💧',
+          startValue: 8,
+          unit: 'verres',
+          trackingMode: 'counter',
+          // Pas de timeOfDay
+        }),
+      ],
     })
+    await setupLocalStorage(page, testData)
     await page.goto('/')
     await page.waitForSelector('.page-today')
   })
@@ -206,20 +185,20 @@ test.describe.skip('Regroupement par moment de la journée', () => {
     // Il devrait y avoir 5 sections (morning, afternoon, evening, night, undefined)
     await expect(sections).toHaveCount(5)
 
-    // Vérifier les titres des sections
-    await expect(page.getByText('🌅').first()).toBeVisible()
-    await expect(page.getByText('Matin')).toBeVisible()
+    // Vérifier les titres des sections (utiliser les labels spécifiques pour éviter les conflits)
+    await expect(page.locator('.time-of-day-section__emoji').filter({ hasText: '🌅' })).toBeVisible()
+    await expect(page.locator('.time-of-day-section__label').filter({ hasText: 'Matin' })).toBeVisible()
 
-    await expect(page.getByText('☀️').first()).toBeVisible()
-    await expect(page.getByText('Après-midi')).toBeVisible()
+    await expect(page.locator('.time-of-day-section__emoji').filter({ hasText: '☀️' })).toBeVisible()
+    await expect(page.locator('.time-of-day-section__label').filter({ hasText: 'Après-midi' })).toBeVisible()
 
-    await expect(page.getByText('🌙').first()).toBeVisible()
-    await expect(page.getByText('Soir')).toBeVisible()
+    await expect(page.locator('.time-of-day-section__emoji').filter({ hasText: '🌙' })).toBeVisible()
+    await expect(page.locator('.time-of-day-section__label').filter({ hasText: 'Soir' })).toBeVisible()
 
-    await expect(page.getByText('🌃').first()).toBeVisible()
-    await expect(page.getByText('Nuit')).toBeVisible()
+    await expect(page.locator('.time-of-day-section__emoji').filter({ hasText: '🌃' })).toBeVisible()
+    await expect(page.locator('.time-of-day-section__label').filter({ hasText: 'Nuit' })).toBeVisible()
 
-    await expect(page.getByText('Autre')).toBeVisible()
+    await expect(page.locator('.time-of-day-section__label').filter({ hasText: 'Autre' })).toBeVisible()
   })
 
   test('l\'habitude du matin est dans la section matin', async ({ page }) => {
@@ -271,36 +250,23 @@ test.describe.skip('Regroupement par moment de la journée', () => {
   })
 })
 
-// TODO: Ce test dépend du regroupement par moment de la journée
-test.describe.skip('Sections vides masquées', () => {
+test.describe('Sections vides masquées', () => {
   test('les sections sans habitudes ne sont pas affichées', async ({ page }) => {
     // Créer seulement une habitude du matin
-    await page.addInitScript(() => {
-      localStorage.clear()
-      localStorage.setItem('doucement-language', 'fr')
-      localStorage.setItem(
-        'doucement_data',
-        JSON.stringify({
-          schemaVersion: 3,
-          habits: [
-            {
-              id: 'habit-morning-only',
-              name: 'Yoga',
-              emoji: '🧘',
-              direction: 'increase',
-              startValue: 10,
-              unit: 'minutes',
-              progression: { mode: 'absolute', value: 1, period: 'weekly' },
-              createdAt: '2025-01-01',
-              trackingMode: 'simple',
-              timeOfDay: 'morning',
-            },
-          ],
-          entries: [],
-          preferences: { onboardingCompleted: true },
-        })
-      )
+    const testData = createAppData({
+      habits: [
+        createIncreaseHabit({
+          id: 'habit-morning-only',
+          name: 'Yoga',
+          emoji: '🧘',
+          startValue: 10,
+          unit: 'minutes',
+          timeOfDay: 'morning',
+          trackingMode: 'simple',
+        }),
+      ],
     })
+    await setupLocalStorage(page, testData)
 
     await page.goto('/')
     await page.waitForSelector('.page-today')

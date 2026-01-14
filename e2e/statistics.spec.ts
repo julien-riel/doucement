@@ -37,7 +37,7 @@ test.describe('Page Statistiques', () => {
       }
 
       // Cliquer sur le lien Statistiques dans la navigation
-      await page.getByRole('link', { name: /stats/i }).click()
+      await page.getByRole('link', { name: /Statistiques|Statistics/i }).click()
 
       // Vérifier qu'on est sur la page statistiques
       await expect(page).toHaveURL('/statistics')

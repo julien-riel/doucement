@@ -22,6 +22,7 @@ import {
   getNeglectedHabits,
   isHabitPaused,
   groupHabitsByTimeOfDay,
+  buildHabitChains,
 } from '../utils'
 import { randomMessage } from '../constants/messages'
 import { CompletionStatus } from '../types'
@@ -273,37 +274,52 @@ function Today() {
       )}
 
       <section className="today__habits" aria-label={t('today.yourDoses')}>
-        {habitsByTimeOfDay.map((group) => (
-          <TimeOfDaySection key={group.timeOfDay ?? 'undefined'} timeOfDay={group.timeOfDay}>
-            {group.items.map(
-              ({
-                habit,
-                targetDose,
-                currentValue,
-                status,
-                anchorHabitName,
-                weeklyProgress,
-                operations,
-              }) => (
-                <HabitCard
-                  key={habit.id}
-                  habit={habit}
-                  targetDose={targetDose}
-                  currentValue={currentValue}
-                  status={status}
-                  onCheckIn={handleCheckIn}
-                  anchorHabitName={anchorHabitName}
-                  weeklyProgress={weeklyProgress}
-                  operations={operations}
-                  onCounterAdd={handleCounterAdd}
-                  onCounterSubtract={handleCounterSubtract}
-                  onCounterUndo={handleCounterUndo}
-                  onCumulativeUndo={handleCumulativeUndo}
-                />
-              )
-            )}
-          </TimeOfDaySection>
-        ))}
+        {habitsByTimeOfDay.map((group) => {
+          // Construire les chaînes d'habitudes au sein du groupe
+          const chains = buildHabitChains(group.items, activeHabits)
+
+          return (
+            <TimeOfDaySection key={group.timeOfDay ?? 'undefined'} timeOfDay={group.timeOfDay}>
+              {chains.map((chain) => {
+                const isConnectedChain = chain.length > 1
+                const chainKey = chain.map((item) => item.habit.id).join('-')
+
+                return (
+                  <div
+                    key={chainKey}
+                    className={`today__habit-chain ${isConnectedChain ? 'today__habit-chain--connected' : ''}`}
+                  >
+                    {chain.map((item, itemIndex) => {
+                      const isChained = isConnectedChain && itemIndex > 0
+
+                      return (
+                        <div
+                          key={item.habit.id}
+                          className={`today__habit-wrapper ${isChained ? 'today__habit-wrapper--chained' : ''}`}
+                        >
+                          <HabitCard
+                            habit={item.habit}
+                            targetDose={item.targetDose}
+                            currentValue={item.currentValue}
+                            status={item.status}
+                            onCheckIn={handleCheckIn}
+                            anchorHabitName={item.anchorHabitName}
+                            weeklyProgress={item.weeklyProgress}
+                            operations={item.operations}
+                            onCounterAdd={handleCounterAdd}
+                            onCounterSubtract={handleCounterSubtract}
+                            onCounterUndo={handleCounterUndo}
+                            onCumulativeUndo={handleCumulativeUndo}
+                          />
+                        </div>
+                      )
+                    })}
+                  </div>
+                )
+              })}
+            </TimeOfDaySection>
+          )
+        })}
       </section>
 
       {/* Modale de célébration */}

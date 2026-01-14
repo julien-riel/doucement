@@ -1,129 +1,44 @@
 import { test, expect } from './base-test'
+import {
+  setupLocalStorage,
+  setupLocalStorageForPersistence,
+  createAppData,
+  createIncreaseHabit,
+  createDecreaseHabit,
+  createEntry,
+} from './fixtures'
 
 /**
  * Tests E2E pour les modifications d'habitudes
  * Vérifie le changement de type (direction) et l'annulation des saisies cumulatives
  */
 
-// Données de test pour habitude increase avec entrées
-const increaseHabitWithEntries = {
-  schemaVersion: 9,
-  habits: [
-    {
-      id: 'habit-pushups',
-      name: 'Push-ups',
-      emoji: '💪',
-      direction: 'increase',
-      startValue: 10,
-      unit: 'répétitions',
-      progression: { mode: 'percentage', value: 5, period: 'weekly' },
-      targetValue: 50,
-      createdAt: '2025-12-01',
-      archivedAt: null,
-      trackingMode: 'detailed',
-      trackingFrequency: 'daily',
-      entryMode: 'replace',
-    },
-  ],
-  entries: [
-    {
-      id: 'e1',
-      habitId: 'habit-pushups',
-      date: '2025-12-15',
-      targetDose: 12,
-      actualValue: 15,
-      createdAt: '2025-12-15T07:00:00Z',
-      updatedAt: '2025-12-15T07:00:00Z',
-    },
-  ],
-  preferences: {
-    onboardingCompleted: true,
-    lastWeeklyReviewDate: '2026-01-05',
-    notifications: {
-      enabled: false,
-      morningReminder: { enabled: true, time: '08:00' },
-      eveningReminder: { enabled: false, time: '20:00' },
-      weeklyReviewReminder: { enabled: false, time: '10:00' },
-    },
-    theme: 'system',
-  },
-}
-
-// Données de test pour habitude decrease
-const decreaseHabitData = {
-  schemaVersion: 9,
-  habits: [
-    {
-      id: 'habit-sugar',
-      name: 'Sucre',
-      emoji: '🍬',
-      direction: 'decrease',
-      startValue: 5,
-      unit: 'portions',
-      progression: { mode: 'absolute', value: 1, period: 'weekly' },
-      targetValue: 1,
-      createdAt: '2025-12-01',
-      archivedAt: null,
-      trackingMode: 'detailed',
-      trackingFrequency: 'daily',
-      entryMode: 'replace',
-    },
-  ],
-  entries: [],
-  preferences: {
-    onboardingCompleted: true,
-    lastWeeklyReviewDate: '2026-01-05',
-    notifications: {
-      enabled: false,
-      morningReminder: { enabled: true, time: '08:00' },
-      eveningReminder: { enabled: false, time: '20:00' },
-      weeklyReviewReminder: { enabled: false, time: '10:00' },
-    },
-    theme: 'system',
-  },
-}
-
-// Données de test pour habitude avec mode cumulative
-const cumulativeHabitData = {
-  schemaVersion: 9,
-  habits: [
-    {
-      id: 'habit-reading-cumul',
-      name: 'Lecture',
-      emoji: '📚',
-      direction: 'increase',
-      startValue: 20,
-      unit: 'pages',
-      progression: { mode: 'percentage', value: 3, period: 'weekly' },
-      targetValue: 100,
-      createdAt: '2025-12-01',
-      archivedAt: null,
-      trackingMode: 'detailed',
-      trackingFrequency: 'daily',
-      entryMode: 'cumulative',
-    },
-  ],
-  entries: [],
-  preferences: {
-    onboardingCompleted: true,
-    lastWeeklyReviewDate: '2026-01-05',
-    notifications: {
-      enabled: false,
-      morningReminder: { enabled: true, time: '08:00' },
-      eveningReminder: { enabled: false, time: '20:00' },
-      weeklyReviewReminder: { enabled: false, time: '10:00' },
-    },
-    theme: 'system',
-  },
-}
-
 test.describe('Changement de type d\'habitude', () => {
   test.describe('De Augmenter vers Maintenir', () => {
     test.beforeEach(async ({ page }) => {
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, increaseHabitWithEntries)
-
+      const testData = createAppData({
+        habits: [
+          createIncreaseHabit({
+            id: 'habit-pushups',
+            name: 'Push-ups',
+            emoji: '💪',
+            startValue: 10,
+            unit: 'répétitions',
+            targetValue: 50,
+            progression: { mode: 'percentage', value: 5, period: 'weekly' },
+          }),
+        ],
+        entries: [
+          createEntry({
+            id: 'e1',
+            habitId: 'habit-pushups',
+            date: '2025-12-15',
+            targetDose: 12,
+            actualValue: 15,
+          }),
+        ],
+      })
+      await setupLocalStorage(page, testData)
       await page.goto('/habits/habit-pushups/edit')
       await page.waitForSelector('text=Modifier l\'habitude')
     })
@@ -199,10 +114,19 @@ test.describe('Changement de type d\'habitude', () => {
 
   test.describe('De Augmenter vers Réduire', () => {
     test.beforeEach(async ({ page }) => {
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, increaseHabitWithEntries)
-
+      const testData = createAppData({
+        habits: [
+          createIncreaseHabit({
+            id: 'habit-pushups',
+            name: 'Push-ups',
+            emoji: '💪',
+            startValue: 10,
+            unit: 'répétitions',
+            targetValue: 50,
+          }),
+        ],
+      })
+      await setupLocalStorage(page, testData)
       await page.goto('/habits/habit-pushups/edit')
       await page.waitForSelector('text=Modifier l\'habitude')
     })
@@ -236,10 +160,19 @@ test.describe('Changement de type d\'habitude', () => {
 
   test.describe('De Réduire vers Augmenter', () => {
     test.beforeEach(async ({ page }) => {
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, decreaseHabitData)
-
+      const testData = createAppData({
+        habits: [
+          createDecreaseHabit({
+            id: 'habit-sugar',
+            name: 'Sucre',
+            emoji: '🍬',
+            startValue: 5,
+            unit: 'portions',
+            targetValue: 1,
+          }),
+        ],
+      })
+      await setupLocalStorage(page, testData)
       await page.goto('/habits/habit-sugar/edit')
       await page.waitForSelector('text=Modifier l\'habitude')
     })
@@ -264,14 +197,23 @@ test.describe('Changement de type d\'habitude', () => {
   })
 })
 
-// TODO: Ces tests vérifient les saisies cumulatives qui ne sont pas implémentées comme prévu
-test.describe.skip('Annulation des saisies cumulatives', () => {
+test.describe('Annulation des saisies cumulatives', () => {
   test.describe('Habitude en mode cumulative', () => {
     test.beforeEach(async ({ page }) => {
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, cumulativeHabitData)
-
+      const testData = createAppData({
+        habits: [
+          createIncreaseHabit({
+            id: 'habit-reading-cumul',
+            name: 'Lecture',
+            emoji: '📚',
+            startValue: 20,
+            unit: 'pages',
+            targetValue: 100,
+            entryMode: 'cumulative',
+          }),
+        ],
+      })
+      await setupLocalStorage(page, testData)
       await page.goto('/')
       await page.waitForSelector('h3:has-text("Lecture")')
     })
@@ -298,8 +240,8 @@ test.describe.skip('Annulation des saisies cumulatives', () => {
       const addButton = habitCard.getByRole('button', { name: /Ajouter/i })
       await addButton.click()
 
-      // Vérifier que la saisie est enregistrée (le total devrait être 10)
-      await expect(habitCard.getByText('10')).toBeVisible()
+      // Vérifier que la saisie est enregistrée dans l'historique
+      await expect(page.getByText('+10 pages')).toBeVisible()
     })
 
     test('affiche l\'historique des saisies cumulatives', async ({ page }) => {
@@ -402,38 +344,44 @@ test.describe.skip('Annulation des saisies cumulatives', () => {
 
       // Le total devrait être mis à jour
       // Vérifier que la valeur 12 apparaît dans la section de progrès de la carte
-      await expect(habitCard.locator('.habit-card__progress-text, .habit-card__value')).toContainText(
-        '12'
-      )
+      await expect(habitCard.locator('.habit-card__status-value')).toContainText('12')
 
       // Ajouter une autre saisie
       await input.fill('8')
       await addButton.click()
 
       // Le total devrait maintenant être 20
-      await expect(habitCard.locator('.habit-card__progress-text, .habit-card__value')).toContainText(
-        '20'
-      )
+      await expect(habitCard.locator('.habit-card__status-value')).toContainText('20')
 
       // Annuler la dernière saisie
       const undoButton = page.locator('.cumulative-history').getByRole('button', { name: /Annuler/ })
       await undoButton.click()
 
       // Le total devrait revenir à 12
-      await expect(habitCard.locator('.habit-card__progress-text, .habit-card__value')).toContainText(
-        '12'
-      )
+      await expect(habitCard.locator('.habit-card__status-value')).toContainText('12')
     })
   })
 
   test.describe('Persistance des données', () => {
     test('les saisies cumulatives sont persistées après rechargement', async ({ page }) => {
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, cumulativeHabitData)
+      const testData = createAppData({
+        habits: [
+          createIncreaseHabit({
+            id: 'habit-reading-cumul',
+            name: 'Lecture',
+            emoji: '📚',
+            startValue: 20,
+            unit: 'pages',
+            targetValue: 100,
+            entryMode: 'cumulative',
+          }),
+        ],
+      })
 
-      await page.goto('/')
-      await page.waitForSelector('h3:has-text("Lecture")')
+      // Use setupLocalStorageForPersistence to allow reload to preserve state
+      await setupLocalStorageForPersistence(page, testData, {
+        waitSelector: 'h3:has-text("Lecture")',
+      })
 
       const habitCard = page.locator('.habit-card').filter({ hasText: 'Lecture' })
 
@@ -443,26 +391,42 @@ test.describe.skip('Annulation des saisies cumulatives', () => {
 
       await input.fill('15')
       await addButton.click()
+      // Attendre que l'historique s'affiche
+      await expect(page.getByText('+15 pages')).toBeVisible()
 
       await input.fill('20')
       await addButton.click()
+      // Attendre que la deuxième saisie s'affiche
+      await expect(page.getByText('+20 pages')).toBeVisible()
 
       // Recharger la page
       await page.reload()
       await page.waitForSelector('h3:has-text("Lecture")')
 
       // Vérifier que les saisies sont toujours là
-      await expect(page.getByText('+15 pages')).toBeVisible()
-      await expect(page.getByText('+20 pages')).toBeVisible()
+      await expect(page.getByText('+15 pages')).toBeVisible({ timeout: 10000 })
+      await expect(page.getByText('+20 pages')).toBeVisible({ timeout: 10000 })
     })
 
-    test('l\'annulation est persistée après rechargement', async ({ page }) => {
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, cumulativeHabitData)
+    test("l'annulation est persistée après rechargement", async ({ page }) => {
+      const testData = createAppData({
+        habits: [
+          createIncreaseHabit({
+            id: 'habit-reading-cumul',
+            name: 'Lecture',
+            emoji: '📚',
+            startValue: 20,
+            unit: 'pages',
+            targetValue: 100,
+            entryMode: 'cumulative',
+          }),
+        ],
+      })
 
-      await page.goto('/')
-      await page.waitForSelector('h3:has-text("Lecture")')
+      // Use setupLocalStorageForPersistence to allow reload to preserve state
+      await setupLocalStorageForPersistence(page, testData, {
+        waitSelector: 'h3:has-text("Lecture")',
+      })
 
       const habitCard = page.locator('.habit-card').filter({ hasText: 'Lecture' })
 
@@ -472,20 +436,25 @@ test.describe.skip('Annulation des saisies cumulatives', () => {
 
       await input.fill('10')
       await addButton.click()
+      await expect(page.getByText('+10 pages')).toBeVisible()
 
       await input.fill('5')
       await addButton.click()
+      await expect(page.getByText('+5 pages')).toBeVisible()
 
       // Annuler la dernière
-      const undoButton = page.locator('.cumulative-history').getByRole('button', { name: /Annuler/ })
+      const undoButton = page
+        .locator('.cumulative-history')
+        .getByRole('button', { name: /Annuler/ })
       await undoButton.click()
+      await expect(page.getByText('+5 pages')).not.toBeVisible()
 
       // Recharger la page
       await page.reload()
       await page.waitForSelector('h3:has-text("Lecture")')
 
       // Vérifier que seule la première saisie est présente
-      await expect(page.getByText('+10 pages')).toBeVisible()
+      await expect(page.getByText('+10 pages')).toBeVisible({ timeout: 10000 })
       await expect(page.getByText('+5 pages')).not.toBeVisible()
     })
   })

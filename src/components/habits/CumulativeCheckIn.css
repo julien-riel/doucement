@@ -1,0 +1,67 @@
+/**
+ * CumulativeCheckIn - Interface de saisie cumulative
+ */
+
+.cumulative-checkin {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.cumulative-checkin__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.cumulative-checkin__input {
+  flex: 1;
+  min-width: 80px;
+  max-width: 120px;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--neutral-900);
+  background-color: var(--neutral-50);
+  border: 2px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  text-align: center;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.cumulative-checkin__input:focus {
+  outline: none;
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.cumulative-checkin__input:disabled {
+  background-color: var(--neutral-100);
+  color: var(--neutral-400);
+  cursor: not-allowed;
+}
+
+/* Hide number input spinners for cleaner look */
+.cumulative-checkin__input::-webkit-outer-spin-button,
+.cumulative-checkin__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cumulative-checkin__input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.cumulative-checkin__unit {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+  white-space: nowrap;
+}
+
+.cumulative-checkin__add {
+  align-self: flex-start;
+}

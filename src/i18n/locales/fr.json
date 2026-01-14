@@ -290,6 +290,8 @@
     "cumulative": "(cumul)",
     "undo": "Annuler",
     "addCustom": "Ajouter",
+    "add": "Ajouter",
+    "addValue": "Entrer le nombre de {{unit}}",
     "lastEntries": "Dernières saisies"
   },
   "decreaseMessages": {

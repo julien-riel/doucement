@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import './MainLayout.css'
 
 export interface MainLayoutProps {
@@ -22,6 +23,7 @@ export interface MainLayoutProps {
  * </MainLayout>
  */
 function MainLayout({ children, hideNavigation = false }: MainLayoutProps) {
+  const { t } = useTranslation()
   return (
     <div className="main-layout">
       <main className="main-layout__content">{children}</main>
@@ -34,7 +36,7 @@ function MainLayout({ children, hideNavigation = false }: MainLayoutProps) {
             <span className="nav-item__icon" aria-hidden="true">
               ☀️
             </span>
-            <span className="nav-item__label">Aujourd'hui</span>
+            <span className="nav-item__label">{t('navigation.today')}</span>
           </NavLink>
           <NavLink
             to="/statistics"
@@ -43,7 +45,7 @@ function MainLayout({ children, hideNavigation = false }: MainLayoutProps) {
             <span className="nav-item__icon" aria-hidden="true">
               📊
             </span>
-            <span className="nav-item__label">Stats</span>
+            <span className="nav-item__label">{t('navigation.statistics')}</span>
           </NavLink>
           <NavLink
             to="/habits"
@@ -52,7 +54,7 @@ function MainLayout({ children, hideNavigation = false }: MainLayoutProps) {
             <span className="nav-item__icon" aria-hidden="true">
               🎯
             </span>
-            <span className="nav-item__label">Habitudes</span>
+            <span className="nav-item__label">{t('navigation.habits')}</span>
           </NavLink>
         </nav>
       )}

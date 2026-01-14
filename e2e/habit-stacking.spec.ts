@@ -1,33 +1,27 @@
 import { test, expect } from './base-test'
+import {
+  setupLocalStorage,
+  createHabitStackingData,
+} from './fixtures'
 
 /**
  * Tests E2E pour le habit stacking (chaînage d'habitudes)
  * Vérifie l'affichage des habitudes liées par anchorHabitId
  */
 
-// TODO: Ces tests vérifient des classes CSS qui ne sont pas implémentées dans le composant Today
-// Les classes .today__habit-chain--connected et .today__habit-wrapper--chained existent en CSS
-// mais ne sont pas appliquées dans Today.tsx
-test.describe.skip('Habit stacking', () => {
+test.describe('Habit stacking', () => {
   test.beforeEach(async ({ page }) => {
-    // Charger les données de test via fetch avant d'aller sur la page
-    const testDataResponse = await page.request.get(
-      'http://localhost:4173/test-data/habit-stacking.json'
-    )
-    const testData = await testDataResponse.json()
-
-    // Injecter les données de test AVANT que la page charge
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement_data', JSON.stringify(data))
-    }, testData)
+    // Utiliser les fixtures centralisées
+    const testData = createHabitStackingData()
+    await setupLocalStorage(page, testData)
   })
 
   test('affiche toutes les habitudes sur l\'écran principal', async ({ page }) => {
     await page.goto('/')
 
-    // Le fichier contient 4 habitudes
-    await expect(page.getByRole('heading', { name: 'Café du matin' })).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Méditation' })).toBeVisible()
+    // Le fichier contient 4 habitudes (noms selon createHabitStackingData)
+    await expect(page.getByRole('heading', { name: 'Cafe du matin' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Meditation' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Journal' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Sport' })).toBeVisible()
   })
@@ -72,12 +66,12 @@ test.describe.skip('Habit stacking', () => {
   test('affiche l\'intention d\'implémentation avec le déclencheur sur la page de détail', async ({ page }) => {
     await page.goto('/habits')
 
-    // Cliquer sur Méditation pour voir son détail
-    await page.getByRole('button', { name: /Voir les détails de Méditation/i }).click()
+    // Cliquer sur Meditation pour voir son détail
+    await page.getByRole('button', { name: /Voir les détails de Meditation/i }).click()
 
     // Sur la page de détail, on devrait voir les informations
     await expect(page).toHaveURL(/\/habits\//)
-    await expect(page.getByRole('heading', { name: 'Méditation', level: 1 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Meditation', level: 1 })).toBeVisible()
   })
 
   test('l\'habitude Sport est indépendante (pas chaînée)', async ({ page }) => {
