@@ -2,7 +2,7 @@
   "project": "Optimisation suite à l'Audit de Maturité",
   "description": "Implémentation des 10 recommandations de l'audit pour améliorer le score de 33/40 vers 37/40",
   "createdAt": "2026-01-13",
-  "lastRelease": "1.25.0",
+  "lastRelease": "1.26.0",
   "docs": [
     "docs/prd-audit-optimization.md",
     "docs/audit-maturite-2026-01-13.md",
@@ -216,6 +216,8 @@
       "description": "Tree-shaking, refactoring Settings, documentation API",
       "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.26.0",
+      "releasedAt": "2026-01-14",
       "tasks": [
         {
           "id": "3.1",
