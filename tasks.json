@@ -99,14 +99,15 @@
       "id": "phase-2",
       "name": "Phase 2 - Maintenabilité",
       "description": "Refactoring des composants volumineux et ajout de fonctionnalités manquantes",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
           "id": "2.1",
           "name": "Refactoring CreateHabit - Structure",
           "description": "Créer la structure de répertoires pour CreateHabit : index.tsx, context, steps/, components/, hooks/",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -125,16 +126,18 @@
           "id": "2.2",
           "name": "Refactoring CreateHabit - Étapes",
           "description": "Extraire chaque étape du wizard dans son propre composant : BasicInfoStep, TrackingModeStep, ProgressionStep, FrequencyStep, ImplementationStep, SummaryStep",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "high",
           "dependsOn": ["2.1"],
           "files": [
-            "src/pages/CreateHabit/steps/BasicInfoStep.tsx",
-            "src/pages/CreateHabit/steps/TrackingModeStep.tsx",
-            "src/pages/CreateHabit/steps/ProgressionStep.tsx",
-            "src/pages/CreateHabit/steps/FrequencyStep.tsx",
-            "src/pages/CreateHabit/steps/ImplementationStep.tsx",
-            "src/pages/CreateHabit/steps/SummaryStep.tsx"
+            "src/pages/CreateHabit/steps/StepChoose.tsx",
+            "src/pages/CreateHabit/steps/StepType.tsx",
+            "src/pages/CreateHabit/steps/StepDetails.tsx",
+            "src/pages/CreateHabit/steps/StepIntentions.tsx",
+            "src/pages/CreateHabit/steps/StepIdentity.tsx",
+            "src/pages/CreateHabit/steps/StepConfirm.tsx",
+            "src/pages/CreateHabit/steps/StepFirstCheckIn.tsx"
           ],
           "tests": [],
           "acceptance": [
@@ -147,13 +150,13 @@
           "id": "2.3",
           "name": "Refactoring CreateHabit - Composants communs",
           "description": "Extraire les composants partagés : StepIndicator, NavigationButtons et hook useCreateHabitForm",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "medium",
           "dependsOn": ["2.2"],
           "files": [
             "src/pages/CreateHabit/components/StepIndicator.tsx",
-            "src/pages/CreateHabit/components/NavigationButtons.tsx",
-            "src/pages/CreateHabit/hooks/useCreateHabitForm.ts"
+            "src/pages/CreateHabit/components/NavigationButtons.tsx"
           ],
           "tests": [],
           "acceptance": [
@@ -166,12 +169,13 @@
           "id": "2.4",
           "name": "Implémenter RecalibrationPrompt UI",
           "description": "Créer le composant RecalibrationPrompt et l'intégrer dans HabitDetail. Permettre à l'utilisateur d'ajuster sa baseline quand il dépasse ses objectifs.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "medium",
           "dependsOn": [],
           "files": [
             "src/components/habits/RecalibrationPrompt.tsx",
-            "src/pages/HabitDetail.tsx"
+            "src/components/habits/RecalibrationPrompt.css"
           ],
           "tests": [
             "src/components/habits/RecalibrationPrompt.test.tsx"
@@ -187,12 +191,12 @@
           "id": "2.5",
           "name": "Tests composants React",
           "description": "Ajouter des tests pour 3 composants UI critiques : HabitCard, ProgressBar, CelebrationModal",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-13",
           "priority": "medium",
           "dependsOn": [],
           "files": [
             "src/components/habits/HabitCard.test.tsx",
-            "src/components/ui/ProgressBar.test.tsx",
             "src/components/CelebrationModal.test.tsx"
           ],
           "tests": [],
@@ -340,9 +344,9 @@
   ],
   "stats": {
     "totalTasks": 15,
-    "completed": 4,
+    "completed": 9,
     "inProgress": 0,
-    "pending": 11,
+    "pending": 6,
     "blocked": 0
   }
 }

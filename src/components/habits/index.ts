@@ -68,3 +68,6 @@ export type { ShareProgressModalProps } from './ShareProgressModal'
 
 export { default as CumulativeHistory } from './CumulativeHistory'
 export type { CumulativeHistoryProps } from './CumulativeHistory'
+
+export { default as RecalibrationPrompt } from './RecalibrationPrompt'
+export type { RecalibrationPromptProps } from './RecalibrationPrompt'

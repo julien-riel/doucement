@@ -258,6 +258,28 @@
     "successMessage": "The journey begins now.",
     "successEmoji": "✨"
   },
+  "recalibration": {
+    "title": "You've exceeded your goals!",
+    "subtitle": "Ready to aim higher?",
+    "description": "You've been consistently exceeding your target dose. It's the perfect time to raise the bar and continue your progress.",
+    "levels": {
+      "gentle": {
+        "label": "Gentle progress",
+        "desc": "One step at a time"
+      },
+      "balanced": {
+        "label": "Balanced progress",
+        "desc": "Recommended"
+      },
+      "ambitious": {
+        "label": "Ambitious progress",
+        "desc": "For the highly motivated"
+      }
+    },
+    "dismiss": "Not now",
+    "confirm": "Recalibrate",
+    "confirmMessage": "Your new starting dose will change from {{oldValue}} to {{newValue}} {{unit}}."
+  },
   "checkIn": {
     "partial": "Partial",
     "done": "Done",

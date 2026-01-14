@@ -258,6 +258,28 @@
     "successMessage": "Le voyage commence maintenant.",
     "successEmoji": "✨"
   },
+  "recalibration": {
+    "title": "Tu as dépassé tes objectifs !",
+    "subtitle": "Prêt·e à viser plus haut ?",
+    "description": "Tu dépasses régulièrement ta dose cible. C'est le moment idéal pour relever la barre et continuer ta progression.",
+    "levels": {
+      "gentle": {
+        "label": "Progression douce",
+        "desc": "Une marche à la fois"
+      },
+      "balanced": {
+        "label": "Progression équilibrée",
+        "desc": "Recommandé"
+      },
+      "ambitious": {
+        "label": "Progression ambitieuse",
+        "desc": "Pour les plus motivé·e·s"
+      }
+    },
+    "dismiss": "Pas maintenant",
+    "confirm": "Recalibrer",
+    "confirmMessage": "Ta nouvelle dose de départ passera de {{oldValue}} à {{newValue}} {{unit}}."
+  },
   "checkIn": {
     "partial": "Un peu",
     "done": "Fait",
