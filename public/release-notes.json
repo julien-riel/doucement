@@ -1,6 +1,21 @@
 {
-  "currentVersion": "1.26.0",
+  "currentVersion": "1.26.1",
   "releases": [
+    {
+      "version": "1.26.1",
+      "date": "2026-01-14",
+      "title": "Phase 4 - Métriques & Qualité",
+      "highlights": [
+        {
+          "emoji": "check",
+          "text": "Intégrer audit Lighthouse"
+        },
+        {
+          "emoji": "chart",
+          "text": "Validation métriques finales"
+        }
+      ]
+    },
     {
       "version": "1.26.0",
       "date": "2026-01-14",
