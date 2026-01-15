@@ -79,7 +79,7 @@ Un indicateur visuel en haut de l'écran affiche "Date simulée: JJ/MM/AAAA" qua
 | **Exporter données** | Export rapide des données actuelles |
 | **Réinitialiser données** | Efface toutes les données (avec confirmation) |
 
-Voir `/docs/test-data.md` pour la liste des fichiers de test disponibles.
+Voir [test-data.md](test-data.md) pour la liste des fichiers de test disponibles.
 
 ### Inspection
 

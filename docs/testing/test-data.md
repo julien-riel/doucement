@@ -139,7 +139,7 @@ Les fichiers de test sont situés dans `/public/test-data/` et sont accessibles 
 
 ### Via le mode debug
 
-1. Activer le mode debug (voir `/docs/debug-mode.md`)
+1. Activer le mode debug (voir [debug-mode.md](debug-mode.md))
 2. Aller dans Paramètres > Panneau Debug
 3. Sélectionner "Charger fichier de test"
 4. Choisir le scénario souhaité
