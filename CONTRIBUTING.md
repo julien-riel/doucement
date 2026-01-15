@@ -198,6 +198,8 @@ chore: mettre à jour les dépendances
 
 ## Tests
 
+> **Documentation complète** : Consultez [`docs/testing/strategy.md`](docs/testing/strategy.md) pour la stratégie de tests détaillée.
+
 ### Tests unitaires (Vitest)
 
 ```bash
@@ -208,7 +210,7 @@ npm run test -- --coverage  # Avec couverture
 
 ### Tests E2E (Playwright)
 
-Les tests E2E utilisent des fichiers de données dans `public/test-data/` :
+Les tests E2E utilisent des fichiers de données dans `public/test-data/` (voir [`docs/testing/test-data.md`](docs/testing/test-data.md)) :
 
 ```bash
 # Build + preview (requis avant les tests E2E)
@@ -223,6 +225,7 @@ npx playwright test
 - Tests unitaires : `*.test.ts` ou `*.test.tsx` à côté du fichier source
 - Mocks : Utiliser `vi.mock()` de Vitest
 - Assertions : `expect()` avec les matchers Vitest
+- Fixtures : Utiliser les fixtures centralisées dans `src/test/fixtures/`
 
 ## Questions ?
 

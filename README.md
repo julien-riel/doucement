@@ -10,13 +10,30 @@
 
 ## Fonctionnalités
 
+### Concept de base
 - **Dose du jour** : Voyez uniquement votre objectif pour aujourd'hui, jamais d'objectifs à long terme intimidants
 - **Habitudes progressives** : Augmentez ou diminuez progressivement vos habitudes (ex: +3% push-ups/semaine, -5% cigarettes/semaine)
 - **Effort partiel = succès** : 70% de complétion est toujours une victoire
 - **Pas de vocabulaire d'échec** : Jamais de mots comme "échec", "raté" ou "streak perdu"
+
+### Modes de suivi
+- **Simple** : Habitudes binaires (fait / pas fait)
+- **Détaillé** : Suivi quantitatif avec valeur précise
+- **Compteur** : Suivi incrémental au fil de la journée
+
+### Fonctionnalités avancées
+- **Habitudes hebdomadaires** : Objectifs répartis sur la semaine
+- **Chaînage d'habitudes** : Ancrer une nouvelle habitude à une existante
+- **Pauses planifiées** : Suspendre une habitude sans impact sur les stats
+- **Célébrations** : Confettis aux jalons 25%, 50%, 75%, 100%
+- **Exports** : PNG (partage), PDF (rapport), JSON (sauvegarde)
+
+### Vie privée et accessibilité
 - **100% privé** : Toutes les données restent sur votre appareil (localStorage)
 - **PWA** : Installable sur mobile et bureau, fonctionne hors ligne
 - **Multilingue** : Français (par défaut) et Anglais
+
+> **Documentation complète** : Voir [docs/features/](docs/features/) pour les guides détaillés de chaque fonctionnalité.
 
 ## Capture d'écran
 
@@ -62,6 +79,8 @@ npm run test         # Exécuter les tests unitaires (Vitest)
 npm run test:e2e     # Exécuter les tests E2E (Playwright)
 ```
 
+> **Documentation complète** : Voir [docs/testing/strategy.md](docs/testing/strategy.md) pour la stratégie de tests.
+
 ### Qualité du code
 
 ```bash
@@ -106,14 +125,25 @@ src/
 
 ## Contribution
 
-Les contributions sont les bienvenues ! Veuillez consulter le [guide de contribution](CONTRIBUTING.md) (à venir).
+Les contributions sont les bienvenues ! Consultez le [guide de contribution](CONTRIBUTING.md).
 
 ### Principes de développement
 
-- Suivez le design system défini dans `docs/design/design-system-specification.md`
+- Suivez le [design system](docs/design/design-system-specification.md)
 - Utilisez un ton bienveillant dans tous les messages utilisateur
 - N'utilisez jamais de rouge (associé à l'échec)
 - Respectez les cibles de toucher minimum de 44x44px
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Guide utilisateur](docs/comm/guide-utilisateur.md) | Guide complet pour les utilisateurs |
+| [Glossaire](docs/GLOSSARY.md) | Définitions des termes techniques |
+| [Architecture](docs/ARCHITECTURE.md) | Architecture et flux de données |
+| [Fonctionnalités](docs/features/) | Guides détaillés par fonctionnalité |
+| [Tests](docs/testing/strategy.md) | Stratégie de tests |
+| [Design System](docs/design/design-system-specification.md) | Spécifications visuelles |
 
 ## Licence
 

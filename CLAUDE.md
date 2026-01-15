@@ -45,8 +45,12 @@ The project is a functional React SPA with most features implemented.
 
 **Documentation:**
 - `docs/prd.md` - Product requirements document
+- `docs/GLOSSARY.md` - Technical terms definitions
+- `docs/ARCHITECTURE.md` - Architecture with diagrams
+- `docs/features/` - Feature guides (habit-stacking, tracking-modes, etc.)
 - `docs/design/design-system-specification.md` - Complete design system
 - `docs/comm/` - UX writing guidelines and message bank
+- `docs/testing/` - Testing strategy and test data
 - `tasks.json` - Task tracking for implementation phases
 
 ## Design System Reference
@@ -70,6 +74,8 @@ The app supports multiple languages (French default, English available). When wr
 
 ## Testing Strategy
 
+> **Full documentation**: See [docs/testing/strategy.md](docs/testing/strategy.md) for detailed testing strategy.
+
 ### Unit Tests (Vitest)
 - Located in `src/**/*.test.ts`
 - Run with `npm test`
@@ -77,25 +83,9 @@ The app supports multiple languages (French default, English available). When wr
 
 ### E2E Tests (Playwright)
 - **Framework**: Playwright for end-to-end testing
-- **Test data files**: Use existing files in `public/test-data/` to set up test scenarios
+- **Test data files**: Use existing files in `public/test-data/` (see [docs/testing/test-data.md](docs/testing/test-data.md))
 - **Writing tests**: Use MCP Playwright server when available for assisted test creation
 - **Execution**: Tests should be run against the built app (`npm run build && npm run preview`)
-
-#### Available Test Data Files
-Located in `public/test-data/`:
-- `goal-reached.json` - Habit close to targetValue (test congratulation messages)
-- `growth-plateau.json` - Stagnant habit (test plateau detection)
-- `absence-detected.json` - Missing entries for 2-3 days (test WelcomeBackMessage)
-- `weekly-review-due.json` - lastWeeklyReviewDate 7+ days ago (test WeeklyReview)
-- `habit-stacking.json` - Linked habits via anchorHabitId (test habit stacking display)
-- `planned-pause.json` - Active planned pause (test pause behavior)
-- `full-scenario.json` - Complete scenario with various habit states
-
-#### E2E Test Guidelines
-- Load test data via the Debug Panel's "Charger fichier de test" feature
-- Test user journeys: onboarding, habit creation, check-in, weekly review
-- Verify UI states match the test data conditions
-- No external dependencies - all tests run locally
 
 ## Development Commands
 
@@ -143,5 +133,8 @@ Run the health check:
 ### Reference documentation
 
 - `docs/coherence-matrix.md` - Types and their usage across the codebase
+- `docs/GLOSSARY.md` - Technical terms definitions (trackingMode, entryMode, etc.)
+- `docs/ARCHITECTURE.md` - Architecture diagrams (data flow, component structure)
 - `docs/prd.md` - Product requirements
 - `docs/design/design-system-specification.md` - UI guidelines
+- `docs/features/` - Feature-specific guides

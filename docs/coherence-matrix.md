@@ -2,7 +2,9 @@
 
 Ce document référence les types principaux, leur utilisation dans le code et leur documentation associée.
 
-**Dernière mise à jour :** 2026-01-13
+> **Voir aussi** : [GLOSSARY.md](GLOSSARY.md) pour les définitions détaillées de chaque terme.
+
+**Dernière mise à jour :** 2026-01-14
 
 ---
 
@@ -97,16 +99,16 @@ Ce document référence les types principaux, leur utilisation dans le code et l
 
 ## Types Enum/Union
 
-| Type | Définition | Valeurs | Utilisé dans |
-|------|-----------|---------|--------------|
-| `HabitDirection` | :55 | 'increase', 'decrease', 'maintain' | Habit, progression.ts |
-| `TrackingMode` | :85 | 'simple', 'detailed', 'counter' | Habit, CheckInButtons |
-| `TrackingFrequency` | :92 | 'daily', 'weekly' | Habit, progression.ts |
-| `TimeOfDay` | :16 | 'morning', 'afternoon', 'evening', 'night' | Habit, Today.tsx |
-| `CompletionStatus` | :239 | 'pending', 'partial', 'completed', 'exceeded' | DailyEntry, HabitCard |
-| `ThemePreference` | :136 | 'light', 'dark', 'system' | UserPreferences, Settings |
-| `EntryMode` | :99 | 'replace', 'cumulative' | Habit, useAppData |
-| `WeeklyAggregation` | :128 | 'count-days', 'sum-units' | Habit, progression.ts |
+| Type | Définition | Valeurs | Utilisé dans | Glossaire |
+|------|-----------|---------|--------------|-----------|
+| `HabitDirection` | :55 | 'increase', 'decrease', 'maintain' | Habit, progression.ts | [→](GLOSSARY.md#habitdirection) |
+| `TrackingMode` | :85 | 'simple', 'detailed', 'counter' | Habit, CheckInButtons | [→](GLOSSARY.md#trackingmode) |
+| `TrackingFrequency` | :92 | 'daily', 'weekly' | Habit, progression.ts | [→](GLOSSARY.md#trackingfrequency) |
+| `TimeOfDay` | :16 | 'morning', 'afternoon', 'evening', 'night' | Habit, Today.tsx | [→](GLOSSARY.md#timeofday) |
+| `CompletionStatus` | :239 | 'pending', 'partial', 'completed', 'exceeded' | DailyEntry, HabitCard | [→](GLOSSARY.md#completionstatus) |
+| `ThemePreference` | :136 | 'light', 'dark', 'system' | UserPreferences, Settings | [→](GLOSSARY.md#themepreference) |
+| `EntryMode` | :99 | 'replace', 'cumulative' | Habit, useAppData | [→](GLOSSARY.md#entrymode) |
+| `WeeklyAggregation` | :128 | 'count-days', 'sum-units' | Habit, progression.ts | [→](GLOSSARY.md#weeklyaggregation) |
 
 ---
 
@@ -169,4 +171,10 @@ Lors de modifications de types :
 
 ---
 
-*Document généré lors de l'audit qualité du 2026-01-13*
+## Références Croisées
+
+- **Glossaire complet** : [GLOSSARY.md](GLOSSARY.md)
+- **Architecture** : [ARCHITECTURE.md](ARCHITECTURE.md)
+- **Guides fonctionnalités** : [features/](features/)
+
+*Document généré lors de l'audit qualité du 2026-01-13, mis à jour le 2026-01-14*

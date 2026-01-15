@@ -56,6 +56,74 @@ Rien de grave. Doucement n'affiche pas de « streak brisé » ni de message culp
 
 ---
 
+## Fonctionnalités avancées
+
+### Les différents modes de suivi
+
+Doucement propose trois façons de suivre vos habitudes :
+
+**Mode simple** : Pour les habitudes binaires (fait / pas fait). Parfait pour des actions comme « prendre ses vitamines » ou « méditer ». Un simple bouton suffit.
+
+**Mode détaillé** : Pour les habitudes quantifiables. Vous saisissez un nombre précis : 8 verres d'eau, 30 minutes de lecture, 15 pompes. Des boutons +/- facilitent la saisie.
+
+**Mode compteur** : Pour les habitudes à compter au fil de la journée. Idéal pour suivre les cigarettes fumées ou les cafés bus. Chaque tap sur + incrémente le compteur avec l'heure exacte.
+
+### Cumul ou remplacement
+
+Pour les habitudes détaillées, vous pouvez choisir comment gérer plusieurs saisies dans la même journée :
+
+**Mode remplacement** : Chaque saisie remplace la précédente. Utile pour les heures de sommeil par exemple — si vous corrigez, c'est la nouvelle valeur qui compte.
+
+**Mode cumulatif** : Les saisies s'additionnent. Parfait pour les verres d'eau : 3 le matin + 2 à midi + 3 le soir = 8 verres.
+
+### Les habitudes hebdomadaires
+
+Certaines habitudes n'ont pas besoin d'être suivies chaque jour. Pour celles-ci, Doucement propose un suivi hebdomadaire.
+
+Au lieu de voir « 30 minutes de sport », vous voyez « 2/3 séances cette semaine ». L'objectif est réparti sur la semaine, pas sur chaque jour.
+
+Deux modes d'agrégation sont disponibles :
+
+**Compter les jours** : L'application compte combien de jours vous avez effectué l'habitude. Exemple : « Sport 3 fois par semaine ».
+
+**Additionner les valeurs** : L'application additionne toutes vos saisies de la semaine. Exemple : « Maximum 7 cafés par semaine ».
+
+### Le chaînage d'habitudes (Habit Stacking)
+
+Cette technique issue d'*Atomic Habits* consiste à ancrer une nouvelle habitude à une habitude existante. Le principe est simple : « Après [habitude existante], je ferai [nouvelle habitude] ».
+
+Lors de la création d'une habitude, vous pouvez choisir une habitude existante comme « ancre ». L'application affichera alors vos habitudes groupées visuellement, vous rappelant leur lien.
+
+Exemple : « Après avoir fait mon café, je méditerai 5 minutes ». Le café devient le déclencheur automatique de la méditation.
+
+### Les pauses planifiées
+
+Vous partez en vacances ? Vous êtes malade ? Plutôt que de « rater » des jours, planifiez une pause.
+
+Une pause planifiée suspend temporairement une habitude sans affecter vos statistiques. L'habitude apparaît grisée avec la mention « En pause jusqu'au [date] ». Les jours de pause ne comptent pas comme des jours manqués.
+
+Pour créer une pause, allez dans le détail de l'habitude et définissez les dates de début et de fin. Vous pouvez aussi ajouter une raison (vacances, maladie, etc.) pour vous en souvenir plus tard.
+
+À la fin de la pause, l'habitude reprend automatiquement. Si la pause a duré plus d'une semaine, l'application peut vous proposer de recalibrer votre dose.
+
+### Les célébrations (Milestones)
+
+Doucement célèbre vos étapes clés sans créer de pression. Quand vous atteignez 25%, 50%, 75% ou 100% de votre objectif, une animation de confettis vous félicite.
+
+Ces célébrations sont éphémères : pas de badges permanents, pas de pression pour « maintenir » quoi que ce soit. Juste un moment pour reconnaître le chemin parcouru.
+
+Vous pouvez voir votre progression à tout moment : « Jour 1 : 8 pompes → Aujourd'hui : 14 pompes ». L'effet composé rendu visible.
+
+### Exporter et partager
+
+**Export JSON** : Pour sauvegarder ou transférer vos données. Rendez-vous dans Paramètres > Export.
+
+**Export PNG** : Pour partager votre progression. Une carte sobre avec votre emoji, le nom de l'habitude et votre progression. Disponible depuis le détail d'une habitude ou la revue hebdomadaire.
+
+**Export PDF** : Pour un rapport complet de vos statistiques. Disponible depuis la page Statistiques.
+
+---
+
 ## La revue hebdomadaire
 
 Une fois par semaine, l'application vous propose un moment de réflexion. Vous pouvez voir votre progression globale sur les sept derniers jours, ajuster le rythme de progression si nécessaire, et célébrer vos avancées, même modestes.
