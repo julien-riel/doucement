@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.27.3",
+  "currentVersion": "1.28.0",
   "releases": [
+    {
+      "version": "1.28.0",
+      "date": "2026-01-15",
+      "title": "Implémentation fonctionnalités manquantes",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Habit stacking visuel sur Today"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Regroupement par moment de la journée"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Historique saisies cumulatives avec undo"
+        }
+      ]
+    },
     {
       "version": "1.27.3",
       "date": "2026-01-14",
