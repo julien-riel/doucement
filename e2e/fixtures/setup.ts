@@ -124,13 +124,20 @@ export async function gotoHabitDetail(
 
 /**
  * Close celebration modal if visible
+ * @param waitFor - if true, wait briefly for modal to potentially appear
  */
 export async function closeCelebrationModalIfVisible(
-  page: Page
+  page: Page,
+  waitFor = false
 ): Promise<void> {
   const celebrationModal = page.locator(
     '[role="dialog"][aria-modal="true"].celebration-overlay'
   );
+
+  // Optionally wait a bit for the modal to appear (useful after navigation)
+  if (waitFor) {
+    await celebrationModal.waitFor({ state: 'visible', timeout: 1000 }).catch(() => {});
+  }
 
   if (await celebrationModal.isVisible().catch(() => false)) {
     await page.getByRole('button', { name: 'Continuer' }).click();

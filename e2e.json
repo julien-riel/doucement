@@ -5,7 +5,6 @@
   "lastRelease": "1.26.1",
   "docs": [
     "docs/prd-e2e-refactoring.md",
-    "e2e/SKIPPED_TESTS.md",
     "e2e/fixtures/index.ts"
   ],
   "phases": [

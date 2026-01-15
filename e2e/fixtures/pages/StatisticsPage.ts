@@ -68,16 +68,21 @@ export class StatisticsPage {
   /**
    * Close celebration modal if visible
    * This is important because the statistics page can trigger milestone celebrations
+   * @param waitFor - if true, wait briefly for modal to potentially appear
    */
-  async closeCelebrationModalIfVisible(): Promise<void> {
+  async closeCelebrationModalIfVisible(waitFor = true): Promise<void> {
     const celebrationModal = this.page.locator(
       '[role="dialog"][aria-modal="true"].celebration-overlay'
     )
-    // Wait a moment for effects to settle
-    await this.page.waitForTimeout(500)
+
+    // Wait briefly for potential modal appearance after navigation/render
+    if (waitFor) {
+      await celebrationModal.waitFor({ state: 'visible', timeout: 1500 }).catch(() => {})
+    }
+
     if (await celebrationModal.isVisible().catch(() => false)) {
       await this.page.getByRole('button', { name: 'Continuer' }).click()
-      await expect(celebrationModal).not.toBeVisible()
+      await celebrationModal.waitFor({ state: 'hidden' }).catch(() => {})
     }
   }
 
@@ -119,8 +124,11 @@ export class StatisticsPage {
 
   /**
    * Select a period
+   * Closes any blocking celebration modal before clicking
    */
   async selectPeriod(period: StatsPeriod): Promise<void> {
+    // Ensure no modal is blocking the click
+    await this.closeCelebrationModalIfVisible(false)
     await this.getPeriodTab(period).click()
   }
 

@@ -271,13 +271,13 @@ test.describe('Sections vides masquées', () => {
     await page.goto('/')
     await page.waitForSelector('.page-today')
 
-    // Seule la section matin devrait être visible
-    await expect(page.getByText('Matin')).toBeVisible()
+    // Seule la section matin devrait être visible (use section label selector)
+    await expect(page.locator('.time-of-day-section__label').filter({ hasText: 'Matin' })).toBeVisible()
 
-    // Les autres sections ne devraient pas être présentes
-    await expect(page.getByText('Après-midi')).not.toBeVisible()
-    await expect(page.getByText('Soir')).not.toBeVisible()
-    await expect(page.getByText('Nuit')).not.toBeVisible()
-    await expect(page.getByText('Autre')).not.toBeVisible()
+    // Les autres sections ne devraient pas être présentes (use exact match to avoid message matches)
+    await expect(page.locator('.time-of-day-section__label').filter({ hasText: 'Après-midi' })).not.toBeVisible()
+    await expect(page.locator('.time-of-day-section__label').filter({ hasText: 'Soir' })).not.toBeVisible()
+    await expect(page.locator('.time-of-day-section__label').filter({ hasText: 'Nuit' })).not.toBeVisible()
+    await expect(page.locator('.time-of-day-section__label').filter({ hasText: 'Autre' })).not.toBeVisible()
   })
 })

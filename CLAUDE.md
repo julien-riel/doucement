@@ -82,10 +82,72 @@ The app supports multiple languages (French default, English available). When wr
 - Cover services, hooks, and utility functions
 
 ### E2E Tests (Playwright)
-- **Framework**: Playwright for end-to-end testing
-- **Test data files**: Use existing files in `public/test-data/` (see [docs/testing/test-data.md](docs/testing/test-data.md))
-- **Writing tests**: Use MCP Playwright server when available for assisted test creation
-- **Execution**: Tests should be run against the built app (`npm run build && npm run preview`)
+
+**Framework**: Playwright for end-to-end testing with centralized fixtures.
+
+**Execution**:
+```bash
+npm run test:e2e              # Run all E2E tests
+npm run test:e2e -- --grep "pattern"  # Run tests matching pattern
+```
+
+**Fixtures location**: `e2e/fixtures/`
+- `test-data.ts` - Data factories for habits, entries, app data
+- `setup.ts` - Setup helpers (localStorage, navigation, modals)
+- `pages/` - Page Objects (TodayPage, StatisticsPage, CreateHabitPage, etc.)
+
+**Writing new tests**:
+
+```typescript
+import { test, expect } from './base-test'
+import {
+  setupLocalStorage,
+  createAppData,
+  createIncreaseHabit,
+  TodayPage,
+} from './fixtures'
+
+test('example test', async ({ page }) => {
+  // 1. Setup test data using factories
+  const testData = createAppData({
+    habits: [
+      createIncreaseHabit({
+        id: 'test-habit',
+        name: 'Push-ups',
+        startValue: 10,
+        unit: 'reps',
+      }),
+    ],
+  })
+  await setupLocalStorage(page, testData)
+
+  // 2. Navigate and interact using Page Objects
+  const todayPage = new TodayPage(page)
+  await todayPage.goto()
+
+  // 3. Assert
+  await expect(todayPage.habitCard('Push-ups')).toBeVisible()
+})
+```
+
+**Available factories**:
+- `createIncreaseHabit()`, `createDecreaseHabit()`, `createMaintainHabit()`
+- `createCounterHabit()`, `createWeeklyHabit()`
+- `createEntry()`, `createEntriesForDays()`
+- `createAppData()`, `createFreshAppData()`
+
+**Setup helpers**:
+- `setupLocalStorage(page, data)` - Initialize app state
+- `setupFromTestFile(page, filename)` - Load from `public/test-data/`
+- `closeCelebrationModalIfVisible(page)` - Handle celebration popups
+- `closeBlockingModals(page)` - Clear all blocking modals
+
+**Page Objects**:
+- `TodayPage` - Today view interactions
+- `CreateHabitPage` - Habit creation wizard
+- `StatisticsPage` - Statistics page
+- `WeeklyReviewPage` - Weekly review
+- `SettingsPage`, `EditHabitPage` - Settings and edit
 
 ## Development Commands
 

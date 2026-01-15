@@ -55,10 +55,12 @@ e2e/
 │       ├── index.ts
 │       ├── TodayPage.ts
 │       ├── SettingsPage.ts
-│       └── EditHabitPage.ts
+│       ├── EditHabitPage.ts
+│       ├── CreateHabitPage.ts
+│       ├── StatisticsPage.ts
+│       └── WeeklyReviewPage.ts
 ├── base-test.ts           # Fixture de base
-├── SKIPPED_TESTS.md       # Documentation des tests skippés
-└── *.spec.ts              # Tests à migrer
+└── *.spec.ts              # Tests E2E
 ```
 
 ### Page Objects à ajouter
@@ -150,12 +152,12 @@ e2e/
 
 ## Critères de succès
 
-1. **Tous les specs migrés** : Utilisation des fixtures centralisées
-2. **Tests skippés réactivés** : 0 `test.describe.skip` restant
-3. **Réduction de code** : -30% minimum sur les fichiers migrés
-4. **Tests passent** : `npm run test:e2e` sans échec
-5. **SchemaVersion unifié** : Tous les tests utilisent version 10
-6. **Documentation** : SKIPPED_TESTS.md supprimé (plus de tests skippés)
+1. **Tous les specs migrés** : Utilisation des fixtures centralisées ✅
+2. **Tests skippés réactivés** : 0 `test.describe.skip` restant ✅
+3. **Réduction de code** : -30% minimum sur les fichiers migrés ✅
+4. **Tests passent** : `npm run test:e2e` sans échec ✅
+5. **SchemaVersion unifié** : Tous les tests utilisent version 10 ✅
+6. **Documentation** : SKIPPED_TESTS.md supprimé (plus de tests skippés) ✅
 
 ## Hors périmètre
 

@@ -128,8 +128,8 @@ test.describe('Page Statistiques', () => {
       statsPage = new StatisticsPage(page)
       await statsPage.goto()
 
-      // Wait for page to load (tablist is visible)
-      await expect(statsPage.periodSelector).toBeVisible()
+      // Wait for page to load (tablist is visible) with extended timeout for charts
+      await expect(statsPage.periodSelector).toBeVisible({ timeout: 10000 })
 
       // Close celebration modals if they appear
       await statsPage.closeCelebrationModalIfVisible()

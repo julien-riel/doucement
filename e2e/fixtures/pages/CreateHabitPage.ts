@@ -423,7 +423,10 @@ export class CreateHabitPage {
       await expect(this.page.getByText(typeLabels[options.type])).toBeVisible()
     }
     if (options.startValue && options.unit) {
-      await expect(this.page.getByText(`${options.startValue} ${options.unit}`)).toBeVisible()
+      // Use exact match to avoid matching "8 verres Par jour" when looking for "8 verres"
+      await expect(
+        this.page.locator('.step-confirm__summary').getByText(`${options.startValue} ${options.unit}`, { exact: true })
+      ).toBeVisible()
     }
     if (options.progression) {
       await expect(this.page.getByText(options.progression)).toBeVisible()
