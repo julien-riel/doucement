@@ -63,11 +63,7 @@ function CumulativeCheckIn({ targetDose, unit, onAdd, disabled = false }: Cumula
   if (!isInputVisible) {
     return (
       <div className="cumulative-checkin">
-        <Button
-          variant="primary"
-          onClick={() => setIsInputVisible(true)}
-          disabled={disabled}
-        >
+        <Button variant="primary" onClick={() => setIsInputVisible(true)} disabled={disabled}>
           {t('checkIn.add')}
         </Button>
       </div>

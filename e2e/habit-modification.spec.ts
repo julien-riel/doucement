@@ -223,8 +223,16 @@ test.describe('Annulation des saisies cumulatives', () => {
       await expect(page.getByRole('heading', { name: 'Lecture' })).toBeVisible()
       await expect(page.getByText('📚')).toBeVisible()
 
+      // Vérifier la présence du bouton Ajouter initial
+      const habitCard = page.locator('.habit-card').filter({ hasText: 'Lecture' })
+      const addButton = habitCard.getByRole('button', { name: /Ajouter/i })
+      await expect(addButton).toBeVisible()
+
+      // Cliquer sur Ajouter pour révéler le formulaire
+      await addButton.click()
+
       // Vérifier la présence du champ de saisie cumulative
-      const input = page.locator('.habit-card').filter({ hasText: 'Lecture' }).getByRole('spinbutton')
+      const input = habitCard.getByRole('spinbutton')
       await expect(input).toBeVisible()
     })
 
@@ -232,13 +240,16 @@ test.describe('Annulation des saisies cumulatives', () => {
       // Trouver le formulaire de l'habitude
       const habitCard = page.locator('.habit-card').filter({ hasText: 'Lecture' })
 
+      // Cliquer sur Ajouter pour révéler le formulaire
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+
       // Saisir une valeur
       const input = habitCard.getByRole('spinbutton')
       await input.fill('10')
 
-      // Soumettre avec le bouton Ajouter
-      const addButton = habitCard.getByRole('button', { name: /Ajouter/i })
-      await addButton.click()
+      // Soumettre avec le bouton Valider
+      const validateButton = habitCard.getByRole('button', { name: /Valider/i })
+      await validateButton.click()
 
       // Vérifier que la saisie est enregistrée dans l'historique
       await expect(page.getByText('+10 pages')).toBeVisible()
@@ -247,15 +258,14 @@ test.describe('Annulation des saisies cumulatives', () => {
     test('affiche l\'historique des saisies cumulatives', async ({ page }) => {
       const habitCard = page.locator('.habit-card').filter({ hasText: 'Lecture' })
 
-      // Ajouter plusieurs saisies
-      const input = habitCard.getByRole('spinbutton')
-      const addButton = habitCard.getByRole('button', { name: /Ajouter/i })
+      // Ajouter plusieurs saisies (cliquer sur Ajouter, remplir, valider)
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('5')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
 
-      await input.fill('5')
-      await addButton.click()
-
-      await input.fill('8')
-      await addButton.click()
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('8')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
 
       // Vérifier l'affichage de l'historique
       await expect(page.locator('.cumulative-history')).toBeVisible()
@@ -269,15 +279,14 @@ test.describe('Annulation des saisies cumulatives', () => {
     test('permet d\'annuler la dernière saisie cumulative', async ({ page }) => {
       const habitCard = page.locator('.habit-card').filter({ hasText: 'Lecture' })
 
-      // Ajouter des saisies
-      const input = habitCard.getByRole('spinbutton')
-      const addButton = habitCard.getByRole('button', { name: /Ajouter/i })
+      // Ajouter des saisies (cliquer sur Ajouter, remplir, valider)
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('5')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
 
-      await input.fill('5')
-      await addButton.click()
-
-      await input.fill('10')
-      await addButton.click()
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('10')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
 
       // Le total devrait être 15
       // (Le total est affiché quelque part dans la carte)
@@ -297,11 +306,10 @@ test.describe('Annulation des saisies cumulatives', () => {
     test('le bouton annuler affiche la valeur à annuler', async ({ page }) => {
       const habitCard = page.locator('.habit-card').filter({ hasText: 'Lecture' })
 
-      // Ajouter une saisie de 7 pages
-      const input = habitCard.getByRole('spinbutton')
-      await input.fill('7')
-      const addButton = habitCard.getByRole('button', { name: /Ajouter/i })
-      await addButton.click()
+      // Ajouter une saisie de 7 pages (cliquer sur Ajouter, remplir, valider)
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('7')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
 
       // Le bouton annuler devrait afficher "(+7)"
       const undoButton = page.locator('.cumulative-history').getByRole('button', { name: /Annuler/ })
@@ -311,15 +319,14 @@ test.describe('Annulation des saisies cumulatives', () => {
     test('annulation multiple jusqu\'à vider l\'historique', async ({ page }) => {
       const habitCard = page.locator('.habit-card').filter({ hasText: 'Lecture' })
 
-      // Ajouter 2 saisies
-      const input = habitCard.getByRole('spinbutton')
-      const addButton = habitCard.getByRole('button', { name: /Ajouter/i })
+      // Ajouter 2 saisies (cliquer sur Ajouter, remplir, valider)
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('3')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
 
-      await input.fill('3')
-      await addButton.click()
-
-      await input.fill('4')
-      await addButton.click()
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('4')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
 
       // Annuler la première saisie
       const undoButton = page.locator('.cumulative-history').getByRole('button', { name: /Annuler/ })
@@ -335,20 +342,19 @@ test.describe('Annulation des saisies cumulatives', () => {
     test('mise à jour du total en temps réel', async ({ page }) => {
       const habitCard = page.locator('.habit-card').filter({ hasText: 'Lecture' })
 
-      // Ajouter une saisie
-      const input = habitCard.getByRole('spinbutton')
-      const addButton = habitCard.getByRole('button', { name: /Ajouter/i })
-
-      await input.fill('12')
-      await addButton.click()
+      // Ajouter une saisie (cliquer sur Ajouter, remplir, valider)
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('12')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
 
       // Le total devrait être mis à jour
       // Vérifier que la valeur 12 apparaît dans la section de progrès de la carte
       await expect(habitCard.locator('.habit-card__status-value')).toContainText('12')
 
       // Ajouter une autre saisie
-      await input.fill('8')
-      await addButton.click()
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('8')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
 
       // Le total devrait maintenant être 20
       await expect(habitCard.locator('.habit-card__status-value')).toContainText('20')
@@ -385,17 +391,16 @@ test.describe('Annulation des saisies cumulatives', () => {
 
       const habitCard = page.locator('.habit-card').filter({ hasText: 'Lecture' })
 
-      // Ajouter des saisies
-      const input = habitCard.getByRole('spinbutton')
-      const addButton = habitCard.getByRole('button', { name: /Ajouter/i })
-
-      await input.fill('15')
-      await addButton.click()
+      // Ajouter des saisies (cliquer sur Ajouter, remplir, valider)
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('15')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
       // Attendre que l'historique s'affiche
       await expect(page.getByText('+15 pages')).toBeVisible()
 
-      await input.fill('20')
-      await addButton.click()
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('20')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
       // Attendre que la deuxième saisie s'affiche
       await expect(page.getByText('+20 pages')).toBeVisible()
 
@@ -430,16 +435,15 @@ test.describe('Annulation des saisies cumulatives', () => {
 
       const habitCard = page.locator('.habit-card').filter({ hasText: 'Lecture' })
 
-      // Ajouter des saisies
-      const input = habitCard.getByRole('spinbutton')
-      const addButton = habitCard.getByRole('button', { name: /Ajouter/i })
-
-      await input.fill('10')
-      await addButton.click()
+      // Ajouter des saisies (cliquer sur Ajouter, remplir, valider)
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('10')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
       await expect(page.getByText('+10 pages')).toBeVisible()
 
-      await input.fill('5')
-      await addButton.click()
+      await habitCard.getByRole('button', { name: /Ajouter/i }).click()
+      await habitCard.getByRole('spinbutton').fill('5')
+      await habitCard.getByRole('button', { name: /Valider/i }).click()
       await expect(page.getByText('+5 pages')).toBeVisible()
 
       // Annuler la dernière
