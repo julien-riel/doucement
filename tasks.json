@@ -2,7 +2,7 @@
   "project": "Refactoring Architectural",
   "description": "Amélioration de la maintenabilité et robustesse du codebase suite à l'audit architectural",
   "createdAt": "2026-01-15",
-  "lastRelease": "1.30.0",
+  "lastRelease": "1.30.1",
   "docs": [
     "docs/prd-architecture-refactoring.md",
     "docs/ARCHITECTURE.md",
@@ -226,6 +226,8 @@
       "description": "Mise à jour de la documentation architecturale",
       "status": "completed",
       "releaseType": "patch",
+      "releasedAs": "1.30.1",
+      "releasedAt": "2026-01-15",
       "tasks": [
         {
           "id": "4.1",
