@@ -2,7 +2,7 @@
   "project": "Refactorisation E2E Doucement",
   "description": "Migration complète des tests E2E vers fixtures centralisées et réactivation des tests skippés",
   "createdAt": "2026-01-14",
-  "lastRelease": "1.28.0",
+  "lastRelease": "1.28.2",
   "docs": [
     "docs/prd-e2e-refactoring.md",
     "e2e/SKIPPED_TESTS.md",
@@ -73,6 +73,8 @@
       "name": "Page Objects additionnels",
       "description": "Créer les Page Objects manquants pour faciliter la migration",
       "status": "completed",
+      "releasedAs": "1.28.1",
+      "releasedAt": "2026-01-15",
       "releaseType": "patch",
       "tasks": [
         {
@@ -130,6 +132,8 @@
       "name": "Migration specs haute priorité",
       "description": "Migrer les 5 specs avec le plus de duplication",
       "status": "completed",
+      "releasedAs": "1.28.2",
+      "releasedAt": "2026-01-15",
       "releaseType": "patch",
       "tasks": [
         {

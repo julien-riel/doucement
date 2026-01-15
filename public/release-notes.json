@@ -1,6 +1,48 @@
 {
-  "currentVersion": "1.28.0",
+  "currentVersion": "1.28.2",
   "releases": [
+    {
+      "version": "1.28.2",
+      "date": "2026-01-15",
+      "title": "Migration specs haute priorité",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "Migrer habit-modification.spec.ts"
+        },
+        {
+          "emoji": "tools",
+          "text": "Migrer habit-increase-weekly.spec.ts"
+        },
+        {
+          "emoji": "tools",
+          "text": "Migrer habit-counter.spec.ts"
+        },
+        {
+          "emoji": "tools",
+          "text": "Migrer celebrations.spec.ts"
+        }
+      ]
+    },
+    {
+      "version": "1.28.1",
+      "date": "2026-01-15",
+      "title": "Page Objects additionnels",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "CreateHabitPage Page Object"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "StatisticsPage Page Object"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "WeeklyReviewPage Page Object"
+        }
+      ]
+    },
     {
       "version": "1.28.0",
       "date": "2026-01-15",
