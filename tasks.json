@@ -2,7 +2,7 @@
   "project": "Widgets de saisie temporels et visuels",
   "description": "Ajout de nouveaux modes de tracking : chronomètre, minuterie et slider avec emojis dynamiques",
   "createdAt": "2026-01-15",
-  "lastRelease": "1.35.0",
+  "lastRelease": "1.35.1",
   "docs": [
     "docs/prd-time-widgets.md",
     "docs/ARCHITECTURE.md",
@@ -405,6 +405,8 @@
       "description": "Tests end-to-end pour les nouveaux widgets",
       "status": "completed",
       "releaseType": "patch",
+      "releasedAs": "1.35.1",
+      "releasedAt": "2026-01-15",
       "tasks": [
         {
           "id": "6.1",
