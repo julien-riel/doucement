@@ -1,16 +1,16 @@
 /**
- * StopwatchCheckIn - Widget chronomètre pour les habitudes
+ * TimerCheckIn - Widget minuterie pour les habitudes
  *
- * Permet de mesurer le temps passé sur une activité avec
- * boutons Play/Pause/Stop/Reset et persistance de l'état.
+ * Compte à rebours avec possibilité de dépassement (temps négatif).
+ * Le temps enregistré est le temps total écoulé, pas le temps restant.
  */
 
 import { useCallback, useEffect, useRef } from 'react'
-import { useStopwatch } from '../../hooks/useStopwatch'
+import { useTimer } from '../../hooks/useTimer'
 import Button from '../ui/Button'
-import './StopwatchCheckIn.css'
+import './TimerCheckIn.css'
 
-export interface StopwatchCheckInProps {
+export interface TimerCheckInProps {
   /** ID de l'habitude */
   habitId: string
   /** Date concernée (YYYY-MM-DD) */
@@ -31,16 +31,22 @@ export interface StopwatchCheckInProps {
 
 /**
  * Formate un nombre de secondes en format MM:SS ou HH:MM:SS
+ * Pour les valeurs négatives, affiche avec un signe moins (-00:15)
  */
 function formatTime(totalSeconds: number): string {
-  const hours = Math.floor(totalSeconds / 3600)
-  const minutes = Math.floor((totalSeconds % 3600) / 60)
-  const seconds = totalSeconds % 60
+  const isNegative = totalSeconds < 0
+  const absSeconds = Math.abs(totalSeconds)
+
+  const hours = Math.floor(absSeconds / 3600)
+  const minutes = Math.floor((absSeconds % 3600) / 60)
+  const seconds = absSeconds % 60
+
+  const sign = isNegative ? '-' : ''
 
   if (hours > 0) {
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+    return `${sign}${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
   }
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+  return `${sign}${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
 }
 
 /**
@@ -55,18 +61,18 @@ function formatTarget(targetSeconds: number, unit: 'seconds' | 'minutes'): strin
 }
 
 /**
- * Composant de check-in chronomètre
+ * Composant de check-in minuterie (compte à rebours)
  *
  * @example
- * <StopwatchCheckIn
+ * <TimerCheckIn
  *   habitId="habit-1"
  *   date="2026-01-15"
- *   targetDose={600} // 10 minutes en secondes
+ *   targetDose={120} // 2 minutes en secondes
  *   unit="minutes"
  *   onCheckIn={(seconds) => handleCheckIn(seconds)}
  * />
  */
-function StopwatchCheckIn({
+function TimerCheckIn({
   habitId,
   date,
   targetDose,
@@ -75,28 +81,38 @@ function StopwatchCheckIn({
   onCheckIn,
   notifyOnTarget = false,
   disabled = false,
-}: StopwatchCheckInProps) {
+}: TimerCheckInProps) {
   const hasNotifiedRef = useRef(false)
 
   const handleStop = useCallback(
     (totalSeconds: number) => {
-      // Convertir en unité appropriée si nécessaire
-      // Pour le moment, on stocke toujours en secondes et on laisse le parent gérer
+      // On enregistre le temps total écoulé, pas le temps restant
       onCheckIn(totalSeconds)
     },
     [onCheckIn]
   )
 
-  const { elapsedSeconds, isRunning, hasStarted, start, pause, stop, reset } = useStopwatch({
+  const {
+    elapsedSeconds,
+    remainingSeconds,
+    isRunning,
+    hasStarted,
+    isTargetReached,
+    start,
+    pause,
+    stop,
+    reset,
+  } = useTimer({
     habitId,
     date,
+    targetSeconds: targetDose,
     initialValue: currentValue,
     onStop: handleStop,
   })
 
   // Notification quand la cible est atteinte
   useEffect(() => {
-    if (notifyOnTarget && elapsedSeconds >= targetDose && !hasNotifiedRef.current) {
+    if (notifyOnTarget && isTargetReached && !hasNotifiedRef.current) {
       hasNotifiedRef.current = true
 
       // Vibration si supportée
@@ -128,7 +144,7 @@ function StopwatchCheckIn({
         // Audio API not available, fail silently
       }
     }
-  }, [elapsedSeconds, targetDose, notifyOnTarget])
+  }, [isTargetReached, notifyOnTarget])
 
   // Reset la notification quand la date change
   useEffect(() => {
@@ -136,46 +152,53 @@ function StopwatchCheckIn({
   }, [date])
 
   const progress = Math.min((elapsedSeconds / targetDose) * 100, 100)
-  const isTargetReached = elapsedSeconds >= targetDose
-  const isExceeded = elapsedSeconds > targetDose * 1.2
+  const isOvertime = remainingSeconds < 0
 
   return (
-    <div className="stopwatch-checkin">
-      {/* Affichage du temps */}
+    <div className="timer-checkin">
+      {/* Affichage du temps restant */}
       <div
-        className={`stopwatch-checkin__display ${isRunning ? 'stopwatch-checkin__display--running' : ''} ${isTargetReached ? 'stopwatch-checkin__display--reached' : ''}`}
+        className={`timer-checkin__display ${isRunning ? 'timer-checkin__display--running' : ''} ${isTargetReached ? 'timer-checkin__display--reached' : ''} ${isOvertime ? 'timer-checkin__display--overtime' : ''}`}
       >
-        <span className="stopwatch-checkin__time" aria-label="Temps écoulé">
-          {formatTime(elapsedSeconds)}
+        <span
+          className={`timer-checkin__time ${isOvertime ? 'timer-checkin__time--overtime' : ''}`}
+          aria-label={isOvertime ? 'Temps de dépassement' : 'Temps restant'}
+        >
+          {formatTime(remainingSeconds)}
         </span>
-        <span className="stopwatch-checkin__target">
-          Objectif : {formatTarget(targetDose, unit)}
+        <span className="timer-checkin__target">
+          Durée cible : {formatTarget(targetDose, unit)}
         </span>
+        {isOvertime && (
+          <span className="timer-checkin__overtime-label" role="status" aria-live="polite">
+            Dépassement de {formatTime(-remainingSeconds)}
+          </span>
+        )}
       </div>
 
       {/* Barre de progression */}
       <div
-        className="stopwatch-checkin__progress"
+        className="timer-checkin__progress"
         role="progressbar"
         aria-valuenow={progress}
         aria-valuemin={0}
         aria-valuemax={100}
       >
         <div
-          className={`stopwatch-checkin__progress-bar ${isTargetReached ? 'stopwatch-checkin__progress-bar--reached' : ''} ${isExceeded ? 'stopwatch-checkin__progress-bar--exceeded' : ''}`}
+          className={`timer-checkin__progress-bar ${isTargetReached ? 'timer-checkin__progress-bar--reached' : ''}`}
           style={{ width: `${progress}%` }}
         />
       </div>
 
       {/* Boutons de contrôle */}
-      <div className="stopwatch-checkin__controls">
+      <div className="timer-checkin__controls">
         {!isRunning ? (
           <Button
             variant="primary"
             onClick={start}
             disabled={disabled}
-            aria-label={hasStarted ? 'Reprendre le chronomètre' : 'Démarrer le chronomètre'}
-            className="stopwatch-checkin__btn stopwatch-checkin__btn--play"
+            aria-label={hasStarted ? 'Reprendre la minuterie' : 'Démarrer la minuterie'}
+            className="timer-checkin__btn timer-checkin__btn--play"
           >
             {hasStarted ? '▶ Reprendre' : '▶ Démarrer'}
           </Button>
@@ -185,13 +208,13 @@ function StopwatchCheckIn({
             onClick={pause}
             disabled={disabled}
             aria-label="Mettre en pause"
-            className="stopwatch-checkin__btn stopwatch-checkin__btn--pause"
+            className="timer-checkin__btn timer-checkin__btn--pause"
           >
             ⏸ Pause
           </Button>
         )}
 
-        <div className="stopwatch-checkin__secondary">
+        <div className="timer-checkin__secondary">
           {hasStarted && (
             <>
               <Button
@@ -199,7 +222,7 @@ function StopwatchCheckIn({
                 onClick={stop}
                 disabled={disabled}
                 aria-label="Arrêter et enregistrer"
-                className="stopwatch-checkin__btn stopwatch-checkin__btn--stop"
+                className="timer-checkin__btn timer-checkin__btn--stop"
               >
                 ⏹ {isTargetReached ? 'Valider ✓' : 'Valider'}
               </Button>
@@ -208,8 +231,8 @@ function StopwatchCheckIn({
                 size="small"
                 onClick={reset}
                 disabled={disabled}
-                aria-label="Réinitialiser le chronomètre"
-                className="stopwatch-checkin__btn stopwatch-checkin__btn--reset"
+                aria-label="Réinitialiser la minuterie"
+                className="timer-checkin__btn timer-checkin__btn--reset"
               >
                 Réinitialiser
               </Button>
@@ -219,13 +242,22 @@ function StopwatchCheckIn({
       </div>
 
       {/* Message d'encouragement */}
-      {isTargetReached && (
-        <div className="stopwatch-checkin__message" role="status" aria-live="polite">
+      {isTargetReached && !isOvertime && (
+        <div className="timer-checkin__message" role="status" aria-live="polite">
           🎉 Objectif atteint !
+        </div>
+      )}
+      {isOvertime && (
+        <div
+          className="timer-checkin__message timer-checkin__message--overtime"
+          role="status"
+          aria-live="polite"
+        >
+          🔥 Tu dépasses l'objectif !
         </div>
       )}
     </div>
   )
 }
 
-export default StopwatchCheckIn
+export default TimerCheckIn

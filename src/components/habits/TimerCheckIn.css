@@ -1,0 +1,212 @@
+/**
+ * TimerCheckIn Component Styles
+ * Widget minuterie (compte à rebours) pour les habitudes basées sur le temps
+ */
+
+.timer-checkin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-4);
+}
+
+/* ============================================================================
+   AFFICHAGE DU TEMPS
+   ============================================================================ */
+
+.timer-checkin__display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4) var(--spacing-6);
+  border-radius: var(--radius-lg);
+  background-color: var(--neutral-50);
+  border: 2px solid var(--neutral-200);
+  transition:
+    background-color var(--duration-normal) var(--easing-gentle),
+    border-color var(--duration-normal) var(--easing-gentle);
+}
+
+.timer-checkin__display--running {
+  background-color: var(--primary-50);
+  border-color: var(--primary-300);
+}
+
+.timer-checkin__display--reached {
+  background-color: var(--success-50);
+  border-color: var(--success-400);
+}
+
+.timer-checkin__display--overtime {
+  background-color: var(--primary-50);
+  border-color: var(--primary-400);
+}
+
+.timer-checkin__time {
+  font-family: var(--font-body);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--neutral-900);
+  letter-spacing: 0.05em;
+}
+
+.timer-checkin__display--running .timer-checkin__time {
+  color: var(--primary-700);
+}
+
+.timer-checkin__display--reached .timer-checkin__time {
+  color: var(--success-700);
+}
+
+/* Dépassement en orange (pas rouge - respecte design system) */
+.timer-checkin__time--overtime {
+  color: var(--primary-500);
+}
+
+.timer-checkin__target {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+}
+
+.timer-checkin__overtime-label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--primary-600);
+  margin-top: var(--spacing-1);
+}
+
+/* ============================================================================
+   BARRE DE PROGRESSION
+   ============================================================================ */
+
+.timer-checkin__progress {
+  width: 100%;
+  max-width: 280px;
+  height: 8px;
+  background-color: var(--neutral-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.timer-checkin__progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-400), var(--primary-500));
+  border-radius: var(--radius-full);
+  transition: width var(--duration-fast) linear;
+}
+
+.timer-checkin__progress-bar--reached {
+  background: linear-gradient(90deg, var(--success-400), var(--success-500));
+}
+
+/* ============================================================================
+   CONTRÔLES
+   ============================================================================ */
+
+.timer-checkin__controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  width: 100%;
+  max-width: 280px;
+}
+
+.timer-checkin__btn {
+  width: 100%;
+}
+
+.timer-checkin__btn--play,
+.timer-checkin__btn--pause {
+  min-height: 48px;
+  font-size: var(--text-lg);
+}
+
+.timer-checkin__secondary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  width: 100%;
+}
+
+.timer-checkin__btn--stop {
+  min-height: 44px;
+}
+
+.timer-checkin__btn--reset {
+  color: var(--neutral-500);
+}
+
+.timer-checkin__btn--reset:hover {
+  color: var(--neutral-700);
+}
+
+/* ============================================================================
+   MESSAGES D'ENCOURAGEMENT
+   ============================================================================ */
+
+.timer-checkin__message {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--success-600);
+  padding: var(--spacing-2) var(--spacing-4);
+  background-color: var(--success-50);
+  border-radius: var(--radius-md);
+  animation: fadeInUp var(--duration-normal) var(--easing-gentle);
+}
+
+.timer-checkin__message--overtime {
+  color: var(--primary-600);
+  background-color: var(--primary-50);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================================
+   ANIMATION DU TIMER EN COURS
+   ============================================================================ */
+
+.timer-checkin__display--running .timer-checkin__time {
+  animation: timerPulse 2s ease-in-out infinite;
+}
+
+@keyframes timerPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 380px) {
+  .timer-checkin__time {
+    font-size: var(--text-3xl);
+  }
+
+  .timer-checkin__controls {
+    max-width: 100%;
+  }
+}

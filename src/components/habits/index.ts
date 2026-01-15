@@ -77,3 +77,6 @@ export type { StopwatchCheckInProps } from './StopwatchCheckIn'
 
 export { default as SliderCheckIn } from './SliderCheckIn'
 export type { SliderCheckInProps } from './SliderCheckIn'
+
+export { default as TimerCheckIn } from './TimerCheckIn'
+export type { TimerCheckInProps } from './TimerCheckIn'

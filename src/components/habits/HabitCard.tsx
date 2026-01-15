@@ -10,6 +10,7 @@ import SimpleCheckIn from './SimpleCheckIn'
 import CumulativeHistory from './CumulativeHistory'
 import CumulativeCheckIn from './CumulativeCheckIn'
 import StopwatchCheckIn from './StopwatchCheckIn'
+import TimerCheckIn from './TimerCheckIn'
 import SliderCheckIn from './SliderCheckIn'
 import './HabitCard.css'
 
@@ -251,6 +252,17 @@ function HabitCard({
       ) : habit.trackingMode === 'stopwatch' && date ? (
         // Mode chronomètre
         <StopwatchCheckIn
+          habitId={habit.id}
+          date={date}
+          targetDose={targetDose}
+          unit={habit.unit === 'minutes' || habit.unit === 'min' ? 'minutes' : 'seconds'}
+          currentValue={currentValue}
+          onCheckIn={handleCheckIn}
+          notifyOnTarget={habit.notifyOnTarget}
+        />
+      ) : habit.trackingMode === 'timer' && date ? (
+        // Mode minuterie (compte à rebours)
+        <TimerCheckIn
           habitId={habit.id}
           date={date}
           targetDose={targetDose}
