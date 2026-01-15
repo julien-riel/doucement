@@ -1,4 +1,4 @@
-import { test, expect } from './base-test'
+import { test, expect, Page } from './base-test'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -7,6 +7,29 @@ import * as path from 'path'
  * Vérifie la navigation, le changement de période, l'affichage des graphiques
  * et l'état vide
  */
+
+/**
+ * Close all celebration modals that may appear
+ * The statistics page can show multiple milestones in sequence
+ */
+async function closeAllCelebrationModals(page: Page): Promise<void> {
+  await page.waitForTimeout(500)
+  const dialog = page.getByRole('dialog')
+  // Loop to close multiple celebration modals
+  for (let i = 0; i < 10; i++) {
+    if (await dialog.isVisible().catch(() => false)) {
+      const continueBtn = page.getByRole('button', { name: 'Continuer' })
+      if (await continueBtn.isVisible().catch(() => false)) {
+        await continueBtn.click()
+        await page.waitForTimeout(200)
+      } else {
+        break
+      }
+    } else {
+      break
+    }
+  }
+}
 
 test.describe('Page Statistiques', () => {
   test.describe('Navigation et accès', () => {
@@ -59,14 +82,8 @@ test.describe('Page Statistiques', () => {
       // Attendre que la page soit chargée (le tablist est visible)
       await expect(page.getByRole('tablist', { name: /période d'affichage/i })).toBeVisible()
 
-      // Fermer la modale de célébration si elle apparaît (attendre un peu plus)
-      const celebrationModal = page.locator('[role="dialog"][aria-modal="true"].celebration-overlay')
-      // Attendre un moment pour que les useEffects se terminent
-      await page.waitForTimeout(500)
-      if (await celebrationModal.isVisible().catch(() => false)) {
-        await page.getByRole('button', { name: 'Continuer' }).click()
-        await expect(celebrationModal).not.toBeVisible()
-      }
+      // Fermer les modales de célébration si elles apparaissent
+      await closeAllCelebrationModals(page)
 
       // Vérifier que les éléments principaux sont présents
       await expect(page.getByRole('heading', { name: 'Mes statistiques' })).toBeVisible()
@@ -100,17 +117,12 @@ test.describe('Page Statistiques', () => {
 
       await page.goto('/statistics')
 
-      // Attendre que la page soit chargée (le tablist est visible)
-      await expect(page.getByRole('tablist', { name: /période d'affichage/i })).toBeVisible()
+      // Fermer les modales de célébration si elles apparaissent
+      await closeAllCelebrationModals(page)
 
-      // Fermer la modale de célébration si elle apparaît (attendre un peu plus)
-      const celebrationModal = page.locator('[role="dialog"][aria-modal="true"].celebration-overlay')
-      // Attendre un moment pour que les useEffects se terminent
-      await page.waitForTimeout(500)
-      if (await celebrationModal.isVisible().catch(() => false)) {
-        await page.getByRole('button', { name: 'Continuer' }).click()
-        await expect(celebrationModal).not.toBeVisible()
-      }
+      // Attendre que la page soit complètement chargée avec les statistiques
+      // Le tablist n'est visible que si on a assez de données
+      await expect(page.getByRole('tablist', { name: /période d'affichage/i })).toBeVisible({ timeout: 10000 })
     })
 
     test('changement de période Semaine', async ({ page }) => {
@@ -184,14 +196,8 @@ test.describe('Page Statistiques', () => {
       // Attendre que la page soit chargée (le tablist est visible)
       await expect(page.getByRole('tablist', { name: /période d'affichage/i })).toBeVisible()
 
-      // Fermer la modale de célébration si elle apparaît (attendre un peu plus)
-      const celebrationModal = page.locator('[role="dialog"][aria-modal="true"].celebration-overlay')
-      // Attendre un moment pour que les useEffects se terminent
-      await page.waitForTimeout(500)
-      if (await celebrationModal.isVisible().catch(() => false)) {
-        await page.getByRole('button', { name: 'Continuer' }).click()
-        await expect(celebrationModal).not.toBeVisible()
-      }
+      // Fermer les modales de célébration si elles apparaissent
+      await closeAllCelebrationModals(page)
     })
 
     test('affiche le graphique de progression', async ({ page }) => {
@@ -248,10 +254,11 @@ test.describe('Page Statistiques', () => {
     test('affiche un message quand aucune habitude', async ({ page }) => {
       await page.addInitScript(() => {
         localStorage.clear()
+        localStorage.setItem('doucement-language', 'fr')
         localStorage.setItem(
           'doucement_data',
           JSON.stringify({
-            schemaVersion: 9,
+            schemaVersion: 10,
             habits: [],
             entries: [],
             preferences: { onboardingCompleted: true },
@@ -270,14 +277,17 @@ test.describe('Page Statistiques', () => {
 
     test('affiche un message quand pas assez de données', async ({ page }) => {
       // Créer une habitude avec seulement 1 entrée (en dessous du minimum de 3)
-      const today = new Date().toISOString().split('T')[0]
+      // IMPORTANT: Utiliser la date locale (pas UTC via toISOString) car l'app utilise des dates locales
+      const now = new Date()
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
       await page.addInitScript(
         (currentDate) => {
           localStorage.clear()
+          localStorage.setItem('doucement-language', 'fr')
           localStorage.setItem(
             'doucement_data',
             JSON.stringify({
-              schemaVersion: 9,
+              schemaVersion: 10,
               habits: [
                 {
                   id: 'habit-test',

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 10,
   "habits": [
     {
       "id": "habit-pushups-full",
@@ -172,7 +172,22 @@
     {"id": "f47", "habitId": "habit-meditation-full", "date": "2026-01-09", "targetDose": 14, "actualValue": 18, "createdAt": "2026-01-09T07:15:00Z", "updatedAt": "2026-01-09T07:15:00Z"},
     {"id": "f48", "habitId": "habit-sugar-full", "date": "2026-01-09", "targetDose": 1, "actualValue": 0, "createdAt": "2026-01-09T20:00:00Z", "updatedAt": "2026-01-09T20:00:00Z"},
     {"id": "f49", "habitId": "habit-reading-full", "date": "2026-01-09", "targetDose": 18, "actualValue": 22, "createdAt": "2026-01-09T22:00:00Z", "updatedAt": "2026-01-09T22:00:00Z"},
-    {"id": "f50", "habitId": "habit-water-full", "date": "2026-01-09", "targetDose": 8, "actualValue": 8, "createdAt": "2026-01-09T21:00:00Z", "updatedAt": "2026-01-09T21:00:00Z"}
+    {"id": "f50", "habitId": "habit-water-full", "date": "2026-01-09", "targetDose": 8, "actualValue": 8, "createdAt": "2026-01-09T21:00:00Z", "updatedAt": "2026-01-09T21:00:00Z"},
+    {"id": "f51", "habitId": "habit-pushups-full", "date": "2026-01-12", "targetDose": 20, "actualValue": 34, "createdAt": "2026-01-12T07:00:00Z", "updatedAt": "2026-01-12T07:00:00Z"},
+    {"id": "f52", "habitId": "habit-meditation-full", "date": "2026-01-12", "targetDose": 15, "actualValue": 18, "createdAt": "2026-01-12T07:15:00Z", "updatedAt": "2026-01-12T07:15:00Z"},
+    {"id": "f53", "habitId": "habit-sugar-full", "date": "2026-01-12", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-12T20:00:00Z", "updatedAt": "2026-01-12T20:00:00Z"},
+    {"id": "f54", "habitId": "habit-reading-full", "date": "2026-01-12", "targetDose": 19, "actualValue": 25, "createdAt": "2026-01-12T22:00:00Z", "updatedAt": "2026-01-12T22:00:00Z"},
+    {"id": "f55", "habitId": "habit-water-full", "date": "2026-01-12", "targetDose": 8, "actualValue": 9, "createdAt": "2026-01-12T21:00:00Z", "updatedAt": "2026-01-12T21:00:00Z"},
+    {"id": "f56", "habitId": "habit-pushups-full", "date": "2026-01-13", "targetDose": 20, "actualValue": 35, "createdAt": "2026-01-13T07:00:00Z", "updatedAt": "2026-01-13T07:00:00Z"},
+    {"id": "f57", "habitId": "habit-meditation-full", "date": "2026-01-13", "targetDose": 15, "actualValue": 16, "createdAt": "2026-01-13T07:15:00Z", "updatedAt": "2026-01-13T07:15:00Z"},
+    {"id": "f58", "habitId": "habit-sugar-full", "date": "2026-01-13", "targetDose": 1, "actualValue": 0, "createdAt": "2026-01-13T20:00:00Z", "updatedAt": "2026-01-13T20:00:00Z"},
+    {"id": "f59", "habitId": "habit-reading-full", "date": "2026-01-13", "targetDose": 19, "actualValue": 24, "createdAt": "2026-01-13T22:00:00Z", "updatedAt": "2026-01-13T22:00:00Z"},
+    {"id": "f60", "habitId": "habit-water-full", "date": "2026-01-13", "targetDose": 8, "actualValue": 8, "createdAt": "2026-01-13T21:00:00Z", "updatedAt": "2026-01-13T21:00:00Z"},
+    {"id": "f61", "habitId": "habit-pushups-full", "date": "2026-01-14", "targetDose": 20, "actualValue": 36, "createdAt": "2026-01-14T07:00:00Z", "updatedAt": "2026-01-14T07:00:00Z"},
+    {"id": "f62", "habitId": "habit-meditation-full", "date": "2026-01-14", "targetDose": 15, "actualValue": 17, "createdAt": "2026-01-14T07:15:00Z", "updatedAt": "2026-01-14T07:15:00Z"},
+    {"id": "f63", "habitId": "habit-sugar-full", "date": "2026-01-14", "targetDose": 1, "actualValue": 1, "createdAt": "2026-01-14T20:00:00Z", "updatedAt": "2026-01-14T20:00:00Z"},
+    {"id": "f64", "habitId": "habit-reading-full", "date": "2026-01-14", "targetDose": 19, "actualValue": 22, "createdAt": "2026-01-14T22:00:00Z", "updatedAt": "2026-01-14T22:00:00Z"},
+    {"id": "f65", "habitId": "habit-water-full", "date": "2026-01-14", "targetDose": 8, "actualValue": 10, "createdAt": "2026-01-14T21:00:00Z", "updatedAt": "2026-01-14T21:00:00Z"}
   ],
   "preferences": {
     "onboardingCompleted": true,

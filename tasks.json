@@ -1,471 +1,419 @@
 {
-  "project": "Documentation Qualité Production",
-  "description": "Audit et amélioration de la documentation pour atteindre une couverture complète et une structure optimale",
+  "project": "Refactorisation E2E Doucement",
+  "description": "Migration complète des tests E2E vers fixtures centralisées et réactivation des tests skippés",
   "createdAt": "2026-01-14",
-  "lastRelease": "1.27.3",
+  "lastRelease": "1.26.1",
   "docs": [
-    "docs/prd-documentation-audit.md",
-    "docs/prd.md",
-    "docs/coherence-matrix.md"
+    "docs/prd-e2e-refactoring.md",
+    "e2e/SKIPPED_TESTS.md",
+    "e2e/fixtures/index.ts"
   ],
   "phases": [
     {
-      "id": "phase-1-structure",
-      "name": "Structure et nettoyage",
-      "description": "Réorganiser les fichiers, créer la structure cible, consolider la doc tests",
+      "id": "phase-1-features",
+      "name": "Implémentation fonctionnalités manquantes",
+      "description": "Implémenter les fonctionnalités UI nécessaires pour réactiver les tests skippés",
       "status": "completed",
-      "releaseType": "patch",
-      "releasedAs": "1.26.2",
-      "releasedAt": "2026-01-14",
+      "releaseType": "minor",
       "tasks": [
         {
           "id": "1.1",
-          "name": "Déplacer fichiers orphelins",
-          "description": "Déplacer fonctionnalités-souhaitées.md vers docs/archive/backlog/ et sources.md vers docs/",
+          "name": "Habit stacking visuel sur Today",
+          "description": "Grouper visuellement les habitudes chaînées via anchorHabitId. Utiliser les classes CSS existantes .today__habit-chain--connected et .today__habit-wrapper--chained",
           "status": "completed",
-          "completedAt": "2026-01-14",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": [],
-          "files": [
-            "fonctionnalités-souhaitées.md",
-            "sources.md"
-          ],
-          "tests": [],
+          "files": ["src/pages/Today.tsx", "src/pages/Today.css"],
+          "tests": ["e2e/habit-stacking.spec.ts"],
           "acceptance": [
-            "fonctionnalités-souhaitées.md dans docs/archive/backlog/",
-            "sources.md dans docs/",
-            "Aucun fichier .md orphelin à la racine (sauf README, CONTRIBUTING, CLAUDE)"
+            "Les habitudes avec anchorHabitId sont visuellement reliées",
+            "L'habitude ancre apparaît en premier de la chaîne",
+            "Une indication visuelle montre le lien entre habitudes"
           ]
         },
         {
           "id": "1.2",
-          "name": "Créer structure docs/features/",
-          "description": "Créer le répertoire docs/features/ avec fichiers vides pour chaque guide",
+          "name": "Regroupement par moment de la journée",
+          "description": "Afficher les habitudes groupées par timeOfDay (matin/après-midi/soir/nuit) en utilisant TimeOfDaySection existant",
           "status": "completed",
-          "completedAt": "2026-01-14",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": [],
-          "files": [
-            "docs/features/habit-stacking.md",
-            "docs/features/tracking-modes.md",
-            "docs/features/weekly-habits.md",
-            "docs/features/milestones.md",
-            "docs/features/planned-pause.md",
-            "docs/features/statistics-export.md",
-            "docs/features/pattern-analysis.md"
-          ],
-          "tests": [],
+          "files": ["src/pages/Today.tsx"],
+          "tests": ["e2e/habits-display.spec.ts"],
           "acceptance": [
-            "Répertoire docs/features/ créé",
-            "7 fichiers .md créés avec structure de base"
+            "Sections : Matin, Après-midi, Soir, Nuit visibles",
+            "Habitudes correctement triées par moment",
+            "Sections vides automatiquement masquées"
           ]
         },
         {
           "id": "1.3",
-          "name": "Consolider documentation tests",
-          "description": "Créer docs/testing/strategy.md en consolidant les sections dispersées, déplacer test-data.md et debug-mode.md",
+          "name": "Historique saisies cumulatives avec undo",
+          "description": "Ajouter un composant pour voir et annuler les saisies cumulatives individuelles dans HabitCard",
           "status": "completed",
-          "completedAt": "2026-01-14",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": [],
-          "files": [
-            "docs/testing/strategy.md",
-            "docs/testing/test-data.md",
-            "docs/testing/debug-mode.md"
-          ],
-          "tests": [],
+          "files": ["src/components/habits/HabitCard.tsx", "src/components/habits/CumulativeHistory.tsx"],
+          "tests": ["e2e/habit-modification.spec.ts"],
           "acceptance": [
-            "docs/testing/ créé avec 3 fichiers",
-            "strategy.md consolide README + CONTRIBUTING + CLAUDE sections tests",
-            "Anciennes sections dans README/CONTRIBUTING référencent docs/testing/"
+            "Historique des saisies du jour visible",
+            "Bouton d'annulation par saisie",
+            "Mise à jour immédiate après annulation"
           ]
         }
       ]
     },
     {
-      "id": "phase-2-glossary-arch",
-      "name": "Glossaire et Architecture",
-      "description": "Créer le glossaire des termes et la documentation d'architecture avec diagrammes",
+      "id": "phase-2-page-objects",
+      "name": "Page Objects additionnels",
+      "description": "Créer les Page Objects manquants pour faciliter la migration",
       "status": "completed",
       "releaseType": "patch",
-      "releasedAs": "1.26.3",
-      "releasedAt": "2026-01-14",
       "tasks": [
         {
           "id": "2.1",
-          "name": "Créer GLOSSARY.md",
-          "description": "Documenter tous les termes techniques : entryMode, trackingMode, weeklyAggregationMode, anchorHabitId, progressionConfig, etc.",
+          "name": "CreateHabitPage Page Object",
+          "description": "Page Object pour le wizard de création d'habitude avec méthodes pour chaque étape",
           "status": "completed",
-          "completedAt": "2026-01-14",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": [],
-          "files": [
-            "docs/GLOSSARY.md"
-          ],
+          "files": ["e2e/fixtures/pages/CreateHabitPage.ts", "e2e/fixtures/pages/index.ts"],
           "tests": [],
           "acceptance": [
-            "Tous les enums et types clés documentés",
-            "Distinction claire entre termes similaires",
-            "Exemples pour chaque terme"
+            "Méthodes pour naviguer entre les 7 étapes du wizard",
+            "Méthodes pour remplir les champs de chaque étape",
+            "Export depuis fixtures/index.ts"
           ]
         },
         {
           "id": "2.2",
-          "name": "Créer ARCHITECTURE.md",
-          "description": "Documenter l'architecture avec diagrammes Mermaid : flux de données, cycle de vie habitude, structure composants",
+          "name": "StatisticsPage Page Object",
+          "description": "Page Object pour la page statistiques avec sélecteur de période et graphiques",
           "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "high",
+          "completedAt": "2026-01-15",
+          "priority": "medium",
           "dependsOn": [],
-          "files": [
-            "docs/ARCHITECTURE.md"
-          ],
+          "files": ["e2e/fixtures/pages/StatisticsPage.ts", "e2e/fixtures/pages/index.ts"],
           "tests": [],
           "acceptance": [
-            "Diagramme flux de données (localStorage → hooks → components)",
-            "Diagramme cycle de vie d'une habitude",
-            "Diagramme structure des services",
-            "Compatible GitHub markdown (Mermaid natif)"
+            "Méthodes pour sélectionner la période",
+            "Méthodes pour vérifier les graphiques",
+            "Méthodes pour fermer les modales de célébration"
+          ]
+        },
+        {
+          "id": "2.3",
+          "name": "WeeklyReviewPage Page Object",
+          "description": "Page Object pour la page de revue hebdomadaire",
+          "status": "completed",
+          "completedAt": "2026-01-15",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": ["e2e/fixtures/pages/WeeklyReviewPage.ts", "e2e/fixtures/pages/index.ts"],
+          "tests": [],
+          "acceptance": [
+            "Méthodes pour naviguer dans la revue",
+            "Méthodes pour vérifier les statistiques",
+            "Méthodes pour saisir une réflexion"
           ]
         }
       ]
     },
     {
-      "id": "phase-3-features",
-      "name": "Guides fonctionnalités",
-      "description": "Rédiger les 7 guides de fonctionnalités avancées",
-      "status": "completed",
-      "completedAt": "2026-01-14",
-      "releaseType": "minor",
-      "releasedAs": "1.27.0",
-      "releasedAt": "2026-01-14",
+      "id": "phase-3-migration-high",
+      "name": "Migration specs haute priorité",
+      "description": "Migrer les 5 specs avec le plus de duplication",
+      "status": "in_progress",
+      "releaseType": "patch",
       "tasks": [
         {
           "id": "3.1",
-          "name": "Guide habit-stacking.md",
-          "description": "Documenter le chaînage d'habitudes : concept, anchorHabitId, affichage visuel, cas d'usage",
+          "name": "Migrer habit-modification.spec.ts",
+          "description": "Remplacer les données inline par createAppData/createHabit, utiliser setupLocalStorage",
           "status": "completed",
-          "completedAt": "2026-01-14",
+          "completedAt": "2026-01-15",
           "priority": "high",
-          "dependsOn": ["1.2"],
-          "files": [
-            "docs/features/habit-stacking.md"
-          ],
-          "tests": [],
+          "dependsOn": ["1.3"],
+          "files": ["e2e/habit-modification.spec.ts"],
+          "tests": ["e2e/habit-modification.spec.ts"],
           "acceptance": [
-            "Concept expliqué clairement",
-            "Structure de données documentée",
-            "Exemples concrets"
+            "Aucune donnée de test inline",
+            "Utilise setupLocalStorage",
+            "Tests skippés réactivés si 1.3 complété"
           ]
         },
         {
           "id": "3.2",
-          "name": "Guide tracking-modes.md",
-          "description": "Documenter les 3 modes de tracking (simple/detailed/counter) et les 2 modes d'entrée (replace/cumulative)",
+          "name": "Migrer habit-increase-weekly.spec.ts",
+          "description": "Utiliser createWeeklyHabit et setupLocalStorage",
           "status": "completed",
-          "completedAt": "2026-01-14",
+          "completedAt": "2026-01-15",
           "priority": "high",
-          "dependsOn": ["1.2"],
-          "files": [
-            "docs/features/tracking-modes.md"
-          ],
-          "tests": [],
+          "dependsOn": [],
+          "files": ["e2e/habit-increase-weekly.spec.ts"],
+          "tests": ["e2e/habit-increase-weekly.spec.ts"],
           "acceptance": [
-            "Différence entre trackingMode et entryMode claire",
-            "Cas d'usage pour chaque mode",
-            "Tableau comparatif"
+            "Utilise createWeeklyHabit factory",
+            "SchemaVersion 10 partout",
+            "Tous les tests passent"
           ]
         },
         {
           "id": "3.3",
-          "name": "Guide weekly-habits.md",
-          "description": "Documenter les habitudes hebdomadaires : trackingFrequency, weeklyAggregationMode (count-days vs sum-units)",
+          "name": "Migrer habit-counter.spec.ts",
+          "description": "Utiliser createCounterHabit et setupLocalStorage",
           "status": "completed",
-          "completedAt": "2026-01-14",
+          "completedAt": "2026-01-15",
           "priority": "high",
-          "dependsOn": ["1.2"],
-          "files": [
-            "docs/features/weekly-habits.md"
-          ],
-          "tests": [],
+          "dependsOn": [],
+          "files": ["e2e/habit-counter.spec.ts"],
+          "tests": ["e2e/habit-counter.spec.ts"],
           "acceptance": [
-            "Différence hebdo vs quotidien expliquée",
-            "Modes d'agrégation documentés",
-            "Calcul de progression expliqué"
+            "Utilise createCounterHabit factory",
+            "Aucune donnée inline",
+            "Tous les tests passent"
           ]
         },
         {
           "id": "3.4",
-          "name": "Guide milestones.md",
-          "description": "Documenter le système de célébrations : seuils 25/50/75/100%, détection, célébration, persistance",
-          "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "medium",
-          "dependsOn": ["1.2"],
-          "files": [
-            "docs/features/milestones.md"
-          ],
-          "tests": [],
+          "name": "Migrer celebrations.spec.ts",
+          "description": "Utiliser les fixtures et closeCelebrationModalIfVisible helper",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["2.2"],
+          "files": ["e2e/celebrations.spec.ts"],
+          "tests": ["e2e/celebrations.spec.ts"],
           "acceptance": [
-            "Algorithme de détection expliqué",
-            "Structure celebratedMilestones documentée",
-            "Comportement UI décrit"
+            "Utilise StatisticsPage si pertinent",
+            "Utilise closeCelebrationModalIfVisible",
+            "Tous les tests passent"
           ]
         },
         {
           "id": "3.5",
-          "name": "Guide planned-pause.md",
-          "description": "Documenter les pauses planifiées : création, comportement pendant pause, reprise",
-          "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "medium",
-          "dependsOn": ["1.2"],
-          "files": [
-            "docs/features/planned-pause.md"
-          ],
-          "tests": [],
+          "name": "Migrer statistics.spec.ts",
+          "description": "Utiliser StatisticsPage Page Object et fixtures",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["2.2"],
+          "files": ["e2e/statistics.spec.ts"],
+          "tests": ["e2e/statistics.spec.ts"],
           "acceptance": [
-            "Champs plannedPause documentés",
-            "Impact sur calculs de progression",
-            "Différence avec archivage"
-          ]
-        },
-        {
-          "id": "3.6",
-          "name": "Guide statistics-export.md",
-          "description": "Documenter les exports : PNG (charts), PDF (rapport), JSON (données)",
-          "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "medium",
-          "dependsOn": ["1.2"],
-          "files": [
-            "docs/features/statistics-export.md"
-          ],
-          "tests": [],
-          "acceptance": [
-            "3 formats documentés",
-            "Services utilisés (exportImage, exportPdf)",
-            "Limitations connues"
-          ]
-        },
-        {
-          "id": "3.7",
-          "name": "Guide pattern-analysis.md",
-          "description": "Documenter l'analyse de patterns : meilleurs jours, meilleures heures, algorithmes",
-          "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "low",
-          "dependsOn": ["1.2"],
-          "files": [
-            "docs/features/pattern-analysis.md"
-          ],
-          "tests": [],
-          "acceptance": [
-            "Algorithme patternAnalysis.ts expliqué",
-            "Seuil minimum de données",
-            "Affichage dans WeeklyReview"
+            "Utilise StatisticsPage Page Object",
+            "Aucune donnée inline",
+            "Tous les tests passent"
           ]
         }
       ]
     },
     {
-      "id": "phase-4-user-guide",
-      "name": "Guide utilisateur enrichi",
-      "description": "Enrichir guide-utilisateur.md avec les fonctionnalités avancées",
-      "status": "completed",
-      "completedAt": "2026-01-14",
+      "id": "phase-4-migration-medium",
+      "name": "Migration specs moyenne priorité",
+      "description": "Migrer les 5 specs suivants",
+      "status": "pending",
       "releaseType": "patch",
-      "releasedAs": "1.27.1",
-      "releasedAt": "2026-01-14",
       "tasks": [
         {
           "id": "4.1",
-          "name": "Enrichir guide-utilisateur.md",
-          "description": "Ajouter sections : modes de tracking, habitudes hebdo, pauses, chaînage, milestones, exports",
-          "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "high",
-          "dependsOn": ["3.1", "3.2", "3.3", "3.4", "3.5", "3.6"],
-          "files": [
-            "docs/comm/guide-utilisateur.md"
-          ],
-          "tests": [],
-          "acceptance": [
-            "Toutes les fonctionnalités avancées couvertes",
-            "Langage accessible (non technique)",
-            "Cohérent avec banque-messages.md"
-          ]
+          "name": "Migrer habit-maintain.spec.ts",
+          "description": "Utiliser createMaintainHabit factory",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": ["e2e/habit-maintain.spec.ts"],
+          "tests": ["e2e/habit-maintain.spec.ts"],
+          "acceptance": ["Utilise createMaintainHabit", "Tous les tests passent"]
+        },
+        {
+          "id": "4.2",
+          "name": "Migrer habit-decrease-zero.spec.ts",
+          "description": "Utiliser createDecreaseHabit factory avec targetValue: 0",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": ["e2e/habit-decrease-zero.spec.ts"],
+          "tests": ["e2e/habit-decrease-zero.spec.ts"],
+          "acceptance": ["Utilise createDecreaseHabit", "Tous les tests passent"]
+        },
+        {
+          "id": "4.3",
+          "name": "Migrer habit-decrease-daily.spec.ts",
+          "description": "Utiliser createDecreaseHabit factory",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": ["e2e/habit-decrease-daily.spec.ts"],
+          "tests": ["e2e/habit-decrease-daily.spec.ts"],
+          "acceptance": ["Utilise createDecreaseHabit", "Tous les tests passent"]
+        },
+        {
+          "id": "4.4",
+          "name": "Migrer habit-increase-daily.spec.ts",
+          "description": "Utiliser createIncreaseHabit factory",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": ["e2e/habit-increase-daily.spec.ts"],
+          "tests": ["e2e/habit-increase-daily.spec.ts"],
+          "acceptance": ["Utilise createIncreaseHabit", "Tous les tests passent"]
+        },
+        {
+          "id": "4.5",
+          "name": "Migrer onboarding.spec.ts",
+          "description": "Utiliser createFreshAppData et setupFreshLocalStorage",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": ["e2e/onboarding.spec.ts"],
+          "tests": ["e2e/onboarding.spec.ts"],
+          "acceptance": ["Utilise createFreshAppData", "Tous les tests passent"]
         }
       ]
     },
     {
-      "id": "phase-5-technical",
-      "name": "Documentation technique",
-      "description": "Ajouter JSDoc aux services clés",
-      "status": "completed",
-      "completedAt": "2026-01-14",
+      "id": "phase-5-migration-low",
+      "name": "Migration specs basse priorité",
+      "description": "Migrer les specs restants et réactiver tests skippés",
+      "status": "pending",
       "releaseType": "patch",
-      "releasedAs": "1.27.2",
-      "releasedAt": "2026-01-14",
       "tasks": [
         {
           "id": "5.1",
-          "name": "JSDoc progression.ts",
-          "description": "Ajouter JSDoc complet au service de progression : calculateTargetDose, getCompletionStatus, etc.",
-          "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "high",
-          "dependsOn": [],
-          "files": [
-            "src/services/progression.ts"
-          ],
-          "tests": [],
-          "acceptance": [
-            "Toutes les fonctions exportées documentées",
-            "Paramètres et retours typés dans JSDoc",
-            "Exemples pour fonctions complexes"
-          ]
+          "name": "Migrer create-habit.spec.ts",
+          "description": "Utiliser CreateHabitPage Page Object",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["2.1"],
+          "files": ["e2e/create-habit.spec.ts"],
+          "tests": ["e2e/create-habit.spec.ts"],
+          "acceptance": ["Utilise CreateHabitPage", "Tous les tests passent"]
         },
         {
           "id": "5.2",
-          "name": "JSDoc statistics.ts",
-          "description": "Ajouter JSDoc au service de statistiques",
-          "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "high",
-          "dependsOn": [],
-          "files": [
-            "src/services/statistics.ts"
-          ],
-          "tests": [],
-          "acceptance": [
-            "Toutes les fonctions exportées documentées",
-            "Algorithmes complexes expliqués"
-          ]
+          "name": "Migrer weekly-review.spec.ts",
+          "description": "Utiliser WeeklyReviewPage et createWeeklyReviewDueData",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["2.3"],
+          "files": ["e2e/weekly-review.spec.ts"],
+          "tests": ["e2e/weekly-review.spec.ts"],
+          "acceptance": ["Utilise WeeklyReviewPage", "Tous les tests passent"]
         },
         {
           "id": "5.3",
-          "name": "JSDoc storage.ts",
-          "description": "Ajouter JSDoc au service de stockage",
-          "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "medium",
+          "name": "Migrer planned-pause.spec.ts",
+          "description": "Utiliser createPlannedPauseData factory",
+          "status": "pending",
+          "priority": "low",
           "dependsOn": [],
-          "files": [
-            "src/services/storage.ts"
-          ],
-          "tests": [],
-          "acceptance": [
-            "Gestion d'erreurs documentée",
-            "Format de données expliqué"
-          ]
+          "files": ["e2e/planned-pause.spec.ts"],
+          "tests": ["e2e/planned-pause.spec.ts"],
+          "acceptance": ["Utilise createPlannedPauseData", "Tous les tests passent"]
         },
         {
           "id": "5.4",
-          "name": "Mettre à jour coherence-matrix.md",
-          "description": "Vérifier et compléter la matrice de cohérence avec les nouveaux termes du glossaire",
-          "status": "completed",
-          "completedAt": "2026-01-14",
+          "name": "Migrer i18n.spec.ts",
+          "description": "Utiliser setupLocalStorage et fixtures",
+          "status": "pending",
           "priority": "low",
-          "dependsOn": ["2.1"],
+          "dependsOn": [],
+          "files": ["e2e/i18n.spec.ts"],
+          "tests": ["e2e/i18n.spec.ts"],
+          "acceptance": ["Utilise setupLocalStorage", "Tous les tests passent"]
+        },
+        {
+          "id": "5.5",
+          "name": "Migrer autres specs",
+          "description": "Migrer suggestion-filters, habits-display, habit-weekly-aggregation, goal-reached, growth-plateau, absence-detection, habit-decrease-no-stacking",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["1.1", "1.2"],
           "files": [
-            "docs/coherence-matrix.md"
+            "e2e/suggestion-filters.spec.ts",
+            "e2e/habits-display.spec.ts",
+            "e2e/habit-weekly-aggregation.spec.ts",
+            "e2e/goal-reached.spec.ts",
+            "e2e/growth-plateau.spec.ts",
+            "e2e/absence-detection.spec.ts",
+            "e2e/habit-decrease-no-stacking.spec.ts"
           ],
           "tests": [],
           "acceptance": [
-            "Tous les types documentés",
-            "Références croisées avec GLOSSARY.md"
+            "Tous les specs utilisent fixtures centralisées",
+            "Tests skippés dans habits-display réactivés",
+            "Tous les tests passent"
           ]
+        },
+        {
+          "id": "5.6",
+          "name": "Réactiver habit-stacking.spec.ts",
+          "description": "Supprimer le skip et ajuster les tests après implémentation 1.1",
+          "status": "completed",
+          "completedAt": "2026-01-15",
+          "priority": "low",
+          "dependsOn": ["1.1"],
+          "files": ["e2e/habit-stacking.spec.ts"],
+          "tests": ["e2e/habit-stacking.spec.ts"],
+          "acceptance": ["Plus de test.describe.skip", "Tous les tests passent"]
         }
       ]
     },
     {
-      "id": "phase-6-validation",
-      "name": "Validation finale",
-      "description": "Relecture, mise à jour des références, suppression duplications",
-      "status": "completed",
-      "completedAt": "2026-01-14",
+      "id": "phase-6-cleanup",
+      "name": "Nettoyage et validation finale",
+      "description": "Vérification finale, suppression documentation obsolète, validation complète",
+      "status": "pending",
       "releaseType": "patch",
-      "releasedAs": "1.27.3",
-      "releasedAt": "2026-01-14",
       "tasks": [
         {
           "id": "6.1",
-          "name": "Mettre à jour README.md",
-          "description": "Simplifier README, ajouter liens vers nouvelle documentation, supprimer duplications",
-          "status": "completed",
-          "completedAt": "2026-01-14",
+          "name": "Exécuter tous les tests E2E",
+          "description": "Lancer npm run test:e2e et corriger les éventuels échecs",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["4.1", "5.4"],
-          "files": [
-            "README.md"
-          ],
-          "tests": [],
-          "acceptance": [
-            "Liens vers docs/testing/ pour stratégie tests",
-            "Liens vers docs/features/ pour fonctionnalités",
-            "Pas de contenu dupliqué avec prd.md"
-          ]
+          "dependsOn": ["5.5", "5.6"],
+          "files": [],
+          "tests": ["e2e/**/*.spec.ts"],
+          "acceptance": ["Tous les tests passent", "Aucun test skippé"]
         },
         {
           "id": "6.2",
-          "name": "Mettre à jour CLAUDE.md",
-          "description": "Ajouter références vers nouvelle documentation, simplifier sections dupliquées",
-          "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "high",
-          "dependsOn": ["4.1", "5.4"],
-          "files": [
-            "CLAUDE.md"
-          ],
+          "name": "Supprimer SKIPPED_TESTS.md",
+          "description": "Supprimer la documentation des tests skippés car plus nécessaire",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["6.1"],
+          "files": ["e2e/SKIPPED_TESTS.md"],
           "tests": [],
-          "acceptance": [
-            "Référence GLOSSARY.md pour termes",
-            "Référence docs/testing/ pour tests",
-            "Section architecture pointe vers ARCHITECTURE.md"
-          ]
+          "acceptance": ["Fichier supprimé", "Aucune référence restante"]
         },
         {
           "id": "6.3",
-          "name": "Mettre à jour CONTRIBUTING.md",
-          "description": "Simplifier et ajouter liens vers documentation détaillée",
-          "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "medium",
-          "dependsOn": ["1.3"],
-          "files": [
-            "CONTRIBUTING.md"
-          ],
+          "name": "Mise à jour documentation",
+          "description": "Mettre à jour CLAUDE.md avec les nouvelles instructions pour les tests E2E",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["6.1"],
+          "files": ["CLAUDE.md"],
           "tests": [],
           "acceptance": [
-            "Référence docs/testing/strategy.md",
-            "Pas de duplication avec autres fichiers"
-          ]
-        },
-        {
-          "id": "6.4",
-          "name": "Validation couverture 100%",
-          "description": "Vérifier que toutes les fonctionnalités sont documentées, relecture finale",
-          "status": "completed",
-          "completedAt": "2026-01-14",
-          "priority": "high",
-          "dependsOn": ["6.1", "6.2", "6.3"],
-          "files": [],
-          "tests": [],
-          "acceptance": [
-            "Matrice fonctionnalités vs documentation = 100%",
-            "Aucun lien cassé",
-            "Cohérence terminologique"
+            "Section E2E mise à jour",
+            "Exemples d'utilisation des fixtures",
+            "Instructions pour créer de nouveaux tests"
           ]
         }
       ]
     }
   ],
   "stats": {
-    "totalTasks": 21,
-    "completed": 21,
+    "totalTasks": 24,
+    "completed": 10,
     "inProgress": 0,
-    "pending": 0,
+    "pending": 14,
     "blocked": 0
   }
 }
