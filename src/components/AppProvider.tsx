@@ -66,8 +66,11 @@ function AppProvider({ children }: AppProviderProps) {
         try {
           const parsed = JSON.parse(event.newValue)
           setData(parsed)
-        } catch {
-          // Ignorer les erreurs de parsing
+        } catch (error) {
+          console.error(
+            '[AppProvider] Failed to parse localStorage data from storage event:',
+            error instanceof Error ? error.message : error
+          )
         }
       }
     }

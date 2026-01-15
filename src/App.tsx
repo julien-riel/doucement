@@ -1,7 +1,7 @@
 import { RouterProvider } from 'react-router-dom'
 import { router } from './router'
 import { PWAUpdatePrompt, WhatsNewModal } from './components/ui'
-import { AppProvider } from './components'
+import { AppProvider, ErrorBoundary } from './components'
 import { WhatsNewProvider, useWhatsNewContext } from './contexts'
 
 /**
@@ -27,11 +27,13 @@ function AppContent() {
  */
 function App() {
   return (
-    <AppProvider>
-      <WhatsNewProvider>
-        <AppContent />
-      </WhatsNewProvider>
-    </AppProvider>
+    <ErrorBoundary>
+      <AppProvider>
+        <WhatsNewProvider>
+          <AppContent />
+        </WhatsNewProvider>
+      </AppProvider>
+    </ErrorBoundary>
   )
 }
 

@@ -1,449 +1,299 @@
 {
-  "project": "Refactorisation E2E Doucement",
-  "description": "Migration complète des tests E2E vers fixtures centralisées et réactivation des tests skippés",
-  "createdAt": "2026-01-14",
+  "project": "Refactoring Architectural",
+  "description": "Amélioration de la maintenabilité et robustesse du codebase suite à l'audit architectural",
+  "createdAt": "2026-01-15",
   "lastRelease": "1.28.5",
   "docs": [
-    "docs/prd-e2e-refactoring.md",
-    "e2e/SKIPPED_TESTS.md",
-    "e2e/fixtures/index.ts"
+    "docs/prd-architecture-refactoring.md",
+    "docs/ARCHITECTURE.md",
+    "docs/design/design-system-specification.md"
   ],
   "phases": [
     {
-      "id": "phase-1-features",
-      "name": "Implémentation fonctionnalités manquantes",
-      "description": "Implémenter les fonctionnalités UI nécessaires pour réactiver les tests skippés",
-      "status": "completed",
-      "releasedAs": "1.28.0",
-      "releasedAt": "2026-01-15",
-      "releaseType": "minor",
+      "id": "phase-1-quick-wins",
+      "name": "Corrections rapides",
+      "description": "Corrections simples qui n'impactent pas l'architecture globale",
+      "status": "pending",
+      "releaseType": "patch",
       "tasks": [
         {
           "id": "1.1",
-          "name": "Habit stacking visuel sur Today",
-          "description": "Grouper visuellement les habitudes chaînées via anchorHabitId. Utiliser les classes CSS existantes .today__habit-chain--connected et .today__habit-wrapper--chained",
+          "name": "Corriger useDebugMode état mutable",
+          "description": "Remplacer les variables module-level (tapCount, tapTimer) par des useRef pour être compatible React Strict Mode",
           "status": "completed",
           "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": [],
-          "files": ["src/pages/Today.tsx", "src/pages/Today.css"],
-          "tests": ["e2e/habit-stacking.spec.ts"],
+          "files": ["src/hooks/useDebugMode.ts"],
+          "tests": [],
           "acceptance": [
-            "Les habitudes avec anchorHabitId sont visuellement reliées",
-            "L'habitude ancre apparaît en premier de la chaîne",
-            "Une indication visuelle montre le lien entre habitudes"
+            "Aucune variable let/var au niveau module",
+            "Utilisation de useRef pour tapCount et tapTimer",
+            "Le mode debug fonctionne toujours (7 taps)",
+            "npm run typecheck passe"
           ]
         },
         {
           "id": "1.2",
-          "name": "Regroupement par moment de la journée",
-          "description": "Afficher les habitudes groupées par timeOfDay (matin/après-midi/soir/nuit) en utilisant TimeOfDaySection existant",
+          "name": "Ajouter logging erreurs AppProvider",
+          "description": "Logger les erreurs de parsing localStorage au lieu de les ignorer silencieusement",
           "status": "completed",
           "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": [],
-          "files": ["src/pages/Today.tsx"],
-          "tests": ["e2e/habits-display.spec.ts"],
+          "files": ["src/components/AppProvider.tsx"],
+          "tests": [],
           "acceptance": [
-            "Sections : Matin, Après-midi, Soir, Nuit visibles",
-            "Habitudes correctement triées par moment",
-            "Sections vides automatiquement masquées"
+            "console.error appelé en cas d'erreur de parsing",
+            "Message d'erreur descriptif avec contexte",
+            "Comportement graceful préservé (app continue de fonctionner)"
           ]
         },
         {
           "id": "1.3",
-          "name": "Historique saisies cumulatives avec undo",
-          "description": "Ajouter un composant pour voir et annuler les saisies cumulatives individuelles dans HabitCard",
+          "name": "Créer ErrorBoundary générique",
+          "description": "Composant ErrorBoundary pour capturer les erreurs de rendu React et afficher un fallback",
           "status": "completed",
           "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": [],
-          "files": ["src/components/habits/HabitCard.tsx", "src/components/habits/CumulativeHistory.tsx"],
-          "tests": ["e2e/habit-modification.spec.ts"],
+          "files": ["src/components/ErrorBoundary.tsx", "src/components/index.ts"],
+          "tests": [],
           "acceptance": [
-            "Historique des saisies du jour visible",
-            "Bouton d'annulation par saisie",
-            "Mise à jour immédiate après annulation"
+            "Composant class avec componentDidCatch",
+            "Props: children, fallback (optionnel), onError callback",
+            "Fallback par défaut user-friendly",
+            "Export depuis components/index.ts"
+          ]
+        },
+        {
+          "id": "1.4",
+          "name": "Intégrer ErrorBoundary dans App",
+          "description": "Wrapper l'application avec ErrorBoundary au niveau racine",
+          "status": "completed",
+          "completedAt": "2026-01-15",
+          "priority": "medium",
+          "dependsOn": ["1.3"],
+          "files": ["src/App.tsx"],
+          "tests": [],
+          "acceptance": [
+            "ErrorBoundary englobe le contenu principal",
+            "Erreurs de rendu capturées et affichées proprement",
+            "npm run build passe"
           ]
         }
       ]
     },
     {
-      "id": "phase-2-page-objects",
-      "name": "Page Objects additionnels",
-      "description": "Créer les Page Objects manquants pour faciliter la migration",
-      "status": "completed",
-      "releasedAs": "1.28.1",
-      "releasedAt": "2026-01-15",
-      "releaseType": "patch",
+      "id": "phase-2-hook-habitform",
+      "name": "Hook useHabitForm",
+      "description": "Création du hook partagé pour la logique de formulaire d'habitude",
+      "status": "pending",
+      "releaseType": "minor",
       "tasks": [
         {
           "id": "2.1",
-          "name": "CreateHabitPage Page Object",
-          "description": "Page Object pour le wizard de création d'habitude avec méthodes pour chaque étape",
-          "status": "completed",
-          "completedAt": "2026-01-15",
+          "name": "Extraire types HabitFormState",
+          "description": "Déplacer les types de formulaire de CreateHabit/types.ts vers un fichier partagé",
+          "status": "pending",
           "priority": "high",
           "dependsOn": [],
-          "files": ["e2e/fixtures/pages/CreateHabitPage.ts", "e2e/fixtures/pages/index.ts"],
+          "files": ["src/types/habitForm.ts", "src/types/index.ts", "src/pages/CreateHabit/types.ts"],
           "tests": [],
           "acceptance": [
-            "Méthodes pour naviguer entre les 7 étapes du wizard",
-            "Méthodes pour remplir les champs de chaque étape",
-            "Export depuis fixtures/index.ts"
+            "Nouveau fichier src/types/habitForm.ts avec HabitFormState",
+            "CreateHabit/types.ts importe depuis types/habitForm.ts",
+            "Pas de duplication de types",
+            "npm run typecheck passe"
           ]
         },
         {
           "id": "2.2",
-          "name": "StatisticsPage Page Object",
-          "description": "Page Object pour la page statistiques avec sélecteur de période et graphiques",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "medium",
-          "dependsOn": [],
-          "files": ["e2e/fixtures/pages/StatisticsPage.ts", "e2e/fixtures/pages/index.ts"],
-          "tests": [],
+          "name": "Créer useHabitForm hook",
+          "description": "Hook réutilisable pour la gestion d'état et validation des formulaires d'habitude",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["2.1"],
+          "files": ["src/hooks/useHabitForm.ts", "src/hooks/index.ts"],
+          "tests": ["src/hooks/useHabitForm.test.ts"],
           "acceptance": [
-            "Méthodes pour sélectionner la période",
-            "Méthodes pour vérifier les graphiques",
-            "Méthodes pour fermer les modales de célébration"
+            "Options: initialHabit (pour édition), mode ('create' | 'edit')",
+            "Retourne: form, updateField, resetForm, isValid, hasChanges, errors",
+            "Logique de validation commune",
+            "Détection des changements pour mode edit",
+            "Tests unitaires couvrant create et edit modes"
           ]
         },
         {
           "id": "2.3",
-          "name": "WeeklyReviewPage Page Object",
-          "description": "Page Object pour la page de revue hebdomadaire",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "medium",
-          "dependsOn": [],
-          "files": ["e2e/fixtures/pages/WeeklyReviewPage.ts", "e2e/fixtures/pages/index.ts"],
-          "tests": [],
+          "name": "Intégrer useHabitForm dans EditHabit",
+          "description": "Remplacer les 25+ useState par useHabitForm dans EditHabit.tsx",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["2.2"],
+          "files": ["src/pages/EditHabit.tsx"],
+          "tests": ["e2e/habit-modification.spec.ts"],
           "acceptance": [
-            "Méthodes pour naviguer dans la revue",
-            "Méthodes pour vérifier les statistiques",
-            "Méthodes pour saisir une réflexion"
+            "Suppression des useState redondants",
+            "Utilisation de useHabitForm avec mode 'edit'",
+            "hasChanges calculé par le hook",
+            "Tests E2E edit-habit passent"
           ]
         }
       ]
     },
     {
-      "id": "phase-3-migration-high",
-      "name": "Migration specs haute priorité",
-      "description": "Migrer les 5 specs avec le plus de duplication",
-      "status": "completed",
-      "releasedAs": "1.28.2",
-      "releasedAt": "2026-01-15",
-      "releaseType": "patch",
+      "id": "phase-3-edithabit-refactor",
+      "name": "Refactoring EditHabit",
+      "description": "Découpage de EditHabit.tsx en composants modulaires",
+      "status": "pending",
+      "releaseType": "minor",
       "tasks": [
         {
           "id": "3.1",
-          "name": "Migrer habit-modification.spec.ts",
-          "description": "Remplacer les données inline par createAppData/createHabit, utiliser setupLocalStorage",
-          "status": "completed",
-          "completedAt": "2026-01-15",
+          "name": "Créer structure EditHabit/",
+          "description": "Créer le répertoire et les fichiers de base pour EditHabit modulaire",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["1.3"],
-          "files": ["e2e/habit-modification.spec.ts"],
-          "tests": ["e2e/habit-modification.spec.ts"],
+          "dependsOn": ["2.3"],
+          "files": [
+            "src/pages/EditHabit/index.tsx",
+            "src/pages/EditHabit/EditHabitContext.tsx",
+            "src/pages/EditHabit/types.ts"
+          ],
+          "tests": [],
           "acceptance": [
-            "Aucune donnée de test inline",
-            "Utilise setupLocalStorage",
-            "Tests skippés réactivés si 1.3 complété"
+            "Structure similaire à CreateHabit/",
+            "Context pour l'état du formulaire",
+            "index.tsx < 200 lignes"
           ]
         },
         {
           "id": "3.2",
-          "name": "Migrer habit-increase-weekly.spec.ts",
-          "description": "Utiliser createWeeklyHabit et setupLocalStorage",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "high",
-          "dependsOn": [],
-          "files": ["e2e/habit-increase-weekly.spec.ts"],
-          "tests": ["e2e/habit-increase-weekly.spec.ts"],
+          "name": "Extraire sections de formulaire",
+          "description": "Créer des composants réutilisables pour les sections de formulaire (DirectionSelector, ProgressionConfig, etc.)",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["3.1"],
+          "files": [
+            "src/pages/EditHabit/sections/DirectionSection.tsx",
+            "src/pages/EditHabit/sections/ProgressionSection.tsx",
+            "src/pages/EditHabit/sections/TrackingSection.tsx",
+            "src/pages/EditHabit/sections/IntentionSection.tsx",
+            "src/pages/EditHabit/sections/IdentitySection.tsx",
+            "src/pages/EditHabit/sections/index.ts"
+          ],
+          "tests": [],
           "acceptance": [
-            "Utilise createWeeklyHabit factory",
-            "SchemaVersion 10 partout",
-            "Tous les tests passent"
+            "Chaque section < 150 lignes",
+            "Props typées avec interface",
+            "Réutilisables potentiellement pour CreateHabit"
           ]
         },
         {
           "id": "3.3",
-          "name": "Migrer habit-counter.spec.ts",
-          "description": "Utiliser createCounterHabit et setupLocalStorage",
-          "status": "completed",
-          "completedAt": "2026-01-15",
+          "name": "Supprimer ancien EditHabit.tsx",
+          "description": "Remplacer src/pages/EditHabit.tsx par le répertoire modulaire",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": [],
-          "files": ["e2e/habit-counter.spec.ts"],
-          "tests": ["e2e/habit-counter.spec.ts"],
+          "dependsOn": ["3.2"],
+          "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
+          "tests": ["e2e/habit-modification.spec.ts"],
           "acceptance": [
-            "Utilise createCounterHabit factory",
-            "Aucune donnée inline",
-            "Tous les tests passent"
-          ]
-        },
-        {
-          "id": "3.4",
-          "name": "Migrer celebrations.spec.ts",
-          "description": "Utiliser les fixtures et closeCelebrationModalIfVisible helper",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "high",
-          "dependsOn": ["2.2"],
-          "files": ["e2e/celebrations.spec.ts"],
-          "tests": ["e2e/celebrations.spec.ts"],
-          "acceptance": [
-            "Utilise StatisticsPage si pertinent",
-            "Utilise closeCelebrationModalIfVisible",
-            "Tous les tests passent"
-          ]
-        },
-        {
-          "id": "3.5",
-          "name": "Migrer statistics.spec.ts",
-          "description": "Utiliser StatisticsPage Page Object et fixtures",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "high",
-          "dependsOn": ["2.2"],
-          "files": ["e2e/statistics.spec.ts"],
-          "tests": ["e2e/statistics.spec.ts"],
-          "acceptance": [
-            "Utilise StatisticsPage Page Object",
-            "Aucune donnée inline",
-            "Tous les tests passent"
+            "Ancien fichier supprimé",
+            "Import dans router.tsx mis à jour",
+            "CSS déplacé vers EditHabit/EditHabit.css",
+            "Tous les tests E2E passent"
           ]
         }
       ]
     },
     {
-      "id": "phase-4-migration-medium",
-      "name": "Migration specs moyenne priorité",
-      "description": "Migrer les 5 specs suivants",
-      "status": "completed",
-      "completedAt": "2026-01-15",
-      "releasedAs": "1.28.3",
-      "releasedAt": "2026-01-15",
+      "id": "phase-4-documentation",
+      "name": "Documentation architecture",
+      "description": "Mise à jour de la documentation architecturale",
+      "status": "pending",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "4.1",
-          "name": "Migrer habit-maintain.spec.ts",
-          "description": "Utiliser createMaintainHabit factory",
-          "status": "completed",
-          "completedAt": "2026-01-15",
+          "name": "Documenter architecture 3-tier",
+          "description": "Ajouter une section dans ARCHITECTURE.md expliquant le système de gestion d'état à 3 niveaux",
+          "status": "pending",
           "priority": "medium",
           "dependsOn": [],
-          "files": ["e2e/habit-maintain.spec.ts"],
-          "tests": ["e2e/habit-maintain.spec.ts"],
-          "acceptance": ["Utilise createMaintainHabit", "Tous les tests passent"]
+          "files": ["docs/ARCHITECTURE.md"],
+          "tests": [],
+          "acceptance": [
+            "Section 'Gestion d'état 3-tier' avec diagramme Mermaid",
+            "Explication des 3 niveaux: local (useState), hooks, localStorage",
+            "Justification du choix (pas de Redux/Zustand)",
+            "Exemples de quand utiliser chaque niveau"
+          ]
         },
         {
           "id": "4.2",
-          "name": "Migrer habit-decrease-zero.spec.ts",
-          "description": "Utiliser createDecreaseHabit factory avec targetValue: 0",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "medium",
-          "dependsOn": [],
-          "files": ["e2e/habit-decrease-zero.spec.ts"],
-          "tests": ["e2e/habit-decrease-zero.spec.ts"],
-          "acceptance": ["Utilise createDecreaseHabit", "Tous les tests passent"]
-        },
-        {
-          "id": "4.3",
-          "name": "Migrer habit-decrease-daily.spec.ts",
-          "description": "Utiliser createDecreaseHabit factory",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "medium",
-          "dependsOn": [],
-          "files": ["e2e/habit-decrease-daily.spec.ts"],
-          "tests": ["e2e/habit-decrease-daily.spec.ts"],
-          "acceptance": ["Utilise createDecreaseHabit", "Tous les tests passent"]
-        },
-        {
-          "id": "4.4",
-          "name": "Migrer habit-increase-daily.spec.ts",
-          "description": "Utiliser createIncreaseHabit factory",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "medium",
-          "dependsOn": [],
-          "files": ["e2e/habit-increase-daily.spec.ts"],
-          "tests": ["e2e/habit-increase-daily.spec.ts"],
-          "acceptance": ["Utilise createIncreaseHabit", "Tous les tests passent"]
-        },
-        {
-          "id": "4.5",
-          "name": "Migrer onboarding.spec.ts",
-          "description": "Utiliser createFreshAppData et setupFreshLocalStorage",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "medium",
-          "dependsOn": [],
-          "files": ["e2e/onboarding.spec.ts"],
-          "tests": ["e2e/onboarding.spec.ts"],
-          "acceptance": ["Utilise setupFreshLocalStorage", "Tous les tests passent"]
+          "name": "Documenter patterns de hooks",
+          "description": "Ajouter une section sur les patterns de hooks utilisés dans le projet",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["2.2"],
+          "files": ["docs/ARCHITECTURE.md"],
+          "tests": [],
+          "acceptance": [
+            "Section 'Patterns de hooks' ajoutée",
+            "Exemples: useHabitForm, useAppData, useCelebrations",
+            "Conventions de nommage documentées"
+          ]
         }
       ]
     },
     {
-      "id": "phase-5-migration-low",
-      "name": "Migration specs basse priorité",
-      "description": "Migrer les specs restants et réactiver tests skippés",
-      "status": "completed",
-      "completedAt": "2026-01-15",
-      "releasedAs": "1.28.4",
-      "releasedAt": "2026-01-15",
+      "id": "phase-5-validation",
+      "name": "Validation finale",
+      "description": "Tests et vérifications finales",
+      "status": "pending",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "5.1",
-          "name": "Migrer create-habit.spec.ts",
-          "description": "Utiliser CreateHabitPage Page Object",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "low",
-          "dependsOn": ["2.1"],
-          "files": ["e2e/create-habit.spec.ts"],
-          "tests": ["e2e/create-habit.spec.ts"],
-          "acceptance": ["Utilise CreateHabitPage", "Tous les tests passent"]
-        },
-        {
-          "id": "5.2",
-          "name": "Migrer weekly-review.spec.ts",
-          "description": "Utiliser WeeklyReviewPage et createWeeklyReviewDueData",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "low",
-          "dependsOn": ["2.3"],
-          "files": ["e2e/weekly-review.spec.ts"],
-          "tests": ["e2e/weekly-review.spec.ts"],
-          "acceptance": ["Utilise WeeklyReviewPage", "Tous les tests passent"]
-        },
-        {
-          "id": "5.3",
-          "name": "Migrer planned-pause.spec.ts",
-          "description": "Utiliser createPlannedPauseData factory",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "low",
-          "dependsOn": [],
-          "files": ["e2e/planned-pause.spec.ts"],
-          "tests": ["e2e/planned-pause.spec.ts"],
-          "acceptance": ["Utilise createPlannedPauseData", "Tous les tests passent"]
-        },
-        {
-          "id": "5.4",
-          "name": "Migrer i18n.spec.ts",
-          "description": "Utiliser setupLocalStorage et fixtures",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "low",
-          "dependsOn": [],
-          "files": ["e2e/i18n.spec.ts"],
-          "tests": ["e2e/i18n.spec.ts"],
-          "acceptance": ["Utilise setupLocalStorage", "Tous les tests passent"]
-        },
-        {
-          "id": "5.5",
-          "name": "Migrer autres specs",
-          "description": "Migrer suggestion-filters, habits-display, habit-weekly-aggregation, goal-reached, growth-plateau, absence-detection, habit-decrease-no-stacking",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "low",
-          "dependsOn": ["1.1", "1.2"],
-          "files": [
-            "e2e/suggestion-filters.spec.ts",
-            "e2e/habits-display.spec.ts",
-            "e2e/habit-weekly-aggregation.spec.ts",
-            "e2e/goal-reached.spec.ts",
-            "e2e/growth-plateau.spec.ts",
-            "e2e/absence-detection.spec.ts",
-            "e2e/habit-decrease-no-stacking.spec.ts"
-          ],
-          "tests": [],
+          "name": "Exécuter suite de tests complète",
+          "description": "Lancer tous les tests unitaires et E2E pour valider le refactoring",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["3.3", "4.1"],
+          "files": [],
+          "tests": ["src/**/*.test.ts", "e2e/**/*.spec.ts"],
           "acceptance": [
-            "Tous les specs utilisent fixtures centralisées",
-            "Tests skippés dans habits-display réactivés",
-            "Tous les tests passent"
+            "npm test passe (tests unitaires)",
+            "npm run test:e2e passe (tests E2E)",
+            "npm run typecheck passe",
+            "npm run lint passe"
           ]
         },
         {
-          "id": "5.6",
-          "name": "Réactiver habit-stacking.spec.ts",
-          "description": "Supprimer le skip et ajuster les tests après implémentation 1.1",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "low",
-          "dependsOn": ["1.1"],
-          "files": ["e2e/habit-stacking.spec.ts"],
-          "tests": ["e2e/habit-stacking.spec.ts"],
-          "acceptance": ["Plus de test.describe.skip", "Tous les tests passent"]
-        }
-      ]
-    },
-    {
-      "id": "phase-6-cleanup",
-      "name": "Nettoyage et validation finale",
-      "description": "Vérification finale, suppression documentation obsolète, validation complète",
-      "status": "completed",
-      "completedAt": "2026-01-15",
-      "releasedAs": "1.28.5",
-      "releasedAt": "2026-01-15",
-      "releaseType": "patch",
-      "tasks": [
-        {
-          "id": "6.1",
-          "name": "Exécuter tous les tests E2E",
-          "description": "Lancer npm run test:e2e et corriger les éventuels échecs",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "high",
-          "dependsOn": ["5.5", "5.6"],
+          "id": "5.2",
+          "name": "Health check",
+          "description": "Exécuter le script de health check du projet",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["5.1"],
           "files": [],
-          "tests": ["e2e/**/*.spec.ts"],
-          "acceptance": ["Tous les tests passent", "Aucun test skippé"]
-        },
-        {
-          "id": "6.2",
-          "name": "Supprimer SKIPPED_TESTS.md",
-          "description": "Supprimer la documentation des tests skippés car plus nécessaire",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "low",
-          "dependsOn": ["6.1"],
-          "files": ["e2e/SKIPPED_TESTS.md"],
-          "tests": [],
-          "acceptance": ["Fichier supprimé", "Aucune référence restante"]
-        },
-        {
-          "id": "6.3",
-          "name": "Mise à jour documentation",
-          "description": "Mettre à jour CLAUDE.md avec les nouvelles instructions pour les tests E2E",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "low",
-          "dependsOn": ["6.1"],
-          "files": ["CLAUDE.md"],
           "tests": [],
           "acceptance": [
-            "Section E2E mise à jour",
-            "Exemples d'utilisation des fixtures",
-            "Instructions pour créer de nouveaux tests"
+            "./scripts/health-check.sh passe",
+            "Aucun warning nouveau introduit",
+            "Documentation à jour"
           ]
         }
       ]
     }
   ],
   "stats": {
-    "totalTasks": 24,
-    "completed": 24,
+    "totalTasks": 15,
+    "completed": 4,
     "inProgress": 0,
-    "pending": 0,
+    "pending": 11,
     "blocked": 0
   }
 }

@@ -3,7 +3,7 @@
  * Gestion du mode debug pour tester et déboguer l'application
  */
 
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useAppData } from './useAppData'
 import { getCurrentDate, addDays } from '../utils'
 
@@ -57,12 +57,6 @@ export interface UseDebugModeActions {
 export type UseDebugModeReturn = UseDebugModeState & UseDebugModeActions
 
 /**
- * Compteur de taps pour l'activation via version
- */
-let tapCount = 0
-let tapTimer: ReturnType<typeof setTimeout> | null = null
-
-/**
  * Hook de gestion du mode debug.
  *
  * Permet d'activer un mode développeur caché via :
@@ -95,6 +89,10 @@ let tapTimer: ReturnType<typeof setTimeout> | null = null
  */
 export function useDebugMode(): UseDebugModeReturn {
   const { data, updatePreferences } = useAppData()
+
+  // Compteur de taps pour l'activation via version (useRef pour compatibilité React Strict Mode)
+  const tapCountRef = useRef(0)
+  const tapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Vérifie si le mode debug est activé
   const isDebugMode = useMemo(() => {
@@ -174,24 +172,24 @@ export function useDebugMode(): UseDebugModeReturn {
 
   // Gestionnaire de tap pour activation via version
   const handleVersionTap = useCallback((): boolean => {
-    tapCount++
+    tapCountRef.current++
 
     // Réinitialise le timer
-    if (tapTimer) {
-      clearTimeout(tapTimer)
+    if (tapTimerRef.current) {
+      clearTimeout(tapTimerRef.current)
     }
 
     // Démarre un nouveau timer
-    tapTimer = setTimeout(() => {
-      tapCount = 0
+    tapTimerRef.current = setTimeout(() => {
+      tapCountRef.current = 0
     }, TAP_TIMEOUT)
 
     // Vérifie si on a atteint le nombre de taps requis
-    if (tapCount >= TAPS_REQUIRED) {
-      tapCount = 0
-      if (tapTimer) {
-        clearTimeout(tapTimer)
-        tapTimer = null
+    if (tapCountRef.current >= TAPS_REQUIRED) {
+      tapCountRef.current = 0
+      if (tapTimerRef.current) {
+        clearTimeout(tapTimerRef.current)
+        tapTimerRef.current = null
       }
       toggleDebugMode()
       return true
