@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.28.2",
+  "currentVersion": "1.28.3",
   "releases": [
+    {
+      "version": "1.28.3",
+      "date": "2026-01-15",
+      "title": "Migration specs moyenne priorité",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "Migrer habit-maintain.spec.ts"
+        },
+        {
+          "emoji": "tools",
+          "text": "Migrer habit-decrease-zero.spec.ts"
+        },
+        {
+          "emoji": "tools",
+          "text": "Migrer habit-decrease-daily.spec.ts"
+        },
+        {
+          "emoji": "tools",
+          "text": "Migrer habit-increase-daily.spec.ts"
+        }
+      ]
+    },
     {
       "version": "1.28.2",
       "date": "2026-01-15",

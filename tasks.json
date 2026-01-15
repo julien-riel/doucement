@@ -2,7 +2,7 @@
   "project": "Refactorisation E2E Doucement",
   "description": "Migration complète des tests E2E vers fixtures centralisées et réactivation des tests skippés",
   "createdAt": "2026-01-14",
-  "lastRelease": "1.28.2",
+  "lastRelease": "1.28.3",
   "docs": [
     "docs/prd-e2e-refactoring.md",
     "e2e/SKIPPED_TESTS.md",
@@ -224,6 +224,8 @@
       "description": "Migrer les 5 specs suivants",
       "status": "completed",
       "completedAt": "2026-01-15",
+      "releasedAs": "1.28.3",
+      "releasedAt": "2026-01-15",
       "releaseType": "patch",
       "tasks": [
         {
