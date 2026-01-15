@@ -2,7 +2,7 @@
   "project": "Widgets de saisie temporels et visuels",
   "description": "Ajout de nouveaux modes de tracking : chronomètre, minuterie et slider avec emojis dynamiques",
   "createdAt": "2026-01-15",
-  "lastRelease": "1.32.0",
+  "lastRelease": "1.33.0",
   "docs": [
     "docs/prd-time-widgets.md",
     "docs/ARCHITECTURE.md",
@@ -203,6 +203,8 @@
       "description": "Composant TimerCheckIn (compte à rebours avec dépassement)",
       "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.33.0",
+      "releasedAt": "2026-01-15",
       "tasks": [
         {
           "id": "3.1",
