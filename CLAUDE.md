@@ -11,12 +11,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Progressive habits**: Habits that increase or decrease over time (e.g., +3% push-ups/week, -5% cigarettes/week)
 - **Partial effort = success**: 70% completion is still a win
 - **No failure vocabulary**: Never use words like "failed", "missed", "streak broken"
+- **Tracking modes**: Multiple ways to track habits:
+  - `simple` - Binary (done/not done)
+  - `detailed` - Numeric value with smart buttons
+  - `counter` - Incremental +1/-1 buttons
+  - `stopwatch` - Measure time elapsed (e.g., meditation, reading)
+  - `timer` - Countdown with overflow (e.g., plank, timed tasks)
+  - `slider` - Visual slider with dynamic emoji (e.g., mood, energy, pain)
 
 ### Technical Architecture
 - **100% static SPA** - React 18 with Vite, no backend server, no user accounts
 - **Local storage only** - All data stays on user's device (localStorage)
 - **Privacy-first** - Zero analytics, zero tracking
-- **Data format**: JSON with `schemaVersion` field (currently v10), dates as `YYYY-MM-DD`
+- **Data format**: JSON with `schemaVersion` field (currently v11), dates as `YYYY-MM-DD`
 - **Import/Export**: Manual JSON file download/upload with schema validation and auto-migration
 - **PWA Support**: Service worker, app shortcuts, offline capability
 - **i18n**: French (default) and English supported
@@ -35,7 +42,7 @@ The project is a functional React SPA with most features implemented.
   - `debug/` - Debug panel and tools
 - `src/pages/` - Page components (Today, Onboarding, CreateHabit, Settings, Statistics, etc.)
 - `src/services/` - Business logic (storage, progression, notifications, statistics, migration, etc.)
-- `src/hooks/` - Custom hooks (useAppData, useNotifications, useDebugMode, useTheme, useCelebrations)
+- `src/hooks/` - Custom hooks (useAppData, useNotifications, useDebugMode, useTheme, useCelebrations, useStopwatch, useTimer)
 - `src/types/` - TypeScript type definitions
 - `src/i18n/` - Internationalization configuration and locales (fr, en)
 - `src/utils/` - Utility functions (date, absence detection, habitDisplay, patternAnalysis)

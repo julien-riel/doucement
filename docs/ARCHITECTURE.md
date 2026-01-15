@@ -115,6 +115,7 @@ graph LR
         importExport[importExport.ts]
         imageExport[imageExport.ts]
         exportPdf[exportPdf.ts]
+        timerStorage[timerStorage.ts]
     end
 
     subgraph "Hooks"
@@ -123,6 +124,8 @@ graph LR
         useNotifications[useNotifications]
         useDebugMode[useDebugMode]
         useTheme[useTheme]
+        useStopwatch[useStopwatch]
+        useTimer[useTimer]
     end
 
     useAppData --> storage
@@ -130,6 +133,8 @@ graph LR
     useAppData --> migration
     useCelebrations --> milestones
     useNotifications --> notifications
+    useStopwatch --> timerStorage
+    useTimer --> timerStorage
     statistics --> progression
 ```
 
@@ -147,6 +152,7 @@ graph LR
 | `importExport.ts` | Import/export de données JSON |
 | `imageExport.ts` | Export PNG (cartes partageables) |
 | `exportPdf.ts` | Export PDF (rapports) |
+| `timerStorage.ts` | Persistance des états chronomètre/minuterie |
 
 ---
 
@@ -373,6 +379,12 @@ graph TB
         CelebrationModal[CelebrationModal]
     end
 
+    subgraph "Time Widgets"
+        StopwatchCheckIn[StopwatchCheckIn]
+        TimerCheckIn[TimerCheckIn]
+        SliderCheckIn[SliderCheckIn]
+    end
+
     subgraph "Charts"
         ProgressionChart[ProgressionChart]
         HeatmapCalendar[HeatmapCalendar]
@@ -393,12 +405,113 @@ graph TB
 
     Today --> HabitCard
     HabitCard --> CheckInButtons
+    HabitCard --> StopwatchCheckIn
+    HabitCard --> TimerCheckIn
+    HabitCard --> SliderCheckIn
     HabitCard --> DailyDose
     HabitCard --> ProgressBar
 
     HabitDetail --> Charts
     Statistics --> Charts
     WeeklyReview --> Charts
+```
+
+---
+
+## Sélection de widget dans HabitCard
+
+La sélection du widget de check-in se fait en fonction du `trackingMode` de l'habitude :
+
+```mermaid
+flowchart TB
+    Start([HabitCard reçoit habit])
+    CheckMode{trackingMode?}
+
+    Simple[Bouton unique Fait/Pas fait]
+    Detailed[CheckInButtons avec 3 boutons]
+    Counter[CounterButtons +1/-1]
+    Stopwatch[StopwatchCheckIn chrono]
+    Timer[TimerCheckIn minuterie]
+    Slider[SliderCheckIn avec emoji]
+
+    Render([Afficher le widget])
+
+    Start --> CheckMode
+    CheckMode -->|simple| Simple
+    CheckMode -->|detailed| Detailed
+    CheckMode -->|counter| Counter
+    CheckMode -->|stopwatch| Stopwatch
+    CheckMode -->|timer| Timer
+    CheckMode -->|slider| Slider
+
+    Simple --> Render
+    Detailed --> Render
+    Counter --> Render
+    Stopwatch --> Render
+    Timer --> Render
+    Slider --> Render
+```
+
+---
+
+## Persistance des chronos/minuteries
+
+Les widgets temporels (stopwatch et timer) persistent leur état dans localStorage pour permettre la reprise après fermeture de l'application.
+
+### Clé de stockage
+
+```
+localStorage.getItem('doucement_timer_states')
+```
+
+### Flux de persistance
+
+```mermaid
+sequenceDiagram
+    participant C as StopwatchCheckIn
+    participant H as useStopwatch
+    participant S as timerStorage.ts
+    participant L as localStorage
+
+    Note over C,L: Démarrage du chrono
+    C->>H: start()
+    H->>H: Démarrer le timer
+    H->>S: saveTimerState({ habitId, date, startedAt, accumulatedSeconds, isRunning: true })
+    S->>L: setItem('doucement_timer_states', JSON.stringify(...))
+
+    Note over C,L: Fermeture de l'app (état persisté)
+
+    Note over C,L: Réouverture de l'app
+    C->>H: useStopwatch(habitId)
+    H->>S: getTimerState(habitId, date)
+    S->>L: getItem('doucement_timer_states')
+    L-->>S: JSON avec état sauvegardé
+    S-->>H: TimerState | null
+
+    alt État trouvé et isRunning=true
+        H->>H: Calculer temps écoulé depuis startedAt
+        H->>H: Reprendre automatiquement
+    end
+
+    Note over C,L: Arrêt et enregistrement
+    C->>H: stop()
+    H->>H: Calculer temps total
+    H->>S: removeTimerState(habitId, date)
+    S->>L: Supprimer l'état du chrono
+    H-->>C: Retourner temps total
+    C->>C: onCheckIn(tempsTotal)
+```
+
+### Structure TimerState
+
+```typescript
+interface TimerState {
+  habitId: string;           // ID de l'habitude
+  date: string;              // YYYY-MM-DD
+  startedAt: string;         // Timestamp ISO de démarrage
+  accumulatedSeconds: number; // Temps accumulé avant pause
+  isRunning: boolean;        // Chrono en cours ou en pause
+}
 ```
 
 ---

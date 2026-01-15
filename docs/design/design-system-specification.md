@@ -791,5 +791,136 @@ Page minimaliste pour le check-in rapide via shortcut.
 
 ---
 
+## 12. Widgets Temporels et Visuels
+
+Les widgets de saisie temporels (chronomètre, minuterie) et visuels (slider emoji) étendent les modes de check-in existants.
+
+### 12.1 Composant StopwatchCheckIn
+
+Widget chronomètre pour mesurer une durée.
+
+**Structure :**
+```
+┌─────────────────────────────────────┐
+│                                     │
+│            ⏱️ 05:32                 │
+│         Cible : 10:00               │
+│                                     │
+│    [⏸️]    [⏹️]    [🔄]             │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Spécifications :**
+- **Affichage du temps** : Police Source Sans 3, text-3xl (30px), font-bold
+- **Format** : MM:SS par défaut, HH:MM:SS si > 1h
+- **Cible** : text-sm, neutral-500, "Cible : XX:XX"
+
+**États visuels :**
+
+| État | Apparence |
+|------|-----------|
+| Initial | "00:00", fond neutral-100, bouton Play visible |
+| En cours | Temps défilant, fond primary-50, bouton Pause visible |
+| En pause | Temps fixe, fond neutral-100, bordure pointillée primary-300 |
+| Cible atteinte | Bordure secondary-400, icône ✓ subtle |
+| Dépassement | Bordure secondary-500, fond secondary-50 |
+
+**Boutons :**
+- **Play/Pause** : Icône ▶️/⏸️, 48x48px, fond primary-500
+- **Stop** : Icône ⏹️, 48x48px, fond secondary-500, enregistre la valeur
+- **Reset** : Icône 🔄, 48x48px, fond neutral-200, ghost
+
+**Animation :**
+- Transition douce (300ms) entre états
+- Pulse subtil quand en cours (optionnel, respecte prefers-reduced-motion)
+
+### 12.2 Composant TimerCheckIn
+
+Widget minuterie avec compte à rebours.
+
+**Structure :**
+```
+┌─────────────────────────────────────┐
+│                                     │
+│            ⏳ 04:28                 │
+│         Restant : 04:28             │
+│                                     │
+│    [⏸️]    [⏹️]    [🔄]             │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Spécifications identiques à StopwatchCheckIn, avec :**
+- Démarre à la dose cible et décompte vers 0
+- Continue en négatif si dépassé
+
+**Affichage du dépassement :**
+- Temps négatif : "-00:15" (15 secondes de dépassement)
+- Couleur : **primary-500** (orange) — JAMAIS rouge
+- Fond : primary-50
+
+### 12.3 Composant SliderCheckIn
+
+Widget slider avec emoji dynamique.
+
+**Structure :**
+```
+┌─────────────────────────────────────┐
+│                                     │
+│               😊                    │
+│                                     │
+│    1 ────────●────────── 10         │
+│              7                      │
+│                                     │
+│         [    Valider    ]           │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Spécifications :**
+- **Emoji** : text-4xl (36px), centré au-dessus du slider
+- **Slider track** : Hauteur 8px, border-radius full, fond neutral-200
+- **Slider fill** : Fond primary-400, transition 150ms
+- **Thumb** : 24x24px, fond primary-500, bordure 2px white, shadow-soft
+- **Labels min/max** : text-xs, neutral-500
+- **Valeur actuelle** : text-lg, font-bold, neutral-800
+
+**Accessibilité :**
+- Utilisable au clavier (flèches ← →)
+- `role="slider"`, `aria-valuemin`, `aria-valuemax`, `aria-valuenow`
+- Focus visible avec shadow-glow
+
+**Mapping emoji par défaut (si non configuré) :**
+```
+1-3  → 😢
+4-5  → 😕
+6-7  → 😊
+8-10 → 😄
+```
+
+**Bouton Valider :**
+- Style : primary, border-radius full
+- Texte : "Valider"
+- Confirme et enregistre la valeur
+
+### 12.4 Contraintes communes
+
+**Touch targets :**
+- Tous les boutons : minimum 44x44px
+- Slider thumb : minimum 44px de zone de toucher
+
+**Couleurs :**
+- Jamais de rouge pour les états (même dépassement)
+- Orange (#F27D16) pour les éléments interactifs et dépassement timer
+- Vert (#22C55E) pour le succès et l'atteinte de cible
+
+**Animation :**
+- Respecter `prefers-reduced-motion`
+- Durée rapide (150ms) pour les interactions
+- Durée normale (300ms) pour les transitions d'état
+
+---
+
 *Document maintenu par l'équipe Design*
-*Version 1.1 — Janvier 2026*
+*Version 1.2 — Janvier 2026*

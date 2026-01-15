@@ -1,10 +1,22 @@
 /**
  * TrackingSection - Tracking mode and entry mode
- * Handles: simple/detailed/counter modes + replace/cumulative entry modes
+ * Handles: simple/detailed/counter/stopwatch/timer/slider modes + replace/cumulative entry modes
  */
 
 import { TRACKING_MODE, ENTRY_MODE } from '../../../constants/messages'
 import { useEditHabitContext } from '../EditHabitContext'
+
+/**
+ * Icons for each tracking mode
+ */
+const TRACKING_MODE_ICONS: Record<string, string> = {
+  simple: '✓',
+  detailed: '📊',
+  counter: '🔢',
+  stopwatch: '⏱️',
+  timer: '⏳',
+  slider: '🎚️',
+}
 
 export function TrackingSection() {
   const { form, updateField } = useEditHabitContext()
@@ -15,13 +27,14 @@ export function TrackingSection() {
       <div className="edit-habit__tracking-mode-section">
         <p className="edit-habit__field-label">{TRACKING_MODE.sectionTitle}</p>
         <p className="edit-habit__field-hint">{TRACKING_MODE.sectionHint}</p>
-        <div className="edit-habit__tracking-mode-options">
+        <div className="edit-habit__tracking-mode-options edit-habit__tracking-mode-options--grid">
           <button
             type="button"
             className={`edit-habit__tracking-mode-option ${form.trackingMode === 'simple' ? 'edit-habit__tracking-mode-option--selected' : ''}`}
             onClick={() => updateField('trackingMode', 'simple')}
             aria-pressed={form.trackingMode === 'simple'}
           >
+            <span className="edit-habit__tracking-mode-icon">{TRACKING_MODE_ICONS.simple}</span>
             <span className="edit-habit__tracking-mode-label">{TRACKING_MODE.simpleLabel}</span>
             <span className="edit-habit__tracking-mode-desc">
               {TRACKING_MODE.simpleDescription}
@@ -33,6 +46,7 @@ export function TrackingSection() {
             onClick={() => updateField('trackingMode', 'detailed')}
             aria-pressed={form.trackingMode === 'detailed'}
           >
+            <span className="edit-habit__tracking-mode-icon">{TRACKING_MODE_ICONS.detailed}</span>
             <span className="edit-habit__tracking-mode-label">{TRACKING_MODE.detailedLabel}</span>
             <span className="edit-habit__tracking-mode-desc">
               {TRACKING_MODE.detailedDescription}
@@ -44,19 +58,65 @@ export function TrackingSection() {
             onClick={() => updateField('trackingMode', 'counter')}
             aria-pressed={form.trackingMode === 'counter'}
           >
+            <span className="edit-habit__tracking-mode-icon">{TRACKING_MODE_ICONS.counter}</span>
             <span className="edit-habit__tracking-mode-label">{TRACKING_MODE.counterLabel}</span>
             <span className="edit-habit__tracking-mode-desc">
               {TRACKING_MODE.counterDescription}
+            </span>
+          </button>
+          <button
+            type="button"
+            className={`edit-habit__tracking-mode-option ${form.trackingMode === 'stopwatch' ? 'edit-habit__tracking-mode-option--selected' : ''}`}
+            onClick={() => updateField('trackingMode', 'stopwatch')}
+            aria-pressed={form.trackingMode === 'stopwatch'}
+          >
+            <span className="edit-habit__tracking-mode-icon">{TRACKING_MODE_ICONS.stopwatch}</span>
+            <span className="edit-habit__tracking-mode-label">{TRACKING_MODE.stopwatchLabel}</span>
+            <span className="edit-habit__tracking-mode-desc">
+              {TRACKING_MODE.stopwatchDescription}
+            </span>
+          </button>
+          <button
+            type="button"
+            className={`edit-habit__tracking-mode-option ${form.trackingMode === 'timer' ? 'edit-habit__tracking-mode-option--selected' : ''}`}
+            onClick={() => updateField('trackingMode', 'timer')}
+            aria-pressed={form.trackingMode === 'timer'}
+          >
+            <span className="edit-habit__tracking-mode-icon">{TRACKING_MODE_ICONS.timer}</span>
+            <span className="edit-habit__tracking-mode-label">{TRACKING_MODE.timerLabel}</span>
+            <span className="edit-habit__tracking-mode-desc">{TRACKING_MODE.timerDescription}</span>
+          </button>
+          <button
+            type="button"
+            className={`edit-habit__tracking-mode-option ${form.trackingMode === 'slider' ? 'edit-habit__tracking-mode-option--selected' : ''}`}
+            onClick={() => updateField('trackingMode', 'slider')}
+            aria-pressed={form.trackingMode === 'slider'}
+          >
+            <span className="edit-habit__tracking-mode-icon">{TRACKING_MODE_ICONS.slider}</span>
+            <span className="edit-habit__tracking-mode-label">{TRACKING_MODE.sliderLabel}</span>
+            <span className="edit-habit__tracking-mode-desc">
+              {TRACKING_MODE.sliderDescription}
             </span>
           </button>
         </div>
         {form.trackingMode === 'counter' && (
           <p className="edit-habit__tracking-mode-counter-hint">{TRACKING_MODE.counterHint}</p>
         )}
+        {form.trackingMode === 'stopwatch' && (
+          <p className="edit-habit__tracking-mode-counter-hint">{TRACKING_MODE.stopwatchHint}</p>
+        )}
+        {form.trackingMode === 'timer' && (
+          <p className="edit-habit__tracking-mode-counter-hint">{TRACKING_MODE.timerHint}</p>
+        )}
+        {form.trackingMode === 'slider' && (
+          <p className="edit-habit__tracking-mode-counter-hint">{TRACKING_MODE.sliderHint}</p>
+        )}
       </div>
 
-      {/* Mode de saisie - seulement pour detailed (counter utilise toujours +1/-1) */}
-      {form.trackingMode === 'detailed' && (
+      {/* Mode de saisie - pour detailed, stopwatch, timer (cumulative possible) */}
+      {(form.trackingMode === 'detailed' ||
+        form.trackingMode === 'stopwatch' ||
+        form.trackingMode === 'timer') && (
         <div className="edit-habit__entry-mode-section">
           <p className="edit-habit__field-label">{ENTRY_MODE.sectionTitle}</p>
           <p className="edit-habit__field-hint">{ENTRY_MODE.sectionHint}</p>

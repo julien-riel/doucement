@@ -611,6 +611,15 @@ export const TRACKING_MODE = {
   counterLabel: 'Compteur',
   counterDescription: 'Boutons +1 / -1 rapides',
   counterHint: 'Idéal pour : cigarettes, verres, grignotages...',
+  stopwatchLabel: 'Chronomètre',
+  stopwatchDescription: 'Mesure le temps passé',
+  stopwatchHint: 'Idéal pour : méditation, lecture, sport...',
+  timerLabel: 'Minuterie',
+  timerDescription: 'Compte à rebours vers 0',
+  timerHint: 'Idéal pour : gainage, pause, temps limité...',
+  sliderLabel: 'Slider',
+  sliderDescription: 'Curseur visuel avec emoji',
+  sliderHint: 'Idéal pour : humeur, énergie, douleur...',
 } as const
 
 /**

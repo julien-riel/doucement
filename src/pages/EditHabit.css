@@ -334,6 +334,19 @@
   margin: var(--spacing-2) 0 0;
 }
 
+/* Grid layout for tracking mode options (6 modes) */
+.edit-habit__tracking-mode-options--grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-3);
+}
+
+/* Icon for tracking mode option */
+.edit-habit__tracking-mode-icon {
+  font-size: var(--text-xl);
+  margin-bottom: var(--spacing-1);
+}
+
 /*
  * WEEKLY AGGREGATION SECTION
  * Styles for weekly aggregation options (count-days / sum-units)
