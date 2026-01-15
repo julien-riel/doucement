@@ -268,14 +268,15 @@
       "id": "phase-5-validation",
       "name": "Validation finale",
       "description": "Tests et vérifications finales",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "5.1",
           "name": "Exécuter suite de tests complète",
           "description": "Lancer tous les tests unitaires et E2E pour valider le refactoring",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["3.3", "4.1"],
           "files": [],
@@ -291,7 +292,8 @@
           "id": "5.2",
           "name": "Health check",
           "description": "Exécuter le script de health check du projet",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": ["5.1"],
           "files": [],
@@ -307,9 +309,9 @@
   ],
   "stats": {
     "totalTasks": 15,
-    "completed": 12,
+    "completed": 15,
     "inProgress": 0,
-    "pending": 3,
+    "pending": 0,
     "blocked": 0
   }
 }
