@@ -481,7 +481,7 @@
       "id": "phase-7-documentation",
       "name": "Documentation",
       "description": "Mise à jour de toute la documentation",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
       "tasks": [
         {
@@ -520,7 +520,8 @@
           "id": "7.3",
           "name": "Créer guide time-widgets.md",
           "description": "Documentation utilisateur pour chrono et minuterie",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": ["6.1", "6.2"],
           "files": ["docs/features/time-widgets.md"],
@@ -536,7 +537,8 @@
           "id": "7.4",
           "name": "Créer guide slider-widget.md",
           "description": "Documentation utilisateur pour le slider emoji",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": ["6.3"],
           "files": ["docs/features/slider-widget.md"],
@@ -584,14 +586,15 @@
       "id": "phase-8-validation",
       "name": "Validation finale",
       "description": "Tests complets et health check",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "8.1",
           "name": "Exécuter suite de tests complète",
           "description": "Tous les tests unitaires et E2E",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["6.1", "6.2", "6.3"],
           "files": [],
@@ -607,7 +610,8 @@
           "id": "8.2",
           "name": "Health check",
           "description": "Exécuter le script de vérification du projet",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": ["8.1", "7.5"],
           "files": [],
@@ -623,9 +627,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 27,
+    "completed": 31,
     "inProgress": 0,
-    "pending": 4,
+    "pending": 0,
     "blocked": 0
   }
 }
