@@ -150,6 +150,200 @@ graph LR
 
 ---
 
+## Gestion d'état 3-tier
+
+L'application utilise une architecture de gestion d'état à 3 niveaux, sans bibliothèque externe comme Redux ou Zustand. Cette approche a été choisie pour sa simplicité et son adéquation avec une application 100% locale.
+
+```mermaid
+graph TB
+    subgraph "Niveau 3 - Persistance"
+        LS[(localStorage)]
+    end
+
+    subgraph "Niveau 2 - État Global"
+        AppData[useAppData Hook]
+        Theme[useTheme Hook]
+        Debug[useDebugMode Hook]
+    end
+
+    subgraph "Niveau 1 - État Local"
+        Form[useState - Formulaires]
+        UI[useState - UI locale]
+        Context[Context API - Wizards]
+    end
+
+    Form --> AppData
+    UI --> AppData
+    Context --> AppData
+    AppData --> LS
+    Theme --> LS
+```
+
+### Les 3 niveaux
+
+| Niveau | Mécanisme | Usage | Exemple |
+|--------|-----------|-------|---------|
+| **Local** | `useState` | État temporaire d'un composant | Champ de formulaire en cours d'édition |
+| **Partagé** | Custom Hooks | État partagé entre composants | `useAppData`, `useHabitForm` |
+| **Persistant** | localStorage | Données permanentes | Habitudes, entrées, préférences |
+
+### Quand utiliser chaque niveau
+
+**Niveau 1 - État local (`useState`)**
+- Valeurs de formulaire en cours de saisie
+- État d'ouverture d'un modal
+- Animation en cours
+- Tout état qui ne survit pas à un refresh
+
+**Niveau 2 - Hooks partagés**
+- État dérivé de plusieurs sources (`useHabitForm`)
+- Logique réutilisable entre composants
+- État global sans persistance (`useCelebrations`)
+
+**Niveau 3 - Persistance (localStorage)**
+- Données utilisateur (habitudes, entrées)
+- Préférences (thème, notifications)
+- Tout ce qui doit survivre à la fermeture du navigateur
+
+### Flux de données typique
+
+```mermaid
+sequenceDiagram
+    participant U as Utilisateur
+    participant C as Composant
+    participant H as useHabitForm
+    participant A as useAppData
+    participant L as localStorage
+
+    U->>C: Modifie un champ
+    C->>H: updateField('name', 'Push-ups')
+    Note over H: État local mis à jour
+
+    U->>C: Clique "Enregistrer"
+    C->>H: handleSubmit()
+    H->>A: updateHabit(id, updates)
+    A->>L: saveData(newAppData)
+    L-->>A: OK
+    A-->>C: Re-render avec nouvelles données
+```
+
+### Justification de ce choix
+
+**Pourquoi pas Redux/Zustand ?**
+1. **Simplicité** : L'app n'a pas de flux de données complexes
+2. **Performance** : Pas de re-renders inutiles avec les custom hooks
+3. **Taille du bundle** : Aucune dépendance supplémentaire
+4. **Testabilité** : Les hooks sont facilement mockables
+
+**Avantages**
+- Pas de boilerplate (actions, reducers)
+- TypeScript natif sans configuration
+- Courbe d'apprentissage minimale
+- Debug facilité (données visibles dans localStorage)
+
+---
+
+## Patterns de hooks
+
+Les hooks personnalisés suivent des conventions spécifiques pour maintenir la cohérence du codebase.
+
+### Conventions de nommage
+
+| Pattern | Description | Exemple |
+|---------|-------------|---------|
+| `use<Nom>` | Hook standard React | `useAppData`, `useTheme` |
+| `use<Entity>Form` | Gestion de formulaire | `useHabitForm` |
+| `use<Feature>Context` | Consumer de Context | `useEditHabitContext` |
+
+### Hooks principaux
+
+**`useAppData`** - Accès aux données de l'application
+```typescript
+const {
+  habits,
+  addHabit,
+  updateHabit,
+  deleteHabit,
+  entries,
+  addEntry,
+  isLoading
+} = useAppData()
+```
+- Source de vérité pour toutes les données
+- Gère la synchronisation avec localStorage
+- Fournit des méthodes CRUD pour habitudes et entrées
+
+**`useHabitForm`** - Gestion des formulaires d'habitude
+```typescript
+const {
+  form,
+  updateField,
+  isValid,
+  hasChanges,
+  errors
+} = useHabitForm({ mode: 'edit', initialHabit })
+```
+- Partagé entre CreateHabit et EditHabit
+- Gère la validation et la détection de changements
+- Mode 'create' ou 'edit'
+
+**`useCelebrations`** - Gestion des célébrations
+```typescript
+const {
+  checkMilestones,
+  celebrationData,
+  dismissCelebration
+} = useCelebrations()
+```
+- Détecte les jalons atteints
+- Gère l'affichage des modals de célébration
+
+**`useTheme`** - Gestion du thème
+```typescript
+const { theme, setTheme, isDark } = useTheme()
+```
+- Synchronise avec les préférences système
+- Persiste le choix utilisateur
+
+### Structure d'un hook
+
+```typescript
+// src/hooks/useExample.ts
+
+interface UseExampleOptions {
+  // Options du hook
+}
+
+interface UseExampleReturn {
+  // Valeurs retournées
+}
+
+export function useExample(options: UseExampleOptions): UseExampleReturn {
+  // État local
+  const [state, setState] = useState()
+
+  // Effets
+  useEffect(() => {}, [])
+
+  // Callbacks mémorisés
+  const handleAction = useCallback(() => {}, [])
+
+  // Valeurs calculées
+  const derived = useMemo(() => {}, [])
+
+  return { state, handleAction, derived }
+}
+```
+
+### Bonnes pratiques
+
+1. **Typer les options et le retour** : Utiliser des interfaces explicites
+2. **Mémoiser les callbacks** : Utiliser `useCallback` pour éviter les re-renders
+3. **Documenter avec JSDoc** : Expliquer le but et l'usage
+4. **Tester unitairement** : Chaque hook doit avoir ses tests
+
+---
+
 ## Structure des composants
 
 ```mermaid

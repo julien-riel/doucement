@@ -153,14 +153,15 @@
       "id": "phase-3-edithabit-refactor",
       "name": "Refactoring EditHabit",
       "description": "Découpage de EditHabit.tsx en composants modulaires",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
           "id": "3.1",
           "name": "Créer structure EditHabit/",
           "description": "Créer le répertoire et les fichiers de base pour EditHabit modulaire",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["2.3"],
           "files": [
@@ -179,7 +180,8 @@
           "id": "3.2",
           "name": "Extraire sections de formulaire",
           "description": "Créer des composants réutilisables pour les sections de formulaire (DirectionSelector, ProgressionConfig, etc.)",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": ["3.1"],
           "files": [
@@ -201,7 +203,8 @@
           "id": "3.3",
           "name": "Supprimer ancien EditHabit.tsx",
           "description": "Remplacer src/pages/EditHabit.tsx par le répertoire modulaire",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["3.2"],
           "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
@@ -219,14 +222,15 @@
       "id": "phase-4-documentation",
       "name": "Documentation architecture",
       "description": "Mise à jour de la documentation architecturale",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "4.1",
           "name": "Documenter architecture 3-tier",
           "description": "Ajouter une section dans ARCHITECTURE.md expliquant le système de gestion d'état à 3 niveaux",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": [],
           "files": ["docs/ARCHITECTURE.md"],
@@ -242,7 +246,8 @@
           "id": "4.2",
           "name": "Documenter patterns de hooks",
           "description": "Ajouter une section sur les patterns de hooks utilisés dans le projet",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "low",
           "dependsOn": ["2.2"],
           "files": ["docs/ARCHITECTURE.md"],
@@ -298,9 +303,9 @@
   ],
   "stats": {
     "totalTasks": 15,
-    "completed": 7,
+    "completed": 12,
     "inProgress": 0,
-    "pending": 8,
+    "pending": 3,
     "blocked": 0
   }
 }
