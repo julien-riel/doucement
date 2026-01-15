@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.30.3",
+  "currentVersion": "1.31.0",
   "releases": [
+    {
+      "version": "1.31.0",
+      "date": "2026-01-15",
+      "title": "Fondations types et persistance",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Nouveaux modes de tracking : chronomètre, minuterie et slider"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Configuration slider avec emojis dynamiques"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Service de persistance des états chronomètre"
+        },
+        {
+          "emoji": "tools",
+          "text": "Migration schéma v10 → v11"
+        }
+      ]
+    },
     {
       "version": "1.30.3",
       "date": "2026-01-15",
