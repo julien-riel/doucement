@@ -15,6 +15,7 @@ import {
   DirectionSection,
   FrequencySection,
   TrackingSection,
+  SliderConfigSection,
   ProgressionSection,
   IntentionSection,
   IdentitySection,
@@ -66,6 +67,9 @@ function EditHabitInner() {
 
         {/* Tracking mode and entry mode */}
         <TrackingSection />
+
+        {/* Slider configuration (only for slider mode) */}
+        <SliderConfigSection />
 
         {/* Progression settings (not for maintain) */}
         <ProgressionSection />

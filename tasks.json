@@ -353,11 +353,13 @@
           "id": "5.2",
           "name": "Créer configurateur SliderConfig",
           "description": "UI pour configurer min/max et mapping emoji du slider",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": ["5.1"],
           "files": [
             "src/pages/EditHabit/sections/SliderConfigSection.tsx",
+            "src/pages/EditHabit/sections/SliderConfigSection.css",
             "src/pages/EditHabit/sections/index.ts"
           ],
           "tests": [],
@@ -607,9 +609,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 22,
+    "completed": 23,
     "inProgress": 0,
-    "pending": 9,
+    "pending": 8,
     "blocked": 0
   }
 }

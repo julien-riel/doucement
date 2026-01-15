@@ -58,6 +58,7 @@ function habitToFormState(habit: Habit): HabitFormState {
     entryMode: habit.entryMode ?? 'replace',
     weeklyAggregation: habit.weeklyAggregation ?? 'sum-units',
     timeOfDay: habit.timeOfDay ?? null,
+    sliderConfig: habit.sliderConfig ?? null,
   }
 }
 
@@ -188,6 +189,11 @@ export function useHabitForm(options: UseHabitFormOptions): UseHabitFormReturn {
     const weeklyAggregationChanged = form.weeklyAggregation !== initial.weeklyAggregation
     const timeOfDayChanged = form.timeOfDay !== initial.timeOfDay
 
+    // SliderConfig changes (only compare if slider mode)
+    const sliderConfigChanged =
+      form.trackingMode === 'slider' &&
+      JSON.stringify(form.sliderConfig) !== JSON.stringify(initial.sliderConfig)
+
     return (
       nameChanged ||
       emojiChanged ||
@@ -205,7 +211,8 @@ export function useHabitForm(options: UseHabitFormOptions): UseHabitFormReturn {
       trackingModeChanged ||
       identityStatementChanged ||
       weeklyAggregationChanged ||
-      timeOfDayChanged
+      timeOfDayChanged ||
+      sliderConfigChanged
     )
   }, [mode, initialHabit, initialState, form])
 

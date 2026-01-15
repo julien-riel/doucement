@@ -13,6 +13,7 @@ import type {
   EntryMode,
   WeeklyAggregation,
   TimeOfDay,
+  SliderConfig,
 } from './index'
 
 /**
@@ -38,6 +39,7 @@ export interface HabitFormState {
   entryMode: EntryMode
   weeklyAggregation: WeeklyAggregation
   timeOfDay: TimeOfDay | null
+  sliderConfig: SliderConfig | null
 }
 
 /**
@@ -62,6 +64,7 @@ export const INITIAL_FORM_STATE: HabitFormState = {
   entryMode: 'replace',
   weeklyAggregation: 'sum-units',
   timeOfDay: null,
+  sliderConfig: null,
 }
 
 /**

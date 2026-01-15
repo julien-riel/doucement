@@ -1,0 +1,380 @@
+/**
+ * SliderConfigSection Component Styles
+ * Configuration du slider avec mapping emoji
+ */
+
+.slider-config {
+  padding: var(--spacing-5);
+}
+
+.slider-config__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-900);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.slider-config__hint {
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+/* ============================================================================
+   PRESETS
+   ============================================================================ */
+
+.slider-config__presets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.slider-config__presets-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--neutral-700);
+}
+
+.slider-config__presets-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.slider-config__preset-button {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  color: var(--neutral-700);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--easing-gentle),
+    border-color var(--duration-fast) var(--easing-gentle);
+}
+
+.slider-config__preset-button:hover {
+  background: var(--primary-50);
+  border-color: var(--primary-300);
+  color: var(--primary-700);
+}
+
+/* ============================================================================
+   MIN/MAX/STEP VALUES
+   ============================================================================ */
+
+.slider-config__values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.slider-config__value-label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.slider-config__value-label span {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--neutral-700);
+}
+
+.slider-config__value-input {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  background: var(--neutral-0);
+  color: var(--neutral-800);
+  width: 100%;
+  text-align: center;
+}
+
+.slider-config__value-input:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(242, 125, 22, 0.15);
+}
+
+/* ============================================================================
+   EMOJI RANGES
+   ============================================================================ */
+
+.slider-config__ranges {
+  margin-bottom: var(--spacing-4);
+}
+
+.slider-config__ranges-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0 0 var(--spacing-1) 0;
+}
+
+.slider-config__ranges-hint {
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  margin: 0 0 var(--spacing-3) 0;
+}
+
+.slider-config__ranges-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+/* Single range row */
+.slider-config__range-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3);
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+}
+
+.slider-config__range-values {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex: 1;
+}
+
+.slider-config__range-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.slider-config__range-label-text {
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+}
+
+.slider-config__range-input {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  width: 56px;
+  padding: var(--spacing-1) var(--spacing-2);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-sm);
+  background: var(--neutral-0);
+  text-align: center;
+}
+
+.slider-config__range-input:focus {
+  outline: none;
+  border-color: var(--primary-500);
+}
+
+/* Emoji selector */
+.slider-config__range-emoji {
+  position: relative;
+}
+
+.slider-config__emoji-button {
+  font-size: 1.75rem;
+  padding: var(--spacing-1);
+  background: var(--neutral-0);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  min-width: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--duration-fast) var(--easing-gentle),
+    border-color var(--duration-fast) var(--easing-gentle);
+}
+
+.slider-config__emoji-button:hover {
+  background: var(--neutral-100);
+  border-color: var(--primary-300);
+}
+
+.slider-config__emoji-picker-container {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 100;
+  margin-top: var(--spacing-1);
+}
+
+/* Remove button */
+.slider-config__remove-button {
+  font-size: var(--text-lg);
+  color: var(--neutral-500);
+  background: none;
+  border: none;
+  padding: var(--spacing-1);
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--duration-fast) var(--easing-gentle);
+}
+
+.slider-config__remove-button:hover {
+  color: var(--neutral-700);
+}
+
+/* Add range button */
+.slider-config__add-range-button {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--primary-600);
+  background: none;
+  border: none;
+  padding: var(--spacing-2);
+  cursor: pointer;
+  margin-top: var(--spacing-2);
+  transition: color var(--duration-fast) var(--easing-gentle);
+}
+
+.slider-config__add-range-button:hover {
+  color: var(--primary-700);
+  text-decoration: underline;
+}
+
+/* ============================================================================
+   PREVIEW
+   ============================================================================ */
+
+.slider-config__preview {
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--neutral-200);
+}
+
+.slider-config__preview-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0 0 var(--spacing-3) 0;
+}
+
+.slider-config__preview-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.slider-config__preview-emoji {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.slider-config__preview-value {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-900);
+}
+
+.slider-config__preview-slider-container {
+  position: relative;
+  width: 100%;
+  max-width: 240px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.slider-config__preview-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: var(--neutral-200);
+  border-radius: var(--radius-full);
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.slider-config__preview-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: var(--primary-500);
+  border: 2px solid white;
+  border-radius: var(--radius-full);
+  cursor: grab;
+  box-shadow: var(--shadow-soft);
+}
+
+.slider-config__preview-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: var(--primary-500);
+  border: 2px solid white;
+  border-radius: var(--radius-full);
+  cursor: grab;
+  box-shadow: var(--shadow-soft);
+}
+
+.slider-config__preview-progress {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 8px;
+  background: linear-gradient(90deg, var(--primary-400), var(--primary-500));
+  border-radius: var(--radius-full);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.slider-config__preview-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 240px;
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 480px) {
+  .slider-config__values {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2);
+  }
+
+  .slider-config__range-row {
+    flex-wrap: wrap;
+  }
+
+  .slider-config__range-values {
+    flex-basis: 100%;
+    order: 2;
+    margin-top: var(--spacing-2);
+  }
+
+  .slider-config__range-emoji {
+    order: 1;
+  }
+
+  .slider-config__remove-button {
+    order: 3;
+    margin-left: auto;
+  }
+}

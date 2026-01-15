@@ -117,6 +117,13 @@ export function EditHabitProvider({ children, habit }: EditHabitProviderProps) {
     // Tracking mode
     updates.trackingMode = form.trackingMode
 
+    // Slider config (only for slider mode)
+    if (form.trackingMode === 'slider' && form.sliderConfig) {
+      updates.sliderConfig = form.sliderConfig
+    } else {
+      updates.sliderConfig = undefined
+    }
+
     // Identity statement
     const trimmedIdentity = form.identityStatement.trim()
     updates.identityStatement = trimmedIdentity || undefined
