@@ -345,15 +345,30 @@
 
 .step-details__tracking-mode-options {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--spacing-3);
+}
+
+/* Grid layout for 6 tracking modes */
+.step-details__tracking-mode-options--grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-3);
+}
+
+@media (min-width: 768px) {
+  .step-details__tracking-mode-options--grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .step-details__tracking-mode-option {
   flex: 1;
+  min-width: 0; /* Allow shrinking in grid */
   display: flex;
   flex-direction: column;
   gap: var(--spacing-1);
-  padding: var(--spacing-4);
+  padding: var(--spacing-3);
   background: var(--neutral-100);
   border: 2px solid transparent;
   border-radius: var(--radius-lg);

@@ -42,6 +42,9 @@ export {
   createMaintainHabit,
   createCounterHabit,
   createWeeklyHabit,
+  createStopwatchHabit,
+  createTimerHabit,
+  createSliderHabit,
 
   // Entry factories
   createEntry,

@@ -403,14 +403,15 @@
       "id": "phase-6-tests-e2e",
       "name": "Tests E2E",
       "description": "Tests end-to-end pour les nouveaux widgets",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "6.1",
           "name": "Test E2E chronomètre",
           "description": "Scénario complet de création et utilisation d'une habitude chrono",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["5.3"],
           "files": ["e2e/stopwatch-habit.spec.ts"],
@@ -426,7 +427,8 @@
           "id": "6.2",
           "name": "Test E2E minuterie",
           "description": "Scénario de création et utilisation d'une habitude minuterie",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["5.3"],
           "files": ["e2e/timer-habit.spec.ts"],
@@ -442,7 +444,8 @@
           "id": "6.3",
           "name": "Test E2E slider",
           "description": "Scénario de création et utilisation d'une habitude slider",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["5.3"],
           "files": ["e2e/slider-habit.spec.ts"],
@@ -618,9 +621,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 24,
+    "completed": 27,
     "inProgress": 0,
-    "pending": 7,
+    "pending": 4,
     "blocked": 0
   }
 }

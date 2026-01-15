@@ -168,7 +168,7 @@ function EmojiRangeRow({
         </button>
         {showEmojiPicker && (
           <div className="slider-config__emoji-picker-container">
-            <EmojiPicker onEmojiSelect={handleEmojiSelect} />
+            <EmojiPicker value={range.emoji} onChange={handleEmojiSelect} />
           </div>
         )}
       </div>
