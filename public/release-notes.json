@@ -1,6 +1,21 @@
 {
-  "currentVersion": "1.30.1",
+  "currentVersion": "1.30.2",
   "releases": [
+    {
+      "version": "1.30.2",
+      "date": "2026-01-15",
+      "title": "Validation finale",
+      "highlights": [
+        {
+          "emoji": "check",
+          "text": "Exécuter suite de tests complète"
+        },
+        {
+          "emoji": "check",
+          "text": "Health check"
+        }
+      ]
+    },
     {
       "version": "1.30.1",
       "date": "2026-01-15",
