@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.28.4",
+  "currentVersion": "1.28.5",
   "releases": [
+    {
+      "version": "1.28.5",
+      "date": "2026-01-15",
+      "title": "Nettoyage et validation finale",
+      "highlights": [
+        {
+          "emoji": "check",
+          "text": "Exécuter tous les tests E2E"
+        },
+        {
+          "emoji": "tools",
+          "text": "Supprimer SKIPPED_TESTS.md"
+        },
+        {
+          "emoji": "tools",
+          "text": "Mise à jour documentation"
+        }
+      ]
+    },
     {
       "version": "1.28.4",
       "date": "2026-01-15",
