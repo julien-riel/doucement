@@ -1,4 +1,12 @@
 import { test, expect } from './base-test';
+import {
+  createAppData,
+  createDecreaseHabit,
+  createEmptyAppData,
+  setupLocalStorage,
+  gotoToday,
+  resetCounters,
+} from './fixtures';
 
 /**
  * Tests E2E pour les habitudes decrease daily
@@ -8,48 +16,30 @@ import { test, expect } from './base-test';
  */
 
 // Données de test pour habitude decrease
-const decreaseDailyData = {
-  schemaVersion: 7,
+const decreaseDailyData = createAppData({
   habits: [
-    {
+    createDecreaseHabit({
       id: 'habit-cigarettes-decrease-daily',
       name: 'Réduire les cigarettes',
       emoji: '🚭',
       description: 'Réduction progressive du tabac',
-      direction: 'decrease',
       startValue: 15,
       unit: 'cigarettes',
       progression: { mode: 'absolute', value: 1, period: 'weekly' },
       targetValue: 0,
       createdAt: '2025-12-01',
-      archivedAt: null,
-      trackingMode: 'detailed',
-      trackingFrequency: 'daily'
-    }
+    }),
   ],
-  entries: [],
   preferences: {
-    onboardingCompleted: true,
     lastWeeklyReviewDate: '2026-01-05',
-    notifications: {
-      enabled: false,
-      morningReminder: { enabled: true, time: '08:00' },
-      eveningReminder: { enabled: false, time: '20:00' },
-      weeklyReviewReminder: { enabled: false, time: '10:00' }
-    },
-    theme: 'system'
-  }
-};
+  },
+});
 
 test.describe('Habitude decrease daily', () => {
   test.beforeEach(async ({ page }) => {
-    // Injecter les données de test AVANT que la page charge
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement_data', JSON.stringify(data));
-    }, decreaseDailyData);
-
-    await page.goto('/');
-    await page.waitForSelector('h3:has-text("Réduire les cigarettes")');
+    resetCounters();
+    await setupLocalStorage(page, decreaseDailyData);
+    await gotoToday(page, 'Réduire les cigarettes');
   });
 
   test('affiche l\'habitude decrease avec les boutons adaptés', async ({ page }) => {
@@ -117,7 +107,8 @@ test.describe('Habitude decrease daily', () => {
   });
 
   test('création d\'une habitude decrease daily complète', async ({ page }) => {
-    // Aller à la page de création
+    // Setup fresh state and go to creation page
+    await setupLocalStorage(page, createEmptyAppData());
     await page.goto('/create');
     await page.waitForSelector('text=Nouvelle habitude');
 

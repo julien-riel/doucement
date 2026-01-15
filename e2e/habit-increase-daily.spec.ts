@@ -1,4 +1,12 @@
 import { test, expect } from './base-test';
+import {
+  createAppData,
+  createIncreaseHabit,
+  createEmptyAppData,
+  setupLocalStorage,
+  gotoToday,
+  resetCounters,
+} from './fixtures';
 
 /**
  * Tests E2E pour les habitudes increase daily
@@ -8,48 +16,30 @@ import { test, expect } from './base-test';
  */
 
 // Données de test pour habitude increase
-const increaseDailyData = {
-  schemaVersion: 7,
+const increaseDailyData = createAppData({
   habits: [
-    {
+    createIncreaseHabit({
       id: 'habit-pushups-increase-daily',
       name: 'Push-ups',
       emoji: '💪',
       description: 'Renforcement musculaire quotidien',
-      direction: 'increase',
       startValue: 10,
       unit: 'répétitions',
       progression: { mode: 'absolute', value: 2, period: 'weekly' },
       targetValue: 50,
       createdAt: '2025-12-01',
-      archivedAt: null,
-      trackingMode: 'detailed',
-      trackingFrequency: 'daily'
-    }
+    }),
   ],
-  entries: [],
   preferences: {
-    onboardingCompleted: true,
     lastWeeklyReviewDate: '2026-01-05',
-    notifications: {
-      enabled: false,
-      morningReminder: { enabled: true, time: '08:00' },
-      eveningReminder: { enabled: false, time: '20:00' },
-      weeklyReviewReminder: { enabled: false, time: '10:00' }
-    },
-    theme: 'system'
-  }
-};
+  },
+});
 
 test.describe('Habitude increase daily', () => {
   test.beforeEach(async ({ page }) => {
-    // Injecter les données de test AVANT que la page charge
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement_data', JSON.stringify(data));
-    }, increaseDailyData);
-
-    await page.goto('/');
-    await page.waitForSelector('h3:has-text("Push-ups")');
+    resetCounters();
+    await setupLocalStorage(page, increaseDailyData);
+    await gotoToday(page, 'Push-ups');
   });
 
   test('affiche l\'habitude increase avec les boutons de check-in', async ({ page }) => {
@@ -97,7 +87,8 @@ test.describe('Habitude increase daily', () => {
   });
 
   test('création d\'une habitude increase daily complète', async ({ page }) => {
-    // Aller à la page de création
+    // Setup fresh state and go to creation page
+    await setupLocalStorage(page, createEmptyAppData());
     await page.goto('/create');
     await page.waitForSelector('text=Nouvelle habitude');
 

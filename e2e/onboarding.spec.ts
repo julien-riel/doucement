@@ -1,4 +1,5 @@
 import { test, expect } from './base-test';
+import { setupFreshLocalStorage, gotoAndWait } from './fixtures';
 
 /**
  * Tests E2E pour le parcours d'onboarding
@@ -7,15 +8,8 @@ import { test, expect } from './base-test';
 
 test.describe('Onboarding', () => {
   test.beforeEach(async ({ page }) => {
-    // Effacer le localStorage avant chaque test pour avoir un état propre
-    await page.goto('/');
-    await page.evaluate(() => {
-      localStorage.clear();
-      localStorage.setItem('doucement-language', 'fr');
-    });
-    await page.goto('/onboarding');
-    // Attendre que la page charge
-    await page.waitForSelector('h1:has-text("Bienvenue")');
+    await setupFreshLocalStorage(page);
+    await gotoAndWait(page, '/onboarding', 'h1:has-text("Bienvenue")');
   });
 
   test('affiche le premier écran de bienvenue', async ({ page }) => {

@@ -1,4 +1,11 @@
 import { test, expect } from './base-test';
+import {
+  createAppData,
+  createDecreaseHabit,
+  setupLocalStorage,
+  gotoToday,
+  resetCounters,
+} from './fixtures';
 
 /**
  * Tests E2E pour les habitudes decrease avec saisie de zéro
@@ -8,38 +15,24 @@ import { test, expect } from './base-test';
 
 // Données de test pour habitude decrease avec entrée à zéro
 // Simule le jour après une journée parfaite (sans aucune cigarette)
-const decreaseZeroData = {
-  schemaVersion: 7,
+const decreaseZeroData = createAppData({
   habits: [
-    {
+    createDecreaseHabit({
       id: 'habit-cigarettes-decrease-zero',
       name: 'Réduire les cigarettes',
       emoji: '🚭',
       description: 'Réduction progressive du tabac - jour parfait avec 0',
-      direction: 'decrease',
       startValue: 10,
       unit: 'cigarettes',
       progression: { mode: 'absolute', value: 1, period: 'weekly' },
       targetValue: 0,
       createdAt: '2025-12-01',
-      archivedAt: null,
-      trackingMode: 'detailed',
-      trackingFrequency: 'daily'
-    }
+    }),
   ],
-  entries: [],
   preferences: {
-    onboardingCompleted: true,
     lastWeeklyReviewDate: '2026-01-05',
-    notifications: {
-      enabled: false,
-      morningReminder: { enabled: true, time: '08:00' },
-      eveningReminder: { enabled: false, time: '20:00' },
-      weeklyReviewReminder: { enabled: false, time: '10:00' }
-    },
-    theme: 'system'
-  }
-};
+  },
+});
 
 // Messages de félicitations pour zéro (doivent correspondre à DECREASE_ZERO_MESSAGES)
 const zeroMessages = [
@@ -52,13 +45,9 @@ const zeroMessages = [
 
 test.describe('Habitude decrease - saisie zéro', () => {
   test.beforeEach(async ({ page }) => {
-    // Injecter les données de test AVANT que la page charge
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement_data', JSON.stringify(data));
-    }, decreaseZeroData);
-
-    await page.goto('/');
-    await page.waitForSelector('h3:has-text("Réduire les cigarettes")');
+    resetCounters();
+    await setupLocalStorage(page, decreaseZeroData);
+    await gotoToday(page, 'Réduire les cigarettes');
   });
 
   test('saisie de 0 affiche un message de félicitations spécial', async ({ page }) => {
@@ -133,12 +122,9 @@ test.describe('Habitude decrease - saisie zéro', () => {
 
 test.describe('Habitude decrease - feedback visuel moins que cible', () => {
   test.beforeEach(async ({ page }) => {
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement_data', JSON.stringify(data));
-    }, decreaseZeroData);
-
-    await page.goto('/');
-    await page.waitForSelector('h3:has-text("Réduire les cigarettes")');
+    resetCounters();
+    await setupLocalStorage(page, decreaseZeroData);
+    await gotoToday(page, 'Réduire les cigarettes');
   });
 
   test('saisie inférieure à la cible affiche badge "En contrôle"', async ({ page }) => {

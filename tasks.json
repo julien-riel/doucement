@@ -222,14 +222,16 @@
       "id": "phase-4-migration-medium",
       "name": "Migration specs moyenne priorité",
       "description": "Migrer les 5 specs suivants",
-      "status": "pending",
+      "status": "completed",
+      "completedAt": "2026-01-15",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "4.1",
           "name": "Migrer habit-maintain.spec.ts",
           "description": "Utiliser createMaintainHabit factory",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": [],
           "files": ["e2e/habit-maintain.spec.ts"],
@@ -240,7 +242,8 @@
           "id": "4.2",
           "name": "Migrer habit-decrease-zero.spec.ts",
           "description": "Utiliser createDecreaseHabit factory avec targetValue: 0",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": [],
           "files": ["e2e/habit-decrease-zero.spec.ts"],
@@ -251,7 +254,8 @@
           "id": "4.3",
           "name": "Migrer habit-decrease-daily.spec.ts",
           "description": "Utiliser createDecreaseHabit factory",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": [],
           "files": ["e2e/habit-decrease-daily.spec.ts"],
@@ -262,7 +266,8 @@
           "id": "4.4",
           "name": "Migrer habit-increase-daily.spec.ts",
           "description": "Utiliser createIncreaseHabit factory",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": [],
           "files": ["e2e/habit-increase-daily.spec.ts"],
@@ -273,12 +278,13 @@
           "id": "4.5",
           "name": "Migrer onboarding.spec.ts",
           "description": "Utiliser createFreshAppData et setupFreshLocalStorage",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "medium",
           "dependsOn": [],
           "files": ["e2e/onboarding.spec.ts"],
           "tests": ["e2e/onboarding.spec.ts"],
-          "acceptance": ["Utilise createFreshAppData", "Tous les tests passent"]
+          "acceptance": ["Utilise setupFreshLocalStorage", "Tous les tests passent"]
         }
       ]
     },
@@ -419,9 +425,9 @@
   ],
   "stats": {
     "totalTasks": 24,
-    "completed": 12,
+    "completed": 17,
     "inProgress": 0,
-    "pending": 12,
+    "pending": 7,
     "blocked": 0
   }
 }

@@ -1,4 +1,12 @@
 import { test, expect } from './base-test';
+import {
+  createAppData,
+  createMaintainHabit,
+  createEmptyAppData,
+  setupLocalStorage,
+  gotoToday,
+  resetCounters,
+} from './fixtures';
 
 /**
  * Tests E2E pour les habitudes de maintien (direction: maintain)
@@ -7,79 +15,46 @@ import { test, expect } from './base-test';
  */
 
 // Données de test pour habitude maintain avec mode simple
-const maintainSimpleData = {
-  schemaVersion: 7,
+const maintainSimpleData = createAppData({
   habits: [
-    {
+    createMaintainHabit({
       id: 'habit-vitamins-maintain-simple',
       name: 'Prendre ses vitamines',
       emoji: '💊',
       description: 'Prendre ses vitamines chaque jour',
-      direction: 'maintain',
       startValue: 1,
       unit: 'prise',
-      progression: null, // Pas de progression pour maintain
-      createdAt: '2025-12-15',
-      archivedAt: null,
       trackingMode: 'simple', // Mode binaire: fait/pas fait
-      trackingFrequency: 'daily'
-    }
+    }),
   ],
-  entries: [],
   preferences: {
-    onboardingCompleted: true,
     lastWeeklyReviewDate: '2026-01-05',
-    notifications: {
-      enabled: false,
-      morningReminder: { enabled: true, time: '08:00' },
-      eveningReminder: { enabled: false, time: '20:00' },
-      weeklyReviewReminder: { enabled: false, time: '10:00' }
-    },
-    theme: 'system'
-  }
-};
+  },
+});
 
 // Données de test pour habitude maintain avec mode detailed
-const maintainDetailedData = {
-  schemaVersion: 7,
+const maintainDetailedData = createAppData({
   habits: [
-    {
+    createMaintainHabit({
       id: 'habit-water-maintain-detailed',
-      name: 'Boire 8 verres d\'eau',
+      name: "Boire 8 verres d'eau",
       emoji: '💧',
       description: 'Maintenir 8 verres par jour',
-      direction: 'maintain',
       startValue: 8,
       unit: 'verres',
-      progression: null,
-      createdAt: '2025-12-15',
-      archivedAt: null,
       trackingMode: 'detailed',
-      trackingFrequency: 'daily'
-    }
+    }),
   ],
-  entries: [],
   preferences: {
-    onboardingCompleted: true,
     lastWeeklyReviewDate: '2026-01-05',
-    notifications: {
-      enabled: false,
-      morningReminder: { enabled: true, time: '08:00' },
-      eveningReminder: { enabled: false, time: '20:00' },
-      weeklyReviewReminder: { enabled: false, time: '10:00' }
-    },
-    theme: 'system'
-  }
-};
+  },
+});
 
 test.describe('Habitude maintain - mode simple (binaire)', () => {
   test.beforeEach(async ({ page }) => {
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement_data', JSON.stringify(data));
-    }, maintainSimpleData);
-
-    await page.goto('/');
-    await page.waitForSelector('h3:has-text("Prendre ses vitamines")');
+    resetCounters();
+    await setupLocalStorage(page, maintainSimpleData);
+    await gotoToday(page, 'Prendre ses vitamines');
   });
 
   test('affiche l\'habitude maintain avec les boutons simples', async ({ page }) => {
@@ -129,12 +104,9 @@ test.describe('Habitude maintain - mode simple (binaire)', () => {
 
 test.describe('Habitude maintain - mode detailed', () => {
   test.beforeEach(async ({ page }) => {
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement_data', JSON.stringify(data));
-    }, maintainDetailedData);
-
-    await page.goto('/');
-    await page.waitForSelector('h3:has-text("Boire 8 verres")');
+    resetCounters();
+    await setupLocalStorage(page, maintainDetailedData);
+    await gotoToday(page, "Boire 8 verres");
   });
 
   test('affiche l\'habitude maintain avec les boutons quantitatifs', async ({ page }) => {
@@ -165,28 +137,8 @@ test.describe('Habitude maintain - mode detailed', () => {
 
 test.describe('Habitude maintain - création', () => {
   test.beforeEach(async ({ page }) => {
-    // Données avec onboarding complété mais sans habitude
-    const emptyData = {
-      schemaVersion: 7,
-      habits: [],
-      entries: [],
-      preferences: {
-        onboardingCompleted: true,
-        lastWeeklyReviewDate: null,
-        notifications: {
-          enabled: false,
-          morningReminder: { enabled: true, time: '08:00' },
-          eveningReminder: { enabled: false, time: '20:00' },
-          weeklyReviewReminder: { enabled: false, time: '10:00' }
-        },
-        theme: 'system'
-      }
-    };
-
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement_data', JSON.stringify(data));
-    }, emptyData);
-
+    resetCounters();
+    await setupLocalStorage(page, createEmptyAppData());
     await page.goto('/create');
     await page.waitForSelector('text=Nouvelle habitude');
   });
