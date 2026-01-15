@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.28.6",
+  "currentVersion": "1.29.0",
   "releases": [
+    {
+      "version": "1.29.0",
+      "date": "2026-01-15",
+      "title": "Hook useHabitForm",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Extraire types HabitFormState"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Créer useHabitForm hook"
+        },
+        {
+          "emoji": "tools",
+          "text": "Intégrer useHabitForm dans EditHabit"
+        }
+      ]
+    },
     {
       "version": "1.28.6",
       "date": "2026-01-15",

@@ -2,7 +2,7 @@
   "project": "Refactoring Architectural",
   "description": "Amélioration de la maintenabilité et robustesse du codebase suite à l'audit architectural",
   "createdAt": "2026-01-15",
-  "lastRelease": "1.28.6",
+  "lastRelease": "1.29.0",
   "docs": [
     "docs/prd-architecture-refactoring.md",
     "docs/ARCHITECTURE.md",
@@ -92,6 +92,8 @@
       "description": "Création du hook partagé pour la logique de formulaire d'habitude",
       "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.29.0",
+      "releasedAt": "2026-01-15",
       "tasks": [
         {
           "id": "2.1",
