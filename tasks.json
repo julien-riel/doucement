@@ -2,7 +2,7 @@
   "project": "Refactoring Architectural",
   "description": "Amélioration de la maintenabilité et robustesse du codebase suite à l'audit architectural",
   "createdAt": "2026-01-15",
-  "lastRelease": "1.28.5",
+  "lastRelease": "1.28.6",
   "docs": [
     "docs/prd-architecture-refactoring.md",
     "docs/ARCHITECTURE.md",
@@ -13,8 +13,10 @@
       "id": "phase-1-quick-wins",
       "name": "Corrections rapides",
       "description": "Corrections simples qui n'impactent pas l'architecture globale",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
+      "releasedAs": "1.28.6",
+      "releasedAt": "2026-01-15",
       "tasks": [
         {
           "id": "1.1",

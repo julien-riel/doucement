@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.28.5",
+  "currentVersion": "1.28.6",
   "releases": [
+    {
+      "version": "1.28.6",
+      "date": "2026-01-15",
+      "title": "Corrections rapides",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "Corriger useDebugMode état mutable"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Ajouter logging erreurs AppProvider"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Créer ErrorBoundary générique"
+        },
+        {
+          "emoji": "tools",
+          "text": "Intégrer ErrorBoundary dans App"
+        }
+      ]
+    },
     {
       "version": "1.28.5",
       "date": "2026-01-15",
