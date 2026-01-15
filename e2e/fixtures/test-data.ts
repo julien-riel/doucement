@@ -11,6 +11,19 @@
 import { CURRENT_SCHEMA_VERSION } from '../../src/types';
 
 // Types locaux pour les fixtures (évite d'importer tous les types)
+export interface TestEmojiRange {
+  from: number;
+  to: number;
+  emoji: string;
+}
+
+export interface TestSliderConfig {
+  min: number;
+  max: number;
+  step: number;
+  emojiRanges?: TestEmojiRange[];
+}
+
 export interface TestHabit {
   id: string;
   name: string;
@@ -27,7 +40,7 @@ export interface TestHabit {
   targetValue?: number | null;
   createdAt: string;
   archivedAt: string | null;
-  trackingMode?: 'simple' | 'detailed' | 'counter';
+  trackingMode?: 'simple' | 'detailed' | 'counter' | 'stopwatch' | 'timer' | 'slider';
   trackingFrequency?: 'daily' | 'weekly';
   weeklyAggregation?: 'count-days' | 'sum-units';
   entryMode?: 'replace' | 'cumulative';
@@ -44,6 +57,8 @@ export interface TestHabit {
   } | null;
   identityStatement?: string;
   timeOfDay?: 'morning' | 'afternoon' | 'evening' | 'night';
+  sliderConfig?: TestSliderConfig;
+  notifyOnTarget?: boolean;
 }
 
 export interface TestEntry {
@@ -224,6 +239,70 @@ export function createWeeklyHabit(
   return createHabit({
     trackingFrequency: 'weekly',
     weeklyAggregation: overrides.weeklyAggregation || 'count-days',
+    ...overrides,
+  });
+}
+
+/**
+ * Create a stopwatch habit (chronometer) for time-based tracking
+ */
+export function createStopwatchHabit(
+  overrides: Partial<TestHabit> = {}
+): TestHabit {
+  return createHabit({
+    trackingMode: 'stopwatch',
+    emoji: '⏱️',
+    unit: 'secondes',
+    direction: 'maintain',
+    progression: null,
+    entryMode: 'cumulative', // Multiple sessions per day
+    ...overrides,
+  });
+}
+
+/**
+ * Create a timer habit (countdown) for time-based tracking
+ */
+export function createTimerHabit(
+  overrides: Partial<TestHabit> = {}
+): TestHabit {
+  return createHabit({
+    trackingMode: 'timer',
+    emoji: '⏲️',
+    unit: 'secondes',
+    direction: 'maintain',
+    progression: null,
+    entryMode: 'replace',
+    ...overrides,
+  });
+}
+
+/**
+ * Create a slider habit with emoji mapping
+ */
+export function createSliderHabit(
+  overrides: Partial<TestHabit> = {}
+): TestHabit {
+  const defaultSliderConfig: TestSliderConfig = {
+    min: 1,
+    max: 10,
+    step: 1,
+    emojiRanges: [
+      { from: 1, to: 3, emoji: '😢' },
+      { from: 4, to: 5, emoji: '😕' },
+      { from: 6, to: 7, emoji: '😊' },
+      { from: 8, to: 10, emoji: '😄' },
+    ],
+  };
+
+  return createHabit({
+    trackingMode: 'slider',
+    emoji: '😊',
+    unit: 'niveau',
+    direction: 'maintain',
+    progression: null,
+    entryMode: 'replace', // Slider is always replace mode
+    sliderConfig: overrides.sliderConfig || defaultSliderConfig,
     ...overrides,
   });
 }

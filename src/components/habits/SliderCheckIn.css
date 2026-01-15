@@ -1,0 +1,241 @@
+/**
+ * SliderCheckIn Component Styles
+ * Widget slider avec emoji dynamique
+ */
+
+.slider-checkin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-4);
+}
+
+/* ============================================================================
+   EMOJI DYNAMIQUE
+   ============================================================================ */
+
+.slider-checkin__emoji {
+  font-size: 3rem;
+  line-height: 1;
+  transition: transform var(--duration-normal) var(--easing-bounce);
+}
+
+.slider-checkin__emoji:has(+ .slider-checkin__value) {
+  /* Animation subtile quand la valeur change */
+  animation: emojiPop var(--duration-normal) var(--easing-bounce);
+}
+
+@keyframes emojiPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ============================================================================
+   VALEUR NUMÉRIQUE
+   ============================================================================ */
+
+.slider-checkin__value {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-900);
+  min-width: 48px;
+  text-align: center;
+}
+
+/* ============================================================================
+   SLIDER TRACK
+   ============================================================================ */
+
+.slider-checkin__track-container {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.slider-checkin__input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: var(--neutral-200);
+  border-radius: var(--radius-full);
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+/* Masquer le track natif */
+.slider-checkin__input::-webkit-slider-runnable-track {
+  height: 8px;
+  background: transparent;
+  border-radius: var(--radius-full);
+}
+
+.slider-checkin__input::-moz-range-track {
+  height: 8px;
+  background: transparent;
+  border-radius: var(--radius-full);
+}
+
+/* Thumb (le curseur) */
+.slider-checkin__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  background: var(--primary-500);
+  border: 3px solid white;
+  border-radius: var(--radius-full);
+  cursor: grab;
+  box-shadow: var(--shadow-medium);
+  transition:
+    transform var(--duration-fast) var(--easing-gentle),
+    box-shadow var(--duration-fast) var(--easing-gentle);
+}
+
+.slider-checkin__input::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  background: var(--primary-500);
+  border: 3px solid white;
+  border-radius: var(--radius-full);
+  cursor: grab;
+  box-shadow: var(--shadow-medium);
+  transition:
+    transform var(--duration-fast) var(--easing-gentle),
+    box-shadow var(--duration-fast) var(--easing-gentle);
+}
+
+/* Hover sur le thumb */
+.slider-checkin__input:hover::-webkit-slider-thumb {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-glow);
+}
+
+.slider-checkin__input:hover::-moz-range-thumb {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Active (en train de glisser) */
+.slider-checkin__input:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  transform: scale(1.15);
+}
+
+.slider-checkin__input:active::-moz-range-thumb {
+  cursor: grabbing;
+  transform: scale(1.15);
+}
+
+/* Focus pour accessibilité */
+.slider-checkin__input:focus::-webkit-slider-thumb {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+.slider-checkin__input:focus::-moz-range-thumb {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.slider-checkin__input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.slider-checkin__input:disabled::-webkit-slider-thumb {
+  cursor: not-allowed;
+  background: var(--neutral-400);
+}
+
+.slider-checkin__input:disabled::-moz-range-thumb {
+  cursor: not-allowed;
+  background: var(--neutral-400);
+}
+
+/* Track de progression */
+.slider-checkin__progress {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 8px;
+  background: linear-gradient(90deg, var(--primary-400), var(--primary-500));
+  border-radius: var(--radius-full);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================================================
+   LABELS MIN/MAX
+   ============================================================================ */
+
+.slider-checkin__labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 280px;
+  margin-top: calc(-1 * var(--spacing-2));
+}
+
+.slider-checkin__label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-500);
+}
+
+/* ============================================================================
+   BOUTON DE VALIDATION
+   ============================================================================ */
+
+.slider-checkin__submit {
+  width: 100%;
+  max-width: 200px;
+  margin-top: var(--spacing-2);
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 380px) {
+  .slider-checkin__emoji {
+    font-size: 2.5rem;
+  }
+
+  .slider-checkin__value {
+    font-size: var(--text-2xl);
+  }
+
+  .slider-checkin__track-container,
+  .slider-checkin__labels {
+    max-width: 100%;
+  }
+}
+
+/* ============================================================================
+   RÉDUCTION DE MOUVEMENT
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .slider-checkin__emoji {
+    animation: none;
+    transition: none;
+  }
+}

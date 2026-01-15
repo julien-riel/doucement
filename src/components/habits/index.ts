@@ -71,3 +71,9 @@ export type { CumulativeHistoryProps } from './CumulativeHistory'
 
 export { default as RecalibrationPrompt } from './RecalibrationPrompt'
 export type { RecalibrationPromptProps } from './RecalibrationPrompt'
+
+export { default as StopwatchCheckIn } from './StopwatchCheckIn'
+export type { StopwatchCheckInProps } from './StopwatchCheckIn'
+
+export { default as SliderCheckIn } from './SliderCheckIn'
+export type { SliderCheckInProps } from './SliderCheckIn'

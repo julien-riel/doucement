@@ -49,6 +49,9 @@ Mode de suivi d'une habitude.
 | `simple` | Binaire (fait/pas fait) | Bouton unique | Prendre ses vitamines |
 | `detailed` | Quantitatif avec saisie | Champ numérique | Verres d'eau |
 | `counter` | Compteur incrémental | Boutons +/- | Cigarettes fumées |
+| `stopwatch` | Chronomètre | Play/Pause/Stop | Méditation, lecture |
+| `timer` | Minuterie (compte à rebours) | Play/Pause/Stop | Gainage, planche |
+| `slider` | Slider visuel avec emoji | Slider horizontal | Humeur, énergie, douleur |
 
 ### TrackingFrequency
 
@@ -257,7 +260,7 @@ Structure racine stockée dans localStorage.
 
 ```typescript
 interface AppData {
-  schemaVersion: number;      // Actuellement 10
+  schemaVersion: number;      // Actuellement 11
   habits: Habit[];            // Liste des habitudes
   entries: DailyEntry[];      // Entrées quotidiennes
   preferences: UserPreferences; // Préférences utilisateur
@@ -270,7 +273,7 @@ Version du schéma de données pour les migrations.
 
 - Incrémentée à chaque modification de structure
 - Permet les migrations automatiques à l'import
-- Version actuelle : **10**
+- Version actuelle : **11**
 
 ### UserPreferences
 
@@ -316,6 +319,75 @@ interface CumulativeOperation {
   timestamp: string;
 }
 ```
+
+---
+
+## Widgets Temporels
+
+### TimerState
+
+État persisté d'un chronomètre en cours.
+
+```typescript
+interface TimerState {
+  habitId: string;           // ID de l'habitude
+  date: string;              // YYYY-MM-DD
+  startedAt: string;         // Timestamp ISO de démarrage
+  accumulatedSeconds: number; // Temps accumulé avant pause
+  isRunning: boolean;        // Chrono en cours ou en pause
+}
+```
+
+- Stocké dans localStorage sous la clé `doucement_timer_states`
+- Permet de reprendre un chrono après fermeture de l'app
+- Un état par habitude et par jour
+
+### SliderConfig
+
+Configuration du slider avec mapping emoji.
+
+```typescript
+interface SliderConfig {
+  min: number;        // Valeur minimale (défaut: 0)
+  max: number;        // Valeur maximale (défaut: 10)
+  step: number;       // Pas d'incrémentation (défaut: 1)
+  emojiRanges?: EmojiRange[]; // Mapping emoji par plage
+}
+```
+
+### EmojiRange
+
+Plage de valeurs associée à un emoji.
+
+```typescript
+interface EmojiRange {
+  from: number;  // Valeur minimale (inclusive)
+  to: number;    // Valeur maximale (inclusive)
+  emoji: string; // Emoji à afficher
+}
+```
+
+**Exemple de configuration :**
+```typescript
+const moodConfig: SliderConfig = {
+  min: 1,
+  max: 10,
+  step: 1,
+  emojiRanges: [
+    { from: 1, to: 3, emoji: '😢' },
+    { from: 4, to: 5, emoji: '😕' },
+    { from: 6, to: 7, emoji: '😊' },
+    { from: 8, to: 10, emoji: '😄' },
+  ]
+}
+```
+
+### notifyOnTarget
+
+Champ optionnel sur `Habit` pour activer la notification (vibration) quand le chrono/minuterie atteint la cible.
+
+- `true` : Vibration courte quand targetDose est atteint
+- `false` (défaut) : Pas de notification
 
 ---
 
