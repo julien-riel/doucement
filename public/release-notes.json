@@ -1,6 +1,25 @@
 {
-  "currentVersion": "1.29.0",
+  "currentVersion": "1.30.0",
   "releases": [
+    {
+      "version": "1.30.0",
+      "date": "2026-01-15",
+      "title": "Refactoring EditHabit",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Créer structure EditHabit/"
+        },
+        {
+          "emoji": "tools",
+          "text": "Extraire sections de formulaire"
+        },
+        {
+          "emoji": "tools",
+          "text": "Supprimer ancien EditHabit.tsx"
+        }
+      ]
+    },
     {
       "version": "1.29.0",
       "date": "2026-01-15",

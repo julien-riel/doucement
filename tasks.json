@@ -2,7 +2,7 @@
   "project": "Refactoring Architectural",
   "description": "Amélioration de la maintenabilité et robustesse du codebase suite à l'audit architectural",
   "createdAt": "2026-01-15",
-  "lastRelease": "1.29.0",
+  "lastRelease": "1.30.0",
   "docs": [
     "docs/prd-architecture-refactoring.md",
     "docs/ARCHITECTURE.md",
@@ -155,6 +155,8 @@
       "description": "Découpage de EditHabit.tsx en composants modulaires",
       "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.30.0",
+      "releasedAt": "2026-01-15",
       "tasks": [
         {
           "id": "3.1",
