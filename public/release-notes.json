@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.28.3",
+  "currentVersion": "1.28.4",
   "releases": [
+    {
+      "version": "1.28.4",
+      "date": "2026-01-15",
+      "title": "Migration specs basse priorité",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "Migrer create-habit.spec.ts"
+        },
+        {
+          "emoji": "tools",
+          "text": "Migrer weekly-review.spec.ts"
+        },
+        {
+          "emoji": "tools",
+          "text": "Migrer planned-pause.spec.ts"
+        },
+        {
+          "emoji": "check",
+          "text": "Réactiver habit-stacking.spec.ts"
+        }
+      ]
+    },
     {
       "version": "1.28.3",
       "date": "2026-01-15",
