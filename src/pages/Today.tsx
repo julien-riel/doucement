@@ -310,6 +310,7 @@ function Today() {
                             onCounterSubtract={handleCounterSubtract}
                             onCounterUndo={handleCounterUndo}
                             onCumulativeUndo={handleCumulativeUndo}
+                            date={today}
                           />
                         </div>
                       )

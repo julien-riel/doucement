@@ -164,7 +164,8 @@
           "id": "2.3",
           "name": "Intégrer StopwatchCheckIn dans HabitCard",
           "description": "Afficher le widget chronomètre quand trackingMode='stopwatch'",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["2.1", "2.2"],
           "files": ["src/components/habits/HabitCard.tsx"],
@@ -303,7 +304,8 @@
           "id": "4.3",
           "name": "Intégrer SliderCheckIn dans HabitCard",
           "description": "Afficher le widget slider quand trackingMode='slider'",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["4.1", "4.2"],
           "files": ["src/components/habits/HabitCard.tsx"],
@@ -593,9 +595,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 12,
+    "completed": 14,
     "inProgress": 0,
-    "pending": 19,
+    "pending": 17,
     "blocked": 0
   }
 }

@@ -9,6 +9,8 @@ import CounterButtons from './CounterButtons'
 import SimpleCheckIn from './SimpleCheckIn'
 import CumulativeHistory from './CumulativeHistory'
 import CumulativeCheckIn from './CumulativeCheckIn'
+import StopwatchCheckIn from './StopwatchCheckIn'
+import SliderCheckIn from './SliderCheckIn'
 import './HabitCard.css'
 
 export interface HabitCardProps {
@@ -36,6 +38,8 @@ export interface HabitCardProps {
   onCounterUndo?: (habitId: string) => void
   /** Callback pour annuler la dernière saisie cumulative */
   onCumulativeUndo?: (habitId: string) => void
+  /** Date courante (format YYYY-MM-DD) - requis pour stopwatch/timer */
+  date?: string
 }
 
 /**
@@ -117,6 +121,7 @@ function HabitCard({
   onCounterSubtract,
   onCounterUndo,
   onCumulativeUndo,
+  date,
 }: HabitCardProps) {
   const { t } = useTranslation()
   const [celebrating, setCelebrating] = useState(false)
@@ -243,6 +248,24 @@ function HabitCard({
       {isWeekly ? (
         // Les habitudes hebdomadaires utilisent toujours un check-in simple (binaire)
         <SimpleCheckIn targetDose={1} currentValue={currentValue} onCheckIn={handleCheckIn} />
+      ) : habit.trackingMode === 'stopwatch' && date ? (
+        // Mode chronomètre
+        <StopwatchCheckIn
+          habitId={habit.id}
+          date={date}
+          targetDose={targetDose}
+          unit={habit.unit === 'minutes' || habit.unit === 'min' ? 'minutes' : 'seconds'}
+          currentValue={currentValue}
+          onCheckIn={handleCheckIn}
+          notifyOnTarget={habit.notifyOnTarget}
+        />
+      ) : habit.trackingMode === 'slider' ? (
+        // Mode slider avec emoji dynamique
+        <SliderCheckIn
+          config={habit.sliderConfig}
+          currentValue={currentValue}
+          onCheckIn={handleCheckIn}
+        />
       ) : habit.trackingMode === 'counter' && onCounterAdd && onCounterSubtract && onCounterUndo ? (
         // Mode compteur avec boutons +1/-1
         <CounterButtons
