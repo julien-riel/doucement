@@ -19,7 +19,8 @@
     "archive": "Archive",
     "share": "Share",
     "seeMore": "Learn more",
-    "import": "Import"
+    "import": "Import",
+    "validate": "Validate"
   },
   "carousel": {
     "previous": "Previous",

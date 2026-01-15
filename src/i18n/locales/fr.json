@@ -19,7 +19,8 @@
     "archive": "Archiver",
     "share": "Partager",
     "seeMore": "En savoir plus",
-    "import": "Importer"
+    "import": "Importer",
+    "validate": "Valider"
   },
   "carousel": {
     "previous": "Précédent",

@@ -5,19 +5,24 @@
 .cumulative-checkin {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--spacing-3);
+}
+
+.cumulative-checkin--input {
+  align-items: stretch;
 }
 
 .cumulative-checkin__row {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--spacing-2);
 }
 
 .cumulative-checkin__input {
-  flex: 1;
-  min-width: 80px;
-  max-width: 120px;
+  flex: 0 0 auto;
+  width: 100px;
   padding: var(--spacing-2) var(--spacing-3);
   font-family: var(--font-body);
   font-size: var(--text-base);
@@ -62,6 +67,8 @@
   white-space: nowrap;
 }
 
-.cumulative-checkin__add {
-  align-self: flex-start;
+.cumulative-checkin__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-2);
 }
