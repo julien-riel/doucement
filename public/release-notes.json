@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.31.0",
+  "currentVersion": "1.32.0",
   "releases": [
+    {
+      "version": "1.32.0",
+      "date": "2026-01-15",
+      "title": "Widget Chronomètre",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Composant StopwatchCheckIn avec boutons Play/Pause/Stop/Reset"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Hook useStopwatch avec persistance automatique"
+        },
+        {
+          "emoji": "tools",
+          "text": "Intégration dans HabitCard pour trackingMode stopwatch"
+        },
+        {
+          "emoji": "bell",
+          "text": "Notification vibration quand la cible est atteinte"
+        }
+      ]
+    },
     {
       "version": "1.31.0",
       "date": "2026-01-15",
