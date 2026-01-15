@@ -5,6 +5,9 @@
 
 import { MilestonesState } from './statistics'
 
+// Re-export habit form types for convenience
+export * from './habitForm'
+
 // ============================================================================
 // TIME OF DAY & DIFFICULTY TYPES
 // ============================================================================

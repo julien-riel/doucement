@@ -2,18 +2,12 @@
  * Types for CreateHabit wizard
  */
 
-import type {
-  HabitDirection,
-  ProgressionMode,
-  ProgressionPeriod,
-  ImplementationIntention,
-  TrackingFrequency,
-  TrackingMode,
-  EntryMode,
-  WeeklyAggregation,
-  TimeOfDay,
-} from '../../types'
 import type { HabitCategory } from '../../constants/suggestedHabits'
+import type { HabitFormState } from '../../types/habitForm'
+
+// Re-export shared types for backwards compatibility
+export type { HabitFormState } from '../../types/habitForm'
+export { INITIAL_FORM_STATE, HABIT_TYPE_ICONS } from '../../types/habitForm'
 
 /**
  * Wizard step identifiers
@@ -26,61 +20,6 @@ export type WizardStep =
   | 'identity'
   | 'confirm'
   | 'first-checkin'
-
-/**
- * Form state for habit creation wizard
- */
-export interface HabitFormState {
-  direction: HabitDirection | null
-  name: string
-  emoji: string
-  unit: string
-  startValue: number
-  progressionMode: ProgressionMode
-  progressionValue: number
-  progressionPeriod: ProgressionPeriod
-  targetValue: number | null
-  implementationIntention: ImplementationIntention
-  anchorHabitId: string | undefined
-  trackingFrequency: TrackingFrequency
-  trackingMode: TrackingMode
-  identityStatement: string
-  entryMode: EntryMode
-  weeklyAggregation: WeeklyAggregation
-  timeOfDay: TimeOfDay | null
-}
-
-/**
- * Initial form state
- */
-export const INITIAL_FORM_STATE: HabitFormState = {
-  direction: null,
-  name: '',
-  emoji: '💪',
-  unit: '',
-  startValue: 1,
-  progressionMode: 'percentage',
-  progressionValue: 5,
-  progressionPeriod: 'weekly',
-  targetValue: null,
-  implementationIntention: {},
-  anchorHabitId: undefined,
-  trackingFrequency: 'daily',
-  trackingMode: 'detailed',
-  identityStatement: '',
-  entryMode: 'replace',
-  weeklyAggregation: 'sum-units',
-  timeOfDay: null,
-}
-
-/**
- * Icons for habit direction types
- */
-export const HABIT_TYPE_ICONS: Record<HabitDirection, string> = {
-  increase: '📈',
-  decrease: '📉',
-  maintain: '⚖️',
-}
 
 /**
  * Context value type for CreateHabit wizard
