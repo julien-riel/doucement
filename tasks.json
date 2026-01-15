@@ -1,319 +1,593 @@
 {
-  "project": "Refactoring Architectural",
-  "description": "Amélioration de la maintenabilité et robustesse du codebase suite à l'audit architectural",
+  "project": "Widgets de saisie temporels et visuels",
+  "description": "Ajout de nouveaux modes de tracking : chronomètre, minuterie et slider avec emojis dynamiques",
   "createdAt": "2026-01-15",
-  "lastRelease": "1.30.2",
+  "lastRelease": "1.30.3",
   "docs": [
-    "docs/prd-architecture-refactoring.md",
+    "docs/prd-time-widgets.md",
     "docs/ARCHITECTURE.md",
-    "docs/design/design-system-specification.md"
+    "docs/design/design-system-specification.md",
+    "docs/GLOSSARY.md"
   ],
   "phases": [
     {
-      "id": "phase-1-quick-wins",
-      "name": "Corrections rapides",
-      "description": "Corrections simples qui n'impactent pas l'architecture globale",
+      "id": "phase-1-types",
+      "name": "Fondations types et persistance",
+      "description": "Extension des types TypeScript et mise en place de la persistance chrono",
       "status": "completed",
-      "releaseType": "patch",
-      "releasedAs": "1.28.6",
-      "releasedAt": "2026-01-15",
+      "releaseType": "minor",
       "tasks": [
         {
           "id": "1.1",
-          "name": "Corriger useDebugMode état mutable",
-          "description": "Remplacer les variables module-level (tapCount, tapTimer) par des useRef pour être compatible React Strict Mode",
+          "name": "Étendre TrackingMode",
+          "description": "Ajouter 'stopwatch', 'timer' et 'slider' au type TrackingMode existant",
           "status": "completed",
           "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": [],
-          "files": ["src/hooks/useDebugMode.ts"],
+          "files": ["src/types/index.ts"],
           "tests": [],
           "acceptance": [
-            "Aucune variable let/var au niveau module",
-            "Utilisation de useRef pour tapCount et tapTimer",
-            "Le mode debug fonctionne toujours (7 taps)",
+            "TrackingMode inclut 'stopwatch' | 'timer' | 'slider'",
             "npm run typecheck passe"
           ]
         },
         {
           "id": "1.2",
-          "name": "Ajouter logging erreurs AppProvider",
-          "description": "Logger les erreurs de parsing localStorage au lieu de les ignorer silencieusement",
+          "name": "Créer types SliderConfig et EmojiRange",
+          "description": "Définir les interfaces pour la configuration du slider avec mapping emoji",
           "status": "completed",
           "completedAt": "2026-01-15",
           "priority": "high",
-          "dependsOn": [],
-          "files": ["src/components/AppProvider.tsx"],
+          "dependsOn": ["1.1"],
+          "files": ["src/types/index.ts"],
           "tests": [],
           "acceptance": [
-            "console.error appelé en cas d'erreur de parsing",
-            "Message d'erreur descriptif avec contexte",
-            "Comportement graceful préservé (app continue de fonctionner)"
+            "Interface SliderConfig avec min, max, step, emojiRanges",
+            "Interface EmojiRange avec from, to, emoji",
+            "Champ sliderConfig?: SliderConfig sur Habit"
           ]
         },
         {
           "id": "1.3",
-          "name": "Créer ErrorBoundary générique",
-          "description": "Composant ErrorBoundary pour capturer les erreurs de rendu React et afficher un fallback",
+          "name": "Créer type TimerState",
+          "description": "Interface pour l'état persisté d'un chronomètre en cours",
           "status": "completed",
           "completedAt": "2026-01-15",
-          "priority": "medium",
-          "dependsOn": [],
-          "files": ["src/components/ErrorBoundary.tsx", "src/components/index.ts"],
+          "priority": "high",
+          "dependsOn": ["1.1"],
+          "files": ["src/types/index.ts"],
           "tests": [],
           "acceptance": [
-            "Composant class avec componentDidCatch",
-            "Props: children, fallback (optionnel), onError callback",
-            "Fallback par défaut user-friendly",
-            "Export depuis components/index.ts"
+            "Interface TimerState avec habitId, date, startedAt, accumulatedSeconds, isRunning",
+            "Documentée avec JSDoc"
           ]
         },
         {
           "id": "1.4",
-          "name": "Intégrer ErrorBoundary dans App",
-          "description": "Wrapper l'application avec ErrorBoundary au niveau racine",
+          "name": "Ajouter notifyOnTarget sur Habit",
+          "description": "Champ optionnel pour activer la notification quand la cible est atteinte",
           "status": "completed",
           "completedAt": "2026-01-15",
           "priority": "medium",
-          "dependsOn": ["1.3"],
-          "files": ["src/App.tsx"],
+          "dependsOn": ["1.1"],
+          "files": ["src/types/index.ts"],
           "tests": [],
           "acceptance": [
-            "ErrorBoundary englobe le contenu principal",
-            "Erreurs de rendu capturées et affichées proprement",
-            "npm run build passe"
+            "Champ notifyOnTarget?: boolean sur Habit",
+            "Valeur par défaut implicite: false"
+          ]
+        },
+        {
+          "id": "1.5",
+          "name": "Créer service timerStorage",
+          "description": "Service pour sauvegarder/charger les états des chronomètres depuis localStorage",
+          "status": "completed",
+          "completedAt": "2026-01-15",
+          "priority": "high",
+          "dependsOn": ["1.3"],
+          "files": ["src/services/timerStorage.ts", "src/services/index.ts"],
+          "tests": ["src/services/timerStorage.test.ts"],
+          "acceptance": [
+            "Clé localStorage: doucement_timer_states",
+            "Fonctions: saveTimerState, loadTimerStates, removeTimerState, getTimerState",
+            "Tests unitaires avec mock localStorage"
+          ]
+        },
+        {
+          "id": "1.6",
+          "name": "Incrémenter schemaVersion",
+          "description": "Passer la version du schéma à v11 pour les nouveaux champs",
+          "status": "completed",
+          "completedAt": "2026-01-15",
+          "priority": "medium",
+          "dependsOn": ["1.2", "1.3", "1.4"],
+          "files": ["src/types/index.ts", "src/services/migration.ts"],
+          "tests": [],
+          "acceptance": [
+            "CURRENT_SCHEMA_VERSION = 11",
+            "Migration v10 → v11 ajoutée (no-op, nouveaux champs optionnels)"
           ]
         }
       ]
     },
     {
-      "id": "phase-2-hook-habitform",
-      "name": "Hook useHabitForm",
-      "description": "Création du hook partagé pour la logique de formulaire d'habitude",
-      "status": "completed",
+      "id": "phase-2-stopwatch",
+      "name": "Widget Chronomètre",
+      "description": "Composant StopwatchCheckIn avec persistance et notifications",
+      "status": "pending",
       "releaseType": "minor",
-      "releasedAs": "1.29.0",
-      "releasedAt": "2026-01-15",
       "tasks": [
         {
           "id": "2.1",
-          "name": "Extraire types HabitFormState",
-          "description": "Déplacer les types de formulaire de CreateHabit/types.ts vers un fichier partagé",
-          "status": "completed",
-          "completedAt": "2026-01-15",
+          "name": "Créer composant StopwatchCheckIn",
+          "description": "Widget chronomètre avec boutons Play/Pause/Stop/Reset",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": [],
-          "files": ["src/types/habitForm.ts", "src/types/index.ts", "src/pages/CreateHabit/types.ts"],
+          "dependsOn": ["1.5"],
+          "files": [
+            "src/components/habits/StopwatchCheckIn.tsx",
+            "src/components/habits/StopwatchCheckIn.css",
+            "src/components/habits/index.ts"
+          ],
           "tests": [],
           "acceptance": [
-            "Nouveau fichier src/types/habitForm.ts avec HabitFormState",
-            "CreateHabit/types.ts importe depuis types/habitForm.ts",
-            "Pas de duplication de types",
-            "npm run typecheck passe"
+            "Affichage MM:SS (ou HH:MM:SS si > 1h)",
+            "Boutons Play, Pause, Stop, Reset",
+            "Affichage de la cible du jour",
+            "Indicateur visuel quand cible atteinte",
+            "Props: targetDose, unit, currentValue, onCheckIn, disabled"
           ]
         },
         {
           "id": "2.2",
-          "name": "Créer useHabitForm hook",
-          "description": "Hook réutilisable pour la gestion d'état et validation des formulaires d'habitude",
-          "status": "completed",
-          "completedAt": "2026-01-15",
+          "name": "Ajouter hook useStopwatch",
+          "description": "Hook pour la logique du chronomètre (start, pause, stop, reset, temps écoulé)",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["2.1"],
-          "files": ["src/hooks/useHabitForm.ts", "src/hooks/index.ts"],
-          "tests": ["src/hooks/useHabitForm.test.ts"],
+          "dependsOn": ["1.5"],
+          "files": ["src/hooks/useStopwatch.ts", "src/hooks/index.ts"],
+          "tests": ["src/hooks/useStopwatch.test.ts"],
           "acceptance": [
-            "Options: initialHabit (pour édition), mode ('create' | 'edit')",
-            "Retourne: form, updateField, resetForm, isValid, hasChanges, errors",
-            "Logique de validation commune",
-            "Détection des changements pour mode edit",
-            "Tests unitaires couvrant create et edit modes"
+            "Gère start/pause/stop/reset",
+            "Calcule le temps écoulé avec requestAnimationFrame ou setInterval",
+            "Sauvegarde l'état via timerStorage",
+            "Restaure l'état au montage",
+            "Tests unitaires avec fake timers"
           ]
         },
         {
           "id": "2.3",
-          "name": "Intégrer useHabitForm dans EditHabit",
-          "description": "Remplacer les 25+ useState par useHabitForm dans EditHabit.tsx",
-          "status": "completed",
-          "completedAt": "2026-01-15",
+          "name": "Intégrer StopwatchCheckIn dans HabitCard",
+          "description": "Afficher le widget chronomètre quand trackingMode='stopwatch'",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["2.2"],
-          "files": ["src/pages/EditHabit.tsx"],
-          "tests": ["e2e/habit-modification.spec.ts"],
+          "dependsOn": ["2.1", "2.2"],
+          "files": ["src/components/habits/HabitCard.tsx"],
+          "tests": [],
           "acceptance": [
-            "Suppression des useState redondants",
-            "Utilisation de useHabitForm avec mode 'edit'",
-            "hasChanges calculé par le hook",
-            "Tests E2E edit-habit passent"
+            "Switch case pour trackingMode='stopwatch'",
+            "Passage des props correctes",
+            "Support entryMode cumulative"
+          ]
+        },
+        {
+          "id": "2.4",
+          "name": "Ajouter notification de dépassement",
+          "description": "Vibration/son quand le chrono atteint la cible",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["2.1"],
+          "files": ["src/components/habits/StopwatchCheckIn.tsx", "src/services/notifications.ts"],
+          "tests": [],
+          "acceptance": [
+            "Vibration via navigator.vibrate() si supporté",
+            "Son discret optionnel",
+            "Respecte notifyOnTarget de l'habitude",
+            "Ne déclenche qu'une fois par session"
           ]
         }
       ]
     },
     {
-      "id": "phase-3-edithabit-refactor",
-      "name": "Refactoring EditHabit",
-      "description": "Découpage de EditHabit.tsx en composants modulaires",
-      "status": "completed",
+      "id": "phase-3-timer",
+      "name": "Widget Minuterie",
+      "description": "Composant TimerCheckIn (compte à rebours avec dépassement)",
+      "status": "pending",
       "releaseType": "minor",
-      "releasedAs": "1.30.0",
-      "releasedAt": "2026-01-15",
       "tasks": [
         {
           "id": "3.1",
-          "name": "Créer structure EditHabit/",
-          "description": "Créer le répertoire et les fichiers de base pour EditHabit modulaire",
-          "status": "completed",
-          "completedAt": "2026-01-15",
+          "name": "Créer composant TimerCheckIn",
+          "description": "Widget minuterie avec compte à rebours et dépassement négatif",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["2.3"],
+          "dependsOn": ["2.2"],
           "files": [
-            "src/pages/EditHabit/index.tsx",
-            "src/pages/EditHabit/EditHabitContext.tsx",
-            "src/pages/EditHabit/types.ts"
+            "src/components/habits/TimerCheckIn.tsx",
+            "src/components/habits/TimerCheckIn.css",
+            "src/components/habits/index.ts"
           ],
           "tests": [],
           "acceptance": [
-            "Structure similaire à CreateHabit/",
-            "Context pour l'état du formulaire",
-            "index.tsx < 200 lignes"
+            "Démarre à targetDose et décompte vers 0",
+            "Affiche temps négatif si dépassement (-00:15)",
+            "Couleur orange (pas rouge) pour le dépassement",
+            "Mêmes boutons que StopwatchCheckIn",
+            "Enregistre le temps total écoulé (pas le restant)"
           ]
         },
         {
           "id": "3.2",
-          "name": "Extraire sections de formulaire",
-          "description": "Créer des composants réutilisables pour les sections de formulaire (DirectionSelector, ProgressionConfig, etc.)",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "medium",
-          "dependsOn": ["3.1"],
-          "files": [
-            "src/pages/EditHabit/sections/DirectionSection.tsx",
-            "src/pages/EditHabit/sections/ProgressionSection.tsx",
-            "src/pages/EditHabit/sections/TrackingSection.tsx",
-            "src/pages/EditHabit/sections/IntentionSection.tsx",
-            "src/pages/EditHabit/sections/IdentitySection.tsx",
-            "src/pages/EditHabit/sections/index.ts"
-          ],
-          "tests": [],
+          "name": "Ajouter hook useTimer",
+          "description": "Hook pour la logique de minuterie (réutilise useStopwatch avec mode countdown)",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["2.2"],
+          "files": ["src/hooks/useTimer.ts", "src/hooks/index.ts"],
+          "tests": ["src/hooks/useTimer.test.ts"],
           "acceptance": [
-            "Chaque section < 150 lignes",
-            "Props typées avec interface",
-            "Réutilisables potentiellement pour CreateHabit"
+            "Étend ou utilise useStopwatch en mode countdown",
+            "Calcule temps restant = targetDose - elapsed",
+            "Gère le passage en négatif",
+            "Tests unitaires"
           ]
         },
         {
           "id": "3.3",
-          "name": "Supprimer ancien EditHabit.tsx",
-          "description": "Remplacer src/pages/EditHabit.tsx par le répertoire modulaire",
-          "status": "completed",
-          "completedAt": "2026-01-15",
+          "name": "Intégrer TimerCheckIn dans HabitCard",
+          "description": "Afficher le widget minuterie quand trackingMode='timer'",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["3.2"],
-          "files": ["src/pages/EditHabit.tsx", "src/pages/EditHabit.css"],
-          "tests": ["e2e/habit-modification.spec.ts"],
+          "dependsOn": ["3.1", "3.2"],
+          "files": ["src/components/habits/HabitCard.tsx"],
+          "tests": [],
           "acceptance": [
-            "Ancien fichier supprimé",
-            "Import dans router.tsx mis à jour",
-            "CSS déplacé vers EditHabit/EditHabit.css",
-            "Tous les tests E2E passent"
+            "Switch case pour trackingMode='timer'",
+            "Passage des props correctes",
+            "Support entryMode cumulative"
           ]
         }
       ]
     },
     {
-      "id": "phase-4-documentation",
-      "name": "Documentation architecture",
-      "description": "Mise à jour de la documentation architecturale",
-      "status": "completed",
-      "releaseType": "patch",
-      "releasedAs": "1.30.1",
-      "releasedAt": "2026-01-15",
+      "id": "phase-4-slider",
+      "name": "Widget Slider",
+      "description": "Composant SliderCheckIn avec emojis dynamiques",
+      "status": "pending",
+      "releaseType": "minor",
       "tasks": [
         {
           "id": "4.1",
-          "name": "Documenter architecture 3-tier",
-          "description": "Ajouter une section dans ARCHITECTURE.md expliquant le système de gestion d'état à 3 niveaux",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "medium",
-          "dependsOn": [],
-          "files": ["docs/ARCHITECTURE.md"],
+          "name": "Créer composant SliderCheckIn",
+          "description": "Widget slider avec emoji qui change selon la valeur",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["1.2"],
+          "files": [
+            "src/components/habits/SliderCheckIn.tsx",
+            "src/components/habits/SliderCheckIn.css",
+            "src/components/habits/index.ts"
+          ],
           "tests": [],
           "acceptance": [
-            "Section 'Gestion d'état 3-tier' avec diagramme Mermaid",
-            "Explication des 3 niveaux: local (useState), hooks, localStorage",
-            "Justification du choix (pas de Redux/Zustand)",
-            "Exemples de quand utiliser chaque niveau"
+            "Slider horizontal de min à max",
+            "Emoji dynamique selon emojiRanges",
+            "Affichage de la valeur numérique",
+            "Bouton Valider pour confirmer",
+            "Accessible au clavier"
           ]
         },
         {
           "id": "4.2",
-          "name": "Documenter patterns de hooks",
-          "description": "Ajouter une section sur les patterns de hooks utilisés dans le projet",
-          "status": "completed",
-          "completedAt": "2026-01-15",
-          "priority": "low",
-          "dependsOn": ["2.2"],
-          "files": ["docs/ARCHITECTURE.md"],
+          "name": "Créer utilitaire getEmojiForValue",
+          "description": "Fonction pour déterminer l'emoji selon la valeur et la config",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["1.2"],
+          "files": ["src/utils/slider.ts", "src/utils/index.ts"],
+          "tests": ["src/utils/slider.test.ts"],
+          "acceptance": [
+            "Retourne l'emoji correspondant à la plage",
+            "Retourne emoji par défaut si hors plage ou pas de config",
+            "Tests unitaires complets"
+          ]
+        },
+        {
+          "id": "4.3",
+          "name": "Intégrer SliderCheckIn dans HabitCard",
+          "description": "Afficher le widget slider quand trackingMode='slider'",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["4.1", "4.2"],
+          "files": ["src/components/habits/HabitCard.tsx"],
           "tests": [],
           "acceptance": [
-            "Section 'Patterns de hooks' ajoutée",
-            "Exemples: useHabitForm, useAppData, useCelebrations",
-            "Conventions de nommage documentées"
+            "Switch case pour trackingMode='slider'",
+            "Passage de sliderConfig",
+            "Mode replace uniquement (pas cumulative)"
           ]
         }
       ]
     },
     {
-      "id": "phase-5-validation",
-      "name": "Validation finale",
-      "description": "Tests et vérifications finales",
-      "status": "completed",
-      "releaseType": "patch",
-      "releasedAs": "1.30.2",
-      "releasedAt": "2026-01-15",
+      "id": "phase-5-creation-ui",
+      "name": "UI de création/édition",
+      "description": "Intégration des nouveaux modes dans le flux de création et édition d'habitudes",
+      "status": "pending",
+      "releaseType": "minor",
       "tasks": [
         {
           "id": "5.1",
-          "name": "Exécuter suite de tests complète",
-          "description": "Lancer tous les tests unitaires et E2E pour valider le refactoring",
-          "status": "completed",
-          "completedAt": "2026-01-15",
+          "name": "Mettre à jour TrackingSection",
+          "description": "Ajouter les options chrono/minuterie/slider dans le sélecteur de mode",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["3.3", "4.1"],
+          "dependsOn": ["2.3", "3.3", "4.3"],
+          "files": ["src/pages/EditHabit/sections/TrackingSection.tsx"],
+          "tests": [],
+          "acceptance": [
+            "Boutons/options pour stopwatch, timer, slider",
+            "Icônes appropriées pour chaque mode",
+            "Description courte de chaque mode"
+          ]
+        },
+        {
+          "id": "5.2",
+          "name": "Créer configurateur SliderConfig",
+          "description": "UI pour configurer min/max et mapping emoji du slider",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["5.1"],
+          "files": [
+            "src/pages/EditHabit/sections/SliderConfigSection.tsx",
+            "src/pages/EditHabit/sections/index.ts"
+          ],
+          "tests": [],
+          "acceptance": [
+            "Inputs pour min et max",
+            "Interface pour définir 2-4 plages emoji",
+            "Préréglages par défaut (1-10 avec 3 emojis)",
+            "Prévisualisation du slider"
+          ]
+        },
+        {
+          "id": "5.3",
+          "name": "Intégrer dans CreateHabit",
+          "description": "Ajouter les nouveaux modes dans le wizard de création",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["5.1", "5.2"],
+          "files": [
+            "src/pages/CreateHabit/steps/TrackingModeStep.tsx",
+            "src/pages/CreateHabit/types.ts"
+          ],
+          "tests": [],
+          "acceptance": [
+            "Options chrono/minuterie/slider disponibles",
+            "Étape SliderConfig si mode slider sélectionné",
+            "Valeurs par défaut sensées"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-6-tests-e2e",
+      "name": "Tests E2E",
+      "description": "Tests end-to-end pour les nouveaux widgets",
+      "status": "pending",
+      "releaseType": "patch",
+      "tasks": [
+        {
+          "id": "6.1",
+          "name": "Test E2E chronomètre",
+          "description": "Scénario complet de création et utilisation d'une habitude chrono",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["5.3"],
+          "files": ["e2e/stopwatch-habit.spec.ts"],
+          "tests": [],
+          "acceptance": [
+            "Création habitude avec trackingMode stopwatch",
+            "Démarrage/pause/arrêt du chrono",
+            "Valeur enregistrée correctement",
+            "Persistance après refresh"
+          ]
+        },
+        {
+          "id": "6.2",
+          "name": "Test E2E minuterie",
+          "description": "Scénario de création et utilisation d'une habitude minuterie",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["5.3"],
+          "files": ["e2e/timer-habit.spec.ts"],
+          "tests": [],
+          "acceptance": [
+            "Création habitude avec trackingMode timer",
+            "Compte à rebours fonctionne",
+            "Dépassement négatif affiché",
+            "Valeur finale = temps total écoulé"
+          ]
+        },
+        {
+          "id": "6.3",
+          "name": "Test E2E slider",
+          "description": "Scénario de création et utilisation d'une habitude slider",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["5.3"],
+          "files": ["e2e/slider-habit.spec.ts"],
+          "tests": [],
+          "acceptance": [
+            "Création habitude avec trackingMode slider",
+            "Configuration emoji fonctionne",
+            "Slider utilisable au clavier",
+            "Emoji change selon valeur"
+          ]
+        },
+        {
+          "id": "6.4",
+          "name": "Mettre à jour fixtures E2E",
+          "description": "Ajouter factories pour les nouveaux types d'habitudes",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["1.6"],
+          "files": ["e2e/fixtures/test-data.ts"],
+          "tests": [],
+          "acceptance": [
+            "createStopwatchHabit() factory",
+            "createTimerHabit() factory",
+            "createSliderHabit() factory avec config emoji"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-7-documentation",
+      "name": "Documentation",
+      "description": "Mise à jour de toute la documentation",
+      "status": "pending",
+      "releaseType": "patch",
+      "tasks": [
+        {
+          "id": "7.1",
+          "name": "Mettre à jour GLOSSARY.md",
+          "description": "Ajouter les nouveaux termes techniques",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["1.6"],
+          "files": ["docs/GLOSSARY.md"],
+          "tests": [],
+          "acceptance": [
+            "Définitions: stopwatch, timer, slider",
+            "Définitions: TimerState, SliderConfig, EmojiRange",
+            "Exemples d'utilisation"
+          ]
+        },
+        {
+          "id": "7.2",
+          "name": "Mettre à jour ARCHITECTURE.md",
+          "description": "Ajouter diagrammes des nouveaux composants et flux de persistance",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["2.3", "3.3", "4.3"],
+          "files": ["docs/ARCHITECTURE.md"],
+          "tests": [],
+          "acceptance": [
+            "Diagramme composants avec nouveaux widgets",
+            "Flux de persistance chrono (localStorage)",
+            "Schéma de sélection de widget dans HabitCard"
+          ]
+        },
+        {
+          "id": "7.3",
+          "name": "Créer guide time-widgets.md",
+          "description": "Documentation utilisateur pour chrono et minuterie",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["6.1", "6.2"],
+          "files": ["docs/features/time-widgets.md"],
+          "tests": [],
+          "acceptance": [
+            "Explication chronomètre vs minuterie",
+            "Cas d'usage recommandés",
+            "Comportement de persistance expliqué",
+            "Captures d'écran ou mockups"
+          ]
+        },
+        {
+          "id": "7.4",
+          "name": "Créer guide slider-widget.md",
+          "description": "Documentation utilisateur pour le slider emoji",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["6.3"],
+          "files": ["docs/features/slider-widget.md"],
+          "tests": [],
+          "acceptance": [
+            "Explication du concept",
+            "Configuration des plages emoji",
+            "Exemples d'habitudes adaptées (humeur, douleur, énergie)"
+          ]
+        },
+        {
+          "id": "7.5",
+          "name": "Mettre à jour CLAUDE.md",
+          "description": "Référencer les nouveaux tracking modes",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["7.1"],
+          "files": ["CLAUDE.md"],
+          "tests": [],
+          "acceptance": [
+            "Mention des nouveaux tracking modes dans Core Concepts",
+            "Référence aux nouveaux docs features/"
+          ]
+        },
+        {
+          "id": "7.6",
+          "name": "Mettre à jour design-system-specification.md",
+          "description": "Ajouter spécifications visuelles des nouveaux widgets",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["2.1", "3.1", "4.1"],
+          "files": ["docs/design/design-system-specification.md"],
+          "tests": [],
+          "acceptance": [
+            "Spécifications chrono (taille police, couleurs états)",
+            "Spécifications slider (hauteur, track, thumb)",
+            "États visuels documentés"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-8-validation",
+      "name": "Validation finale",
+      "description": "Tests complets et health check",
+      "status": "pending",
+      "releaseType": "patch",
+      "tasks": [
+        {
+          "id": "8.1",
+          "name": "Exécuter suite de tests complète",
+          "description": "Tous les tests unitaires et E2E",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": ["6.1", "6.2", "6.3"],
           "files": [],
           "tests": ["src/**/*.test.ts", "e2e/**/*.spec.ts"],
           "acceptance": [
-            "npm test passe (tests unitaires)",
-            "npm run test:e2e passe (tests E2E)",
+            "npm test passe",
+            "npm run test:e2e passe",
             "npm run typecheck passe",
             "npm run lint passe"
           ]
         },
         {
-          "id": "5.2",
+          "id": "8.2",
           "name": "Health check",
-          "description": "Exécuter le script de health check du projet",
-          "status": "completed",
-          "completedAt": "2026-01-15",
+          "description": "Exécuter le script de vérification du projet",
+          "status": "pending",
           "priority": "medium",
-          "dependsOn": ["5.1"],
+          "dependsOn": ["8.1", "7.5"],
           "files": [],
           "tests": [],
           "acceptance": [
             "./scripts/health-check.sh passe",
-            "Aucun warning nouveau introduit",
-            "Documentation à jour"
+            "Aucun warning nouveau",
+            "Documentation à jour vérifiée"
           ]
         }
       ]
     }
   ],
   "stats": {
-    "totalTasks": 15,
-    "completed": 15,
+    "totalTasks": 31,
+    "completed": 6,
     "inProgress": 0,
-    "pending": 0,
+    "pending": 25,
     "blocked": 0
   }
 }

@@ -45,8 +45,9 @@ export interface CumulativeOperation {
  * Version du schéma de données
  * Incrémentée à chaque modification de structure pour permettre les migrations
  * v10: Ajout de timeOfDay et cumulativeOperations sur Habit
+ * v11: Ajout des widgets temporels (stopwatch, timer, slider) et champs sliderConfig, notifyOnTarget
  */
-export const CURRENT_SCHEMA_VERSION = 10
+export const CURRENT_SCHEMA_VERSION = 11
 
 // ============================================================================
 // HABIT TYPES
@@ -84,8 +85,11 @@ export interface ProgressionConfig {
  * - simple: binaire (fait / pas fait) - recommandé pour débuter
  * - detailed: quantitatif avec valeur précise
  * - counter: compteur avec boutons +1/-1 et historique des opérations
+ * - stopwatch: chronomètre pour mesurer une durée
+ * - timer: minuterie (compte à rebours) avec dépassement
+ * - slider: slider visuel avec emoji dynamique
  */
-export type TrackingMode = 'simple' | 'detailed' | 'counter'
+export type TrackingMode = 'simple' | 'detailed' | 'counter' | 'stopwatch' | 'timer' | 'slider'
 
 /**
  * Fréquence de suivi d'une habitude
@@ -182,6 +186,60 @@ export interface RecalibrationRecord {
   level: number
 }
 
+// ============================================================================
+// SLIDER CONFIGURATION TYPES
+// ============================================================================
+
+/**
+ * Plage de valeurs associée à un emoji pour le slider
+ * Permet de définir quel emoji afficher selon la valeur sélectionnée
+ */
+export interface EmojiRange {
+  /** Valeur minimale de la plage (inclusive) */
+  from: number
+  /** Valeur maximale de la plage (inclusive) */
+  to: number
+  /** Emoji à afficher pour cette plage */
+  emoji: string
+}
+
+/**
+ * Configuration du slider avec mapping emoji
+ * Utilisé quand trackingMode='slider'
+ */
+export interface SliderConfig {
+  /** Valeur minimale (défaut: 0) */
+  min: number
+  /** Valeur maximale (défaut: 10) */
+  max: number
+  /** Pas d'incrémentation (défaut: 1) */
+  step: number
+  /** Mapping emoji par plage de valeurs (optionnel) */
+  emojiRanges?: EmojiRange[]
+}
+
+// ============================================================================
+// TIMER STATE TYPES
+// ============================================================================
+
+/**
+ * État persisté d'un chronomètre en cours
+ * Permet de reprendre un chrono après fermeture de l'app
+ * Stocké dans localStorage sous la clé 'doucement_timer_states'
+ */
+export interface TimerState {
+  /** ID de l'habitude associée */
+  habitId: string
+  /** Date concernée (YYYY-MM-DD) */
+  date: string
+  /** Timestamp de démarrage (ISO 8601) */
+  startedAt: string
+  /** Temps accumulé avant pause (en secondes) */
+  accumulatedSeconds: number
+  /** Chrono en cours ou en pause */
+  isRunning: boolean
+}
+
 /**
  * Habitude de l'utilisateur
  */
@@ -230,6 +288,10 @@ export interface Habit {
   timeOfDay?: TimeOfDay
   /** Historique des saisies cumulatives pour cette habitude */
   cumulativeOperations?: CumulativeOperation[]
+  /** Configuration du slider (si trackingMode='slider') */
+  sliderConfig?: SliderConfig
+  /** Activer la notification quand la cible est atteinte (chrono/minuterie) */
+  notifyOnTarget?: boolean
 }
 
 // ============================================================================

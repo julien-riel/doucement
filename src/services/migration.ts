@@ -189,6 +189,36 @@ export const MIGRATIONS: Migration[] = [
       }
     },
   },
+  {
+    fromVersion: 9,
+    toVersion: 10,
+    description: 'Ajout de timeOfDay et cumulativeOperations sur Habit',
+    migrate: (data) => {
+      // Les nouveaux champs sont optionnels
+      // Les habitudes existantes fonctionneront sans ces champs (undefined)
+      return {
+        ...data,
+        schemaVersion: 10,
+      }
+    },
+  },
+  {
+    fromVersion: 10,
+    toVersion: 11,
+    description:
+      'Ajout des widgets temporels (stopwatch, timer, slider) et champs sliderConfig, notifyOnTarget',
+    migrate: (data) => {
+      // Les nouveaux champs sont optionnels :
+      // - trackingMode peut maintenant inclure 'stopwatch', 'timer', 'slider'
+      // - sliderConfig est ajouté pour les habitudes avec trackingMode='slider'
+      // - notifyOnTarget est ajouté pour les habitudes chrono/minuterie
+      // Aucune transformation nécessaire, les nouveaux champs sont optionnels
+      return {
+        ...data,
+        schemaVersion: 11,
+      }
+    },
+  },
 ]
 
 // ============================================================================
