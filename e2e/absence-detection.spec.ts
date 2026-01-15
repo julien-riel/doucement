@@ -1,4 +1,5 @@
 import { test, expect } from './base-test'
+import { setupFromTestFile } from './fixtures'
 
 /**
  * Tests E2E pour la détection d'absence
@@ -7,16 +8,7 @@ import { test, expect } from './base-test'
 
 test.describe('Détection d\'absence', () => {
   test.beforeEach(async ({ page }) => {
-    // Charger les données de test via fetch avant d'aller sur la page
-    const testDataResponse = await page.request.get(
-      'http://localhost:4173/test-data/absence-detected.json'
-    )
-    const testData = await testDataResponse.json()
-
-    // Injecter les données de test AVANT que la page charge
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement_data', JSON.stringify(data))
-    }, testData)
+    await setupFromTestFile(page, 'absence-detected.json')
   })
 
   test('affiche le message de bienvenue après une absence', async ({ page }) => {

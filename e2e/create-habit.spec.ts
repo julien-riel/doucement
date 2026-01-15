@@ -1,33 +1,24 @@
 import { test, expect } from './base-test';
+import { setupLocalStorage, createEmptyAppData, CreateHabitPage } from './fixtures';
 
 /**
  * Tests E2E pour le wizard de création d'habitude
- * Vérifie la création d'habitudes de différents types avec le wizard 5 étapes
- * (Choose → Type → Details → Intentions → Confirm)
+ * Vérifie la création d'habitudes de différents types avec le wizard 7 étapes
+ * (Choose → Type → Details → Intentions → Identity → Confirm → First Check-in)
  */
 
 test.describe('Création d\'habitude', () => {
+  let createHabitPage: CreateHabitPage;
+
   test.beforeEach(async ({ page }) => {
-    // Injecter le localStorage AVANT que la page charge pour éviter la redirection vers onboarding
-    await page.addInitScript(() => {
-      localStorage.clear();
-      localStorage.setItem('doucement-language', 'fr');
-      localStorage.setItem('doucement_data', JSON.stringify({
-        schemaVersion: 3,
-        habits: [],
-        entries: [],
-        preferences: { onboardingCompleted: true }
-      }));
-    });
-    // Naviguer directement vers /create - le localStorage sera lu au chargement
-    await page.goto('/create');
-    // Attendre que la page de création soit chargée
-    await page.waitForSelector('text=Nouvelle habitude');
+    createHabitPage = new CreateHabitPage(page);
+    await setupLocalStorage(page, createEmptyAppData());
+    await createHabitPage.goto();
   });
 
   test('affiche l\'étape de choix avec suggestions et option personnalisée', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Nouvelle habitude' })).toBeVisible();
-    await expect(page.getByText('Choisis une habitude à fort impact ou crée la tienne')).toBeVisible();
+    await createHabitPage.expectLoaded();
+    await createHabitPage.expectChooseStep();
 
     // Vérifier la section des suggestions
     await expect(page.getByText('Habitudes à fort impact')).toBeVisible();
@@ -40,88 +31,88 @@ test.describe('Création d\'habitude', () => {
     await expect(page.getByRole('button', { name: /Créer une habitude personnalisée/ })).toBeVisible();
   });
 
-  test('sélectionner une suggestion pré-remplit le formulaire', async ({ page }) => {
-    // Cliquer sur une habitude suggérée (Marche quotidienne par exemple)
-    await page.locator('.suggested-habit-card').first().click();
+  test('sélectionner une suggestion pré-remplit le formulaire', async () => {
+    // Cliquer sur une habitude suggérée (la première)
+    await createHabitPage.selectSuggestedHabit(0);
 
     // Devrait passer directement à l'étape intentions (les détails sont pré-remplis)
-    await expect(page.getByText('Quand et où ?')).toBeVisible();
+    await createHabitPage.expectIntentionsStep();
   });
 
-  test('créer une habitude personnalisée affiche l\'étape type', async ({ page }) => {
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+  test('créer une habitude personnalisée affiche l\'étape type', async () => {
+    await createHabitPage.clickCreateCustomHabit();
 
-    await expect(page.getByText('Quel type d\'habitude souhaitez-vous créer ?')).toBeVisible();
+    await createHabitPage.expectTypeStep();
 
     // Vérifier les 3 options de type
-    await expect(page.getByRole('button', { name: /Augmenter/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Réduire/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Maintenir/ })).toBeVisible();
+    await expect(createHabitPage.getTypeOption('increase')).toBeVisible();
+    await expect(createHabitPage.getTypeOption('decrease')).toBeVisible();
+    await expect(createHabitPage.getTypeOption('maintain')).toBeVisible();
 
     // Le bouton Continuer devrait être désactivé tant qu'aucun type n'est sélectionné
-    await expect(page.getByRole('button', { name: 'Continuer' })).toBeDisabled();
+    await createHabitPage.expectContinueDisabled();
   });
 
-  test('sélectionner un type active le bouton Continuer', async ({ page }) => {
-    // Passer l'étape choose
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
-
-    await page.getByRole('button', { name: /Augmenter/ }).click();
-    await expect(page.getByRole('button', { name: 'Continuer' })).toBeEnabled();
+  test('sélectionner un type active le bouton Continuer', async () => {
+    await createHabitPage.clickCreateCustomHabit();
+    await createHabitPage.selectType('increase');
+    await createHabitPage.expectContinueEnabled();
   });
 
   test('création complète d\'une habitude "Augmenter"', async ({ page }) => {
     // Étape Choose: Aller vers personnalisé
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+    await createHabitPage.clickCreateCustomHabit();
 
-    // Étape 1: Choisir le type
-    await page.getByRole('button', { name: /Augmenter/ }).click();
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    // Étape Type: Choisir le type
+    await createHabitPage.selectType('increase');
+    await createHabitPage.clickContinue();
 
-    // Étape 2: Détails
-    await expect(page.getByText('Décrivez votre habitude')).toBeVisible();
+    // Étape Details
+    await createHabitPage.expectDetailsStep();
 
     // Vérifier que l'emoji par défaut est affiché
-    await expect(page.locator('.emoji-picker__current')).toHaveText('💪');
+    const emoji = await createHabitPage.getEmoji();
+    expect(emoji).toBe('💪');
 
     // Remplir le formulaire
-    await page.getByRole('textbox', { name: 'Nom de l\'habitude' }).fill('Push-ups');
-    await page.getByRole('textbox', { name: 'Unité' }).fill('répétitions');
+    await createHabitPage.setName('Push-ups');
+    await createHabitPage.setUnit('répétitions');
 
     // Le bouton Continuer devrait être actif avec les champs remplis
-    await expect(page.getByRole('button', { name: 'Continuer' })).toBeEnabled();
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    await createHabitPage.expectContinueEnabled();
+    await createHabitPage.clickContinue();
 
-    // Étape 3: Implementation Intentions (optionnel)
-    await expect(page.getByText('Quand et où ?')).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Continuer' })).toBeVisible();
+    // Étape Intentions (optionnel)
+    await createHabitPage.expectIntentionsStep();
 
     // Sélectionner un déclencheur suggéré
-    await page.getByRole('button', { name: 'Après mon café du matin' }).click();
-    await expect(page.getByRole('textbox', { name: 'Après quoi ?' })).toHaveValue('Après mon café du matin');
+    await createHabitPage.selectSuggestedTrigger('Après mon café du matin');
+    await expect(createHabitPage.triggerInput).toHaveValue('Après mon café du matin');
 
     // Remplir le lieu
-    await page.getByRole('textbox', { name: 'Où ?' }).fill('Salon');
+    await createHabitPage.setLocation('Salon');
+    await createHabitPage.clickContinue();
 
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    // Étape Identity (optionnel)
+    await createHabitPage.expectIdentityStep();
+    await createHabitPage.clickPreview();
 
-    // Étape 4: Identity (optionnel)
-    await expect(page.getByText('Qui voulez-vous devenir ?')).toBeVisible();
-    await page.getByRole('button', { name: 'Aperçu' }).click();
-
-    // Étape 5: Confirmation
-    await expect(page.getByText('Vérifiez et confirmez')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Push-ups' })).toBeVisible();
-    await expect(page.getByText('Augmenter')).toBeVisible();
-    await expect(page.getByText('1 répétitions')).toBeVisible();
-    await expect(page.getByText('+5% par semaine')).toBeVisible();
+    // Étape Confirmation
+    await createHabitPage.expectConfirmStep();
+    await createHabitPage.expectSummary({
+      name: 'Push-ups',
+      type: 'increase',
+      startValue: 1,
+      unit: 'répétitions',
+      progression: '+5% par semaine',
+    });
 
     // Créer l'habitude
-    await page.getByRole('button', { name: 'Créer l\'habitude' }).click();
+    await createHabitPage.clickCreate();
 
     // Étape first-checkin: Première victoire ?
-    await expect(page.getByText('Première victoire ?')).toBeVisible();
-    await page.getByRole('button', { name: 'Non, je commence demain' }).click();
+    await createHabitPage.expectFirstCheckInStep();
+    await createHabitPage.skipFirstCheckIn();
 
     // Devrait rediriger vers l'écran principal
     await expect(page).toHaveURL('/');
@@ -132,32 +123,11 @@ test.describe('Création d\'habitude', () => {
   });
 
   test('création d\'une habitude "Réduire"', async ({ page }) => {
-    // Étape Choose: Aller vers personnalisé
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
-
-    // Étape 1: Choisir le type Réduire
-    await page.getByRole('button', { name: /Réduire/ }).click();
-    await page.getByRole('button', { name: 'Continuer' }).click();
-
-    // Étape 2: Détails (on garde l'emoji par défaut)
-    await page.getByRole('textbox', { name: 'Nom de l\'habitude' }).fill('Cigarettes');
-    await page.getByRole('textbox', { name: 'Unité' }).fill('cigarettes');
-
-    await page.getByRole('button', { name: 'Continuer' }).click();
-
-    // Étape 3: Passer les intentions (optionnel)
-    await page.getByRole('button', { name: 'Continuer' }).click();
-
-    // Étape 4: Passer l'identity (optionnel)
-    await page.getByRole('button', { name: 'Aperçu' }).click();
-
-    // Étape 5: Confirmation
-    await expect(page.getByText('Réduire')).toBeVisible();
-    await page.getByRole('button', { name: 'Créer l\'habitude' }).click();
-
-    // Étape first-checkin: Première victoire ?
-    await expect(page.getByText('Première victoire ?')).toBeVisible();
-    await page.getByRole('button', { name: 'Non, je commence demain' }).click();
+    await createHabitPage.createHabitWithOptions({
+      direction: 'decrease',
+      name: 'Cigarettes',
+      unit: 'cigarettes',
+    });
 
     // Vérifier la création
     await expect(page).toHaveURL('/');
@@ -166,92 +136,87 @@ test.describe('Création d\'habitude', () => {
 
   test('création d\'une habitude "Maintenir"', async ({ page }) => {
     // Étape Choose: Aller vers personnalisé
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+    await createHabitPage.clickCreateCustomHabit();
 
-    // Étape 1: Choisir le type Maintenir
-    await page.getByRole('button', { name: /Maintenir/ }).click();
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    // Étape Type: Choisir le type Maintenir
+    await createHabitPage.selectType('maintain');
+    await createHabitPage.clickContinue();
 
-    // Étape 2: Détails (pas de section progression pour Maintenir, on garde l'emoji par défaut)
-    await page.getByRole('textbox', { name: 'Nom de l\'habitude' }).fill('Eau');
-    await page.getByRole('spinbutton', { name: 'Dose de départ' }).fill('8');
-    await page.getByRole('textbox', { name: 'Unité' }).fill('verres');
+    // Étape Details (pas de section progression pour Maintenir)
+    await createHabitPage.setName('Eau');
+    await createHabitPage.setStartValue(8);
+    await createHabitPage.setUnit('verres');
+    await createHabitPage.clickContinue();
 
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    // Étape Intentions
+    await createHabitPage.clickContinue();
 
-    // Étape 3: Intentions
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    // Étape Identity
+    await createHabitPage.clickPreview();
 
-    // Étape 4: Identity
-    await page.getByRole('button', { name: 'Aperçu' }).click();
+    // Étape Confirmation
+    await createHabitPage.expectSummary({
+      name: 'Eau',
+      type: 'maintain',
+      startValue: 8,
+      unit: 'verres',
+    });
+    await createHabitPage.clickCreate();
 
-    // Étape 5: Confirmation
-    await expect(page.getByText('Maintenir')).toBeVisible();
-    await expect(page.getByText('8 verres', { exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'Créer l\'habitude' }).click();
-
-    // Étape first-checkin: Première victoire ?
-    await expect(page.getByText('Première victoire ?')).toBeVisible();
-    await page.getByRole('button', { name: 'Non, je commence demain' }).click();
+    // Étape first-checkin
+    await createHabitPage.skipFirstCheckIn();
 
     // Vérifier la création
     await expect(page).toHaveURL('/');
     await expect(page.getByRole('heading', { name: 'Eau' })).toBeVisible();
   });
 
-  test('navigation avec bouton Retour', async ({ page }) => {
-    // Passer l'étape choose
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
+  test('navigation avec bouton Retour', async () => {
+    // Aller à l'étape type
+    await createHabitPage.clickCreateCustomHabit();
 
-    // Aller à l'étape 2 (details)
-    await page.getByRole('button', { name: /Augmenter/ }).click();
-    await page.getByRole('button', { name: 'Continuer' }).click();
-    await expect(page.getByText('Décrivez votre habitude')).toBeVisible();
+    // Aller à l'étape details
+    await createHabitPage.selectType('increase');
+    await createHabitPage.clickContinue();
+    await createHabitPage.expectDetailsStep();
 
     // Revenir à l'étape type
-    await page.getByRole('button', { name: 'Retour' }).click();
-    await expect(page.getByText('Quel type d\'habitude souhaitez-vous créer ?')).toBeVisible();
+    await createHabitPage.clickBack();
+    await createHabitPage.expectTypeStep();
 
     // Revenir à l'étape choose
-    await page.getByRole('button', { name: 'Retour' }).click();
-    await expect(page.getByText('Choisis une habitude à fort impact ou crée la tienne')).toBeVisible();
+    await createHabitPage.clickBack();
+    await createHabitPage.expectChooseStep();
   });
 
   test('changer d\'emoji', async ({ page }) => {
-    // Passer l'étape choose
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
-
-    await page.getByRole('button', { name: /Augmenter/ }).click();
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    await createHabitPage.clickCreateCustomHabit();
+    await createHabitPage.selectType('increase');
+    await createHabitPage.clickContinue();
 
     // Emoji par défaut
-    await expect(page.locator('.emoji-picker__current')).toHaveText('💪');
+    const defaultEmoji = await createHabitPage.getEmoji();
+    expect(defaultEmoji).toBe('💪');
 
-    // Ouvrir le picker et changer d'emoji
-    await page.locator('.emoji-picker__trigger').click();
-    await expect(page.locator('.emoji-picker__dropdown')).toBeVisible();
+    // Changer d'emoji (sélectionner le 3ème)
+    await createHabitPage.selectEmoji(2);
 
-    // Sélectionner un emoji différent (le 3ème visible - 😊)
-    const emojiButtons = page.locator('.emoji-picker__dropdown button.epr-emoji');
-    await emojiButtons.nth(2).click();
-
-    // Vérifier que l'emoji a changé (pas 💪)
-    await expect(page.locator('.emoji-picker__current')).not.toHaveText('💪');
+    // Vérifier que l'emoji a changé
+    const newEmoji = await createHabitPage.getEmoji();
+    expect(newEmoji).not.toBe('💪');
     await expect(page.locator('.emoji-picker__dropdown')).not.toBeVisible();
   });
 
   test('changer le mode de progression (% vs unités)', async ({ page }) => {
-    // Passer l'étape choose
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
-
-    await page.getByRole('button', { name: /Augmenter/ }).click();
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    await createHabitPage.clickCreateCustomHabit();
+    await createHabitPage.selectType('increase');
+    await createHabitPage.clickContinue();
 
     // Par défaut en %
     await expect(page.getByRole('spinbutton', { name: 'Pourcentage' })).toBeVisible();
 
     // Changer en unités
-    await page.getByRole('button', { name: 'En unités' }).click();
+    await createHabitPage.setProgressionMode('absolute');
     await expect(page.getByRole('spinbutton', { name: 'Unités' })).toBeVisible();
   });
 
@@ -261,7 +226,7 @@ test.describe('Création d\'habitude', () => {
     await expect(page.getByRole('button', { name: '😴' })).toBeVisible(); // Sommeil
 
     // Cliquer sur le filtre sommeil
-    await page.getByRole('button', { name: '😴' }).click();
+    await createHabitPage.filterByCategory('😴');
 
     // Les habitudes de sommeil devraient être visibles
     await expect(page.getByText('Se coucher à heure fixe')).toBeVisible();

@@ -1,4 +1,5 @@
 import { test, expect } from './base-test'
+import { setupFromTestFile, closeWelcomeBackIfVisible } from './fixtures'
 
 /**
  * Tests E2E pour l'atteinte d'objectif
@@ -7,28 +8,14 @@ import { test, expect } from './base-test'
 
 test.describe('Atteinte d\'objectif', () => {
   test.beforeEach(async ({ page }) => {
-    // Charger les données de test via fetch avant d'aller sur la page
-    const testDataResponse = await page.request.get(
-      'http://localhost:4173/test-data/goal-reached.json'
-    )
-    const testData = await testDataResponse.json()
-
-    // Injecter les données de test AVANT que la page charge
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement_data', JSON.stringify(data))
-    }, testData)
+    await setupFromTestFile(page, 'goal-reached.json')
   })
 
   test('affiche l\'habitude qui a atteint son objectif sur l\'écran principal', async ({
     page,
   }) => {
     await page.goto('/')
-
-    // Fermer le message WelcomeBack s'il est affiché
-    const welcomeBackClose = page.locator('.welcome-back__close, .welcome-back-message button')
-    if (await welcomeBackClose.isVisible({ timeout: 1000 }).catch(() => false)) {
-      await welcomeBackClose.click()
-    }
+    await closeWelcomeBackIfVisible(page)
 
     // L'habitude Push-ups doit être visible
     await expect(page.getByRole('heading', { name: 'Push-ups' })).toBeVisible()
@@ -95,6 +82,7 @@ test.describe('Atteinte d\'objectif', () => {
     page,
   }) => {
     await page.goto('/')
+    await closeWelcomeBackIfVisible(page)
 
     // Le statut doit indiquer une complétion
     const habitCard = page.locator('.habit-card').first()
@@ -121,6 +109,7 @@ test.describe('Atteinte d\'objectif', () => {
 
   test('l\'écran principal montre le pourcentage de complétion globale', async ({ page }) => {
     await page.goto('/')
+    await closeWelcomeBackIfVisible(page)
 
     // Le header doit afficher un pourcentage de complétion
     const completionStatus = page.getByRole('status', { name: /complété/ })

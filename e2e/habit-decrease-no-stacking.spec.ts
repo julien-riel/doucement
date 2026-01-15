@@ -1,4 +1,10 @@
-import { test, expect } from './base-test';
+import { test, expect } from './base-test'
+import {
+  setupLocalStorage,
+  createAppData,
+  createIncreaseHabit,
+  CreateHabitPage,
+} from './fixtures'
 
 /**
  * Tests E2E pour vérifier que le habit stacking n'est pas proposé
@@ -6,106 +12,84 @@ import { test, expect } from './base-test';
  */
 
 test.describe('Habitude decrease - pas de habit stacking', () => {
+  let createHabitPage: CreateHabitPage
+
   test.beforeEach(async ({ page }) => {
+    createHabitPage = new CreateHabitPage(page)
+
     // Créer des données avec une habitude existante pour pouvoir tester le stacking
-    await page.addInitScript(() => {
-      localStorage.clear();
-      localStorage.setItem('doucement-language', 'fr');
-      localStorage.setItem('doucement_data', JSON.stringify({
-        schemaVersion: 7,
-        habits: [
-          {
-            id: 'existing-habit',
-            name: 'Push-ups',
-            emoji: '💪',
-            description: 'Habitude existante pour test',
-            direction: 'increase',
-            startValue: 10,
-            unit: 'répétitions',
-            progression: { mode: 'absolute', value: 2, period: 'weekly' },
-            createdAt: '2025-12-01',
-            archivedAt: null,
-            trackingMode: 'detailed',
-            trackingFrequency: 'daily'
-          }
-        ],
-        entries: [],
-        preferences: {
-          onboardingCompleted: true,
-          lastWeeklyReviewDate: null,
-          notifications: {
-            enabled: false,
-            morningReminder: { enabled: true, time: '08:00' },
-            eveningReminder: { enabled: false, time: '20:00' },
-            weeklyReviewReminder: { enabled: false, time: '10:00' }
-          },
-          theme: 'system'
-        }
-      }));
-    });
-  });
+    const testData = createAppData({
+      habits: [
+        createIncreaseHabit({
+          id: 'existing-habit',
+          name: 'Push-ups',
+          emoji: '💪',
+          startValue: 10,
+          unit: 'répétitions',
+        }),
+      ],
+    })
+    await setupLocalStorage(page, testData)
+  })
 
   test('création habitude increase: le sélecteur d\'ancrage est visible', async ({ page }) => {
-    await page.goto('/create');
-    await page.waitForSelector('text=Nouvelle habitude');
+    await createHabitPage.goto()
 
     // Créer une habitude personnalisée de type Augmenter
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
-    await page.getByRole('button', { name: /Augmenter/ }).click();
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    await createHabitPage.clickCreateCustomHabit()
+    await createHabitPage.selectType('increase')
+    await createHabitPage.clickContinue()
 
     // Remplir les détails
-    await page.getByRole('textbox', { name: 'Nom de l\'habitude' }).fill('Méditation');
-    await page.getByRole('textbox', { name: 'Unité' }).fill('minutes');
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    await createHabitPage.setName('Méditation')
+    await createHabitPage.setUnit('minutes')
+    await createHabitPage.clickContinue()
 
     // À l'étape Intentions, le sélecteur d'ancrage devrait être visible
-    await expect(page.getByText('Quand et où ?')).toBeVisible();
+    await createHabitPage.expectIntentionsStep()
 
     // Vérifier que la section d'ancrage est présente pour une habitude increase
-    await expect(page.getByText('Après quelle habitude ?')).toBeVisible();
-  });
+    await expect(page.getByText('Après quelle habitude ?')).toBeVisible()
+  })
 
   test('création habitude decrease: le sélecteur d\'ancrage n\'est PAS visible', async ({ page }) => {
-    await page.goto('/create');
-    await page.waitForSelector('text=Nouvelle habitude');
+    await createHabitPage.goto()
 
     // Créer une habitude personnalisée de type Réduire
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
-    await page.getByRole('button', { name: /Réduire/ }).click();
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    await createHabitPage.clickCreateCustomHabit()
+    await createHabitPage.selectType('decrease')
+    await createHabitPage.clickContinue()
 
     // Remplir les détails
-    await page.getByRole('textbox', { name: 'Nom de l\'habitude' }).fill('Cigarettes');
-    await page.getByRole('textbox', { name: 'Unité' }).fill('cigarettes');
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    await createHabitPage.setName('Cigarettes')
+    await createHabitPage.setUnit('cigarettes')
+    await createHabitPage.clickContinue()
 
     // À l'étape Intentions
-    await expect(page.getByText('Quand et où ?')).toBeVisible();
+    await createHabitPage.expectIntentionsStep()
 
     // Le sélecteur d'ancrage NE devrait PAS être visible pour une habitude decrease
-    await expect(page.getByText('Après quelle habitude ?')).not.toBeVisible();
-  });
+    await expect(page.getByText('Après quelle habitude ?')).not.toBeVisible()
+  })
 
   test('création habitude maintain: le sélecteur d\'ancrage est visible', async ({ page }) => {
-    await page.goto('/create');
-    await page.waitForSelector('text=Nouvelle habitude');
+    await createHabitPage.goto()
 
     // Créer une habitude personnalisée de type Maintenir
-    await page.getByRole('button', { name: /Créer une habitude personnalisée/ }).click();
-    await page.getByRole('button', { name: /Maintenir/ }).click();
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    await createHabitPage.clickCreateCustomHabit()
+    await createHabitPage.selectType('maintain')
+    await createHabitPage.clickContinue()
 
     // Remplir les détails
-    await page.getByRole('textbox', { name: 'Nom de l\'habitude' }).fill('Eau');
-    await page.getByRole('spinbutton', { name: 'Dose de départ' }).fill('8');
-    await page.getByRole('textbox', { name: 'Unité' }).fill('verres');
-    await page.getByRole('button', { name: 'Continuer' }).click();
+    await createHabitPage.setName('Eau')
+    await createHabitPage.setStartValue(8)
+    await createHabitPage.setUnit('verres')
+    await createHabitPage.clickContinue()
 
     // À l'étape Intentions, le sélecteur d'ancrage devrait être visible
-    await expect(page.getByText('Quand et où ?')).toBeVisible();
+    await createHabitPage.expectIntentionsStep()
 
     // Vérifier que la section d'ancrage est présente pour une habitude maintain
-    await expect(page.getByText('Après quelle habitude ?')).toBeVisible();
-  });
-});
+    await expect(page.getByText('Après quelle habitude ?')).toBeVisible()
+  })
+})

@@ -1,4 +1,5 @@
 import { test, expect } from './base-test'
+import { setupFromTestFile } from './fixtures'
 
 /**
  * Tests E2E pour les pauses planifiées
@@ -7,17 +8,7 @@ import { test, expect } from './base-test'
 
 test.describe('Pause planifiée', () => {
   test.beforeEach(async ({ page }) => {
-    // Charger les données de test via fetch avant d'aller sur la page
-    const testDataResponse = await page.request.get(
-      'http://localhost:4173/test-data/planned-pause.json'
-    )
-    const testData = await testDataResponse.json()
-
-    // Injecter les données de test AVANT que la page charge
-    await page.addInitScript((data) => {
-      localStorage.setItem('doucement-language', 'fr')
-      localStorage.setItem('doucement_data', JSON.stringify(data))
-    }, testData)
+    await setupFromTestFile(page, 'planned-pause.json')
   })
 
   test('l\'habitude en pause active n\'apparaît pas sur l\'écran Aujourd\'hui', async ({
