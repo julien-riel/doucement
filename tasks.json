@@ -332,7 +332,7 @@
       "id": "phase-5-creation-ui",
       "name": "UI de création/édition",
       "description": "Intégration des nouveaux modes dans le flux de création et édition d'habitudes",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
@@ -376,12 +376,17 @@
           "id": "5.3",
           "name": "Intégrer dans CreateHabit",
           "description": "Ajouter les nouveaux modes dans le wizard de création",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["5.1", "5.2"],
           "files": [
-            "src/pages/CreateHabit/steps/TrackingModeStep.tsx",
-            "src/pages/CreateHabit/types.ts"
+            "src/pages/CreateHabit/steps/StepDetails.tsx",
+            "src/pages/CreateHabit/steps/SliderConfigSection.tsx",
+            "src/pages/CreateHabit/steps/SliderConfigSection.css",
+            "src/pages/CreateHabit/CreateHabitContext.tsx",
+            "src/i18n/locales/fr.json",
+            "src/i18n/locales/en.json"
           ],
           "tests": [],
           "acceptance": [
@@ -611,9 +616,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 23,
+    "completed": 24,
     "inProgress": 0,
-    "pending": 8,
+    "pending": 7,
     "blocked": 0
   }
 }

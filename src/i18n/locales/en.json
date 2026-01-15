@@ -160,7 +160,16 @@
       "detailedDesc": "Enter the exact value",
       "counter": "Counter",
       "counterDesc": "Quick +1 / -1 buttons",
-      "counterHint": "Great for: cigarettes, drinks, snacks..."
+      "counterHint": "Great for: cigarettes, drinks, snacks...",
+      "stopwatch": "Stopwatch",
+      "stopwatchDesc": "Measure time spent",
+      "stopwatchHint": "Great for: meditation, reading, sports...",
+      "timer": "Timer",
+      "timerDesc": "Countdown to 0",
+      "timerHint": "Great for: planking, breaks, time limits...",
+      "slider": "Slider",
+      "sliderDesc": "Visual slider with emoji",
+      "sliderHint": "Great for: mood, energy, pain..."
     },
     "entryMode": {
       "title": "Entry mode",

@@ -140,6 +140,7 @@ export function CreateHabitProvider({ children, onHabitCreated }: CreateHabitPro
         entryMode: form.entryMode,
         weeklyAggregation: form.trackingFrequency === 'weekly' ? form.weeklyAggregation : undefined,
         timeOfDay: form.timeOfDay ?? undefined,
+        sliderConfig: form.trackingMode === 'slider' ? (form.sliderConfig ?? undefined) : undefined,
       }
 
       const newHabit = addHabit(habitInput)

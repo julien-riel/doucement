@@ -160,7 +160,16 @@
       "detailedDesc": "Saisie de la valeur exacte",
       "counter": "Compteur",
       "counterDesc": "Boutons +1 / -1 rapides",
-      "counterHint": "Idéal pour : cigarettes, verres, grignotages..."
+      "counterHint": "Idéal pour : cigarettes, verres, grignotages...",
+      "stopwatch": "Chronomètre",
+      "stopwatchDesc": "Mesure le temps passé",
+      "stopwatchHint": "Idéal pour : méditation, lecture, sport...",
+      "timer": "Minuterie",
+      "timerDesc": "Compte à rebours vers 0",
+      "timerHint": "Idéal pour : gainage, pause, temps limité...",
+      "slider": "Slider",
+      "sliderDesc": "Curseur visuel avec emoji",
+      "sliderHint": "Idéal pour : humeur, énergie, douleur..."
     },
     "entryMode": {
       "title": "Mode de saisie",
