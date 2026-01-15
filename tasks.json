@@ -129,7 +129,7 @@
       "id": "phase-3-migration-high",
       "name": "Migration specs haute priorité",
       "description": "Migrer les 5 specs avec le plus de duplication",
-      "status": "in_progress",
+      "status": "completed",
       "releaseType": "patch",
       "tasks": [
         {
@@ -184,7 +184,8 @@
           "id": "3.4",
           "name": "Migrer celebrations.spec.ts",
           "description": "Utiliser les fixtures et closeCelebrationModalIfVisible helper",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["2.2"],
           "files": ["e2e/celebrations.spec.ts"],
@@ -199,7 +200,8 @@
           "id": "3.5",
           "name": "Migrer statistics.spec.ts",
           "description": "Utiliser StatisticsPage Page Object et fixtures",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-01-15",
           "priority": "high",
           "dependsOn": ["2.2"],
           "files": ["e2e/statistics.spec.ts"],
@@ -413,9 +415,9 @@
   ],
   "stats": {
     "totalTasks": 24,
-    "completed": 10,
+    "completed": 12,
     "inProgress": 0,
-    "pending": 14,
+    "pending": 12,
     "blocked": 0
   }
 }

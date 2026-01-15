@@ -1,4 +1,13 @@
 import { test, expect } from './base-test'
+import {
+  setupLocalStorage,
+  setupFromTestFile,
+  closeCelebrationModalIfVisible,
+  createAppData,
+  createIncreaseHabit,
+  createEntry,
+  createPreferences,
+} from './fixtures'
 
 /**
  * Tests E2E pour le système de célébrations
@@ -6,483 +15,284 @@ import { test, expect } from './base-test'
  * et la non-répétition des célébrations déjà vues
  */
 
+// ============================================================================
+// Helper: Create milestone data for celebration tests
+// ============================================================================
+
+interface MilestoneConfig {
+  habitId: string
+  level: number
+  reachedAt: string
+  celebrated: boolean
+}
+
+function createCelebrationTestData(options: {
+  habitId: string
+  habitName: string
+  emoji: string
+  currentValue: number
+  targetValue: number
+  milestones: MilestoneConfig[]
+}) {
+  const { habitId, habitName, emoji, currentValue, targetValue, milestones } = options
+
+  const habit = createIncreaseHabit({
+    id: habitId,
+    name: habitName,
+    emoji,
+    description: 'Test habit',
+    startValue: 0,
+    unit: 'points',
+    progression: { mode: 'absolute', value: 10, period: 'weekly' },
+    targetValue,
+    createdAt: '2025-12-01',
+  })
+
+  const entry = createEntry({
+    id: 'e1',
+    habitId,
+    date: '2026-01-10',
+    targetDose: currentValue,
+    actualValue: currentValue,
+    createdAt: '2026-01-10T07:30:00Z',
+    updatedAt: '2026-01-10T07:30:00Z',
+  })
+
+  return createAppData({
+    habits: [habit],
+    entries: [entry],
+    preferences: {
+      onboardingCompleted: true,
+      lastWeeklyReviewDate: '2026-01-05',
+      milestones: {
+        milestones,
+      },
+      notifications: {
+        enabled: false,
+        morningReminder: { enabled: false, time: '08:00' },
+        eveningReminder: { enabled: false, time: '20:00' },
+        weeklyReviewReminder: { enabled: false, time: '10:00' },
+      },
+    } as ReturnType<typeof createPreferences> & { milestones: { milestones: MilestoneConfig[] } },
+  })
+}
+
+// ============================================================================
+// TESTS
+// ============================================================================
+
 test.describe('Célébrations des jalons', () => {
   test.describe('Déclenchement de la modale', () => {
     test.beforeEach(async ({ page }) => {
-      // Charger les données de test avec une habitude proche du seuil de 25%
-      // startValue = 10, targetValue = 50, donc 25% = 10 + (50-10)*0.25 = 20
-      // La dernière entrée est à 19, donc un check-in à 20+ devrait déclencher la célébration
-      const testDataResponse = await page.request.get(
-        'http://localhost:4173/test-data/celebration-pending.json'
-      )
-      const testData = await testDataResponse.json()
-
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, testData)
+      // Load test data with a habit near the 25% threshold
+      await setupFromTestFile(page, 'celebration-pending.json')
     })
 
     test('affiche la modale de célébration après passage du seuil 25%', async ({ page }) => {
       await page.goto('/')
 
-      // Vérifier que l'habitude est visible
+      // Verify the habit is visible
       await expect(page.getByRole('heading', { name: 'Pompes' })).toBeVisible()
 
-      // Aller sur la page statistiques qui détecte les nouveaux jalons
+      // Go to statistics page which detects new milestones
       await page.goto('/statistics')
 
-      // La dernière valeur (19) est juste en dessous du seuil de 25% (20)
-      // La page statistiques devrait détecter le jalon non célébré s'il était déjà atteint
-      // Vérifions que les statistiques s'affichent correctement
+      // Verify statistics page is loaded
       await expect(page.getByRole('heading', { name: 'Mes statistiques' })).toBeVisible()
     })
 
     test('la modale contient les éléments attendus', async ({ page }) => {
-      // Charger des données avec un jalon à 25% déjà atteint mais non célébré
-      const testDataWithMilestone = {
-        schemaVersion: 3,
-        habits: [
+      // Create data with a 25% milestone reached but not celebrated
+      const testData = createCelebrationTestData({
+        habitId: 'habit-milestone-test',
+        habitName: 'Méditation',
+        emoji: '🧘',
+        currentValue: 5,
+        targetValue: 20,
+        milestones: [
           {
-            id: 'habit-milestone-test',
-            name: 'Méditation',
-            emoji: '🧘',
-            description: 'Test jalon',
-            direction: 'increase',
-            startValue: 0,
-            unit: 'minutes',
-            progression: { mode: 'fixed', value: 1, period: 'weekly' },
-            targetValue: 20,
-            createdAt: '2025-12-01',
-            archivedAt: null,
-            trackingMode: 'detailed',
-            implementationIntention: null,
-          },
-        ],
-        entries: [
-          {
-            id: 'e1',
             habitId: 'habit-milestone-test',
-            date: '2026-01-10',
-            targetDose: 5,
-            actualValue: 5,
-            createdAt: '2026-01-10T07:30:00Z',
-            updatedAt: '2026-01-10T07:30:00Z',
+            level: 25,
+            reachedAt: '2026-01-10',
+            celebrated: false,
           },
         ],
-        preferences: {
-          onboardingCompleted: true,
-          lastWeeklyReviewDate: '2026-01-05',
-          milestones: {
-            milestones: [
-              {
-                habitId: 'habit-milestone-test',
-                level: 25,
-                reachedAt: '2026-01-10',
-                celebrated: false,
-              },
-            ],
-          },
-          notifications: {
-            enabled: false,
-            morningReminder: { enabled: false, time: '08:00' },
-            eveningReminder: { enabled: false, time: '20:00' },
-            weeklyReviewReminder: { enabled: false, time: '10:00' },
-          },
-        },
-      }
+      })
 
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, testDataWithMilestone)
-
+      await setupLocalStorage(page, testData)
       await page.goto('/statistics')
 
-      // La modale de célébration devrait s'afficher automatiquement
+      // The celebration modal should appear automatically
       const modal = page.locator('[role="dialog"][aria-modal="true"]')
       await expect(modal).toBeVisible({ timeout: 5000 })
 
-      // Vérifier le titre
+      // Verify the title
       await expect(page.getByText('Premier quart !')).toBeVisible()
 
-      // Vérifier le pourcentage
+      // Verify the percentage
       await expect(page.getByText('25% de ta cible Méditation')).toBeVisible()
 
-      // Vérifier le message encourageant
+      // Verify the encouraging message
       await expect(page.getByText('Beau départ ! Tu as parcouru un quart du chemin.')).toBeVisible()
 
-      // Vérifier le bouton de fermeture
+      // Verify the close button
       await expect(page.getByRole('button', { name: 'Continuer' })).toBeVisible()
 
-      // Vérifier l'emoji
+      // Verify the emoji
       await expect(page.getByText('🧘')).toBeVisible()
     })
 
     test('la modale peut être fermée avec le bouton Continuer', async ({ page }) => {
-      const testDataWithMilestone = {
-        schemaVersion: 3,
-        habits: [
-          {
-            id: 'habit-close-test',
-            name: 'Lecture',
-            emoji: '📚',
-            description: 'Test fermeture',
-            direction: 'increase',
-            startValue: 0,
-            unit: 'pages',
-            progression: { mode: 'fixed', value: 5, period: 'weekly' },
-            targetValue: 100,
-            createdAt: '2025-12-01',
-            archivedAt: null,
-            trackingMode: 'detailed',
-            implementationIntention: null,
-          },
+      const testData = createCelebrationTestData({
+        habitId: 'habit-close-test',
+        habitName: 'Lecture',
+        emoji: '📚',
+        currentValue: 50,
+        targetValue: 100,
+        milestones: [
+          { habitId: 'habit-close-test', level: 25, reachedAt: '2026-01-08', celebrated: true },
+          { habitId: 'habit-close-test', level: 50, reachedAt: '2026-01-10', celebrated: false },
         ],
-        entries: [
-          {
-            id: 'e1',
-            habitId: 'habit-close-test',
-            date: '2026-01-10',
-            targetDose: 25,
-            actualValue: 50,
-            createdAt: '2026-01-10T07:30:00Z',
-            updatedAt: '2026-01-10T07:30:00Z',
-          },
-        ],
-        preferences: {
-          onboardingCompleted: true,
-          lastWeeklyReviewDate: '2026-01-05',
-          milestones: {
-            milestones: [
-              { habitId: 'habit-close-test', level: 25, reachedAt: '2026-01-08', celebrated: true },
-              {
-                habitId: 'habit-close-test',
-                level: 50,
-                reachedAt: '2026-01-10',
-                celebrated: false,
-              },
-            ],
-          },
-          notifications: {
-            enabled: false,
-            morningReminder: { enabled: false, time: '08:00' },
-            eveningReminder: { enabled: false, time: '20:00' },
-            weeklyReviewReminder: { enabled: false, time: '10:00' },
-          },
-        },
-      }
+      })
 
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, testDataWithMilestone)
-
+      await setupLocalStorage(page, testData)
       await page.goto('/statistics')
 
-      // Attendre la modale
+      // Wait for modal
       const modal = page.locator('[role="dialog"][aria-modal="true"]')
       await expect(modal).toBeVisible({ timeout: 5000 })
 
-      // Cliquer sur Continuer
+      // Click Continue
       await page.getByRole('button', { name: 'Continuer' }).click()
 
-      // La modale devrait disparaître
+      // Modal should disappear
       await expect(modal).not.toBeVisible()
     })
 
     test('la modale peut être fermée avec la touche Escape', async ({ page }) => {
-      const testDataWithMilestone = {
-        schemaVersion: 3,
-        habits: [
-          {
-            id: 'habit-escape-test',
-            name: 'Course',
-            emoji: '🏃',
-            description: 'Test escape',
-            direction: 'increase',
-            startValue: 0,
-            unit: 'km',
-            progression: { mode: 'fixed', value: 1, period: 'weekly' },
-            targetValue: 10,
-            createdAt: '2025-12-01',
-            archivedAt: null,
-            trackingMode: 'detailed',
-            implementationIntention: null,
-          },
+      const testData = createCelebrationTestData({
+        habitId: 'habit-escape-test',
+        habitName: 'Course',
+        emoji: '🏃',
+        currentValue: 7.5,
+        targetValue: 10,
+        milestones: [
+          { habitId: 'habit-escape-test', level: 25, reachedAt: '2026-01-05', celebrated: true },
+          { habitId: 'habit-escape-test', level: 50, reachedAt: '2026-01-07', celebrated: true },
+          { habitId: 'habit-escape-test', level: 75, reachedAt: '2026-01-10', celebrated: false },
         ],
-        entries: [
-          {
-            id: 'e1',
-            habitId: 'habit-escape-test',
-            date: '2026-01-10',
-            targetDose: 2.5,
-            actualValue: 7.5,
-            createdAt: '2026-01-10T07:30:00Z',
-            updatedAt: '2026-01-10T07:30:00Z',
-          },
-        ],
-        preferences: {
-          onboardingCompleted: true,
-          lastWeeklyReviewDate: '2026-01-05',
-          milestones: {
-            milestones: [
-              { habitId: 'habit-escape-test', level: 25, reachedAt: '2026-01-05', celebrated: true },
-              { habitId: 'habit-escape-test', level: 50, reachedAt: '2026-01-07', celebrated: true },
-              {
-                habitId: 'habit-escape-test',
-                level: 75,
-                reachedAt: '2026-01-10',
-                celebrated: false,
-              },
-            ],
-          },
-          notifications: {
-            enabled: false,
-            morningReminder: { enabled: false, time: '08:00' },
-            eveningReminder: { enabled: false, time: '20:00' },
-            weeklyReviewReminder: { enabled: false, time: '10:00' },
-          },
-        },
-      }
+      })
 
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, testDataWithMilestone)
-
+      await setupLocalStorage(page, testData)
       await page.goto('/statistics')
 
-      // Attendre la modale
+      // Wait for modal
       const modal = page.locator('[role="dialog"][aria-modal="true"]')
       await expect(modal).toBeVisible({ timeout: 5000 })
 
-      // Vérifier qu'on est bien sur le jalon 75%
+      // Verify we're on the 75% milestone
       await expect(page.getByRole('heading', { name: 'Trois quarts !' })).toBeVisible()
 
-      // Appuyer sur Escape
+      // Press Escape
       await page.keyboard.press('Escape')
 
-      // La modale devrait disparaître
+      // Modal should disappear
       await expect(modal).not.toBeVisible()
     })
   })
 
   test.describe('Non-répétition des célébrations', () => {
     test('ne réaffiche pas une célébration déjà célébrée', async ({ page }) => {
-      const testDataCelebrated = {
-        schemaVersion: 3,
-        habits: [
-          {
-            id: 'habit-no-repeat',
-            name: 'Yoga',
-            emoji: '🧘',
-            description: 'Test non-répétition',
-            direction: 'increase',
-            startValue: 0,
-            unit: 'minutes',
-            progression: { mode: 'fixed', value: 5, period: 'weekly' },
-            targetValue: 60,
-            createdAt: '2025-12-01',
-            archivedAt: null,
-            trackingMode: 'detailed',
-            implementationIntention: null,
-          },
+      const testData = createCelebrationTestData({
+        habitId: 'habit-no-repeat',
+        habitName: 'Yoga',
+        emoji: '🧘',
+        currentValue: 15,
+        targetValue: 60,
+        milestones: [
+          { habitId: 'habit-no-repeat', level: 25, reachedAt: '2026-01-08', celebrated: true },
         ],
-        entries: [
-          {
-            id: 'e1',
-            habitId: 'habit-no-repeat',
-            date: '2026-01-10',
-            targetDose: 15,
-            actualValue: 15,
-            createdAt: '2026-01-10T07:30:00Z',
-            updatedAt: '2026-01-10T07:30:00Z',
-          },
-        ],
-        preferences: {
-          onboardingCompleted: true,
-          lastWeeklyReviewDate: '2026-01-05',
-          milestones: {
-            milestones: [
-              { habitId: 'habit-no-repeat', level: 25, reachedAt: '2026-01-08', celebrated: true },
-            ],
-          },
-          notifications: {
-            enabled: false,
-            morningReminder: { enabled: false, time: '08:00' },
-            eveningReminder: { enabled: false, time: '20:00' },
-            weeklyReviewReminder: { enabled: false, time: '10:00' },
-          },
-        },
-      }
+      })
 
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, testDataCelebrated)
-
+      await setupLocalStorage(page, testData)
       await page.goto('/statistics')
 
-      // Attendre un peu pour vérifier qu'aucune modale ne s'ouvre
+      // Wait a bit to verify no modal opens
       await page.waitForTimeout(1000)
 
-      // La modale ne devrait pas être visible car le jalon est déjà célébré
+      // Modal should not be visible since the milestone is already celebrated
       const modal = page.locator('[role="dialog"][aria-modal="true"]')
       await expect(modal).not.toBeVisible()
 
-      // Vérifier que la page statistiques est bien chargée
+      // Verify statistics page is loaded
       await expect(page.getByRole('heading', { name: 'Mes statistiques' })).toBeVisible()
     })
 
     test('affiche seulement le premier jalon non célébré parmi plusieurs', async ({ page }) => {
-      const testDataMultipleMilestones = {
-        schemaVersion: 3,
-        habits: [
-          {
-            id: 'habit-multiple',
-            name: 'Écriture',
-            emoji: '✍️',
-            description: 'Test multiple jalons',
-            direction: 'increase',
-            startValue: 0,
-            unit: 'mots',
-            progression: { mode: 'fixed', value: 100, period: 'weekly' },
-            targetValue: 1000,
-            createdAt: '2025-12-01',
-            archivedAt: null,
-            trackingMode: 'detailed',
-            implementationIntention: null,
-          },
+      const testData = createCelebrationTestData({
+        habitId: 'habit-multiple',
+        habitName: 'Écriture',
+        emoji: '✍️',
+        currentValue: 600,
+        targetValue: 1000,
+        milestones: [
+          // Both 25% and 50% milestones are reached but not celebrated
+          { habitId: 'habit-multiple', level: 25, reachedAt: '2026-01-08', celebrated: false },
+          { habitId: 'habit-multiple', level: 50, reachedAt: '2026-01-10', celebrated: false },
         ],
-        entries: [
-          {
-            id: 'e1',
-            habitId: 'habit-multiple',
-            date: '2026-01-10',
-            targetDose: 250,
-            actualValue: 600,
-            createdAt: '2026-01-10T07:30:00Z',
-            updatedAt: '2026-01-10T07:30:00Z',
-          },
-        ],
-        preferences: {
-          onboardingCompleted: true,
-          lastWeeklyReviewDate: '2026-01-05',
-          milestones: {
-            milestones: [
-              // Les jalons 25% et 50% sont atteints mais non célébrés
-              {
-                habitId: 'habit-multiple',
-                level: 25,
-                reachedAt: '2026-01-08',
-                celebrated: false,
-              },
-              {
-                habitId: 'habit-multiple',
-                level: 50,
-                reachedAt: '2026-01-10',
-                celebrated: false,
-              },
-            ],
-          },
-          notifications: {
-            enabled: false,
-            morningReminder: { enabled: false, time: '08:00' },
-            eveningReminder: { enabled: false, time: '20:00' },
-            weeklyReviewReminder: { enabled: false, time: '10:00' },
-          },
-        },
-      }
+      })
 
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, testDataMultipleMilestones)
-
+      await setupLocalStorage(page, testData)
       await page.goto('/statistics')
 
-      // La modale devrait s'ouvrir
+      // Modal should open
       const modal = page.locator('[role="dialog"][aria-modal="true"]')
       await expect(modal).toBeVisible({ timeout: 5000 })
 
-      // Elle devrait afficher le premier jalon non célébré (25%)
+      // Should display the first uncelebrated milestone (25%)
       await expect(page.getByText('Premier quart !')).toBeVisible()
       await expect(page.getByText('25% de ta cible Écriture')).toBeVisible()
     })
   })
 
   test.describe('Messages de célébration par niveau', () => {
-    const milestoneTestData = (level: number, message: string, title: string) => {
+    const createMilestoneTestData = (level: number, title: string, message: string) => {
       const percentage = level / 100
       const currentValue = percentage * 100 // targetValue = 100
 
-      // Générer tous les milestones des niveaux inférieurs comme célébrés
+      // Generate all milestones for lower levels as celebrated
       const milestones = [25, 50, 75, 100]
         .filter((l) => l <= level)
         .map((l) => ({
           habitId: `habit-level-${level}`,
           level: l,
           reachedAt: '2026-01-10',
-          celebrated: l < level, // Les niveaux inférieurs sont célébrés, le niveau cible ne l'est pas
+          celebrated: l < level, // Lower levels are celebrated, target level is not
         }))
 
       return {
         level,
         title,
         message,
-        data: {
-          schemaVersion: 3,
-          habits: [
-            {
-              id: `habit-level-${level}`,
-              name: 'Test',
-              emoji: '🎯',
-              description: `Test niveau ${level}`,
-              direction: 'increase',
-              startValue: 0,
-              unit: 'points',
-              progression: { mode: 'fixed', value: 10, period: 'weekly' },
-              targetValue: 100,
-              createdAt: '2025-12-01',
-              archivedAt: null,
-              trackingMode: 'detailed',
-              implementationIntention: null,
-            },
-          ],
-          entries: [
-            {
-              id: 'e1',
-              habitId: `habit-level-${level}`,
-              date: '2026-01-10',
-              targetDose: currentValue,
-              actualValue: currentValue,
-              createdAt: '2026-01-10T07:30:00Z',
-              updatedAt: '2026-01-10T07:30:00Z',
-            },
-          ],
-          preferences: {
-            onboardingCompleted: true,
-            lastWeeklyReviewDate: '2026-01-05',
-            milestones: {
-              milestones,
-            },
-            notifications: {
-              enabled: false,
-              morningReminder: { enabled: false, time: '08:00' },
-              eveningReminder: { enabled: false, time: '20:00' },
-              weeklyReviewReminder: { enabled: false, time: '10:00' },
-            },
-          },
-        },
+        data: createCelebrationTestData({
+          habitId: `habit-level-${level}`,
+          habitName: 'Test',
+          emoji: '🎯',
+          currentValue,
+          targetValue: 100,
+          milestones,
+        }),
       }
     }
 
     test('affiche le message correct pour le jalon 50%', async ({ page }) => {
-      const testCase = milestoneTestData(
+      const testCase = createMilestoneTestData(
         50,
-        'Mi-parcours atteint ! Tu es sur la bonne voie.',
-        'Mi-parcours !'
+        'Mi-parcours !',
+        'Mi-parcours atteint ! Tu es sur la bonne voie.'
       )
 
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, testCase.data)
-
+      await setupLocalStorage(page, testCase.data)
       await page.goto('/statistics')
 
       const modal = page.locator('[role="dialog"][aria-modal="true"]')
@@ -493,12 +303,13 @@ test.describe('Célébrations des jalons', () => {
     })
 
     test('affiche le message correct pour le jalon 75%', async ({ page }) => {
-      const testCase = milestoneTestData(75, "Trois quarts ! L'arrivée est en vue.", 'Trois quarts !')
+      const testCase = createMilestoneTestData(
+        75,
+        'Trois quarts !',
+        "Trois quarts ! L'arrivée est en vue."
+      )
 
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, testCase.data)
-
+      await setupLocalStorage(page, testCase.data)
       await page.goto('/statistics')
 
       const modal = page.locator('[role="dialog"][aria-modal="true"]')
@@ -509,16 +320,13 @@ test.describe('Célébrations des jalons', () => {
     })
 
     test('affiche le message correct pour le jalon 100%', async ({ page }) => {
-      const testCase = milestoneTestData(
+      const testCase = createMilestoneTestData(
         100,
-        'Objectif atteint ! Tu peux être fier·e de toi.',
-        'Objectif atteint !'
+        'Objectif atteint !',
+        'Objectif atteint ! Tu peux être fier·e de toi.'
       )
 
-      await page.addInitScript((data) => {
-        localStorage.setItem('doucement_data', JSON.stringify(data))
-      }, testCase.data)
-
+      await setupLocalStorage(page, testCase.data)
       await page.goto('/statistics')
 
       const modal = page.locator('[role="dialog"][aria-modal="true"]')
