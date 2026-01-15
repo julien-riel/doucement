@@ -41,12 +41,12 @@ export function StepDetails() {
    */
   const handleTrackingModeChange = useCallback(
     (mode: TrackingMode) => {
-      updateForm('trackingMode', mode)
-
-      // Initialize sliderConfig with default when switching to slider mode
+      // Initialize sliderConfig with default BEFORE changing mode to avoid race condition
+      // This ensures sliderConfig is set when SliderConfigSection renders
       if (mode === 'slider' && !form.sliderConfig) {
         updateForm('sliderConfig', DEFAULT_MOOD_SLIDER_CONFIG)
       }
+      updateForm('trackingMode', mode)
     },
     [form.sliderConfig, updateForm]
   )

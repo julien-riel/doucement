@@ -60,6 +60,11 @@ function SliderCheckIn({
     setHasChanged(true)
   }, [])
 
+  const handleSubmit = useCallback(() => {
+    onCheckIn(value)
+    setHasChanged(false)
+  }, [onCheckIn, value])
+
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       // Permettre l'ajustement avec les touches fléchées
@@ -77,13 +82,8 @@ function SliderCheckIn({
         handleSubmit()
       }
     },
-    [config.min, config.max, config.step]
+    [config.min, config.max, config.step, handleSubmit]
   )
-
-  const handleSubmit = useCallback(() => {
-    onCheckIn(value)
-    setHasChanged(false)
-  }, [onCheckIn, value])
 
   // Calculer le pourcentage pour la position du thumb
   const percentage = ((value - config.min) / (config.max - config.min)) * 100

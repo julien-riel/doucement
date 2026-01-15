@@ -409,4 +409,44 @@ test.describe('Habitude slider - Persistance', () => {
     await expect(page.locator('.slider-checkin__emoji')).toHaveText('😄')
     await expect(page.getByText('✓ Enregistré')).toBeVisible()
   })
+
+  test('la touche Entrée enregistre correctement la valeur (stale closure fix)', async ({
+    page,
+  }) => {
+    // Ce test vérifie que le bug de stale closure est corrigé
+    // Avant le fix, handleKeyDown avait handleSubmit manquant dans ses dépendances
+    // ce qui pouvait causer l'enregistrement d'une ancienne valeur
+    const testData = createMoodSliderData()
+    await setupLocalStorageForPersistence(page, testData, {
+      path: '/',
+      waitSelector: 'h3:has-text("Humeur")',
+    })
+
+    const slider = page.locator('.slider-checkin__input')
+
+    // Focus sur le slider et définir une valeur
+    await slider.focus()
+    await slider.fill('9')
+    await expect(page.locator('.slider-checkin__value')).toHaveText('9')
+    await expect(page.locator('.slider-checkin__emoji')).toHaveText('😄')
+
+    // Re-focus sur le slider (fill() peut changer le focus)
+    await slider.focus()
+
+    // Valider avec Entrée - la valeur enregistrée doit être 9
+    await page.keyboard.press('Enter')
+
+    // Vérifier que c'est enregistré
+    await expect(page.getByText('✓ Enregistré')).toBeVisible()
+    await expect(page.locator('.slider-checkin__value')).toHaveText('9')
+
+    // Recharger la page pour confirmer que la bonne valeur a été persistée
+    await page.reload()
+    await page.waitForSelector('h3:has-text("Humeur")')
+
+    // La valeur persistée doit être 9
+    await expect(page.locator('.slider-checkin__value')).toHaveText('9')
+    await expect(page.locator('.slider-checkin__emoji')).toHaveText('😄')
+    await expect(page.getByText('✓ Enregistré')).toBeVisible()
+  })
 })
