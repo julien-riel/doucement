@@ -1,6 +1,40 @@
 {
-  "currentVersion": "1.26.1",
+  "currentVersion": "1.26.3",
   "releases": [
+    {
+      "version": "1.26.3",
+      "date": "2026-01-14",
+      "title": "Glossaire et Architecture",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Créer GLOSSARY.md"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Créer ARCHITECTURE.md"
+        }
+      ]
+    },
+    {
+      "version": "1.26.2",
+      "date": "2026-01-14",
+      "title": "Structure et nettoyage",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "Déplacer fichiers orphelins"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Créer structure docs/features/"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Consolider documentation tests"
+        }
+      ]
+    },
     {
       "version": "1.26.1",
       "date": "2026-01-14",

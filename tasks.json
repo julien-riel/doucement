@@ -2,7 +2,7 @@
   "project": "Documentation Qualité Production",
   "description": "Audit et amélioration de la documentation pour atteindre une couverture complète et une structure optimale",
   "createdAt": "2026-01-14",
-  "lastRelease": "1.26.1",
+  "lastRelease": "1.26.3",
   "docs": [
     "docs/prd-documentation-audit.md",
     "docs/prd.md",
@@ -13,8 +13,10 @@
       "id": "phase-1-structure",
       "name": "Structure et nettoyage",
       "description": "Réorganiser les fichiers, créer la structure cible, consolider la doc tests",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
+      "releasedAs": "1.26.2",
+      "releasedAt": "2026-01-14",
       "tasks": [
         {
           "id": "1.1",
@@ -84,8 +86,10 @@
       "id": "phase-2-glossary-arch",
       "name": "Glossaire et Architecture",
       "description": "Créer le glossaire des termes et la documentation d'architecture avec diagrammes",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
+      "releasedAs": "1.26.3",
+      "releasedAt": "2026-01-14",
       "tasks": [
         {
           "id": "2.1",
