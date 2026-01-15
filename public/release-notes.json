@@ -1,6 +1,17 @@
 {
-  "currentVersion": "1.35.3",
+  "currentVersion": "1.35.4",
   "releases": [
+    {
+      "version": "1.35.4",
+      "date": "2026-01-15",
+      "title": "Correction modes de suivi",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "6 modes de suivi disponibles à la création (chronomètre, minuterie, slider)"
+        }
+      ]
+    },
     {
       "version": "1.35.3",
       "date": "2026-01-15",

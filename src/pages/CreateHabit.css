@@ -387,6 +387,11 @@
   border-color: var(--primary-500);
 }
 
+.step-details__tracking-mode-icon {
+  font-size: var(--text-lg);
+  line-height: 1;
+}
+
 .step-details__tracking-mode-label {
   font-family: var(--font-body);
   font-size: var(--text-sm);

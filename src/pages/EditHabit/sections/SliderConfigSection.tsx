@@ -207,17 +207,18 @@ export function SliderConfigSection() {
     }
   }, [config.min, config.max, previewValue])
 
-  // Don't render if not in slider mode
-  if (form.trackingMode !== 'slider') {
-    return null
-  }
-
+  // Hook must be called before any conditional return to respect Rules of Hooks
   const updateConfig = useCallback(
     (updates: Partial<SliderConfig>) => {
       updateField('sliderConfig', { ...config, ...updates })
     },
     [config, updateField]
   )
+
+  // Don't render if not in slider mode
+  if (form.trackingMode !== 'slider') {
+    return null
+  }
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10)

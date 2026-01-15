@@ -40,8 +40,10 @@ import {
   EntryMode,
   WeeklyAggregation,
   TimeOfDay,
+  SliderConfig,
 } from '../types'
 import { getCurrentDate } from '../utils'
+import { DEFAULT_MOOD_SLIDER_CONFIG } from '../utils/slider'
 import './CreateHabit.css'
 
 /**
@@ -86,6 +88,7 @@ interface HabitFormState {
   entryMode: EntryMode
   weeklyAggregation: WeeklyAggregation
   timeOfDay: TimeOfDay | null
+  sliderConfig: SliderConfig | null
 }
 
 const INITIAL_FORM_STATE: HabitFormState = {
@@ -106,6 +109,7 @@ const INITIAL_FORM_STATE: HabitFormState = {
   entryMode: 'replace',
   weeklyAggregation: 'sum-units',
   timeOfDay: null,
+  sliderConfig: null,
 }
 
 /**
@@ -215,6 +219,20 @@ function CreateHabit() {
   )
 
   /**
+   * Gère le changement de mode de suivi
+   * Initialise sliderConfig quand on passe en mode slider
+   */
+  const handleTrackingModeChange = useCallback((mode: TrackingMode) => {
+    setForm((prev) => ({
+      ...prev,
+      trackingMode: mode,
+      // Initialize sliderConfig when switching to slider mode
+      sliderConfig:
+        mode === 'slider' && !prev.sliderConfig ? DEFAULT_MOOD_SLIDER_CONFIG : prev.sliderConfig,
+    }))
+  }, [])
+
+  /**
    * Sélectionne une habitude suggérée et pré-remplit le formulaire
    * Utilise les traductions i18n pour le nom et l'unité
    */
@@ -242,6 +260,7 @@ function CreateHabit() {
         entryMode: 'replace',
         weeklyAggregation: 'sum-units',
         timeOfDay: habit.timeOfDay ?? null,
+        sliderConfig: null,
       })
       setSelectedCategory(habit.category)
       setStep('intentions')
@@ -326,6 +345,7 @@ function CreateHabit() {
         entryMode: form.entryMode,
         weeklyAggregation: form.trackingFrequency === 'weekly' ? form.weeklyAggregation : undefined,
         timeOfDay: form.timeOfDay ?? undefined,
+        sliderConfig: form.trackingMode === 'slider' ? (form.sliderConfig ?? undefined) : undefined,
       }
 
       const newHabit = addHabit(habitInput)
@@ -622,13 +642,14 @@ function CreateHabit() {
         <div className="step-details__tracking-mode-section">
           <p className="step-details__tracking-mode-title">{t('createHabit.trackingMode.title')}</p>
           <p className="step-details__tracking-mode-hint">{t('createHabit.trackingMode.hint')}</p>
-          <div className="step-details__tracking-mode-options">
+          <div className="step-details__tracking-mode-options step-details__tracking-mode-options--grid">
             <button
               type="button"
               className={`step-details__tracking-mode-option ${form.trackingMode === 'simple' ? 'step-details__tracking-mode-option--selected' : ''}`}
-              onClick={() => updateForm('trackingMode', 'simple')}
+              onClick={() => handleTrackingModeChange('simple')}
               aria-pressed={form.trackingMode === 'simple'}
             >
+              <span className="step-details__tracking-mode-icon">✓</span>
               <span className="step-details__tracking-mode-label">
                 {t('createHabit.trackingMode.simple')}
               </span>
@@ -639,9 +660,10 @@ function CreateHabit() {
             <button
               type="button"
               className={`step-details__tracking-mode-option ${form.trackingMode === 'detailed' ? 'step-details__tracking-mode-option--selected' : ''}`}
-              onClick={() => updateForm('trackingMode', 'detailed')}
+              onClick={() => handleTrackingModeChange('detailed')}
               aria-pressed={form.trackingMode === 'detailed'}
             >
+              <span className="step-details__tracking-mode-icon">📊</span>
               <span className="step-details__tracking-mode-label">
                 {t('createHabit.trackingMode.detailed')}
               </span>
@@ -652,14 +674,57 @@ function CreateHabit() {
             <button
               type="button"
               className={`step-details__tracking-mode-option ${form.trackingMode === 'counter' ? 'step-details__tracking-mode-option--selected' : ''}`}
-              onClick={() => updateForm('trackingMode', 'counter')}
+              onClick={() => handleTrackingModeChange('counter')}
               aria-pressed={form.trackingMode === 'counter'}
             >
+              <span className="step-details__tracking-mode-icon">🔢</span>
               <span className="step-details__tracking-mode-label">
                 {t('createHabit.trackingMode.counter')}
               </span>
               <span className="step-details__tracking-mode-desc">
                 {t('createHabit.trackingMode.counterDesc')}
+              </span>
+            </button>
+            <button
+              type="button"
+              className={`step-details__tracking-mode-option ${form.trackingMode === 'stopwatch' ? 'step-details__tracking-mode-option--selected' : ''}`}
+              onClick={() => handleTrackingModeChange('stopwatch')}
+              aria-pressed={form.trackingMode === 'stopwatch'}
+            >
+              <span className="step-details__tracking-mode-icon">⏱️</span>
+              <span className="step-details__tracking-mode-label">
+                {t('createHabit.trackingMode.stopwatch')}
+              </span>
+              <span className="step-details__tracking-mode-desc">
+                {t('createHabit.trackingMode.stopwatchDesc')}
+              </span>
+            </button>
+            <button
+              type="button"
+              className={`step-details__tracking-mode-option ${form.trackingMode === 'timer' ? 'step-details__tracking-mode-option--selected' : ''}`}
+              onClick={() => handleTrackingModeChange('timer')}
+              aria-pressed={form.trackingMode === 'timer'}
+            >
+              <span className="step-details__tracking-mode-icon">⏳</span>
+              <span className="step-details__tracking-mode-label">
+                {t('createHabit.trackingMode.timer')}
+              </span>
+              <span className="step-details__tracking-mode-desc">
+                {t('createHabit.trackingMode.timerDesc')}
+              </span>
+            </button>
+            <button
+              type="button"
+              className={`step-details__tracking-mode-option ${form.trackingMode === 'slider' ? 'step-details__tracking-mode-option--selected' : ''}`}
+              onClick={() => handleTrackingModeChange('slider')}
+              aria-pressed={form.trackingMode === 'slider'}
+            >
+              <span className="step-details__tracking-mode-icon">🎚️</span>
+              <span className="step-details__tracking-mode-label">
+                {t('createHabit.trackingMode.slider')}
+              </span>
+              <span className="step-details__tracking-mode-desc">
+                {t('createHabit.trackingMode.sliderDesc')}
               </span>
             </button>
           </div>
@@ -668,10 +733,27 @@ function CreateHabit() {
               {t('createHabit.trackingMode.counterHint')}
             </p>
           )}
+          {form.trackingMode === 'stopwatch' && (
+            <p className="step-details__tracking-mode-counter-hint">
+              {t('createHabit.trackingMode.stopwatchHint')}
+            </p>
+          )}
+          {form.trackingMode === 'timer' && (
+            <p className="step-details__tracking-mode-counter-hint">
+              {t('createHabit.trackingMode.timerHint')}
+            </p>
+          )}
+          {form.trackingMode === 'slider' && (
+            <p className="step-details__tracking-mode-counter-hint">
+              {t('createHabit.trackingMode.sliderHint')}
+            </p>
+          )}
         </div>
 
-        {/* Mode de saisie - seulement pour detailed (counter utilise toujours +1/-1) */}
-        {form.trackingMode === 'detailed' && (
+        {/* Mode de saisie - pour detailed, stopwatch, timer (cumulative possible) */}
+        {(form.trackingMode === 'detailed' ||
+          form.trackingMode === 'stopwatch' ||
+          form.trackingMode === 'timer') && (
           <div className="step-details__entry-mode-section">
             <p className="step-details__entry-mode-title">{t('createHabit.entryMode.title')}</p>
             <p className="step-details__entry-mode-hint">{t('createHabit.entryMode.hint')}</p>

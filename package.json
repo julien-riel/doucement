@@ -1,7 +1,7 @@
 {
   "name": "doucement",
   "private": true,
-  "version": "1.30.3",
+  "version": "1.35.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
