@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.35.1",
+  "currentVersion": "1.35.2",
   "releases": [
+    {
+      "version": "1.35.2",
+      "date": "2026-01-15",
+      "title": "Documentation",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Glossaire avec nouveaux termes (stopwatch, timer, slider)"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Diagrammes architecture mis à jour"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Guides time-widgets et slider-widget"
+        },
+        {
+          "emoji": "paint",
+          "text": "Design system avec spécifications widgets"
+        }
+      ]
+    },
     {
       "version": "1.35.1",
       "date": "2026-01-15",
