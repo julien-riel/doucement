@@ -1,6 +1,86 @@
 {
-  "currentVersion": "1.26.3",
+  "currentVersion": "1.27.3",
   "releases": [
+    {
+      "version": "1.27.3",
+      "date": "2026-01-14",
+      "title": "Validation finale",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "Mettre à jour README.md"
+        },
+        {
+          "emoji": "tools",
+          "text": "Mettre à jour CLAUDE.md"
+        },
+        {
+          "emoji": "tools",
+          "text": "Mettre à jour CONTRIBUTING.md"
+        },
+        {
+          "emoji": "check",
+          "text": "Validation couverture 100%"
+        }
+      ]
+    },
+    {
+      "version": "1.27.2",
+      "date": "2026-01-14",
+      "title": "Documentation technique",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "JSDoc progression.ts"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "JSDoc statistics.ts"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "JSDoc storage.ts"
+        },
+        {
+          "emoji": "tools",
+          "text": "Mettre à jour coherence-matrix.md"
+        }
+      ]
+    },
+    {
+      "version": "1.27.1",
+      "date": "2026-01-14",
+      "title": "Guide utilisateur enrichi",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Enrichir guide-utilisateur.md"
+        }
+      ]
+    },
+    {
+      "version": "1.27.0",
+      "date": "2026-01-14",
+      "title": "Guides fonctionnalités",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Guide habit-stacking.md"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Guide tracking-modes.md"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Guide weekly-habits.md"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Guide milestones.md"
+        }
+      ]
+    },
     {
       "version": "1.26.3",
       "date": "2026-01-14",

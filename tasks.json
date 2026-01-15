@@ -2,7 +2,7 @@
   "project": "Documentation Qualité Production",
   "description": "Audit et amélioration de la documentation pour atteindre une couverture complète et une structure optimale",
   "createdAt": "2026-01-14",
-  "lastRelease": "1.26.3",
+  "lastRelease": "1.27.3",
   "docs": [
     "docs/prd-documentation-audit.md",
     "docs/prd.md",
@@ -137,6 +137,8 @@
       "status": "completed",
       "completedAt": "2026-01-14",
       "releaseType": "minor",
+      "releasedAs": "1.27.0",
+      "releasedAt": "2026-01-14",
       "tasks": [
         {
           "id": "3.1",
@@ -273,6 +275,8 @@
       "status": "completed",
       "completedAt": "2026-01-14",
       "releaseType": "patch",
+      "releasedAs": "1.27.1",
+      "releasedAt": "2026-01-14",
       "tasks": [
         {
           "id": "4.1",
@@ -301,6 +305,8 @@
       "status": "completed",
       "completedAt": "2026-01-14",
       "releaseType": "patch",
+      "releasedAs": "1.27.2",
+      "releasedAt": "2026-01-14",
       "tasks": [
         {
           "id": "5.1",
@@ -380,6 +386,8 @@
       "status": "completed",
       "completedAt": "2026-01-14",
       "releaseType": "patch",
+      "releasedAs": "1.27.3",
+      "releasedAt": "2026-01-14",
       "tasks": [
         {
           "id": "6.1",
