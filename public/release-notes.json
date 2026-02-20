@@ -1,6 +1,17 @@
 {
-  "currentVersion": "1.35.4",
+  "currentVersion": "1.35.5",
   "releases": [
+    {
+      "version": "1.35.5",
+      "date": "2026-02-19",
+      "title": "Correction import données",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "L'import accepte désormais les données exportées avec une progression à zéro"
+        }
+      ]
+    },
     {
       "version": "1.35.4",
       "date": "2026-01-15",
