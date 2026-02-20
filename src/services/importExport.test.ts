@@ -173,6 +173,15 @@ describe('validateHabit', () => {
 
       expect(result.valid).toBe(true)
     })
+
+    it('accepte une progression avec value à zéro', () => {
+      const habit = createValidHabit({
+        progression: { mode: 'absolute', value: 0, period: 'weekly' },
+      })
+      const result = validateHabit(habit)
+
+      expect(result.valid).toBe(true)
+    })
   })
 
   describe('cas invalides', () => {

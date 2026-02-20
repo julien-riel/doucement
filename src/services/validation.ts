@@ -141,11 +141,11 @@ function validateProgressionConfig(config: unknown, fieldPrefix: string): Valida
   }
 
   // value
-  if (!isPositiveNumber(obj.value)) {
+  if (!isNonNegativeNumber(obj.value)) {
     errors.push({
       type: 'INVALID_VALUE',
       field: `${fieldPrefix}.value`,
-      message: 'La valeur de progression doit être un nombre positif',
+      message: 'La valeur de progression doit être un nombre positif ou zéro',
       value: obj.value,
     })
   }
