@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.39.0",
+  "currentVersion": "1.40.0",
   "releases": [
+    {
+      "version": "1.40.0",
+      "date": "2026-03-01",
+      "title": "Qualité et cohérence",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "Unification du code et suppression des doublons"
+        },
+        {
+          "emoji": "tools",
+          "text": "Corrections d'accessibilité (zones tactiles, skip link)"
+        },
+        {
+          "emoji": "paint",
+          "text": "Emoji et messages harmonisés avec la philosophie bienveillante"
+        },
+        {
+          "emoji": "check",
+          "text": "Tests unitaires useCelebrations et mutations useAppData"
+        }
+      ]
+    },
     {
       "version": "1.39.0",
       "date": "2026-03-01",
