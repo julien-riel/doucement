@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.36.0",
+  "currentVersion": "1.37.0",
   "releases": [
+    {
+      "version": "1.37.0",
+      "date": "2026-03-01",
+      "title": "Messages de progression enrichis et adaptatifs",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Messages contextuels : premier jour, retour après absence, proche de l'objectif"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Contexte de progression avec valeur veille et progression cumulée"
+        },
+        {
+          "emoji": "tools",
+          "text": "Refactoring des messages de progression dans HabitCard"
+        },
+        {
+          "emoji": "check",
+          "text": "Tests unitaires et E2E des messages de progression"
+        }
+      ]
+    },
     {
       "version": "1.36.0",
       "date": "2026-03-01",
