@@ -20,7 +20,7 @@
     "share": "Share",
     "seeMore": "Learn more",
     "import": "Import",
-    "validate": "Validate"
+    "validate": "Save"
   },
   "carousel": {
     "previous": "Previous",
@@ -134,7 +134,7 @@
     "customize": "Customize",
     "createCustom": {
       "title": "Create a custom habit",
-      "description": "Define your own goal"
+      "description": "Define your own target"
     },
     "form": {
       "emoji": "Emoji",
@@ -185,7 +185,7 @@
       "title": "Weekly counting mode",
       "hint": "How we count your weekly progress",
       "countDays": "Successful days",
-      "countDaysDesc": "Count days when you reach your goal",
+      "countDaysDesc": "Count days when you reach your dose",
       "countDaysHint": "E.g., 3 evenings going to bed early this week",
       "sumUnits": "Weekly total",
       "sumUnitsDesc": "Add up units for the whole week",
@@ -330,7 +330,7 @@
       },
       "dose": {
         "title": "Today's dose",
-        "description": "Forget intimidating goals. Focus only on your daily dose.\n\nThe dose automatically evolves based on your progress: +1%, +2%... compound effect does the work."
+        "description": "Forget intimidating targets. Focus only on your daily dose.\n\nThe dose automatically evolves based on your progress: +1%, +2%... compound effect does the work."
       },
       "effort": {
         "title": "Every effort counts",
@@ -499,7 +499,7 @@
         "importing": "Importing...",
         "button": "Import",
         "successTitle": "✓ Import successful",
-        "failTitle": "Import failed",
+        "failTitle": "Import unsuccessful",
         "modeLabel": "Import mode",
         "modeReplace": "Replace",
         "modeReplaceDesc": "Replace all your data with the file's data",
@@ -508,7 +508,7 @@
       },
       "importResult": {
         "success": "✓ Import successful",
-        "failed": "Import failed"
+        "failed": "Import unsuccessful"
       },
       "reset": {
         "title": "Reset application",
@@ -676,7 +676,7 @@
     },
     "overperform": {
       "title": "Impressive!",
-      "message": "You regularly exceed your goals. Ready to speed up?",
+      "message": "You regularly exceed your doses. Ready to speed up?",
       "action": "Increase progression"
     },
     "dismissAction": "No thanks"
@@ -767,7 +767,7 @@
       "emoji": "🌱",
       "title": "Quarter of the way there!",
       "messages": [
-        "You've passed the first quarter of your goal. Great start!",
+        "You've passed the first quarter of the way. Great start!",
         "25% is the beginning of a great journey. Keep it up!"
       ]
     },
@@ -775,7 +775,7 @@
       "emoji": "🌿",
       "title": "Halfway there!",
       "messages": [
-        "You're halfway to your goal. You should be proud.",
+        "You're halfway to your target. You should be proud.",
         "Half the journey is done. The momentum is there!"
       ]
     },
@@ -783,15 +783,15 @@
       "emoji": "🌳",
       "title": "Three quarters done!",
       "messages": [
-        "Only 25% left to reach your goal. You're almost there!",
+        "Only 25% left to reach your target. You're almost there!",
         "75% complete. The finish line is in sight!"
       ]
     },
     "100": {
       "emoji": "🎉",
-      "title": "Goal reached!",
+      "title": "Target reached!",
       "messages": [
-        "You did it! You've reached your goal.",
+        "You did it! You've reached your target.",
         "Mission accomplished. You should be proud of what you've achieved.",
         "Done. Congratulations, truly."
       ]
@@ -836,7 +836,7 @@
     "Habit paused. You can reactivate it whenever you want."
   ],
   "goalReached": [
-    "Goal reached. You did it.",
+    "Target reached. You did it.",
     "Target hit. Congratulations, truly.",
     "It's done. You should be proud."
   ],
@@ -966,7 +966,7 @@
     "projections": {
       "goalReached": {
         "emoji": "🎉",
-        "message": "Goal reached! You should be proud."
+        "message": "Target reached! You should be proud."
       },
       "almostThere": {
         "emoji": "✨",
@@ -982,7 +982,7 @@
       },
       "quarterWay": {
         "emoji": "🌱",
-        "message": "Great start! Each day brings you closer to your goal."
+        "message": "Great start! Each day brings you closer to your target."
       },
       "positiveProgress": {
         "emoji": "✨",
@@ -1036,10 +1036,10 @@
   },
   "habitCard": {
     "progressionIncrease": "You were at {{startValue}}. +{{diff}} today!",
-    "progressionDecrease": "Goal: -{{diff}} from the start",
+    "progressionDecrease": "Target: -{{diff}} from the start",
     "firstDay": "This is the start of your journey!",
     "welcomeBack": "Welcome back! Yesterday: {{yesterdayDose}} {{unit}}",
-    "closeToTarget": "Only {{remaining}} to go before your goal of {{target}} {{unit}}!",
+    "closeToTarget": "Only {{remaining}} to go before your target of {{target}} {{unit}}!",
     "progressionIncreaseRich": "Yesterday: {{yesterday}} {{unit}}. Already +{{totalChange}} from the start ({{percent}}%)",
     "progressionDecreaseRich": "Yesterday: {{yesterday}} {{unit}}. Already -{{totalChange}} from the start ({{percent}}%)"
   },
@@ -1161,7 +1161,7 @@
     "skin": "Skin",
     "serenity": "Serenity",
     "security": "Security",
-    "goals": "Goals",
+    "goals": "Targets",
     "memory": "Memory",
     "creativity": "Creativity",
     "oralHealth": "Oral health",
@@ -1293,5 +1293,9 @@
       "description": "Note 3 positive things",
       "scienceHighlight": "Gratitude improves well-being by 25% in 10 weeks."
     }
+  },
+  "whatsNew": {
+    "title": "What's new?",
+    "letsGo": "Let's go!"
   }
 }

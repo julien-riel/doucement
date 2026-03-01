@@ -5,7 +5,7 @@
  * un emoji qui change selon la valeur sélectionnée.
  */
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { SliderConfig } from '../../types'
 import { getEmojiForValue, DEFAULT_MOOD_SLIDER_CONFIG } from '../../utils/slider'
 import Button from '../ui/Button'
@@ -50,6 +50,14 @@ function SliderCheckIn({
   const initialValue = currentValue ?? Math.round((config.min + config.max) / 2)
   const [value, setValue] = useState(initialValue)
   const [hasChanged, setHasChanged] = useState(false)
+
+  // Synchroniser l'état local quand currentValue change (ex: check-in via QuickCheckIn)
+  useEffect(() => {
+    if (currentValue !== undefined) {
+      setValue(currentValue)
+      setHasChanged(false)
+    }
+  }, [currentValue])
 
   const emoji = getEmojiForValue(value, config)
   const hasExistingValue = currentValue !== undefined

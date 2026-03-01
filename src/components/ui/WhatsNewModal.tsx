@@ -3,6 +3,7 @@
  * Affichée automatiquement après une mise à jour de l'application
  */
 
+import { useTranslation } from 'react-i18next'
 import { Release, EMOJI_MAP } from '../../types/releaseNotes'
 import Button from './Button'
 import './WhatsNewModal.css'
@@ -24,13 +25,13 @@ function getEmoji(name: string): string {
 }
 
 /**
- * Formate une date ISO en français
+ * Formate une date ISO selon la locale courante
  * Parse la date en local pour éviter les décalages de timezone
  */
-function formatDate(dateStr: string): string {
+function formatDate(dateStr: string, locale: string): string {
   const [year, month, day] = dateStr.split('-').map(Number)
   const date = new Date(year, month - 1, day)
-  return date.toLocaleDateString('fr-FR', {
+  return date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -41,6 +42,8 @@ function formatDate(dateStr: string): string {
  * Modale affichant les nouveautés de la dernière version
  */
 export function WhatsNewModal({ release, version, onDismiss }: WhatsNewModalProps) {
+  const { t, i18n } = useTranslation()
+
   return (
     <div
       className="whats-new-overlay"
@@ -55,10 +58,10 @@ export function WhatsNewModal({ release, version, onDismiss }: WhatsNewModalProp
             {'\uD83C\uDF89'}
           </span>
           <h2 id="whats-new-title" className="whats-new-title">
-            Quoi de neuf ?
+            {t('whatsNew.title')}
           </h2>
           <p className="whats-new-version">
-            Version {version} — {formatDate(release.date)}
+            Version {version} — {formatDate(release.date, i18n.language)}
           </p>
         </header>
 
@@ -81,7 +84,7 @@ export function WhatsNewModal({ release, version, onDismiss }: WhatsNewModalProp
 
         <footer className="whats-new-footer">
           <Button variant="primary" onClick={onDismiss} fullWidth>
-            C'est parti !
+            {t('whatsNew.letsGo')}
           </Button>
         </footer>
       </div>

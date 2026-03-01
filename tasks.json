@@ -101,7 +101,8 @@
           "id": "1.5",
           "name": "Corriger QuickCheckIn : respecter le trackingMode",
           "description": "QuickCheckIn affiche actuellement SimpleCheckIn pour toutes les habitudes quel que soit leur trackingMode. Implémenter une switch sur trackingMode similaire à HabitCard.tsx pour afficher le bon composant de check-in (Counter, Slider, etc.).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": ["1.4"],
           "files": ["src/pages/QuickCheckIn.tsx"],
@@ -116,7 +117,8 @@
           "id": "1.6",
           "name": "Corriger SliderCheckIn : synchroniser l'état",
           "description": "Le useState(initialValue) dans SliderCheckIn.tsx ne se met pas à jour si currentValue change (ex: après un check-in via QuickCheckIn puis retour sur Today). Ajouter un useEffect pour synchroniser l'état local avec currentValue.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": ["src/components/habits/SliderCheckIn.tsx"],
@@ -130,7 +132,8 @@
           "id": "1.7",
           "name": "Remplacer 'objectif' par 'dose'/'cible' dans les traductions",
           "description": "Remplacer les 14 occurrences de 'objectif' dans fr.json par 'dose', 'cible' ou reformulation. Remplacer 'Valider' par 'Enregistrer'. Remplacer 'Import échoué' par 'Import non abouti'. Mettre à jour les traductions EN correspondantes. Vérifier la cohérence avec docs/comm/banque-messages.md.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -149,7 +152,8 @@
           "id": "1.8",
           "name": "Internationaliser WhatsNewModal.tsx",
           "description": "Remplacer les strings hardcodées 'Quoi de neuf ?' et 'C'est parti !' dans WhatsNewModal.tsx par des clés i18n. Ajouter les clés dans fr.json et en.json.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -613,9 +617,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 3,
+    "completed": 7,
     "inProgress": 0,
-    "pending": 28,
+    "pending": 24,
     "blocked": 0
   }
 }

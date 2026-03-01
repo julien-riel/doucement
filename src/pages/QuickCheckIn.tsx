@@ -12,6 +12,12 @@ import { CompletionStatus } from '../types'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import SimpleCheckIn from '../components/habits/SimpleCheckIn'
+import CheckInButtons from '../components/habits/CheckInButtons'
+import CounterButtons from '../components/habits/CounterButtons'
+import SliderCheckIn from '../components/habits/SliderCheckIn'
+import StopwatchCheckIn from '../components/habits/StopwatchCheckIn'
+import TimerCheckIn from '../components/habits/TimerCheckIn'
+import CumulativeCheckIn from '../components/habits/CumulativeCheckIn'
 import './QuickCheckIn.css'
 
 /**
@@ -22,7 +28,15 @@ import './QuickCheckIn.css'
 function QuickCheckIn() {
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const { activeHabits, isLoading, data, getEntriesForDate, addEntry } = useAppData()
+  const {
+    activeHabits,
+    isLoading,
+    data,
+    getEntriesForDate,
+    addEntry,
+    addCounterOperation,
+    undoLastOperation,
+  } = useAppData()
 
   const today = getCurrentDate()
   const todayEntries = useMemo(() => getEntriesForDate(today), [getEntriesForDate, today])
@@ -39,6 +53,7 @@ function QuickCheckIn() {
       const targetDose = calculateTargetDose(habit, today)
       const entry = todayEntries.find((e) => e.habitId === habit.id)
       const currentValue = entry?.actualValue
+      const operations = entry?.operations
 
       let status: CompletionStatus = 'pending'
       if (entry) {
@@ -61,6 +76,7 @@ function QuickCheckIn() {
         currentValue,
         status,
         weeklyProgress,
+        operations,
       }
     })
   }, [habitsForToday, todayEntries, today, data.entries])
@@ -85,6 +101,30 @@ function QuickCheckIn() {
       })
     },
     [habitData, addEntry, today]
+  )
+
+  // Gérer l'ajout d'une opération compteur (+1)
+  const handleCounterAdd = useCallback(
+    (habitId: string, value?: number) => {
+      addCounterOperation(habitId, today, 'add', value)
+    },
+    [addCounterOperation, today]
+  )
+
+  // Gérer la soustraction d'une opération compteur (-1)
+  const handleCounterSubtract = useCallback(
+    (habitId: string, value?: number) => {
+      addCounterOperation(habitId, today, 'subtract', value)
+    },
+    [addCounterOperation, today]
+  )
+
+  // Gérer l'annulation de la dernière opération compteur
+  const handleCounterUndo = useCallback(
+    (habitId: string) => {
+      undoLastOperation(habitId, today)
+    },
+    [undoLastOperation, today]
   )
 
   // Fermer et retourner à l'accueil
@@ -145,45 +185,116 @@ function QuickCheckIn() {
       </header>
 
       <main className="quick-checkin__list">
-        {habitData.map(({ habit, targetDose, currentValue, status, weeklyProgress }) => {
-          const isWeekly = habit.trackingFrequency === 'weekly'
-          const isCompleted = status === 'completed' || status === 'exceeded'
+        {habitData.map(
+          ({ habit, targetDose, currentValue, status, weeklyProgress, operations }) => {
+            const isWeekly = habit.trackingFrequency === 'weekly'
+            const isCompleted = status === 'completed' || status === 'exceeded'
 
-          return (
-            <Card
-              key={habit.id}
-              variant={isCompleted ? 'elevated' : 'default'}
-              className={`quick-checkin__card quick-checkin__card--${status}`}
-            >
-              <div className="quick-checkin__card-header">
-                <div className="quick-checkin__card-info">
-                  <span className="quick-checkin__emoji" aria-hidden="true">
-                    {habit.emoji}
-                  </span>
-                  <span className="quick-checkin__name">{habit.name}</span>
+            // Convertir en secondes pour stopwatch/timer si l'unité est en minutes
+            const isTimeBasedMinutes =
+              (habit.trackingMode === 'stopwatch' || habit.trackingMode === 'timer') &&
+              (habit.unit === 'minutes' || habit.unit === 'min')
+            const timerTargetDoseInSeconds = isTimeBasedMinutes ? targetDose * 60 : targetDose
+
+            return (
+              <Card
+                key={habit.id}
+                variant={isCompleted ? 'elevated' : 'default'}
+                className={`quick-checkin__card quick-checkin__card--${status}`}
+              >
+                <div className="quick-checkin__card-header">
+                  <div className="quick-checkin__card-info">
+                    <span className="quick-checkin__emoji" aria-hidden="true">
+                      {habit.emoji}
+                    </span>
+                    <span className="quick-checkin__name">{habit.name}</span>
+                  </div>
+                  <div className="quick-checkin__dose">
+                    {isWeekly && weeklyProgress ? (
+                      <span>
+                        {weeklyProgress.completedDays}/{weeklyProgress.weeklyTarget}
+                      </span>
+                    ) : (
+                      <span>
+                        {targetDose} {habit.unit}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <div className="quick-checkin__dose">
-                  {isWeekly && weeklyProgress ? (
-                    <span>
-                      {weeklyProgress.completedDays}/{weeklyProgress.weeklyTarget}
-                    </span>
+                <div className="quick-checkin__actions">
+                  {isWeekly ? (
+                    <SimpleCheckIn
+                      targetDose={1}
+                      currentValue={currentValue}
+                      onCheckIn={(value) => handleCheckIn(habit.id, value)}
+                    />
+                  ) : habit.trackingMode === 'stopwatch' ? (
+                    <StopwatchCheckIn
+                      habitId={habit.id}
+                      date={today}
+                      targetDose={timerTargetDoseInSeconds}
+                      unit={
+                        habit.unit === 'minutes' || habit.unit === 'min' ? 'minutes' : 'seconds'
+                      }
+                      currentValue={currentValue}
+                      onCheckIn={(value) => handleCheckIn(habit.id, value)}
+                      notifyOnTarget={habit.notifyOnTarget}
+                    />
+                  ) : habit.trackingMode === 'timer' ? (
+                    <TimerCheckIn
+                      habitId={habit.id}
+                      date={today}
+                      targetDose={timerTargetDoseInSeconds}
+                      unit={
+                        habit.unit === 'minutes' || habit.unit === 'min' ? 'minutes' : 'seconds'
+                      }
+                      currentValue={currentValue}
+                      onCheckIn={(value) => handleCheckIn(habit.id, value)}
+                      notifyOnTarget={habit.notifyOnTarget}
+                    />
+                  ) : habit.trackingMode === 'slider' ? (
+                    <SliderCheckIn
+                      config={habit.sliderConfig}
+                      currentValue={currentValue}
+                      onCheckIn={(value) => handleCheckIn(habit.id, value)}
+                    />
+                  ) : habit.trackingMode === 'counter' ? (
+                    <CounterButtons
+                      targetDose={targetDose}
+                      unit={habit.unit}
+                      currentValue={currentValue}
+                      operations={operations}
+                      onAdd={(value) => handleCounterAdd(habit.id, value)}
+                      onSubtract={(value) => handleCounterSubtract(habit.id, value)}
+                      onUndo={() => handleCounterUndo(habit.id)}
+                      direction={habit.direction}
+                    />
+                  ) : habit.entryMode === 'cumulative' ? (
+                    <CumulativeCheckIn
+                      targetDose={targetDose}
+                      unit={habit.unit}
+                      onAdd={(value) => handleCheckIn(habit.id, value)}
+                    />
+                  ) : habit.trackingMode === 'simple' ? (
+                    <SimpleCheckIn
+                      targetDose={targetDose}
+                      currentValue={currentValue}
+                      onCheckIn={(value) => handleCheckIn(habit.id, value)}
+                    />
                   ) : (
-                    <span>
-                      {targetDose} {habit.unit}
-                    </span>
+                    <CheckInButtons
+                      targetDose={targetDose}
+                      unit={habit.unit}
+                      currentValue={currentValue}
+                      onCheckIn={(value) => handleCheckIn(habit.id, value)}
+                      direction={habit.direction}
+                    />
                   )}
                 </div>
-              </div>
-              <div className="quick-checkin__actions">
-                <SimpleCheckIn
-                  targetDose={isWeekly ? 1 : targetDose}
-                  currentValue={currentValue}
-                  onCheckIn={(value) => handleCheckIn(habit.id, value)}
-                />
-              </div>
-            </Card>
-          )
-        })}
+              </Card>
+            )
+          }
+        )}
       </main>
 
       {completedCount === totalCount && totalCount > 0 && (

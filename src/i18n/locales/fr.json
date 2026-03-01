@@ -20,7 +20,7 @@
     "share": "Partager",
     "seeMore": "En savoir plus",
     "import": "Importer",
-    "validate": "Valider"
+    "validate": "Enregistrer"
   },
   "carousel": {
     "previous": "Précédent",
@@ -134,7 +134,7 @@
     "customize": "Personnaliser",
     "createCustom": {
       "title": "Créer une habitude personnalisée",
-      "description": "Définis ton propre objectif"
+      "description": "Définis ta propre cible"
     },
     "form": {
       "emoji": "Emoji",
@@ -185,7 +185,7 @@
       "title": "Mode de comptage hebdo",
       "hint": "Comment on compte ta progression de la semaine",
       "countDays": "Jours réussis",
-      "countDaysDesc": "Compte les jours où tu atteins ton objectif",
+      "countDaysDesc": "Compte les jours où tu atteins ta dose",
       "countDaysHint": "Ex: 3 soirs à se coucher tôt cette semaine",
       "sumUnits": "Total semaine",
       "sumUnitsDesc": "Additionne les unités sur toute la semaine",
@@ -330,7 +330,7 @@
       },
       "dose": {
         "title": "La dose du jour",
-        "description": "Oublie les objectifs intimidants. Concentre-toi uniquement sur ta dose du jour.\n\nLa dose évolue automatiquement selon ta progression : +1%, +2%... l'effet composé fait le travail."
+        "description": "Oublie les cibles intimidantes. Concentre-toi uniquement sur ta dose du jour.\n\nLa dose évolue automatiquement selon ta progression : +1%, +2%... l'effet composé fait le travail."
       },
       "effort": {
         "title": "Chaque effort compte",
@@ -502,7 +502,7 @@
         "importing": "Import en cours...",
         "button": "Importer",
         "successTitle": "✓ Import réussi",
-        "failTitle": "Import échoué",
+        "failTitle": "Import non abouti",
         "modeLabel": "Mode d'import",
         "modeReplace": "Remplacer",
         "modeReplaceDesc": "Remplace toutes tes données par celles du fichier",
@@ -511,7 +511,7 @@
       },
       "importResult": {
         "success": "✓ Import réussi",
-        "failed": "Import échoué"
+        "failed": "Import non abouti"
       },
       "reset": {
         "title": "Réinitialiser l'application",
@@ -679,7 +679,7 @@
     },
     "overperform": {
       "title": "Impressionnant !",
-      "message": "Tu dépasses régulièrement tes objectifs. Prêt·e à accélérer ?",
+      "message": "Tu dépasses régulièrement tes doses. Prêt·e à accélérer ?",
       "action": "Augmenter la progression"
     },
     "dismissAction": "Non merci"
@@ -770,7 +770,7 @@
       "emoji": "🌱",
       "title": "Quart du chemin parcouru !",
       "messages": [
-        "Tu as franchi le premier quart de ton objectif. C'est un excellent début !",
+        "Tu as franchi le premier quart du chemin. C'est un excellent début !",
         "25%, c'est le début d'une belle aventure. Continue comme ça !"
       ]
     },
@@ -778,7 +778,7 @@
       "emoji": "🌿",
       "title": "Mi-parcours atteint !",
       "messages": [
-        "Tu es à mi-chemin de ton objectif. Tu peux être fier·e de toi.",
+        "Tu es à mi-chemin de ta cible. Tu peux être fier·e de toi.",
         "La moitié du chemin est faite. L'élan est là !"
       ]
     },
@@ -786,15 +786,15 @@
       "emoji": "🌳",
       "title": "Trois quarts du chemin !",
       "messages": [
-        "Plus que 25% pour atteindre ton objectif. Tu y es presque !",
+        "Plus que 25% pour atteindre ta cible. Tu y es presque !",
         "75% accomplis. L'arrivée est en vue !"
       ]
     },
     "100": {
       "emoji": "🎉",
-      "title": "Objectif atteint !",
+      "title": "Cible atteinte !",
       "messages": [
-        "Tu l'as fait ! Tu as atteint ton objectif.",
+        "Tu l'as fait ! Tu as atteint ta cible.",
         "Mission accomplie. Tu peux être fier·e de ce que tu as accompli.",
         "C'est fait. Félicitations, vraiment."
       ]
@@ -839,7 +839,7 @@
     "Habitude mise en pause. Tu pourras la réactiver quand tu voudras."
   ],
   "goalReached": [
-    "Objectif atteint. Tu l'as fait.",
+    "Cible atteinte. Tu l'as fait.",
     "La cible est atteinte. Félicitations, vraiment.",
     "C'est fait. Tu peux être fier·e de toi."
   ],
@@ -893,7 +893,7 @@
     },
     "info": {
       "startValue": "Valeur de départ",
-      "targetValue": "Objectif final",
+      "targetValue": "Cible finale",
       "progression": "Progression",
       "createdAt": "Créée le",
       "archivedAt": "Archivée le"
@@ -969,7 +969,7 @@
     "projections": {
       "goalReached": {
         "emoji": "🎉",
-        "message": "Objectif atteint ! Tu peux être fier·e de toi."
+        "message": "Cible atteinte ! Tu peux être fier·e de toi."
       },
       "almostThere": {
         "emoji": "✨",
@@ -985,7 +985,7 @@
       },
       "quarterWay": {
         "emoji": "🌱",
-        "message": "Beau départ ! Chaque jour te rapproche de ton objectif."
+        "message": "Beau départ ! Chaque jour te rapproche de ta cible."
       },
       "positiveProgress": {
         "emoji": "✨",
@@ -1039,10 +1039,10 @@
   },
   "habitCard": {
     "progressionIncrease": "Tu en étais à {{startValue}}. +{{diff}} aujourd'hui !",
-    "progressionDecrease": "Objectif : -{{diff}} depuis le début",
+    "progressionDecrease": "Cible : -{{diff}} depuis le début",
     "firstDay": "C'est le début de ton aventure !",
     "welcomeBack": "Content·e de te revoir ! Hier : {{yesterdayDose}} {{unit}}",
-    "closeToTarget": "Plus que {{remaining}} avant ton objectif de {{target}} {{unit}} !",
+    "closeToTarget": "Plus que {{remaining}} avant ta cible de {{target}} {{unit}} !",
     "progressionIncreaseRich": "Hier : {{yesterday}} {{unit}}. Déjà +{{totalChange}} depuis le départ ({{percent}}%)",
     "progressionDecreaseRich": "Hier : {{yesterday}} {{unit}}. Déjà -{{totalChange}} depuis le départ ({{percent}}%)"
   },
@@ -1164,7 +1164,7 @@
     "skin": "Peau",
     "serenity": "Sérénité",
     "security": "Sécurité",
-    "goals": "Objectifs",
+    "goals": "Cibles",
     "memory": "Mémoire",
     "creativity": "Créativité",
     "oralHealth": "Santé bucco-dentaire",
@@ -1296,5 +1296,9 @@
       "description": "Noter 3 choses positives",
       "scienceHighlight": "La gratitude améliore le bien-être de 25% en 10 semaines."
     }
+  },
+  "whatsNew": {
+    "title": "Quoi de neuf ?",
+    "letsGo": "C'est parti !"
   }
 }
