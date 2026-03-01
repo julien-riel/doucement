@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.43.0",
+  "currentVersion": "1.44.0",
   "releases": [
+    {
+      "version": "1.44.0",
+      "date": "2026-03-01",
+      "title": "Polish — UX, animations et marque",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Les notes de version sont plus claires et faciles à lire"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "La version anglaise est plus naturelle et chaleureuse"
+        },
+        {
+          "emoji": "tools",
+          "text": "Le sélecteur d'emojis s'affiche correctement en mode sombre"
+        },
+        {
+          "emoji": "paint",
+          "text": "Les cartes d'habitudes apparaissent avec une jolie animation progressive"
+        }
+      ]
+    },
     {
       "version": "1.43.0",
       "date": "2026-03-01",
