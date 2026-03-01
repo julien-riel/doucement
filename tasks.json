@@ -354,7 +354,7 @@
       "id": "phase-3-polish",
       "name": "Polish — UX, animations et marque",
       "description": "Raffiner l'expérience utilisateur, corriger les animations manquantes, renforcer l'identité de marque",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
@@ -490,7 +490,8 @@
           "id": "3.8",
           "name": "Définir et intégrer une phrase-signature de marque",
           "description": "Choisir une phrase-signature mémorable qui résume l'identité de Doucement. Candidates identifiées : 'La constance, pas la perfection' ou 'Le chemin, pas la destination'. L'intégrer dans : (1) l'onboarding (dernier écran), (2) la page Settings (footer), (3) le README. Traduire en anglais.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "low",
           "dependsOn": ["3.2"],
           "files": [
@@ -512,7 +513,7 @@
       "id": "phase-4-evolution",
       "name": "Évolution — Features et infrastructure",
       "description": "Nouvelles fonctionnalités à forte valeur ajoutée et infrastructure de qualité",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
@@ -543,7 +544,8 @@
           "id": "4.2",
           "name": "Implémenter App Badge (navigator.setAppBadge)",
           "description": "Utiliser navigator.setAppBadge() pour afficher le nombre de doses restantes aujourd'hui sur l'icône de l'app installée. Mettre à jour après chaque check-in. Effacer (clearAppBadge) quand toutes les doses sont complétées. Feature detection : ne rien faire si l'API n'est pas supportée.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -562,7 +564,8 @@
           "id": "4.3",
           "name": "Suggestions d'ajustement de progression dans WeeklyReview",
           "description": "Si l'utilisateur est à >= 120% de sa dose pendant 3+ semaines consécutives, proposer d'augmenter le taux de progression dans la WeeklyReview. Si < 50% pendant 3+ semaines, proposer de diminuer. Message bienveillant, choix de l'utilisateur (accepter, ignorer, personnaliser).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -583,7 +586,8 @@
           "id": "4.4",
           "name": "Prévisualisation avant import",
           "description": "Avant de confirmer un import (replace ou merge), afficher un aperçu : nombre d'habitudes, nombre d'entrées, date la plus ancienne/récente, version du schéma. Permettre à l'utilisateur d'annuler après avoir vu l'aperçu.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -605,7 +609,8 @@
           "id": "4.5",
           "name": "Ajouter les path aliases TypeScript",
           "description": "Configurer les aliases @/components, @/services, @/hooks, @/types, @/utils, @/i18n, @/styles, @/contexts, @/constants dans tsconfig.app.json et vite.config.ts. Ne PAS migrer les imports existants (trop de churn). Les nouveaux fichiers utiliseront les aliases.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "low",
           "dependsOn": [],
           "files": [
@@ -623,7 +628,8 @@
           "id": "4.6",
           "name": "Créer un pipeline CI GitHub Actions",
           "description": "Créer .github/workflows/ci.yml qui exécute sur chaque push et PR : (1) npm ci, (2) npm run typecheck, (3) npm run lint (sans --fix), (4) npm test, (5) npm run build, (6) scripts/check-i18n.sh. Node 20, cache npm.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "low",
           "dependsOn": ["2.8"],
           "files": [".github/workflows/ci.yml"],
@@ -639,9 +645,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 25,
+    "completed": 31,
     "inProgress": 0,
-    "pending": 6,
+    "pending": 0,
     "blocked": 0
   }
 }

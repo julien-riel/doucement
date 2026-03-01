@@ -126,6 +126,9 @@ export function AboutSection() {
           <p className="settings__about-text">
             <strong>Doucement</strong> — {t('settings.about.description')}
           </p>
+          <p className="settings__about-tagline">
+            <em>{t('brand.tagline')}</em>
+          </p>
           <p className="settings__about-text settings__about-privacy">
             🔒 {t('settings.about.privacy')}
           </p>

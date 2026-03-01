@@ -342,3 +342,28 @@
     transform: none;
   }
 }
+
+/* Suggestion cards */
+.weekly-review__suggestion-card {
+  margin-bottom: var(--spacing-3);
+}
+
+.weekly-review__suggestion-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: 600;
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.weekly-review__suggestion-message {
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  margin: 0 0 var(--spacing-3) 0;
+  line-height: 1.5;
+}
+
+.weekly-review__suggestion-actions {
+  display: flex;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}

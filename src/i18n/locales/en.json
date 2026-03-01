@@ -1,4 +1,7 @@
 {
+  "brand": {
+    "tagline": "Consistency, not perfection."
+  },
   "common": {
     "continue": "Continue",
     "back": "Back",
@@ -335,6 +338,10 @@
       "effort": {
         "title": "Every effort counts",
         "description": "Doing a little is still doing something. 70% counts as a win."
+      },
+      "ready": {
+        "title": "Let's go!",
+        "description": "You're ready to start your journey. Pick a few habits to begin, or create your own later."
       }
     },
     "navigation": {
@@ -505,7 +512,23 @@
         "modeReplace": "Replace",
         "modeReplaceDesc": "Replace all your data with the file's data",
         "modeMerge": "Merge",
-        "modeMergeDesc": "Combine the file's data with yours"
+        "modeMergeDesc": "Combine the file's data with yours",
+        "preview": {
+          "title": "File preview",
+          "habits": "{{count}} habit",
+          "habits_plural": "{{count}} habits",
+          "activeHabits": "{{count}} active",
+          "activeHabits_plural": "{{count}} active",
+          "archivedHabits": "{{count}} archived",
+          "archivedHabits_plural": "{{count}} archived",
+          "entries": "{{count}} entry",
+          "entries_plural": "{{count}} entries",
+          "dateRange": "From {{oldest}} to {{newest}}",
+          "noEntries": "No entries",
+          "schemaVersion": "Schema v{{version}}",
+          "migrationNeeded": "Migration needed",
+          "loading": "Analyzing file..."
+        }
       },
       "importResult": {
         "success": "✓ Import successful",
@@ -667,20 +690,16 @@
   },
   "adjustmentSuggestions": {
     "slowDown": {
-      "title": "Suggestion",
-      "message": "Your progress seems to be stalling. How about slowing down a bit?",
+      "title": "💡 Suggestion for {{habitName}}",
+      "message": "Over the past {{weeks}} weeks, you've averaged {{average}}%. It might be a bit ambitious — how about easing the pace?",
       "action": "Adjust progression"
     },
-    "keepGoing": {
-      "title": "Keep it up!",
-      "message": "You're on a roll. Maintain this pace."
-    },
     "overperform": {
-      "title": "Impressive!",
-      "message": "You regularly exceed your doses. Ready to speed up?",
+      "title": "🚀 {{habitName}}: ready to level up?",
+      "message": "For {{weeks}} weeks straight, you've been exceeding your target ({{average}}% average). You could pick up the pace!",
       "action": "Increase progression"
     },
-    "dismissAction": "No thanks"
+    "dismissAction": "No thanks, I'll keep this pace"
   },
   "absenceRecalibration": {
     "title": "Shall we recalibrate together?",

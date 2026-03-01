@@ -4,7 +4,7 @@
  */
 
 import { Habit, DailyEntry, CompletionStatus, CounterOperation, ProgressionContext } from '../types'
-import { daysBetween } from '../utils/date'
+import { daysBetween, addDays } from '../utils/date'
 
 // ============================================================================
 // UTILITY FUNCTIONS
@@ -754,4 +754,149 @@ export function getProgressionContext(
     isCloseToTarget,
     remainingToTarget,
   }
+}
+
+// ============================================================================
+// PROGRESSION ADJUSTMENT SUGGESTIONS (4.3)
+// ============================================================================
+
+/** Minimum consecutive weeks to trigger a suggestion */
+const SUGGESTION_MIN_WEEKS = 3
+/** Threshold: above this average means "too easy" */
+const HIGH_PERFORMANCE_THRESHOLD = 120
+/** Threshold: below this average means "too hard" */
+const LOW_PERFORMANCE_THRESHOLD = 50
+
+/**
+ * Type of adjustment suggestion
+ */
+export type AdjustmentDirection = 'increase' | 'decrease'
+
+/**
+ * Suggestion d'ajustement de progression pour une habitude
+ */
+export interface ProgressionAdjustmentSuggestion {
+  /** Habitude concernée */
+  habitId: string
+  /** Direction de l'ajustement suggéré */
+  adjustmentDirection: AdjustmentDirection
+  /** Nombre de semaines consécutives avec performance élevée/basse */
+  consecutiveWeeks: number
+  /** Moyenne de complétion sur ces semaines */
+  averageCompletion: number
+}
+
+/**
+ * Calcule la moyenne de complétion hebdomadaire pour une habitude sur une semaine donnée
+ */
+function getWeeklyCompletionAverage(
+  habit: Habit,
+  entries: DailyEntry[],
+  weekStartDate: string
+): number | null {
+  const weekDates: string[] = []
+  for (let i = 0; i < 7; i++) {
+    weekDates.push(addDays(weekStartDate, i))
+  }
+
+  const weekEntries = entries.filter((e) => e.habitId === habit.id && weekDates.includes(e.date))
+
+  if (weekEntries.length === 0) return null
+
+  let totalPercentage = 0
+  for (const entry of weekEntries) {
+    totalPercentage += calculateCompletionPercentage(entry, habit.direction)
+  }
+
+  return totalPercentage / weekEntries.length
+}
+
+/**
+ * Analyse les performances récentes d'une habitude et retourne une suggestion
+ * d'ajustement si les conditions sont remplies.
+ *
+ * - >= 120% de moyenne sur 3+ semaines → suggérer d'augmenter le taux
+ * - < 50% de moyenne sur 3+ semaines → suggérer de diminuer le taux
+ *
+ * @param habit Habitude à analyser
+ * @param entries Toutes les entrées
+ * @param referenceDate Date de référence (YYYY-MM-DD)
+ * @returns Suggestion ou null si pas de suggestion
+ */
+export function analyzeProgressionAdjustment(
+  habit: Habit,
+  entries: DailyEntry[],
+  referenceDate: string
+): ProgressionAdjustmentSuggestion | null {
+  // Only analyze habits with progression (not maintain)
+  if (!habit.progression || habit.direction === 'maintain') return null
+
+  // Need at least SUGGESTION_MIN_WEEKS of history
+  const daysFromStart = daysBetween(habit.createdAt, referenceDate)
+  if (daysFromStart < SUGGESTION_MIN_WEEKS * 7) return null
+
+  // Calculate weekly averages for the last several weeks
+  // Start from the most recent complete week and go backwards
+  const [year, month, day] = referenceDate.split('-').map(Number)
+  const refDate = new Date(year, month - 1, day)
+  const dayOfWeek = refDate.getDay()
+  const adjustedDay = dayOfWeek === 0 ? 6 : dayOfWeek - 1
+  const lastMondayStr = addDays(referenceDate, -adjustedDay)
+
+  // Go back up to 8 weeks to find consecutive patterns
+  const maxWeeksToCheck = 8
+  const weeklyAverages: number[] = []
+
+  for (let w = 1; w <= maxWeeksToCheck; w++) {
+    const weekStart = addDays(lastMondayStr, -w * 7)
+    const avg = getWeeklyCompletionAverage(habit, entries, weekStart)
+    if (avg === null) break
+    weeklyAverages.push(avg)
+  }
+
+  if (weeklyAverages.length < SUGGESTION_MIN_WEEKS) return null
+
+  // Check for consecutive high performance (from most recent)
+  let highConsecutive = 0
+  for (const avg of weeklyAverages) {
+    if (avg >= HIGH_PERFORMANCE_THRESHOLD) {
+      highConsecutive++
+    } else {
+      break
+    }
+  }
+
+  if (highConsecutive >= SUGGESTION_MIN_WEEKS) {
+    const totalAvg =
+      weeklyAverages.slice(0, highConsecutive).reduce((s, v) => s + v, 0) / highConsecutive
+    return {
+      habitId: habit.id,
+      adjustmentDirection: 'increase',
+      consecutiveWeeks: highConsecutive,
+      averageCompletion: Math.round(totalAvg),
+    }
+  }
+
+  // Check for consecutive low performance (from most recent)
+  let lowConsecutive = 0
+  for (const avg of weeklyAverages) {
+    if (avg < LOW_PERFORMANCE_THRESHOLD) {
+      lowConsecutive++
+    } else {
+      break
+    }
+  }
+
+  if (lowConsecutive >= SUGGESTION_MIN_WEEKS) {
+    const totalAvg =
+      weeklyAverages.slice(0, lowConsecutive).reduce((s, v) => s + v, 0) / lowConsecutive
+    return {
+      habitId: habit.id,
+      adjustmentDirection: 'decrease',
+      consecutiveWeeks: lowConsecutive,
+      averageCompletion: Math.round(totalAvg),
+    }
+  }
+
+  return null
 }

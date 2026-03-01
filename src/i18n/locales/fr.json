@@ -1,4 +1,7 @@
 {
+  "brand": {
+    "tagline": "La constance, pas la perfection."
+  },
   "common": {
     "continue": "Continuer",
     "back": "Retour",
@@ -335,6 +338,10 @@
       "effort": {
         "title": "Chaque effort compte",
         "description": "Faire un peu, c'est déjà beaucoup. Ici, 70% c'est une victoire."
+      },
+      "ready": {
+        "title": "C'est parti !",
+        "description": "Tu es prêt·e à commencer ton parcours. Choisis quelques habitudes pour démarrer, ou crée les tiennes plus tard."
       }
     },
     "navigation": {
@@ -508,7 +515,23 @@
         "modeReplace": "Remplacer",
         "modeReplaceDesc": "Remplace toutes tes données par celles du fichier",
         "modeMerge": "Fusionner",
-        "modeMergeDesc": "Combine les données du fichier avec les tiennes"
+        "modeMergeDesc": "Combine les données du fichier avec les tiennes",
+        "preview": {
+          "title": "Aperçu du fichier",
+          "habits": "{{count}} habitude",
+          "habits_plural": "{{count}} habitudes",
+          "activeHabits": "{{count}} active",
+          "activeHabits_plural": "{{count}} actives",
+          "archivedHabits": "{{count}} archivée",
+          "archivedHabits_plural": "{{count}} archivées",
+          "entries": "{{count}} entrée",
+          "entries_plural": "{{count}} entrées",
+          "dateRange": "Du {{oldest}} au {{newest}}",
+          "noEntries": "Aucune entrée",
+          "schemaVersion": "Schéma v{{version}}",
+          "migrationNeeded": "Migration nécessaire",
+          "loading": "Analyse du fichier..."
+        }
       },
       "importResult": {
         "success": "✓ Import réussi",
@@ -670,20 +693,16 @@
   },
   "adjustmentSuggestions": {
     "slowDown": {
-      "title": "Suggestion",
-      "message": "Ta progression semble stagner. Et si tu ralentissais un peu le rythme ?",
+      "title": "💡 Suggestion pour {{habitName}}",
+      "message": "Depuis {{weeks}} semaines, tu es en moyenne à {{average}}%. C'est peut-être un peu ambitieux — et si on ralentissait le rythme ?",
       "action": "Ajuster la progression"
     },
-    "keepGoing": {
-      "title": "Continue comme ça !",
-      "message": "Tu es sur une bonne lancée. Garde ce rythme."
-    },
     "overperform": {
-      "title": "Impressionnant !",
-      "message": "Tu dépasses régulièrement tes doses. Prêt·e à accélérer ?",
+      "title": "🚀 {{habitName}} : prêt·e à accélérer ?",
+      "message": "Ça fait {{weeks}} semaines que tu dépasses régulièrement ta dose ({{average}}% en moyenne). Tu pourrais augmenter le rythme !",
       "action": "Augmenter la progression"
     },
-    "dismissAction": "Non merci"
+    "dismissAction": "Non merci, je garde ce rythme"
   },
   "absenceRecalibration": {
     "title": "On recalibre ensemble ?",

@@ -83,3 +83,6 @@ export type { TimerCheckInProps } from './TimerCheckIn'
 
 export { default as RestartTimeline } from './RestartTimeline'
 export type { RestartTimelineProps } from './RestartTimeline'
+
+export { default as AdjustmentSuggestionCard } from './AdjustmentSuggestionCard'
+export type { AdjustmentSuggestionCardProps } from './AdjustmentSuggestionCard'

@@ -96,3 +96,12 @@
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
+
+.onboarding__tagline {
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  color: var(--primary-600);
+  margin-top: var(--spacing-4);
+  font-style: italic;
+}

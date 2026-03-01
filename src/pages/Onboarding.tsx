@@ -11,7 +11,7 @@ import './Onboarding.css'
 /**
  * Clés de traduction pour les étapes d'onboarding
  */
-const ONBOARDING_STEP_KEYS = ['welcome', 'dose', 'effort'] as const
+const ONBOARDING_STEP_KEYS = ['welcome', 'dose', 'effort', 'ready'] as const
 
 /**
  * Types d'étapes de l'onboarding
@@ -21,7 +21,7 @@ type OnboardingStepType = 'intro' | 'suggestions'
 /**
  * Illustrations (emojis) pour chaque étape d'onboarding
  */
-const ONBOARDING_ILLUSTRATIONS = ['🌱', '📊', '💚'] as const
+const ONBOARDING_ILLUSTRATIONS = ['🌱', '📊', '💚', '✨'] as const
 
 /**
  * Écran d'onboarding
@@ -120,12 +120,15 @@ function Onboarding() {
     <div className="page page-onboarding">
       <div className="onboarding__container">
         {stepType === 'intro' ? (
-          <OnboardingStep
-            key={introStep}
-            illustration={ONBOARDING_ILLUSTRATIONS[introStep]}
-            title={t(`onboarding.steps.${stepKey}.title`)}
-            description={t(`onboarding.steps.${stepKey}.description`)}
-          />
+          <>
+            <OnboardingStep
+              key={introStep}
+              illustration={ONBOARDING_ILLUSTRATIONS[introStep]}
+              title={t(`onboarding.steps.${stepKey}.title`)}
+              description={t(`onboarding.steps.${stepKey}.description`)}
+            />
+            {isLastIntroStep && <p className="onboarding__tagline">{t('brand.tagline')}</p>}
+          </>
         ) : (
           <HabitSuggestions
             selectedHabits={selectedHabits}

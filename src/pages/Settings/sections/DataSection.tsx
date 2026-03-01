@@ -8,10 +8,12 @@ import {
   exportData,
   importFromFile,
   importFromFileMerge,
+  previewImportFile,
   formatImportResult,
   formatMergeImportResult,
   ImportResult,
   MergeImportResult,
+  ImportPreviewData,
 } from '../../../services/importExport'
 import { getDataSizeKB, cleanupArchivedEntries, saveData } from '../../../services/storage'
 import Card from '../../../components/ui/Card'
@@ -24,6 +26,7 @@ interface DataModalState {
   type: DataModalType
   file?: File
   result?: ImportResult | MergeImportResult
+  preview?: ImportPreviewData
 }
 
 /**
@@ -58,10 +61,15 @@ export function DataSection() {
   }, [t])
 
   // Import
-  const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
       setModal({ type: 'import-confirm', file })
+      // Generate preview in the background
+      const previewResult = await previewImportFile(file)
+      if (previewResult.success && previewResult.preview) {
+        setModal((prev) => ({ ...prev, preview: previewResult.preview }))
+      }
     }
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
@@ -272,6 +280,75 @@ export function DataSection() {
                 </span>
               </label>
             </fieldset>
+
+            {/* Aperçu du fichier */}
+            {modal.preview ? (
+              <div className="settings__import-preview">
+                <h4 className="settings__import-preview-title">
+                  {t('settings.modals.import.preview.title')}
+                </h4>
+                <div className="settings__import-preview-stats">
+                  <div className="settings__import-preview-stat">
+                    <span className="settings__import-preview-value">
+                      {modal.preview.habitsCount}
+                    </span>
+                    <span className="settings__import-preview-label">
+                      {t('settings.modals.import.preview.habits', {
+                        count: modal.preview.habitsCount,
+                      })}
+                      {' ('}
+                      {t('settings.modals.import.preview.activeHabits', {
+                        count: modal.preview.activeHabitsCount,
+                      })}
+                      {modal.preview.archivedHabitsCount > 0 && (
+                        <>
+                          ,{' '}
+                          {t('settings.modals.import.preview.archivedHabits', {
+                            count: modal.preview.archivedHabitsCount,
+                          })}
+                        </>
+                      )}
+                      {')'}
+                    </span>
+                  </div>
+                  <div className="settings__import-preview-stat">
+                    <span className="settings__import-preview-value">
+                      {modal.preview.entriesCount}
+                    </span>
+                    <span className="settings__import-preview-label">
+                      {t('settings.modals.import.preview.entries', {
+                        count: modal.preview.entriesCount,
+                      })}
+                    </span>
+                  </div>
+                  {modal.preview.oldestDate && modal.preview.newestDate && (
+                    <div className="settings__import-preview-stat">
+                      <span className="settings__import-preview-label">
+                        {t('settings.modals.import.preview.dateRange', {
+                          oldest: modal.preview.oldestDate,
+                          newest: modal.preview.newestDate,
+                        })}
+                      </span>
+                    </div>
+                  )}
+                  {modal.preview.needsMigration && (
+                    <div className="settings__import-preview-stat">
+                      <span className="settings__import-preview-label settings__import-preview-label--info">
+                        ℹ️ {t('settings.modals.import.preview.migrationNeeded')} (
+                        {t('settings.modals.import.preview.schemaVersion', {
+                          version: modal.preview.schemaVersion,
+                        })}
+                        )
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <p className="settings__modal-text settings__modal-text--muted">
+                {t('settings.modals.import.preview.loading')}
+              </p>
+            )}
 
             <p className="settings__modal-text settings__modal-text--warning">
               {importMode === 'replace'

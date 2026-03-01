@@ -3,7 +3,7 @@
  * Gère l'export JSON et l'import avec validation et migration
  */
 
-import type { AppData } from '../types'
+import type { AppData, Habit, DailyEntry } from '../types'
 import { loadData, saveData, STORAGE_KEY, StorageResult } from './storage'
 import { validateImportData, ValidationResult, formatValidationErrors } from './validation'
 import { runMigrations, needsMigration, MigrationResult, formatMigrationResult } from './migration'
@@ -742,4 +742,104 @@ export function formatImportResult(result: ImportResult): string {
   }
 
   return lines.join('\n')
+}
+
+// ============================================================================
+// IMPORT PREVIEW (4.4)
+// ============================================================================
+
+/**
+ * Résumé de prévisualisation avant import
+ */
+export interface ImportPreviewData {
+  /** Nombre d'habitudes dans le fichier */
+  habitsCount: number
+  /** Nombre d'habitudes actives */
+  activeHabitsCount: number
+  /** Nombre d'habitudes archivées */
+  archivedHabitsCount: number
+  /** Nombre d'entrées */
+  entriesCount: number
+  /** Date la plus ancienne (YYYY-MM-DD) */
+  oldestDate: string | null
+  /** Date la plus récente (YYYY-MM-DD) */
+  newestDate: string | null
+  /** Version du schéma */
+  schemaVersion: number
+  /** Migration nécessaire */
+  needsMigration: boolean
+}
+
+/**
+ * Résultat de la prévisualisation
+ */
+export interface PreviewResult {
+  success: boolean
+  preview?: ImportPreviewData
+  error?: string
+}
+
+/**
+ * Génère un aperçu des données d'un fichier avant import
+ */
+export async function previewImportFile(file: File): Promise<PreviewResult> {
+  try {
+    if (!file.name.endsWith('.json')) {
+      return { success: false, error: 'Le fichier doit être au format JSON (.json)' }
+    }
+
+    if (file.type && file.type !== 'application/json') {
+      return { success: false, error: 'Le fichier doit être au format JSON (type MIME invalide)' }
+    }
+
+    if (file.size > MAX_IMPORT_FILE_SIZE) {
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(1)
+      return {
+        success: false,
+        error: `Le fichier est trop volumineux (${sizeMB} MB). Maximum : 2 MB.`,
+      }
+    }
+
+    const content = await readFileContent(file)
+    const parseResult = parseJsonContent(content)
+
+    if (!parseResult.success) {
+      return { success: false, error: parseResult.error }
+    }
+
+    const rawData = parseResult.data as Record<string, unknown>
+
+    const validationResult = validateImportData(rawData)
+    if (!validationResult.valid) {
+      return {
+        success: false,
+        error: `Données invalides:\n${formatValidationErrors(validationResult)}`,
+      }
+    }
+
+    const habits = (rawData.habits ?? []) as Habit[]
+    const entries = (rawData.entries ?? []) as DailyEntry[]
+    const schemaVersion = (rawData.schemaVersion ?? 1) as number
+
+    const allDates = entries.map((e) => e.date).sort()
+    const oldestDate = allDates.length > 0 ? allDates[0] : null
+    const newestDate = allDates.length > 0 ? allDates[allDates.length - 1] : null
+
+    return {
+      success: true,
+      preview: {
+        habitsCount: habits.length,
+        activeHabitsCount: habits.filter((h) => h.archivedAt === null).length,
+        archivedHabitsCount: habits.filter((h) => h.archivedAt !== null).length,
+        entriesCount: entries.length,
+        oldestDate,
+        newestDate,
+        schemaVersion,
+        needsMigration: needsMigration(rawData),
+      },
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Erreur inconnue'
+    return { success: false, error: message }
+  }
 }

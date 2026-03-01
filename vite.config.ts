@@ -1,9 +1,23 @@
+import path from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@/components': path.resolve(__dirname, 'src/components'),
+      '@/services': path.resolve(__dirname, 'src/services'),
+      '@/hooks': path.resolve(__dirname, 'src/hooks'),
+      '@/types': path.resolve(__dirname, 'src/types'),
+      '@/utils': path.resolve(__dirname, 'src/utils'),
+      '@/i18n': path.resolve(__dirname, 'src/i18n'),
+      '@/styles': path.resolve(__dirname, 'src/styles'),
+      '@/contexts': path.resolve(__dirname, 'src/contexts'),
+      '@/constants': path.resolve(__dirname, 'src/constants'),
+    },
+  },
   build: {
     rollupOptions: {
       output: {

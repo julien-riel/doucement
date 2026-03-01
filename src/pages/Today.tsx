@@ -32,6 +32,7 @@ import { randomMessage } from '../constants/messages'
 import { CompletionStatus, RecalibrationRecord } from '../types'
 import CelebrationModal from '../components/CelebrationModal'
 import ExportReminderBanner from '../components/ExportReminderBanner'
+import { updateAppBadge } from '../services/appBadge'
 import './Today.css'
 
 /**
@@ -179,6 +180,16 @@ function Today() {
         .map((h) => detectExtendedAbsence(h, data.entries, calculateTargetDose)),
     [habitsForToday, data.entries, dismissedRecalibrations]
   )
+
+  // Mettre à jour le badge PWA avec le nombre de doses restantes
+  const remainingDoses = useMemo(
+    () => habitData.filter((h) => h.status === 'pending' || h.status === 'partial').length,
+    [habitData]
+  )
+
+  useEffect(() => {
+    updateAppBadge(remainingDoses)
+  }, [remainingDoses])
 
   // Détermine si on doit afficher le rappel d'export
   const shouldShowExportReminder = useMemo(() => {

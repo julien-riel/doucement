@@ -3,11 +3,18 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppData } from '../hooks'
 import { Card, Button } from '../components/ui'
-import { WeeklyReflectionInput, PatternInsights, WeeklyProgressSummary } from '../components/habits'
+import {
+  WeeklyReflectionInput,
+  PatternInsights,
+  WeeklyProgressSummary,
+  AdjustmentSuggestionCard,
+} from '../components/habits'
 import {
   calculateHabitStats,
   calculateDailyCompletionPercentage,
+  analyzeProgressionAdjustment,
   HabitStats,
+  ProgressionAdjustmentSuggestion,
 } from '../services/progression'
 import { getWeeklyMessage } from '../constants/messages'
 import { analyzeGlobalPatterns } from '../utils/patternAnalysis'
@@ -94,8 +101,9 @@ function WeeklyReview() {
   const { startDate, endDate, dates } = useMemo(() => getWeekDates(), [])
   const weekId = useMemo(() => getWeekId(today), [today])
 
-  // State for reflection section
+  // State for reflection and suggestions
   const [reflectionDismissed, setReflectionDismissed] = useState(false)
+  const [dismissedSuggestions, setDismissedSuggestions] = useState<Set<string>>(new Set())
 
   // Get existing reflection for this week
   const existingReflection = useMemo(() => {
@@ -182,6 +190,30 @@ function WeeklyReview() {
     () => analyzeGlobalPatterns(activeHabits, data.entries),
     [activeHabits, data.entries]
   )
+
+  // Suggestions d'ajustement de progression
+  const adjustmentSuggestions = useMemo(() => {
+    const suggestions: ProgressionAdjustmentSuggestion[] = []
+    for (const habit of activeHabits) {
+      if (dismissedSuggestions.has(habit.id)) continue
+      const suggestion = analyzeProgressionAdjustment(habit, data.entries, today)
+      if (suggestion) {
+        suggestions.push(suggestion)
+      }
+    }
+    return suggestions
+  }, [activeHabits, data.entries, today, dismissedSuggestions])
+
+  const handleAcceptSuggestion = useCallback(
+    (habitId: string) => {
+      navigate(`/habits/${habitId}/edit`)
+    },
+    [navigate]
+  )
+
+  const handleDismissSuggestion = useCallback((habitId: string) => {
+    setDismissedSuggestions((prev) => new Set(prev).add(habitId))
+  }, [])
 
   const handleContinue = () => {
     navigate('/')
@@ -369,6 +401,25 @@ function WeeklyReview() {
         <h2 className="weekly-review__section-title">{t('weeklyReview.sections.patterns')}</h2>
         <PatternInsights analysis={patternAnalysis} />
       </section>
+
+      {/* Suggestions d'ajustement de progression */}
+      {adjustmentSuggestions.length > 0 && (
+        <section className="weekly-review__section">
+          {adjustmentSuggestions.map((suggestion) => {
+            const habit = activeHabits.find((h) => h.id === suggestion.habitId)
+            if (!habit) return null
+            return (
+              <AdjustmentSuggestionCard
+                key={suggestion.habitId}
+                suggestion={suggestion}
+                habit={habit}
+                onAccept={handleAcceptSuggestion}
+                onDismiss={handleDismissSuggestion}
+              />
+            )
+          })}
+        </section>
+      )}
 
       {/* Progression depuis le début (Effet Composé) */}
       <section className="weekly-review__section">
