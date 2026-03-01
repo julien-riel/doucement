@@ -4,697 +4,513 @@
     {
       "version": "1.43.0",
       "date": "2026-03-01",
-      "title": "Solidité — Sécurité, tests et qualité",
+      "title": "Sécurité et fiabilité",
       "highlights": [
         {
           "emoji": "lock",
-          "text": "Politique de sécurité du contenu (CSP) pour protéger l'application"
+          "text": "L'application est mieux protégée contre les menaces en ligne"
         },
         {
           "emoji": "rocket",
-          "text": "Polices Fraunces et Source Sans 3 auto-hébergées"
+          "text": "L'application se charge plus vite, même sans connexion"
         },
         {
           "emoji": "lock",
-          "text": "Import sécurisé avec vérification du backup et limite réduite"
+          "text": "L'import de données vérifie automatiquement que tes données sont en sécurité"
         },
         {
           "emoji": "check",
-          "text": "Tests de migration et script de vérification i18n"
+          "text": "Fiabilité renforcée pour la mise à jour de tes données"
         }
       ]
     },
     {
       "version": "1.42.0",
       "date": "2026-03-01",
-      "title": "Cohérence — i18n, bugs et architecture",
+      "title": "Cohérence et traductions",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Gestion d'état unifiée dans un Context React global"
+          "text": "L'application est plus fluide et réactive"
         },
         {
           "emoji": "tools",
-          "text": "Internationalisation de Statistics, WeeklyReview, QuickCheckIn et WhatsNewModal"
+          "text": "Les statistiques, la revue hebdomadaire et le check-in rapide sont disponibles en anglais"
         },
         {
           "emoji": "tools",
-          "text": "QuickCheckIn respecte désormais le mode de suivi de chaque habitude"
+          "text": "Le check-in rapide affiche maintenant les bons contrôles pour chaque habitude"
         },
         {
           "emoji": "paint",
-          "text": "Vocabulaire aligné avec la marque : 'dose' et 'cible' remplacent 'objectif'"
+          "text": "Les messages utilisent un vocabulaire plus doux et cohérent"
         }
       ]
     },
     {
       "version": "1.41.0",
       "date": "2026-03-01",
-      "title": "Performance et évolution",
+      "title": "Rapidité et nouvelles options",
       "highlights": [
         {
           "emoji": "rocket",
-          "text": "Index des entrées par date pour des performances optimales"
+          "text": "L'application est plus rapide, surtout avec beaucoup de données"
         },
         {
           "emoji": "sparkles",
-          "text": "Mode fusionner exposé dans l'UI d'import"
+          "text": "Nouveau mode « Fusionner » lors de l'import pour combiner tes données"
         },
         {
           "emoji": "sparkles",
-          "text": "Revue hebdomadaire accessible dans la navigation"
+          "text": "La revue hebdomadaire est accessible directement depuis le menu"
         },
         {
           "emoji": "rocket",
-          "text": "Debounce sur auto-save pour plus de fluidité"
+          "text": "Sauvegarde automatique plus fluide"
         }
       ]
     },
     {
       "version": "1.40.0",
       "date": "2026-03-01",
-      "title": "Qualité et cohérence",
+      "title": "Qualité et accessibilité",
       "highlights": [
         {
           "emoji": "tools",
-          "text": "Unification du code et suppression des doublons"
+          "text": "L'application est plus stable et plus fiable"
         },
         {
           "emoji": "tools",
-          "text": "Corrections d'accessibilité (zones tactiles, skip link)"
+          "text": "Navigation améliorée, surtout sur mobile"
         },
         {
           "emoji": "paint",
-          "text": "Emoji et messages harmonisés avec la philosophie bienveillante"
+          "text": "Messages et emojis encore plus chaleureux"
         },
         {
           "emoji": "check",
-          "text": "Tests unitaires useCelebrations et mutations useAppData"
+          "text": "Les célébrations fonctionnent de manière plus fiable"
         }
       ]
     },
     {
       "version": "1.39.0",
       "date": "2026-03-01",
-      "title": "Robustesse",
+      "title": "Protection de tes données",
       "highlights": [
         {
           "emoji": "lock",
-          "text": "Protection contre la perte de données non sauvegardées"
+          "text": "Tes données sont protégées même si tu fermes l'application accidentellement"
         },
         {
           "emoji": "sparkles",
-          "text": "Backup automatique avant import"
+          "text": "Sauvegarde automatique avant chaque import"
         },
         {
           "emoji": "sparkles",
-          "text": "Recalibration douce après absence prolongée"
+          "text": "Reprise en douceur après une pause prolongée"
         },
         {
           "emoji": "check",
-          "text": "Couverture de tests et validation renforcées"
+          "text": "Application plus fiable au quotidien"
         }
       ]
     },
     {
       "version": "1.38.2",
       "date": "2026-03-01",
-      "title": "Corrections critiques",
+      "title": "Corrections importantes",
       "highlights": [
         {
-          "emoji": "sparkles",
-          "text": "Intégrer runMigrations dans loadData()"
+          "emoji": "tools",
+          "text": "Tes données sont automatiquement mises à jour au lancement"
         },
         {
           "emoji": "tools",
-          "text": "Corriger la clé localStorage dans AppProvider"
+          "text": "Correction d'un problème de chargement des données"
         },
         {
-          "emoji": "tools",
-          "text": "Corriger les tokens CSS --success-*"
+          "emoji": "paint",
+          "text": "Les couleurs s'affichent correctement partout"
         },
         {
           "emoji": "sparkles",
-          "text": "Retirer la carte Série/Streak des statistiques"
+          "text": "Statistiques simplifiées et plus lisibles"
         }
       ]
     },
     {
       "version": "1.38.1",
       "date": "2026-03-01",
-      "title": "Validation finale",
+      "title": "Vérification complète",
       "highlights": [
         {
           "emoji": "check",
-          "text": "Suite de tests complète exécutée avec succès"
+          "text": "Vérification complète de l'application"
         },
         {
           "emoji": "check",
-          "text": "TypeScript, ESLint et health check validés"
+          "text": "Qualité et stabilité validées"
         }
       ]
     },
     {
       "version": "1.38.0",
       "date": "2026-03-01",
-      "title": "Timeline des nouveaux départs",
+      "title": "Historique de tes nouveaux départs",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Timeline chronologique des recalibrations et nouveaux départs"
+          "text": "Retrouve l'historique de tes recalibrations et nouveaux départs"
         },
         {
           "emoji": "tools",
-          "text": "Intégration dans la page détail de l'habitude"
+          "text": "Visible directement sur la page de chaque habitude"
         }
       ]
     },
     {
       "version": "1.37.0",
       "date": "2026-03-01",
-      "title": "Messages de progression enrichis et adaptatifs",
+      "title": "Messages personnalisés",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Messages contextuels : premier jour, retour après absence, proche de l'objectif"
+          "text": "Des messages adaptés à ta situation : premier jour, retour après une pause, presque à la cible..."
         },
         {
           "emoji": "sparkles",
-          "text": "Contexte de progression avec valeur veille et progression cumulée"
-        },
-        {
-          "emoji": "tools",
-          "text": "Refactoring des messages de progression dans HabitCard"
-        },
-        {
-          "emoji": "check",
-          "text": "Tests unitaires et E2E des messages de progression"
+          "text": "Vois ta progression par rapport à hier et depuis le début"
         }
       ]
     },
     {
       "version": "1.36.0",
       "date": "2026-03-01",
-      "title": "Nouveau départ d'habitude",
+      "title": "Nouveau départ",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Nouveau départ : repartir d'une nouvelle valeur tout en préservant l'historique"
+          "text": "Repars d'une nouvelle valeur tout en conservant ton historique"
         },
         {
           "emoji": "sparkles",
-          "text": "Section dédiée dans la page d'édition avec confirmation bienveillante"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Type RecalibrationRecord enrichi avec distinction recalibration/restart"
-        },
-        {
-          "emoji": "check",
-          "text": "Test E2E du flux complet de nouveau départ"
+          "text": "Un espace dédié dans la page de modification, avec un message bienveillant"
         }
       ]
     },
     {
       "version": "1.35.6",
       "date": "2026-03-01",
-      "title": "Correction bug timer minutes/secondes",
+      "title": "Correction minuterie",
       "highlights": [
         {
           "emoji": "tools",
-          "text": "Conversion automatique des minutes en secondes pour timer et chronomètre"
-        },
-        {
-          "emoji": "check",
-          "text": "Tests E2E timer et stopwatch en minutes"
+          "text": "La minuterie et le chronomètre gèrent correctement les minutes et les secondes"
         }
       ]
     },
     {
       "version": "1.35.5",
       "date": "2026-02-19",
-      "title": "Correction import données",
+      "title": "Correction import",
       "highlights": [
         {
           "emoji": "tools",
-          "text": "L'import accepte désormais les données exportées avec une progression à zéro"
+          "text": "L'import fonctionne correctement même quand une habitude commence à zéro"
         }
       ]
     },
     {
       "version": "1.35.4",
       "date": "2026-01-15",
-      "title": "Correction modes de suivi",
+      "title": "Tous les modes de suivi",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "6 modes de suivi disponibles à la création (chronomètre, minuterie, slider)"
+          "text": "6 modes de suivi disponibles : simple, détaillé, compteur, chronomètre, minuterie et curseur"
         }
       ]
     },
     {
       "version": "1.35.3",
       "date": "2026-01-15",
-      "title": "Validation finale",
+      "title": "Vérification complète",
       "highlights": [
         {
           "emoji": "check",
-          "text": "Suite de tests complète exécutée avec succès"
-        },
-        {
-          "emoji": "check",
-          "text": "Health check validé"
+          "text": "Vérification complète de l'application"
         }
       ]
     },
     {
       "version": "1.35.2",
       "date": "2026-01-15",
-      "title": "Documentation",
+      "title": "Améliorations internes",
       "highlights": [
         {
-          "emoji": "sparkles",
-          "text": "Glossaire avec nouveaux termes (stopwatch, timer, slider)"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Diagrammes architecture mis à jour"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Guides time-widgets et slider-widget"
-        },
-        {
-          "emoji": "paint",
-          "text": "Design system avec spécifications widgets"
+          "emoji": "check",
+          "text": "Améliorations internes pour une meilleure stabilité"
         }
       ]
     },
     {
       "version": "1.35.1",
       "date": "2026-01-15",
-      "title": "Tests E2E",
+      "title": "Fiabilité renforcée",
       "highlights": [
         {
           "emoji": "check",
-          "text": "Test E2E chronomètre avec persistance"
-        },
-        {
-          "emoji": "check",
-          "text": "Test E2E minuterie avec dépassement"
-        },
-        {
-          "emoji": "check",
-          "text": "Test E2E slider avec emojis dynamiques"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Factories pour stopwatch, timer et slider"
+          "text": "Les nouveaux modes de suivi sont encore plus fiables"
         }
       ]
     },
     {
       "version": "1.35.0",
       "date": "2026-01-15",
-      "title": "UI de création/édition",
+      "title": "Configuration des nouveaux modes",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Nouveaux modes chrono/minuterie/slider dans TrackingSection"
+          "text": "Configure le chronomètre, la minuterie ou le curseur lors de la création d'une habitude"
         },
         {
           "emoji": "sparkles",
-          "text": "Configurateur SliderConfig avec préréglages emoji"
-        },
-        {
-          "emoji": "tools",
-          "text": "Intégration complète dans CreateHabit wizard"
-        },
-        {
-          "emoji": "paint",
-          "text": "Prévisualisation du slider lors de la configuration"
+          "text": "Choisis tes emojis pour le curseur avec une prévisualisation en direct"
         }
       ]
     },
     {
       "version": "1.34.0",
       "date": "2026-01-15",
-      "title": "Widget Slider",
+      "title": "Mode curseur",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Composant SliderCheckIn avec emojis dynamiques"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Utilitaire getEmojiForValue pour mapping emoji"
+          "text": "Nouveau mode curseur avec emojis dynamiques pour noter ton humeur, ton énergie..."
         },
         {
           "emoji": "tools",
-          "text": "Intégration dans HabitCard pour trackingMode slider"
+          "text": "Disponible directement sur tes habitudes"
         }
       ]
     },
     {
       "version": "1.33.0",
       "date": "2026-01-15",
-      "title": "Widget Minuterie",
+      "title": "Mode minuterie",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Composant TimerCheckIn avec compte à rebours"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Hook useTimer pour logique de décompte"
-        },
-        {
-          "emoji": "tools",
-          "text": "Intégration dans HabitCard pour trackingMode timer"
+          "text": "Nouveau mode minuterie avec compte à rebours pour tes habitudes chronométrées"
         },
         {
           "emoji": "paint",
-          "text": "Affichage temps négatif en orange si dépassement"
+          "text": "Le temps s'affiche en orange quand tu dépasses la durée prévue"
         }
       ]
     },
     {
       "version": "1.32.0",
       "date": "2026-01-15",
-      "title": "Widget Chronomètre",
+      "title": "Mode chronomètre",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Composant StopwatchCheckIn avec boutons Play/Pause/Stop/Reset"
+          "text": "Nouveau mode chronomètre avec boutons lecture, pause et arrêt"
         },
         {
           "emoji": "sparkles",
-          "text": "Hook useStopwatch avec persistance automatique"
-        },
-        {
-          "emoji": "tools",
-          "text": "Intégration dans HabitCard pour trackingMode stopwatch"
+          "text": "Le chronomètre continue même si tu fermes l'application"
         },
         {
           "emoji": "bell",
-          "text": "Notification vibration quand la cible est atteinte"
+          "text": "Vibration quand tu atteins ta cible"
         }
       ]
     },
     {
       "version": "1.31.0",
       "date": "2026-01-15",
-      "title": "Fondations types et persistance",
+      "title": "Nouveaux modes de suivi",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Nouveaux modes de tracking : chronomètre, minuterie et slider"
+          "text": "Trois nouveaux modes : chronomètre, minuterie et curseur"
         },
         {
           "emoji": "sparkles",
-          "text": "Configuration slider avec emojis dynamiques"
+          "text": "Le curseur utilise des emojis pour rendre le suivi plus visuel"
         },
         {
           "emoji": "sparkles",
-          "text": "Service de persistance des états chronomètre"
-        },
-        {
-          "emoji": "tools",
-          "text": "Migration schéma v10 → v11"
+          "text": "Le chronomètre se souvient de ta session en cours"
         }
       ]
     },
     {
       "version": "1.30.3",
       "date": "2026-01-15",
-      "title": "Correction affichage cumulative",
+      "title": "Amélioration de l'affichage",
       "highlights": [
         {
           "emoji": "paint",
-          "text": "Meilleur alignement des éléments dans les habitudes cumulatives"
+          "text": "Meilleur alignement des éléments pour les habitudes cumulatives"
         }
       ]
     },
     {
       "version": "1.30.2",
       "date": "2026-01-15",
-      "title": "Validation finale",
+      "title": "Vérification complète",
       "highlights": [
         {
           "emoji": "check",
-          "text": "Exécuter suite de tests complète"
-        },
-        {
-          "emoji": "check",
-          "text": "Health check"
+          "text": "Vérification complète de l'application"
         }
       ]
     },
     {
       "version": "1.30.1",
       "date": "2026-01-15",
-      "title": "Documentation architecture",
+      "title": "Améliorations internes",
       "highlights": [
         {
-          "emoji": "sparkles",
-          "text": "Documenter architecture 3-tier"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Documenter patterns de hooks"
+          "emoji": "check",
+          "text": "Améliorations internes pour une meilleure stabilité"
         }
       ]
     },
     {
       "version": "1.30.0",
       "date": "2026-01-15",
-      "title": "Refactoring EditHabit",
+      "title": "Page de modification améliorée",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Créer structure EditHabit/"
-        },
-        {
-          "emoji": "tools",
-          "text": "Extraire sections de formulaire"
-        },
-        {
-          "emoji": "tools",
-          "text": "Supprimer ancien EditHabit.tsx"
+          "text": "La page de modification de tes habitudes est mieux organisée"
         }
       ]
     },
     {
       "version": "1.29.0",
       "date": "2026-01-15",
-      "title": "Hook useHabitForm",
+      "title": "Amélioration de l'édition",
       "highlights": [
         {
-          "emoji": "sparkles",
-          "text": "Extraire types HabitFormState"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Créer useHabitForm hook"
-        },
-        {
           "emoji": "tools",
-          "text": "Intégrer useHabitForm dans EditHabit"
+          "text": "L'édition d'habitudes est plus fluide et plus fiable"
         }
       ]
     },
     {
       "version": "1.28.6",
       "date": "2026-01-15",
-      "title": "Corrections rapides",
+      "title": "Corrections et stabilité",
       "highlights": [
         {
           "emoji": "tools",
-          "text": "Corriger useDebugMode état mutable"
+          "text": "L'application gère mieux les erreurs inattendues"
         },
         {
           "emoji": "sparkles",
-          "text": "Ajouter logging erreurs AppProvider"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Créer ErrorBoundary générique"
-        },
-        {
-          "emoji": "tools",
-          "text": "Intégrer ErrorBoundary dans App"
+          "text": "Un écran de secours s'affiche si un problème survient, au lieu d'une page blanche"
         }
       ]
     },
     {
       "version": "1.28.5",
       "date": "2026-01-15",
-      "title": "Nettoyage et validation finale",
+      "title": "Nettoyage et stabilité",
       "highlights": [
         {
           "emoji": "check",
-          "text": "Exécuter tous les tests E2E"
-        },
-        {
-          "emoji": "tools",
-          "text": "Supprimer SKIPPED_TESTS.md"
-        },
-        {
-          "emoji": "tools",
-          "text": "Mise à jour documentation"
+          "text": "Application plus stable et plus fiable"
         }
       ]
     },
     {
       "version": "1.28.4",
       "date": "2026-01-15",
-      "title": "Migration specs basse priorité",
+      "title": "Fiabilité renforcée",
       "highlights": [
         {
-          "emoji": "tools",
-          "text": "Migrer create-habit.spec.ts"
-        },
-        {
-          "emoji": "tools",
-          "text": "Migrer weekly-review.spec.ts"
-        },
-        {
-          "emoji": "tools",
-          "text": "Migrer planned-pause.spec.ts"
-        },
-        {
           "emoji": "check",
-          "text": "Réactiver habit-stacking.spec.ts"
+          "text": "Fiabilité renforcée sur la création d'habitudes et la revue hebdomadaire"
         }
       ]
     },
     {
       "version": "1.28.3",
       "date": "2026-01-15",
-      "title": "Migration specs moyenne priorité",
+      "title": "Fiabilité du suivi",
       "highlights": [
         {
-          "emoji": "tools",
-          "text": "Migrer habit-maintain.spec.ts"
-        },
-        {
-          "emoji": "tools",
-          "text": "Migrer habit-decrease-zero.spec.ts"
-        },
-        {
-          "emoji": "tools",
-          "text": "Migrer habit-decrease-daily.spec.ts"
-        },
-        {
-          "emoji": "tools",
-          "text": "Migrer habit-increase-daily.spec.ts"
+          "emoji": "check",
+          "text": "Le suivi quotidien et hebdomadaire est plus fiable"
         }
       ]
     },
     {
       "version": "1.28.2",
       "date": "2026-01-15",
-      "title": "Migration specs haute priorité",
+      "title": "Fiabilité renforcée",
       "highlights": [
         {
-          "emoji": "tools",
-          "text": "Migrer habit-modification.spec.ts"
-        },
-        {
-          "emoji": "tools",
-          "text": "Migrer habit-increase-weekly.spec.ts"
-        },
-        {
-          "emoji": "tools",
-          "text": "Migrer habit-counter.spec.ts"
-        },
-        {
-          "emoji": "tools",
-          "text": "Migrer celebrations.spec.ts"
+          "emoji": "check",
+          "text": "La modification d'habitudes et les célébrations sont plus fiables"
         }
       ]
     },
     {
       "version": "1.28.1",
       "date": "2026-01-15",
-      "title": "Page Objects additionnels",
+      "title": "Améliorations internes",
       "highlights": [
         {
-          "emoji": "sparkles",
-          "text": "CreateHabitPage Page Object"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "StatisticsPage Page Object"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "WeeklyReviewPage Page Object"
+          "emoji": "check",
+          "text": "Améliorations internes pour une meilleure stabilité"
         }
       ]
     },
     {
       "version": "1.28.0",
       "date": "2026-01-15",
-      "title": "Implémentation fonctionnalités manquantes",
+      "title": "Routines et suivi cumulatif",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Habit stacking visuel sur Today"
+          "text": "Tes habitudes liées s'affichent ensemble sur la page du jour"
         },
         {
           "emoji": "sparkles",
-          "text": "Regroupement par moment de la journée"
+          "text": "Tes habitudes sont regroupées par moment de la journée"
         },
         {
           "emoji": "sparkles",
-          "text": "Historique saisies cumulatives avec undo"
+          "text": "Historique des saisies cumulatives avec possibilité d'annuler"
         }
       ]
     },
     {
       "version": "1.27.3",
       "date": "2026-01-14",
-      "title": "Validation finale",
+      "title": "Améliorations internes",
       "highlights": [
         {
-          "emoji": "tools",
-          "text": "Mettre à jour README.md"
-        },
-        {
-          "emoji": "tools",
-          "text": "Mettre à jour CLAUDE.md"
-        },
-        {
-          "emoji": "tools",
-          "text": "Mettre à jour CONTRIBUTING.md"
-        },
-        {
           "emoji": "check",
-          "text": "Validation couverture 100%"
+          "text": "Améliorations internes pour une meilleure stabilité"
         }
       ]
     },
     {
       "version": "1.27.2",
       "date": "2026-01-14",
-      "title": "Documentation technique",
+      "title": "Améliorations internes",
       "highlights": [
         {
-          "emoji": "sparkles",
-          "text": "JSDoc progression.ts"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "JSDoc statistics.ts"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "JSDoc storage.ts"
-        },
-        {
-          "emoji": "tools",
-          "text": "Mettre à jour coherence-matrix.md"
+          "emoji": "check",
+          "text": "Améliorations internes pour une meilleure stabilité"
         }
       ]
     },
@@ -705,224 +521,148 @@
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Enrichir guide-utilisateur.md"
+          "text": "Le guide utilisateur est plus complet et plus clair"
         }
       ]
     },
     {
       "version": "1.27.0",
       "date": "2026-01-14",
-      "title": "Guides fonctionnalités",
+      "title": "Guides pratiques",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Guide habit-stacking.md"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Guide tracking-modes.md"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Guide weekly-habits.md"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Guide milestones.md"
+          "text": "Nouveaux guides pour bien utiliser les routines, les modes de suivi et les habitudes hebdomadaires"
         }
       ]
     },
     {
       "version": "1.26.3",
       "date": "2026-01-14",
-      "title": "Glossaire et Architecture",
+      "title": "Améliorations internes",
       "highlights": [
         {
-          "emoji": "sparkles",
-          "text": "Créer GLOSSARY.md"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Créer ARCHITECTURE.md"
+          "emoji": "check",
+          "text": "Améliorations internes pour une meilleure stabilité"
         }
       ]
     },
     {
       "version": "1.26.2",
       "date": "2026-01-14",
-      "title": "Structure et nettoyage",
+      "title": "Améliorations internes",
       "highlights": [
         {
-          "emoji": "tools",
-          "text": "Déplacer fichiers orphelins"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Créer structure docs/features/"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Consolider documentation tests"
+          "emoji": "check",
+          "text": "Améliorations internes pour une meilleure stabilité"
         }
       ]
     },
     {
       "version": "1.26.1",
       "date": "2026-01-14",
-      "title": "Phase 4 - Métriques & Qualité",
+      "title": "Améliorations internes",
       "highlights": [
         {
           "emoji": "check",
-          "text": "Intégrer audit Lighthouse"
-        },
-        {
-          "emoji": "chart",
-          "text": "Validation métriques finales"
+          "text": "Vérification de la qualité et de la performance de l'application"
         }
       ]
     },
     {
       "version": "1.26.0",
       "date": "2026-01-14",
-      "title": "Phase 3 - Optimisations avancées",
+      "title": "Performance",
       "highlights": [
         {
           "emoji": "rocket",
-          "text": "Tree-shaking recharts"
+          "text": "L'application se charge plus rapidement"
         },
         {
           "emoji": "tools",
-          "text": "Refactoring Settings en sections modulaires"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Documentation API hooks (JSDoc)"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Guide de contribution CONTRIBUTING.md"
+          "text": "La page des paramètres est mieux organisée"
         }
       ]
     },
     {
       "version": "1.25.0",
       "date": "2026-01-13",
-      "title": "Phase 2 - Maintenabilité",
+      "title": "Création d'habitudes améliorée",
       "highlights": [
         {
-          "emoji": "tools",
-          "text": "Refactoring CreateHabit en composants modulaires"
-        },
-        {
           "emoji": "sparkles",
-          "text": "Composant RecalibrationPrompt"
-        },
-        {
-          "emoji": "check",
-          "text": "Tests composants React (HabitCard, CelebrationModal)"
+          "text": "Proposition de recalibration quand c'est le bon moment"
         },
         {
           "emoji": "tools",
-          "text": "Context et hooks extraits pour le wizard"
+          "text": "La création d'habitudes est plus fluide et intuitive"
         }
       ]
     },
     {
       "version": "1.24.0",
       "date": "2026-01-13",
-      "title": "Phase 1 - Quick Wins Performance",
+      "title": "Performance",
       "highlights": [
         {
           "emoji": "rocket",
-          "text": "Lazy loading des routes"
+          "text": "Les pages se chargent plus rapidement"
         },
         {
           "emoji": "rocket",
-          "text": "Vendor chunking Vite"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Créer README.md"
-        },
-        {
-          "emoji": "chart",
-          "text": "Script métriques de build"
+          "text": "L'application est globalement plus rapide"
         }
       ]
     },
     {
       "version": "1.23.0",
       "date": "2026-01-13",
-      "title": "Phase 4 - Plan d'action",
+      "title": "Améliorations internes",
       "highlights": [
         {
-          "emoji": "sparkles",
-          "text": "Prioriser les recommandations"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Créer roadmap de refonte"
+          "emoji": "check",
+          "text": "Améliorations internes pour une meilleure stabilité"
         }
       ]
     },
     {
       "version": "1.22.0",
       "date": "2026-01-13",
-      "title": "Phase 5 - Checklist de santé",
+      "title": "Améliorations internes",
       "highlights": [
         {
-          "emoji": "sparkles",
-          "text": "Script health-check.sh pour audit qualité"
-        },
-        {
-          "emoji": "tools",
-          "text": "Vérification documentation et matrice de cohérence"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Instructions d'audit périodique dans CLAUDE.md"
+          "emoji": "check",
+          "text": "Outils de vérification de la qualité de l'application"
         }
       ]
     },
     {
       "version": "1.21.0",
       "date": "2026-01-13",
-      "title": "Corrections i18n",
+      "title": "Traductions complétées",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Traductions pause/reprise ajoutées"
+          "text": "Traductions pause et reprise ajoutées"
         },
         {
           "emoji": "check",
-          "text": "450 tests E2E passent avec succès"
-        },
-        {
-          "emoji": "tools",
-          "text": "Fichiers de test mis à jour vers schemaVersion 9"
+          "text": "Application plus fiable au quotidien"
         }
       ]
     },
     {
       "version": "1.20.0",
       "date": "2026-01-13",
-      "title": "Infrastructure i18n",
+      "title": "Application disponible en anglais",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Installer et configurer i18next"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Créer fichier de traduction français"
+          "text": "L'application est maintenant disponible en anglais"
         },
         {
           "emoji": "tools",
-          "text": "Migrer composants vers useTranslation"
-        },
-        {
-          "emoji": "tools",
-          "text": "Migrer composants secondaires"
+          "text": "Toutes les pages et tous les messages sont traduits"
         }
       ]
     },
@@ -933,34 +673,26 @@
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Filtre par difficulté : Facile, Modéré ou Exigeant"
+          "text": "Filtre tes habitudes par difficulté : Facile, Modéré ou Exigeant"
         },
         {
           "emoji": "sparkles",
-          "text": "Filtre par moment : Matin, Après-midi, Soir ou Nuit"
-        },
-        {
-          "emoji": "tools",
-          "text": "Composant FilterChips réutilisable"
+          "text": "Filtre par moment de la journée : Matin, Après-midi, Soir ou Nuit"
         }
       ]
     },
     {
       "version": "1.18.3",
       "date": "2026-01-12",
-      "title": "Bug fix et amélioration catégories",
+      "title": "Amélioration des filtres",
       "highlights": [
         {
-          "emoji": "bug",
-          "text": "Réinitialiser carrousel au changement de filtre"
-        },
-        {
-          "emoji": "paint",
-          "text": "Afficher nom des catégories dans les filtres"
+          "emoji": "tools",
+          "text": "Les filtres fonctionnent mieux et affichent les noms des catégories"
         },
         {
           "emoji": "sparkles",
-          "text": "Ajouter compteur de résultats"
+          "text": "Un compteur t'indique combien d'habitudes correspondent à ton filtre"
         }
       ]
     },
@@ -971,45 +703,41 @@
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Suggestions contextuelles : les emojis s'adaptent à la catégorie choisie"
+          "text": "Les emojis suggérés s'adaptent à la catégorie de ton habitude"
         },
         {
           "emoji": "tools",
-          "text": "8 emojis populaires affichés par défaut lors de la création d'une habitude personnalisée"
+          "text": "8 emojis populaires affichés par défaut pour t'aider à choisir"
         }
       ]
     },
     {
       "version": "1.18.1",
       "date": "2026-01-12",
-      "title": "Tests et polish",
+      "title": "Fiabilité renforcée",
       "highlights": [
         {
           "emoji": "check",
-          "text": "Tests E2E carrousel et tri"
-        },
-        {
-          "emoji": "check",
-          "text": "Tests E2E changement type et cumul"
+          "text": "Le carrousel et le tri des habitudes sont plus fiables"
         }
       ]
     },
     {
       "version": "1.18.0",
       "date": "2026-01-12",
-      "title": "Améliorations UX et nouvelles habitudes",
+      "title": "Nouvelles habitudes et tri",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "10 nouvelles habitudes avec sources scientifiques"
+          "text": "10 nouvelles habitudes suggérées avec sources scientifiques"
         },
         {
           "emoji": "paint",
-          "text": "Tri des habitudes par moment de la journée"
+          "text": "Trie tes habitudes par moment de la journée"
         },
         {
           "emoji": "sparkles",
-          "text": "Carrousel pour parcourir les habitudes suggérées"
+          "text": "Parcours les habitudes suggérées dans un carrousel"
         },
         {
           "emoji": "tools",
@@ -1020,23 +748,19 @@
     {
       "version": "1.17.0",
       "date": "2026-01-12",
-      "title": "Modifications d'habitudes et nettoyage",
+      "title": "Modification d'habitudes",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Changement de direction (augmenter/maintenir/diminuer) en modification"
+          "text": "Change la direction de ton habitude : augmenter, maintenir ou réduire"
         },
         {
           "emoji": "tools",
-          "text": "Emoji picker corrigé sur mobile"
+          "text": "Le sélecteur d'emojis fonctionne mieux sur mobile"
         },
         {
           "emoji": "paint",
-          "text": "Habitudes archivées masquées par défaut"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Retrait de la suggestion transition 30 jours"
+          "text": "Les habitudes archivées sont masquées par défaut"
         }
       ]
     },
@@ -1054,122 +778,94 @@
     {
       "version": "1.15.1",
       "date": "2026-01-12",
-      "title": "Phase 6 - Tests et polish",
+      "title": "Accessibilité et finitions",
       "highlights": [
         {
-          "emoji": "check",
-          "text": "Tests E2E page Statistics"
-        },
-        {
-          "emoji": "check",
-          "text": "Tests E2E célébrations"
-        },
-        {
           "emoji": "sparkles",
-          "text": "Accessibilité et responsive"
+          "text": "L'application est plus accessible et fonctionne mieux sur tous les écrans"
         },
         {
           "emoji": "paint",
-          "text": "Messages et wording"
+          "text": "Les messages sont encore plus encourageants"
         }
       ]
     },
     {
       "version": "1.15.0",
       "date": "2026-01-12",
-      "title": "Phase 5 - Export visuel",
+      "title": "Export visuel",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Service d'export image"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Service d'export PDF"
+          "text": "Exporte ta progression en image ou en PDF"
         },
         {
           "emoji": "paint",
-          "text": "UI d'export"
+          "text": "Des exports visuels élégants à partager"
         }
       ]
     },
     {
       "version": "1.14.0",
       "date": "2026-01-12",
-      "title": "Phase 4 - Célébrations",
+      "title": "Célébrations",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Service de détection des jalons"
+          "text": "Des célébrations quand tu atteins un palier de progression"
         },
         {
           "emoji": "sparkles",
-          "text": "Composant CelebrationModal"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Intégration célébrations"
+          "text": "Confettis et messages de félicitations à chaque jalon"
         }
       ]
     },
     {
       "version": "1.13.0",
       "date": "2026-01-12",
-      "title": "Phase 3 - Page Statistiques",
+      "title": "Page Statistiques",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Page Statistics"
+          "text": "Nouvelle page Statistiques pour suivre ta progression globale"
         },
         {
           "emoji": "sparkles",
-          "text": "Navigation et routing"
+          "text": "Accessible depuis le menu principal"
         },
         {
           "emoji": "rocket",
-          "text": "Section Projections"
+          "text": "Projections : vois où tu seras dans 30 ou 90 jours"
         }
       ]
     },
     {
       "version": "1.12.0",
       "date": "2026-01-12",
-      "title": "Phase 2 - Composants graphiques",
+      "title": "Graphiques de progression",
       "highlights": [
         {
           "emoji": "chart",
-          "text": "Composant ProgressionChart"
+          "text": "Graphique de ta progression au fil du temps"
         },
         {
           "emoji": "calendar",
-          "text": "Composant HeatmapCalendar"
+          "text": "Calendrier de chaleur pour voir tes jours actifs"
         },
         {
           "emoji": "chart",
-          "text": "Composant ComparisonChart"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Composant StatCard"
+          "text": "Compare tes habitudes entre elles"
         }
       ]
     },
     {
       "version": "1.11.0",
       "date": "2026-01-12",
-      "title": "Phase 1 - Fondations",
+      "title": "Fondations des statistiques",
       "highlights": [
         {
-          "emoji": "sparkles",
-          "text": "Installer Recharts"
-        },
-        {
           "emoji": "chart",
-          "text": "Service de calcul statistiques"
-        },
-        {
-          "emoji": "sparkles",
-          "text": "Types et interfaces"
+          "text": "Calcul automatique de tes statistiques de progression"
         }
       ]
     },
@@ -1184,11 +880,11 @@
         },
         {
           "emoji": "chart",
-          "text": "Agrégation hebdomadaire : choisis entre compter les jours réussis ou sommer les unités"
+          "text": "Choisis comment compter ta semaine : jours réussis ou total d'unités"
         },
         {
           "emoji": "moon",
-          "text": "Détection automatique du changement de jour avec notification à minuit"
+          "text": "L'application détecte automatiquement le changement de jour"
         }
       ]
     },
@@ -1199,7 +895,7 @@
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Modifie la fréquence (quotidien/hebdomadaire) et le mode (simple/détaillé) à tout moment"
+          "text": "Modifie la fréquence et le mode de suivi de tes habitudes à tout moment"
         },
         {
           "emoji": "chart",
@@ -1226,33 +922,29 @@
         },
         {
           "emoji": "target",
-          "text": "Habitudes à réduire : félicitations spéciales quand tu atteins zéro"
+          "text": "Félicitations spéciales quand tu atteins zéro sur une habitude à réduire"
         },
         {
           "emoji": "check",
-          "text": "Feedback adapté : couleurs et messages selon le type d'habitude"
-        },
-        {
-          "emoji": "tools",
-          "text": "Suite de tests complète pour tous les types d'habitudes"
+          "text": "Couleurs et messages adaptés selon le type d'habitude"
         }
       ]
     },
     {
       "version": "1.7.2",
       "date": "2026-01-11",
-      "title": "Correction des tests E2E",
+      "title": "Fiabilité renforcée",
       "highlights": [
         {
-          "emoji": "tools",
-          "text": "Tests adaptés au nouveau wizard avec les étapes identity et first-checkin"
+          "emoji": "check",
+          "text": "Application plus fiable lors de la création d'habitudes"
         }
       ]
     },
     {
       "version": "1.7.1",
       "date": "2026-01-11",
-      "title": "Affichage de la date corrigé",
+      "title": "Correction de l'affichage",
       "highlights": [
         {
           "emoji": "check",
@@ -1267,11 +959,11 @@
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Premier check-in immédiat : enregistre ta première dose dès la création de l'habitude"
+          "text": "Enregistre ta première dose dès la création de l'habitude"
         },
         {
           "emoji": "chart",
-          "text": "Visualise l'effet composé : compare ton point de départ à aujourd'hui et célèbre tes paliers"
+          "text": "Visualise l'effet composé : compare ton point de départ à aujourd'hui"
         },
         {
           "emoji": "leaf",
@@ -1286,19 +978,11 @@
     {
       "version": "1.6.0",
       "date": "2026-01-11",
-      "title": "Scripts d'automatisation",
+      "title": "Améliorations internes",
       "highlights": [
         {
-          "emoji": "rocket",
-          "text": "Scripts auto-implement pour automatiser l'implémentation en boucle avec Claude"
-        },
-        {
-          "emoji": "tools",
-          "text": "Version smart qui demande à Claude de corriger les erreurs automatiquement"
-        },
-        {
-          "emoji": "zap",
-          "text": "Nouvelles commandes npm run auto-implement disponibles"
+          "emoji": "check",
+          "text": "Améliorations internes pour une meilleure stabilité"
         }
       ]
     },
@@ -1309,26 +993,22 @@
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Nouveau mode de suivi hebdomadaire pour les habitudes (ex: 3 fois par semaine)"
-        },
-        {
-          "emoji": "moon",
-          "text": "L'habitude \"Se coucher à heure fixe\" utilise maintenant le suivi hebdomadaire"
+          "text": "Nouveau mode de suivi hebdomadaire (ex : 3 fois par semaine)"
         },
         {
           "emoji": "chart",
-          "text": "Visualise ta progression X/Y cette semaine directement sur chaque habitude"
+          "text": "Visualise ta progression de la semaine directement sur chaque habitude"
         }
       ]
     },
     {
       "version": "1.4.0",
       "date": "2026-01-10",
-      "title": "Édition des intentions",
+      "title": "Intentions et routines",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Définis quand tu pratiques ton habitude (ex: Après mon café)"
+          "text": "Définis quand tu pratiques ton habitude (ex : Après mon café)"
         },
         {
           "emoji": "target",
@@ -1347,11 +1027,11 @@
     {
       "version": "1.3.0",
       "date": "2026-01-10",
-      "title": "Templates d'habitudes",
+      "title": "Habitudes suggérées",
       "highlights": [
         {
           "emoji": "tools",
-          "text": "Détails scientifiques affichés pour chaque habitude suggérée"
+          "text": "Détails scientifiques pour chaque habitude suggérée"
         },
         {
           "emoji": "target",
@@ -1359,7 +1039,7 @@
         },
         {
           "emoji": "chart",
-          "text": "Niveaux de preuve scientifique visibles (Très élevé, Élevé, Modéré)"
+          "text": "Niveau de preuve scientifique visible pour chaque suggestion"
         }
       ]
     },
@@ -1370,7 +1050,7 @@
       "highlights": [
         {
           "emoji": "moon",
-          "text": "Nouveau thème sombre avec des tons chauds, fidèle à l'esthétique Doucement"
+          "text": "Nouveau thème sombre avec des tons chauds"
         },
         {
           "emoji": "sparkles",
@@ -1378,7 +1058,7 @@
         },
         {
           "emoji": "check",
-          "text": "Ton choix de thème est mémorisé et appliqué à chaque ouverture"
+          "text": "Ton choix de thème est mémorisé à chaque ouverture"
         }
       ]
     },
@@ -1389,22 +1069,22 @@
       "highlights": [
         {
           "emoji": "tools",
-          "text": "Le bouton \"Voir les nouveautés\" affiche maintenant correctement les nouveautés"
+          "text": "Le bouton « Voir les nouveautés » fonctionne correctement"
         },
         {
           "emoji": "target",
-          "text": "Catégorie Substances disponible : cigarettes, alcool et caféine dans les suggestions"
+          "text": "Nouvelles habitudes disponibles : cigarettes, alcool et caféine"
         }
       ]
     },
     {
       "version": "1.1.0",
       "date": "2026-01-10",
-      "title": "Système de mises à jour",
+      "title": "Nouveautés après mise à jour",
       "highlights": [
         {
           "emoji": "sparkles",
-          "text": "Notification des nouveautés après chaque mise à jour"
+          "text": "Découvre les nouveautés après chaque mise à jour"
         },
         {
           "emoji": "bell",
@@ -1412,11 +1092,7 @@
         },
         {
           "emoji": "tools",
-          "text": "Bouton \"Voir les nouveautés\" dans les paramètres"
-        },
-        {
-          "emoji": "rocket",
-          "text": "Commande /release pour créer de nouvelles versions"
+          "text": "Bouton « Voir les nouveautés » dans les paramètres"
         }
       ]
     },

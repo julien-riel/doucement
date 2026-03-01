@@ -361,7 +361,8 @@
           "id": "3.1",
           "name": "Réécrire les release notes en langage utilisateur",
           "description": "Parcourir release-notes.json et réécrire les highlights en langage compréhensible par un utilisateur non-technique. Ex: 'Index des entrées par date pour des performances optimales' → 'L'application est plus rapide'. Séparer visuellement les notes techniques (pour le repo) des notes utilisateur (pour l'app).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": ["public/release-notes.json"],
@@ -376,7 +377,8 @@
           "id": "3.2",
           "name": "Adapter culturellement la traduction anglaise",
           "description": "Retravailler 15-20 messages clés dans en.json pour une adaptation culturelle plutôt qu'une traduction littérale. Priorités : (1) 'Nice. See you tomorrow.' → 'Done. See you tomorrow.' (2) 'So what? Let's keep going.' → 'That's okay. Let's keep going.' (3) Reformuler les messages avec 'dose' pour réduire la connotation pharmaceutique. (4) Adapter le 'on' collectif français vers un 'we/let's' naturel en anglais.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": ["1.7"],
           "files": ["src/i18n/locales/en.json"],
@@ -631,9 +633,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 17,
+    "completed": 19,
     "inProgress": 0,
-    "pending": 14,
+    "pending": 12,
     "blocked": 0
   }
 }

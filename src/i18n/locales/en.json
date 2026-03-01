@@ -272,7 +272,7 @@
   "recalibration": {
     "title": "Recalibrate {{habitName}}?",
     "subtitle": "Ease back in gently",
-    "description": "Your dose has evolved while you were away. To ease back in, we can adjust your starting point.",
+    "description": "Your target has moved while you were away. To ease back in, we can adjust your starting point.",
     "levels": {
       "gentle": {
         "label": "Gentle restart",
@@ -289,7 +289,7 @@
     },
     "dismiss": "Not now",
     "confirm": "Recalibrate",
-    "confirmMessage": "Your new starting dose for {{habitName}} will change from {{oldValue}} to {{newValue}} {{unit}}."
+    "confirmMessage": "Your starting value for {{habitName}} will change from {{oldValue}} to {{newValue}} {{unit}}."
   },
   "checkIn": {
     "partial": "Partial",
@@ -330,11 +330,11 @@
       },
       "dose": {
         "title": "Today's dose",
-        "description": "Forget intimidating targets. Focus only on your daily dose.\n\nThe dose automatically evolves based on your progress: +1%, +2%... compound effect does the work."
+        "description": "Forget big scary goals. Just focus on today.\n\nYour daily target adjusts automatically as you progress: +1%, +2%... compound effect does the rest."
       },
       "effort": {
         "title": "Every effort counts",
-        "description": "Doing a little is already a lot. Here, 70% is a win."
+        "description": "Doing a little is still doing something. 70% counts as a win."
       }
     },
     "navigation": {
@@ -557,9 +557,9 @@
   "welcomeBack": {
     "messages": [
       "Good to see you again.",
-      "Back? Let's ease into it.",
+      "You're back. Let's ease into it.",
       "You're here. No pressure, let's continue.",
-      "Welcome back. Every day is a new chance.",
+      "Welcome back. Every day is a fresh start.",
       "You came back. That's already a win."
     ]
   },
@@ -567,7 +567,7 @@
     "title": "It's been a while",
     "subtitle": "No entries for this habit yet. Pick it up whenever you're ready.",
     "subtitle_plural": "No entries for {{days}} days. Pick it up whenever you're ready.",
-    "encouragement": "No worries. Let's pick up where you left off.",
+    "encouragement": "No worries. Pick up whenever you're ready.",
     "resumeButton": "Resume"
   },
   "plannedPause": {
@@ -629,19 +629,19 @@
     "messages": {
       "positive": [
         "Great week. You're building something.",
-        "7 more days on your journey.",
+        "Another week in the books.",
         "Consistency pays off. Keep it up.",
-        "Solid week. Compound effect is doing its work."
+        "Solid week. The compound effect is working."
       ],
       "average": [
         "A mixed week, but you're still here.",
-        "A few active days. Better than zero.",
-        "The week wasn't perfect. So what? Let's keep going."
+        "A few active days. That's better than none.",
+        "The week wasn't perfect. That's okay. Let's keep going."
       ],
       "difficult": [
-        "Tough week? It happens.",
-        "Not the best week, but it's just one week.",
-        "What matters isn't falling, it's getting back up.",
+        "Tough week? It happens to everyone.",
+        "Not your best week, but it's just one week.",
+        "What matters isn't falling — it's getting back up.",
         "Fresh start in 3... 2... 1..."
       ]
     }
@@ -689,9 +689,9 @@
       "You're back. No pressure.",
       "You returned. That's already a win."
     ],
-    "explanation": "Your dose has evolved while you were away. To ease back in, we can adjust your starting point.",
-    "currentDose": "Current dose",
-    "lastDone": "Last completed dose",
+    "explanation": "Your target has moved while you were away. To ease back in, we can adjust your starting point.",
+    "currentDose": "Current target",
+    "lastDone": "Last recorded value",
     "levels": {
       "fifty": "Resume at 50%",
       "fiftyDesc": "Easier, gentle restart",
@@ -702,15 +702,15 @@
       "custom": "Choose a custom value",
       "customDesc": "You decide"
     },
-    "newDose": "New dose",
+    "newDose": "New target",
     "confirmButton": "Recalibrate",
     "skipButton": "Keep my current dose",
     "successMessages": [
-      "Got it. Your new dose starts today.",
+      "Got it. Your new target starts today.",
       "Recalibration done. What matters is getting back on track.",
-      "New start, same trajectory."
+      "Fresh start, same direction."
     ],
-    "skipMessage": "Alright. Your dose stays at {{dose}} {{unit}}. You can always adjust later."
+    "skipMessage": "Alright. Your target stays at {{dose}} {{unit}}. You can always adjust later."
   },
   "compoundEffect": {
     "sectionTitle": "Where you started",
@@ -723,28 +723,28 @@
   },
   "milestones": {
     "double": {
-      "title": "Dose doubled!",
-      "message": "You've doubled your starting dose. Impressive.",
+      "title": "Doubled!",
+      "message": "You've doubled since you started. Impressive.",
       "emoji": "×2"
     },
     "triple": {
-      "title": "Dose tripled!",
-      "message": "Three times your starting dose. Incredible progress.",
+      "title": "Tripled!",
+      "message": "Three times what you started with. Incredible progress.",
       "emoji": "×3"
     },
     "half": {
       "title": "Cut in half!",
-      "message": "You've reduced by half. Great effort.",
+      "message": "You've cut it in half. Solid progress.",
       "emoji": "÷2"
     },
     "quarter": {
-      "title": "Cut by four!",
-      "message": "A quarter of your starting dose. Remarkable.",
+      "title": "Down to a quarter!",
+      "message": "A quarter of where you started. Remarkable.",
       "emoji": "÷4"
     },
     "fiftyPercent": {
       "title": "+50% reached!",
-      "message": "You've progressed by half since you started.",
+      "message": "You've grown by half since you started.",
       "emoji": "+50%"
     },
     "hundredPercent": {
@@ -759,7 +759,7 @@
     },
     "weeks": "It's been {{count}} weeks since you started. Look how far you've come.",
     "days": "{{count}} days on this habit. You're not the same person anymore.",
-    "months": "{{count}} months. Compound effect is doing its work.",
+    "months": "{{count}} months. The compound effect is working.",
     "monthsFirst": "One month. Then two. Then three. That's compound effect."
   },
   "celebrations": {
@@ -800,10 +800,10 @@
   },
   "checkInMessages": {
     "completed": [
-      "Nice. See you tomorrow.",
-      "Done. Great work.",
-      "Daily dose: accomplished.",
-      "Perfect. Another day on the right track.",
+      "Done. See you tomorrow.",
+      "Great work. Logged.",
+      "All done for today.",
+      "Another day on the right track.",
       "✓ Logged. You're making progress."
     ],
     "partial": [
@@ -813,9 +813,9 @@
       "What matters is you did something."
     ],
     "exceeded": [
-      "Beyond the dose. Impressive, but not required.",
-      "You did more. The momentum is there.",
-      "Extra! But remember: consistency beats intensity."
+      "You went above and beyond. Not required, but impressive.",
+      "You did more than planned. The momentum is there.",
+      "Extra effort! Remember: consistency beats intensity."
     ],
     "noActivity": [
       "No entry today. That's okay.",
@@ -824,8 +824,8 @@
     ]
   },
   "habitCreated": [
-    "Habit created. Your daily dose starts tomorrow.",
-    "Here we go. You'll see your first dose tomorrow morning."
+    "Habit created. Your first target starts tomorrow.",
+    "All set. Your first target will be ready tomorrow."
   ],
   "habitModified": [
     "Changes saved.",
