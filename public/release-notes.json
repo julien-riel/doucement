@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.38.2",
+  "currentVersion": "1.39.0",
   "releases": [
+    {
+      "version": "1.39.0",
+      "date": "2026-03-01",
+      "title": "Robustesse",
+      "highlights": [
+        {
+          "emoji": "lock",
+          "text": "Protection contre la perte de données non sauvegardées"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Backup automatique avant import"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Recalibration douce après absence prolongée"
+        },
+        {
+          "emoji": "check",
+          "text": "Couverture de tests et validation renforcées"
+        }
+      ]
+    },
     {
       "version": "1.38.2",
       "date": "2026-03-01",
