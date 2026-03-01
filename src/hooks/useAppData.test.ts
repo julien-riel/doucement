@@ -1400,3 +1400,136 @@ describe('useAppData - Counter Operations (test.1)', () => {
     })
   })
 })
+
+// ============================================================================
+// ENTRY INDEX TESTS (O(1) LOOKUPS)
+// ============================================================================
+
+describe('useAppData - Entry Indexes', () => {
+  const habit1 = createReplaceHabit({ id: 'h1', name: 'Habit 1' })
+  const habit2 = createReplaceHabit({ id: 'h2', name: 'Habit 2' })
+
+  const entries: DailyEntry[] = [
+    {
+      id: 'e1',
+      habitId: 'h1',
+      date: '2026-01-10',
+      targetDose: 10,
+      actualValue: 8,
+      createdAt: '2026-01-10T08:00:00Z',
+      updatedAt: '2026-01-10T08:00:00Z',
+    },
+    {
+      id: 'e2',
+      habitId: 'h2',
+      date: '2026-01-10',
+      targetDose: 5,
+      actualValue: 5,
+      createdAt: '2026-01-10T09:00:00Z',
+      updatedAt: '2026-01-10T09:00:00Z',
+    },
+    {
+      id: 'e3',
+      habitId: 'h1',
+      date: '2026-01-11',
+      targetDose: 10,
+      actualValue: 10,
+      createdAt: '2026-01-11T08:00:00Z',
+      updatedAt: '2026-01-11T08:00:00Z',
+    },
+  ]
+
+  describe('getEntriesForDate', () => {
+    it('retourne les entrées pour une date donnée via index', async () => {
+      mockLoadData.mockReturnValue(createInitialData([habit1, habit2], entries))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      const jan10Entries = result.current.getEntriesForDate('2026-01-10')
+      expect(jan10Entries).toHaveLength(2)
+      expect(jan10Entries.map((e) => e.id).sort()).toEqual(['e1', 'e2'])
+
+      const jan11Entries = result.current.getEntriesForDate('2026-01-11')
+      expect(jan11Entries).toHaveLength(1)
+      expect(jan11Entries[0].id).toBe('e3')
+    })
+
+    it('retourne un tableau vide pour une date sans entrées', async () => {
+      mockLoadData.mockReturnValue(createInitialData([habit1], entries))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      expect(result.current.getEntriesForDate('2026-01-15')).toEqual([])
+    })
+  })
+
+  describe('getEntriesForHabit', () => {
+    it('retourne les entrées pour une habitude donnée via index', async () => {
+      mockLoadData.mockReturnValue(createInitialData([habit1, habit2], entries))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      const h1Entries = result.current.getEntriesForHabit('h1')
+      expect(h1Entries).toHaveLength(2)
+      expect(h1Entries.map((e) => e.id).sort()).toEqual(['e1', 'e3'])
+
+      const h2Entries = result.current.getEntriesForHabit('h2')
+      expect(h2Entries).toHaveLength(1)
+      expect(h2Entries[0].id).toBe('e2')
+    })
+
+    it('retourne un tableau vide pour une habitude sans entrées', async () => {
+      mockLoadData.mockReturnValue(createInitialData([habit1], entries))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      expect(result.current.getEntriesForHabit('nonexistent')).toEqual([])
+    })
+  })
+
+  describe('index updates after mutations', () => {
+    it("met à jour les index après ajout d'une entrée", async () => {
+      mockLoadData.mockReturnValue(createInitialData([habit1]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // Initialement vide
+      expect(result.current.getEntriesForDate(TEST_TODAY)).toHaveLength(0)
+      expect(result.current.getEntriesForHabit('h1')).toHaveLength(0)
+
+      // Ajouter une entrée
+      act(() => {
+        result.current.addEntry({
+          habitId: 'h1',
+          date: TEST_TODAY,
+          targetDose: 10,
+          actualValue: 7,
+        })
+      })
+
+      // Les index doivent être à jour
+      expect(result.current.getEntriesForDate(TEST_TODAY)).toHaveLength(1)
+      expect(result.current.getEntriesForHabit('h1')).toHaveLength(1)
+    })
+  })
+})

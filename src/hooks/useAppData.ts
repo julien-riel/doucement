@@ -545,18 +545,45 @@ export function useAppData(): UseAppDataReturn {
     [data.entries]
   )
 
+  // Index des entrées par date et par habitude pour lookups O(1)
+  const entriesByDate = useMemo(() => {
+    const map = new Map<string, DailyEntry[]>()
+    for (const entry of data.entries) {
+      const existing = map.get(entry.date)
+      if (existing) {
+        existing.push(entry)
+      } else {
+        map.set(entry.date, [entry])
+      }
+    }
+    return map
+  }, [data.entries])
+
+  const entriesByHabit = useMemo(() => {
+    const map = new Map<string, DailyEntry[]>()
+    for (const entry of data.entries) {
+      const existing = map.get(entry.habitId)
+      if (existing) {
+        existing.push(entry)
+      } else {
+        map.set(entry.habitId, [entry])
+      }
+    }
+    return map
+  }, [data.entries])
+
   const getEntriesForDate = useCallback(
     (date: string): DailyEntry[] => {
-      return data.entries.filter((e) => e.date === date)
+      return entriesByDate.get(date) ?? []
     },
-    [data.entries]
+    [entriesByDate]
   )
 
   const getEntriesForHabit = useCallback(
     (habitId: string): DailyEntry[] => {
-      return data.entries.filter((e) => e.habitId === habitId)
+      return entriesByHabit.get(habitId) ?? []
     },
-    [data.entries]
+    [entriesByHabit]
   )
 
   // ============================================================================

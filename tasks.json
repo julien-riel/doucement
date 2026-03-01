@@ -424,7 +424,8 @@
           "id": "4.1",
           "name": "Indexer les entrées par date",
           "description": "Dans useAppData.ts, construire un Map<string, DailyEntry[]> indexé par date au chargement et à chaque mutation d'entrée. Remplacer getEntriesForDate et getEntriesForHabit par des lookups O(1) au lieu de filtres O(n). Avec 10k+ entrées, chaque filter est coûteux.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -442,7 +443,8 @@
           "id": "4.2",
           "name": "Migrer html2canvas vers html-to-image",
           "description": "Remplacer html2canvas (abandonné depuis 2022, vulnérabilités non corrigées) par html-to-image (même API, maintenu activement). Mettre à jour imageExport.ts et exportPdf.ts.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -553,7 +555,8 @@
           "id": "4.8",
           "name": "Suite de tests intégrité des données",
           "description": "Créer src/services/data-integrity.test.ts avec : (1) Test migration roundtrip v1→v11 avec données réalistes. (2) Test import/export roundtrip (export → import → vérifier identité). (3) Test validation de schéma sur données de chaque version. (4) Test résistance aux données corrompues (champs manquants, types incorrects, valeurs extrêmes).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -572,9 +575,9 @@
   ],
   "stats": {
     "totalTasks": 28,
-    "completed": 20,
+    "completed": 23,
     "inProgress": 0,
-    "pending": 8,
+    "pending": 5,
     "blocked": 0
   }
 }

@@ -17,23 +17,14 @@ import {
 // MOCKS
 // ============================================================================
 
-// Mock html2canvas
-vi.mock('html2canvas', () => ({
-  default: vi.fn(),
+// Mock html-to-image
+const mockToBlob = vi.fn()
+const mockToCanvas = vi.fn()
+
+vi.mock('html-to-image', () => ({
+  toBlob: (...args: unknown[]) => mockToBlob(...args),
+  toCanvas: (...args: unknown[]) => mockToCanvas(...args),
 }))
-
-import html2canvas from 'html2canvas'
-
-/**
- * Crée un mock de HTMLCanvasElement avec toBlob
- */
-function createMockCanvas(blobResult: Blob | null = new Blob(['test'], { type: 'image/png' })) {
-  return {
-    toBlob: vi.fn((callback: BlobCallback, _mimeType?: string, _quality?: number) => {
-      callback(blobResult)
-    }),
-  }
-}
 
 /**
  * Crée un élément DOM de test
@@ -115,29 +106,26 @@ describe('generateImageBlob', () => {
 
   it('generates a blob from an element', async () => {
     const mockBlob = new Blob(['test'], { type: 'image/png' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     const result = await generateImageBlob(element)
 
     expect(result).toBe(mockBlob)
-    expect(html2canvas).toHaveBeenCalledWith(
+    expect(mockToBlob).toHaveBeenCalledWith(
       element,
       expect.objectContaining({
-        scale: 2,
+        pixelRatio: 2,
         backgroundColor: '#FDFCFB',
-        useCORS: true,
-        allowTaint: false,
-        logging: false,
+        quality: 0.95,
+        type: 'image/png',
       })
     )
   })
 
   it('uses custom options when provided', async () => {
     const mockBlob = new Blob(['test'], { type: 'image/jpeg' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     const options: ImageExportOptions = {
@@ -149,19 +137,19 @@ describe('generateImageBlob', () => {
 
     await generateImageBlob(element, options)
 
-    expect(html2canvas).toHaveBeenCalledWith(
+    expect(mockToBlob).toHaveBeenCalledWith(
       element,
       expect.objectContaining({
-        scale: 3,
+        pixelRatio: 3,
         backgroundColor: '#FFFFFF',
+        quality: 0.8,
+        type: 'image/jpeg',
       })
     )
-    expect(mockCanvas.toBlob).toHaveBeenCalledWith(expect.any(Function), 'image/jpeg', 0.8)
   })
 
   it('rejects when blob generation fails', async () => {
-    const mockCanvas = createMockCanvas(null)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(null)
 
     const element = createMockElement()
 
@@ -169,13 +157,19 @@ describe('generateImageBlob', () => {
   })
 
   it('uses PNG format by default', async () => {
-    const mockCanvas = createMockCanvas()
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    const mockBlob = new Blob(['test'], { type: 'image/png' })
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     await generateImageBlob(element)
 
-    expect(mockCanvas.toBlob).toHaveBeenCalledWith(expect.any(Function), 'image/png', 0.95)
+    expect(mockToBlob).toHaveBeenCalledWith(
+      element,
+      expect.objectContaining({
+        type: 'image/png',
+        quality: 0.95,
+      })
+    )
   })
 })
 
@@ -197,8 +191,7 @@ describe('generateImageFile', () => {
 
   it('generates a file with correct name and type', async () => {
     const mockBlob = new Blob(['test'], { type: 'image/png' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     const result = await generateImageFile(element)
@@ -210,8 +203,7 @@ describe('generateImageFile', () => {
 
   it('uses custom filename when provided', async () => {
     const mockBlob = new Blob(['test'], { type: 'image/png' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     const result = await generateImageFile(element, { filename: 'custom-name' })
@@ -221,8 +213,7 @@ describe('generateImageFile', () => {
 
   it('uses JPEG extension for JPEG format', async () => {
     const mockBlob = new Blob(['test'], { type: 'image/jpeg' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     const result = await generateImageFile(element, { format: 'jpeg' })
@@ -237,11 +228,15 @@ describe('generateImageFile', () => {
 // ============================================================================
 
 describe('exportElementAsImage', () => {
-  let mockLink: { href: string; download: string; click: ReturnType<typeof vi.fn> }
+  let mockLink: {
+    href: string
+    download: string
+    click: ReturnType<typeof vi.fn>
+    style: Record<string, string>
+  }
   let appendChildSpy: ReturnType<typeof vi.spyOn>
   let removeChildSpy: ReturnType<typeof vi.spyOn>
   let createObjectURLSpy: ReturnType<typeof vi.spyOn>
-  let revokeObjectURLSpy: ReturnType<typeof vi.spyOn>
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -253,6 +248,7 @@ describe('exportElementAsImage', () => {
       href: '',
       download: '',
       click: vi.fn(),
+      style: {},
     }
 
     // Mock document methods
@@ -266,7 +262,7 @@ describe('exportElementAsImage', () => {
 
     // Mock URL methods
     createObjectURLSpy = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:test-url')
-    revokeObjectURLSpy = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {})
+    vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {})
   })
 
   afterEach(() => {
@@ -276,49 +272,35 @@ describe('exportElementAsImage', () => {
 
   it('crée et clique un lien de téléchargement', async () => {
     const mockBlob = new Blob(['test'], { type: 'image/png' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     await exportElementAsImage(element)
 
-    // Wait for async blob callback
-    await vi.waitFor(() => {
-      expect(mockLink.click).toHaveBeenCalled()
-    })
-
+    expect(mockLink.click).toHaveBeenCalled()
     expect(createObjectURLSpy).toHaveBeenCalledWith(mockBlob)
     expect(mockLink.href).toBe('blob:test-url')
     expect(mockLink.download).toBe('doucement-progression-2026-01-11.png')
     expect(appendChildSpy).toHaveBeenCalled()
     expect(removeChildSpy).toHaveBeenCalled()
-    expect(revokeObjectURLSpy).toHaveBeenCalledWith('blob:test-url')
   })
 
   it('uses custom filename in download', async () => {
     const mockBlob = new Blob(['test'], { type: 'image/png' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     await exportElementAsImage(element, { filename: 'my-progress' })
 
-    await vi.waitFor(() => {
-      expect(mockLink.download).toBe('my-progress-2026-01-11.png')
-    })
+    expect(mockLink.download).toBe('my-progress-2026-01-11.png')
   })
 
   it('does not trigger download when blob is null', async () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-    const mockCanvas = createMockCanvas(null)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(null)
 
     const element = createMockElement()
     await exportElementAsImage(element)
-
-    // The function is async and canvas.toBlob is sync in our mock
-    // so we just need to wait for the next tick
-    await vi.runAllTimersAsync()
 
     expect(mockLink.click).not.toHaveBeenCalled()
     expect(consoleErrorSpy).toHaveBeenCalledWith("Échec de la génération de l'image")
@@ -356,11 +338,10 @@ describe('shareImage', () => {
     })
 
     const mockBlob = new Blob(['test'], { type: 'image/png' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     // Mock download functionality
-    const mockLink = { href: '', download: '', click: vi.fn() }
+    const mockLink = { href: '', download: '', click: vi.fn(), style: {} as CSSStyleDeclaration }
     vi.spyOn(document, 'createElement').mockReturnValue(mockLink as unknown as HTMLElement)
     vi.spyOn(document.body, 'appendChild').mockImplementation(
       () => mockLink as unknown as HTMLElement
@@ -375,9 +356,7 @@ describe('shareImage', () => {
     const result = await shareImage(element)
 
     expect(result).toBe(false)
-    await vi.waitFor(() => {
-      expect(mockLink.click).toHaveBeenCalled()
-    })
+    expect(mockLink.click).toHaveBeenCalled()
   })
 
   it('uses Web Share API when available and supported', async () => {
@@ -393,8 +372,7 @@ describe('shareImage', () => {
     })
 
     const mockBlob = new Blob(['test'], { type: 'image/png' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     const result = await shareImage(element, 'Mon texte de partage')
@@ -422,11 +400,10 @@ describe('shareImage', () => {
     })
 
     const mockBlob = new Blob(['test'], { type: 'image/png' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     // Mock download functionality
-    const mockLink = { href: '', download: '', click: vi.fn() }
+    const mockLink = { href: '', download: '', click: vi.fn(), style: {} as CSSStyleDeclaration }
     vi.spyOn(document, 'createElement').mockReturnValue(mockLink as unknown as HTMLElement)
     vi.spyOn(document.body, 'appendChild').mockImplementation(
       () => mockLink as unknown as HTMLElement
@@ -459,8 +436,7 @@ describe('shareImage', () => {
     })
 
     const mockBlob = new Blob(['test'], { type: 'image/png' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     const result = await shareImage(element)
@@ -481,11 +457,10 @@ describe('shareImage', () => {
     })
 
     const mockBlob = new Blob(['test'], { type: 'image/png' })
-    const mockCanvas = createMockCanvas(mockBlob)
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    mockToBlob.mockResolvedValue(mockBlob)
 
     // Mock download functionality
-    const mockLink = { href: '', download: '', click: vi.fn() }
+    const mockLink = { href: '', download: '', click: vi.fn(), style: {} as CSSStyleDeclaration }
     vi.spyOn(document, 'createElement').mockReturnValue(mockLink as unknown as HTMLElement)
     vi.spyOn(document.body, 'appendChild').mockImplementation(
       () => mockLink as unknown as HTMLElement
@@ -500,9 +475,7 @@ describe('shareImage', () => {
     const result = await shareImage(element)
 
     expect(result).toBe(false)
-    await vi.waitFor(() => {
-      expect(mockLink.click).toHaveBeenCalled()
-    })
+    expect(mockLink.click).toHaveBeenCalled()
   })
 })
 
@@ -516,28 +489,28 @@ describe('Default options', () => {
   })
 
   it('uses scale 2 for retina displays by default', async () => {
-    const mockCanvas = createMockCanvas()
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    const mockBlob = new Blob(['test'], { type: 'image/png' })
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     await generateImageBlob(element)
 
-    expect(html2canvas).toHaveBeenCalledWith(
+    expect(mockToBlob).toHaveBeenCalledWith(
       element,
       expect.objectContaining({
-        scale: 2,
+        pixelRatio: 2,
       })
     )
   })
 
   it('uses neutral-50 background color by default', async () => {
-    const mockCanvas = createMockCanvas()
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    const mockBlob = new Blob(['test'], { type: 'image/png' })
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     await generateImageBlob(element)
 
-    expect(html2canvas).toHaveBeenCalledWith(
+    expect(mockToBlob).toHaveBeenCalledWith(
       element,
       expect.objectContaining({
         backgroundColor: '#FDFCFB',
@@ -546,12 +519,17 @@ describe('Default options', () => {
   })
 
   it('uses 0.95 quality by default', async () => {
-    const mockCanvas = createMockCanvas()
-    vi.mocked(html2canvas).mockResolvedValue(mockCanvas as unknown as HTMLCanvasElement)
+    const mockBlob = new Blob(['test'], { type: 'image/png' })
+    mockToBlob.mockResolvedValue(mockBlob)
 
     const element = createMockElement()
     await generateImageBlob(element)
 
-    expect(mockCanvas.toBlob).toHaveBeenCalledWith(expect.any(Function), 'image/png', 0.95)
+    expect(mockToBlob).toHaveBeenCalledWith(
+      element,
+      expect.objectContaining({
+        quality: 0.95,
+      })
+    )
   })
 })

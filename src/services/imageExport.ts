@@ -4,7 +4,7 @@
  * Phase 13 - Export Visuel Partageable
  */
 
-import html2canvas from 'html2canvas'
+import * as htmlToImage from 'html-to-image'
 
 /**
  * Options pour l'export d'image
@@ -34,6 +34,17 @@ const DEFAULT_OPTIONS: Required<ImageExportOptions> = {
 }
 
 /**
+ * Construit les options html-to-image à partir de nos options internes
+ */
+function buildHtmlToImageOptions(opts: Required<ImageExportOptions>): htmlToImage.Options {
+  return {
+    pixelRatio: opts.scale,
+    backgroundColor: opts.backgroundColor,
+    quality: opts.quality,
+  }
+}
+
+/**
  * Génère une image à partir d'un élément DOM et la télécharge
  *
  * @param element Element DOM à capturer
@@ -45,53 +56,23 @@ export async function exportElementAsImage(
   options: ImageExportOptions = {}
 ): Promise<void> {
   const opts = { ...DEFAULT_OPTIONS, ...options }
+  const htmlToImageOpts = buildHtmlToImageOptions(opts)
 
-  // Générer le canvas
-  const canvas = await html2canvas(element, {
-    scale: opts.scale,
-    backgroundColor: opts.backgroundColor,
-    useCORS: true,
-    allowTaint: false,
-    logging: false,
-    // Assurer le rendu correct des fonts
-    onclone: (clonedDoc) => {
-      // Forcer les styles sur le clone pour l'export
-      const clonedElement = clonedDoc.body.querySelector('.shareable-card')
-      if (clonedElement instanceof HTMLElement) {
-        clonedElement.style.transform = 'none'
-        clonedElement.style.animation = 'none'
-      }
-    },
-  })
+  const blob =
+    opts.format === 'jpeg'
+      ? await htmlToImage.toBlob(element, { ...htmlToImageOpts, type: 'image/jpeg' })
+      : await htmlToImage.toBlob(element, { ...htmlToImageOpts, type: 'image/png' })
 
-  // Convertir en blob et télécharger
-  const mimeType = opts.format === 'jpeg' ? 'image/jpeg' : 'image/png'
+  if (!blob) {
+    console.error("Échec de la génération de l'image")
+    return
+  }
+
   const extension = opts.format === 'jpeg' ? 'jpg' : 'png'
   const timestamp = new Date().toISOString().slice(0, 10)
   const filename = `${opts.filename}-${timestamp}.${extension}`
 
-  canvas.toBlob(
-    (blob) => {
-      if (!blob) {
-        console.error("Échec de la génération de l'image")
-        return
-      }
-
-      // Créer un lien de téléchargement
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = filename
-      document.body.appendChild(link)
-      link.click()
-
-      // Nettoyer
-      document.body.removeChild(link)
-      URL.revokeObjectURL(url)
-    },
-    mimeType,
-    opts.quality
-  )
+  downloadBlob(blob, filename)
 }
 
 /**
@@ -107,30 +88,16 @@ export async function generateImageBlob(
   options: ImageExportOptions = {}
 ): Promise<Blob> {
   const opts = { ...DEFAULT_OPTIONS, ...options }
+  const htmlToImageOpts = buildHtmlToImageOptions(opts)
 
-  const canvas = await html2canvas(element, {
-    scale: opts.scale,
-    backgroundColor: opts.backgroundColor,
-    useCORS: true,
-    allowTaint: false,
-    logging: false,
-  })
+  const mimeType = opts.format === 'jpeg' ? 'image/jpeg' : 'image/png'
+  const blob = await htmlToImage.toBlob(element, { ...htmlToImageOpts, type: mimeType })
 
-  return new Promise((resolve, reject) => {
-    const mimeType = opts.format === 'jpeg' ? 'image/jpeg' : 'image/png'
+  if (!blob) {
+    throw new Error("Échec de la génération de l'image")
+  }
 
-    canvas.toBlob(
-      (blob) => {
-        if (!blob) {
-          reject(new Error("Échec de la génération de l'image"))
-          return
-        }
-        resolve(blob)
-      },
-      mimeType,
-      opts.quality
-    )
-  })
+  return blob
 }
 
 /**
@@ -192,18 +159,14 @@ export async function exportToPng(
   const opts = { ...DEFAULT_OPTIONS, ...options }
 
   try {
-    const canvas = await html2canvas(element, {
-      scale: opts.scale,
+    const htmlToImageOpts: htmlToImage.Options = {
+      pixelRatio: opts.scale,
       backgroundColor: opts.backgroundColor,
-      logging: false,
-      useCORS: true,
-      allowTaint: true,
-      ignoreElements: (el) => el.hasAttribute('data-html2canvas-ignore'),
-    })
+      quality: 1.0,
+      filter: (el: HTMLElement) => !el.hasAttribute?.('data-html2canvas-ignore'),
+    }
 
-    const blob = await new Promise<Blob | null>((resolve) => {
-      canvas.toBlob(resolve, 'image/png', 1.0)
-    })
+    const blob = await htmlToImage.toBlob(element, { ...htmlToImageOpts, type: 'image/png' })
 
     if (!blob) {
       return {
@@ -246,16 +209,13 @@ export async function captureToCanvas(
   const opts = { ...DEFAULT_OPTIONS, ...options }
 
   try {
-    const canvas = await html2canvas(element, {
-      scale: opts.scale,
+    const htmlToImageOpts: htmlToImage.Options = {
+      pixelRatio: opts.scale,
       backgroundColor: opts.backgroundColor,
-      logging: false,
-      useCORS: true,
-      allowTaint: true,
-      ignoreElements: (el) => el.hasAttribute('data-html2canvas-ignore'),
-    })
+      filter: (el: HTMLElement) => !el.hasAttribute?.('data-html2canvas-ignore'),
+    }
 
-    return canvas
+    return await htmlToImage.toCanvas(element, htmlToImageOpts)
   } catch {
     return null
   }

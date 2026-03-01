@@ -12,8 +12,8 @@ export default defineConfig({
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           // Charting library (heavy)
           'vendor-charts': ['recharts'],
-          // Export functionality (html2canvas + jspdf are heavy)
-          'vendor-export': ['html2canvas', 'jspdf'],
+          // Export functionality (html-to-image + jspdf are heavy)
+          'vendor-export': ['html-to-image', 'jspdf'],
           // Internationalization
           'vendor-i18n': ['i18next', 'react-i18next'],
           // Emoji picker
