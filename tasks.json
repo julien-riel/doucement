@@ -393,7 +393,8 @@
           "id": "3.3",
           "name": "Corriger le dark mode de l'EmojiPicker",
           "description": "Remplacer les valeurs #ffffff hardcodées dans EmojiPicker.css (lignes 112-135) par les tokens CSS du design system. Vérifier que le composant emoji-picker-react supporte le thème dark via ses props et les passer depuis EmojiPicker.tsx.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -411,7 +412,8 @@
           "id": "3.4",
           "name": "Activer l'animation counterPulse dans CounterButtons",
           "description": "L'animation counterPulse est définie dans CounterButtons.css mais jamais appliquée dans le composant. Ajouter la classe .counter-buttons__value--pulse dynamiquement lors d'un clic +1/-1, avec suppression après l'animation (300ms).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -514,7 +516,8 @@
           "id": "4.1",
           "name": "Ajouter le rappel d'export mensuel",
           "description": "Implémenter un rappel mensuel doux pour inciter l'utilisateur à exporter ses données. Ajouter lastExportReminder dans UserPreferences. Afficher une notification non-intrusive (banner dans Today) si > 30 jours depuis le dernier export ou rappel. Ton bienveillant : 'Ça fait un moment — envie de sauvegarder tes données ?'. Bouton 'Exporter' et 'Plus tard'. Dismiss met à jour lastExportReminder.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -633,9 +636,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 19,
+    "completed": 22,
     "inProgress": 0,
-    "pending": 12,
+    "pending": 9,
     "blocked": 0
   }
 }

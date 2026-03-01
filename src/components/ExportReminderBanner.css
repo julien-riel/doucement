@@ -1,0 +1,26 @@
+/**
+ * ExportReminderBanner Component Styles
+ * Bannière non-intrusive de rappel d'export
+ */
+
+.export-reminder {
+  background: var(--warning-50);
+  border: 1px solid var(--warning-200);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  animation: fadeInUp var(--duration-normal) var(--easing-gentle);
+}
+
+.export-reminder__message {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-800);
+  margin: 0 0 var(--spacing-3);
+  line-height: 1.5;
+}
+
+.export-reminder__actions {
+  display: flex;
+  gap: var(--spacing-2);
+}

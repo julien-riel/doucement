@@ -1300,5 +1300,10 @@
   "whatsNew": {
     "title": "Quoi de neuf ?",
     "letsGo": "C'est parti !"
+  },
+  "exportReminder": {
+    "message": "Ça fait un moment — envie de sauvegarder tes données ? Un export régulier protège ta progression.",
+    "export": "Exporter",
+    "later": "Plus tard"
   }
 }

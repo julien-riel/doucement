@@ -1,3 +1,4 @@
+import { useState, useRef, useCallback } from 'react'
 import { HabitDirection, CounterOperation } from '../../types'
 import Button from '../ui/Button'
 import './CounterButtons.css'
@@ -69,6 +70,23 @@ function CounterButtons({
 }: CounterButtonsProps) {
   const lastOperation = operations.length > 0 ? operations[operations.length - 1] : null
   const canUndo = operations.length > 0
+  const [isPulsing, setIsPulsing] = useState(false)
+  const pulseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const triggerPulse = useCallback(() => {
+    if (pulseTimeout.current) {
+      clearTimeout(pulseTimeout.current)
+    }
+    setIsPulsing(false)
+    // Force reflow to restart animation
+    requestAnimationFrame(() => {
+      setIsPulsing(true)
+      pulseTimeout.current = setTimeout(() => {
+        setIsPulsing(false)
+        pulseTimeout.current = null
+      }, 300)
+    })
+  }, [])
 
   // Détermine les classes de couleur selon la direction
   // Pour increase: +1 est positif (vert), -1 est correction (neutre)
@@ -86,21 +104,29 @@ function CounterButtons({
       <div className="counter-buttons__main">
         <button
           className={`counter-buttons__btn ${subtractButtonClass}`}
-          onClick={() => onSubtract(1)}
+          onClick={() => {
+            onSubtract(1)
+            triggerPulse()
+          }}
           disabled={disabled || !canSubtract}
           aria-label={`Retirer 1 ${unit}`}
         >
           -1
         </button>
 
-        <div className="counter-buttons__value">
+        <div
+          className={`counter-buttons__value ${isPulsing ? 'counter-buttons__value--pulse' : ''}`}
+        >
           <span className="counter-buttons__current">{currentValue}</span>
           <span className="counter-buttons__target">/ {targetDose}</span>
         </div>
 
         <button
           className={`counter-buttons__btn ${addButtonClass}`}
-          onClick={() => onAdd(1)}
+          onClick={() => {
+            onAdd(1)
+            triggerPulse()
+          }}
           disabled={disabled}
           aria-label={`Ajouter 1 ${unit}`}
         >

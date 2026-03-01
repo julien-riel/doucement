@@ -109,7 +109,7 @@
 
 /* Override emoji-picker-react styles to match design system */
 .emoji-picker__dropdown .EmojiPickerReact {
-  --epr-bg-color: #ffffff;
+  --epr-bg-color: var(--neutral-0);
   --epr-category-label-bg-color: var(--neutral-50);
   --epr-hover-bg-color: var(--primary-50);
   --epr-focus-bg-color: var(--primary-100);
@@ -119,20 +119,20 @@
   --epr-category-navigation-button-size: 32px;
   font-family: var(--font-body);
   border: none !important;
-  background-color: #ffffff !important;
+  background-color: var(--neutral-0) !important;
 }
 
 /* Ensure all internal elements have solid background */
 .emoji-picker__dropdown .EmojiPickerReact aside.epr-main {
-  background-color: #ffffff;
+  background-color: var(--neutral-0);
 }
 
 .emoji-picker__dropdown .EmojiPickerReact .epr-body {
-  background-color: #ffffff;
+  background-color: var(--neutral-0);
 }
 
 .emoji-picker__dropdown .EmojiPickerReact .epr-header {
-  background-color: #ffffff;
+  background-color: var(--neutral-0);
 }
 
 .emoji-picker__dropdown .EmojiPickerReact .epr-search-container input {

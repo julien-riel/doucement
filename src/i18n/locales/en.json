@@ -1297,5 +1297,10 @@
   "whatsNew": {
     "title": "What's new?",
     "letsGo": "Let's go!"
+  },
+  "exportReminder": {
+    "message": "It's been a while — want to back up your data? A regular export keeps your progress safe.",
+    "export": "Export",
+    "later": "Later"
   }
 }

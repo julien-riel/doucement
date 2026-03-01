@@ -497,6 +497,8 @@ export interface UserPreferences {
   theme?: ThemePreference
   /** État des jalons célébrés */
   milestones?: MilestonesState
+  /** Date ISO du dernier rappel d'export ou du dernier export (YYYY-MM-DD) */
+  lastExportReminder?: string | null
 }
 
 // ============================================================================

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import EmojiPickerLib, { EmojiClickData, Theme, Categories } from 'emoji-picker-react'
+import { useTheme } from '../../hooks/useTheme'
 import './EmojiPicker.css'
 
 export interface EmojiPickerProps {
@@ -26,6 +27,7 @@ export interface EmojiPickerProps {
 export default function EmojiPicker({ value, onChange, label, suggestedEmojis }: EmojiPickerProps) {
   const [isOpen, setIsOpen] = useState(false)
   const pickerRef = useRef<HTMLDivElement>(null)
+  const { isDark } = useTheme()
 
   const handleEmojiClick = (emojiData: EmojiClickData) => {
     onChange(emojiData.emoji)
@@ -110,7 +112,7 @@ export default function EmojiPicker({ value, onChange, label, suggestedEmojis }:
           )}
           <EmojiPickerLib
             onEmojiClick={handleEmojiClick}
-            theme={Theme.LIGHT}
+            theme={isDark ? Theme.DARK : Theme.LIGHT}
             searchPlaceHolder="Rechercher..."
             skinTonesDisabled
             width="100%"

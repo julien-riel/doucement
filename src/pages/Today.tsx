@@ -31,6 +31,7 @@ import {
 import { randomMessage } from '../constants/messages'
 import { CompletionStatus, RecalibrationRecord } from '../types'
 import CelebrationModal from '../components/CelebrationModal'
+import ExportReminderBanner from '../components/ExportReminderBanner'
 import './Today.css'
 
 /**
@@ -71,6 +72,7 @@ function Today() {
   const [welcomeDismissed, setWelcomeDismissed] = useState(false)
   const [newDayToast, setNewDayToast] = useState<string | null>(null)
   const [dismissedRecalibrations, setDismissedRecalibrations] = useState<Set<string>>(new Set())
+  const [exportReminderDismissed, setExportReminderDismissed] = useState(false)
 
   // Callback appelé quand la date change (à minuit)
   const handleDateChange = useCallback(() => {
@@ -166,6 +168,32 @@ function Today() {
     [habitsForToday, data.entries, dismissedRecalibrations]
   )
 
+  // Détermine si on doit afficher le rappel d'export
+  const shouldShowExportReminder = useMemo(() => {
+    if (exportReminderDismissed) return false
+    if (habitsForToday.length === 0) return false
+    const lastReminder = data.preferences.lastExportReminder
+    if (!lastReminder) {
+      // Show if the user has entries older than 30 days
+      const oldestEntry = data.entries.length > 0 ? data.entries[0] : null
+      if (!oldestEntry) return false
+      const daysSinceOldest = Math.floor(
+        (new Date(today).getTime() - new Date(oldestEntry.date).getTime()) / (1000 * 60 * 60 * 24)
+      )
+      return daysSinceOldest >= 30
+    }
+    const daysSinceReminder = Math.floor(
+      (new Date(today).getTime() - new Date(lastReminder).getTime()) / (1000 * 60 * 60 * 24)
+    )
+    return daysSinceReminder >= 30
+  }, [
+    exportReminderDismissed,
+    habitsForToday.length,
+    data.preferences.lastExportReminder,
+    data.entries,
+    today,
+  ])
+
   // Détermine si on doit afficher le message de bienvenue
   const showWelcomeMessage = !welcomeDismissed && absenceInfo.isAbsent && habitsForToday.length > 0
 
@@ -183,6 +211,12 @@ function Today() {
   const handleDismissWelcome = useCallback(() => {
     setWelcomeDismissed(true)
   }, [])
+
+  // Callback pour dismiss le rappel d'export
+  const handleDismissExportReminder = useCallback(() => {
+    setExportReminderDismissed(true)
+    updatePreferences({ lastExportReminder: today })
+  }, [updatePreferences, today])
 
   // Callback pour recalibrer une habitude
   const handleRecalibrate = useCallback(
@@ -312,6 +346,9 @@ function Today() {
       ) : (
         <EncouragingMessage />
       )}
+
+      {/* Rappel d'export mensuel */}
+      {shouldShowExportReminder && <ExportReminderBanner onDismiss={handleDismissExportReminder} />}
 
       {/* Prompts de recalibration pour les habitudes avec absence prolongée */}
       {habitsNeedingRecalibration.map((info) => (

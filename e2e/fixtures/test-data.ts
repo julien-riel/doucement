@@ -90,6 +90,7 @@ export interface TestPreferences {
   theme?: 'light' | 'dark' | 'system';
   debugMode?: boolean;
   simulatedDate?: string | null;
+  lastExportReminder?: string | null;
 }
 
 export interface TestAppData {
