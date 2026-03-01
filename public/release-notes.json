@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.42.0",
+  "currentVersion": "1.43.0",
   "releases": [
+    {
+      "version": "1.43.0",
+      "date": "2026-03-01",
+      "title": "Solidité — Sécurité, tests et qualité",
+      "highlights": [
+        {
+          "emoji": "lock",
+          "text": "Politique de sécurité du contenu (CSP) pour protéger l'application"
+        },
+        {
+          "emoji": "rocket",
+          "text": "Polices Fraunces et Source Sans 3 auto-hébergées"
+        },
+        {
+          "emoji": "lock",
+          "text": "Import sécurisé avec vérification du backup et limite réduite"
+        },
+        {
+          "emoji": "check",
+          "text": "Tests de migration et script de vérification i18n"
+        }
+      ]
+    },
     {
       "version": "1.42.0",
       "date": "2026-03-01",
