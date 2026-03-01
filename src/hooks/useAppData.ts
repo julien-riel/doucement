@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { loadData, saveData, StorageError } from '../services/storage'
+import { cleanupOldTimerStates } from '../services/timerStorage'
 import {
   AppData,
   Habit,
@@ -132,7 +133,7 @@ export function useAppData(): UseAppDataReturn {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<StorageError | null>(null)
 
-  // Chargement initial des données
+  // Chargement initial des données + nettoyage des timer_states périmés
   useEffect(() => {
     const result = loadData()
     if (result.success && result.data) {
@@ -141,21 +142,26 @@ export function useAppData(): UseAppDataReturn {
       setError(result.error)
     }
     setIsLoading(false)
+    cleanupOldTimerStates()
   }, [])
 
   // Suivi des données non sauvegardées pour beforeunload
   const hasUnsavedChanges = useRef(false)
 
-  // Auto-save quand les données changent (sauf au chargement initial)
+  // Auto-save avec debounce de 500ms pour éviter des JSON.stringify coûteux à chaque interaction
   useEffect(() => {
     if (!isLoading) {
-      const result = saveData(data)
-      if (!result.success && result.error) {
-        setError(result.error)
-        hasUnsavedChanges.current = true
-      } else {
-        hasUnsavedChanges.current = false
-      }
+      hasUnsavedChanges.current = true
+      const timer = setTimeout(() => {
+        const result = saveData(data)
+        if (!result.success && result.error) {
+          setError(result.error)
+          hasUnsavedChanges.current = true
+        } else {
+          hasUnsavedChanges.current = false
+        }
+      }, 500)
+      return () => clearTimeout(timer)
     }
   }, [data, isLoading])
 

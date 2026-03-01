@@ -46,8 +46,9 @@ export interface CumulativeOperation {
  * Incrémentée à chaque modification de structure pour permettre les migrations
  * v10: Ajout de timeOfDay et cumulativeOperations sur Habit
  * v11: Ajout des widgets temporels (stopwatch, timer, slider) et champs sliderConfig, notifyOnTarget
+ * v12: trackingMode devient requis (défaut 'detailed' si absent)
  */
-export const CURRENT_SCHEMA_VERSION = 11
+export const CURRENT_SCHEMA_VERSION = 12
 
 // ============================================================================
 // HABIT TYPES
@@ -276,9 +277,9 @@ export interface TimerState {
 }
 
 /**
- * Habitude de l'utilisateur
+ * Champs communs à toutes les habitudes
  */
-export interface Habit {
+export interface HabitBase {
   /** Identifiant unique */
   id: string
   /** Nom de l'habitude */
@@ -301,8 +302,8 @@ export interface Habit {
   createdAt: string
   /** Date d'archivage (YYYY-MM-DD), null si active */
   archivedAt: string | null
-  /** Mode de tracking: simple (binaire) ou detailed (quantitatif) */
-  trackingMode?: TrackingMode
+  /** Mode de tracking (discriminant de l'union) */
+  trackingMode: TrackingMode
   /** Fréquence de suivi: daily (quotidien) ou weekly (hebdomadaire) */
   trackingFrequency?: TrackingFrequency
   /** Mode d'agrégation hebdomadaire (uniquement si trackingFrequency='weekly') */
@@ -323,11 +324,57 @@ export interface Habit {
   timeOfDay?: TimeOfDay
   /** Historique des saisies cumulatives pour cette habitude */
   cumulativeOperations?: CumulativeOperation[]
-  /** Configuration du slider (si trackingMode='slider') */
+  /** Configuration du slider (présent uniquement si trackingMode='slider') */
   sliderConfig?: SliderConfig
-  /** Activer la notification quand la cible est atteinte (chrono/minuterie) */
+  /** Activer la notification quand la cible est atteinte (présent si timer/stopwatch) */
   notifyOnTarget?: boolean
 }
+
+/** Habitude simple : binaire (fait / pas fait) */
+export interface HabitSimple extends HabitBase {
+  trackingMode: 'simple'
+}
+
+/** Habitude détaillée : valeur numérique précise */
+export interface HabitDetailed extends HabitBase {
+  trackingMode: 'detailed'
+}
+
+/** Habitude compteur : boutons +1/-1 */
+export interface HabitCounter extends HabitBase {
+  trackingMode: 'counter'
+}
+
+/** Habitude chronomètre : mesure de durée */
+export interface HabitStopwatch extends HabitBase {
+  trackingMode: 'stopwatch'
+  notifyOnTarget?: boolean
+}
+
+/** Habitude minuterie : compte à rebours avec dépassement */
+export interface HabitTimer extends HabitBase {
+  trackingMode: 'timer'
+  notifyOnTarget?: boolean
+}
+
+/** Habitude slider : curseur visuel avec emoji dynamique */
+export interface HabitSlider extends HabitBase {
+  trackingMode: 'slider'
+  /** Configuration requise pour le slider */
+  sliderConfig: SliderConfig
+}
+
+/**
+ * Habitude de l'utilisateur — union discriminée par trackingMode
+ * Quand trackingMode est 'slider', sliderConfig est garanti présent.
+ */
+export type Habit =
+  | HabitSimple
+  | HabitDetailed
+  | HabitCounter
+  | HabitStopwatch
+  | HabitTimer
+  | HabitSlider
 
 // ============================================================================
 // DAILY ENTRY TYPES
@@ -477,13 +524,15 @@ export interface AppData {
 
 /**
  * Données pour créer une nouvelle habitude
+ * Basé sur HabitBase pour permettre la construction flexible dans les formulaires
  */
-export type CreateHabitInput = Omit<Habit, 'id' | 'createdAt' | 'archivedAt'>
+export type CreateHabitInput = Omit<HabitBase, 'id' | 'createdAt' | 'archivedAt'>
 
 /**
  * Données pour mettre à jour une habitude
+ * Basé sur HabitBase pour permettre la mise à jour partielle de n'importe quel champ
  */
-export type UpdateHabitInput = Partial<Omit<Habit, 'id' | 'createdAt'>>
+export type UpdateHabitInput = Partial<Omit<HabitBase, 'id' | 'createdAt'>>
 
 /**
  * Données pour créer une nouvelle entrée

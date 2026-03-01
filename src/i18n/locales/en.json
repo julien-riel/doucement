@@ -366,7 +366,13 @@
       "import": "Import data",
       "exportSuccess": "Export complete. Your data is in the downloaded file.",
       "exportError": "Error during export",
-      "selectFile": "Select a file"
+      "selectFile": "Select a file",
+      "storageSize": "Storage used: {{size}} KB",
+      "cleanupArchived": "Clean up old data",
+      "cleanupArchivedDesc": "Remove entries from habits archived for more than 6 months.",
+      "cleanupArchivedSuccess": "{{count}} entry removed.",
+      "cleanupArchivedSuccess_plural": "{{count}} entries removed.",
+      "cleanupArchivedNone": "Nothing to clean up. No habits archived for more than 6 months."
     },
     "notifications": {
       "title": "Reminders"

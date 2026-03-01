@@ -369,7 +369,13 @@
       "import": "Importer des données",
       "exportSuccess": "Export terminé. Tes données sont dans le fichier téléchargé.",
       "exportError": "Erreur lors de l'export",
-      "selectFile": "Sélectionner un fichier"
+      "selectFile": "Sélectionner un fichier",
+      "storageSize": "Espace utilisé : {{size}} Ko",
+      "cleanupArchived": "Nettoyer les anciennes données",
+      "cleanupArchivedDesc": "Supprime les entrées des habitudes archivées depuis plus de 6 mois.",
+      "cleanupArchivedSuccess": "{{count}} entrée supprimée.",
+      "cleanupArchivedSuccess_plural": "{{count}} entrées supprimées.",
+      "cleanupArchivedNone": "Rien à nettoyer. Aucune habitude archivée depuis plus de 6 mois."
     },
     "notifications": {
       "title": "Rappels"

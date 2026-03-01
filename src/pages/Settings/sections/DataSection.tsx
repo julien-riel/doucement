@@ -13,6 +13,7 @@ import {
   ImportResult,
   MergeImportResult,
 } from '../../../services/importExport'
+import { getDataSizeKB, cleanupArchivedEntries, saveData } from '../../../services/storage'
 import Card from '../../../components/ui/Card'
 import Button from '../../../components/ui/Button'
 
@@ -36,11 +37,13 @@ export function DataSection() {
   const [importMode, setImportMode] = useState<ImportMode>('replace')
   const [isImporting, setIsImporting] = useState(false)
   const [exportMessage, setExportMessage] = useState<string | null>(null)
+  const [cleanupMessage, setCleanupMessage] = useState<string | null>(null)
 
   // Stats
   const habitsCount = data.habits.filter((h) => h.archivedAt === null).length
   const archivedCount = data.habits.filter((h) => h.archivedAt !== null).length
   const entriesCount = data.entries.length
+  const dataSizeKB = getDataSizeKB()
 
   // Export
   const handleExport = useCallback(() => {
@@ -88,6 +91,18 @@ export function DataSection() {
     setModal({ type: null })
   }, [modal.type, modal.result])
 
+  const handleCleanupArchived = useCallback(() => {
+    const { cleaned, removedCount } = cleanupArchivedEntries(data)
+    if (removedCount === 0) {
+      setCleanupMessage(t('settings.data.cleanupArchivedNone'))
+    } else {
+      saveData(cleaned)
+      setCleanupMessage(t('settings.data.cleanupArchivedSuccess', { count: removedCount }))
+      window.location.reload()
+    }
+    setTimeout(() => setCleanupMessage(null), 5000)
+  }, [data, t])
+
   return (
     <>
       {/* Section: Données */}
@@ -117,6 +132,9 @@ export function DataSection() {
               </span>
             </div>
           </div>
+          <p className="settings__stat-label" style={{ textAlign: 'center', marginTop: '0.5rem' }}>
+            {t('settings.data.storageSize', { size: dataSizeKB })}
+          </p>
         </Card>
 
         <div className="settings__actions">
@@ -150,6 +168,28 @@ export function DataSection() {
           {exportMessage && (
             <p className="settings__message settings__message--success" role="status">
               {exportMessage}
+            </p>
+          )}
+
+          {archivedCount > 0 && (
+            <>
+              <Button
+                variant="ghost"
+                fullWidth
+                onClick={handleCleanupArchived}
+                className="settings__action-button"
+              >
+                🧹 {t('settings.data.cleanupArchived')}
+              </Button>
+              <p className="settings__stat-label" style={{ textAlign: 'center' }}>
+                {t('settings.data.cleanupArchivedDesc')}
+              </p>
+            </>
+          )}
+
+          {cleanupMessage && (
+            <p className="settings__message settings__message--success" role="status">
+              {cleanupMessage}
             </p>
           )}
         </div>

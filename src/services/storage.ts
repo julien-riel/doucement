@@ -205,6 +205,51 @@ export function saveData(data: AppData): StorageResult<void> {
 }
 
 /**
+ * Calcule la taille approximative des données Doucement dans localStorage (en KB)
+ */
+export function getDataSizeKB(): number {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY) ?? ''
+    // 2 bytes per char in UTF-16
+    return Math.round((stored.length * 2) / 1024)
+  } catch {
+    return 0
+  }
+}
+
+/**
+ * Supprime les entrées des habitudes archivées depuis plus de `monthsThreshold` mois
+ * @returns Le nombre d'entrées supprimées, ou -1 en cas d'erreur
+ */
+export function cleanupArchivedEntries(
+  data: AppData,
+  monthsThreshold = 6
+): { cleaned: AppData; removedCount: number } {
+  const now = new Date()
+  const thresholdDate = new Date(now.getFullYear(), now.getMonth() - monthsThreshold, now.getDate())
+  const thresholdStr = `${thresholdDate.getFullYear()}-${String(thresholdDate.getMonth() + 1).padStart(2, '0')}-${String(thresholdDate.getDate()).padStart(2, '0')}`
+
+  // Trouver les habitudes archivées depuis plus de X mois
+  const oldArchivedIds = new Set(
+    data.habits
+      .filter((h) => h.archivedAt !== null && h.archivedAt <= thresholdStr)
+      .map((h) => h.id)
+  )
+
+  if (oldArchivedIds.size === 0) {
+    return { cleaned: data, removedCount: 0 }
+  }
+
+  const filteredEntries = data.entries.filter((e) => !oldArchivedIds.has(e.habitId))
+  const removedCount = data.entries.length - filteredEntries.length
+
+  return {
+    cleaned: { ...data, entries: filteredEntries },
+    removedCount,
+  }
+}
+
+/**
  * Efface toutes les données stockées
  * Utilisation: reset de l'application ou tests
  */

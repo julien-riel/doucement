@@ -117,6 +117,31 @@ export function removeTimerStatesForHabit(habitId: string): void {
 }
 
 /**
+ * Supprime les états de chronomètres datant de plus de 7 jours
+ * Appelé automatiquement au chargement pour éviter l'accumulation
+ */
+export function cleanupOldTimerStates(): number {
+  try {
+    const states = loadTimerStates()
+    const now = new Date()
+    const sevenDaysMs = 7 * 24 * 60 * 60 * 1000
+
+    const fresh = states.filter((s) => {
+      const stateDate = new Date(s.date + 'T00:00:00')
+      return now.getTime() - stateDate.getTime() < sevenDaysMs
+    })
+
+    const removed = states.length - fresh.length
+    if (removed > 0) {
+      localStorage.setItem(TIMER_STATES_KEY, JSON.stringify(fresh))
+    }
+    return removed
+  } catch {
+    return 0
+  }
+}
+
+/**
  * Efface tous les états de chronomètres
  * Utilisation: reset de l'application ou tests
  */

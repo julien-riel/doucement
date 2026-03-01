@@ -417,7 +417,7 @@
       "id": "phase-4-perf",
       "name": "Performance et évolution",
       "description": "Optimisations long terme, dépendances, fonctionnalités manquantes",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
@@ -504,7 +504,8 @@
           "id": "4.5",
           "name": "Type discriminant pour Habit",
           "description": "Remplacer les 16 champs optionnels de Habit par un type union discriminé par trackingMode. Ex: HabitSimple | HabitSlider (avec sliderConfig requis) | HabitCounter etc. Migration nécessaire pour la rétrocompatibilité.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "low",
           "dependsOn": [],
           "files": [
@@ -522,7 +523,8 @@
           "id": "4.6",
           "name": "Stratégie de nettoyage des données anciennes",
           "description": "3 actions : (1) Nettoyage automatique des timer_states de plus de 7 jours. (2) Afficher la taille approximative des données dans Settings. (3) Proposer un nettoyage des entrées d'habitudes archivées depuis plus de 6 mois.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "low",
           "dependsOn": [],
           "files": [
@@ -540,7 +542,8 @@
           "id": "4.7",
           "name": "Debounce sur auto-save",
           "description": "Ajouter un debounce de 500ms sur le useEffect d'auto-save dans useAppData.ts. Chaque interaction déclenche actuellement JSON.stringify(data) complet. Avec 50k entrées, c'est perceptible.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "low",
           "dependsOn": [],
           "files": [
@@ -577,9 +580,9 @@
   ],
   "stats": {
     "totalTasks": 28,
-    "completed": 25,
+    "completed": 28,
     "inProgress": 0,
-    "pending": 3,
+    "pending": 0,
     "blocked": 0
   }
 }

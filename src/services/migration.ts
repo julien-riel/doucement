@@ -219,6 +219,27 @@ export const MIGRATIONS: Migration[] = [
       }
     },
   },
+  {
+    fromVersion: 11,
+    toVersion: 12,
+    description: 'trackingMode devient requis sur Habit (défaut: detailed)',
+    migrate: (data) => {
+      interface HabitLike {
+        trackingMode?: string
+      }
+      const habits = (data.habits as HabitLike[] | undefined) ?? []
+      const migratedHabits = habits.map((habit) => ({
+        ...habit,
+        trackingMode: habit.trackingMode || 'detailed',
+      }))
+
+      return {
+        ...data,
+        schemaVersion: 12,
+        habits: migratedHabits,
+      }
+    },
+  },
 ]
 
 // ============================================================================

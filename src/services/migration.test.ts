@@ -235,7 +235,7 @@ describe('migrations spécifiques', () => {
       const result = runMigrations(data)
 
       expect(result.success).toBe(true)
-      expect(result.data?.habits[0].trackingMode).toBeUndefined()
+      expect(result.data?.habits[0].trackingMode).toBe('detailed')
       expect(result.data?.habits[0].implementationIntention).toBeUndefined()
       expect(result.data?.habits[0].anchorHabitId).toBeUndefined()
     })
