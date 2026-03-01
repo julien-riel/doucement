@@ -2,7 +2,7 @@
   "project": "Retours utilisateurs v2",
   "description": "Nouveau départ d'habitude, correction timer minutes, messages de progression enrichis",
   "createdAt": "2026-03-01",
-  "lastRelease": "1.37.0",
+  "lastRelease": "1.38.0",
   "docs": [
     "docs/prd-user-feedback-v2.md",
     "docs/design/design-system-specification.md"
@@ -262,6 +262,8 @@
       "description": "Afficher l'historique des recalibrations/restarts dans la page détail",
       "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.38.0",
+      "releasedAt": "2026-03-01",
       "tasks": [
         {
           "id": "4.1",

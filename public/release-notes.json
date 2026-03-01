@@ -1,6 +1,21 @@
 {
-  "currentVersion": "1.37.0",
+  "currentVersion": "1.38.0",
   "releases": [
+    {
+      "version": "1.38.0",
+      "date": "2026-03-01",
+      "title": "Timeline des nouveaux départs",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Timeline chronologique des recalibrations et nouveaux départs"
+        },
+        {
+          "emoji": "tools",
+          "text": "Intégration dans la page détail de l'habitude"
+        }
+      ]
+    },
     {
       "version": "1.37.0",
       "date": "2026-03-01",
