@@ -63,7 +63,7 @@ function FirstCheckInPrompt({ habit, onResponse }: FirstCheckInPromptProps) {
         </div>
 
         <div className="first-checkin-prompt__content">
-          <p className="first-checkin-prompt__subtitle">Combien avez-vous fait aujourd'hui ?</p>
+          <p className="first-checkin-prompt__subtitle">Combien as-tu fait aujourd'hui ?</p>
 
           <div className="first-checkin-prompt__input-group">
             <Input

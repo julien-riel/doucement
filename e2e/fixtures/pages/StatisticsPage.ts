@@ -220,13 +220,6 @@ export class StatisticsPage {
     await expect(this.page.locator('.stat-card__label').filter({ hasText: 'Habitudes' })).toBeVisible()
   }
 
-  /**
-   * Expect streak stat to be visible
-   */
-  async expectStreakStat(): Promise<void> {
-    await expect(this.getStatCard('Série')).toBeVisible()
-  }
-
   // ============================================================================
   // CHARTS
   // ============================================================================

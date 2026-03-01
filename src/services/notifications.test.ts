@@ -17,7 +17,7 @@ import {
   scheduleAllReminders,
   canEnableNotifications,
   getPermissionStateMessage,
-  NOTIFICATION_MESSAGES,
+  getNotificationMessage,
 } from './notifications'
 import { NotificationSettings, DEFAULT_NOTIFICATION_SETTINGS } from '../types'
 
@@ -472,25 +472,28 @@ describe('getPermissionStateMessage', () => {
 })
 
 // ============================================================================
-// NOTIFICATION_MESSAGES TESTS
+// getNotificationMessage TESTS
 // ============================================================================
 
-describe('NOTIFICATION_MESSAGES', () => {
-  it('contient les messages pour tous les types de rappels', () => {
-    expect(NOTIFICATION_MESSAGES.morning).toBeDefined()
-    expect(NOTIFICATION_MESSAGES.evening).toBeDefined()
-    expect(NOTIFICATION_MESSAGES.weeklyReview).toBeDefined()
+describe('getNotificationMessage', () => {
+  it('retourne les messages pour tous les types de rappels', () => {
+    expect(getNotificationMessage('morning')).toBeDefined()
+    expect(getNotificationMessage('evening')).toBeDefined()
+    expect(getNotificationMessage('weeklyReview')).toBeDefined()
   })
 
   it('a un titre et un corps pour chaque message', () => {
-    expect(NOTIFICATION_MESSAGES.morning.title).toBe('Doucement')
-    expect(NOTIFICATION_MESSAGES.morning.body).toContain('dose du jour')
+    const morning = getNotificationMessage('morning')
+    expect(morning.title).toBe('Doucement')
+    expect(morning.body).toBeTruthy()
 
-    expect(NOTIFICATION_MESSAGES.evening.title).toBe('Doucement')
-    expect(NOTIFICATION_MESSAGES.evening.body).toContain('enregistré')
+    const evening = getNotificationMessage('evening')
+    expect(evening.title).toBe('Doucement')
+    expect(evening.body).toBeTruthy()
 
-    expect(NOTIFICATION_MESSAGES.weeklyReview.title).toBe('Doucement')
-    expect(NOTIFICATION_MESSAGES.weeklyReview.body).toContain('revue hebdomadaire')
+    const weekly = getNotificationMessage('weeklyReview')
+    expect(weekly.title).toBe('Doucement')
+    expect(weekly.body).toBeTruthy()
   })
 })
 

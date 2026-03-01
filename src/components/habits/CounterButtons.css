@@ -52,14 +52,14 @@
 
 /* Bouton positif (vert) - pour +1 increase ou -1 decrease */
 .counter-buttons__btn--positive {
-  background-color: var(--success-100);
-  color: var(--success-700);
-  border-color: var(--success-300);
+  background-color: var(--secondary-100);
+  color: var(--secondary-700);
+  border-color: var(--secondary-300);
 }
 
 .counter-buttons__btn--positive:hover:not(:disabled) {
-  background-color: var(--success-200);
-  border-color: var(--success-400);
+  background-color: var(--secondary-200);
+  border-color: var(--secondary-400);
 }
 
 /* Bouton attention (orange) - pour +1 decrease */

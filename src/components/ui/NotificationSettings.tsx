@@ -44,7 +44,7 @@ interface NotificationSettingsProps {
 const REMINDER_LABELS: Record<ReminderType, { title: string; description: string }> = {
   morning: {
     title: 'Rappel matinal',
-    description: 'Votre dose du jour vous attend',
+    description: "Ta dose du jour t'attend",
   },
   evening: {
     title: 'Rappel du soir',
@@ -63,7 +63,7 @@ const PERMISSION_MESSAGES: Record<NotificationPermissionState, string> = {
   granted: 'Notifications autorisées',
   denied: 'Notifications bloquées par le navigateur',
   default: 'Autorisez les notifications pour recevoir des rappels',
-  unsupported: 'Votre navigateur ne supporte pas les notifications',
+  unsupported: 'Ton navigateur ne supporte pas les notifications',
 }
 
 /**
@@ -290,8 +290,8 @@ function NotificationSettings({
 
         {permissionState === 'denied' && (
           <p className="notification-settings__help">
-            Pour recevoir des rappels, autorisez les notifications dans les paramètres de votre
-            navigateur, puis rechargez la page.
+            Pour recevoir des rappels, autorise les notifications dans les paramètres de ton
+            navigateur, puis recharge la page.
           </p>
         )}
       </Card>
@@ -339,7 +339,7 @@ function NotificationSettings({
       {/* Message d'aide si non supporté */}
       {!isSupported && (
         <p className="notification-settings__unsupported">
-          Installez l'application sur votre appareil pour recevoir des rappels.
+          Installe l'application sur ton appareil pour recevoir des rappels.
         </p>
       )}
     </div>

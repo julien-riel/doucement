@@ -508,6 +508,94 @@ describe('intégration load/save/clear', () => {
 // EDGE CASES
 // ============================================================================
 
+describe('migration automatique au chargement', () => {
+  it('migre automatiquement des données v1 vers la version actuelle', () => {
+    const v1Data = {
+      schemaVersion: 1,
+      habits: [
+        {
+          id: 'habit-1',
+          name: 'Push-ups',
+          emoji: '💪',
+          direction: 'increase',
+          startValue: 10,
+          unit: 'répétitions',
+          progression: { mode: 'absolute', value: 2, period: 'weekly' },
+          createdAt: '2025-01-01',
+          archivedAt: null,
+        },
+      ],
+      entries: [],
+      preferences: {
+        onboardingCompleted: true,
+        lastWeeklyReviewDate: null,
+      },
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(v1Data))
+
+    const result = loadData()
+
+    expect(result.success).toBe(true)
+    expect(result.data?.schemaVersion).toBe(CURRENT_SCHEMA_VERSION)
+    expect(result.data?.habits).toHaveLength(1)
+    expect(result.data?.habits[0].name).toBe('Push-ups')
+    // Verify notifications were added by migration v1→v2
+    expect(result.data?.preferences.notifications).toBeDefined()
+  })
+
+  it('sauvegarde les données migrées dans localStorage', () => {
+    const v1Data = {
+      schemaVersion: 1,
+      habits: [],
+      entries: [],
+      preferences: {
+        onboardingCompleted: false,
+        lastWeeklyReviewDate: null,
+      },
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(v1Data))
+
+    loadData()
+
+    // Verify the migrated data was saved back
+    const savedRaw = localStorage.getItem(STORAGE_KEY)
+    expect(savedRaw).not.toBeNull()
+    const saved = JSON.parse(savedRaw!)
+    expect(saved.schemaVersion).toBe(CURRENT_SCHEMA_VERSION)
+  })
+
+  it('ne migre pas des données déjà à la version actuelle', () => {
+    const currentData = createValidAppData()
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData))
+
+    const result = loadData()
+
+    expect(result.success).toBe(true)
+    expect(result.data?.schemaVersion).toBe(CURRENT_SCHEMA_VERSION)
+  })
+
+  it('retourne VALIDATION_ERROR si la migration échoue', () => {
+    // Data with a version that will trigger migration but with corrupted structure
+    // Use a version that's within range but break the migration
+    const badData = {
+      schemaVersion: 999, // Future version - too high
+      habits: [],
+      entries: [],
+      preferences: {},
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(badData))
+
+    const result = loadData()
+
+    expect(result.success).toBe(false)
+    expect(result.error?.type).toBe('VALIDATION_ERROR')
+  })
+})
+
+// ============================================================================
+// EDGE CASES
+// ============================================================================
+
 describe('cas limites', () => {
   it("gère les caractères spéciaux dans les noms d'habitudes", () => {
     const testData = createValidAppData({

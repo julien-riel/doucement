@@ -105,7 +105,7 @@ export const MILESTONE_MESSAGES = {
  */
 export const EMPTY_STATE = {
   title: 'Tout commence par une habitude',
-  subtitle: 'Créez votre première habitude pour démarrer votre progression.',
+  subtitle: 'Crée ta première habitude pour démarrer ta progression.',
   button: 'Créer une habitude',
 } as const
 
@@ -448,7 +448,7 @@ export const ADJUSTMENT_SUGGESTIONS = {
  * Textes pour la déclaration d'identité
  */
 export const IDENTITY_STATEMENT = {
-  stepTitle: 'Qui voulez-vous devenir ?',
+  stepTitle: 'Qui veux-tu devenir ?',
   stepSubtitle:
     "Le changement durable vient du changement d'identité, pas seulement du comportement.",
   inputLabel: "Je deviens quelqu'un qui...",
@@ -645,7 +645,7 @@ export const WEEKLY_AGGREGATION = {
  */
 export const FIRST_CHECKIN = {
   title: 'Première victoire ?',
-  subtitle: "Avez-vous déjà fait quelque chose aujourd'hui ?",
+  subtitle: "Tu as déjà fait quelque chose aujourd'hui ?",
   yesButton: "Oui, je l'enregistre",
   noButton: 'Non, je commence demain',
   successTitle: 'Première dose enregistrée',
@@ -673,7 +673,7 @@ export const STATS_PERIOD_LABELS = {
  */
 export const STATS_EMPTY_NO_HABITS = {
   title: 'Pas encore de statistiques',
-  message: 'Créez votre première habitude pour commencer à voir vos statistiques.',
+  message: 'Crée ta première habitude pour commencer à voir tes statistiques.',
   button: 'Créer une habitude',
 } as const
 

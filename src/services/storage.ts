@@ -4,6 +4,7 @@
  */
 
 import { AppData, DEFAULT_APP_DATA, CURRENT_SCHEMA_VERSION } from '../types'
+import { needsMigration, runMigrations } from './migration'
 
 export const STORAGE_KEY = 'doucement_data'
 
@@ -112,6 +113,26 @@ export function loadData(): StorageResult<AppData> {
           type: 'VALIDATION_ERROR',
           message: `Version de schéma non supportée: ${parsed.schemaVersion}`,
         },
+      }
+    }
+
+    // Migrate data if needed
+    if (needsMigration(parsed)) {
+      const migrationResult = runMigrations(parsed as Record<string, unknown>)
+      if (!migrationResult.success || !migrationResult.data) {
+        return {
+          success: false,
+          error: {
+            type: 'VALIDATION_ERROR',
+            message: migrationResult.error || 'Erreur lors de la migration des données',
+          },
+        }
+      }
+      // Save migrated data immediately
+      saveData(migrationResult.data)
+      return {
+        success: true,
+        data: migrationResult.data,
       }
     }
 

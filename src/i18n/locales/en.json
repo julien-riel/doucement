@@ -936,8 +936,7 @@
     "cards": {
       "average": "Average",
       "activeDays": "Active days",
-      "habits": "Habits",
-      "streak": "Streak"
+      "habits": "Habits"
     },
     "trends": {
       "up": "up",
@@ -987,12 +986,18 @@
   "notifications": {
     "morning": {
       "title": "Morning reminder",
-      "hint": "A reminder to start your day"
+      "hint": "A reminder to start your day",
+      "body": "Your daily dose is waiting for you \u2600\ufe0f"
     },
     "evening": {
       "title": "Evening reminder",
-      "hint": "A reminder if you haven't logged today"
+      "hint": "A reminder if you haven't logged today",
+      "body": "You haven't logged your day yet"
     },
+    "weeklyReview": {
+      "body": "Time for your weekly review \ud83d\udcca"
+    },
+    "appName": "Doucement",
     "enabled": "Enabled",
     "disabled": "Disabled",
     "permissionRequired": "Allow notifications to receive reminders",

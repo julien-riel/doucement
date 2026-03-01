@@ -182,7 +182,7 @@ function Statistics() {
           </span>
           <h2 className="statistics__empty-title">Pas encore de statistiques</h2>
           <p className="statistics__empty-text">
-            Créez votre première habitude pour commencer à voir vos statistiques.
+            Crée ta première habitude pour commencer à voir tes statistiques.
           </p>
         </div>
       </div>
@@ -262,22 +262,6 @@ function Statistics() {
         />
         <StatCard label="Jours actifs" value={globalStats.totalActiveDays} unit="j" />
         <StatCard label="Habitudes" value={globalStats.totalHabits} />
-        {selectedHabitStats && (
-          <StatCard
-            label="Série"
-            value={selectedHabitStats.currentStreak}
-            unit="j"
-            trend={
-              selectedHabitStats.currentStreak >= selectedHabitStats.bestStreak ? 'up' : 'stable'
-            }
-            trendValue={
-              selectedHabitStats.currentStreak >= selectedHabitStats.bestStreak &&
-              selectedHabitStats.bestStreak > 0
-                ? 'Record !'
-                : undefined
-            }
-          />
-        )}
       </section>
 
       {/* Sélecteur d'habitude */}

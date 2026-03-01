@@ -13,14 +13,15 @@
       "id": "phase-1-critical",
       "name": "Corrections critiques",
       "description": "Bugs et contradictions qui menacent l'intégrité des données et la cohérence de la marque",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "1.1",
           "name": "Intégrer runMigrations dans loadData()",
           "description": "Dans storage.ts, appeler runMigrations quand needsMigration(parsed) est vrai après le chargement depuis localStorage. Sauvegarder immédiatement les données migrées. Ajouter des tests unitaires vérifiant que loadData() migre automatiquement des données en schéma v1 vers v11.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -39,7 +40,8 @@
           "id": "1.2",
           "name": "Corriger la clé localStorage dans AppProvider",
           "description": "Dans AppProvider.tsx, remplacer 'doucement-data' (tiret) par la constante STORAGE_KEY importée de storage.ts ('doucement_data' avec underscore). La synchro multi-onglets via StorageEvent ne fonctionne pas actuellement à cause de cette erreur.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -55,7 +57,8 @@
           "id": "1.3",
           "name": "Corriger les tokens CSS --success-*",
           "description": "Remplacer toutes les occurrences de var(--success-*) par var(--secondary-*) dans les fichiers CSS des composants timer, stopwatch et counter. Le token --success-* n'est pas déclaré dans design-tokens.css, ce qui casse l'affichage des états 'cible atteinte'.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -74,7 +77,8 @@
           "id": "1.4",
           "name": "Retirer la carte Série/Streak des statistiques",
           "description": "Supprimer la StatCard 'Série' de la page Statistics.tsx. Le PRD §21 interdit explicitement les streaks visibles ('Créent de l'anxiété et transforment un jour manqué en catastrophe'). Conserver les calculs dans statistics.ts pour le debug mais ne plus les exposer dans l'UI. Retirer les traductions streak/série inutilisées.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -93,7 +97,8 @@
           "id": "1.5",
           "name": "Harmoniser tu/vous dans fr.json",
           "description": "Passer toutes les occurrences de vouvoiement en tutoiement dans fr.json. Zones connues : wizard de création (lignes 110-122 : 'souhaitez-vous', 'Décrivez', 'voulez-vous', 'Vérifiez'), empty states (ligne 832 : 'Créez votre'), statistiques (ligne 931 : 'Créez votre'). Faire un grep exhaustif de 'vous', 'votre', 'vos' pour trouver d'autres occurrences.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -110,7 +115,8 @@
           "id": "1.6",
           "name": "Passer les notifications dans le système i18n",
           "description": "Les messages de notifications dans src/services/notifications.ts (lignes 57-70) sont codés en dur en français avec vouvoiement. Les migrer vers les clés i18n. Le service n'est pas un composant React donc utiliser i18next.t() directement (import i18n from '../i18n').",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": ["1.5"],
           "files": [
@@ -547,9 +553,9 @@
   ],
   "stats": {
     "totalTasks": 28,
-    "completed": 0,
+    "completed": 6,
     "inProgress": 0,
-    "pending": 28,
+    "pending": 22,
     "blocked": 0
   }
 }

@@ -107,19 +107,19 @@
     "title": "Nouvelle habitude",
     "subtitle": {
       "choose": "Choisis une habitude à fort impact ou crée la tienne",
-      "type": "Quel type d'habitude souhaitez-vous créer ?",
-      "details": "Décrivez votre habitude",
+      "type": "Quel type d'habitude veux-tu créer ?",
+      "details": "Décris ton habitude",
       "intentions": "Quand et où ?",
-      "identity": "Qui voulez-vous devenir ?",
-      "confirm": "Vérifiez et confirmez"
+      "identity": "Qui veux-tu devenir ?",
+      "confirm": "Vérifie et confirme"
     },
     "steps": {
       "choose": "Choisis une habitude à fort impact ou crée la tienne",
-      "type": "Quel type d'habitude souhaitez-vous créer ?",
-      "details": "Décrivez votre habitude",
+      "type": "Quel type d'habitude veux-tu créer ?",
+      "details": "Décris ton habitude",
       "intentions": "Quand et où ?",
-      "identity": "Qui voulez-vous devenir ?",
-      "confirm": "Vérifiez et confirmez"
+      "identity": "Qui veux-tu devenir ?",
+      "confirm": "Vérifie et confirme"
     },
     "buttons": {
       "preview": "Aperçu",
@@ -240,7 +240,7 @@
     "afterLabel": "Après :"
   },
   "identity": {
-    "stepTitle": "Qui voulez-vous devenir ?",
+    "stepTitle": "Qui veux-tu devenir ?",
     "stepSubtitle": "Le changement durable vient du changement d'identité, pas seulement du comportement.",
     "inputLabel": "Je deviens quelqu'un qui...",
     "inputPlaceholder": "prend soin de son corps",
@@ -261,7 +261,7 @@
   },
   "firstCheckIn": {
     "title": "Première victoire ?",
-    "subtitle": "Avez-vous déjà fait quelque chose aujourd'hui ?",
+    "subtitle": "Tu as déjà fait quelque chose aujourd'hui ?",
     "yesButton": "Oui, je l'enregistre",
     "noButton": "Non, je commence demain",
     "successTitle": "Première dose enregistrée",
@@ -829,7 +829,7 @@
   ],
   "emptyState": {
     "title": "Tout commence par une habitude",
-    "subtitle": "Créez votre première habitude pour démarrer votre progression.",
+    "subtitle": "Crée ta première habitude pour démarrer ta progression.",
     "button": "Créer une habitude"
   },
   "habitDetail": {
@@ -928,7 +928,7 @@
     "empty": {
       "noHabits": {
         "title": "Pas encore de statistiques",
-        "message": "Créez votre première habitude pour commencer à voir vos statistiques."
+        "message": "Crée ta première habitude pour commencer à voir tes statistiques."
       },
       "notEnoughData": {
         "title": "Continue encore quelques jours",
@@ -939,8 +939,7 @@
     "cards": {
       "average": "Moyenne",
       "activeDays": "Jours actifs",
-      "habits": "Habitudes",
-      "streak": "Série"
+      "habits": "Habitudes"
     },
     "trends": {
       "up": "en hausse",
@@ -990,12 +989,18 @@
   "notifications": {
     "morning": {
       "title": "Rappel du matin",
-      "hint": "Un rappel pour commencer ta journée"
+      "hint": "Un rappel pour commencer ta journée",
+      "body": "Ta dose du jour t'attend \u2600\ufe0f"
     },
     "evening": {
       "title": "Rappel du soir",
-      "hint": "Un rappel si tu n'as pas encore enregistré aujourd'hui"
+      "hint": "Un rappel si tu n'as pas encore enregistré aujourd'hui",
+      "body": "Tu n'as pas encore enregistré ta journée"
     },
+    "weeklyReview": {
+      "body": "C'est l'heure de ta revue hebdomadaire \ud83d\udcca"
+    },
+    "appName": "Doucement",
     "enabled": "Activé",
     "disabled": "Désactivé",
     "permissionRequired": "Autorise les notifications pour recevoir des rappels",

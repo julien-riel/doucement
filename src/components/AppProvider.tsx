@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { loadData } from '../services/storage'
+import { loadData, STORAGE_KEY } from '../services/storage'
 import { useNotifications } from '../hooks/useNotifications'
 import { AppData, DEFAULT_APP_DATA, DailyEntry, Habit, ThemePreference } from '../types'
 
@@ -62,7 +62,7 @@ function AppProvider({ children }: AppProviderProps) {
   // Garder les données à jour en écoutant les changements localStorage
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === 'doucement-data' && event.newValue) {
+      if (event.key === STORAGE_KEY && event.newValue) {
         try {
           const parsed = JSON.parse(event.newValue)
           setData(parsed)

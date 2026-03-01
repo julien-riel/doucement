@@ -31,7 +31,7 @@ interface UseNotificationsOptions {
  * Hook pour gérer les notifications de l'application.
  *
  * Programme automatiquement les rappels selon les préférences utilisateur :
- * - Rappel matinal : "Votre dose du jour vous attend"
+ * - Rappel matinal : "Ta dose du jour t'attend"
  * - Rappel du soir : Si aucune entrée enregistrée pour aujourd'hui
  * - Rappel revue hebdomadaire : Chaque dimanche
  *

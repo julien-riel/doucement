@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDebugMode, useAppData } from '../../hooks'
 import {
   showNotification,
-  NOTIFICATION_MESSAGES,
+  getNotificationMessage,
   getNotificationPermissionState,
 } from '../../services/notifications'
 import { STORAGE_KEY } from '../../services/storage'
@@ -77,19 +77,19 @@ function DebugPanel() {
   }, [showMessage])
 
   const handleTestMorningNotification = useCallback(() => {
-    const { title, body } = NOTIFICATION_MESSAGES.morning
+    const { title, body } = getNotificationMessage('morning')
     showNotification({ title, body, tag: 'doucement-morning-test' })
     showMessage('Notification matinale envoyée')
   }, [showMessage])
 
   const handleTestEveningNotification = useCallback(() => {
-    const { title, body } = NOTIFICATION_MESSAGES.evening
+    const { title, body } = getNotificationMessage('evening')
     showNotification({ title, body, tag: 'doucement-evening-test' })
     showMessage('Notification du soir envoyée')
   }, [showMessage])
 
   const handleTestWeeklyNotification = useCallback(() => {
-    const { title, body } = NOTIFICATION_MESSAGES.weeklyReview
+    const { title, body } = getNotificationMessage('weeklyReview')
     showNotification({ title, body, tag: 'doucement-weekly-test' })
     showMessage('Notification de revue envoyée')
   }, [showMessage])

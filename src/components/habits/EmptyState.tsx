@@ -19,7 +19,7 @@ function EmptyState({ variant: _variant = 'today' }: EmptyStateProps) {
       </div>
       <h2 className="empty-state__title">Tout commence par une habitude</h2>
       <p className="empty-state__description">
-        Créez votre première habitude pour démarrer votre progression.
+        Crée ta première habitude pour démarrer ta progression.
       </p>
       <Link to="/create" className="empty-state__link">
         <Button variant="primary" fullWidth>

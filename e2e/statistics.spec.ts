@@ -184,7 +184,7 @@ test.describe('Page Statistiques', () => {
       // Verify empty state message
       await statsPage.expectEmptyState()
       await expect(
-        page.getByText(/Créez votre première habitude pour commencer à voir vos statistiques/)
+        page.getByText(/Crée ta première habitude pour commencer à voir tes statistiques/)
       ).toBeVisible()
     })
 

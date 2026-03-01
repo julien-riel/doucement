@@ -9,6 +9,7 @@
  */
 
 import { NotificationSettings, ReminderType, ReminderConfig } from '../types'
+import i18n from '../i18n'
 
 // ============================================================================
 // TYPES
@@ -52,21 +53,13 @@ interface ScheduledReminder {
 // ============================================================================
 
 /**
- * Messages de notification (ton bienveillant)
+ * Retourne les messages de notification localisés
  */
-export const NOTIFICATION_MESSAGES = {
-  morning: {
-    title: 'Doucement',
-    body: 'Votre dose du jour vous attend ☀️',
-  },
-  evening: {
-    title: 'Doucement',
-    body: "Vous n'avez pas encore enregistré votre journée",
-  },
-  weeklyReview: {
-    title: 'Doucement',
-    body: "C'est l'heure de votre revue hebdomadaire 📊",
-  },
+export function getNotificationMessage(type: ReminderType): { title: string; body: string } {
+  return {
+    title: i18n.t('notifications.appName'),
+    body: i18n.t(`notifications.${type}.body`),
+  }
 }
 
 // ============================================================================
@@ -140,7 +133,7 @@ export async function requestNotificationPermission(): Promise<PermissionResult>
       success: false,
       state: 'denied',
       error:
-        'Les notifications ont été refusées. Modifiez les paramètres de votre navigateur pour les autoriser.',
+        'Les notifications ont été refusées. Modifie les paramètres de ton navigateur pour les autoriser.',
     }
   }
 
@@ -279,7 +272,7 @@ export function scheduleReminder(
     delay = calculateDelayUntil(config.time)
   }
 
-  const message = NOTIFICATION_MESSAGES[type]
+  const message = getNotificationMessage(type)
 
   // Also schedule via Service Worker for background support
   // This allows notifications even when the app is closed (PWA only)
@@ -293,10 +286,13 @@ export function scheduleReminder(
       return
     }
 
+    // Re-resolve message at notification time for correct language
+    const currentMessage = getNotificationMessage(type)
+
     // Afficher la notification
     showNotification({
-      title: message.title,
-      body: message.body,
+      title: currentMessage.title,
+      body: currentMessage.body,
       tag: `doucement-${type}`,
     })
 
@@ -377,7 +373,7 @@ export function getPermissionStateMessage(): string {
     case 'granted':
       return 'Notifications autorisées'
     case 'denied':
-      return 'Notifications bloquées. Modifiez les paramètres de votre navigateur.'
+      return 'Notifications bloquées. Modifie les paramètres de ton navigateur.'
     case 'default':
       return 'Cliquez pour activer les notifications'
     case 'unsupported':

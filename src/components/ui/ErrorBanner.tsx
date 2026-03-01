@@ -24,27 +24,27 @@ const ERROR_MESSAGES: Record<StorageErrorType, { title: string; description: str
   STORAGE_UNAVAILABLE: {
     title: 'Stockage non disponible',
     description:
-      'Votre navigateur ne permet pas de sauvegarder les données localement. Vérifiez vos paramètres de navigation privée.',
+      'Ton navigateur ne permet pas de sauvegarder les données localement. Vérifie tes paramètres de navigation privée.',
   },
   QUOTA_EXCEEDED: {
     title: 'Espace de stockage plein',
     description:
-      "L'espace disponible sur votre appareil est insuffisant. Essayez de libérer de l'espace ou d'exporter vos données.",
+      "L'espace disponible sur ton appareil est insuffisant. Essaie de libérer de l'espace ou d'exporter tes données.",
   },
   PARSE_ERROR: {
     title: 'Données corrompues',
     description:
-      "Les données sauvegardées semblent endommagées. Vous pouvez réinitialiser l'application ou importer une sauvegarde.",
+      "Les données sauvegardées semblent endommagées. Tu peux réinitialiser l'application ou importer une sauvegarde.",
   },
   VALIDATION_ERROR: {
     title: 'Format de données invalide',
     description:
-      "Les données sauvegardées ne sont pas dans le bon format. Vous pouvez réinitialiser l'application ou importer une sauvegarde.",
+      "Les données sauvegardées ne sont pas dans le bon format. Tu peux réinitialiser l'application ou importer une sauvegarde.",
   },
   UNKNOWN_ERROR: {
     title: 'Problème technique',
     description:
-      "Un problème inattendu est survenu. Vous pouvez réessayer ou réinitialiser l'application.",
+      "Un problème inattendu est survenu. Tu peux réessayer ou réinitialiser l'application.",
   },
 }
 

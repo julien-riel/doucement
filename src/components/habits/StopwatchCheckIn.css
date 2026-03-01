@@ -36,8 +36,8 @@
 }
 
 .stopwatch-checkin__display--reached {
-  background-color: var(--success-50);
-  border-color: var(--success-400);
+  background-color: var(--secondary-50);
+  border-color: var(--secondary-400);
 }
 
 .stopwatch-checkin__time {
@@ -54,7 +54,7 @@
 }
 
 .stopwatch-checkin__display--reached .stopwatch-checkin__time {
-  color: var(--success-700);
+  color: var(--secondary-700);
 }
 
 .stopwatch-checkin__target {
@@ -84,11 +84,11 @@
 }
 
 .stopwatch-checkin__progress-bar--reached {
-  background: linear-gradient(90deg, var(--success-400), var(--success-500));
+  background: linear-gradient(90deg, var(--secondary-400), var(--secondary-500));
 }
 
 .stopwatch-checkin__progress-bar--exceeded {
-  background: linear-gradient(90deg, var(--success-500), var(--success-600));
+  background: linear-gradient(90deg, var(--secondary-500), var(--secondary-600));
 }
 
 /* ============================================================================
@@ -142,9 +142,9 @@
   font-family: var(--font-body);
   font-size: var(--text-base);
   font-weight: var(--font-medium);
-  color: var(--success-600);
+  color: var(--secondary-600);
   padding: var(--spacing-2) var(--spacing-4);
-  background-color: var(--success-50);
+  background-color: var(--secondary-50);
   border-radius: var(--radius-md);
   animation: fadeInUp var(--duration-normal) var(--easing-gentle);
 }

@@ -162,7 +162,7 @@ describe('First Check-in Messages (12.4, 12.5)', () => {
   })
 
   it('has subtitle question defined', () => {
-    expect(FIRST_CHECKIN.subtitle).toBe("Avez-vous déjà fait quelque chose aujourd'hui ?")
+    expect(FIRST_CHECKIN.subtitle).toBe("Tu as déjà fait quelque chose aujourd'hui ?")
   })
 
   it('has Yes button text defined', () => {
