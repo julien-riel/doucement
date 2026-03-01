@@ -20,6 +20,8 @@
     "auto-implement:push": "./scripts/auto-implement.sh 10 true true"
   },
   "dependencies": {
+    "@fontsource-variable/fraunces": "^5.2.9",
+    "@fontsource-variable/source-sans-3": "^5.2.9",
     "emoji-picker-react": "^4.16.1",
     "html-to-image": "^1.11.13",
     "i18next": "^25.7.4",

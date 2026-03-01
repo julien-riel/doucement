@@ -1255,15 +1255,15 @@ describe('importDataReplace crée un backup automatiquement', () => {
 // ============================================================================
 
 describe('importFromFile - limite de taille', () => {
-  it('rejette un fichier de plus de 10 MB', async () => {
-    const largeContent = 'x'.repeat(11 * 1024 * 1024)
+  it('rejette un fichier de plus de 2 MB', async () => {
+    const largeContent = 'x'.repeat(3 * 1024 * 1024)
     const file = new File([largeContent], 'large.json', { type: 'application/json' })
 
     const result = await importFromFile(file)
 
     expect(result.success).toBe(false)
     expect(result.error).toContain('trop volumineux')
-    expect(result.error).toContain('10 MB')
+    expect(result.error).toContain('2 MB')
   })
 
   it('accepte un fichier de taille normale', async () => {
@@ -1276,7 +1276,7 @@ describe('importFromFile - limite de taille', () => {
     expect(result.success).toBe(true)
   })
 
-  it('rejette un fichier non-JSON', async () => {
+  it('rejette un fichier non-JSON par extension', async () => {
     const file = new File(['data'], 'data.txt', { type: 'text/plain' })
 
     const result = await importFromFile(file)
@@ -1284,17 +1284,70 @@ describe('importFromFile - limite de taille', () => {
     expect(result.success).toBe(false)
     expect(result.error).toContain('JSON')
   })
+
+  it('rejette un fichier avec un MIME type non-JSON', async () => {
+    const file = new File(['data'], 'fake.json', { type: 'text/html' })
+
+    const result = await importFromFile(file)
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('MIME')
+  })
+
+  it('accepte un fichier JSON sans MIME type (input vide)', async () => {
+    const data = createAppDataWithHabitAndEntry()
+    const content = JSON.stringify(data)
+    const file = new File([content], 'data.json', { type: '' })
+
+    const result = await importFromFile(file)
+
+    expect(result.success).toBe(true)
+  })
 })
 
 describe('importFromFileMerge - limite de taille', () => {
-  it('rejette un fichier de plus de 10 MB', async () => {
-    const largeContent = 'x'.repeat(11 * 1024 * 1024)
+  it('rejette un fichier de plus de 2 MB', async () => {
+    const largeContent = 'x'.repeat(3 * 1024 * 1024)
     const file = new File([largeContent], 'large.json', { type: 'application/json' })
 
     const result = await importFromFileMerge(file)
 
     expect(result.success).toBe(false)
     expect(result.error).toContain('trop volumineux')
+  })
+
+  it('rejette un fichier avec un MIME type non-JSON', async () => {
+    const file = new File(['data'], 'fake.json', { type: 'text/html' })
+
+    const result = await importFromFileMerge(file)
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('MIME')
+  })
+})
+
+describe('importDataReplace - backup failure', () => {
+  it("interrompt l'import si le backup échoue", () => {
+    // Simuler un localStorage plein qui fait échouer le backup
+    const data = createAppDataWithHabitAndEntry()
+    saveData(data)
+
+    const spy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation((key: string) => {
+      if (key.startsWith('doucement_data_backup_')) {
+        throw new Error('QuotaExceededError')
+      }
+    })
+
+    const newData = createValidAppData({
+      habits: [createValidHabit({ id: 'new', name: 'New habit' })],
+    })
+
+    const result = importDataReplace(JSON.stringify(newData))
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('backup')
+
+    spy.mockRestore()
   })
 })
 

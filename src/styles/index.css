@@ -1,4 +1,9 @@
 /* Doucement - Styles de base */
+
+/* Self-hosted fonts (privacy-first: no Google Fonts) */
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/source-sans-3';
+
 @import './design-tokens.css';
 
 /* Reset et base */

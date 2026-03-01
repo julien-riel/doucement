@@ -8,8 +8,8 @@ import { loadData, saveData, STORAGE_KEY, StorageResult } from './storage'
 import { validateImportData, ValidationResult, formatValidationErrors } from './validation'
 import { runMigrations, needsMigration, MigrationResult, formatMigrationResult } from './migration'
 
-/** Taille maximale de fichier pour l'import (10 MB) */
-const MAX_IMPORT_FILE_SIZE = 10 * 1024 * 1024
+/** Taille maximale de fichier pour l'import (2 MB) */
+const MAX_IMPORT_FILE_SIZE = 2 * 1024 * 1024
 
 // ============================================================================
 // EXPORT TYPES
@@ -206,7 +206,13 @@ function parseJsonContent(content: string): { success: boolean; data?: unknown; 
  */
 export function importDataReplace(jsonContent: string): ImportResult {
   // 0. Backup des données actuelles avant remplacement
-  createBackupBeforeImport()
+  const backupSuccess = createBackupBeforeImport()
+  if (!backupSuccess) {
+    return {
+      success: false,
+      error: "Impossible de créer un backup avant l'import. L'import a été annulé par sécurité.",
+    }
+  }
 
   // 1. Parse le JSON
   const parseResult = parseJsonContent(jsonContent)
@@ -298,11 +304,18 @@ export function readFileContent(file: File): Promise<string> {
  */
 export async function importFromFile(file: File): Promise<ImportResult> {
   try {
-    // Vérifie le type de fichier
+    // Vérifie le type de fichier (extension + MIME type)
     if (!file.name.endsWith('.json')) {
       return {
         success: false,
         error: 'Le fichier doit être au format JSON (.json)',
+      }
+    }
+
+    if (file.type && file.type !== 'application/json') {
+      return {
+        success: false,
+        error: 'Le fichier doit être au format JSON (type MIME invalide)',
       }
     }
 
@@ -311,7 +324,7 @@ export async function importFromFile(file: File): Promise<ImportResult> {
       const sizeMB = (file.size / (1024 * 1024)).toFixed(1)
       return {
         success: false,
-        error: `Le fichier est trop volumineux (${sizeMB} MB). La taille maximale autorisée est de 10 MB.`,
+        error: `Le fichier est trop volumineux (${sizeMB} MB). La taille maximale autorisée est de 2 MB.`,
       }
     }
 
@@ -629,11 +642,18 @@ export async function importFromFileMerge(
   options: MergeOptions = DEFAULT_MERGE_OPTIONS
 ): Promise<MergeImportResult> {
   try {
-    // Vérifie le type de fichier
+    // Vérifie le type de fichier (extension + MIME type)
     if (!file.name.endsWith('.json')) {
       return {
         success: false,
         error: 'Le fichier doit être au format JSON (.json)',
+      }
+    }
+
+    if (file.type && file.type !== 'application/json') {
+      return {
+        success: false,
+        error: 'Le fichier doit être au format JSON (type MIME invalide)',
       }
     }
 
@@ -642,7 +662,7 @@ export async function importFromFileMerge(
       const sizeMB = (file.size / (1024 * 1024)).toFixed(1)
       return {
         success: false,
-        error: `Le fichier est trop volumineux (${sizeMB} MB). La taille maximale autorisée est de 10 MB.`,
+        error: `Le fichier est trop volumineux (${sizeMB} MB). La taille maximale autorisée est de 2 MB.`,
       }
     }
 
