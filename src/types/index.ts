@@ -184,6 +184,41 @@ export interface RecalibrationRecord {
   previousStartDate: string
   /** Niveau de recalibration choisi (0.5, 0.75 ou 1) */
   level: number
+  /** Type de recalibration : recalibration automatique ou nouveau départ manuel */
+  type?: 'recalibration' | 'restart'
+  /** Raison libre du nouveau départ (optionnelle) */
+  reason?: string
+}
+
+// ============================================================================
+// PROGRESSION CONTEXT TYPES
+// ============================================================================
+
+/**
+ * Contexte de progression pour générer des messages adaptatifs
+ * Calculé par getProgressionContext() dans progression.ts
+ */
+export interface ProgressionContext {
+  /** Dose cible d'aujourd'hui */
+  targetDose: number
+  /** Dose cible de la veille (null si premier jour) */
+  yesterdayDose: number | null
+  /** Différence absolue depuis startValue */
+  totalChange: number
+  /** Différence en pourcentage depuis startValue */
+  totalChangePercent: number
+  /** Nombre de jours avec au moins une entrée */
+  daysActive: number
+  /** Premier jour de l'habitude */
+  isFirstDay: boolean
+  /** Retour après absence (>3 jours sans entrée) */
+  isBackAfterAbsence: boolean
+  /** Nombre de jours depuis la dernière entrée */
+  daysAbsent: number
+  /** Proche de l'objectif final (targetValue défini et <10% restant) */
+  isCloseToTarget: boolean
+  /** Distance restante avant targetValue (null si pas de targetValue) */
+  remainingToTarget: number | null
 }
 
 // ============================================================================

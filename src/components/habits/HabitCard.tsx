@@ -131,6 +131,12 @@ function HabitCard({
   const intentionText = buildIntentionText(habit)
   const isWeekly = habit.trackingFrequency === 'weekly'
 
+  // Timer/stopwatch avec unité minutes : convertir la dose cible en secondes
+  const isTimeBasedMinutes =
+    (habit.trackingMode === 'stopwatch' || habit.trackingMode === 'timer') &&
+    (habit.unit === 'minutes' || habit.unit === 'min')
+  const timerTargetDoseInSeconds = isTimeBasedMinutes ? targetDose * 60 : targetDose
+
   // Animation de célébration quand on passe à completed/exceeded
   useEffect(() => {
     if (status === 'completed' || status === 'exceeded') {
@@ -196,7 +202,8 @@ function HabitCard({
           className={`habit-card__status ${habit.direction === 'decrease' && status === 'exceeded' ? 'habit-card__status--decrease-success' : ''}`}
         >
           <span className="habit-card__status-value">
-            {currentValue} / {targetDose} {habit.unit}
+            {isTimeBasedMinutes ? Math.round(currentValue! / 60) : currentValue} / {targetDose}{' '}
+            {habit.unit}
             {habit.entryMode === 'cumulative' && (
               <span className="habit-card__cumulative-indicator"> {t('checkIn.cumulative')}</span>
             )}
@@ -254,7 +261,7 @@ function HabitCard({
         <StopwatchCheckIn
           habitId={habit.id}
           date={date}
-          targetDose={targetDose}
+          targetDose={timerTargetDoseInSeconds}
           unit={habit.unit === 'minutes' || habit.unit === 'min' ? 'minutes' : 'seconds'}
           currentValue={currentValue}
           onCheckIn={handleCheckIn}
@@ -265,7 +272,7 @@ function HabitCard({
         <TimerCheckIn
           habitId={habit.id}
           date={date}
-          targetDose={targetDose}
+          targetDose={timerTargetDoseInSeconds}
           unit={habit.unit === 'minutes' || habit.unit === 'min' ? 'minutes' : 'seconds'}
           currentValue={currentValue}
           onCheckIn={handleCheckIn}

@@ -3,7 +3,7 @@
  * Calcule les doses cibles, pourcentages de complétion et statistiques
  */
 
-import { Habit, DailyEntry, CompletionStatus, CounterOperation } from '../types'
+import { Habit, DailyEntry, CompletionStatus, CounterOperation, ProgressionContext } from '../types'
 
 // ============================================================================
 // UTILITY FUNCTIONS
@@ -672,4 +672,98 @@ export function detectMilestone(habit: Habit, referenceDate: string): MilestoneT
   if (metrics.percentageChange >= 50) return 'fifty_percent'
 
   return null
+}
+
+// ============================================================================
+// PROGRESSION CONTEXT (Messages adaptatifs)
+// ============================================================================
+
+/** Seuil d'absence pour les messages de retour (en jours) */
+const ABSENCE_MESSAGE_THRESHOLD = 3
+
+/**
+ * Calcule le contexte de progression pour générer des messages adaptatifs
+ *
+ * Utilisé par HabitCard pour afficher des messages contextuels :
+ * - Premier jour : "C'est le début de ton aventure !"
+ * - Retour après absence : "Content·e de te revoir ! Hier : {yesterdayDose}"
+ * - Proche objectif : "Plus que {remaining} avant ton objectif de {target} !"
+ * - Progression standard : "Hier : {yesterday}. Déjà +{totalChange} depuis le départ ({percent}%)"
+ *
+ * @param habit Habitude
+ * @param date Date de référence (YYYY-MM-DD)
+ * @param entries Toutes les entrées quotidiennes
+ * @returns Contexte de progression, ou null pour les habitudes maintain
+ */
+export function getProgressionContext(
+  habit: Habit,
+  date: string,
+  entries: DailyEntry[]
+): ProgressionContext | null {
+  if (habit.direction === 'maintain') {
+    return null
+  }
+
+  const targetDose = calculateTargetDose(habit, date)
+  const days = daysBetween(habit.createdAt, date)
+  const isFirstDay = days <= 0
+
+  // Dose cible de la veille
+  let yesterdayDose: number | null = null
+  if (!isFirstDay) {
+    const [year, month, day] = date.split('-').map(Number)
+    const yesterday = new Date(year, month - 1, day)
+    yesterday.setDate(yesterday.getDate() - 1)
+    const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`
+    yesterdayDose = calculateTargetDose(habit, yesterdayStr)
+  }
+
+  // Progression cumulée
+  const totalChange = Math.abs(targetDose - habit.startValue)
+  let totalChangePercent = 0
+  if (habit.startValue > 0) {
+    totalChangePercent =
+      Math.round((Math.abs(targetDose - habit.startValue) / habit.startValue) * 100 * 10) / 10
+  }
+
+  // Jours actifs et absence
+  const habitEntries = entries.filter((e) => e.habitId === habit.id)
+  const daysActive = habitEntries.length
+
+  let daysAbsent = 0
+  let isBackAfterAbsence = false
+  if (habitEntries.length > 0) {
+    const sortedEntries = [...habitEntries].sort((a, b) => b.date.localeCompare(a.date))
+    const lastEntryDate = sortedEntries[0].date
+    daysAbsent = daysBetween(lastEntryDate, date)
+    isBackAfterAbsence = daysAbsent > ABSENCE_MESSAGE_THRESHOLD
+  } else if (!isFirstDay) {
+    // Aucune entrée mais habitude créée depuis un moment
+    daysAbsent = days
+    isBackAfterAbsence = daysAbsent > ABSENCE_MESSAGE_THRESHOLD
+  }
+
+  // Proximité avec l'objectif final
+  let isCloseToTarget = false
+  let remainingToTarget: number | null = null
+  if (habit.targetValue !== undefined) {
+    remainingToTarget = Math.abs(habit.targetValue - targetDose)
+    const totalRange = Math.abs(habit.targetValue - habit.startValue)
+    if (totalRange > 0) {
+      isCloseToTarget = remainingToTarget / totalRange < 0.1
+    }
+  }
+
+  return {
+    targetDose,
+    yesterdayDose,
+    totalChange,
+    totalChangePercent,
+    daysActive,
+    isFirstDay,
+    isBackAfterAbsence,
+    daysAbsent,
+    isCloseToTarget,
+    remainingToTarget,
+  }
 }
