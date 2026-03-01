@@ -38,7 +38,8 @@
           "id": "1.2",
           "name": "Test E2E timer et stopwatch en minutes",
           "description": "Créer un test E2E qui vérifie qu'une habitude timer/stopwatch avec unit='minutes' affiche correctement le décompte en minutes et non en secondes.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": ["1.1"],
           "files": [
@@ -82,7 +83,8 @@
           "id": "2.2",
           "name": "Ajouter la fonction restartHabit dans useAppData",
           "description": "Créer une fonction restartHabit(habitId, newStartValue, reason?) dans useAppData.ts. La fonction doit : (1) mettre à jour startValue, (2) mettre à jour createdAt à aujourd'hui, (3) ajouter un RecalibrationRecord avec type='restart'. Réutiliser la logique existante de recalibrateHabitDose comme base.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": ["2.1"],
           "files": [
@@ -169,7 +171,8 @@
           "id": "3.2",
           "name": "Tests unitaires getProgressionContext",
           "description": "Tests unitaires couvrant tous les scénarios : premier jour, progression increase/decrease, retour après absence, proche de l'objectif final, pas de progression (maintain).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": ["3.1"],
           "files": [
@@ -189,7 +192,8 @@
           "id": "3.3",
           "name": "Refactorer getProgressionMessage dans HabitCard",
           "description": "Remplacer la fonction getProgressionMessage actuelle par une version qui utilise getProgressionContext. Ajouter les nouvelles clés de traduction fr/en pour les messages adaptatifs (premier jour, retour après absence, proche objectif, progression standard increase/decrease).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": ["3.1"],
           "files": [
@@ -253,7 +257,8 @@
           "id": "4.1",
           "name": "Créer le composant RestartTimeline",
           "description": "Créer src/components/habits/RestartTimeline.tsx. Affiche une liste chronologique des RecalibrationRecord avec : date, ancienne → nouvelle valeur, icône (↑ recalibration, 🔄 restart), raison si présente, message bienveillant ('Chaque reprise compte'). Ajouter les traductions fr/en.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": ["2.1"],
           "files": [
@@ -318,9 +323,9 @@
   ],
   "stats": {
     "totalTasks": 14,
-    "completed": 3,
+    "completed": 8,
     "inProgress": 0,
-    "pending": 11,
+    "pending": 6,
     "blocked": 0
   }
 }

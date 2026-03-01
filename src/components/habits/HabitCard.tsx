@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Habit, CompletionStatus, CounterOperation } from '../../types'
+import { Habit, CompletionStatus, CounterOperation, ProgressionContext } from '../../types'
 import { randomMessage } from '../../constants/messages'
 import { buildIntentionText, WeeklyProgressInfo } from '../../utils/habitDisplay'
 import Card from '../ui/Card'
@@ -41,25 +41,85 @@ export interface HabitCardProps {
   onCumulativeUndo?: (habitId: string) => void
   /** Date courante (format YYYY-MM-DD) - requis pour stopwatch/timer */
   date?: string
+  /** Contexte de progression pour les messages adaptatifs */
+  progressionContext?: ProgressionContext | null
 }
 
 /**
- * Messages de progression selon la direction de l'habitude
+ * Messages de progression adaptatifs basés sur le contexte
+ * Priorité : premier jour > retour après absence > proche objectif > progression standard
  */
 function getProgressionMessage(
   habit: Habit,
   targetDose: number,
-  t: (key: string, options?: Record<string, unknown>) => string
+  t: (key: string, options?: Record<string, unknown>) => string,
+  progressionContext?: ProgressionContext | null
 ): string | null {
   if (habit.direction === 'maintain') {
     return null
   }
 
-  const diff = Math.abs(targetDose - habit.startValue)
-  if (diff === 0) {
+  // Si pas de contexte, utiliser le message basique
+  if (!progressionContext) {
+    const diff = Math.abs(targetDose - habit.startValue)
+    if (diff === 0) return null
+    if (habit.direction === 'increase') {
+      return t('habitCard.progressionIncrease', { startValue: habit.startValue, diff })
+    }
+    return t('habitCard.progressionDecrease', { diff })
+  }
+
+  // Premier jour
+  if (progressionContext.isFirstDay) {
+    return t('habitCard.firstDay')
+  }
+
+  // Retour après absence
+  if (progressionContext.isBackAfterAbsence && progressionContext.yesterdayDose !== null) {
+    return t('habitCard.welcomeBack', {
+      yesterdayDose: progressionContext.yesterdayDose,
+      unit: habit.unit,
+    })
+  }
+
+  // Proche de l'objectif final
+  if (
+    progressionContext.isCloseToTarget &&
+    progressionContext.remainingToTarget !== null &&
+    habit.targetValue !== undefined
+  ) {
+    return t('habitCard.closeToTarget', {
+      remaining: progressionContext.remainingToTarget,
+      target: habit.targetValue,
+      unit: habit.unit,
+    })
+  }
+
+  // Progression standard (seulement si un changement significatif)
+  if (progressionContext.totalChange === 0) {
     return null
   }
 
+  if (progressionContext.yesterdayDose !== null) {
+    if (habit.direction === 'increase') {
+      return t('habitCard.progressionIncreaseRich', {
+        yesterday: progressionContext.yesterdayDose,
+        totalChange: progressionContext.totalChange,
+        percent: progressionContext.totalChangePercent,
+        unit: habit.unit,
+      })
+    }
+    return t('habitCard.progressionDecreaseRich', {
+      yesterday: progressionContext.yesterdayDose,
+      totalChange: progressionContext.totalChange,
+      percent: progressionContext.totalChangePercent,
+      unit: habit.unit,
+    })
+  }
+
+  // Fallback basique sans veille
+  const diff = Math.abs(targetDose - habit.startValue)
+  if (diff === 0) return null
   if (habit.direction === 'increase') {
     return t('habitCard.progressionIncrease', { startValue: habit.startValue, diff })
   }
@@ -123,10 +183,11 @@ function HabitCard({
   onCounterUndo,
   onCumulativeUndo,
   date,
+  progressionContext,
 }: HabitCardProps) {
   const { t } = useTranslation()
   const [celebrating, setCelebrating] = useState(false)
-  const progressionMessage = getProgressionMessage(habit, targetDose, t)
+  const progressionMessage = getProgressionMessage(habit, targetDose, t, progressionContext)
   const cardVariant = getCardVariant(status)
   const intentionText = buildIntentionText(habit)
   const isWeekly = habit.trackingFrequency === 'weekly'

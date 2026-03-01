@@ -80,3 +80,6 @@ export type { SliderCheckInProps } from './SliderCheckIn'
 
 export { default as TimerCheckIn } from './TimerCheckIn'
 export type { TimerCheckInProps } from './TimerCheckIn'
+
+export { default as RestartTimeline } from './RestartTimeline'
+export type { RestartTimelineProps } from './RestartTimeline'

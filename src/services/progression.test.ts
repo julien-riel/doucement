@@ -19,6 +19,7 @@ import {
   calculateDailyCompletionPercentage,
   calculateCompoundEffectMetrics,
   detectMilestone,
+  getProgressionContext,
 } from './progression'
 import { Habit, DailyEntry } from '../types'
 
@@ -1034,5 +1035,156 @@ describe('detectMilestone', () => {
     const milestone = detectMilestone(habit, '2025-03-01')
 
     expect(milestone).toBe(null)
+  })
+})
+
+// ============================================================================
+// PROGRESSION CONTEXT TESTS
+// ============================================================================
+
+describe('getProgressionContext', () => {
+  it('retourne null pour les habitudes maintain', () => {
+    const habit = createHabit({
+      direction: 'maintain',
+      startValue: 10,
+      createdAt: '2025-01-01',
+      progression: null,
+    })
+
+    const result = getProgressionContext(habit, '2025-01-15', [])
+    expect(result).toBeNull()
+  })
+
+  it('détecte le premier jour correctement', () => {
+    const habit = createHabit({
+      direction: 'increase',
+      startValue: 10,
+      createdAt: '2025-01-15',
+      progression: { mode: 'absolute', value: 1, period: 'weekly' },
+    })
+
+    const result = getProgressionContext(habit, '2025-01-15', [])
+
+    expect(result).not.toBeNull()
+    expect(result!.isFirstDay).toBe(true)
+    expect(result!.yesterdayDose).toBeNull()
+    expect(result!.totalChange).toBe(0)
+    expect(result!.totalChangePercent).toBe(0)
+    expect(result!.daysActive).toBe(0)
+    expect(result!.isBackAfterAbsence).toBe(false)
+  })
+
+  it('calcule la progression increase avec historique', () => {
+    const habit = createHabit({
+      id: 'push-ups',
+      direction: 'increase',
+      startValue: 10,
+      createdAt: '2025-01-01',
+      progression: { mode: 'absolute', value: 1, period: 'weekly' },
+    })
+
+    const entries: DailyEntry[] = [
+      createEntry({ habitId: 'push-ups', date: '2025-01-10', actualValue: 10 }),
+      createEntry({ habitId: 'push-ups', date: '2025-01-13', actualValue: 11 }),
+      createEntry({ habitId: 'push-ups', date: '2025-01-14', actualValue: 11 }),
+    ]
+
+    // Day 14 = 2 weeks = +2 from start
+    const result = getProgressionContext(habit, '2025-01-15', entries)
+
+    expect(result).not.toBeNull()
+    expect(result!.isFirstDay).toBe(false)
+    expect(result!.yesterdayDose).toBe(11) // Yesterday (day 13) = 1 full week = 10+1 = 11
+    expect(result!.totalChange).toBe(2) // |12 - 10| = 2
+    expect(result!.totalChangePercent).toBe(20) // 2/10 * 100
+    expect(result!.daysActive).toBe(3)
+    expect(result!.isBackAfterAbsence).toBe(false) // Last entry was yesterday
+    expect(result!.daysAbsent).toBe(1) // 1 day since last entry
+  })
+
+  it('calcule la progression decrease avec historique', () => {
+    const habit = createHabit({
+      id: 'cigarettes',
+      direction: 'decrease',
+      startValue: 20,
+      createdAt: '2025-01-01',
+      targetValue: 0,
+      progression: { mode: 'absolute', value: 1, period: 'weekly' },
+    })
+
+    const entries: DailyEntry[] = [
+      createEntry({ habitId: 'cigarettes', date: '2025-01-14', actualValue: 18 }),
+    ]
+
+    // Day 14 = 2 weeks = 20 - 2 = 18
+    const result = getProgressionContext(habit, '2025-01-15', entries)
+
+    expect(result).not.toBeNull()
+    expect(result!.isFirstDay).toBe(false)
+    expect(result!.totalChange).toBe(2) // |18 - 20| = 2
+    expect(result!.totalChangePercent).toBe(10) // 2/20 * 100
+    expect(result!.isBackAfterAbsence).toBe(false)
+  })
+
+  it("détecte le retour après 5 jours d'absence", () => {
+    const habit = createHabit({
+      id: 'reading',
+      direction: 'increase',
+      startValue: 10,
+      createdAt: '2025-01-01',
+      progression: { mode: 'absolute', value: 1, period: 'weekly' },
+    })
+
+    const entries: DailyEntry[] = [
+      createEntry({ habitId: 'reading', date: '2025-01-05', actualValue: 10 }),
+      createEntry({ habitId: 'reading', date: '2025-01-06', actualValue: 10 }),
+    ]
+
+    // Dernier entry le 06, on est le 15 = 9 jours d'absence (> 3)
+    const result = getProgressionContext(habit, '2025-01-15', entries)
+
+    expect(result).not.toBeNull()
+    expect(result!.isBackAfterAbsence).toBe(true)
+    expect(result!.daysAbsent).toBe(9)
+    expect(result!.daysActive).toBe(2)
+  })
+
+  it("détecte la proximité avec l'objectif final", () => {
+    const habit = createHabit({
+      direction: 'increase',
+      startValue: 10,
+      targetValue: 50,
+      createdAt: '2025-01-01',
+      progression: { mode: 'absolute', value: 5, period: 'weekly' },
+    })
+
+    // After 7 weeks: 10 + 35 = 45, targetValue = 50
+    // remaining = |50 - 45| = 5, totalRange = |50 - 10| = 40
+    // 5/40 = 0.125 > 0.1 → not close yet
+    // After 8 weeks: 10 + 40 = 50 (capped at 50)
+    // remaining = 0, totalRange = 40 → 0/40 = 0 < 0.1 → close!
+    const result = getProgressionContext(habit, '2025-02-26', []) // 56 days = 8 weeks
+
+    expect(result).not.toBeNull()
+    expect(result!.isCloseToTarget).toBe(true)
+    expect(result!.remainingToTarget).toBe(0)
+  })
+
+  it("calcule correctement quand pas d'entrée mais habitude ancienne", () => {
+    const habit = createHabit({
+      direction: 'increase',
+      startValue: 10,
+      createdAt: '2025-01-01',
+      progression: { mode: 'absolute', value: 1, period: 'weekly' },
+    })
+
+    // Pas d'entrée, habitude créée il y a 10 jours
+    const result = getProgressionContext(habit, '2025-01-11', [])
+
+    expect(result).not.toBeNull()
+    expect(result!.isFirstDay).toBe(false)
+    expect(result!.daysActive).toBe(0)
+    expect(result!.isBackAfterAbsence).toBe(true) // 10 jours > 3
+    expect(result!.daysAbsent).toBe(10)
   })
 })

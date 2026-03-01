@@ -65,6 +65,8 @@ export interface UseAppDataActions {
   restoreHabit: (id: string) => boolean
   /** Recalibre la dose d'une habitude après une absence prolongée */
   recalibrateHabitDose: (id: string, newStartValue: number, level: number) => boolean
+  /** Nouveau départ : repart d'une nouvelle valeur de départ en préservant l'historique */
+  restartHabit: (id: string, newStartValue: number, reason?: string) => boolean
   /** Ajoute une entrée quotidienne */
   addEntry: (input: CreateEntryInput) => DailyEntry | null
   /** Ajoute une opération compteur (+1/-1) à une entrée */
@@ -250,6 +252,48 @@ export function useAppData(): UseAppDataReturn {
               ...habit,
               startValue: newStartValue,
               createdAt: today, // Nouveau point de départ pour le calcul de progression
+              recalibrationHistory: [...history, recalibrationRecord],
+            }
+          }
+          return habit
+        }),
+      }))
+
+      return found
+    },
+    []
+  )
+
+  /**
+   * Nouveau départ : repart d'une nouvelle valeur de départ en préservant l'historique
+   */
+  const restartHabit = useCallback(
+    (id: string, newStartValue: number, reason?: string): boolean => {
+      let found = false
+      const today = getCurrentDate()
+
+      setData((prev) => ({
+        ...prev,
+        habits: prev.habits.map((habit) => {
+          if (habit.id === id) {
+            found = true
+
+            const recalibrationRecord: RecalibrationRecord = {
+              date: today,
+              previousStartValue: habit.startValue,
+              newStartValue,
+              previousStartDate: habit.createdAt,
+              level: 1,
+              type: 'restart',
+              reason,
+            }
+
+            const history = habit.recalibrationHistory ?? []
+
+            return {
+              ...habit,
+              startValue: newStartValue,
+              createdAt: today,
               recalibrationHistory: [...history, recalibrationRecord],
             }
           }
@@ -548,6 +592,7 @@ export function useAppData(): UseAppDataReturn {
     archiveHabit,
     restoreHabit,
     recalibrateHabitDose,
+    restartHabit,
     addEntry,
     addCounterOperation,
     undoLastOperation,

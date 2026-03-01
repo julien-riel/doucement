@@ -895,6 +895,15 @@
       "restore": "Restaurer"
     }
   },
+  "restartTimeline": {
+    "title": "Parcours",
+    "recalibration": "Recalibration",
+    "restart": "Nouveau départ",
+    "from": "de {{previous}}",
+    "to": "à {{newValue}} {{unit}}",
+    "encouragement": "Chaque reprise compte",
+    "reason": "Raison : {{reason}}"
+  },
   "statistics": {
     "periods": {
       "week": "Semaine",
@@ -986,7 +995,12 @@
   },
   "habitCard": {
     "progressionIncrease": "Tu en étais à {{startValue}}. +{{diff}} aujourd'hui !",
-    "progressionDecrease": "Objectif : -{{diff}} depuis le début"
+    "progressionDecrease": "Objectif : -{{diff}} depuis le début",
+    "firstDay": "C'est le début de ton aventure !",
+    "welcomeBack": "Content·e de te revoir ! Hier : {{yesterdayDose}} {{unit}}",
+    "closeToTarget": "Plus que {{remaining}} avant ton objectif de {{target}} {{unit}} !",
+    "progressionIncreaseRich": "Hier : {{yesterday}} {{unit}}. Déjà +{{totalChange}} depuis le départ ({{percent}}%)",
+    "progressionDecreaseRich": "Hier : {{yesterday}} {{unit}}. Déjà -{{totalChange}} depuis le départ ({{percent}}%)"
   },
   "daysOfWeek": {
     "short": {

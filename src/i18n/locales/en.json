@@ -892,6 +892,15 @@
       "restore": "Restore"
     }
   },
+  "restartTimeline": {
+    "title": "Journey",
+    "recalibration": "Recalibration",
+    "restart": "Fresh start",
+    "from": "from {{previous}}",
+    "to": "to {{newValue}} {{unit}}",
+    "encouragement": "Every restart counts",
+    "reason": "Reason: {{reason}}"
+  },
   "statistics": {
     "periods": {
       "week": "Week",
@@ -983,7 +992,12 @@
   },
   "habitCard": {
     "progressionIncrease": "You were at {{startValue}}. +{{diff}} today!",
-    "progressionDecrease": "Goal: -{{diff}} from the start"
+    "progressionDecrease": "Goal: -{{diff}} from the start",
+    "firstDay": "This is the start of your journey!",
+    "welcomeBack": "Welcome back! Yesterday: {{yesterdayDose}} {{unit}}",
+    "closeToTarget": "Only {{remaining}} to go before your goal of {{target}} {{unit}}!",
+    "progressionIncreaseRich": "Yesterday: {{yesterday}} {{unit}}. Already +{{totalChange}} from the start ({{percent}}%)",
+    "progressionDecreaseRich": "Yesterday: {{yesterday}} {{unit}}. Already -{{totalChange}} from the start ({{percent}}%)"
   },
   "daysOfWeek": {
     "short": {
