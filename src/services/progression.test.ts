@@ -4,8 +4,8 @@
  */
 
 import { describe, it, expect } from 'vitest'
+import { daysBetween } from '../utils/date'
 import {
-  daysBetween,
   weeksBetween,
   getCurrentWeekDates,
   isWeeklyHabit,

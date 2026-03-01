@@ -1,7 +1,7 @@
 .quick-checkin {
   min-height: 100vh;
   min-height: 100dvh;
-  background-color: var(--color-neutral-50);
+  background-color: var(--neutral-50);
   padding: var(--spacing-4);
   display: flex;
   flex-direction: column;
@@ -21,7 +21,7 @@
   align-items: center;
   margin-bottom: var(--spacing-4);
   padding-bottom: var(--spacing-3);
-  border-bottom: 1px solid var(--color-neutral-200);
+  border-bottom: 1px solid var(--neutral-200);
 }
 
 .quick-checkin__header-content {
@@ -34,7 +34,7 @@
   font-family: var(--font-heading);
   font-size: var(--text-xl);
   font-weight: var(--font-semibold);
-  color: var(--color-neutral-800);
+  color: var(--neutral-800);
   margin: 0;
 }
 
@@ -42,8 +42,8 @@
   font-family: var(--font-heading);
   font-size: var(--text-lg);
   font-weight: var(--font-bold);
-  color: var(--color-primary-500);
-  background-color: var(--color-primary-50);
+  color: var(--primary-500);
+  background-color: var(--primary-50);
   padding: var(--spacing-1) var(--spacing-3);
   border-radius: var(--radius-full);
 }
@@ -67,7 +67,7 @@
 }
 
 .quick-checkin__empty-state p {
-  color: var(--color-neutral-600);
+  color: var(--neutral-600);
   font-size: var(--text-lg);
 }
 
@@ -87,8 +87,8 @@
 
 .quick-checkin__card--completed,
 .quick-checkin__card--exceeded {
-  background: linear-gradient(135deg, var(--color-secondary-50), var(--color-secondary-100));
-  border-color: var(--color-secondary-300);
+  background: linear-gradient(135deg, var(--secondary-50), var(--secondary-100));
+  border-color: var(--secondary-300);
 }
 
 .quick-checkin__card-header {
@@ -111,14 +111,14 @@
 .quick-checkin__name {
   font-size: var(--text-base);
   font-weight: var(--font-medium);
-  color: var(--color-neutral-800);
+  color: var(--neutral-800);
 }
 
 .quick-checkin__dose {
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
-  color: var(--color-primary-600);
-  background-color: var(--color-primary-50);
+  color: var(--primary-600);
+  background-color: var(--primary-50);
   padding: var(--spacing-1) var(--spacing-2);
   border-radius: var(--radius-sm);
 }
@@ -135,13 +135,13 @@
   flex-direction: column;
   gap: var(--spacing-3);
   align-items: center;
-  border-top: 1px solid var(--color-neutral-200);
+  border-top: 1px solid var(--neutral-200);
 }
 
 .quick-checkin__success {
   font-family: var(--font-heading);
   font-size: var(--text-lg);
   font-weight: var(--font-semibold);
-  color: var(--color-secondary-600);
+  color: var(--secondary-600);
   margin: 0;
 }

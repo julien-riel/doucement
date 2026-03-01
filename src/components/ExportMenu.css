@@ -159,9 +159,9 @@
 }
 
 .export-menu__error {
-  background: var(--amber-50, #fffbeb);
-  color: var(--amber-700, #b45309);
-  border: 1px solid var(--amber-200, #fde68a);
+  background: var(--warning-50);
+  color: var(--warning-700);
+  border: 1px solid var(--warning-200);
 }
 
 .export-menu__success {

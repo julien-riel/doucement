@@ -13,7 +13,8 @@ import {
   getHeatmapIntensity,
   HeatmapCell,
 } from '../types/statistics'
-import { daysBetween, calculateTargetDose, calculateCompletionPercentage } from './progression'
+import { calculateTargetDose, calculateCompletionPercentage } from './progression'
+import { daysBetween } from '../utils/date'
 
 // ============================================================================
 // DATE UTILITIES

@@ -594,15 +594,15 @@
 .edit-habit__direction-warning {
   margin-top: var(--spacing-3);
   padding: var(--spacing-3);
-  background: var(--orange-50);
-  border: 1px solid var(--orange-200);
+  background: var(--warning-50);
+  border: 1px solid var(--warning-200);
   border-radius: var(--radius-md);
 }
 
 .edit-habit__direction-warning-text {
   font-family: var(--font-body);
   font-size: var(--text-sm);
-  color: var(--orange-800);
+  color: var(--warning-700);
   margin: 0;
   line-height: 1.4;
 }

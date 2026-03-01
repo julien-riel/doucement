@@ -39,8 +39,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  min-width: 44px;
+  min-height: 44px;
   font-size: var(--text-lg);
   text-decoration: none;
   border-radius: var(--radius-full);

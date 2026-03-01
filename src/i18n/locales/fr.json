@@ -33,7 +33,8 @@
     "today": "Aujourd'hui",
     "habits": "Habitudes",
     "statistics": "Statistiques",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "skipToContent": "Aller au contenu"
   },
   "habits": {
     "newHabit": "Nouvelle habitude",
@@ -555,8 +556,8 @@
   },
   "habitNeglected": {
     "title": "Ça faisait longtemps",
-    "subtitle": "Tu n'as pas enregistré cette habitude hier.",
-    "subtitle_plural": "Tu n'as pas enregistré cette habitude depuis {{days}} jours.",
+    "subtitle": "Pas encore de trace pour cette habitude. Reprends quand tu veux.",
+    "subtitle_plural": "Pas de trace depuis {{days}} jours. Reprends quand tu veux.",
     "encouragement": "Pas de souci. On reprend là où tu en es.",
     "resumeButton": "Reprendre"
   },
@@ -797,8 +798,7 @@
       "Chaque effort compte. C'est noté.",
       "Tu as avancé aujourd'hui. C'est l'essentiel.",
       "Pas 100%, mais tu n'as pas abandonné.",
-      "L'important, c'est d'avoir fait quelque chose.",
-      "Bien joué. Demain est un autre jour."
+      "L'important, c'est d'avoir fait quelque chose."
     ],
     "exceeded": [
       "Au-delà de la dose. Impressionnant, mais pas obligatoire.",
@@ -953,7 +953,7 @@
         "message": "Objectif atteint ! Tu peux être fier·e de toi."
       },
       "almostThere": {
-        "emoji": "🔥",
+        "emoji": "✨",
         "message": "L'arrivée est proche ! Continue sur cette lancée."
       },
       "threeQuarters": {

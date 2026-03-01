@@ -46,7 +46,7 @@
   height: 40px;
   border: none;
   border-radius: var(--radius-full);
-  background-color: var(--white);
+  background-color: var(--neutral-0);
   box-shadow: var(--shadow-medium);
   color: var(--neutral-700);
   font-size: var(--text-2xl);

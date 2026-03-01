@@ -52,6 +52,6 @@
 
 .empty-state__settings-link:hover,
 .empty-state__settings-link:focus {
-  color: var(--primary);
+  color: var(--color-primary);
   text-decoration: underline;
 }

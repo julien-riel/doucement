@@ -263,14 +263,15 @@
       "id": "phase-3-quality",
       "name": "Qualité et cohérence",
       "description": "Polir l'expérience, réduire la dette technique, renforcer les tests",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
           "id": "3.1",
           "name": "Unifier daysBetween",
           "description": "Supprimer l'implémentation de daysBetween dans services/progression.ts (qui utilise Math.floor) et importer celle de utils/date.ts (qui utilise Math.round) partout. Le Math.floor vs Math.round peut produire des résultats différents en cas de DST.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -288,7 +289,8 @@
           "id": "3.2",
           "name": "Supprimer le doublon exportImage",
           "description": "Deux fichiers font la même chose : services/imageExport.ts et services/exportImage.ts. Garder le plus complet, supprimer l'autre, mettre à jour tous les imports.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -306,7 +308,8 @@
           "id": "3.3",
           "name": "Résoudre coexistence CreateHabit.tsx / CreateHabit/",
           "description": "Le fichier monolithique CreateHabit.tsx (800+ lignes) coexiste avec le dossier CreateHabit/ refactorisé. Vérifier via router.tsx lequel est actif, supprimer l'obsolète.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -325,7 +328,8 @@
           "id": "3.4",
           "name": "Corriger les problèmes d'accessibilité",
           "description": "4 corrections : (1) Dots d'onboarding : soit rendre cliquables avec tabIndex + onClick, soit passer en aria-hidden='true'. (2) Bouton dismiss WelcomeBackMessage : passer de 28x28px à min 44x44px. (3) Bouton Settings (emoji ⚙️) : ajouter min-width/height 44px. (4) Ajouter un skip link dans MainLayout.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -346,7 +350,8 @@
           "id": "3.5",
           "name": "Corriger emoji et messages problématiques",
           "description": "3 corrections : (1) Remplacer emoji 🔥 par 🌟 ou ✨ dans projections.almostThere (fr.json et en.json). (2) Supprimer 'Bien joué. Demain est un autre jour.' des messages de check-in partiel. (3) Reformuler habitNeglected.subtitle sans connotation accusatrice ('Tu n'as pas enregistré...' → 'Pas encore de trace pour cette habitude. Reprends quand tu veux.').",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -366,7 +371,8 @@
           "id": "3.6",
           "name": "Tests unitaires useCelebrations et mutations useAppData",
           "description": "Deux fichiers de tests : (1) Ajouter des tests pour addHabit, updateHabit, archiveHabit, restoreHabit dans useAppData.test.ts. (2) Créer useCelebrations.test.ts couvrant detectNewMilestones, checkForNewMilestoneAfterCheckIn, markMilestoneAsCelebrated.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -387,7 +393,8 @@
           "id": "3.7",
           "name": "Lint CSS des tokens",
           "description": "Créer un script (scripts/lint-css-tokens.sh ou .ts) qui : (1) extrait tous les var(--*) utilisés dans les fichiers CSS, (2) vérifie qu'ils sont déclarés dans src/styles/design-tokens.css, (3) signale les tokens non définis. Intégrer au health-check existant.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "low",
           "dependsOn": ["3.1"],
           "files": [
@@ -563,9 +570,9 @@
   ],
   "stats": {
     "totalTasks": 28,
-    "completed": 12,
+    "completed": 20,
     "inProgress": 0,
-    "pending": 16,
+    "pending": 8,
     "blocked": 0
   }
 }

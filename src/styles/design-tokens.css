@@ -28,6 +28,7 @@
   --secondary-400: #4ade80;
   --secondary-500: #22c55e; /* Couleur de succès */
   --secondary-600: #16a34a;
+  --secondary-700: #15803d;
 
   /* ================================
      NEUTRES CHAUDS
@@ -245,6 +246,7 @@
   --secondary-400: #22c55e;
   --secondary-500: #4ade80;
   --secondary-600: #86efac;
+  --secondary-700: #bbf7d0;
 
   /* ================================
      COULEURS TERTIAIRES - Violet (dark)
@@ -328,6 +330,7 @@
     --secondary-400: #22c55e;
     --secondary-500: #4ade80;
     --secondary-600: #86efac;
+    --secondary-700: #bbf7d0;
 
     /* ================================
        COULEURS TERTIAIRES - Violet (dark)

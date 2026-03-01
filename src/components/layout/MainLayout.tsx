@@ -26,7 +26,12 @@ function MainLayout({ children, hideNavigation = false }: MainLayoutProps) {
   const { t } = useTranslation()
   return (
     <div className="main-layout">
-      <main className="main-layout__content">{children}</main>
+      <a href="#main-content" className="main-layout__skip-link">
+        {t('navigation.skipToContent', 'Aller au contenu')}
+      </a>
+      <main id="main-content" className="main-layout__content">
+        {children}
+      </main>
       {!hideNavigation && (
         <nav className="main-layout__nav" aria-label="Navigation principale">
           <NavLink

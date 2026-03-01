@@ -155,6 +155,138 @@ export async function generateImageFile(
   return new File([blob], filename, { type: mimeType })
 }
 
+// ============================================================================
+// CAPTURE & EXPORT (from exportImage.ts)
+// ============================================================================
+
+/**
+ * Résultat de l'export PNG
+ */
+export interface ExportResult {
+  /** Succès de l'export */
+  success: boolean
+  /** Message d'erreur si échec */
+  error?: string
+  /** URL du blob créé (pour aperçu) */
+  blobUrl?: string
+}
+
+/**
+ * Exporte un élément HTML en image PNG et le télécharge
+ *
+ * @param element Élément HTML à capturer
+ * @param options Options d'export
+ * @returns Promesse avec le résultat de l'export
+ */
+export async function exportToPng(
+  element: HTMLElement | null,
+  options: ImageExportOptions = {}
+): Promise<ExportResult> {
+  if (!element) {
+    return {
+      success: false,
+      error: "L'élément à capturer n'existe pas",
+    }
+  }
+
+  const opts = { ...DEFAULT_OPTIONS, ...options }
+
+  try {
+    const canvas = await html2canvas(element, {
+      scale: opts.scale,
+      backgroundColor: opts.backgroundColor,
+      logging: false,
+      useCORS: true,
+      allowTaint: true,
+      ignoreElements: (el) => el.hasAttribute('data-html2canvas-ignore'),
+    })
+
+    const blob = await new Promise<Blob | null>((resolve) => {
+      canvas.toBlob(resolve, 'image/png', 1.0)
+    })
+
+    if (!blob) {
+      return {
+        success: false,
+        error: 'Échec de la conversion en image',
+      }
+    }
+
+    const timestamp = new Date().toISOString().slice(0, 10)
+    const filename = `${opts.filename}-${timestamp}.png`
+    downloadBlob(blob, filename)
+
+    const blobUrl = URL.createObjectURL(blob)
+    return { success: true, blobUrl }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Erreur inconnue'
+    return {
+      success: false,
+      error: `Échec de l'export: ${message}`,
+    }
+  }
+}
+
+/**
+ * Exporte un élément en retournant le canvas (sans téléchargement)
+ * Utile pour l'intégration dans un PDF
+ *
+ * @param element Élément HTML à capturer
+ * @param options Options d'export
+ * @returns Canvas ou null en cas d'erreur
+ */
+export async function captureToCanvas(
+  element: HTMLElement | null,
+  options: Omit<ImageExportOptions, 'filename'> = {}
+): Promise<HTMLCanvasElement | null> {
+  if (!element) {
+    return null
+  }
+
+  const opts = { ...DEFAULT_OPTIONS, ...options }
+
+  try {
+    const canvas = await html2canvas(element, {
+      scale: opts.scale,
+      backgroundColor: opts.backgroundColor,
+      logging: false,
+      useCORS: true,
+      allowTaint: true,
+      ignoreElements: (el) => el.hasAttribute('data-html2canvas-ignore'),
+    })
+
+    return canvas
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Télécharge un blob comme fichier
+ */
+function downloadBlob(blob: Blob, filename: string): void {
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  setTimeout(() => URL.revokeObjectURL(url), 100)
+}
+
+/**
+ * Libère une URL de blob créée précédemment
+ */
+export function releaseBlobUrl(blobUrl: string): void {
+  URL.revokeObjectURL(blobUrl)
+}
+
+// ============================================================================
+// SHARING
+// ============================================================================
+
 /**
  * Vérifie si l'API Web Share est disponible et supporte le partage de fichiers
  *

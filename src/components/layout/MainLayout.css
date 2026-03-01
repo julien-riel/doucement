@@ -11,6 +11,29 @@
 }
 
 /* ================================
+   SKIP LINK
+   Lien d'accès rapide au contenu
+   ================================ */
+.main-layout__skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--spacing-4);
+  z-index: 100;
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--primary-600);
+  color: var(--neutral-0);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  text-decoration: none;
+}
+
+.main-layout__skip-link:focus {
+  top: var(--spacing-2);
+}
+
+/* ================================
    CONTENT AREA
    Zone scrollable principale
    ================================ */

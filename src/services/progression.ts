@@ -4,23 +4,11 @@
  */
 
 import { Habit, DailyEntry, CompletionStatus, CounterOperation, ProgressionContext } from '../types'
+import { daysBetween } from '../utils/date'
 
 // ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
-
-/**
- * Calcule le nombre de jours entre deux dates
- * @param startDate Date de début (YYYY-MM-DD)
- * @param endDate Date de fin (YYYY-MM-DD)
- * @returns Nombre de jours (entier positif ou négatif)
- */
-export function daysBetween(startDate: string, endDate: string): number {
-  const start = new Date(startDate)
-  const end = new Date(endDate)
-  const diffTime = end.getTime() - start.getTime()
-  return Math.floor(diffTime / (1000 * 60 * 60 * 24))
-}
 
 /**
  * Calcule le nombre de semaines complètes entre deux dates

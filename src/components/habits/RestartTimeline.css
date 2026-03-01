@@ -7,7 +7,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: var(--spacing-sm, 12px);
-  color: var(--color-text-primary, #1a1a2e);
+  color: var(--color-text);
 }
 
 .restart-timeline__list {
@@ -61,7 +61,7 @@
 
 .restart-timeline__change {
   font-size: 0.9rem;
-  color: var(--color-text-primary, #1a1a2e);
+  color: var(--color-text);
   font-weight: 500;
 }
 

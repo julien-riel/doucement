@@ -137,14 +137,11 @@ function Onboarding() {
       <footer className="onboarding__footer">
         <nav className="onboarding__navigation" aria-label="Navigation onboarding">
           {/* Indicateurs de progression */}
-          <div className="onboarding__dots" role="tablist" aria-label={t('navigation.today')}>
+          <div className="onboarding__dots" aria-hidden="true">
             {Array.from({ length: totalSteps }).map((_, index) => (
               <div
                 key={index}
                 className={`onboarding__dot ${index === currentStepIndex ? 'onboarding__dot--active' : ''}`}
-                role="tab"
-                aria-selected={index === currentStepIndex}
-                aria-label={`${index + 1}/${totalSteps}`}
               />
             ))}
           </div>

@@ -143,6 +143,255 @@ afterEach(() => {
 })
 
 // ============================================================================
+// HABIT MUTATION TESTS
+// ============================================================================
+
+describe('useAppData - Habit Mutations', () => {
+  describe('addHabit', () => {
+    it('ajoute une habitude avec les champs par défaut', async () => {
+      mockLoadData.mockReturnValue(createInitialData())
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      let newHabit: Habit | null = null
+      act(() => {
+        newHabit = result.current.addHabit({
+          name: 'Méditation',
+          emoji: '🧘',
+          direction: 'increase',
+          startValue: 5,
+          unit: 'minutes',
+          progression: { mode: 'absolute', value: 1, period: 'weekly' },
+        })
+      })
+
+      expect(newHabit).not.toBeNull()
+      expect(newHabit!.name).toBe('Méditation')
+      expect(newHabit!.emoji).toBe('🧘')
+      expect(newHabit!.direction).toBe('increase')
+      expect(newHabit!.startValue).toBe(5)
+      expect(newHabit!.createdAt).toBe(TEST_TODAY)
+      expect(newHabit!.archivedAt).toBeNull()
+      expect(newHabit!.id).toBeDefined()
+      expect(result.current.data.habits).toHaveLength(1)
+    })
+
+    it('génère des ids uniques pour chaque habitude', async () => {
+      mockLoadData.mockReturnValue(createInitialData())
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      let habit1: Habit | null = null
+      let habit2: Habit | null = null
+
+      act(() => {
+        habit1 = result.current.addHabit({
+          name: 'Habit 1',
+          emoji: '🏃',
+          direction: 'increase',
+          startValue: 10,
+          unit: 'min',
+          progression: null,
+        })
+      })
+
+      act(() => {
+        habit2 = result.current.addHabit({
+          name: 'Habit 2',
+          emoji: '📚',
+          direction: 'increase',
+          startValue: 20,
+          unit: 'pages',
+          progression: null,
+        })
+      })
+
+      expect(habit1!.id).not.toBe(habit2!.id)
+      expect(result.current.data.habits).toHaveLength(2)
+    })
+
+    it('apparaît dans activeHabits', async () => {
+      mockLoadData.mockReturnValue(createInitialData())
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      act(() => {
+        result.current.addHabit({
+          name: 'Test',
+          emoji: '✅',
+          direction: 'increase',
+          startValue: 1,
+          unit: 'x',
+          progression: null,
+        })
+      })
+
+      expect(result.current.activeHabits).toHaveLength(1)
+      expect(result.current.archivedHabits).toHaveLength(0)
+    })
+  })
+
+  describe('updateHabit', () => {
+    it('met à jour les champs spécifiés', async () => {
+      const habit = createReplaceHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      let updated: boolean = false
+      act(() => {
+        updated = result.current.updateHabit(habit.id, { name: 'Pompes modifiées', unit: 'reps' })
+      })
+
+      expect(updated).toBe(true)
+      expect(result.current.data.habits[0].name).toBe('Pompes modifiées')
+      expect(result.current.data.habits[0].unit).toBe('reps')
+      // Les autres champs restent inchangés
+      expect(result.current.data.habits[0].emoji).toBe('💪')
+    })
+
+    it('retourne false pour une habitude inexistante', async () => {
+      const habit = createReplaceHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      let updated: boolean = true
+      act(() => {
+        updated = result.current.updateHabit('inexistant', { name: 'Fail' })
+      })
+
+      expect(updated).toBe(false)
+    })
+
+    it('ne modifie pas les autres habitudes', async () => {
+      const habit1 = createReplaceHabit({ id: 'h1', name: 'Habit 1' })
+      const habit2 = createReplaceHabit({ id: 'h2', name: 'Habit 2' })
+      mockLoadData.mockReturnValue(createInitialData([habit1, habit2]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      act(() => {
+        result.current.updateHabit('h1', { name: 'Modified' })
+      })
+
+      expect(result.current.data.habits[0].name).toBe('Modified')
+      expect(result.current.data.habits[1].name).toBe('Habit 2')
+    })
+  })
+
+  describe('archiveHabit', () => {
+    it('archive une habitude active', async () => {
+      const habit = createReplaceHabit()
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      expect(result.current.activeHabits).toHaveLength(1)
+      expect(result.current.archivedHabits).toHaveLength(0)
+
+      let archived: boolean = false
+      act(() => {
+        archived = result.current.archiveHabit(habit.id)
+      })
+
+      expect(archived).toBe(true)
+      expect(result.current.data.habits[0].archivedAt).toBe(TEST_TODAY)
+      expect(result.current.activeHabits).toHaveLength(0)
+      expect(result.current.archivedHabits).toHaveLength(1)
+    })
+
+    it('retourne false pour une habitude inexistante', async () => {
+      mockLoadData.mockReturnValue(createInitialData())
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      let archived: boolean = true
+      act(() => {
+        archived = result.current.archiveHabit('inexistant')
+      })
+
+      expect(archived).toBe(false)
+    })
+  })
+
+  describe('restoreHabit', () => {
+    it('restaure une habitude archivée', async () => {
+      const habit = createReplaceHabit({ archivedAt: '2026-01-10' })
+      mockLoadData.mockReturnValue(createInitialData([habit]))
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      expect(result.current.activeHabits).toHaveLength(0)
+      expect(result.current.archivedHabits).toHaveLength(1)
+
+      let restored: boolean = false
+      act(() => {
+        restored = result.current.restoreHabit(habit.id)
+      })
+
+      expect(restored).toBe(true)
+      expect(result.current.data.habits[0].archivedAt).toBeNull()
+      expect(result.current.activeHabits).toHaveLength(1)
+      expect(result.current.archivedHabits).toHaveLength(0)
+    })
+
+    it('retourne false pour une habitude inexistante', async () => {
+      mockLoadData.mockReturnValue(createInitialData())
+
+      const { result } = renderHook(() => useAppData())
+
+      await vi.waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      let restored: boolean = true
+      act(() => {
+        restored = result.current.restoreHabit('inexistant')
+      })
+
+      expect(restored).toBe(false)
+    })
+  })
+})
+
+// ============================================================================
 // CUMULATIVE ENTRY MODE TESTS
 // ============================================================================
 

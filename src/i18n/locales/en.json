@@ -33,7 +33,8 @@
     "today": "Today",
     "habits": "Habits",
     "statistics": "Statistics",
-    "settings": "Settings"
+    "settings": "Settings",
+    "skipToContent": "Skip to content"
   },
   "habits": {
     "newHabit": "New habit",
@@ -552,8 +553,8 @@
   },
   "habitNeglected": {
     "title": "It's been a while",
-    "subtitle": "You haven't logged this habit yesterday.",
-    "subtitle_plural": "You haven't logged this habit for {{days}} days.",
+    "subtitle": "No entries for this habit yet. Pick it up whenever you're ready.",
+    "subtitle_plural": "No entries for {{days}} days. Pick it up whenever you're ready.",
     "encouragement": "No worries. Let's pick up where you left off.",
     "resumeButton": "Resume"
   },
@@ -794,8 +795,7 @@
       "Every effort counts. Logged.",
       "You made progress today. That's what matters.",
       "Not 100%, but you didn't give up.",
-      "What matters is you did something.",
-      "Well done. Tomorrow is another day."
+      "What matters is you did something."
     ],
     "exceeded": [
       "Beyond the dose. Impressive, but not required.",
@@ -950,7 +950,7 @@
         "message": "Goal reached! You should be proud."
       },
       "almostThere": {
-        "emoji": "🔥",
+        "emoji": "✨",
         "message": "The finish is close! Keep up this momentum."
       },
       "threeQuarters": {

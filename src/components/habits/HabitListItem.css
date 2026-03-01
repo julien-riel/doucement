@@ -6,8 +6,8 @@
 .habit-list-item {
   cursor: pointer;
   transition:
-    transform var(--transition-fast),
-    box-shadow var(--transition-fast);
+    transform var(--duration-fast),
+    box-shadow var(--duration-fast);
 }
 
 .habit-list-item:hover {

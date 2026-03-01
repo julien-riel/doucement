@@ -29,7 +29,6 @@ export const CHECKIN_PARTIAL = [
   "Tu as avancé aujourd'hui. C'est l'essentiel.",
   "Pas 100%, mais tu n'as pas abandonné.",
   "L'important, c'est d'avoir fait quelque chose.",
-  'Bien joué. Demain est un autre jour.',
 ] as const
 
 /**

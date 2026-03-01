@@ -6,7 +6,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Habit, DailyEntry } from '../types'
 import { StatsPeriod } from '../types/statistics'
-import { exportToPng } from '../services/exportImage'
+import { exportToPng } from '../services/imageExport'
 import { exportToPdf } from '../services/exportPdf'
 import './ExportMenu.css'
 

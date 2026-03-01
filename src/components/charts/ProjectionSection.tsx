@@ -37,7 +37,7 @@ function getEncouragingMessage(
   // Progression rapide (moins de 30 jours restants)
   if (daysRemaining !== null && daysRemaining <= 30) {
     return {
-      emoji: '🔥',
+      emoji: '✨',
       message: "L'arrivée est proche ! Continue sur cette lancée.",
     }
   }

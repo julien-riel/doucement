@@ -4,7 +4,7 @@
  */
 
 import { jsPDF } from 'jspdf'
-import { captureToCanvas } from './exportImage'
+import { captureToCanvas } from './imageExport'
 import { Habit, DailyEntry } from '../types'
 import { StatsPeriod } from '../types/statistics'
 import { getHabitStats, getProjection } from './statistics'

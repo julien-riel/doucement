@@ -34,7 +34,7 @@
   font-size: var(--text-base);
   color: var(--primary-600);
   cursor: pointer;
-  transition: color var(--transition-fast);
+  transition: color var(--duration-fast);
 }
 
 .habit-detail__back:hover {

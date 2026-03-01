@@ -87,7 +87,7 @@
 .habit-list__toggle-icon {
   color: var(--neutral-500);
   font-size: var(--text-sm);
-  transition: transform var(--transition-fast);
+  transition: transform var(--duration-fast);
 }
 
 .habit-list__items--archived {
