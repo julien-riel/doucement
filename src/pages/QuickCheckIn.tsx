@@ -1,5 +1,6 @@
 import { useMemo, useCallback } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppData } from '../hooks'
 import {
   calculateTargetDose,
@@ -20,6 +21,7 @@ import './QuickCheckIn.css'
  */
 function QuickCheckIn() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { activeHabits, isLoading, data, getEntriesForDate, addEntry } = useAppData()
 
   const today = getCurrentDate()
@@ -93,7 +95,7 @@ function QuickCheckIn() {
   if (isLoading) {
     return (
       <div className="quick-checkin quick-checkin--loading">
-        <p>Chargement...</p>
+        <p>{t('common.loading')}</p>
       </div>
     )
   }
@@ -108,15 +110,15 @@ function QuickCheckIn() {
     return (
       <div className="quick-checkin quick-checkin--empty">
         <header className="quick-checkin__header">
-          <h1 className="quick-checkin__title">Check-in rapide</h1>
-          <Button variant="ghost" onClick={handleClose} aria-label="Fermer">
+          <h1 className="quick-checkin__title">{t('quickCheckIn.title')}</h1>
+          <Button variant="ghost" onClick={handleClose} aria-label={t('common.close')}>
             ×
           </Button>
         </header>
         <div className="quick-checkin__empty-state">
-          <p>Aucune habitude pour aujourd'hui</p>
+          <p>{t('quickCheckIn.noHabits')}</p>
           <Button variant="primary" onClick={() => navigate('/create')}>
-            Créer une habitude
+            {t('quickCheckIn.createHabit')}
           </Button>
         </div>
       </div>
@@ -127,7 +129,7 @@ function QuickCheckIn() {
     <div className="quick-checkin">
       <header className="quick-checkin__header">
         <div className="quick-checkin__header-content">
-          <h1 className="quick-checkin__title">Check-in rapide</h1>
+          <h1 className="quick-checkin__title">{t('quickCheckIn.title')}</h1>
           <span className="quick-checkin__progress">
             {completedCount}/{totalCount}
           </span>
@@ -135,7 +137,7 @@ function QuickCheckIn() {
         <Button
           variant="ghost"
           onClick={handleClose}
-          aria-label="Fermer"
+          aria-label={t('common.close')}
           className="quick-checkin__close"
         >
           ×
@@ -186,9 +188,9 @@ function QuickCheckIn() {
 
       {completedCount === totalCount && totalCount > 0 && (
         <footer className="quick-checkin__footer">
-          <p className="quick-checkin__success">Toutes les habitudes sont enregistrées !</p>
+          <p className="quick-checkin__success">{t('quickCheckIn.allDone')}</p>
           <Button variant="success" onClick={handleClose}>
-            Fermer
+            {t('common.close')}
           </Button>
         </footer>
       )}

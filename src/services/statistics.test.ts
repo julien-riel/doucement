@@ -19,24 +19,25 @@ import { Habit, DailyEntry } from '../types'
 // TEST DATA
 // ============================================================================
 
-const createHabit = (overrides: Partial<Habit> = {}): Habit => ({
-  id: 'habit-1',
-  name: 'Push-ups',
-  emoji: '💪',
-  description: 'Faire des pompes',
-  direction: 'increase',
-  startValue: 10,
-  unit: 'répétitions',
-  progression: {
-    mode: 'absolute',
-    value: 1,
-    period: 'weekly',
-  },
-  createdAt: '2026-01-01',
-  archivedAt: null,
-  trackingMode: 'detailed',
-  ...overrides,
-}) as Habit
+const createHabit = (overrides: Partial<Habit> = {}): Habit =>
+  ({
+    id: 'habit-1',
+    name: 'Push-ups',
+    emoji: '💪',
+    description: 'Faire des pompes',
+    direction: 'increase',
+    startValue: 10,
+    unit: 'répétitions',
+    progression: {
+      mode: 'absolute',
+      value: 1,
+      period: 'weekly',
+    },
+    createdAt: '2026-01-01',
+    archivedAt: null,
+    trackingMode: 'detailed',
+    ...overrides,
+  }) as Habit
 
 const createEntry = (
   date: string,

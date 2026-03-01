@@ -1,4 +1,4 @@
-import { PATTERN_ANALYSIS } from '../../constants/messages'
+import { useTranslation } from 'react-i18next'
 import type { PatternAnalysis } from '../../utils/patternAnalysis'
 import { Card } from '../ui'
 import './PatternInsights.css'
@@ -13,10 +13,12 @@ export interface PatternInsightsProps {
  * Affiche les meilleurs jours et le meilleur moment de la journée
  */
 function PatternInsights({ analysis }: PatternInsightsProps) {
+  const { t } = useTranslation()
+
   if (!analysis.hasEnoughData) {
     return (
       <Card variant="default" className="pattern-insights pattern-insights--no-data">
-        <p className="pattern-insights__no-data">{PATTERN_ANALYSIS.noDataYet}</p>
+        <p className="pattern-insights__no-data">{t('patternAnalysis.noDataYet')}</p>
       </Card>
     )
   }
@@ -26,15 +28,15 @@ function PatternInsights({ analysis }: PatternInsightsProps) {
       {/* Best Days */}
       {analysis.bestDays.length > 0 && (
         <Card variant="default" className="pattern-insights__card">
-          <h4 className="pattern-insights__title">{PATTERN_ANALYSIS.bestDaysTitle}</h4>
-          <p className="pattern-insights__intro">{PATTERN_ANALYSIS.bestDaysIntro}</p>
+          <h4 className="pattern-insights__title">{t('patternAnalysis.bestDaysTitle')}</h4>
+          <p className="pattern-insights__intro">{t('patternAnalysis.bestDaysIntro')}</p>
           <div className="pattern-insights__days">
             {analysis.bestDays.map((day, idx) => (
               <span
                 key={day.dayIndex}
                 className={`pattern-insights__day ${idx === 0 ? 'pattern-insights__day--best' : ''}`}
               >
-                {day.dayName}
+                {t(`daysOfWeek.long.${day.dayName}`)}
                 <span className="pattern-insights__day-score">
                   {Math.round(day.averageCompletion)}%
                 </span>
@@ -47,15 +49,17 @@ function PatternInsights({ analysis }: PatternInsightsProps) {
       {/* Best Time of Day */}
       {analysis.bestTimeOfDay && (
         <Card variant="default" className="pattern-insights__card">
-          <h4 className="pattern-insights__title">{PATTERN_ANALYSIS.bestTimeTitle}</h4>
-          <p className="pattern-insights__intro">{PATTERN_ANALYSIS.bestTimeIntro}</p>
+          <h4 className="pattern-insights__title">{t('patternAnalysis.bestTimeTitle')}</h4>
+          <p className="pattern-insights__intro">{t('patternAnalysis.bestTimeIntro')}</p>
           <div className="pattern-insights__times">
             {analysis.timeOfDayStats.map((time) => (
               <div
                 key={time.period}
                 className={`pattern-insights__time ${time.period === analysis.bestTimeOfDay?.period ? 'pattern-insights__time--best' : ''}`}
               >
-                <span className="pattern-insights__time-label">{time.label}</span>
+                <span className="pattern-insights__time-label">
+                  {t(`patternAnalysis.${time.label}`)}
+                </span>
                 <div className="pattern-insights__time-bar">
                   <div
                     className="pattern-insights__time-fill"

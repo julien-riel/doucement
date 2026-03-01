@@ -1,5 +1,6 @@
 import { useMemo, useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppData } from '../hooks'
 import { Card, Button } from '../components/ui'
 import { WeeklyReflectionInput, PatternInsights, WeeklyProgressSummary } from '../components/habits'
@@ -8,7 +9,7 @@ import {
   calculateDailyCompletionPercentage,
   HabitStats,
 } from '../services/progression'
-import { getWeeklyMessage, IDENTITY_REMINDER } from '../constants/messages'
+import { getWeeklyMessage } from '../constants/messages'
 import { analyzeGlobalPatterns } from '../utils/patternAnalysis'
 import { getCurrentDate, addDays } from '../utils'
 import './WeeklyReview.css'
@@ -47,15 +48,15 @@ function parseLocalDate(dateStr: string): Date {
 }
 
 /**
- * Formate une plage de dates en français
+ * Formate une plage de dates selon la locale active
  */
-function formatDateRange(startDate: string, endDate: string): string {
+function formatDateRange(startDate: string, endDate: string, locale: string): string {
   const start = parseLocalDate(startDate)
   const end = parseLocalDate(endDate)
 
   const startDay = start.getDate()
   const endDay = end.getDate()
-  const month = end.toLocaleDateString('fr-FR', { month: 'long' })
+  const month = end.toLocaleDateString(locale, { month: 'long' })
 
   return `${startDay} - ${endDay} ${month}`
 }
@@ -86,6 +87,7 @@ interface WeeklyStats {
  */
 function WeeklyReview() {
   const navigate = useNavigate()
+  const { t, i18n } = useTranslation()
   const { activeHabits, data, updatePreferences, isLoading } = useAppData()
 
   const today = getCurrentDate()
@@ -188,7 +190,7 @@ function WeeklyReview() {
   if (isLoading) {
     return (
       <div className="page page-weekly-review page-weekly-review--loading">
-        <p>Chargement...</p>
+        <p>{t('common.loading')}</p>
       </div>
     )
   }
@@ -200,10 +202,10 @@ function WeeklyReview() {
           <span className="weekly-review__empty-emoji" aria-hidden="true">
             📊
           </span>
-          <h1>Pas encore d'habitudes</h1>
-          <p>Crée ta première habitude pour voir ta revue hebdomadaire.</p>
+          <h1>{t('weeklyReview.noHabits.title')}</h1>
+          <p>{t('weeklyReview.noHabits.description')}</p>
           <Button variant="primary" onClick={() => navigate('/create')}>
-            Créer une habitude
+            {t('weeklyReview.noHabits.createHabit')}
           </Button>
         </div>
       </div>
@@ -214,12 +216,14 @@ function WeeklyReview() {
     <div className="page page-weekly-review">
       {/* Header */}
       <header className="weekly-review__header">
-        <h1 className="weekly-review__title">Ta semaine en résumé</h1>
-        <p className="weekly-review__subtitle">{formatDateRange(startDate, endDate)}</p>
+        <h1 className="weekly-review__title">{t('weeklyReview.title')}</h1>
+        <p className="weekly-review__subtitle">
+          {formatDateRange(startDate, endDate, i18n.language)}
+        </p>
       </header>
 
       {/* Message d'encouragement */}
-      <section className="weekly-review__section" aria-label="Message">
+      <section className="weekly-review__section">
         <Card variant="highlight" className="weekly-review__message">
           <span className="weekly-review__message-emoji" aria-hidden="true">
             🌱
@@ -230,8 +234,8 @@ function WeeklyReview() {
 
       {/* Rappel des identités */}
       {activeHabits.some((h) => h.identityStatement) && (
-        <section className="weekly-review__section" aria-label="Identités">
-          <h2 className="weekly-review__section-title">{IDENTITY_REMINDER.weeklyReviewIntro}</h2>
+        <section className="weekly-review__section" aria-label={t('weeklyReview.identityReminder')}>
+          <h2 className="weekly-review__section-title">{t('weeklyReview.identityReminder')}</h2>
           <div className="weekly-review__identities">
             {activeHabits
               .filter((h) => h.identityStatement)
@@ -241,7 +245,7 @@ function WeeklyReview() {
                     {habit.emoji}
                   </span>
                   <p className="weekly-review__identity-text">
-                    Je deviens quelqu'un qui {habit.identityStatement}
+                    {t('weeklyReview.identityStatement', { statement: habit.identityStatement })}
                   </p>
                 </Card>
               ))}
@@ -250,33 +254,35 @@ function WeeklyReview() {
       )}
 
       {/* Statistiques globales */}
-      <section className="weekly-review__section" aria-label="Statistiques globales">
+      <section className="weekly-review__section" aria-label={t('weeklyReview.stats.completion')}>
         <div className="weekly-review__global-stats">
           <Card
             variant="elevated"
             className="weekly-review__stat-card weekly-review__stat-card--main"
           >
             <div className="weekly-review__stat-value">{weeklyStats.averageCompletion}%</div>
-            <div className="weekly-review__stat-label">Complétion cette semaine</div>
+            <div className="weekly-review__stat-label">{t('weeklyReview.stats.completion')}</div>
           </Card>
 
           <div className="weekly-review__stat-row">
             <Card variant="default" className="weekly-review__stat-card">
               <div className="weekly-review__stat-value">{weeklyStats.totalActiveDays}</div>
-              <div className="weekly-review__stat-label">jours actifs</div>
+              <div className="weekly-review__stat-label">{t('weeklyReview.stats.activeDays')}</div>
             </Card>
 
             <Card variant="default" className="weekly-review__stat-card">
               <div className="weekly-review__stat-value">{weeklyStats.totalCompletedDays}</div>
-              <div className="weekly-review__stat-label">jours réussis</div>
+              <div className="weekly-review__stat-label">
+                {t('weeklyReview.stats.completedDays')}
+              </div>
             </Card>
           </div>
         </div>
       </section>
 
       {/* Calendrier de la semaine */}
-      <section className="weekly-review__section" aria-label="Calendrier">
-        <h2 className="weekly-review__section-title">Activité</h2>
+      <section className="weekly-review__section" aria-label={t('weeklyReview.sections.activity')}>
+        <h2 className="weekly-review__section-title">{t('weeklyReview.sections.activity')}</h2>
         <div className="weekly-review__calendar-wrapper">
           {dates.map((date) => {
             const completion = calculateDailyCompletionPercentage(
@@ -285,7 +291,7 @@ function WeeklyReview() {
               date
             )
             const parsedDate = parseLocalDate(date)
-            const dayName = parsedDate.toLocaleDateString('fr-FR', { weekday: 'short' })
+            const dayName = parsedDate.toLocaleDateString(i18n.language, { weekday: 'short' })
             const dayNumber = parsedDate.getDate()
 
             let status: 'empty' | 'partial' | 'completed'
@@ -314,8 +320,8 @@ function WeeklyReview() {
       </section>
 
       {/* Détails par habitude */}
-      <section className="weekly-review__section" aria-label="Par habitude">
-        <h2 className="weekly-review__section-title">Par habitude</h2>
+      <section className="weekly-review__section" aria-label={t('weeklyReview.sections.perHabit')}>
+        <h2 className="weekly-review__section-title">{t('weeklyReview.sections.perHabit')}</h2>
         <div className="weekly-review__habits">
           {activeHabits.map((habit) => {
             const stats = weeklyStats.habitStats.get(habit.id)
@@ -339,13 +345,17 @@ function WeeklyReview() {
                     <span className="weekly-review__habit-stat-value">
                       {Math.round(stats.averageCompletion)}%
                     </span>
-                    <span className="weekly-review__habit-stat-label">moyenne</span>
+                    <span className="weekly-review__habit-stat-label">
+                      {t('weeklyReview.habitStats.average')}
+                    </span>
                   </div>
                   <div className="weekly-review__habit-stat">
                     <span className="weekly-review__habit-stat-value">
                       {stats.completedDays}/{stats.totalDays}
                     </span>
-                    <span className="weekly-review__habit-stat-label">jours</span>
+                    <span className="weekly-review__habit-stat-label">
+                      {t('weeklyReview.habitStats.days')}
+                    </span>
                   </div>
                 </div>
               </Card>
@@ -355,19 +365,19 @@ function WeeklyReview() {
       </section>
 
       {/* Pattern Analysis */}
-      <section className="weekly-review__section" aria-label="Insights">
-        <h2 className="weekly-review__section-title">Tes patterns</h2>
+      <section className="weekly-review__section" aria-label={t('weeklyReview.sections.patterns')}>
+        <h2 className="weekly-review__section-title">{t('weeklyReview.sections.patterns')}</h2>
         <PatternInsights analysis={patternAnalysis} />
       </section>
 
       {/* Progression depuis le début (Effet Composé) */}
-      <section className="weekly-review__section" aria-label="Progression totale">
+      <section className="weekly-review__section">
         <WeeklyProgressSummary habits={activeHabits} referenceDate={today} />
       </section>
 
       {/* Guided Reflection */}
       {!reflectionDismissed && (
-        <section className="weekly-review__section" aria-label="Réflexion">
+        <section className="weekly-review__section" aria-label={t('reflection.title')}>
           <WeeklyReflectionInput
             onSave={handleSaveReflection}
             onSkip={handleSkipReflection}
@@ -379,7 +389,7 @@ function WeeklyReview() {
       {/* Actions */}
       <section className="weekly-review__actions">
         <Button variant="primary" fullWidth onClick={handleContinue}>
-          Continuer
+          {t('common.continue')}
         </Button>
       </section>
     </div>

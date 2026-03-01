@@ -9,25 +9,26 @@ import type { Habit } from '../types'
 import { INITIAL_FORM_STATE } from '../types/habitForm'
 
 // Helper to create a test habit
-const createTestHabit = (overrides: Partial<Habit> = {}): Habit => ({
-  id: 'test-habit-1',
-  name: 'Test Habit',
-  emoji: '💪',
-  unit: 'répétitions',
-  direction: 'increase',
-  startValue: 10,
-  progression: {
-    mode: 'percentage',
-    value: 5,
-    period: 'weekly',
-  },
-  createdAt: '2026-01-01',
-  archivedAt: null,
-  trackingMode: 'detailed',
-  trackingFrequency: 'daily',
-  entryMode: 'replace',
-  ...overrides,
-}) as Habit
+const createTestHabit = (overrides: Partial<Habit> = {}): Habit =>
+  ({
+    id: 'test-habit-1',
+    name: 'Test Habit',
+    emoji: '💪',
+    unit: 'répétitions',
+    direction: 'increase',
+    startValue: 10,
+    progression: {
+      mode: 'percentage',
+      value: 5,
+      period: 'weekly',
+    },
+    createdAt: '2026-01-01',
+    archivedAt: null,
+    trackingMode: 'detailed',
+    trackingFrequency: 'daily',
+    entryMode: 'replace',
+    ...overrides,
+  }) as Habit
 
 describe('useHabitForm', () => {
   describe('Create mode', () => {

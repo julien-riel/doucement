@@ -6,9 +6,17 @@
 import type { DailyEntry, Habit } from '../types'
 
 /**
- * Noms des jours de la semaine en français
+ * Clés des jours de la semaine (utilisées comme identifiants i18n)
  */
-const DAY_NAMES = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'] as const
+const DAY_KEYS = [
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+] as const
 
 /**
  * Périodes de la journée
@@ -113,7 +121,7 @@ export function analyzeHabitPatterns(habit: Habit, entries: DailyEntry[]): Patte
 
   const dayStats: DayStats[] = Array.from(dayStatsMap.entries())
     .map(([dayIndex, data]) => ({
-      dayName: DAY_NAMES[dayIndex],
+      dayName: DAY_KEYS[dayIndex],
       dayIndex,
       totalEntries: data.entries.length,
       completedEntries: data.completions.filter((c) => c >= 70).length,
@@ -142,19 +150,19 @@ export function analyzeHabitPatterns(habit: Habit, entries: DailyEntry[]): Patte
     [
       {
         period: 'morning' as const,
-        label: 'matin',
+        label: 'morning',
         totalEntries: timeStatsMap.get('morning')!,
         percentage: (timeStatsMap.get('morning')! / totalForTimeAnalysis) * 100,
       },
       {
         period: 'afternoon' as const,
-        label: 'après-midi',
+        label: 'afternoon',
         totalEntries: timeStatsMap.get('afternoon')!,
         percentage: (timeStatsMap.get('afternoon')! / totalForTimeAnalysis) * 100,
       },
       {
         period: 'evening' as const,
-        label: 'soir',
+        label: 'evening',
         totalEntries: timeStatsMap.get('evening')!,
         percentage: (timeStatsMap.get('evening')! / totalForTimeAnalysis) * 100,
       },
@@ -164,7 +172,7 @@ export function analyzeHabitPatterns(habit: Habit, entries: DailyEntry[]): Patte
   const bestTimeOfDay = timeOfDayStats[0].totalEntries > 0 ? timeOfDayStats[0] : null
 
   return {
-    bestDays: dayStats.slice(0, 3), // Top 3 jours
+    bestDays: dayStats.slice(0, 3),
     bestTimeOfDay,
     timeOfDayStats,
     hasEnoughData: true,
@@ -200,7 +208,7 @@ export function analyzeGlobalPatterns(_habits: Habit[], entries: DailyEntry[]): 
 
   const dayStats: DayStats[] = Array.from(dayStatsMap.entries())
     .map(([dayIndex, data]) => ({
-      dayName: DAY_NAMES[dayIndex],
+      dayName: DAY_KEYS[dayIndex],
       dayIndex,
       totalEntries: data.entries.length,
       completedEntries: data.completions.filter((c) => c >= 70).length,
@@ -229,19 +237,19 @@ export function analyzeGlobalPatterns(_habits: Habit[], entries: DailyEntry[]): 
     [
       {
         period: 'morning' as const,
-        label: 'matin',
+        label: 'morning',
         totalEntries: timeStatsMap.get('morning')!,
         percentage: (timeStatsMap.get('morning')! / totalForTimeAnalysis) * 100,
       },
       {
         period: 'afternoon' as const,
-        label: 'après-midi',
+        label: 'afternoon',
         totalEntries: timeStatsMap.get('afternoon')!,
         percentage: (timeStatsMap.get('afternoon')! / totalForTimeAnalysis) * 100,
       },
       {
         period: 'evening' as const,
-        label: 'soir',
+        label: 'evening',
         totalEntries: timeStatsMap.get('evening')!,
         percentage: (timeStatsMap.get('evening')! / totalForTimeAnalysis) * 100,
       },
@@ -251,7 +259,7 @@ export function analyzeGlobalPatterns(_habits: Habit[], entries: DailyEntry[]): 
   const bestTimeOfDay = timeOfDayStats[0].totalEntries > 0 ? timeOfDayStats[0] : null
 
   return {
-    bestDays: dayStats.slice(0, 3), // Top 3 jours
+    bestDays: dayStats.slice(0, 3),
     bestTimeOfDay,
     timeOfDayStats,
     hasEnoughData: true,

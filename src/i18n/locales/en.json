@@ -604,8 +604,11 @@
     "title": "Your week in review",
     "noHabits": {
       "title": "No habits yet",
-      "description": "Create your first habit to see your weekly review."
+      "description": "Create your first habit to see your weekly review.",
+      "createHabit": "Create a habit"
     },
+    "identityStatement": "I'm becoming someone who {{statement}}",
+    "identityReminder": "Remember who you're becoming:",
     "stats": {
       "completion": "Completion this week",
       "activeDays": "active days",
@@ -928,6 +931,10 @@
     "confirmMessage": "Your starting value will change from {{oldValue}} to {{newValue}} {{unit}}. Your history will be preserved."
   },
   "statistics": {
+    "title": "My statistics",
+    "periodSelector": "Display period",
+    "habitSelector": "Habit:",
+    "comparison": "Comparison",
     "periods": {
       "week": "Week",
       "month": "Month",
@@ -986,6 +993,12 @@
         "message": "Every small step counts. What matters is to keep going."
       }
     }
+  },
+  "quickCheckIn": {
+    "title": "Quick check-in",
+    "noHabits": "No habits for today",
+    "createHabit": "Create a habit",
+    "allDone": "All habits are logged!"
   },
   "suggestedHabits": {
     "evidence": "Evidence",

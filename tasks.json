@@ -40,7 +40,8 @@
           "id": "1.2",
           "name": "Internationaliser Statistics.tsx",
           "description": "Remplacer toutes les chaînes hardcodées en français dans Statistics.tsx par des appels t(). Ajouter les clés dans fr.json et en.json. Concerne : labels de période ('Semaine', 'Mois', 'Trimestre', 'Année', 'Tout'), titres de sections ('Mes statistiques', 'Pas encore de statistiques'), labels ('Moyenne', 'Jours actifs', 'Habitudes') et tout autre texte visible.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -59,7 +60,8 @@
           "id": "1.3",
           "name": "Internationaliser WeeklyReview.tsx",
           "description": "Remplacer toutes les chaînes hardcodées dans WeeklyReview.tsx : 'Ta semaine en résumé', 'Activité', 'Par habitude', 'Tes patterns', 'Continuer', messages d'état vide. Ajouter les clés dans fr.json et en.json.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -78,7 +80,8 @@
           "id": "1.4",
           "name": "Internationaliser QuickCheckIn.tsx et patternAnalysis.ts",
           "description": "QuickCheckIn.tsx : remplacer 'Check-in rapide', 'Aucune habitude pour aujourd'hui', 'Toutes les habitudes sont enregistrées !', 'Fermer'. patternAnalysis.ts : remplacer DAY_NAMES hardcodés ('dimanche', 'lundi'...) et les labels de période ('matin', 'après-midi', 'soir') par des clés i18n ou des paramètres.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -610,9 +613,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 0,
+    "completed": 3,
     "inProgress": 0,
-    "pending": 31,
+    "pending": 28,
     "blocked": 0
   }
 }

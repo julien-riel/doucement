@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { Navigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppData, useCelebrations } from '../hooks'
 import { ErrorBanner } from '../components/ui'
 import { StatsPeriod, TrendDirection } from '../types/statistics'
@@ -13,17 +14,6 @@ import CelebrationModal from '../components/CelebrationModal'
 import ExportMenu from '../components/ExportMenu'
 import { getCurrentDate } from '../utils'
 import './Statistics.css'
-
-/**
- * Labels des périodes en français
- */
-const PERIOD_LABELS: Record<StatsPeriod, string> = {
-  week: 'Semaine',
-  month: 'Mois',
-  quarter: 'Trimestre',
-  year: 'Année',
-  all: 'Tout',
-}
 
 /**
  * Nombre minimum de jours avec des entrées pour afficher les statistiques
@@ -54,6 +44,7 @@ function formatTrendValue(trend: number): string {
  * Affiche les graphiques de progression, le calendrier heatmap et les comparaisons
  */
 function Statistics() {
+  const { t } = useTranslation()
   const {
     activeHabits,
     data,
@@ -153,7 +144,7 @@ function Statistics() {
   if (isLoading) {
     return (
       <div className="page page-statistics page-statistics--loading">
-        <p>Chargement...</p>
+        <p>{t('common.loading')}</p>
       </div>
     )
   }
@@ -180,10 +171,8 @@ function Statistics() {
           <span className="statistics__empty-icon" aria-hidden="true">
             📊
           </span>
-          <h2 className="statistics__empty-title">Pas encore de statistiques</h2>
-          <p className="statistics__empty-text">
-            Crée ta première habitude pour commencer à voir tes statistiques.
-          </p>
+          <h2 className="statistics__empty-title">{t('statistics.empty.noHabits.title')}</h2>
+          <p className="statistics__empty-text">{t('statistics.empty.noHabits.message')}</p>
         </div>
       </div>
     )
@@ -194,19 +183,19 @@ function Statistics() {
     return (
       <div className="page page-statistics page-statistics--not-enough-data">
         <header className="statistics__header">
-          <h1 className="statistics__title">Mes statistiques</h1>
+          <h1 className="statistics__title">{t('statistics.title')}</h1>
         </header>
 
         <div className="statistics__empty-state">
           <span className="statistics__empty-icon" aria-hidden="true">
             📈
           </span>
-          <h2 className="statistics__empty-title">Continue encore quelques jours</h2>
+          <h2 className="statistics__empty-title">{t('statistics.empty.notEnoughData.title')}</h2>
           <p className="statistics__empty-text">
-            Tes statistiques apparaîtront après {MIN_ENTRIES_FOR_STATS} jours d'activité.
-            <br />
-            Tu en es à {globalStats.totalActiveDays} jour
-            {globalStats.totalActiveDays > 1 ? 's' : ''}.
+            {t('statistics.empty.notEnoughData.message', {
+              days: globalStats.totalActiveDays,
+              count: globalStats.totalActiveDays,
+            })}
           </p>
         </div>
 
@@ -227,13 +216,13 @@ function Statistics() {
   return (
     <div className="page page-statistics">
       <header className="statistics__header">
-        <h1 className="statistics__title">Mes statistiques</h1>
+        <h1 className="statistics__title">{t('statistics.title')}</h1>
 
         {/* Sélecteur de période */}
         <div
           className="statistics__period-selector"
           role="tablist"
-          aria-label="Période d'affichage"
+          aria-label={t('statistics.periodSelector')}
         >
           {(['week', 'month', 'quarter', 'year', 'all'] as StatsPeriod[]).map((p) => (
             <button
@@ -243,16 +232,16 @@ function Statistics() {
               className={`statistics__period-button ${period === p ? 'statistics__period-button--active' : ''}`}
               onClick={() => setPeriod(p)}
             >
-              {PERIOD_LABELS[p]}
+              {t(`statistics.periods.${p}`)}
             </button>
           ))}
         </div>
       </header>
 
       {/* Cartes de statistiques globales */}
-      <section className="statistics__stat-cards" aria-label="Résumé statistique">
+      <section className="statistics__stat-cards" aria-label={t('statistics.title')}>
         <StatCard
-          label="Moyenne"
+          label={t('statistics.cards.average')}
           value={Math.round(globalStats.averageCompletion)}
           unit="%"
           trend={selectedHabitStats ? getTrendDirection(selectedHabitStats.weeklyTrend) : 'stable'}
@@ -260,14 +249,18 @@ function Statistics() {
             selectedHabitStats ? formatTrendValue(selectedHabitStats.weeklyTrend) : undefined
           }
         />
-        <StatCard label="Jours actifs" value={globalStats.totalActiveDays} unit="j" />
-        <StatCard label="Habitudes" value={globalStats.totalHabits} />
+        <StatCard
+          label={t('statistics.cards.activeDays')}
+          value={globalStats.totalActiveDays}
+          unit="j"
+        />
+        <StatCard label={t('statistics.cards.habits')} value={globalStats.totalHabits} />
       </section>
 
       {/* Sélecteur d'habitude */}
       <section className="statistics__habit-selector">
         <label htmlFor="habit-select" className="statistics__habit-label">
-          Habitude :
+          {t('statistics.habitSelector')}
         </label>
         <select
           id="habit-select"
@@ -323,7 +316,7 @@ function Statistics() {
       {/* Graphique de comparaison (si plusieurs habitudes) */}
       {activeHabits.length > 1 && (
         <section className="statistics__comparison-section" aria-label="Comparaison des habitudes">
-          <h2 className="statistics__section-title">Comparaison</h2>
+          <h2 className="statistics__section-title">{t('statistics.comparison')}</h2>
           <ComparisonChart
             habits={activeHabits}
             entries={data.entries}

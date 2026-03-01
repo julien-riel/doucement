@@ -130,7 +130,7 @@ describe('analyzeHabitPatterns', () => {
       expect(result.bestDays.length).toBeLessThanOrEqual(3)
       // Le meilleur jour devrait être lundi (100%)
       expect(result.bestDays[0].averageCompletion).toBe(100)
-      expect(result.bestDays[0].dayName).toBe('lundi')
+      expect(result.bestDays[0].dayName).toBe('monday')
     })
 
     it('retourne maximum 3 meilleurs jours', () => {
@@ -216,7 +216,7 @@ describe('analyzeHabitPatterns', () => {
       const result = analyzeHabitPatterns(habit, entries)
 
       // Chercher les stats pour lundi
-      const mondayStats = result.bestDays.find((d) => d.dayName === 'lundi')
+      const mondayStats = result.bestDays.find((d) => d.dayName === 'monday')
       expect(mondayStats).toBeDefined()
       expect(mondayStats?.totalEntries).toBe(3)
       expect(mondayStats?.completedEntries).toBe(2) // 100% et 80% >= 70%
@@ -247,13 +247,13 @@ describe('analyzeHabitPatterns', () => {
 
       // Devrait uniquement avoir lundi, mardi, mercredi dans bestDays
       const dayNames = result.bestDays.map((d) => d.dayName)
-      expect(dayNames).toContain('lundi')
-      expect(dayNames).toContain('mardi')
-      expect(dayNames).toContain('mercredi')
-      expect(dayNames).not.toContain('jeudi')
-      expect(dayNames).not.toContain('vendredi')
-      expect(dayNames).not.toContain('samedi')
-      expect(dayNames).not.toContain('dimanche')
+      expect(dayNames).toContain('monday')
+      expect(dayNames).toContain('tuesday')
+      expect(dayNames).toContain('wednesday')
+      expect(dayNames).not.toContain('thursday')
+      expect(dayNames).not.toContain('friday')
+      expect(dayNames).not.toContain('saturday')
+      expect(dayNames).not.toContain('sunday')
     })
   })
 
@@ -349,16 +349,16 @@ describe('analyzeHabitPatterns', () => {
       }
     })
 
-    it('utilise les bons labels en français', () => {
+    it('uses i18n-compatible keys for time labels', () => {
       const habit = createHabit({ id: 'habit-1' })
       const entries = createWeekOfEntries('habit-1')
 
       const result = analyzeHabitPatterns(habit, entries)
 
       const labels = result.timeOfDayStats.map((s) => s.label)
-      expect(labels).toContain('matin')
-      expect(labels).toContain('après-midi')
-      expect(labels).toContain('soir')
+      expect(labels).toContain('morning')
+      expect(labels).toContain('afternoon')
+      expect(labels).toContain('evening')
     })
   })
 
@@ -542,7 +542,7 @@ describe('analyzeGlobalPatterns', () => {
 
       expect(result.hasEnoughData).toBe(true)
       // Moyenne pour lundi: 2 entrées (100% + 50%) / 2 = 75%
-      const monday = result.bestDays.find((d) => d.dayName === 'lundi')
+      const monday = result.bestDays.find((d) => d.dayName === 'monday')
       expect(monday?.averageCompletion).toBe(75)
     })
   })

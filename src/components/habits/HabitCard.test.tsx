@@ -30,25 +30,26 @@ vi.mock('react-i18next', () => ({
 }))
 
 // Create a mock habit for testing
-const createMockHabit = (overrides?: Partial<Habit>): Habit => ({
-  id: 'habit-1',
-  name: 'Push-ups',
-  emoji: '💪',
-  direction: 'increase',
-  startValue: 10,
-  unit: 'répétitions',
-  progression: {
-    mode: 'percentage',
-    value: 5,
-    period: 'weekly',
-  },
-  trackingMode: 'detailed',
-  createdAt: '2026-01-01',
-  archivedAt: null,
-  trackingFrequency: 'daily',
-  entryMode: 'replace',
-  ...overrides,
-}) as Habit
+const createMockHabit = (overrides?: Partial<Habit>): Habit =>
+  ({
+    id: 'habit-1',
+    name: 'Push-ups',
+    emoji: '💪',
+    direction: 'increase',
+    startValue: 10,
+    unit: 'répétitions',
+    progression: {
+      mode: 'percentage',
+      value: 5,
+      period: 'weekly',
+    },
+    trackingMode: 'detailed',
+    createdAt: '2026-01-01',
+    archivedAt: null,
+    trackingFrequency: 'daily',
+    entryMode: 'replace',
+    ...overrides,
+  }) as Habit
 
 describe('HabitCard', () => {
   let mockOnCheckIn: (habitId: string, value: number) => void

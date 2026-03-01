@@ -607,8 +607,11 @@
     "title": "Ta semaine en résumé",
     "noHabits": {
       "title": "Pas encore d'habitudes",
-      "description": "Crée ta première habitude pour voir ta revue hebdomadaire."
+      "description": "Crée ta première habitude pour voir ta revue hebdomadaire.",
+      "createHabit": "Créer une habitude"
     },
+    "identityStatement": "Je deviens quelqu'un qui {{statement}}",
+    "identityReminder": "Souviens-toi de qui tu deviens :",
     "stats": {
       "completion": "Complétion cette semaine",
       "activeDays": "jours actifs",
@@ -931,6 +934,10 @@
     "confirmMessage": "Ta valeur de départ passera de {{oldValue}} à {{newValue}} {{unit}}. Ton historique sera préservé."
   },
   "statistics": {
+    "title": "Mes statistiques",
+    "periodSelector": "Période d'affichage",
+    "habitSelector": "Habitude :",
+    "comparison": "Comparaison",
     "periods": {
       "week": "Semaine",
       "month": "Mois",
@@ -989,6 +996,12 @@
         "message": "Chaque petit pas compte. L'important, c'est de continuer."
       }
     }
+  },
+  "quickCheckIn": {
+    "title": "Check-in rapide",
+    "noHabits": "Aucune habitude pour aujourd'hui",
+    "createHabit": "Créer une habitude",
+    "allDone": "Toutes les habitudes sont enregistrées !"
   },
   "suggestedHabits": {
     "evidence": "Preuve",
