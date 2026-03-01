@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.35.6",
+  "currentVersion": "1.36.0",
   "releases": [
+    {
+      "version": "1.36.0",
+      "date": "2026-03-01",
+      "title": "Nouveau départ d'habitude",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Nouveau départ : repartir d'une nouvelle valeur tout en préservant l'historique"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Section dédiée dans la page d'édition avec confirmation bienveillante"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Type RecalibrationRecord enrichi avec distinction recalibration/restart"
+        },
+        {
+          "emoji": "check",
+          "text": "Test E2E du flux complet de nouveau départ"
+        }
+      ]
+    },
     {
       "version": "1.35.6",
       "date": "2026-03-01",
