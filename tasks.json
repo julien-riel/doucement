@@ -2,7 +2,7 @@
   "project": "Retours utilisateurs v2",
   "description": "Nouveau départ d'habitude, correction timer minutes, messages de progression enrichis",
   "createdAt": "2026-03-01",
-  "lastRelease": "1.38.0",
+  "lastRelease": "1.38.1",
   "docs": [
     "docs/prd-user-feedback-v2.md",
     "docs/design/design-system-specification.md"
@@ -313,6 +313,8 @@
       "description": "Tests complets et vérification de non-régression",
       "status": "completed",
       "releaseType": "patch",
+      "releasedAs": "1.38.1",
+      "releasedAt": "2026-03-01",
       "tasks": [
         {
           "id": "5.1",

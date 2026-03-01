@@ -1,6 +1,21 @@
 {
-  "currentVersion": "1.38.0",
+  "currentVersion": "1.38.1",
   "releases": [
+    {
+      "version": "1.38.1",
+      "date": "2026-03-01",
+      "title": "Validation finale",
+      "highlights": [
+        {
+          "emoji": "check",
+          "text": "Suite de tests complète exécutée avec succès"
+        },
+        {
+          "emoji": "check",
+          "text": "TypeScript, ESLint et health check validés"
+        }
+      ]
+    },
     {
       "version": "1.38.0",
       "date": "2026-03-01",
