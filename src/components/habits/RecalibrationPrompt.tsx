@@ -122,10 +122,12 @@ function RecalibrationPrompt({
     <Card variant="highlight" className="recalibration-prompt">
       <div className="recalibration-prompt__header">
         <span className="recalibration-prompt__emoji" aria-hidden="true">
-          🎉
+          {habit.emoji}
         </span>
         <div className="recalibration-prompt__title-group">
-          <h3 className="recalibration-prompt__title">{t('recalibration.title')}</h3>
+          <h3 className="recalibration-prompt__title">
+            {t('recalibration.title', { habitName: habit.name })}
+          </h3>
           <p className="recalibration-prompt__subtitle">{t('recalibration.subtitle')}</p>
         </div>
       </div>
@@ -159,6 +161,7 @@ function RecalibrationPrompt({
         <div className="recalibration-prompt__confirm">
           <p className="recalibration-prompt__confirm-text">
             {t('recalibration.confirmMessage', {
+              habitName: habit.name,
               oldValue: habit.startValue,
               newValue: selectedLevelInfo?.newValue,
               unit: habit.unit,

@@ -270,26 +270,26 @@
     "successEmoji": "✨"
   },
   "recalibration": {
-    "title": "Tu as dépassé tes objectifs !",
-    "subtitle": "Prêt·e à viser plus haut ?",
-    "description": "Tu dépasses régulièrement ta dose cible. C'est le moment idéal pour relever la barre et continuer ta progression.",
+    "title": "On recalibre {{habitName}} ?",
+    "subtitle": "Reprends en douceur",
+    "description": "Ta dose a évolué pendant ton absence. Pour reprendre sereinement, on peut ajuster le point de départ.",
     "levels": {
       "gentle": {
-        "label": "Progression douce",
+        "label": "Reprise douce",
         "desc": "Une marche à la fois"
       },
       "balanced": {
-        "label": "Progression équilibrée",
+        "label": "Reprise équilibrée",
         "desc": "Recommandé"
       },
       "ambitious": {
-        "label": "Progression ambitieuse",
-        "desc": "Pour les plus motivé·e·s"
+        "label": "Reprise ambitieuse",
+        "desc": "Reprendre là où tu en étais"
       }
     },
     "dismiss": "Pas maintenant",
     "confirm": "Recalibrer",
-    "confirmMessage": "Ta nouvelle dose de départ passera de {{oldValue}} à {{newValue}} {{unit}}."
+    "confirmMessage": "Ta nouvelle dose de départ pour {{habitName}} passera de {{oldValue}} à {{newValue}} {{unit}}."
   },
   "checkIn": {
     "partial": "Un peu",
@@ -681,7 +681,7 @@
     },
     "dismissAction": "Non merci"
   },
-  "recalibration": {
+  "absenceRecalibration": {
     "title": "On recalibre ensemble ?",
     "welcomeMessages": [
       "Content·e de te revoir.",

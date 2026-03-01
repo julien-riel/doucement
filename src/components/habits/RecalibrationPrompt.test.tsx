@@ -12,18 +12,18 @@ vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string, options?: Record<string, unknown>) => {
       const translations: Record<string, string> = {
-        'recalibration.title': 'Tu as dépassé tes objectifs !',
-        'recalibration.subtitle': 'Prêt·e à viser plus haut ?',
-        'recalibration.description': 'Tu dépasses régulièrement ta dose cible.',
-        'recalibration.levels.gentle.label': 'Progression douce',
+        'recalibration.title': `On recalibre ${options?.habitName ?? ''} ?`,
+        'recalibration.subtitle': 'Reprends en douceur',
+        'recalibration.description': 'Ta dose a évolué pendant ton absence.',
+        'recalibration.levels.gentle.label': 'Reprise douce',
         'recalibration.levels.gentle.desc': 'Une marche à la fois',
-        'recalibration.levels.balanced.label': 'Progression équilibrée',
+        'recalibration.levels.balanced.label': 'Reprise équilibrée',
         'recalibration.levels.balanced.desc': 'Recommandé',
-        'recalibration.levels.ambitious.label': 'Progression ambitieuse',
-        'recalibration.levels.ambitious.desc': 'Pour les plus motivé·e·s',
+        'recalibration.levels.ambitious.label': 'Reprise ambitieuse',
+        'recalibration.levels.ambitious.desc': 'Reprendre là où tu en étais',
         'recalibration.dismiss': 'Pas maintenant',
         'recalibration.confirm': 'Recalibrer',
-        'recalibration.confirmMessage': `Ta nouvelle dose de départ passera de ${options?.oldValue} à ${options?.newValue} ${options?.unit}.`,
+        'recalibration.confirmMessage': `Ta nouvelle dose de départ pour ${options?.habitName ?? ''} passera de ${options?.oldValue} à ${options?.newValue} ${options?.unit}.`,
         'common.cancel': 'Annuler',
       }
       return translations[key] || key
@@ -98,8 +98,8 @@ describe('RecalibrationPrompt', () => {
         />
       )
 
-      expect(screen.getByText('Tu as dépassé tes objectifs !')).toBeDefined()
-      expect(screen.getByText('Prêt·e à viser plus haut ?')).toBeDefined()
+      expect(screen.getByText('On recalibre Push-ups ?')).toBeDefined()
+      expect(screen.getByText('Reprends en douceur')).toBeDefined()
     })
 
     it('renders all three recalibration level options', () => {
@@ -114,9 +114,9 @@ describe('RecalibrationPrompt', () => {
         />
       )
 
-      expect(screen.getByText('Progression douce')).toBeDefined()
-      expect(screen.getByText('Progression équilibrée')).toBeDefined()
-      expect(screen.getByText('Progression ambitieuse')).toBeDefined()
+      expect(screen.getByText('Reprise douce')).toBeDefined()
+      expect(screen.getByText('Reprise équilibrée')).toBeDefined()
+      expect(screen.getByText('Reprise ambitieuse')).toBeDefined()
     })
 
     it('renders the dismiss button', () => {
@@ -146,7 +146,7 @@ describe('RecalibrationPrompt', () => {
         />
       )
 
-      expect(screen.getByText('🎉')).toBeDefined()
+      expect(screen.getByText('💪')).toBeDefined()
     })
   })
 
@@ -227,7 +227,7 @@ describe('RecalibrationPrompt', () => {
       )
 
       // Click on the balanced option
-      fireEvent.click(screen.getByText('Progression équilibrée'))
+      fireEvent.click(screen.getByText('Reprise équilibrée'))
 
       // Should show confirmation message
       expect(screen.getByText('Recalibrer')).toBeDefined()
@@ -247,14 +247,14 @@ describe('RecalibrationPrompt', () => {
       )
 
       // Select a level
-      fireEvent.click(screen.getByText('Progression douce'))
+      fireEvent.click(screen.getByText('Reprise douce'))
 
       // Click cancel
       fireEvent.click(screen.getByText('Annuler'))
 
       // Should show levels again
-      expect(screen.getByText('Progression douce')).toBeDefined()
-      expect(screen.getByText('Progression équilibrée')).toBeDefined()
+      expect(screen.getByText('Reprise douce')).toBeDefined()
+      expect(screen.getByText('Reprise équilibrée')).toBeDefined()
     })
 
     it('calls onRecalibrate with correct values when confirmed', () => {
@@ -270,7 +270,7 @@ describe('RecalibrationPrompt', () => {
       )
 
       // Select the balanced option (75%)
-      fireEvent.click(screen.getByText('Progression équilibrée'))
+      fireEvent.click(screen.getByText('Reprise équilibrée'))
 
       // Confirm
       fireEvent.click(screen.getByText('Recalibrer'))
@@ -332,9 +332,10 @@ describe('RecalibrationPrompt', () => {
 
       const text = container.textContent || ''
 
-      // Should contain positive words
-      expect(text.toLowerCase()).toContain('dépassé')
-      expect(text.toLowerCase()).toContain('objectifs')
+      // Should contain encouraging words and habit name
+      expect(text.toLowerCase()).toContain('recalibre')
+      expect(text.toLowerCase()).toContain('push-ups')
+      expect(text.toLowerCase()).toContain('douceur')
     })
   })
 
