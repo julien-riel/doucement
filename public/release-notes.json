@@ -1,6 +1,21 @@
 {
-  "currentVersion": "1.35.5",
+  "currentVersion": "1.35.6",
   "releases": [
+    {
+      "version": "1.35.6",
+      "date": "2026-03-01",
+      "title": "Correction bug timer minutes/secondes",
+      "highlights": [
+        {
+          "emoji": "tools",
+          "text": "Conversion automatique des minutes en secondes pour timer et chronomètre"
+        },
+        {
+          "emoji": "check",
+          "text": "Tests E2E timer et stopwatch en minutes"
+        }
+      ]
+    },
     {
       "version": "1.35.5",
       "date": "2026-02-19",
