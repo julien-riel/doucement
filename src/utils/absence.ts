@@ -307,6 +307,12 @@ export function needsRecalibration(
     return false
   }
 
+  // Si l'habitude a été créée ou recalibrée aujourd'hui, pas besoin
+  const today = getCurrentDate()
+  if (habit.createdAt === today) {
+    return false
+  }
+
   const absenceInfo = detectExtendedAbsence(habit, entries, calculateTargetDose)
   return absenceInfo.isExtendedAbsence
 }
