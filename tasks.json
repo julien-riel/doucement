@@ -102,7 +102,8 @@
           "id": "2.3",
           "name": "Créer le composant RestartSection",
           "description": "Créer src/pages/EditHabit/sections/RestartSection.tsx. Le composant affiche : valeur actuelle (lecture seule), champ de saisie pour la nouvelle valeur, champ texte optionnel pour la raison, bouton 'Nouveau départ' avec modale de confirmation. Ton bienveillant : 'Chaque nouveau départ est une victoire'. Ajouter les traductions fr/en.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": ["2.2"],
           "files": [
@@ -214,7 +215,8 @@
           "id": "3.4",
           "name": "Connecter le contexte de progression dans Today page",
           "description": "Dans la page Today, calculer le ProgressionContext pour chaque habitude et le passer au HabitCard. Nécessite d'avoir accès aux entrées (entries) pour calculer les jours d'absence et la valeur de la veille.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": ["3.3"],
           "files": [
@@ -279,7 +281,8 @@
           "id": "4.2",
           "name": "Intégrer RestartTimeline dans HabitDetail",
           "description": "Ajouter la RestartTimeline dans la page HabitDetail, visible uniquement si l'habitude a des recalibrationHistory. Positionner après les statistiques et avant la zone d'archivage.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": ["4.1"],
           "files": [
@@ -323,9 +326,9 @@
   ],
   "stats": {
     "totalTasks": 14,
-    "completed": 8,
+    "completed": 11,
     "inProgress": 0,
-    "pending": 6,
+    "pending": 3,
     "blocked": 0
   }
 }

@@ -904,6 +904,19 @@
     "encouragement": "Chaque reprise compte",
     "reason": "Raison : {{reason}}"
   },
+  "restart": {
+    "title": "Nouveau départ",
+    "encouragement": "Chaque nouveau départ est une victoire.",
+    "currentValue": "Valeur actuelle",
+    "newValueLabel": "Nouvelle valeur de départ",
+    "newValuePlaceholder": "Ex : 15",
+    "newValueHint": "Ta progression repartira de cette valeur",
+    "reasonLabel": "Raison (optionnel)",
+    "reasonPlaceholder": "Ex : Reprise après une pause",
+    "reasonHint": "Note pourquoi tu fais ce nouveau départ",
+    "button": "Nouveau départ",
+    "confirmMessage": "Ta valeur de départ passera de {{oldValue}} à {{newValue}} {{unit}}. Ton historique sera préservé."
+  },
   "statistics": {
     "periods": {
       "week": "Semaine",

@@ -16,6 +16,7 @@ import {
   calculateDailyCompletionPercentage,
   getCompletionStatus,
   calculateWeeklyProgress,
+  getProgressionContext,
 } from '../services/progression'
 import {
   detectGlobalAbsence,
@@ -113,6 +114,9 @@ function Today() {
         }
       }
 
+      // Calculer le contexte de progression pour les messages adaptatifs
+      const progressionContext = getProgressionContext(habit, today, data.entries)
+
       return {
         habit,
         targetDose,
@@ -121,6 +125,7 @@ function Today() {
         anchorHabitName,
         weeklyProgress,
         operations,
+        progressionContext,
       }
     })
   }, [habitsForToday, todayEntries, today, activeHabits, data.entries])
@@ -311,6 +316,7 @@ function Today() {
                             onCounterUndo={handleCounterUndo}
                             onCumulativeUndo={handleCumulativeUndo}
                             date={today}
+                            progressionContext={item.progressionContext}
                           />
                         </div>
                       )

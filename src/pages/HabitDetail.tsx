@@ -10,6 +10,7 @@ import {
   ProgressComparison,
   ShareProgressModal,
 } from '../components/habits'
+import RestartTimeline from '../components/habits/RestartTimeline'
 import { Button, Card } from '../components/ui'
 import { calculateTargetDose, calculateHabitStats } from '../services/progression'
 import { isHabitPaused, getCurrentDate, addDays } from '../utils'
@@ -264,6 +265,13 @@ function HabitDetail() {
           )}
         </Card>
       </section>
+
+      {/* Timeline des recalibrations/restarts */}
+      {habit.recalibrationHistory && habit.recalibrationHistory.length > 0 && (
+        <section className="habit-detail__section" aria-label={t('restartTimeline.title')}>
+          <RestartTimeline history={habit.recalibrationHistory} unit={habit.unit} />
+        </section>
+      )}
 
       {/* Actions */}
       <section className="habit-detail__actions">

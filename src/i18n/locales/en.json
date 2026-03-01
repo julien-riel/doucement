@@ -901,6 +901,19 @@
     "encouragement": "Every restart counts",
     "reason": "Reason: {{reason}}"
   },
+  "restart": {
+    "title": "Fresh start",
+    "encouragement": "Every fresh start is a victory.",
+    "currentValue": "Current value",
+    "newValueLabel": "New starting value",
+    "newValuePlaceholder": "E.g., 15",
+    "newValueHint": "Your progression will restart from this value",
+    "reasonLabel": "Reason (optional)",
+    "reasonPlaceholder": "E.g., Getting back after a break",
+    "reasonHint": "Note why you're making this fresh start",
+    "button": "Fresh start",
+    "confirmMessage": "Your starting value will change from {{oldValue}} to {{newValue}} {{unit}}. Your history will be preserved."
+  },
   "statistics": {
     "periods": {
       "week": "Week",

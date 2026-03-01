@@ -19,6 +19,7 @@ import {
   ProgressionSection,
   IntentionSection,
   IdentitySection,
+  RestartSection,
 } from './sections'
 import '../EditHabit.css'
 
@@ -79,6 +80,9 @@ function EditHabitInner() {
 
         {/* Identity statement */}
         <IdentitySection />
+
+        {/* Nouveau départ (restart from new start value) */}
+        <RestartSection />
       </div>
 
       {/* Footer with buttons */}
