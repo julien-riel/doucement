@@ -2,7 +2,7 @@
   "project": "Consolidation v3 — Bilan Mars 2026",
   "description": "Plan complet de consolidation : architecture, i18n, sécurité, UX, marque et résilience des données",
   "createdAt": "2026-03-01",
-  "lastRelease": "1.41.0",
+  "lastRelease": "1.42.0",
   "docs": [
     "docs/prd-consolidation-v3.md",
     "docs/bilan-mars-2026.md",
@@ -13,8 +13,10 @@
       "id": "phase-1-coherence",
       "name": "Cohérence — i18n, bugs et architecture",
       "description": "Corriger tout ce qui est cassé : i18n incomplet, bugs fonctionnels, gestion d'état fragmentée, terminologie incohérente",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.42.0",
+      "releasedAt": "2026-03-01",
       "tasks": [
         {
           "id": "1.1",

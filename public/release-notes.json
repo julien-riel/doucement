@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.41.0",
+  "currentVersion": "1.42.0",
   "releases": [
+    {
+      "version": "1.42.0",
+      "date": "2026-03-01",
+      "title": "Cohérence — i18n, bugs et architecture",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Gestion d'état unifiée dans un Context React global"
+        },
+        {
+          "emoji": "tools",
+          "text": "Internationalisation de Statistics, WeeklyReview, QuickCheckIn et WhatsNewModal"
+        },
+        {
+          "emoji": "tools",
+          "text": "QuickCheckIn respecte désormais le mode de suivi de chaque habitude"
+        },
+        {
+          "emoji": "paint",
+          "text": "Vocabulaire aligné avec la marque : 'dose' et 'cible' remplacent 'objectif'"
+        }
+      ]
+    },
     {
       "version": "1.41.0",
       "date": "2026-03-01",
