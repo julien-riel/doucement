@@ -486,13 +486,19 @@
         "title": "Import data",
         "text": "Importing will replace all your current data with the file's data.",
         "warning": "Importing will replace all your current data with the file's data.",
+        "mergeWarning": "The file's data will be merged with your current data. In case of conflicts, the most recent version is kept.",
         "irreversible": "This action cannot be undone. Consider exporting your current data first if you want to keep it.",
         "backupFirst": "Download a backup first",
         "inProgress": "Importing...",
         "importing": "Importing...",
         "button": "Import",
         "successTitle": "✓ Import successful",
-        "failTitle": "Import failed"
+        "failTitle": "Import failed",
+        "modeLabel": "Import mode",
+        "modeReplace": "Replace",
+        "modeReplaceDesc": "Replace all your data with the file's data",
+        "modeMerge": "Merge",
+        "modeMergeDesc": "Combine the file's data with yours"
       },
       "importResult": {
         "success": "✓ Import successful",

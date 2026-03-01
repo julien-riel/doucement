@@ -35,6 +35,22 @@
   color: var(--primary-600);
 }
 
+.daily-header__review-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  font-size: var(--text-lg);
+  text-decoration: none;
+  border-radius: var(--radius-full);
+  transition: background-color var(--duration-fast) var(--easing-gentle);
+}
+
+.daily-header__review-link:hover {
+  background-color: var(--neutral-100);
+}
+
 .daily-header__settings {
   display: flex;
   align-items: center;

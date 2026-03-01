@@ -530,3 +530,110 @@ test.describe('Gestion des erreurs d\'import', () => {
     await expect(page.getByText(/invalide|erreur|direction/i).first()).toBeVisible({ timeout: 10000 });
   });
 });
+
+test.describe('Import en mode fusion', () => {
+  let tempDir: string;
+
+  test.beforeAll(() => {
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'doucement-e2e-merge-'));
+  });
+
+  test.afterAll(() => {
+    if (tempDir && fs.existsSync(tempDir)) {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
+
+  test('fusionne les données importées avec les données existantes', async ({ page }) => {
+    // Setup with existing data
+    await page.goto('/settings', { waitUntil: 'commit' });
+    await page.evaluate(() => {
+      localStorage.clear();
+      localStorage.setItem('doucement-language', 'fr');
+      localStorage.setItem('doucement_data', JSON.stringify({
+        schemaVersion: 11,
+        habits: [{
+          id: 'existing-habit',
+          name: 'Habitude Existante',
+          emoji: '💪',
+          direction: 'increase',
+          startValue: 10,
+          unit: 'reps',
+          progression: { mode: 'percentage', value: 3, period: 'weekly' },
+          createdAt: '2026-01-01',
+          archivedAt: null,
+          trackingMode: 'detailed',
+          entryMode: 'replace',
+          weeklyTarget: null,
+          timeOfDay: null,
+          intentionTrigger: null,
+          intentionLocation: null,
+          intentionTime: null,
+          identityStatement: null,
+          targetValue: null,
+          stackAfterHabitId: null,
+          sliderConfig: null,
+          restartHistory: [],
+        }],
+        entries: [{
+          id: 'existing-entry',
+          habitId: 'existing-habit',
+          date: '2026-01-10',
+          targetDose: 10,
+          actualValue: 12,
+          updatedAt: '2026-01-10T12:00:00Z',
+        }],
+        preferences: { onboardingCompleted: true },
+      }));
+    });
+    await page.reload();
+    await page.waitForSelector('.page-settings');
+
+    // Create file with a new habit to merge
+    const mergeData = createAppData({
+      habits: [
+        createIncreaseHabit({
+          id: 'new-habit',
+          name: 'Habitude Fusionnée',
+          emoji: '📚',
+          startValue: 20,
+          unit: 'pages',
+        }),
+      ],
+      entries: [
+        createEntry({
+          id: 'new-entry',
+          habitId: 'new-habit',
+          date: '2026-01-10',
+          targetDose: 20,
+          actualValue: 25,
+        }),
+      ],
+    });
+
+    const filePath = path.join(tempDir, 'merge-import.json');
+    fs.writeFileSync(filePath, JSON.stringify(mergeData, null, 2));
+
+    const settingsPage = new SettingsPage(page);
+
+    // Import file
+    await settingsPage.importData(filePath);
+
+    // Select merge mode
+    await page.getByText('Fusionner').click();
+
+    // Confirm import
+    await page.getByRole('button', { name: 'Importer', exact: true }).or(page.getByRole('button', { name: 'Import', exact: true })).click();
+
+    // Verify merge success
+    await expect(page.getByText(/Fusion réussie|ajoutée/i).first()).toBeVisible({ timeout: 10000 });
+
+    // Close modal
+    await page.getByRole('button', { name: /Continuer|Continue/i }).click();
+
+    // Navigate to Today and verify both habits are present
+    await page.getByRole('link', { name: /Aujourd'hui|Today/i }).click();
+    await expect(page.getByRole('heading', { name: 'Habitude Existante' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Habitude Fusionnée' })).toBeVisible();
+  });
+});

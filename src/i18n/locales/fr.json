@@ -489,13 +489,19 @@
         "title": "Importer des données",
         "text": "L'import remplacera toutes tes données actuelles par celles du fichier.",
         "warning": "L'import remplacera toutes tes données actuelles par celles du fichier.",
+        "mergeWarning": "Les données du fichier seront fusionnées avec tes données actuelles. En cas de conflit, la version la plus récente est conservée.",
         "irreversible": "Cette action est irréversible. Pense à exporter tes données actuelles avant si tu veux les conserver.",
         "backupFirst": "Télécharger un backup d'abord",
         "inProgress": "Import en cours...",
         "importing": "Import en cours...",
         "button": "Importer",
         "successTitle": "✓ Import réussi",
-        "failTitle": "Import échoué"
+        "failTitle": "Import échoué",
+        "modeLabel": "Mode d'import",
+        "modeReplace": "Remplacer",
+        "modeReplaceDesc": "Remplace toutes tes données par celles du fichier",
+        "modeMerge": "Fusionner",
+        "modeMergeDesc": "Combine les données du fichier avec les tiennes"
       },
       "importResult": {
         "success": "✓ Import réussi",

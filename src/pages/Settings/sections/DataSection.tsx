@@ -7,18 +7,22 @@ import { useAppData } from '../../../hooks'
 import {
   exportData,
   importFromFile,
+  importFromFileMerge,
   formatImportResult,
+  formatMergeImportResult,
   ImportResult,
+  MergeImportResult,
 } from '../../../services/importExport'
 import Card from '../../../components/ui/Card'
 import Button from '../../../components/ui/Button'
 
+type ImportMode = 'replace' | 'merge'
 type DataModalType = 'import-confirm' | 'import-result' | null
 
 interface DataModalState {
   type: DataModalType
   file?: File
-  result?: ImportResult
+  result?: ImportResult | MergeImportResult
 }
 
 /**
@@ -29,6 +33,7 @@ export function DataSection() {
   const { data } = useAppData()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [modal, setModal] = useState<DataModalState>({ type: null })
+  const [importMode, setImportMode] = useState<ImportMode>('replace')
   const [isImporting, setIsImporting] = useState(false)
   const [exportMessage, setExportMessage] = useState<string | null>(null)
 
@@ -68,10 +73,13 @@ export function DataSection() {
     if (!modal.file) return
 
     setIsImporting(true)
-    const result = await importFromFile(modal.file)
+    const result =
+      importMode === 'merge'
+        ? await importFromFileMerge(modal.file)
+        : await importFromFile(modal.file)
     setIsImporting(false)
     setModal({ type: 'import-result', result })
-  }, [modal.file])
+  }, [modal.file, importMode])
 
   const handleCloseModal = useCallback(() => {
     if (modal.type === 'import-result' && modal.result?.success) {
@@ -182,18 +190,64 @@ export function DataSection() {
             aria-modal="true"
           >
             <h3 className="settings__modal-title">{t('settings.modals.import.title')}</h3>
-            <p className="settings__modal-text">{t('settings.modals.import.text')}</p>
+
+            <fieldset className="settings__import-mode" role="radiogroup">
+              <legend className="settings__import-mode-legend">
+                {t('settings.modals.import.modeLabel')}
+              </legend>
+              <label
+                className={`settings__import-mode-option ${importMode === 'replace' ? 'settings__import-mode-option--active' : ''}`}
+              >
+                <input
+                  type="radio"
+                  name="importMode"
+                  value="replace"
+                  checked={importMode === 'replace'}
+                  onChange={() => setImportMode('replace')}
+                  className="settings__import-mode-radio"
+                />
+                <span className="settings__import-mode-label">
+                  {t('settings.modals.import.modeReplace')}
+                </span>
+                <span className="settings__import-mode-desc">
+                  {t('settings.modals.import.modeReplaceDesc')}
+                </span>
+              </label>
+              <label
+                className={`settings__import-mode-option ${importMode === 'merge' ? 'settings__import-mode-option--active' : ''}`}
+              >
+                <input
+                  type="radio"
+                  name="importMode"
+                  value="merge"
+                  checked={importMode === 'merge'}
+                  onChange={() => setImportMode('merge')}
+                  className="settings__import-mode-radio"
+                />
+                <span className="settings__import-mode-label">
+                  {t('settings.modals.import.modeMerge')}
+                </span>
+                <span className="settings__import-mode-desc">
+                  {t('settings.modals.import.modeMergeDesc')}
+                </span>
+              </label>
+            </fieldset>
+
             <p className="settings__modal-text settings__modal-text--warning">
-              {t('settings.modals.import.warning')}
+              {importMode === 'replace'
+                ? t('settings.modals.import.warning')
+                : t('settings.modals.import.mergeWarning')}
             </p>
-            <Button
-              variant="secondary"
-              fullWidth
-              onClick={handleExport}
-              className="settings__action-button"
-            >
-              📥 {t('settings.modals.import.backupFirst')}
-            </Button>
+            {importMode === 'replace' && (
+              <Button
+                variant="secondary"
+                fullWidth
+                onClick={handleExport}
+                className="settings__action-button"
+              >
+                📥 {t('settings.modals.import.backupFirst')}
+              </Button>
+            )}
             <div className="settings__modal-actions">
               <Button variant="ghost" onClick={handleCloseModal}>
                 {t('common.cancel')}
@@ -221,7 +275,9 @@ export function DataSection() {
                 : t('settings.modals.importResult.failed')}
             </h3>
             <p className="settings__modal-text settings__modal-text--pre">
-              {formatImportResult(modal.result)}
+              {'habitsAdded' in modal.result
+                ? formatMergeImportResult(modal.result as MergeImportResult)
+                : formatImportResult(modal.result)}
             </p>
             <div className="settings__modal-actions settings__modal-actions--single">
               <Button variant="primary" onClick={handleCloseModal}>

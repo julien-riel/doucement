@@ -464,7 +464,8 @@
           "id": "4.3",
           "name": "Exposer le mode fusionner dans l'UI d'import",
           "description": "Le service importDataMerge est implémenté mais l'UI ne propose que 'remplacer'. Ajouter un choix 'Remplacer' / 'Fusionner' dans DataSection.tsx avec explication de chaque mode.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -484,7 +485,8 @@
           "id": "4.4",
           "name": "Rendre la revue hebdomadaire visible dans la navigation",
           "description": "La page /review est invisible dans la navigation principale. Option : badge sur l'onglet 'Aujourd'hui' en fin de semaine, ou 4ème item dans la bottom nav, ou bouton dans le DailyHeader.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -575,9 +577,9 @@
   ],
   "stats": {
     "totalTasks": 28,
-    "completed": 23,
+    "completed": 25,
     "inProgress": 0,
-    "pending": 5,
+    "pending": 3,
     "blocked": 0
   }
 }
