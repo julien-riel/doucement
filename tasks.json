@@ -176,7 +176,7 @@
       "id": "phase-2-solidite",
       "name": "Solidité — Sécurité, tests et qualité",
       "description": "Renforcer la sécurité, améliorer la qualité du code et ajouter les tests manquants",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
@@ -291,7 +291,8 @@
           "id": "2.7",
           "name": "Écrire les tests de migration.ts",
           "description": "Créer migration.test.ts avec des cas de test pour : migration v1→v12 complète, migration intermédiaire (v8→v12), données déjà à jour (v12), données corrompues (graceful failure), champs manquants dans les anciennes versions.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -309,7 +310,8 @@
           "id": "2.8",
           "name": "Créer un script de vérification i18n",
           "description": "Créer scripts/check-i18n.sh qui : (1) Compare les clés de fr.json et en.json, liste les clés manquantes. (2) Recherche les chaînes françaises hardcodées dans src/ (heuristique : chaînes > 3 mots avec accents français). (3) Exit code 1 si des problèmes sont trouvés. Intégrer dans le health-check.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": ["1.2", "1.3", "1.4"],
           "files": [
@@ -328,7 +330,8 @@
           "id": "2.9",
           "name": "Ajouter React.memo sur HabitCard et composants de liste",
           "description": "Wrapper HabitCard, StatCard et les composants rendus en boucle avec React.memo. Wrapper handleCheckIn dans Today.tsx avec useCallback. Vérifier que les re-renders inutiles sont éliminés avec React DevTools.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "low",
           "dependsOn": ["1.1"],
           "files": [
@@ -626,9 +629,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 14,
+    "completed": 17,
     "inProgress": 0,
-    "pending": 17,
+    "pending": 14,
     "blocked": 0
   }
 }

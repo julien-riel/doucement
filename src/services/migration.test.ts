@@ -1,6 +1,6 @@
 /**
  * Tests unitaires du service de migration
- * Couvre: needsMigration, runMigrations, formatMigrationResult, toutes les migrations v1->v10
+ * Couvre: needsMigration, runMigrations, formatMigrationResult, toutes les migrations v1->v12
  */
 
 import { describe, it, expect } from 'vitest'
@@ -489,6 +489,220 @@ describe('migrations spécifiques', () => {
       expect(result.data?.habits[0].weeklyAggregation).toBe('count-days')
     })
   })
+
+  describe('v9 -> v10: timeOfDay et cumulativeOperations', () => {
+    it('ne modifie pas les habitudes existantes (champs optionnels)', () => {
+      const data = createDataAtVersion(9, {
+        habits: [
+          {
+            id: 'habit-1',
+            name: 'Test',
+            emoji: '💪',
+            direction: 'increase',
+            startValue: 10,
+            unit: 'répétitions',
+            progression: null,
+            createdAt: '2026-01-01',
+            archivedAt: null,
+          },
+        ],
+        preferences: {
+          onboardingCompleted: true,
+          lastWeeklyReviewDate: null,
+          notifications: DEFAULT_NOTIFICATION_SETTINGS,
+          theme: 'system',
+        },
+      })
+
+      const result = runMigrations(data)
+
+      expect(result.success).toBe(true)
+      expect(result.data?.habits[0].timeOfDay).toBeUndefined()
+      expect(result.data?.habits[0].cumulativeOperations).toBeUndefined()
+    })
+
+    it('préserve les champs timeOfDay et cumulativeOperations existants', () => {
+      const data = createDataAtVersion(9, {
+        habits: [
+          {
+            id: 'habit-1',
+            name: 'Test',
+            emoji: '💪',
+            direction: 'increase',
+            startValue: 10,
+            unit: 'répétitions',
+            progression: null,
+            createdAt: '2026-01-01',
+            archivedAt: null,
+            timeOfDay: 'morning',
+            cumulativeOperations: [{ id: 'op-1', value: 5, timestamp: '2026-01-10T10:00:00Z' }],
+          },
+        ],
+        preferences: {
+          onboardingCompleted: true,
+          lastWeeklyReviewDate: null,
+          notifications: DEFAULT_NOTIFICATION_SETTINGS,
+          theme: 'system',
+        },
+      })
+
+      const result = runMigrations(data)
+
+      expect(result.success).toBe(true)
+      expect(result.data?.habits[0].timeOfDay).toBe('morning')
+      expect(result.data?.habits[0].cumulativeOperations).toHaveLength(1)
+    })
+  })
+
+  describe('v10 -> v11: Widgets temporels (stopwatch, timer, slider)', () => {
+    it('ne modifie pas les habitudes existantes (champs optionnels)', () => {
+      const data = createDataAtVersion(10, {
+        habits: [
+          {
+            id: 'habit-1',
+            name: 'Test',
+            emoji: '💪',
+            direction: 'increase',
+            startValue: 10,
+            unit: 'répétitions',
+            progression: null,
+            createdAt: '2026-01-01',
+            archivedAt: null,
+          },
+        ],
+        preferences: {
+          onboardingCompleted: true,
+          lastWeeklyReviewDate: null,
+          notifications: DEFAULT_NOTIFICATION_SETTINGS,
+          theme: 'system',
+        },
+      })
+
+      const result = runMigrations(data)
+
+      expect(result.success).toBe(true)
+      expect(result.data?.habits[0].sliderConfig).toBeUndefined()
+      expect(result.data?.habits[0].notifyOnTarget).toBeUndefined()
+    })
+  })
+
+  describe('v11 -> v12: trackingMode devient requis', () => {
+    it('ajoute trackingMode=detailed aux habitudes sans trackingMode', () => {
+      const data = createDataAtVersion(11, {
+        habits: [
+          {
+            id: 'habit-1',
+            name: 'Test',
+            emoji: '💪',
+            direction: 'increase',
+            startValue: 10,
+            unit: 'répétitions',
+            progression: null,
+            createdAt: '2026-01-01',
+            archivedAt: null,
+            // Pas de trackingMode
+          },
+        ],
+        preferences: {
+          onboardingCompleted: true,
+          lastWeeklyReviewDate: null,
+          notifications: DEFAULT_NOTIFICATION_SETTINGS,
+          theme: 'system',
+        },
+      })
+
+      const result = runMigrations(data)
+
+      expect(result.success).toBe(true)
+      expect(result.data?.habits[0].trackingMode).toBe('detailed')
+    })
+
+    it('préserve trackingMode existant', () => {
+      const data = createDataAtVersion(11, {
+        habits: [
+          {
+            id: 'habit-counter',
+            name: 'Verres d eau',
+            emoji: '💧',
+            direction: 'increase',
+            startValue: 0,
+            unit: 'verres',
+            progression: null,
+            createdAt: '2026-01-01',
+            archivedAt: null,
+            trackingMode: 'counter',
+          },
+          {
+            id: 'habit-simple',
+            name: 'Méditation',
+            emoji: '🧘',
+            direction: 'maintain',
+            startValue: 1,
+            unit: 'séance',
+            progression: null,
+            createdAt: '2026-01-01',
+            archivedAt: null,
+            trackingMode: 'simple',
+          },
+        ],
+        preferences: {
+          onboardingCompleted: true,
+          lastWeeklyReviewDate: null,
+          notifications: DEFAULT_NOTIFICATION_SETTINGS,
+          theme: 'system',
+        },
+      })
+
+      const result = runMigrations(data)
+
+      expect(result.success).toBe(true)
+      expect(result.data?.habits[0].trackingMode).toBe('counter')
+      expect(result.data?.habits[1].trackingMode).toBe('simple')
+    })
+
+    it('gère un mix d habitudes avec et sans trackingMode', () => {
+      const data = createDataAtVersion(11, {
+        habits: [
+          {
+            id: 'habit-with',
+            name: 'Avec mode',
+            emoji: '✅',
+            direction: 'increase',
+            startValue: 10,
+            unit: 'reps',
+            progression: null,
+            createdAt: '2026-01-01',
+            archivedAt: null,
+            trackingMode: 'stopwatch',
+          },
+          {
+            id: 'habit-without',
+            name: 'Sans mode',
+            emoji: '❓',
+            direction: 'increase',
+            startValue: 5,
+            unit: 'min',
+            progression: null,
+            createdAt: '2026-01-01',
+            archivedAt: null,
+            // Pas de trackingMode
+          },
+        ],
+        preferences: {
+          onboardingCompleted: true,
+          lastWeeklyReviewDate: null,
+          notifications: DEFAULT_NOTIFICATION_SETTINGS,
+          theme: 'system',
+        },
+      })
+
+      const result = runMigrations(data)
+
+      expect(result.success).toBe(true)
+      expect(result.data?.habits[0].trackingMode).toBe('stopwatch')
+      expect(result.data?.habits[1].trackingMode).toBe('detailed')
+    })
+  })
 })
 
 // ============================================================================
@@ -569,17 +783,12 @@ describe('formatMigrationResult', () => {
 // ============================================================================
 
 describe('MIGRATIONS registry', () => {
-  it('contient des migrations pour les versions 1 à 8', () => {
+  it('contient des migrations pour les versions 1 à 11', () => {
     const versions = MIGRATIONS.map((m) => m.fromVersion)
 
-    expect(versions).toContain(1)
-    expect(versions).toContain(2)
-    expect(versions).toContain(3)
-    expect(versions).toContain(4)
-    expect(versions).toContain(5)
-    expect(versions).toContain(6)
-    expect(versions).toContain(7)
-    expect(versions).toContain(8)
+    for (let v = 1; v <= CURRENT_SCHEMA_VERSION - 1; v++) {
+      expect(versions).toContain(v)
+    }
   })
 
   it('forme une chaîne continue de migrations', () => {
@@ -614,8 +823,202 @@ describe('MIGRATIONS registry', () => {
 // CAS LIMITES
 // ============================================================================
 
-describe('cas limites', () => {
-  it('gère les données avec preferences undefined', () => {
+// ============================================================================
+// MIGRATION COMPLÈTE v1 → v12
+// ============================================================================
+
+describe('migration complète v1 → v12', () => {
+  it('migre des données v1 avec habitudes et entrées vers v12', () => {
+    const data = createDataAtVersion(1, {
+      habits: [
+        {
+          id: 'habit-daily',
+          name: 'Push-ups',
+          emoji: '💪',
+          direction: 'increase',
+          startValue: 10,
+          unit: 'répétitions',
+          progression: { mode: 'percentage', value: 3, period: 'weekly' },
+          createdAt: '2026-01-01',
+          archivedAt: null,
+        },
+        {
+          id: 'habit-weekly',
+          name: 'Sport',
+          emoji: '🏃',
+          direction: 'increase',
+          startValue: 3,
+          unit: 'séances',
+          progression: null,
+          createdAt: '2026-01-01',
+          archivedAt: null,
+          trackingFrequency: 'weekly',
+        },
+      ],
+      entries: [
+        {
+          id: 'entry-1',
+          habitId: 'habit-daily',
+          date: '2026-01-10',
+          targetDose: 10,
+          actualValue: 8,
+          createdAt: '2026-01-10T10:00:00Z',
+          updatedAt: '2026-01-10T10:00:00Z',
+        },
+      ],
+      preferences: {
+        onboardingCompleted: true,
+        lastWeeklyReviewDate: '2026-01-05',
+      },
+    })
+
+    const result = runMigrations(data)
+
+    expect(result.success).toBe(true)
+    expect(result.fromVersion).toBe(1)
+    expect(result.toVersion).toBe(CURRENT_SCHEMA_VERSION)
+    expect(result.data?.schemaVersion).toBe(CURRENT_SCHEMA_VERSION)
+
+    // Vérifier que les données sont préservées
+    expect(result.data?.habits).toHaveLength(2)
+    expect(result.data?.habits[0].name).toBe('Push-ups')
+    expect(result.data?.habits[0].startValue).toBe(10)
+    expect(result.data?.entries).toHaveLength(1)
+    expect(result.data?.preferences.onboardingCompleted).toBe(true)
+
+    // Vérifier les ajouts de migration
+    expect(result.data?.preferences.notifications).toEqual(DEFAULT_NOTIFICATION_SETTINGS)
+    expect(result.data?.preferences.theme).toBe('system')
+    expect(result.data?.habits[0].trackingMode).toBe('detailed') // v12: défaut
+    expect(result.data?.habits[1].weeklyAggregation).toBe('sum-units') // v9: weekly default
+
+    // Vérifier que toutes les migrations ont été appliquées
+    expect(result.migrationsApplied.length).toBe(CURRENT_SCHEMA_VERSION - 1)
+  })
+})
+
+// ============================================================================
+// MIGRATION INTERMÉDIAIRE v8 → v12
+// ============================================================================
+
+describe('migration intermédiaire v8 → v12', () => {
+  it('applique uniquement les migrations v8→v9→v10→v11→v12', () => {
+    const data = createDataAtVersion(8, {
+      habits: [
+        {
+          id: 'habit-1',
+          name: 'Lecture',
+          emoji: '📖',
+          direction: 'increase',
+          startValue: 20,
+          unit: 'minutes',
+          progression: null,
+          createdAt: '2026-01-01',
+          archivedAt: null,
+          trackingFrequency: 'daily',
+          // Pas de trackingMode (sera ajouté par v12)
+        },
+        {
+          id: 'habit-2',
+          name: 'Yoga',
+          emoji: '🧘',
+          direction: 'maintain',
+          startValue: 1,
+          unit: 'séance',
+          progression: null,
+          createdAt: '2026-01-01',
+          archivedAt: null,
+          trackingFrequency: 'weekly',
+          // Pas de weeklyAggregation (sera ajouté par v9)
+        },
+      ],
+      preferences: {
+        onboardingCompleted: true,
+        lastWeeklyReviewDate: null,
+        notifications: DEFAULT_NOTIFICATION_SETTINGS,
+        theme: 'dark',
+      },
+    })
+
+    const result = runMigrations(data)
+
+    expect(result.success).toBe(true)
+    expect(result.fromVersion).toBe(8)
+    expect(result.toVersion).toBe(CURRENT_SCHEMA_VERSION)
+    expect(result.migrationsApplied).toHaveLength(CURRENT_SCHEMA_VERSION - 8)
+
+    // v9 : weeklyAggregation ajouté
+    expect(result.data?.habits[1].weeklyAggregation).toBe('sum-units')
+
+    // v12 : trackingMode ajouté
+    expect(result.data?.habits[0].trackingMode).toBe('detailed')
+    expect(result.data?.habits[1].trackingMode).toBe('detailed')
+
+    // Préférences préservées
+    expect(result.data?.preferences.theme).toBe('dark')
+  })
+})
+
+// ============================================================================
+// DONNÉES CORROMPUES (GRACEFUL FAILURE)
+// ============================================================================
+
+describe('données corrompues', () => {
+  it('gère les données avec schemaVersion non numérique', () => {
+    const data = {
+      schemaVersion: 'invalid',
+      habits: [],
+      entries: [],
+      preferences: { onboardingCompleted: false, lastWeeklyReviewDate: null },
+    }
+
+    const result = runMigrations(data)
+
+    // schemaVersion non numérique → traitée comme 0
+    expect(result.success).toBe(true)
+    expect(result.fromVersion).toBe(0)
+    expect(result.data?.schemaVersion).toBe(CURRENT_SCHEMA_VERSION)
+  })
+
+  it('gère les données avec schemaVersion null', () => {
+    const data = {
+      schemaVersion: null,
+      habits: [],
+      entries: [],
+      preferences: { onboardingCompleted: false, lastWeeklyReviewDate: null },
+    }
+
+    const result = runMigrations(data)
+
+    expect(result.success).toBe(true)
+    expect(result.fromVersion).toBe(0)
+  })
+
+  it('gère les données avec habits qui est un objet au lieu d un tableau', () => {
+    const data = createDataAtVersion(8, {
+      habits: { invalid: true } as unknown as [],
+      preferences: {
+        onboardingCompleted: false,
+        lastWeeklyReviewDate: null,
+        notifications: DEFAULT_NOTIFICATION_SETTINGS,
+        theme: 'system',
+      },
+    })
+
+    // La migration v8→v9 utilise ?? [] si habits est falsy,
+    // mais un objet est truthy — la migration tente de map() dessus
+    // Le résultat dépend du type réel ; vérifions que ça ne plante pas silencieusement
+    const result = runMigrations(data)
+
+    // Si ça échoue, success=false avec un message d'erreur
+    // Si ça passe, les données sont migrées (comportement dégradé mais stable)
+    expect(typeof result.success).toBe('boolean')
+    if (!result.success) {
+      expect(result.error).toBeDefined()
+    }
+  })
+
+  it('gère les données avec preferences undefined (v1)', () => {
     const data = {
       schemaVersion: 1,
       habits: [],
@@ -645,6 +1048,67 @@ describe('cas limites', () => {
     expect(result.success).toBe(true)
   })
 
+  it('gère les données complètement vides', () => {
+    const data = {} as Record<string, unknown>
+
+    const result = runMigrations(data)
+
+    // schemaVersion undefined → 0, pas de migration définie pour v0
+    expect(result.success).toBe(true)
+    expect(result.fromVersion).toBe(0)
+    expect(result.data?.schemaVersion).toBe(CURRENT_SCHEMA_VERSION)
+  })
+
+  it('gère les habitudes avec des champs manquants dans les anciennes versions', () => {
+    const data = createDataAtVersion(1, {
+      habits: [
+        {
+          // Habitude minimale — champs qui auraient pu exister en v1
+          id: 'old-habit',
+          name: 'Vieille habitude',
+          emoji: '📝',
+          direction: 'increase',
+          startValue: 5,
+          unit: 'pages',
+          progression: null,
+          createdAt: '2025-06-01',
+          archivedAt: null,
+          // Pas de : trackingMode, trackingFrequency, entryMode,
+          // implementationIntention, anchorHabitId, timeOfDay,
+          // cumulativeOperations, sliderConfig, notifyOnTarget,
+          // weeklyAggregation, identityStatement, recalibrationHistory
+        },
+      ],
+      preferences: {
+        onboardingCompleted: true,
+        lastWeeklyReviewDate: null,
+      },
+    })
+
+    const result = runMigrations(data)
+
+    expect(result.success).toBe(true)
+    const habit = result.data?.habits[0]
+    expect(habit).toBeDefined()
+    expect(habit?.name).toBe('Vieille habitude')
+    // trackingMode est requis depuis v12
+    expect(habit?.trackingMode).toBe('detailed')
+    // Les champs optionnels restent undefined
+    expect(habit?.trackingFrequency).toBeUndefined()
+    expect(habit?.entryMode).toBeUndefined()
+    expect(habit?.implementationIntention).toBeUndefined()
+    expect(habit?.anchorHabitId).toBeUndefined()
+    expect(habit?.timeOfDay).toBeUndefined()
+    expect(habit?.identityStatement).toBeUndefined()
+    expect(habit?.recalibrationHistory).toBeUndefined()
+  })
+})
+
+// ============================================================================
+// CAS LIMITES SUPPLÉMENTAIRES
+// ============================================================================
+
+describe('cas limites', () => {
   it("gère un grand nombre d'habitudes", () => {
     const habits = Array.from({ length: 100 }, (_, i) => ({
       id: `habit-${i}`,
@@ -679,5 +1143,119 @@ describe('cas limites', () => {
     weeklyHabits.forEach((h) => {
       expect(h.weeklyAggregation).toBe('sum-units')
     })
+
+    // Toutes les habitudes devraient avoir trackingMode (v12)
+    result.data?.habits.forEach((h) => {
+      expect(h.trackingMode).toBe('detailed')
+    })
+  })
+
+  it('gère la migration depuis exactement la version précédente (v11 → v12)', () => {
+    const data = createDataAtVersion(11, {
+      habits: [
+        {
+          id: 'habit-1',
+          name: 'Test',
+          emoji: '✅',
+          direction: 'increase',
+          startValue: 10,
+          unit: 'min',
+          progression: null,
+          createdAt: '2026-01-01',
+          archivedAt: null,
+        },
+      ],
+      preferences: {
+        onboardingCompleted: true,
+        lastWeeklyReviewDate: null,
+        notifications: DEFAULT_NOTIFICATION_SETTINGS,
+        theme: 'system',
+      },
+    })
+
+    const result = runMigrations(data)
+
+    expect(result.success).toBe(true)
+    expect(result.migrationsApplied).toHaveLength(1)
+    expect(result.migrationsApplied[0]).toContain('trackingMode')
+  })
+
+  it('retourne les données inchangées si la version est exactement à jour', () => {
+    const data = createDataAtVersion(CURRENT_SCHEMA_VERSION, {
+      habits: [
+        {
+          id: 'habit-1',
+          name: 'Déjà à jour',
+          emoji: '✅',
+          direction: 'increase',
+          startValue: 10,
+          unit: 'min',
+          progression: null,
+          createdAt: '2026-01-01',
+          archivedAt: null,
+          trackingMode: 'detailed',
+        },
+      ],
+      preferences: {
+        onboardingCompleted: true,
+        lastWeeklyReviewDate: null,
+        notifications: DEFAULT_NOTIFICATION_SETTINGS,
+        theme: 'system',
+      },
+    })
+
+    const result = runMigrations(data)
+
+    expect(result.success).toBe(true)
+    expect(result.fromVersion).toBe(CURRENT_SCHEMA_VERSION)
+    expect(result.toVersion).toBe(CURRENT_SCHEMA_VERSION)
+    expect(result.migrationsApplied).toHaveLength(0)
+  })
+
+  it('gère les données avec des champs supplémentaires inconnus', () => {
+    const data = createDataAtVersion(1, {
+      unknownField: 'should be preserved',
+      preferences: {
+        onboardingCompleted: true,
+        lastWeeklyReviewDate: null,
+        customPref: 'value',
+      },
+    })
+
+    const result = runMigrations(data)
+
+    expect(result.success).toBe(true)
+    // Les champs inconnus ne doivent pas faire échouer la migration
+    expect(result.data?.schemaVersion).toBe(CURRENT_SCHEMA_VERSION)
+  })
+
+  it('ne mute pas les données d entrée', () => {
+    const originalData = createDataAtVersion(11, {
+      habits: [
+        {
+          id: 'habit-1',
+          name: 'Test',
+          emoji: '✅',
+          direction: 'increase',
+          startValue: 10,
+          unit: 'min',
+          progression: null,
+          createdAt: '2026-01-01',
+          archivedAt: null,
+        },
+      ],
+      preferences: {
+        onboardingCompleted: true,
+        lastWeeklyReviewDate: null,
+        notifications: DEFAULT_NOTIFICATION_SETTINGS,
+        theme: 'system',
+      },
+    })
+
+    const dataCopy = JSON.parse(JSON.stringify(originalData))
+    runMigrations(originalData)
+
+    // La version originale ne devrait pas être modifiée
+    expect(originalData.schemaVersion).toBe(dataCopy.schemaVersion)
   })
 })

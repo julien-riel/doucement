@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { TrendDirection, StatCardData } from '../../types/statistics'
 import Card from '../ui/Card'
 import './StatCard.css'
@@ -109,4 +110,4 @@ function StatCard({ label, value, unit, trend, trendValue, className = '' }: Sta
   )
 }
 
-export default StatCard
+export default memo(StatCard)

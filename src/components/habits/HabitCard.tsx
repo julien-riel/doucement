@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Habit, CompletionStatus, CounterOperation, ProgressionContext } from '../../types'
 import { randomMessage } from '../../constants/messages'
@@ -380,4 +380,4 @@ function HabitCard({
   )
 }
 
-export default HabitCard
+export default memo(HabitCard)

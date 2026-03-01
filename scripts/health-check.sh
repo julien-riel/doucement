@@ -26,7 +26,7 @@ WARNINGS=0
 # ==============================================================================
 # 1. Vérification des répertoires vides
 # ==============================================================================
-echo -e "${BLUE}[1/7] Vérification des répertoires vides...${NC}"
+echo -e "${BLUE}[1/8] Vérification des répertoires vides...${NC}"
 
 EMPTY_DIRS=$(find src -type d -empty 2>/dev/null || true)
 if [ -n "$EMPTY_DIRS" ]; then
@@ -43,7 +43,7 @@ fi
 # 2. Vérification de la taille des fichiers de test
 # ==============================================================================
 echo ""
-echo -e "${BLUE}[2/7] Vérification de la taille des fichiers de test...${NC}"
+echo -e "${BLUE}[2/8] Vérification de la taille des fichiers de test...${NC}"
 
 # Ratio maximum test/source (3x)
 MAX_RATIO=3
@@ -82,7 +82,7 @@ echo -e "${GREEN}  ✓ Ratio test/source vérifié${NC}"
 # 3. Vérification des imports cassés (TypeScript)
 # ==============================================================================
 echo ""
-echo -e "${BLUE}[3/7] Vérification TypeScript...${NC}"
+echo -e "${BLUE}[3/8] Vérification TypeScript...${NC}"
 
 if npm run typecheck --silent 2>/dev/null; then
     echo -e "${GREEN}  ✓ TypeScript compile sans erreur${NC}"
@@ -95,7 +95,7 @@ fi
 # 4. Vérification du lint
 # ==============================================================================
 echo ""
-echo -e "${BLUE}[4/7] Vérification ESLint...${NC}"
+echo -e "${BLUE}[4/8] Vérification ESLint...${NC}"
 
 if npm run lint --silent 2>/dev/null; then
     echo -e "${GREEN}  ✓ Lint passe sans erreur${NC}"
@@ -108,7 +108,7 @@ fi
 # 5. Vérification des tokens CSS
 # ==============================================================================
 echo ""
-echo -e "${BLUE}[5/7] Vérification des tokens CSS...${NC}"
+echo -e "${BLUE}[5/8] Vérification des tokens CSS...${NC}"
 
 if ./scripts/lint-css-tokens.sh > /dev/null 2>&1; then
     echo -e "${GREEN}  ✓ Tous les tokens CSS sont définis${NC}"
@@ -122,7 +122,7 @@ fi
 # 6. Vérification Lighthouse (optionnel)
 # ==============================================================================
 echo ""
-echo -e "${BLUE}[6/7] Vérification Lighthouse...${NC}"
+echo -e "${BLUE}[6/8] Vérification Lighthouse...${NC}"
 
 # Vérifier si le dossier dist existe pour éviter un build inutile
 if [ -d "dist" ]; then
@@ -161,10 +161,24 @@ else
 fi
 
 # ==============================================================================
-# 6. Vérification de la cohérence de la documentation
+# 6b. Vérification i18n
 # ==============================================================================
 echo ""
-echo -e "${BLUE}[7/7] Vérification de la documentation...${NC}"
+echo -e "${BLUE}[7/8] Vérification i18n...${NC}"
+
+if ./scripts/check-i18n.sh > /dev/null 2>&1; then
+    echo -e "${GREEN}  ✓ Clés i18n synchronisées FR/EN${NC}"
+else
+    echo -e "${RED}  ✗ Problèmes i18n détectés${NC}"
+    echo -e "    Exécutez: ./scripts/check-i18n.sh"
+    ERRORS=$((ERRORS + 1))
+fi
+
+# ==============================================================================
+# 7. Vérification de la cohérence de la documentation
+# ==============================================================================
+echo ""
+echo -e "${BLUE}[8/8] Vérification de la documentation...${NC}"
 
 REQUIRED_DOCS=(
     "docs/prd.md"
