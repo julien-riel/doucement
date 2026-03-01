@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.38.1",
+  "currentVersion": "1.38.2",
   "releases": [
+    {
+      "version": "1.38.2",
+      "date": "2026-03-01",
+      "title": "Corrections critiques",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Intégrer runMigrations dans loadData()"
+        },
+        {
+          "emoji": "tools",
+          "text": "Corriger la clé localStorage dans AppProvider"
+        },
+        {
+          "emoji": "tools",
+          "text": "Corriger les tokens CSS --success-*"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Retirer la carte Série/Streak des statistiques"
+        }
+      ]
+    },
     {
       "version": "1.38.1",
       "date": "2026-03-01",

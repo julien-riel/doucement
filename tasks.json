@@ -2,7 +2,7 @@
   "project": "Consolidation post-audit v1.38",
   "description": "Corrections critiques, robustesse, cohérence et performance suite à l'audit pluridisciplinaire",
   "createdAt": "2026-03-01",
-  "lastRelease": "1.38.1",
+  "lastRelease": "1.38.2",
   "docs": [
     "docs/prd-consolidation-v2.md",
     "docs/bilan-v1.38.md",
@@ -15,6 +15,8 @@
       "description": "Bugs et contradictions qui menacent l'intégrité des données et la cohérence de la marque",
       "status": "completed",
       "releaseType": "patch",
+      "releasedAs": "1.38.2",
+      "releasedAt": "2026-03-01",
       "tasks": [
         {
           "id": "1.1",
