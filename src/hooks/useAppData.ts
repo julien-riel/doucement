@@ -227,15 +227,15 @@ export function useAppData(): UseAppDataReturn {
    */
   const recalibrateHabitDose = useCallback(
     (id: string, newStartValue: number, level: number): boolean => {
-      let found = false
+      const habitExists = data.habits.some((h) => h.id === id)
+      if (!habitExists) return false
+
       const today = getCurrentDate()
 
       setData((prev) => ({
         ...prev,
         habits: prev.habits.map((habit) => {
           if (habit.id === id) {
-            found = true
-
             // Créer l'entrée d'historique de recalibration
             const recalibrationRecord: RecalibrationRecord = {
               date: today,
@@ -259,9 +259,9 @@ export function useAppData(): UseAppDataReturn {
         }),
       }))
 
-      return found
+      return true
     },
-    []
+    [data.habits]
   )
 
   /**
@@ -269,15 +269,15 @@ export function useAppData(): UseAppDataReturn {
    */
   const restartHabit = useCallback(
     (id: string, newStartValue: number, reason?: string): boolean => {
-      let found = false
+      const habitExists = data.habits.some((h) => h.id === id)
+      if (!habitExists) return false
+
       const today = getCurrentDate()
 
-      setData((prev) => ({
+      const updater = (prev: AppData): AppData => ({
         ...prev,
         habits: prev.habits.map((habit) => {
           if (habit.id === id) {
-            found = true
-
             const recalibrationRecord: RecalibrationRecord = {
               date: today,
               previousStartValue: habit.startValue,
@@ -299,11 +299,16 @@ export function useAppData(): UseAppDataReturn {
           }
           return habit
         }),
-      }))
+      })
 
-      return found
+      // Save synchronously to ensure persistence before navigation
+      const newData = updater(data)
+      saveData(newData)
+      setData(newData)
+
+      return true
     },
-    []
+    [data]
   )
 
   const getHabitById = useCallback(

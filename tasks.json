@@ -60,7 +60,7 @@
       "id": "phase-2-restart",
       "name": "Nouveau départ d'habitude",
       "description": "Permettre aux utilisateurs de repartir d'une nouvelle valeur de départ tout en préservant l'historique",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
@@ -127,7 +127,8 @@
           "id": "2.4",
           "name": "Test E2E nouveau départ",
           "description": "Test E2E qui vérifie le flux complet : aller dans édition → saisir nouvelle valeur → confirmer → vérifier que la dose du jour a changé.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": ["2.3"],
           "files": [
@@ -146,7 +147,7 @@
       "id": "phase-3-messages",
       "name": "Messages de progression enrichis et adaptatifs",
       "description": "Remplacer les messages de progression statiques par des messages contextuels riches",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
@@ -235,7 +236,8 @@
           "id": "3.5",
           "name": "Test E2E messages de progression",
           "description": "Test E2E vérifiant que les messages de progression s'affichent correctement sur la page du jour pour différents scénarios.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": ["3.4"],
           "files": [
@@ -254,7 +256,7 @@
       "id": "phase-4-timeline",
       "name": "Timeline des nouveaux départs",
       "description": "Afficher l'historique des recalibrations/restarts dans la page détail",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
@@ -303,14 +305,15 @@
       "id": "phase-5-validation",
       "name": "Validation finale",
       "description": "Tests complets et vérification de non-régression",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "patch",
       "tasks": [
         {
           "id": "5.1",
           "name": "Validation suite complète",
           "description": "Exécuter tous les tests unitaires, E2E, typecheck et lint pour s'assurer qu'aucune régression n'a été introduite.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": ["1.2", "2.4", "3.5", "4.2"],
           "files": [],
@@ -328,9 +331,9 @@
   ],
   "stats": {
     "totalTasks": 14,
-    "completed": 11,
+    "completed": 14,
     "inProgress": 0,
-    "pending": 3,
+    "pending": 0,
     "blocked": 0
   }
 }

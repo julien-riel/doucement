@@ -3,7 +3,7 @@
  * Phase 6: Science-based improvements
  */
 
-import { Habit, CounterOperation, TimeOfDay } from '../types'
+import { Habit, CounterOperation, TimeOfDay, ProgressionContext } from '../types'
 import { INTENTION_DISPLAY, IDENTITY_STATEMENT } from '../constants/messages'
 
 /**
@@ -79,6 +79,8 @@ export interface HabitDataItem {
   weeklyProgress?: WeeklyProgressInfo
   /** Historique des opérations pour les habitudes compteur */
   operations?: CounterOperation[]
+  /** Contexte de progression pour les messages adaptatifs */
+  progressionContext?: ProgressionContext | null
 }
 
 /**
