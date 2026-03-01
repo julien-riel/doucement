@@ -1,0 +1,683 @@
+/**
+ * AppDataContext
+ * Single source of truth for app data: loading, persistence, and mutations.
+ * All consumers share the same state instance.
+ */
+
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  ReactNode,
+} from 'react'
+import { loadData, saveData, StorageError, STORAGE_KEY } from '../services/storage'
+import { cleanupOldTimerStates } from '../services/timerStorage'
+import {
+  AppData,
+  Habit,
+  DailyEntry,
+  CreateHabitInput,
+  UpdateHabitInput,
+  CreateEntryInput,
+  DEFAULT_APP_DATA,
+  CURRENT_SCHEMA_VERSION,
+  RecalibrationRecord,
+  CounterOperation,
+  CounterOperationType,
+} from '../types'
+import { calculateCounterValue, calculateTargetDose } from '../services/progression'
+import { getCurrentDate } from '../utils'
+
+/**
+ * Génère un identifiant unique
+ */
+function generateId(): string {
+  return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+}
+
+/**
+ * Retourne l'horodatage ISO actuel
+ */
+function getCurrentTimestamp(): string {
+  return new Date().toISOString()
+}
+
+/**
+ * État du contexte AppData
+ */
+export interface AppDataState {
+  /** Données de l'application */
+  data: AppData
+  /** Chargement en cours */
+  isLoading: boolean
+  /** Erreur de stockage */
+  error: StorageError | null
+  /** Habitudes actives (non archivées) */
+  activeHabits: Habit[]
+  /** Habitudes archivées */
+  archivedHabits: Habit[]
+}
+
+/**
+ * Actions disponibles via le contexte
+ */
+export interface AppDataActions {
+  /** Ajoute une nouvelle habitude */
+  addHabit: (input: CreateHabitInput) => Habit | null
+  /** Met à jour une habitude */
+  updateHabit: (id: string, input: UpdateHabitInput) => boolean
+  /** Archive une habitude */
+  archiveHabit: (id: string) => boolean
+  /** Restaure une habitude archivée */
+  restoreHabit: (id: string) => boolean
+  /** Recalibre la dose d'une habitude après une absence prolongée */
+  recalibrateHabitDose: (id: string, newStartValue: number, level: number) => boolean
+  /** Nouveau départ : repart d'une nouvelle valeur de départ en préservant l'historique */
+  restartHabit: (id: string, newStartValue: number, reason?: string) => boolean
+  /** Ajoute une entrée quotidienne */
+  addEntry: (input: CreateEntryInput) => DailyEntry | null
+  /** Ajoute une opération compteur (+1/-1) à une entrée */
+  addCounterOperation: (
+    habitId: string,
+    date: string,
+    operationType: CounterOperationType,
+    value?: number,
+    note?: string
+  ) => DailyEntry | null
+  /** Annule la dernière opération compteur d'une entrée */
+  undoLastOperation: (habitId: string, date: string) => DailyEntry | null
+  /** Récupère les entrées pour une date */
+  getEntriesForDate: (date: string) => DailyEntry[]
+  /** Récupère les entrées pour une habitude */
+  getEntriesForHabit: (habitId: string) => DailyEntry[]
+  /** Récupère une habitude par son id */
+  getHabitById: (id: string) => Habit | undefined
+  /** Met à jour les préférences */
+  updatePreferences: (updates: Partial<AppData['preferences']>) => boolean
+  /** Réinitialise les données */
+  resetData: () => void
+  /** Efface l'erreur courante */
+  clearError: () => void
+  /** Réessaie de charger les données */
+  retryLoad: () => void
+}
+
+export type AppDataContextValue = AppDataState & AppDataActions
+
+const AppDataContext = createContext<AppDataContextValue | null>(null)
+
+interface AppDataProviderProps {
+  children: ReactNode
+}
+
+/**
+ * Provider qui centralise le chargement, la persistance et les mutations
+ * des données de l'application. Un seul point de vérité pour toutes les données.
+ */
+export function AppDataProvider({ children }: AppDataProviderProps) {
+  const [data, setData] = useState<AppData>(DEFAULT_APP_DATA)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<StorageError | null>(null)
+
+  // Chargement initial des données + nettoyage des timer_states périmés
+  useEffect(() => {
+    const result = loadData()
+    if (result.success && result.data) {
+      setData(result.data)
+    } else if (result.error) {
+      setError(result.error)
+    }
+    setIsLoading(false)
+    cleanupOldTimerStates()
+  }, [])
+
+  // Suivi des données non sauvegardées pour beforeunload
+  const hasUnsavedChanges = useRef(false)
+
+  // Auto-save avec debounce de 500ms
+  useEffect(() => {
+    if (!isLoading) {
+      hasUnsavedChanges.current = true
+      const timer = setTimeout(() => {
+        const result = saveData(data)
+        if (!result.success && result.error) {
+          setError(result.error)
+          hasUnsavedChanges.current = true
+        } else {
+          hasUnsavedChanges.current = false
+        }
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [data, isLoading])
+
+  // Protection beforeunload si des données ne sont pas sauvegardées
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges.current) {
+        e.preventDefault()
+      }
+    }
+    window.addEventListener('beforeunload', handler)
+    return () => window.removeEventListener('beforeunload', handler)
+  }, [])
+
+  // Écoute les changements localStorage depuis d'autres onglets (cross-tab sync)
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === STORAGE_KEY && event.newValue) {
+        try {
+          const parsed = JSON.parse(event.newValue)
+          setData(parsed)
+        } catch (err) {
+          console.error(
+            '[AppDataContext] Failed to parse localStorage data from storage event:',
+            err instanceof Error ? err.message : err
+          )
+        }
+      }
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
+  }, [])
+
+  // Calcul des habitudes actives et archivées
+  const activeHabits = useMemo(
+    () => data.habits.filter((h) => h.archivedAt === null),
+    [data.habits]
+  )
+
+  const archivedHabits = useMemo(
+    () => data.habits.filter((h) => h.archivedAt !== null),
+    [data.habits]
+  )
+
+  // ============================================================================
+  // HABIT ACTIONS
+  // ============================================================================
+
+  const addHabit = useCallback((input: CreateHabitInput): Habit | null => {
+    const newHabit = {
+      ...input,
+      id: generateId(),
+      createdAt: getCurrentDate(),
+      archivedAt: null,
+    } as Habit
+
+    setData((prev) => ({
+      ...prev,
+      habits: [...prev.habits, newHabit],
+    }))
+
+    return newHabit
+  }, [])
+
+  const updateHabit = useCallback(
+    (id: string, input: UpdateHabitInput): boolean => {
+      const habitExists = data.habits.some((habit) => habit.id === id)
+      if (!habitExists) {
+        return false
+      }
+
+      setData((prev) => ({
+        ...prev,
+        habits: prev.habits.map((habit) => {
+          if (habit.id === id) {
+            return { ...habit, ...input } as Habit
+          }
+          return habit
+        }),
+      }))
+
+      return true
+    },
+    [data.habits]
+  )
+
+  const archiveHabit = useCallback(
+    (id: string): boolean => {
+      return updateHabit(id, { archivedAt: getCurrentDate() })
+    },
+    [updateHabit]
+  )
+
+  const restoreHabit = useCallback(
+    (id: string): boolean => {
+      return updateHabit(id, { archivedAt: null })
+    },
+    [updateHabit]
+  )
+
+  const recalibrateHabitDose = useCallback(
+    (id: string, newStartValue: number, level: number): boolean => {
+      const habitExists = data.habits.some((h) => h.id === id)
+      if (!habitExists) return false
+
+      const today = getCurrentDate()
+
+      setData((prev) => ({
+        ...prev,
+        habits: prev.habits.map((habit) => {
+          if (habit.id === id) {
+            const recalibrationRecord: RecalibrationRecord = {
+              date: today,
+              previousStartValue: habit.startValue,
+              newStartValue,
+              previousStartDate: habit.createdAt,
+              level,
+            }
+
+            const history = habit.recalibrationHistory ?? []
+
+            return {
+              ...habit,
+              startValue: newStartValue,
+              createdAt: today,
+              recalibrationHistory: [...history, recalibrationRecord],
+            }
+          }
+          return habit
+        }),
+      }))
+
+      return true
+    },
+    [data.habits]
+  )
+
+  const restartHabit = useCallback(
+    (id: string, newStartValue: number, reason?: string): boolean => {
+      const habitExists = data.habits.some((h) => h.id === id)
+      if (!habitExists) return false
+
+      const today = getCurrentDate()
+
+      const updater = (prev: AppData): AppData => ({
+        ...prev,
+        habits: prev.habits.map((habit) => {
+          if (habit.id === id) {
+            const recalibrationRecord: RecalibrationRecord = {
+              date: today,
+              previousStartValue: habit.startValue,
+              newStartValue,
+              previousStartDate: habit.createdAt,
+              level: 1,
+              type: 'restart',
+              reason,
+            }
+
+            const history = habit.recalibrationHistory ?? []
+
+            return {
+              ...habit,
+              startValue: newStartValue,
+              createdAt: today,
+              recalibrationHistory: [...history, recalibrationRecord],
+            }
+          }
+          return habit
+        }),
+      })
+
+      // Save synchronously to ensure persistence before navigation
+      const newData = updater(data)
+      saveData(newData)
+      setData(newData)
+
+      return true
+    },
+    [data]
+  )
+
+  const getHabitById = useCallback(
+    (id: string): Habit | undefined => {
+      return data.habits.find((h) => h.id === id)
+    },
+    [data.habits]
+  )
+
+  // ============================================================================
+  // ENTRY ACTIONS
+  // ============================================================================
+
+  const addEntry = useCallback((input: CreateEntryInput): DailyEntry | null => {
+    const now = getCurrentTimestamp()
+    const newEntry: DailyEntry = {
+      ...input,
+      id: generateId(),
+      createdAt: now,
+      updatedAt: now,
+    }
+
+    setData((prev) => {
+      const habit = prev.habits.find((h) => h.id === input.habitId)
+      const isCumulative = habit?.entryMode === 'cumulative'
+
+      const existingIndex = prev.entries.findIndex(
+        (e) => e.habitId === input.habitId && e.date === input.date
+      )
+
+      if (existingIndex >= 0) {
+        const existingEntry = prev.entries[existingIndex]
+        const updatedEntries = [...prev.entries]
+
+        if (isCumulative) {
+          const newOperation: CounterOperation = {
+            id: generateId(),
+            type: 'add',
+            value: input.actualValue,
+            timestamp: now,
+          }
+          const operations = [...(existingEntry.operations || []), newOperation]
+          const actualValue = calculateCounterValue(operations)
+
+          updatedEntries[existingIndex] = {
+            ...existingEntry,
+            actualValue,
+            operations,
+            updatedAt: now,
+          }
+        } else {
+          updatedEntries[existingIndex] = {
+            ...newEntry,
+            actualValue: input.actualValue,
+            createdAt: existingEntry.createdAt,
+          }
+        }
+        return { ...prev, entries: updatedEntries }
+      }
+
+      if (isCumulative) {
+        const newOperation: CounterOperation = {
+          id: generateId(),
+          type: 'add',
+          value: input.actualValue,
+          timestamp: now,
+        }
+        return {
+          ...prev,
+          entries: [
+            ...prev.entries,
+            {
+              ...newEntry,
+              operations: [newOperation],
+            },
+          ],
+        }
+      }
+
+      return { ...prev, entries: [...prev.entries, newEntry] }
+    })
+
+    return newEntry
+  }, [])
+
+  const addCounterOperation = useCallback(
+    (
+      habitId: string,
+      date: string,
+      operationType: CounterOperationType,
+      value: number = 1,
+      note?: string
+    ): DailyEntry | null => {
+      const now = getCurrentTimestamp()
+      const habit = data.habits.find((h) => h.id === habitId)
+
+      if (!habit) {
+        return null
+      }
+
+      const operation: CounterOperation = {
+        id: generateId(),
+        type: operationType,
+        value: Math.abs(value),
+        timestamp: now,
+        note,
+      }
+
+      let resultEntry: DailyEntry | null = null
+
+      setData((prev) => {
+        const existingIndex = prev.entries.findIndex(
+          (e) => e.habitId === habitId && e.date === date
+        )
+
+        if (existingIndex >= 0) {
+          const existingEntry = prev.entries[existingIndex]
+          const operations = [...(existingEntry.operations || []), operation]
+          const actualValue = calculateCounterValue(operations)
+
+          const updatedEntry: DailyEntry = {
+            ...existingEntry,
+            actualValue,
+            operations,
+            updatedAt: now,
+          }
+          resultEntry = updatedEntry
+
+          const updatedEntries = [...prev.entries]
+          updatedEntries[existingIndex] = updatedEntry
+          return { ...prev, entries: updatedEntries }
+        }
+
+        const targetDose = calculateTargetDose(habit, date)
+        const operations = [operation]
+        const actualValue = calculateCounterValue(operations)
+
+        const newEntry: DailyEntry = {
+          id: generateId(),
+          habitId,
+          date,
+          targetDose,
+          actualValue,
+          operations,
+          createdAt: now,
+          updatedAt: now,
+        }
+        resultEntry = newEntry
+
+        return { ...prev, entries: [...prev.entries, newEntry] }
+      })
+
+      return resultEntry
+    },
+    [data.habits]
+  )
+
+  const undoLastOperation = useCallback(
+    (habitId: string, date: string): DailyEntry | null => {
+      const existingEntry = data.entries.find((e) => e.habitId === habitId && e.date === date)
+
+      if (!existingEntry || !existingEntry.operations?.length) {
+        return null
+      }
+
+      const now = getCurrentTimestamp()
+      let resultEntry: DailyEntry | null = null
+
+      setData((prev) => {
+        const entryIndex = prev.entries.findIndex((e) => e.habitId === habitId && e.date === date)
+
+        if (entryIndex < 0) {
+          return prev
+        }
+
+        const entry = prev.entries[entryIndex]
+        if (!entry.operations?.length) {
+          return prev
+        }
+
+        const operations = entry.operations.slice(0, -1)
+        const actualValue = calculateCounterValue(operations)
+
+        const updatedEntry: DailyEntry = {
+          ...entry,
+          actualValue,
+          operations,
+          updatedAt: now,
+        }
+        resultEntry = updatedEntry
+
+        const updatedEntries = [...prev.entries]
+        updatedEntries[entryIndex] = updatedEntry
+        return { ...prev, entries: updatedEntries }
+      })
+
+      return resultEntry
+    },
+    [data.entries]
+  )
+
+  // Index des entrées par date et par habitude pour lookups O(1)
+  const entriesByDate = useMemo(() => {
+    const map = new Map<string, DailyEntry[]>()
+    for (const entry of data.entries) {
+      const existing = map.get(entry.date)
+      if (existing) {
+        existing.push(entry)
+      } else {
+        map.set(entry.date, [entry])
+      }
+    }
+    return map
+  }, [data.entries])
+
+  const entriesByHabit = useMemo(() => {
+    const map = new Map<string, DailyEntry[]>()
+    for (const entry of data.entries) {
+      const existing = map.get(entry.habitId)
+      if (existing) {
+        existing.push(entry)
+      } else {
+        map.set(entry.habitId, [entry])
+      }
+    }
+    return map
+  }, [data.entries])
+
+  const getEntriesForDate = useCallback(
+    (date: string): DailyEntry[] => {
+      return entriesByDate.get(date) ?? []
+    },
+    [entriesByDate]
+  )
+
+  const getEntriesForHabit = useCallback(
+    (habitId: string): DailyEntry[] => {
+      return entriesByHabit.get(habitId) ?? []
+    },
+    [entriesByHabit]
+  )
+
+  // ============================================================================
+  // PREFERENCES ACTIONS
+  // ============================================================================
+
+  const updatePreferences = useCallback((updates: Partial<AppData['preferences']>): boolean => {
+    setData((prev) => ({
+      ...prev,
+      preferences: { ...prev.preferences, ...updates },
+    }))
+    return true
+  }, [])
+
+  // ============================================================================
+  // RESET
+  // ============================================================================
+
+  const resetData = useCallback((): void => {
+    setData({
+      ...DEFAULT_APP_DATA,
+      schemaVersion: CURRENT_SCHEMA_VERSION,
+    })
+    setError(null)
+  }, [])
+
+  // ============================================================================
+  // ERROR HANDLING
+  // ============================================================================
+
+  const clearError = useCallback((): void => {
+    setError(null)
+  }, [])
+
+  const retryLoad = useCallback((): void => {
+    setIsLoading(true)
+    setError(null)
+    const result = loadData()
+    if (result.success && result.data) {
+      setData(result.data)
+    } else if (result.error) {
+      setError(result.error)
+    }
+    setIsLoading(false)
+  }, [])
+
+  const value: AppDataContextValue = useMemo(
+    () => ({
+      data,
+      isLoading,
+      error,
+      activeHabits,
+      archivedHabits,
+      addHabit,
+      updateHabit,
+      archiveHabit,
+      restoreHabit,
+      recalibrateHabitDose,
+      restartHabit,
+      addEntry,
+      addCounterOperation,
+      undoLastOperation,
+      getEntriesForDate,
+      getEntriesForHabit,
+      getHabitById,
+      updatePreferences,
+      resetData,
+      clearError,
+      retryLoad,
+    }),
+    [
+      data,
+      isLoading,
+      error,
+      activeHabits,
+      archivedHabits,
+      addHabit,
+      updateHabit,
+      archiveHabit,
+      restoreHabit,
+      recalibrateHabitDose,
+      restartHabit,
+      addEntry,
+      addCounterOperation,
+      undoLastOperation,
+      getEntriesForDate,
+      getEntriesForHabit,
+      getHabitById,
+      updatePreferences,
+      resetData,
+      clearError,
+      retryLoad,
+    ]
+  )
+
+  return <AppDataContext.Provider value={value}>{children}</AppDataContext.Provider>
+}
+
+/**
+ * Hook pour consommer le contexte AppData.
+ * Doit être utilisé dans un composant enfant de AppDataProvider.
+ */
+export function useAppDataContext(): AppDataContextValue {
+  const context = useContext(AppDataContext)
+  if (!context) {
+    throw new Error('useAppDataContext must be used within an AppDataProvider')
+  }
+  return context
+}

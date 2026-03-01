@@ -20,7 +20,8 @@
           "id": "1.1",
           "name": "Unifier la gestion d'état dans un Context React global",
           "description": "Créer un AppDataContext qui centralise le chargement, la persistance et les mutations. useAppData() consomme ce Context au lieu de créer des instances indépendantes. Supprimer le polling 30s dans AppProvider (les StorageEvent suffisent). Le debounce auto-save reste à 500ms. Tester que les composants consommateurs se re-rendent correctement.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -620,9 +621,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 10,
+    "completed": 11,
     "inProgress": 0,
-    "pending": 21,
+    "pending": 20,
     "blocked": 0
   }
 }

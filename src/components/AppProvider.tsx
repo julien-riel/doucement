@@ -1,12 +1,14 @@
 /**
  * AppProvider Component
  * Initialise les services globaux de l'application (notifications, thème, etc.)
+ * Wraps children with AppDataProvider for centralized state management.
  */
 
-import { useEffect, useState, useCallback, useRef } from 'react'
-import { loadData, STORAGE_KEY } from '../services/storage'
+import { useEffect, useCallback, useRef } from 'react'
 import { useNotifications } from '../hooks/useNotifications'
-import { AppData, DEFAULT_APP_DATA, DailyEntry, Habit, ThemePreference } from '../types'
+import { useAppData } from '../hooks/useAppData'
+import { DailyEntry, Habit, ThemePreference, DEFAULT_APP_DATA } from '../types'
+import { AppDataProvider } from '../contexts/AppDataContext'
 
 interface AppProviderProps {
   children: React.ReactNode
@@ -23,74 +25,21 @@ function applyTheme(theme: ThemePreference): void {
   } else if (theme === 'dark') {
     root.setAttribute('data-theme', 'dark')
   } else {
-    // Mode système : on retire l'attribut pour laisser le CSS media query agir
     root.removeAttribute('data-theme')
   }
 }
 
 /**
- * Composant Provider qui initialise les services globaux
- * - Charge les données au démarrage
- * - Initialise le thème
- * - Initialise les notifications
+ * Composant interne qui initialise les services globaux
+ * (thème, notifications) en consommant le AppDataContext.
  */
-function AppProvider({ children }: AppProviderProps) {
-  const [data, setData] = useState<AppData | null>(null)
-  const [isReady, setIsReady] = useState(false)
+function AppServices({ children }: { children: React.ReactNode }) {
+  const { data, isLoading } = useAppData()
 
-  // Charger les données au démarrage
+  // Appliquer le thème au démarrage et quand il change
   useEffect(() => {
-    const result = loadData()
-    if (result.success && result.data) {
-      setData(result.data)
-      // Appliquer le thème immédiatement
-      applyTheme(result.data.preferences.theme ?? 'system')
-    } else {
-      setData(DEFAULT_APP_DATA)
-      applyTheme('system')
-    }
-    setIsReady(true)
-  }, [])
-
-  // Appliquer le thème quand il change
-  useEffect(() => {
-    if (data?.preferences.theme) {
-      applyTheme(data.preferences.theme)
-    }
-  }, [data?.preferences.theme])
-
-  // Garder les données à jour en écoutant les changements localStorage
-  useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === STORAGE_KEY && event.newValue) {
-        try {
-          const parsed = JSON.parse(event.newValue)
-          setData(parsed)
-        } catch (error) {
-          console.error(
-            '[AppProvider] Failed to parse localStorage data from storage event:',
-            error instanceof Error ? error.message : error
-          )
-        }
-      }
-    }
-
-    window.addEventListener('storage', handleStorageChange)
-    return () => window.removeEventListener('storage', handleStorageChange)
-  }, [])
-
-  // Rafraîchir les données périodiquement (toutes les 30 secondes)
-  // pour détecter les changements faits dans d'autres onglets
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const result = loadData()
-      if (result.success && result.data) {
-        setData(result.data)
-      }
-    }, 30000)
-
-    return () => clearInterval(interval)
-  }, [])
+    applyTheme(data.preferences.theme ?? 'system')
+  }, [data.preferences.theme])
 
   // Créer des fonctions stables pour le hook de notifications
   const dataRef = useRef(data)
@@ -111,10 +60,25 @@ function AppProvider({ children }: AppProviderProps) {
     settings: data?.preferences.notifications || DEFAULT_APP_DATA.preferences.notifications,
     getEntriesForDate,
     activeHabits: activeHabits(),
-    isReady,
+    isReady: !isLoading,
   })
 
   return <>{children}</>
+}
+
+/**
+ * Composant Provider qui initialise les services globaux
+ * - Centralise les données via AppDataProvider
+ * - Initialise le thème
+ * - Initialise les notifications
+ * - Cross-tab sync via StorageEvent (pas de polling)
+ */
+function AppProvider({ children }: AppProviderProps) {
+  return (
+    <AppDataProvider>
+      <AppServices>{children}</AppServices>
+    </AppDataProvider>
+  )
 }
 
 export default AppProvider

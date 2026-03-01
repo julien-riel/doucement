@@ -7,7 +7,9 @@
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
+import { createElement, type ReactNode } from 'react'
 import { useAppData } from './useAppData'
+import { AppDataProvider } from '../contexts/AppDataContext'
 import type { Habit, DailyEntry } from '../types'
 
 // ============================================================================
@@ -21,7 +23,24 @@ const mockSaveData = vi.fn()
 vi.mock('../services/storage', () => ({
   loadData: () => mockLoadData(),
   saveData: (data: unknown) => mockSaveData(data),
+  STORAGE_KEY: 'doucement-app-data',
 }))
+
+// Mock timerStorage
+vi.mock('../services/timerStorage', () => ({
+  cleanupOldTimerStates: () => {},
+}))
+
+// ============================================================================
+// WRAPPER
+// ============================================================================
+
+/**
+ * Wrapper pour renderHook qui fournit le AppDataProvider
+ */
+function wrapper({ children }: { children: ReactNode }) {
+  return createElement(AppDataProvider, null, children)
+}
 
 // Mock getCurrentDate
 vi.mock('../utils', () => ({
@@ -153,7 +172,7 @@ describe('useAppData - Habit Mutations', () => {
     it('ajoute une habitude avec les champs par défaut', async () => {
       mockLoadData.mockReturnValue(createInitialData())
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -186,7 +205,7 @@ describe('useAppData - Habit Mutations', () => {
     it('génère des ids uniques pour chaque habitude', async () => {
       mockLoadData.mockReturnValue(createInitialData())
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -226,7 +245,7 @@ describe('useAppData - Habit Mutations', () => {
     it('apparaît dans activeHabits', async () => {
       mockLoadData.mockReturnValue(createInitialData())
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -254,7 +273,7 @@ describe('useAppData - Habit Mutations', () => {
       const habit = createReplaceHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -276,7 +295,7 @@ describe('useAppData - Habit Mutations', () => {
       const habit = createReplaceHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -295,7 +314,7 @@ describe('useAppData - Habit Mutations', () => {
       const habit2 = createReplaceHabit({ id: 'h2', name: 'Habit 2' })
       mockLoadData.mockReturnValue(createInitialData([habit1, habit2]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -315,7 +334,7 @@ describe('useAppData - Habit Mutations', () => {
       const habit = createReplaceHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -338,7 +357,7 @@ describe('useAppData - Habit Mutations', () => {
     it('retourne false pour une habitude inexistante', async () => {
       mockLoadData.mockReturnValue(createInitialData())
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -358,7 +377,7 @@ describe('useAppData - Habit Mutations', () => {
       const habit = createReplaceHabit({ archivedAt: '2026-01-10' })
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -381,7 +400,7 @@ describe('useAppData - Habit Mutations', () => {
     it('retourne false pour une habitude inexistante', async () => {
       mockLoadData.mockReturnValue(createInitialData())
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -407,7 +426,7 @@ describe('useAppData - Mode Cumulative (unit.2)', () => {
       const habit = createReplaceHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       // Attendre le chargement
       await vi.waitFor(() => {
@@ -445,7 +464,7 @@ describe('useAppData - Mode Cumulative (unit.2)', () => {
       const habit = createReplaceHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -482,7 +501,7 @@ describe('useAppData - Mode Cumulative (unit.2)', () => {
       const habit = createCumulativeHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -534,7 +553,7 @@ describe('useAppData - Mode Cumulative (unit.2)', () => {
       const habit = createCumulativeHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -569,7 +588,7 @@ describe('useAppData - Mode Cumulative (unit.2)', () => {
       const habit = createCumulativeHabit({ unit: 'km' })
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -604,7 +623,7 @@ describe('useAppData - Mode Cumulative (unit.2)', () => {
       const habit = createReplaceHabit({ entryMode: undefined })
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -640,7 +659,7 @@ describe('useAppData - Mode Cumulative (unit.2)', () => {
       const habit = createCumulativeHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -680,7 +699,7 @@ describe('useAppData - Mode Cumulative (unit.2)', () => {
       })
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -714,7 +733,7 @@ describe('useAppData - Mode Cumulative (unit.2)', () => {
       const habit = createCumulativeHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -753,7 +772,7 @@ describe('useAppData - Mode Cumulative (unit.2)', () => {
       const habit = createCumulativeHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -795,7 +814,7 @@ describe('useAppData - Mode Cumulative (unit.2)', () => {
       const cumulativeHabit = createCumulativeHabit()
       mockLoadData.mockReturnValue(createInitialData([replaceHabit, cumulativeHabit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -873,7 +892,7 @@ describe('useAppData - Fonctions helper', () => {
       }
       mockLoadData.mockReturnValue(createInitialData([habit], [existingEntry]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -910,7 +929,7 @@ describe('useAppData - Fonctions helper', () => {
       ]
       mockLoadData.mockReturnValue(createInitialData([habit], entries))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -932,7 +951,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -954,7 +973,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit({ direction: 'increase' })
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -974,7 +993,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1004,7 +1023,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1039,7 +1058,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1058,7 +1077,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1077,7 +1096,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1094,7 +1113,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1118,7 +1137,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1141,7 +1160,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1174,7 +1193,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1205,7 +1224,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1233,7 +1252,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       }
       mockLoadData.mockReturnValue(createInitialData([habit], [existingEntry]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1251,7 +1270,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1277,7 +1296,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1309,7 +1328,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       })
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1356,7 +1375,7 @@ describe('useAppData - Counter Operations (test.1)', () => {
       const habit = createCounterHabit()
       mockLoadData.mockReturnValue(createInitialData([habit]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1449,7 +1468,7 @@ describe('useAppData - Entry Indexes', () => {
     it('retourne les entrées pour une date donnée via index', async () => {
       mockLoadData.mockReturnValue(createInitialData([habit1, habit2], entries))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1467,7 +1486,7 @@ describe('useAppData - Entry Indexes', () => {
     it('retourne un tableau vide pour une date sans entrées', async () => {
       mockLoadData.mockReturnValue(createInitialData([habit1], entries))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1481,7 +1500,7 @@ describe('useAppData - Entry Indexes', () => {
     it('retourne les entrées pour une habitude donnée via index', async () => {
       mockLoadData.mockReturnValue(createInitialData([habit1, habit2], entries))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1499,7 +1518,7 @@ describe('useAppData - Entry Indexes', () => {
     it('retourne un tableau vide pour une habitude sans entrées', async () => {
       mockLoadData.mockReturnValue(createInitialData([habit1], entries))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
@@ -1513,7 +1532,7 @@ describe('useAppData - Entry Indexes', () => {
     it("met à jour les index après ajout d'une entrée", async () => {
       mockLoadData.mockReturnValue(createInitialData([habit1]))
 
-      const { result } = renderHook(() => useAppData())
+      const { result } = renderHook(() => useAppData(), { wrapper })
 
       await vi.waitFor(() => {
         expect(result.current.isLoading).toBe(false)
