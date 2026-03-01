@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.40.0",
+  "currentVersion": "1.41.0",
   "releases": [
+    {
+      "version": "1.41.0",
+      "date": "2026-03-01",
+      "title": "Performance et évolution",
+      "highlights": [
+        {
+          "emoji": "rocket",
+          "text": "Index des entrées par date pour des performances optimales"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Mode fusionner exposé dans l'UI d'import"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Revue hebdomadaire accessible dans la navigation"
+        },
+        {
+          "emoji": "rocket",
+          "text": "Debounce sur auto-save pour plus de fluidité"
+        }
+      ]
+    },
     {
       "version": "1.40.0",
       "date": "2026-03-01",

@@ -2,7 +2,7 @@
   "project": "Consolidation post-audit v1.38",
   "description": "Corrections critiques, robustesse, cohérence et performance suite à l'audit pluridisciplinaire",
   "createdAt": "2026-03-01",
-  "lastRelease": "1.40.0",
+  "lastRelease": "1.41.0",
   "docs": [
     "docs/prd-consolidation-v2.md",
     "docs/bilan-v1.38.md",
@@ -419,6 +419,8 @@
       "description": "Optimisations long terme, dépendances, fonctionnalités manquantes",
       "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.41.0",
+      "releasedAt": "2026-03-01",
       "tasks": [
         {
           "id": "4.1",
