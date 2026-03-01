@@ -2,7 +2,7 @@
   "project": "Consolidation v3 — Bilan Mars 2026",
   "description": "Plan complet de consolidation : architecture, i18n, sécurité, UX, marque et résilience des données",
   "createdAt": "2026-03-01",
-  "lastRelease": "1.44.0",
+  "lastRelease": "1.45.0",
   "docs": [
     "docs/prd-consolidation-v3.md",
     "docs/bilan-mars-2026.md",
@@ -517,6 +517,8 @@
       "description": "Nouvelles fonctionnalités à forte valeur ajoutée et infrastructure de qualité",
       "status": "completed",
       "releaseType": "minor",
+      "releasedAs": "1.45.0",
+      "releasedAt": "2026-03-01",
       "tasks": [
         {
           "id": "4.1",

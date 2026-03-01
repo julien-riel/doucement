@@ -1,6 +1,29 @@
 {
-  "currentVersion": "1.44.0",
+  "currentVersion": "1.45.0",
   "releases": [
+    {
+      "version": "1.45.0",
+      "date": "2026-03-01",
+      "title": "Évolution — Features et infrastructure",
+      "highlights": [
+        {
+          "emoji": "sparkles",
+          "text": "Un rappel bienveillant te propose de sauvegarder tes données chaque mois"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "L'icône de l'application affiche le nombre de doses restantes"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "La revue hebdomadaire te propose d'ajuster ta progression"
+        },
+        {
+          "emoji": "sparkles",
+          "text": "Prévisualise tes données avant de les importer"
+        }
+      ]
+    },
     {
       "version": "1.44.0",
       "date": "2026-03-01",
