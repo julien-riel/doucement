@@ -199,30 +199,33 @@ function Today() {
   }, [])
 
   // Gérer le check-in d'une habitude
-  const handleCheckIn = (habitId: string, value: number) => {
-    const habit = habitsForToday.find((h) => h.id === habitId)
-    if (!habit) return
+  const handleCheckIn = useCallback(
+    (habitId: string, value: number) => {
+      const habit = habitsForToday.find((h) => h.id === habitId)
+      if (!habit) return
 
-    const targetDose = calculateTargetDose(habit, today)
+      const targetDose = calculateTargetDose(habit, today)
 
-    // Récupérer la valeur précédente pour détecter les nouveaux jalons
-    const existingEntry = todayEntries.find((e) => e.habitId === habitId)
-    const previousValue = existingEntry?.actualValue ?? 0
+      // Récupérer la valeur précédente pour détecter les nouveaux jalons
+      const existingEntry = todayEntries.find((e) => e.habitId === habitId)
+      const previousValue = existingEntry?.actualValue ?? 0
 
-    addEntry({
-      habitId,
-      date: today,
-      targetDose,
-      actualValue: value,
-    })
+      addEntry({
+        habitId,
+        date: today,
+        targetDose,
+        actualValue: value,
+      })
 
-    // Vérifier si un nouveau jalon a été atteint
-    const newMilestone = checkMilestonesAfterCheckIn(habit, previousValue, value)
-    if (newMilestone) {
-      // Afficher la célébration
-      showCelebration(newMilestone, habit)
-    }
-  }
+      // Vérifier si un nouveau jalon a été atteint
+      const newMilestone = checkMilestonesAfterCheckIn(habit, previousValue, value)
+      if (newMilestone) {
+        // Afficher la célébration
+        showCelebration(newMilestone, habit)
+      }
+    },
+    [habitsForToday, today, todayEntries, addEntry, checkMilestonesAfterCheckIn, showCelebration]
+  )
 
   // Gérer l'ajout d'une opération compteur (+1)
   const handleCounterAdd = useCallback(

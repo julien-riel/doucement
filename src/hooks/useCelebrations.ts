@@ -71,8 +71,11 @@ export function useCelebrations(options: UseCelebrationsOptions = {}): UseCelebr
   const [milestonesState, setMilestonesState] = useState<MilestonesState>(initialMilestones)
 
   // Synchroniser l'état quand les milestones initiaux changent (après chargement des données)
+  // initialMilestonesRef (JSON.stringify) est utilisé comme dépendance stable à la place
+  // de initialMilestones qui crée un nouvel objet à chaque render
   useEffect(() => {
     setMilestonesState(initialMilestones)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialMilestonesRef])
 
   // État de la modale

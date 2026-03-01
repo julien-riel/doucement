@@ -180,7 +180,8 @@
           "id": "2.1",
           "name": "Ajouter eslint-plugin-react-hooks",
           "description": "Installer eslint-plugin-react-hooks et activer les règles react-hooks/rules-of-hooks (error) et react-hooks/exhaustive-deps (warn). Corriger les violations détectées (handleCheckIn sans useCallback dans Today.tsx, JSON.stringify comme dépendance dans useCelebrations.ts).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -218,7 +219,8 @@
           "id": "2.3",
           "name": "Ajouter une CSP minimale dans index.html",
           "description": "Ajouter une meta Content-Security-Policy dans index.html : default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; object-src 'none'; frame-ancestors 'none'. Ajuster si les polices sont self-hosted (phase 2.5).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": ["index.html"],
@@ -233,7 +235,8 @@
           "id": "2.4",
           "name": "Désactiver le mode debug par URL en production",
           "description": "Dans useDebugMode.ts, conditionner l'activation par URL ?debug=true à import.meta.env.DEV. En production, le mode debug ne peut être activé que via les Settings ou un localStorage existant. Supprimer l'exposition de window.__DOUCEMENT_DEBUG__ en production.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": ["src/hooks/useDebugMode.ts"],
@@ -617,9 +620,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 7,
+    "completed": 10,
     "inProgress": 0,
-    "pending": 24,
+    "pending": 21,
     "blocked": 0
   }
 }

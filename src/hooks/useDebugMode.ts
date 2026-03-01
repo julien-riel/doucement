@@ -61,7 +61,7 @@ export type UseDebugModeReturn = UseDebugModeState & UseDebugModeActions
  *
  * Permet d'activer un mode développeur caché via :
  * - 7 taps rapides sur le numéro de version dans les paramètres
- * - Le paramètre URL `?debug=true`
+ * - Le paramètre URL `?debug=true` (dev uniquement)
  * - La clé localStorage `doucement-debug`
  *
  * En mode debug, l'utilisateur peut :
@@ -96,8 +96,8 @@ export function useDebugMode(): UseDebugModeReturn {
 
   // Vérifie si le mode debug est activé
   const isDebugMode = useMemo(() => {
-    // Check URL param first (for development)
-    if (typeof window !== 'undefined') {
+    // Check URL param (development only)
+    if (import.meta.env.DEV && typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search)
       if (urlParams.get('debug') === 'true') {
         return true
@@ -198,8 +198,10 @@ export function useDebugMode(): UseDebugModeReturn {
     return false
   }, [toggleDebugMode])
 
-  // Expose l'API debug sur window en mode debug
+  // Expose l'API debug sur window (development only)
   useEffect(() => {
+    if (!import.meta.env.DEV) return
+
     if (isDebugMode && typeof window !== 'undefined') {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(window as any).__DOUCEMENT_DEBUG__ = {

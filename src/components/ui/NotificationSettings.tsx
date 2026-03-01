@@ -7,7 +7,7 @@
  * - 100% locales (aucun serveur push)
  * - Non intrusives (ton bienveillant)
  */
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import {
   NotificationSettings as NotificationSettingsType,
   ReminderConfig,
@@ -138,22 +138,25 @@ function NotificationSettings({
   checkEveningCondition,
 }: NotificationSettingsProps) {
   // Merge with defaults to handle missing fields from old data
-  const settings: NotificationSettingsType = {
-    ...DEFAULT_NOTIFICATION_SETTINGS,
-    ...rawSettings,
-    morningReminder: {
-      ...DEFAULT_NOTIFICATION_SETTINGS.morningReminder,
-      ...rawSettings?.morningReminder,
-    },
-    eveningReminder: {
-      ...DEFAULT_NOTIFICATION_SETTINGS.eveningReminder,
-      ...rawSettings?.eveningReminder,
-    },
-    weeklyReviewReminder: {
-      ...DEFAULT_NOTIFICATION_SETTINGS.weeklyReviewReminder,
-      ...rawSettings?.weeklyReviewReminder,
-    },
-  }
+  const settings: NotificationSettingsType = useMemo(
+    () => ({
+      ...DEFAULT_NOTIFICATION_SETTINGS,
+      ...rawSettings,
+      morningReminder: {
+        ...DEFAULT_NOTIFICATION_SETTINGS.morningReminder,
+        ...rawSettings?.morningReminder,
+      },
+      eveningReminder: {
+        ...DEFAULT_NOTIFICATION_SETTINGS.eveningReminder,
+        ...rawSettings?.eveningReminder,
+      },
+      weeklyReviewReminder: {
+        ...DEFAULT_NOTIFICATION_SETTINGS.weeklyReviewReminder,
+        ...rawSettings?.weeklyReviewReminder,
+      },
+    }),
+    [rawSettings]
+  )
 
   const [permissionState, setPermissionState] = useState<NotificationPermissionState>(
     getNotificationPermissionState()
