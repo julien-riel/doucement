@@ -100,6 +100,14 @@ export function AboutSection() {
           <Button
             variant="ghost"
             fullWidth
+            onClick={() => navigate('/guide')}
+            className="settings__action-button"
+          >
+            📖 {t('settings.app.userGuide')}
+          </Button>
+          <Button
+            variant="ghost"
+            fullWidth
             onClick={handleReplayOnboarding}
             className="settings__action-button"
           >

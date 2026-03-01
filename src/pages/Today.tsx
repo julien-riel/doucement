@@ -140,6 +140,18 @@ function Today() {
   // Regrouper les habitudes par moment de la journée
   const habitsByTimeOfDay = useMemo(() => groupHabitsByTimeOfDay(habitData), [habitData])
 
+  // Calculer les indices de stagger pour l'animation décalée des cartes
+  const staggerIndices = useMemo(() => {
+    const indices: Record<string, number> = {}
+    let index = 0
+    for (const group of habitsByTimeOfDay) {
+      for (const item of group.items) {
+        indices[item.habit.id] = index++
+      }
+    }
+    return indices
+  }, [habitsByTimeOfDay])
+
   // Calculer le pourcentage global de complétion
   const completionPercentage = useMemo(
     () => calculateDailyCompletionPercentage(todayEntries, habitsForToday, today),
@@ -386,6 +398,11 @@ function Today() {
                         <div
                           key={item.habit.id}
                           className={`today__habit-wrapper ${isChained ? 'today__habit-wrapper--chained' : ''}`}
+                          style={
+                            {
+                              '--stagger-index': staggerIndices[item.habit.id],
+                            } as React.CSSProperties
+                          }
                         >
                           <HabitCard
                             habit={item.habit}

@@ -467,7 +467,8 @@
     },
     "app": {
       "title": "Application",
-      "replayOnboarding": "Revoir l'introduction"
+      "replayOnboarding": "Revoir l'introduction",
+      "userGuide": "Comment ça marche ?"
     },
     "danger": {
       "title": "Zone sensible",
@@ -1305,5 +1306,110 @@
     "message": "Ça fait un moment — envie de sauvegarder tes données ? Un export régulier protège ta progression.",
     "export": "Exporter",
     "later": "Plus tard"
+  },
+  "userGuide": {
+    "title": "Comment ça marche ?",
+    "sections": {
+      "concepts": {
+        "title": "Les concepts clés",
+        "dose": {
+          "title": "La dose du jour",
+          "text": "Plutôt que de te montrer un objectif lointain, Doucement te présente une seule chose : ce que tu dois faire aujourd'hui. La dose évolue automatiquement selon le rythme que tu as choisi."
+        },
+        "progression": {
+          "title": "La progression douce",
+          "text": "Doucement augmente ou diminue ta dose par petits incréments. Cette approche repose sur l'effet composé : de petits progrès constants mènent à des résultats remarquables."
+        },
+        "partial": {
+          "title": "L'effort partiel compte",
+          "text": "Faire 70% de ta dose n'est pas un échec. C'est une réussite. L'important est de maintenir une trajectoire positive."
+        }
+      },
+      "gettingStarted": {
+        "title": "Premiers pas",
+        "create": {
+          "title": "Créer une habitude",
+          "text": "Commence par une seule habitude. Choisis entre une habitude simple (fait/pas fait) ou progressive (dose qui évolue). Pour une habitude progressive, définis ta dose de départ, ton rythme et éventuellement un objectif final."
+        },
+        "today": {
+          "title": "L'écran Aujourd'hui",
+          "text": "C'est l'écran principal. Il affiche tes habitudes du jour avec leur dose cible. Un simple geste te permet d'enregistrer ta progression."
+        }
+      },
+      "daily": {
+        "title": "Au quotidien",
+        "checkIn": {
+          "title": "Le check-in",
+          "text": "Chaque jour, prends quelques secondes pour enregistrer ce que tu as fait. Si tu as fait moins que prévu, indique le pourcentage approximatif."
+        },
+        "missedDay": {
+          "title": "Si tu rates une journée",
+          "text": "Rien de grave. Pas de « streak brisé » ni de message culpabilisant. Le lendemain, tu reprends simplement là où tu en es."
+        }
+      },
+      "tracking": {
+        "title": "Modes de suivi",
+        "simple": {
+          "title": "Mode simple",
+          "text": "Pour les habitudes binaires (fait/pas fait). Un simple bouton suffit."
+        },
+        "detailed": {
+          "title": "Mode détaillé",
+          "text": "Pour les habitudes quantifiables. Tu saisis un nombre précis avec des boutons +/−."
+        },
+        "counter": {
+          "title": "Mode compteur",
+          "text": "Pour compter au fil de la journée. Chaque tap sur + incrémente le compteur."
+        },
+        "stopwatch": {
+          "title": "Mode chronomètre",
+          "text": "Pour mesurer le temps passé. Parfait pour la méditation ou la lecture."
+        },
+        "timer": {
+          "title": "Mode minuterie",
+          "text": "Pour les exercices chronométrés avec compte à rebours."
+        },
+        "slider": {
+          "title": "Mode curseur",
+          "text": "Pour les échelles subjectives avec un emoji dynamique (humeur, énergie, douleur)."
+        }
+      },
+      "features": {
+        "title": "Fonctionnalités",
+        "weekly": {
+          "title": "Habitudes hebdomadaires",
+          "text": "Pour les habitudes qui n'ont pas besoin d'être suivies chaque jour. L'objectif est réparti sur la semaine."
+        },
+        "stacking": {
+          "title": "Chaînage d'habitudes",
+          "text": "Ancre une nouvelle habitude à une habitude existante : « Après mon café, je médite 5 minutes »."
+        },
+        "pauses": {
+          "title": "Pauses planifiées",
+          "text": "Suspends une habitude temporairement sans affecter tes statistiques."
+        },
+        "celebrations": {
+          "title": "Célébrations",
+          "text": "Doucement célèbre tes étapes clés (25%, 50%, 75%, 100%) avec une animation de confettis."
+        }
+      },
+      "data": {
+        "title": "Tes données",
+        "privacy": {
+          "title": "Vie privée",
+          "text": "Aucune donnée ne quitte ton appareil. Pas de serveur, pas de compte, pas de tracking."
+        },
+        "export": {
+          "title": "Exporter et sauvegarder",
+          "text": "Exporte tes données en JSON depuis les Paramètres pour les sauvegarder ou les transférer."
+        }
+      },
+      "tips": {
+        "title": "Conseils",
+        "startSmall": "Commence par une dose que tu es certain·e de pouvoir accomplir, même les mauvais jours.",
+        "fewHabits": "Concentre-toi sur 1 à 3 habitudes maximum pour maximiser tes chances.",
+        "trustProcess": "Les premiers jours, la progression peut sembler insignifiante. Fais confiance au processus."
+      }
+    }
   }
 }

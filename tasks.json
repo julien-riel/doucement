@@ -430,7 +430,8 @@
           "id": "3.5",
           "name": "Ajouter le stagger animation sur les HabitCards",
           "description": "Implémenter un décalage progressif de 80ms entre chaque HabitCard lors de l'apparition (animation fadeInUp). Utiliser animation-delay dynamique via style inline ou CSS custom property --stagger-index passée depuis Today.tsx.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "low",
           "dependsOn": [],
           "files": [
@@ -449,7 +450,8 @@
           "id": "3.6",
           "name": "Rendre le guide utilisateur accessible depuis les Settings",
           "description": "Ajouter une entrée 'Comment ça marche ?' dans la page Settings qui ouvre le contenu du guide utilisateur (docs/comm/guide-utilisateur.md) dans un écran ou une modale in-app. Internationaliser le contenu (version FR existante, créer version EN).",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -469,7 +471,8 @@
           "id": "3.7",
           "name": "Corriger les rgba(0,0,0) non sémantiques pour le dark mode",
           "description": "Remplacer les rgba(0,0,0,...) dans WelcomeBackMessage.css et SourcesModal.css par des valeurs basées sur les tokens neutres (ex: rgba(var(--neutral-900-rgb), 0.05)). Ajouter les variables RGB si nécessaire dans design-tokens.css.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "low",
           "dependsOn": [],
           "files": [
@@ -636,9 +639,9 @@
   ],
   "stats": {
     "totalTasks": 31,
-    "completed": 22,
+    "completed": 25,
     "inProgress": 0,
-    "pending": 9,
+    "pending": 6,
     "blocked": 0
   }
 }

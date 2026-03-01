@@ -196,6 +196,12 @@
   --shadow-xl: 0 20px 60px rgba(28, 25, 23, 0.16);
 
   /* ================================
+     COULEURS RGB (pour rgba() avec tokens)
+     ================================ */
+  --neutral-900-rgb: 28, 25, 23;
+  --color-overlay-rgb: 28, 25, 23;
+
+  /* ================================
      LAYOUT
      ================================ */
   --bottom-nav-height: 72px;
@@ -281,6 +287,12 @@
   --color-primary-light: var(--primary-100);
 
   /* ================================
+     COULEURS RGB (dark)
+     ================================ */
+  --neutral-900-rgb: 255, 255, 255;
+  --color-overlay-rgb: 0, 0, 0;
+
+  /* ================================
      OMBRES - Adaptées au dark
      ================================ */
   --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.4);
@@ -363,6 +375,12 @@
     --color-border: var(--neutral-200);
     --color-primary: var(--primary-500);
     --color-primary-light: var(--primary-100);
+
+    /* ================================
+       COULEURS RGB (dark)
+       ================================ */
+    --neutral-900-rgb: 255, 255, 255;
+    --color-overlay-rgb: 0, 0, 0;
 
     /* ================================
        OMBRES - Adaptées au dark

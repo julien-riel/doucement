@@ -464,7 +464,8 @@
     },
     "app": {
       "title": "Application",
-      "replayOnboarding": "Replay introduction"
+      "replayOnboarding": "Replay introduction",
+      "userGuide": "How does it work?"
     },
     "danger": {
       "title": "Sensitive zone",
@@ -1302,5 +1303,110 @@
     "message": "It's been a while — want to back up your data? A regular export keeps your progress safe.",
     "export": "Export",
     "later": "Later"
+  },
+  "userGuide": {
+    "title": "How does it work?",
+    "sections": {
+      "concepts": {
+        "title": "Key concepts",
+        "dose": {
+          "title": "Today's dose",
+          "text": "Instead of showing you a daunting long-term goal, Doucement shows you just one thing: what to do today. Your dose adjusts automatically based on the pace you've chosen."
+        },
+        "progression": {
+          "title": "Gentle progression",
+          "text": "Doucement increases or decreases your dose in small increments. This approach relies on the compound effect: small, consistent progress leads to remarkable results."
+        },
+        "partial": {
+          "title": "Partial effort counts",
+          "text": "Doing 70% of your dose isn't a failure — it's a win. What matters is staying on a positive trajectory."
+        }
+      },
+      "gettingStarted": {
+        "title": "Getting started",
+        "create": {
+          "title": "Create a habit",
+          "text": "Start with just one habit. Choose between a simple habit (done/not done) or a progressive one (adjusting dose). For progressive habits, set your starting dose, your pace, and optionally a final goal."
+        },
+        "today": {
+          "title": "The Today screen",
+          "text": "This is your main screen. It shows your habits for the day with their target dose. A simple action lets you record your progress."
+        }
+      },
+      "daily": {
+        "title": "Daily use",
+        "checkIn": {
+          "title": "Check-in",
+          "text": "Each day, take a few seconds to log what you've done. If you did less than planned, just enter the approximate percentage."
+        },
+        "missedDay": {
+          "title": "If you miss a day",
+          "text": "No big deal. No broken streaks, no guilt trips. The next day, you simply pick up where you left off."
+        }
+      },
+      "tracking": {
+        "title": "Tracking modes",
+        "simple": {
+          "title": "Simple mode",
+          "text": "For binary habits (done/not done). A single button is all you need."
+        },
+        "detailed": {
+          "title": "Detailed mode",
+          "text": "For quantifiable habits. Enter a precise number using +/− buttons."
+        },
+        "counter": {
+          "title": "Counter mode",
+          "text": "For counting throughout the day. Each tap on + increments the counter."
+        },
+        "stopwatch": {
+          "title": "Stopwatch mode",
+          "text": "For tracking time spent. Great for meditation or reading."
+        },
+        "timer": {
+          "title": "Timer mode",
+          "text": "For timed exercises with a countdown."
+        },
+        "slider": {
+          "title": "Slider mode",
+          "text": "For subjective scales with a dynamic emoji (mood, energy, pain level)."
+        }
+      },
+      "features": {
+        "title": "Features",
+        "weekly": {
+          "title": "Weekly habits",
+          "text": "For habits that don't need daily tracking. The goal is spread across the week."
+        },
+        "stacking": {
+          "title": "Habit stacking",
+          "text": "Anchor a new habit to an existing one: \"After my coffee, I meditate for 5 minutes.\""
+        },
+        "pauses": {
+          "title": "Planned pauses",
+          "text": "Temporarily suspend a habit without affecting your statistics."
+        },
+        "celebrations": {
+          "title": "Celebrations",
+          "text": "Doucement celebrates your milestones (25%, 50%, 75%, 100%) with a confetti animation."
+        }
+      },
+      "data": {
+        "title": "Your data",
+        "privacy": {
+          "title": "Privacy",
+          "text": "No data ever leaves your device. No server, no account, no tracking."
+        },
+        "export": {
+          "title": "Export and backup",
+          "text": "Export your data as JSON from Settings to back it up or transfer it to another device."
+        }
+      },
+      "tips": {
+        "title": "Tips",
+        "startSmall": "Start with a dose you're confident you can handle, even on your worst days.",
+        "fewHabits": "Focus on 1 to 3 habits at most to maximize your chances of success.",
+        "trustProcess": "The first few days, progress may seem tiny. Trust the process."
+      }
+    }
   }
 }

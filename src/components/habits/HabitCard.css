@@ -5,7 +5,8 @@
 
 .habit-card {
   margin-bottom: var(--spacing-4);
-  animation: fadeInUp var(--duration-normal) var(--easing-gentle);
+  animation: fadeInUp var(--duration-normal) var(--easing-gentle)
+    calc(var(--stagger-index, 0) * 80ms) backwards;
 }
 
 /* États visuels selon le statut de complétion */

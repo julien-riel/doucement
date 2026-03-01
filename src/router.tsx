@@ -17,6 +17,7 @@ const Settings = lazy(() => import('./pages/Settings'))
 const WeeklyReview = lazy(() => import('./pages/WeeklyReview'))
 const Statistics = lazy(() => import('./pages/Statistics'))
 const QuickCheckIn = lazy(() => import('./pages/QuickCheckIn'))
+const UserGuide = lazy(() => import('./pages/UserGuide'))
 
 /**
  * Minimal loading fallback for quick-checkin page
@@ -117,6 +118,16 @@ export const router = createBrowserRouter([
       <MainLayout>
         <Suspense fallback={<PageLoader />}>
           <Settings />
+        </Suspense>
+      </MainLayout>
+    ),
+  },
+  {
+    path: '/guide',
+    element: (
+      <MainLayout>
+        <Suspense fallback={<PageLoader />}>
+          <UserGuide />
         </Suspense>
       </MainLayout>
     ),

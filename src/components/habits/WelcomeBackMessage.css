@@ -85,7 +85,7 @@
 }
 
 .welcome-back__dismiss:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(var(--neutral-900-rgb), 0.05);
   color: var(--neutral-700);
 }
 
@@ -101,7 +101,7 @@
   gap: var(--spacing-2);
   margin-top: var(--spacing-4);
   padding-top: var(--spacing-4);
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid rgba(var(--neutral-900-rgb), 0.06);
 }
 
 .welcome-back__habit {

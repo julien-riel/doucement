@@ -1,0 +1,89 @@
+/**
+ * UserGuide Page Styles
+ * Guide utilisateur in-app
+ */
+
+.page-user-guide {
+  padding: var(--spacing-5);
+  padding-bottom: calc(var(--bottom-nav-height) + var(--spacing-8));
+}
+
+/* Header */
+.user-guide__header {
+  margin-bottom: var(--spacing-6);
+}
+
+.user-guide__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-900);
+  margin: var(--spacing-3) 0 0 0;
+}
+
+/* Sections */
+.user-guide__section {
+  margin-bottom: var(--spacing-6);
+}
+
+.user-guide__section-title {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+/* Cards */
+.user-guide__card {
+  margin-bottom: var(--spacing-3);
+}
+
+.user-guide__card-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-800);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.user-guide__card-text {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Tips */
+.user-guide__tips-card {
+  background: linear-gradient(135deg, var(--primary-50), var(--secondary-50));
+}
+
+.user-guide__tips-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.user-guide__tip {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  line-height: 1.6;
+  padding-left: var(--spacing-4);
+  position: relative;
+}
+
+.user-guide__tip::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--primary-500);
+  font-weight: var(--font-bold);
+}
