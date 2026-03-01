@@ -1,347 +1,555 @@
 {
-  "project": "Retours utilisateurs v2",
-  "description": "Nouveau départ d'habitude, correction timer minutes, messages de progression enrichis",
+  "project": "Consolidation post-audit v1.38",
+  "description": "Corrections critiques, robustesse, cohérence et performance suite à l'audit pluridisciplinaire",
   "createdAt": "2026-03-01",
   "lastRelease": "1.38.1",
   "docs": [
-    "docs/prd-user-feedback-v2.md",
+    "docs/prd-consolidation-v2.md",
+    "docs/bilan-v1.38.md",
     "docs/design/design-system-specification.md"
   ],
   "phases": [
     {
-      "id": "phase-1-bugfix-timer",
-      "name": "Correction bug timer minutes/secondes",
-      "description": "Corriger l'incohérence d'unités quand l'objectif est en minutes mais le timer compte en secondes",
-      "status": "completed",
+      "id": "phase-1-critical",
+      "name": "Corrections critiques",
+      "description": "Bugs et contradictions qui menacent l'intégrité des données et la cohérence de la marque",
+      "status": "pending",
       "releaseType": "patch",
-      "releasedAs": "1.35.6",
-      "releasedAt": "2026-03-01",
       "tasks": [
         {
           "id": "1.1",
-          "name": "Convertir targetDose en secondes pour timer/stopwatch",
-          "description": "Dans HabitCard.tsx, multiplier targetDose par 60 quand habit.unit === 'minutes' || 'min' avant de le passer aux composants StopwatchCheckIn et TimerCheckIn. Le header de la carte continue d'afficher la valeur en unité d'origine. Aussi corriger l'affichage du statut (currentValue / targetDose) pour afficher en minutes quand applicable.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
+          "name": "Intégrer runMigrations dans loadData()",
+          "description": "Dans storage.ts, appeler runMigrations quand needsMigration(parsed) est vrai après le chargement depuis localStorage. Sauvegarder immédiatement les données migrées. Ajouter des tests unitaires vérifiant que loadData() migre automatiquement des données en schéma v1 vers v11.",
+          "status": "pending",
           "priority": "high",
           "dependsOn": [],
           "files": [
-            "src/components/habits/HabitCard.tsx"
+            "src/services/storage.ts",
+            "src/services/storage.test.ts"
           ],
-          "tests": [],
+          "tests": ["src/services/storage.test.ts"],
           "acceptance": [
-            "Habitude avec startValue=10, unit='minutes' : timer décompte depuis 10:00",
-            "Header de la carte affiche toujours '10 minutes'",
-            "Statut affiche en minutes (ex: '7 / 10 minutes' pas '420 / 600')",
-            "Habitude en secondes fonctionne toujours normalement"
+            "loadData() retourne des données en schemaVersion 11 même si localStorage contient du v1",
+            "Les données migrées sont resauvegardées dans localStorage",
+            "Si la migration échoue, retourner une erreur VALIDATION_ERROR",
+            "Tests unitaires couvrant migration automatique au chargement"
           ]
         },
         {
           "id": "1.2",
-          "name": "Test E2E timer et stopwatch en minutes",
-          "description": "Créer un test E2E qui vérifie qu'une habitude timer/stopwatch avec unit='minutes' affiche correctement le décompte en minutes et non en secondes.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
+          "name": "Corriger la clé localStorage dans AppProvider",
+          "description": "Dans AppProvider.tsx, remplacer 'doucement-data' (tiret) par la constante STORAGE_KEY importée de storage.ts ('doucement_data' avec underscore). La synchro multi-onglets via StorageEvent ne fonctionne pas actuellement à cause de cette erreur.",
+          "status": "pending",
           "priority": "high",
-          "dependsOn": ["1.1"],
+          "dependsOn": [],
           "files": [
-            "e2e/timer-minutes.spec.ts"
+            "src/components/AppProvider.tsx"
           ],
-          "tests": ["e2e/timer-minutes.spec.ts"],
+          "tests": [],
           "acceptance": [
-            "Test vérifie que 'Durée cible : 10 min' s'affiche",
-            "Test vérifie que le timer ne démarre pas à 00:10",
-            "Tests existants ne régressent pas"
+            "event.key comparé à STORAGE_KEY (constante importée)",
+            "La synchro multi-onglets fonctionne (modification dans un onglet visible dans l'autre)"
+          ]
+        },
+        {
+          "id": "1.3",
+          "name": "Corriger les tokens CSS --success-*",
+          "description": "Remplacer toutes les occurrences de var(--success-*) par var(--secondary-*) dans les fichiers CSS des composants timer, stopwatch et counter. Le token --success-* n'est pas déclaré dans design-tokens.css, ce qui casse l'affichage des états 'cible atteinte'.",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": [],
+          "files": [
+            "src/components/habits/TimerCheckIn.css",
+            "src/components/habits/StopwatchCheckIn.css",
+            "src/components/habits/CounterButtons.css"
+          ],
+          "tests": [],
+          "acceptance": [
+            "Aucune occurrence de var(--success-*) dans le code",
+            "Les états 'cible atteinte' sont visuellement corrects (fond vert visible)",
+            "Tests E2E timer/stopwatch/counter passent"
+          ]
+        },
+        {
+          "id": "1.4",
+          "name": "Retirer la carte Série/Streak des statistiques",
+          "description": "Supprimer la StatCard 'Série' de la page Statistics.tsx. Le PRD §21 interdit explicitement les streaks visibles ('Créent de l'anxiété et transforment un jour manqué en catastrophe'). Conserver les calculs dans statistics.ts pour le debug mais ne plus les exposer dans l'UI. Retirer les traductions streak/série inutilisées.",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": [],
+          "files": [
+            "src/pages/Statistics.tsx",
+            "src/i18n/locales/fr.json",
+            "src/i18n/locales/en.json"
+          ],
+          "tests": ["e2e/statistics.spec.ts"],
+          "acceptance": [
+            "Aucune mention de 'Série', 'Streak' ou 'Record' visible dans l'UI",
+            "La page statistiques affiche toujours les autres cartes (Moyenne, Taux, etc.)",
+            "Tests E2E statistics adaptés"
+          ]
+        },
+        {
+          "id": "1.5",
+          "name": "Harmoniser tu/vous dans fr.json",
+          "description": "Passer toutes les occurrences de vouvoiement en tutoiement dans fr.json. Zones connues : wizard de création (lignes 110-122 : 'souhaitez-vous', 'Décrivez', 'voulez-vous', 'Vérifiez'), empty states (ligne 832 : 'Créez votre'), statistiques (ligne 931 : 'Créez votre'). Faire un grep exhaustif de 'vous', 'votre', 'vos' pour trouver d'autres occurrences.",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": [],
+          "files": [
+            "src/i18n/locales/fr.json"
+          ],
+          "tests": [],
+          "acceptance": [
+            "Aucune occurrence de vouvoiement dans fr.json (sauf contexte technique)",
+            "Tutoiement cohérent dans tout le wizard de création",
+            "Tutoiement dans les empty states et pages statistiques"
+          ]
+        },
+        {
+          "id": "1.6",
+          "name": "Passer les notifications dans le système i18n",
+          "description": "Les messages de notifications dans src/services/notifications.ts (lignes 57-70) sont codés en dur en français avec vouvoiement. Les migrer vers les clés i18n. Le service n'est pas un composant React donc utiliser i18next.t() directement (import i18n from '../i18n').",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": ["1.5"],
+          "files": [
+            "src/services/notifications.ts",
+            "src/i18n/locales/fr.json",
+            "src/i18n/locales/en.json"
+          ],
+          "tests": [],
+          "acceptance": [
+            "Aucun message hardcodé dans notifications.ts",
+            "Messages utilisent i18n avec tutoiement",
+            "Traductions FR et EN présentes",
+            "Notifications fonctionnent en français et en anglais"
           ]
         }
       ]
     },
     {
-      "id": "phase-2-restart",
-      "name": "Nouveau départ d'habitude",
-      "description": "Permettre aux utilisateurs de repartir d'une nouvelle valeur de départ tout en préservant l'historique",
-      "status": "completed",
+      "id": "phase-2-robustness",
+      "name": "Robustesse",
+      "description": "Renforcer la fiabilité et la confiance des données",
+      "status": "pending",
       "releaseType": "minor",
-      "releasedAs": "1.36.0",
-      "releasedAt": "2026-03-01",
       "tasks": [
         {
           "id": "2.1",
-          "name": "Enrichir le type RecalibrationRecord",
-          "description": "Ajouter les champs optionnels 'type' ('recalibration' | 'restart') et 'reason' (string optionnelle) au type RecalibrationRecord dans src/types/index.ts. Mettre à jour le schéma de migration si nécessaire.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
+          "name": "Protection beforeunload quand auto-save échoue",
+          "description": "Dans useAppData.ts, ajouter un état hasUnsavedChanges. Quand saveData échoue dans le useEffect d'auto-save, passer hasUnsavedChanges à true et enregistrer un listener window.addEventListener('beforeunload', handler) pour prévenir la fermeture accidentelle. Retirer le listener quand la sauvegarde réussit.",
+          "status": "pending",
           "priority": "high",
           "dependsOn": [],
-          "files": [
-            "src/types/index.ts"
-          ],
-          "tests": [],
-          "acceptance": [
-            "Type RecalibrationRecord enrichi avec type? et reason?",
-            "Rétrocompatible avec les records existants (champs optionnels)",
-            "TypeScript compile sans erreur"
-          ]
-        },
-        {
-          "id": "2.2",
-          "name": "Ajouter la fonction restartHabit dans useAppData",
-          "description": "Créer une fonction restartHabit(habitId, newStartValue, reason?) dans useAppData.ts. La fonction doit : (1) mettre à jour startValue, (2) mettre à jour createdAt à aujourd'hui, (3) ajouter un RecalibrationRecord avec type='restart'. Réutiliser la logique existante de recalibrateHabitDose comme base.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
-          "priority": "high",
-          "dependsOn": ["2.1"],
           "files": [
             "src/hooks/useAppData.ts"
           ],
           "tests": [],
           "acceptance": [
-            "Fonction restartHabit disponible dans le hook",
-            "startValue et createdAt mis à jour",
-            "RecalibrationRecord ajouté avec type='restart'",
-            "Historique des entrées passées intact"
+            "Un dialogue de confirmation apparaît à la fermeture si des données ne sont pas sauvegardées",
+            "Le listener est retiré quand la sauvegarde réussit",
+            "Pas de faux positif en fonctionnement normal"
+          ]
+        },
+        {
+          "id": "2.2",
+          "name": "Limite de taille sur import de fichiers",
+          "description": "Dans importExport.ts → importFromFile(), vérifier file.size avant le parsing JSON. Maximum 10 MB. Afficher un message d'erreur explicite si dépassé.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": [
+            "src/services/importExport.ts"
+          ],
+          "tests": ["src/services/importExport.test.ts"],
+          "acceptance": [
+            "Fichier > 10 MB retourne erreur avec message clair",
+            "Test unitaire vérifiant le rejet",
+            "Fichier de taille normale passe toujours"
           ]
         },
         {
           "id": "2.3",
-          "name": "Créer le composant RestartSection",
-          "description": "Créer src/pages/EditHabit/sections/RestartSection.tsx. Le composant affiche : valeur actuelle (lecture seule), champ de saisie pour la nouvelle valeur, champ texte optionnel pour la raison, bouton 'Nouveau départ' avec modale de confirmation. Ton bienveillant : 'Chaque nouveau départ est une victoire'. Ajouter les traductions fr/en.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
-          "priority": "high",
-          "dependsOn": ["2.2"],
+          "name": "Backup automatique avant import remplacer",
+          "description": "Avant importDataReplace, sauvegarder l'état actuel dans localStorage sous la clé doucement_data_backup_{timestamp}. Dans l'UI (DataSection.tsx), proposer de télécharger un backup avant l'import.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
           "files": [
-            "src/pages/EditHabit/sections/RestartSection.tsx",
-            "src/pages/EditHabit/index.tsx",
-            "src/i18n/locales/fr.json",
-            "src/i18n/locales/en.json"
+            "src/services/importExport.ts",
+            "src/pages/Settings/sections/DataSection.tsx"
           ],
-          "tests": [],
+          "tests": ["src/services/importExport.test.ts"],
           "acceptance": [
-            "Section visible dans la page d'édition",
-            "Champ de saisie avec validation (nombre > 0)",
-            "Modale de confirmation avant action",
-            "Messages bienveillants (pas de vocabulaire d'échec)",
-            "Après confirmation, redirection vers page détail"
+            "Un backup est créé dans localStorage avant chaque import replace",
+            "L'UI propose le téléchargement d'un backup avant import",
+            "Le backup est nettoyé après succès de l'import (garder max 1 backup)"
           ]
         },
         {
           "id": "2.4",
-          "name": "Test E2E nouveau départ",
-          "description": "Test E2E qui vérifie le flux complet : aller dans édition → saisir nouvelle valeur → confirmer → vérifier que la dose du jour a changé.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
+          "name": "Connecter RecalibrationPrompt dans Today",
+          "description": "Le composant RecalibrationPrompt existe et fonctionne mais n'est jamais rendu. Intégrer dans Today.tsx : utiliser needsRecalibration() de utils/absence.ts pour détecter les absences >7j, et afficher le RecalibrationPrompt pour chaque habitude concernée.",
+          "status": "pending",
           "priority": "medium",
-          "dependsOn": ["2.3"],
+          "dependsOn": [],
           "files": [
-            "e2e/restart-habit.spec.ts"
+            "src/pages/Today.tsx"
           ],
-          "tests": ["e2e/restart-habit.spec.ts"],
+          "tests": ["e2e/absence-detection.spec.ts"],
           "acceptance": [
-            "Test du flux complet de nouveau départ",
-            "Vérification que la dose du jour reflète la nouvelle valeur",
-            "Vérification que l'historique est préservé"
+            "Après 7+ jours d'absence, le RecalibrationPrompt s'affiche",
+            "L'utilisateur peut choisir de recalibrer ou garder sa dose",
+            "Le prompt disparaît après le choix",
+            "Test E2E couvrant le scénario"
+          ]
+        },
+        {
+          "id": "2.5",
+          "name": "Configurer couverture Vitest avec seuils",
+          "description": "Ajouter la configuration coverage dans vitest.config.ts avec provider v8, seuils (80% statements, 75% branches, 80% functions). Ajouter le script 'test:coverage' dans package.json. Inclure src/services/**, src/hooks/**, src/utils/**.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": [
+            "vitest.config.ts",
+            "package.json"
+          ],
+          "tests": [],
+          "acceptance": [
+            "npm run test:coverage fonctionne et affiche un rapport",
+            "Seuils configurés (80% statements, 75% branches)",
+            "Le script échoue si les seuils ne sont pas atteints"
+          ]
+        },
+        {
+          "id": "2.6",
+          "name": "Tests unitaires pour validation.ts",
+          "description": "Créer src/services/validation.test.ts. Tester validateHabit (habitude valide, champs manquants, types incorrects, trackingMode invalide), validateEntry (entrée valide, date invalide, valeur négative), validateImportData (données complètes, données partielles, données corrompues), formatValidationErrors.",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": [],
+          "files": [
+            "src/services/validation.test.ts"
+          ],
+          "tests": ["src/services/validation.test.ts"],
+          "acceptance": [
+            "Tous les validateurs testés avec inputs valides et invalides",
+            "Cas limites couverts (champs vides, types incorrects, valeurs extrêmes)",
+            "formatValidationErrors testé",
+            "Couverture > 90% sur validation.ts"
           ]
         }
       ]
     },
     {
-      "id": "phase-3-messages",
-      "name": "Messages de progression enrichis et adaptatifs",
-      "description": "Remplacer les messages de progression statiques par des messages contextuels riches",
-      "status": "completed",
+      "id": "phase-3-quality",
+      "name": "Qualité et cohérence",
+      "description": "Polir l'expérience, réduire la dette technique, renforcer les tests",
+      "status": "pending",
       "releaseType": "minor",
-      "releasedAs": "1.37.0",
-      "releasedAt": "2026-03-01",
       "tasks": [
         {
           "id": "3.1",
-          "name": "Créer getProgressionContext dans progression.ts",
-          "description": "Créer une fonction getProgressionContext(habit, date, entries) qui retourne un objet ProgressionContext contenant : yesterdayDose, totalChange, totalChangePercent, daysActive, isFirstDay, isBackAfterAbsence, daysAbsent, isCloseToTarget, remainingToTarget. Cette fonction sera utilisée par le composant HabitCard pour générer les messages.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
+          "name": "Unifier daysBetween",
+          "description": "Supprimer l'implémentation de daysBetween dans services/progression.ts (qui utilise Math.floor) et importer celle de utils/date.ts (qui utilise Math.round) partout. Le Math.floor vs Math.round peut produire des résultats différents en cas de DST.",
+          "status": "pending",
           "priority": "high",
           "dependsOn": [],
           "files": [
             "src/services/progression.ts",
-            "src/types/index.ts"
+            "src/utils/date.ts"
           ],
-          "tests": [],
+          "tests": ["src/services/progression.test.ts"],
           "acceptance": [
-            "Fonction exportée et typée",
-            "Calcul correct de yesterdayDose (dose cible de la veille)",
-            "Détection correcte du premier jour",
-            "Détection d'absence (>3 jours sans entrée)",
-            "Détection de proximité avec targetValue"
+            "Une seule implémentation de daysBetween dans utils/date.ts",
+            "Tous les imports pointent vers utils/date.ts",
+            "Tests de progression passent toujours"
           ]
         },
         {
           "id": "3.2",
-          "name": "Tests unitaires getProgressionContext",
-          "description": "Tests unitaires couvrant tous les scénarios : premier jour, progression increase/decrease, retour après absence, proche de l'objectif final, pas de progression (maintain).",
-          "status": "completed",
-          "completedAt": "2026-03-01",
-          "priority": "high",
-          "dependsOn": ["3.1"],
+          "name": "Supprimer le doublon exportImage",
+          "description": "Deux fichiers font la même chose : services/imageExport.ts et services/exportImage.ts. Garder le plus complet, supprimer l'autre, mettre à jour tous les imports.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
           "files": [
-            "src/services/progression.test.ts"
+            "src/services/imageExport.ts",
+            "src/services/exportImage.ts"
           ],
-          "tests": ["src/services/progression.test.ts"],
+          "tests": [],
           "acceptance": [
-            "Scénario premier jour",
-            "Scénario increase avec historique",
-            "Scénario decrease avec historique",
-            "Scénario retour après 5 jours d'absence",
-            "Scénario proche objectif final",
-            "Scénario maintain (retourne null)"
+            "Un seul fichier d'export image",
+            "Tous les imports mis à jour",
+            "Build réussit sans erreur"
           ]
         },
         {
           "id": "3.3",
-          "name": "Refactorer getProgressionMessage dans HabitCard",
-          "description": "Remplacer la fonction getProgressionMessage actuelle par une version qui utilise getProgressionContext. Ajouter les nouvelles clés de traduction fr/en pour les messages adaptatifs (premier jour, retour après absence, proche objectif, progression standard increase/decrease).",
-          "status": "completed",
-          "completedAt": "2026-03-01",
-          "priority": "high",
-          "dependsOn": ["3.1"],
+          "name": "Résoudre coexistence CreateHabit.tsx / CreateHabit/",
+          "description": "Le fichier monolithique CreateHabit.tsx (800+ lignes) coexiste avec le dossier CreateHabit/ refactorisé. Vérifier via router.tsx lequel est actif, supprimer l'obsolète.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
           "files": [
-            "src/components/habits/HabitCard.tsx",
-            "src/i18n/locales/fr.json",
-            "src/i18n/locales/en.json"
+            "src/pages/CreateHabit.tsx",
+            "src/pages/CreateHabit/index.tsx",
+            "src/router.tsx"
           ],
-          "tests": [],
+          "tests": ["e2e/create-habit.spec.ts"],
           "acceptance": [
-            "Message premier jour affiché correctement",
-            "Message retour après absence avec valeur veille",
-            "Message proche objectif avec distance restante",
-            "Message standard avec veille + progression cumulée + %",
-            "Pas de message pour maintain"
+            "Une seule implémentation de CreateHabit",
+            "Le routeur pointe vers la bonne version",
+            "Tests E2E de création passent"
           ]
         },
         {
           "id": "3.4",
-          "name": "Connecter le contexte de progression dans Today page",
-          "description": "Dans la page Today, calculer le ProgressionContext pour chaque habitude et le passer au HabitCard. Nécessite d'avoir accès aux entrées (entries) pour calculer les jours d'absence et la valeur de la veille.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
-          "priority": "high",
-          "dependsOn": ["3.3"],
+          "name": "Corriger les problèmes d'accessibilité",
+          "description": "4 corrections : (1) Dots d'onboarding : soit rendre cliquables avec tabIndex + onClick, soit passer en aria-hidden='true'. (2) Bouton dismiss WelcomeBackMessage : passer de 28x28px à min 44x44px. (3) Bouton Settings (emoji ⚙️) : ajouter min-width/height 44px. (4) Ajouter un skip link dans MainLayout.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
           "files": [
-            "src/pages/Today/index.tsx"
+            "src/pages/Onboarding.tsx",
+            "src/components/habits/WelcomeBackMessage.css",
+            "src/components/habits/DailyHeader.tsx",
+            "src/components/layout/MainLayout.tsx"
           ],
           "tests": [],
           "acceptance": [
-            "ProgressionContext calculé pour chaque habitude",
-            "Passé au HabitCard via une nouvelle prop",
-            "Performance acceptable (pas de re-render excessif)"
+            "Dots d'onboarding sémantiquement corrects",
+            "Tous les éléments interactifs ont une zone de touche ≥ 44x44px",
+            "Skip link fonctionnel pour navigation clavier",
+            "Tests E2E existants passent"
           ]
         },
         {
           "id": "3.5",
-          "name": "Test E2E messages de progression",
-          "description": "Test E2E vérifiant que les messages de progression s'affichent correctement sur la page du jour pour différents scénarios.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
+          "name": "Corriger emoji et messages problématiques",
+          "description": "3 corrections : (1) Remplacer emoji 🔥 par 🌟 ou ✨ dans projections.almostThere (fr.json et en.json). (2) Supprimer 'Bien joué. Demain est un autre jour.' des messages de check-in partiel. (3) Reformuler habitNeglected.subtitle sans connotation accusatrice ('Tu n'as pas enregistré...' → 'Pas encore de trace pour cette habitude. Reprends quand tu veux.').",
+          "status": "pending",
           "priority": "medium",
-          "dependsOn": ["3.4"],
+          "dependsOn": [],
           "files": [
-            "e2e/progression-messages.spec.ts"
+            "src/i18n/locales/fr.json",
+            "src/i18n/locales/en.json",
+            "src/constants/messages.ts"
           ],
-          "tests": ["e2e/progression-messages.spec.ts"],
+          "tests": [],
           "acceptance": [
-            "Message premier jour visible pour habitude créée aujourd'hui",
-            "Message avec valeur veille pour habitude avec historique",
-            "Message progression cumulée avec pourcentage"
+            "Aucun emoji 🔥 dans les traductions",
+            "Message 'Demain est un autre jour' supprimé",
+            "habitNeglected.subtitle reformulé sans accusation",
+            "Cohérence entre fr.json, en.json et messages.ts"
+          ]
+        },
+        {
+          "id": "3.6",
+          "name": "Tests unitaires useCelebrations et mutations useAppData",
+          "description": "Deux fichiers de tests : (1) Ajouter des tests pour addHabit, updateHabit, archiveHabit, restoreHabit dans useAppData.test.ts. (2) Créer useCelebrations.test.ts couvrant detectNewMilestones, checkForNewMilestoneAfterCheckIn, markMilestoneAsCelebrated.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": [
+            "src/hooks/useAppData.test.ts",
+            "src/hooks/useCelebrations.test.ts"
+          ],
+          "tests": [
+            "src/hooks/useAppData.test.ts",
+            "src/hooks/useCelebrations.test.ts"
+          ],
+          "acceptance": [
+            "addHabit, updateHabit, archiveHabit, restoreHabit testés",
+            "useCelebrations : détection, check-in, marquage testés",
+            "Cas limites couverts (habitude sans entrées, milestone déjà célébré)"
+          ]
+        },
+        {
+          "id": "3.7",
+          "name": "Lint CSS des tokens",
+          "description": "Créer un script (scripts/lint-css-tokens.sh ou .ts) qui : (1) extrait tous les var(--*) utilisés dans les fichiers CSS, (2) vérifie qu'ils sont déclarés dans src/styles/design-tokens.css, (3) signale les tokens non définis. Intégrer au health-check existant.",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": ["3.1"],
+          "files": [
+            "scripts/lint-css-tokens.sh",
+            "scripts/health-check.sh"
+          ],
+          "tests": [],
+          "acceptance": [
+            "Le script détecte les tokens CSS non définis",
+            "Intégré au health-check (nouvelle section)",
+            "Aucun faux positif sur les tokens standards CSS (inherit, etc.)",
+            "Zéro token non défini dans le code actuel"
           ]
         }
       ]
     },
     {
-      "id": "phase-4-timeline",
-      "name": "Timeline des nouveaux départs",
-      "description": "Afficher l'historique des recalibrations/restarts dans la page détail",
-      "status": "completed",
+      "id": "phase-4-perf",
+      "name": "Performance et évolution",
+      "description": "Optimisations long terme, dépendances, fonctionnalités manquantes",
+      "status": "pending",
       "releaseType": "minor",
-      "releasedAs": "1.38.0",
-      "releasedAt": "2026-03-01",
       "tasks": [
         {
           "id": "4.1",
-          "name": "Créer le composant RestartTimeline",
-          "description": "Créer src/components/habits/RestartTimeline.tsx. Affiche une liste chronologique des RecalibrationRecord avec : date, ancienne → nouvelle valeur, icône (↑ recalibration, 🔄 restart), raison si présente, message bienveillant ('Chaque reprise compte'). Ajouter les traductions fr/en.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
-          "priority": "medium",
-          "dependsOn": ["2.1"],
+          "name": "Indexer les entrées par date",
+          "description": "Dans useAppData.ts, construire un Map<string, DailyEntry[]> indexé par date au chargement et à chaque mutation d'entrée. Remplacer getEntriesForDate et getEntriesForHabit par des lookups O(1) au lieu de filtres O(n). Avec 10k+ entrées, chaque filter est coûteux.",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": [],
           "files": [
-            "src/components/habits/RestartTimeline.tsx",
-            "src/components/habits/RestartTimeline.css",
-            "src/i18n/locales/fr.json",
-            "src/i18n/locales/en.json"
+            "src/hooks/useAppData.ts"
           ],
-          "tests": [],
+          "tests": ["src/hooks/useAppData.test.ts"],
           "acceptance": [
-            "Affichage chronologique des records",
-            "Distinction visuelle recalibration vs restart",
-            "Messages bienveillants",
-            "Responsive et accessible"
+            "Index Map<string, DailyEntry[]> créé au chargement",
+            "getEntriesForDate utilise l'index",
+            "Performance mesurée avec 10k+ entrées (< 16ms par rendu)",
+            "Tests existants passent"
           ]
         },
         {
           "id": "4.2",
-          "name": "Intégrer RestartTimeline dans HabitDetail",
-          "description": "Ajouter la RestartTimeline dans la page HabitDetail, visible uniquement si l'habitude a des recalibrationHistory. Positionner après les statistiques et avant la zone d'archivage.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
+          "name": "Migrer html2canvas vers html-to-image",
+          "description": "Remplacer html2canvas (abandonné depuis 2022, vulnérabilités non corrigées) par html-to-image (même API, maintenu activement). Mettre à jour imageExport.ts et exportPdf.ts.",
+          "status": "pending",
           "priority": "medium",
-          "dependsOn": ["4.1"],
+          "dependsOn": [],
           "files": [
-            "src/pages/HabitDetail.tsx"
+            "src/services/imageExport.ts",
+            "src/services/exportPdf.ts",
+            "package.json"
           ],
           "tests": [],
           "acceptance": [
-            "Timeline visible quand recalibrationHistory non vide",
-            "Masquée quand pas d'historique",
-            "Position cohérente dans la page"
+            "html2canvas retiré de package.json",
+            "html-to-image installé et utilisé",
+            "Export PNG et PDF fonctionnent",
+            "Bundle size identique ou inférieur"
           ]
-        }
-      ]
-    },
-    {
-      "id": "phase-5-validation",
-      "name": "Validation finale",
-      "description": "Tests complets et vérification de non-régression",
-      "status": "completed",
-      "releaseType": "patch",
-      "releasedAs": "1.38.1",
-      "releasedAt": "2026-03-01",
-      "tasks": [
+        },
         {
-          "id": "5.1",
-          "name": "Validation suite complète",
-          "description": "Exécuter tous les tests unitaires, E2E, typecheck et lint pour s'assurer qu'aucune régression n'a été introduite.",
-          "status": "completed",
-          "completedAt": "2026-03-01",
-          "priority": "high",
-          "dependsOn": ["1.2", "2.4", "3.5", "4.2"],
-          "files": [],
-          "tests": ["src/**/*.test.ts", "e2e/**/*.spec.ts"],
+          "id": "4.3",
+          "name": "Exposer le mode fusionner dans l'UI d'import",
+          "description": "Le service importDataMerge est implémenté mais l'UI ne propose que 'remplacer'. Ajouter un choix 'Remplacer' / 'Fusionner' dans DataSection.tsx avec explication de chaque mode.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": [
+            "src/pages/Settings/sections/DataSection.tsx",
+            "src/i18n/locales/fr.json",
+            "src/i18n/locales/en.json"
+          ],
+          "tests": ["e2e/import-export.spec.ts"],
           "acceptance": [
-            "npm test passe",
-            "npm run test:e2e passe",
-            "npm run typecheck passe",
-            "npm run lint passe",
-            "Health check passe"
+            "Choix remplacer/fusionner visible dans l'UI",
+            "Mode fusionner appelle importDataMerge",
+            "Explications claires pour chaque mode",
+            "Test E2E couvrant le mode fusionner"
+          ]
+        },
+        {
+          "id": "4.4",
+          "name": "Rendre la revue hebdomadaire visible dans la navigation",
+          "description": "La page /review est invisible dans la navigation principale. Option : badge sur l'onglet 'Aujourd'hui' en fin de semaine, ou 4ème item dans la bottom nav, ou bouton dans le DailyHeader.",
+          "status": "pending",
+          "priority": "medium",
+          "dependsOn": [],
+          "files": [
+            "src/components/layout/MainLayout.tsx",
+            "src/components/habits/DailyHeader.tsx"
+          ],
+          "tests": [],
+          "acceptance": [
+            "La revue hebdomadaire est accessible sans URL directe",
+            "L'affordance est visible en fin de semaine",
+            "Navigation cohérente avec le reste de l'app"
+          ]
+        },
+        {
+          "id": "4.5",
+          "name": "Type discriminant pour Habit",
+          "description": "Remplacer les 16 champs optionnels de Habit par un type union discriminé par trackingMode. Ex: HabitSimple | HabitSlider (avec sliderConfig requis) | HabitCounter etc. Migration nécessaire pour la rétrocompatibilité.",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": [],
+          "files": [
+            "src/types/index.ts"
+          ],
+          "tests": [],
+          "acceptance": [
+            "Type Habit = union discriminée par trackingMode",
+            "Les champs dépendants sont requis (pas optionnels)",
+            "TypeScript compile sans erreur",
+            "Rétrocompatible avec les données existantes"
+          ]
+        },
+        {
+          "id": "4.6",
+          "name": "Stratégie de nettoyage des données anciennes",
+          "description": "3 actions : (1) Nettoyage automatique des timer_states de plus de 7 jours. (2) Afficher la taille approximative des données dans Settings. (3) Proposer un nettoyage des entrées d'habitudes archivées depuis plus de 6 mois.",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": [],
+          "files": [
+            "src/services/timerStorage.ts",
+            "src/pages/Settings/sections/DataSection.tsx"
+          ],
+          "tests": [],
+          "acceptance": [
+            "timer_states > 7j nettoyés automatiquement",
+            "Taille des données affichée dans Settings",
+            "Option de nettoyage des données archivées proposée"
+          ]
+        },
+        {
+          "id": "4.7",
+          "name": "Debounce sur auto-save",
+          "description": "Ajouter un debounce de 500ms sur le useEffect d'auto-save dans useAppData.ts. Chaque interaction déclenche actuellement JSON.stringify(data) complet. Avec 50k entrées, c'est perceptible.",
+          "status": "pending",
+          "priority": "low",
+          "dependsOn": [],
+          "files": [
+            "src/hooks/useAppData.ts"
+          ],
+          "tests": ["src/hooks/useAppData.test.ts"],
+          "acceptance": [
+            "Auto-save déclenché 500ms après la dernière modification",
+            "Pas de perte de données entre les debounces",
+            "Tests existants passent (adapter les timers si nécessaire)"
+          ]
+        },
+        {
+          "id": "4.8",
+          "name": "Suite de tests intégrité des données",
+          "description": "Créer src/services/data-integrity.test.ts avec : (1) Test migration roundtrip v1→v11 avec données réalistes. (2) Test import/export roundtrip (export → import → vérifier identité). (3) Test validation de schéma sur données de chaque version. (4) Test résistance aux données corrompues (champs manquants, types incorrects, valeurs extrêmes).",
+          "status": "pending",
+          "priority": "high",
+          "dependsOn": [],
+          "files": [
+            "src/services/data-integrity.test.ts"
+          ],
+          "tests": ["src/services/data-integrity.test.ts"],
+          "acceptance": [
+            "Migration v1→v11 testée avec données réalistes",
+            "Export → import = données identiques",
+            "Chaque version de schéma validée",
+            "Données corrompues détectées et rejetées proprement"
           ]
         }
       ]
     }
   ],
   "stats": {
-    "totalTasks": 14,
-    "completed": 14,
+    "totalTasks": 28,
+    "completed": 0,
     "inProgress": 0,
-    "pending": 0,
+    "pending": 28,
     "blocked": 0
   }
 }
