@@ -38,10 +38,11 @@ function createHabit(overrides: Partial<Habit> = {}): Habit {
       value: 5,
       period: 'weekly',
     },
+    trackingMode: 'detailed',
     createdAt: TEST_TODAY, // Created today
     archivedAt: null,
     ...overrides,
-  }
+  } as Habit
 }
 
 // ============================================================================

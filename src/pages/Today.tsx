@@ -162,10 +162,7 @@ function Today() {
             needsRecalibration(h, data.entries, calculateTargetDose) &&
             !dismissedRecalibrations.has(h.id)
         )
-        .map((h) => ({
-          habit: h,
-          ...detectExtendedAbsence(h, data.entries, calculateTargetDose),
-        })),
+        .map((h) => detectExtendedAbsence(h, data.entries, calculateTargetDose)),
     [habitsForToday, data.entries, dismissedRecalibrations]
   )
 

@@ -7,6 +7,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { loadData, saveData, clearData } from './storage'
 import {
   AppData,
+  Habit,
   DEFAULT_APP_DATA,
   CURRENT_SCHEMA_VERSION,
   DEFAULT_NOTIFICATION_SETTINGS,
@@ -49,9 +50,10 @@ function createAppDataWithHabit(): AppData {
         startValue: 10,
         unit: 'répétitions',
         progression: { mode: 'absolute', value: 2, period: 'weekly' },
+        trackingMode: 'detailed',
         createdAt: '2025-01-01',
         archivedAt: null,
-      },
+      } as Habit,
     ],
     preferences: {
       onboardingCompleted: true,
@@ -457,9 +459,10 @@ describe('intégration load/save/clear', () => {
           startValue: 5,
           unit: 'minutes',
           progression: null,
+          trackingMode: 'detailed',
           createdAt: '2025-01-01',
           archivedAt: null,
-        },
+        } as Habit,
       ],
     })
 
@@ -608,9 +611,10 @@ describe('cas limites', () => {
           startValue: 1,
           unit: 'fois',
           progression: null,
+          trackingMode: 'detailed',
           createdAt: '2025-01-01',
           archivedAt: null,
-        },
+        } as Habit,
       ],
     })
 
@@ -632,6 +636,7 @@ describe('cas limites', () => {
       startValue: i,
       unit: 'unités',
       progression: null,
+      trackingMode: 'detailed' as const,
       createdAt: '2025-01-01',
       archivedAt: null,
     }))
@@ -671,11 +676,12 @@ describe('cas limites', () => {
           startValue: 5,
           unit: 'minutes',
           progression: null,
+          trackingMode: 'detailed',
           description: undefined,
           targetValue: undefined,
           createdAt: '2025-01-01',
           archivedAt: null,
-        },
+        } as Habit,
       ],
     })
 
@@ -698,6 +704,7 @@ describe('cas limites', () => {
           startValue: 10,
           unit: 'minutes',
           progression: { mode: 'absolute', value: 1, period: 'weekly' },
+          trackingMode: 'detailed',
           createdAt: '2025-01-01',
           archivedAt: null,
           timeOfDay: 'morning',
@@ -705,7 +712,7 @@ describe('cas limites', () => {
             { id: 'op-1', value: 5, timestamp: '2025-01-15T08:00:00Z' },
             { id: 'op-2', value: 3, timestamp: '2025-01-15T12:00:00Z' },
           ],
-        },
+        } as Habit,
       ],
     })
 
@@ -730,10 +737,11 @@ describe('cas limites', () => {
           startValue: 10,
           unit: 'répétitions',
           progression: { mode: 'percentage', value: 5, period: 'weekly' },
+          trackingMode: 'detailed',
           createdAt: '2025-01-01',
           archivedAt: null,
           // Pas de timeOfDay ni cumulativeOperations
-        },
+        } as Habit,
       ],
     })
 

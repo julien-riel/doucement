@@ -36,7 +36,7 @@ const createHabit = (overrides: Partial<Habit> = {}): Habit => ({
   archivedAt: null,
   trackingMode: 'detailed',
   ...overrides,
-})
+}) as Habit
 
 const createEntry = (
   date: string,

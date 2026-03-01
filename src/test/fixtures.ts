@@ -46,10 +46,11 @@ export function createHabit(overrides: Partial<Habit> = {}): Habit {
     startValue: 10,
     unit: 'répétitions',
     progression: null,
+    trackingMode: 'detailed',
     createdAt: TEST_CREATED_AT,
     archivedAt: null,
     ...overrides,
-  }
+  } as Habit
 }
 
 /**
@@ -64,7 +65,6 @@ export function createIncreaseHabit(overrides: Partial<Habit> = {}): Habit {
     startValue: 10,
     unit: 'répétitions',
     progression: { mode: 'absolute', value: 2, period: 'weekly' },
-    trackingMode: 'detailed',
     trackingFrequency: 'daily',
     entryMode: 'replace',
     ...overrides,

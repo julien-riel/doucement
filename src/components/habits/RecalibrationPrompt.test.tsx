@@ -49,10 +49,11 @@ const createMockHabit = (overrides?: Partial<Habit>): Habit => ({
     value: 5,
     period: 'weekly',
   },
+  trackingMode: 'detailed',
   createdAt: '2026-01-01',
   archivedAt: null,
   ...overrides,
-})
+}) as Habit
 
 type RecalibrationRecord = {
   date: string

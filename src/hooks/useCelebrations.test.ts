@@ -22,11 +22,12 @@ function createHabit(overrides: Partial<Habit> = {}): Habit {
     startValue: 10,
     unit: 'reps',
     progression: { mode: 'absolute', value: 1, period: 'weekly' },
+    trackingMode: 'detailed',
     createdAt: '2026-01-01',
     archivedAt: null,
     targetValue: 50,
     ...overrides,
-  }
+  } as Habit
 }
 
 function createMilestone(overrides: Partial<Milestone> = {}): Milestone {

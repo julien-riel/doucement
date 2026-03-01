@@ -64,10 +64,11 @@ function createValidHabit(overrides: Partial<Habit> = {}): Habit {
     startValue: 10,
     unit: 'répétitions',
     progression: { mode: 'absolute', value: 2, period: 'weekly' },
+    trackingMode: 'detailed',
     createdAt: '2025-01-01',
     archivedAt: null,
     ...overrides,
-  }
+  } as Habit
 }
 
 /**

@@ -53,6 +53,7 @@ function Onboarding() {
         startValue: suggestedHabit.startValue,
         unit: suggestedHabit.unit,
         progression: suggestedHabit.progression,
+        trackingMode: 'detailed',
       }
       addHabit(habitInput)
     })

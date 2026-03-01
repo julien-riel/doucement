@@ -5,6 +5,7 @@
  */
 
 import * as htmlToImage from 'html-to-image'
+import type { Options as HtmlToImageOptions } from 'html-to-image/lib/types'
 
 /**
  * Options pour l'export d'image
@@ -36,7 +37,7 @@ const DEFAULT_OPTIONS: Required<ImageExportOptions> = {
 /**
  * Construit les options html-to-image à partir de nos options internes
  */
-function buildHtmlToImageOptions(opts: Required<ImageExportOptions>): htmlToImage.Options {
+function buildHtmlToImageOptions(opts: Required<ImageExportOptions>): HtmlToImageOptions {
   return {
     pixelRatio: opts.scale,
     backgroundColor: opts.backgroundColor,
@@ -129,7 +130,7 @@ export async function generateImageFile(
 /**
  * Résultat de l'export PNG
  */
-export interface ExportResult {
+export interface ImageExportResult {
   /** Succès de l'export */
   success: boolean
   /** Message d'erreur si échec */
@@ -148,7 +149,7 @@ export interface ExportResult {
 export async function exportToPng(
   element: HTMLElement | null,
   options: ImageExportOptions = {}
-): Promise<ExportResult> {
+): Promise<ImageExportResult> {
   if (!element) {
     return {
       success: false,
@@ -159,7 +160,7 @@ export async function exportToPng(
   const opts = { ...DEFAULT_OPTIONS, ...options }
 
   try {
-    const htmlToImageOpts: htmlToImage.Options = {
+    const htmlToImageOpts: HtmlToImageOptions = {
       pixelRatio: opts.scale,
       backgroundColor: opts.backgroundColor,
       quality: 1.0,
@@ -209,7 +210,7 @@ export async function captureToCanvas(
   const opts = { ...DEFAULT_OPTIONS, ...options }
 
   try {
-    const htmlToImageOpts: htmlToImage.Options = {
+    const htmlToImageOpts: HtmlToImageOptions = {
       pixelRatio: opts.scale,
       backgroundColor: opts.backgroundColor,
       filter: (el: HTMLElement) => !el.hasAttribute?.('data-html2canvas-ignore'),

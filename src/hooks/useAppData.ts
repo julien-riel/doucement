@@ -192,12 +192,12 @@ export function useAppData(): UseAppDataReturn {
   // ============================================================================
 
   const addHabit = useCallback((input: CreateHabitInput): Habit | null => {
-    const newHabit: Habit = {
+    const newHabit = {
       ...input,
       id: generateId(),
       createdAt: getCurrentDate(),
       archivedAt: null,
-    }
+    } as Habit
 
     setData((prev) => ({
       ...prev,
@@ -219,7 +219,7 @@ export function useAppData(): UseAppDataReturn {
         ...prev,
         habits: prev.habits.map((habit) => {
           if (habit.id === id) {
-            return { ...habit, ...input }
+            return { ...habit, ...input } as Habit
           }
           return habit
         }),

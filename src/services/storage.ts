@@ -117,8 +117,8 @@ export function loadData(): StorageResult<AppData> {
     }
 
     // Migrate data if needed
-    if (needsMigration(parsed)) {
-      const migrationResult = runMigrations(parsed as Record<string, unknown>)
+    if (needsMigration(parsed as unknown as Record<string, unknown>)) {
+      const migrationResult = runMigrations(parsed as unknown as Record<string, unknown>)
       if (!migrationResult.success || !migrationResult.data) {
         return {
           success: false,

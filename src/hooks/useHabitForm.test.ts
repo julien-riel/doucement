@@ -27,7 +27,7 @@ const createTestHabit = (overrides: Partial<Habit> = {}): Habit => ({
   trackingFrequency: 'daily',
   entryMode: 'replace',
   ...overrides,
-})
+}) as Habit
 
 describe('useHabitForm', () => {
   describe('Create mode', () => {

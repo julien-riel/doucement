@@ -42,13 +42,13 @@ const createMockHabit = (overrides?: Partial<Habit>): Habit => ({
     value: 5,
     period: 'weekly',
   },
+  trackingMode: 'detailed',
   createdAt: '2026-01-01',
   archivedAt: null,
-  trackingMode: 'detailed',
   trackingFrequency: 'daily',
   entryMode: 'replace',
   ...overrides,
-})
+}) as Habit
 
 describe('HabitCard', () => {
   let mockOnCheckIn: (habitId: string, value: number) => void

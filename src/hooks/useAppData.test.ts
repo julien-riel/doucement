@@ -54,11 +54,12 @@ function createReplaceHabit(overrides: Partial<Habit> = {}): Habit {
       value: 1,
       period: 'weekly',
     },
+    trackingMode: 'detailed',
     createdAt: '2026-01-01',
     archivedAt: null,
     entryMode: 'replace',
     ...overrides,
-  }
+  } as Habit
 }
 
 /**
@@ -73,11 +74,12 @@ function createCumulativeHabit(overrides: Partial<Habit> = {}): Habit {
     startValue: 8,
     unit: 'verres',
     progression: null,
+    trackingMode: 'detailed',
     createdAt: '2026-01-01',
     archivedAt: null,
     entryMode: 'cumulative',
     ...overrides,
-  }
+  } as Habit
 }
 
 /**
@@ -96,11 +98,11 @@ function createCounterHabit(overrides: Partial<Habit> = {}): Habit {
       value: 1,
       period: 'weekly',
     },
+    trackingMode: 'counter',
     createdAt: '2026-01-01',
     archivedAt: null,
-    trackingMode: 'counter',
     ...overrides,
-  }
+  } as Habit
 }
 
 /**
@@ -166,6 +168,7 @@ describe('useAppData - Habit Mutations', () => {
           startValue: 5,
           unit: 'minutes',
           progression: { mode: 'absolute', value: 1, period: 'weekly' },
+          trackingMode: 'detailed',
         })
       })
 
@@ -200,6 +203,7 @@ describe('useAppData - Habit Mutations', () => {
           startValue: 10,
           unit: 'min',
           progression: null,
+          trackingMode: 'detailed',
         })
       })
 
@@ -211,6 +215,7 @@ describe('useAppData - Habit Mutations', () => {
           startValue: 20,
           unit: 'pages',
           progression: null,
+          trackingMode: 'detailed',
         })
       })
 
@@ -235,6 +240,7 @@ describe('useAppData - Habit Mutations', () => {
           startValue: 1,
           unit: 'x',
           progression: null,
+          trackingMode: 'detailed',
         })
       })
 
