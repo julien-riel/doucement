@@ -489,6 +489,7 @@
         "text": "L'import remplacera toutes tes données actuelles par celles du fichier.",
         "warning": "L'import remplacera toutes tes données actuelles par celles du fichier.",
         "irreversible": "Cette action est irréversible. Pense à exporter tes données actuelles avant si tu veux les conserver.",
+        "backupFirst": "Télécharger un backup d'abord",
         "inProgress": "Import en cours...",
         "importing": "Import en cours...",
         "button": "Importer",

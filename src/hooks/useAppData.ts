@@ -3,7 +3,7 @@
  * Accès réactif aux données avec auto-save
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { loadData, saveData, StorageError } from '../services/storage'
 import {
   AppData,
@@ -143,15 +143,32 @@ export function useAppData(): UseAppDataReturn {
     setIsLoading(false)
   }, [])
 
+  // Suivi des données non sauvegardées pour beforeunload
+  const hasUnsavedChanges = useRef(false)
+
   // Auto-save quand les données changent (sauf au chargement initial)
   useEffect(() => {
     if (!isLoading) {
       const result = saveData(data)
       if (!result.success && result.error) {
         setError(result.error)
+        hasUnsavedChanges.current = true
+      } else {
+        hasUnsavedChanges.current = false
       }
     }
   }, [data, isLoading])
+
+  // Protection beforeunload si des données ne sont pas sauvegardées
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges.current) {
+        e.preventDefault()
+      }
+    }
+    window.addEventListener('beforeunload', handler)
+    return () => window.removeEventListener('beforeunload', handler)
+  }, [])
 
   // Calcul des habitudes actives et archivées
   const activeHabits = useMemo(

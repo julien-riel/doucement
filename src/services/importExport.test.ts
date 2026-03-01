@@ -8,6 +8,9 @@ import {
   exportDataAsJson,
   importDataReplace,
   importDataMerge,
+  importFromFile,
+  importFromFileMerge,
+  createBackupBeforeImport,
   formatImportResult,
   formatMergeImportResult,
   type MergeOptions,
@@ -1177,6 +1180,120 @@ describe('intégration export/import', () => {
 
     const sharedHabit = merged.data?.habits.find((h) => h.id === 'habit-shared')
     expect(sharedHabit?.name).toBe('Shared Updated')
+  })
+})
+
+// ============================================================================
+// BACKUP TESTS
+// ============================================================================
+
+describe('createBackupBeforeImport', () => {
+  it('crée un backup dans localStorage', () => {
+    const data = createAppDataWithHabitAndEntry()
+    saveData(data)
+
+    const result = createBackupBeforeImport()
+
+    expect(result).toBe(true)
+
+    // Vérifier qu'un backup existe
+    const backupKeys = Object.keys(localStorage).filter((k) =>
+      k.startsWith('doucement_data_backup_')
+    )
+    expect(backupKeys).toHaveLength(1)
+
+    // Vérifier que le backup contient les bonnes données
+    const backupData = JSON.parse(localStorage.getItem(backupKeys[0])!)
+    expect(backupData).toEqual(data)
+  })
+
+  it('retourne true si pas de données à sauvegarder', () => {
+    const result = createBackupBeforeImport()
+    expect(result).toBe(true)
+  })
+
+  it('nettoie les anciens backups (garde max 1)', () => {
+    const data = createAppDataWithHabitAndEntry()
+    saveData(data)
+
+    // Créer deux backups
+    createBackupBeforeImport()
+    createBackupBeforeImport()
+
+    const backupKeys = Object.keys(localStorage).filter((k) =>
+      k.startsWith('doucement_data_backup_')
+    )
+    expect(backupKeys).toHaveLength(1)
+  })
+})
+
+describe('importDataReplace crée un backup automatiquement', () => {
+  it('crée un backup avant le remplacement', () => {
+    const originalData = createAppDataWithHabitAndEntry()
+    saveData(originalData)
+
+    const newData = createValidAppData({
+      habits: [createValidHabit({ id: 'new-habit', name: 'New' })],
+    })
+    importDataReplace(JSON.stringify(newData))
+
+    // Vérifier qu'un backup a été créé
+    const backupKeys = Object.keys(localStorage).filter((k) =>
+      k.startsWith('doucement_data_backup_')
+    )
+    expect(backupKeys).toHaveLength(1)
+
+    // Le backup contient les données originales
+    const backupData = JSON.parse(localStorage.getItem(backupKeys[0])!)
+    expect(backupData.habits[0].name).toBe('Push-ups')
+  })
+})
+
+// ============================================================================
+// FILE SIZE LIMIT TESTS
+// ============================================================================
+
+describe('importFromFile - limite de taille', () => {
+  it('rejette un fichier de plus de 10 MB', async () => {
+    const largeContent = 'x'.repeat(11 * 1024 * 1024)
+    const file = new File([largeContent], 'large.json', { type: 'application/json' })
+
+    const result = await importFromFile(file)
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('trop volumineux')
+    expect(result.error).toContain('10 MB')
+  })
+
+  it('accepte un fichier de taille normale', async () => {
+    const data = createAppDataWithHabitAndEntry()
+    const content = JSON.stringify(data)
+    const file = new File([content], 'normal.json', { type: 'application/json' })
+
+    const result = await importFromFile(file)
+
+    expect(result.success).toBe(true)
+  })
+
+  it('rejette un fichier non-JSON', async () => {
+    const file = new File(['data'], 'data.txt', { type: 'text/plain' })
+
+    const result = await importFromFile(file)
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('JSON')
+  })
+})
+
+describe('importFromFileMerge - limite de taille', () => {
+  it('rejette un fichier de plus de 10 MB', async () => {
+    const largeContent = 'x'.repeat(11 * 1024 * 1024)
+    const file = new File([largeContent], 'large.json', { type: 'application/json' })
+
+    const result = await importFromFileMerge(file)
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('trop volumineux')
   })
 })
 

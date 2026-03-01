@@ -9,6 +9,7 @@ import {
   HabitCard,
   EmptyState,
   WelcomeBackMessage,
+  RecalibrationPrompt,
 } from '../components/habits'
 import TimeOfDaySection from '../components/habits/TimeOfDaySection'
 import {
@@ -24,9 +25,11 @@ import {
   isHabitPaused,
   groupHabitsByTimeOfDay,
   buildHabitChains,
+  needsRecalibration,
+  detectExtendedAbsence,
 } from '../utils'
 import { randomMessage } from '../constants/messages'
-import { CompletionStatus } from '../types'
+import { CompletionStatus, RecalibrationRecord } from '../types'
 import CelebrationModal from '../components/CelebrationModal'
 import './Today.css'
 
@@ -45,6 +48,7 @@ function Today() {
     addEntry,
     addCounterOperation,
     undoLastOperation,
+    recalibrateHabitDose,
     updatePreferences,
     retryLoad,
     resetData,
@@ -66,6 +70,7 @@ function Today() {
 
   const [welcomeDismissed, setWelcomeDismissed] = useState(false)
   const [newDayToast, setNewDayToast] = useState<string | null>(null)
+  const [dismissedRecalibrations, setDismissedRecalibrations] = useState<Set<string>>(new Set())
 
   // Callback appelé quand la date change (à minuit)
   const handleDateChange = useCallback(() => {
@@ -148,6 +153,22 @@ function Today() {
     [activeHabits, data.entries]
   )
 
+  // Détecter les habitudes nécessitant une recalibration (absence >7j)
+  const habitsNeedingRecalibration = useMemo(
+    () =>
+      habitsForToday
+        .filter(
+          (h) =>
+            needsRecalibration(h, data.entries, calculateTargetDose) &&
+            !dismissedRecalibrations.has(h.id)
+        )
+        .map((h) => ({
+          habit: h,
+          ...detectExtendedAbsence(h, data.entries, calculateTargetDose),
+        })),
+    [habitsForToday, data.entries, dismissedRecalibrations]
+  )
+
   // Détermine si on doit afficher le message de bienvenue
   const showWelcomeMessage = !welcomeDismissed && absenceInfo.isAbsent && habitsForToday.length > 0
 
@@ -164,6 +185,20 @@ function Today() {
   // Callback pour fermer le message de bienvenue
   const handleDismissWelcome = useCallback(() => {
     setWelcomeDismissed(true)
+  }, [])
+
+  // Callback pour recalibrer une habitude
+  const handleRecalibrate = useCallback(
+    (habitId: string, newStartValue: number, record: RecalibrationRecord) => {
+      recalibrateHabitDose(habitId, newStartValue, record.level)
+      setDismissedRecalibrations((prev) => new Set(prev).add(habitId))
+    },
+    [recalibrateHabitDose]
+  )
+
+  // Callback pour ignorer la recalibration d'une habitude
+  const handleDismissRecalibration = useCallback((habitId: string) => {
+    setDismissedRecalibrations((prev) => new Set(prev).add(habitId))
   }, [])
 
   // Gérer le check-in d'une habitude
@@ -277,6 +312,19 @@ function Today() {
       ) : (
         <EncouragingMessage />
       )}
+
+      {/* Prompts de recalibration pour les habitudes avec absence prolongée */}
+      {habitsNeedingRecalibration.map((info) => (
+        <RecalibrationPrompt
+          key={`recal-${info.habit.id}`}
+          habit={info.habit}
+          currentTargetDose={info.currentTargetDose}
+          onRecalibrate={(newStartValue, record) =>
+            handleRecalibrate(info.habit.id, newStartValue, record)
+          }
+          onDismiss={() => handleDismissRecalibration(info.habit.id)}
+        />
+      ))}
 
       <section className="today__habits" aria-label={t('today.yourDoses')}>
         {habitsByTimeOfDay.map((group) => {

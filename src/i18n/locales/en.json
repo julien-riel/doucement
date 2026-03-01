@@ -486,6 +486,7 @@
         "text": "Importing will replace all your current data with the file's data.",
         "warning": "Importing will replace all your current data with the file's data.",
         "irreversible": "This action cannot be undone. Consider exporting your current data first if you want to keep it.",
+        "backupFirst": "Download a backup first",
         "inProgress": "Importing...",
         "importing": "Importing...",
         "button": "Import",

@@ -186,6 +186,14 @@ export function DataSection() {
             <p className="settings__modal-text settings__modal-text--warning">
               {t('settings.modals.import.warning')}
             </p>
+            <Button
+              variant="secondary"
+              fullWidth
+              onClick={handleExport}
+              className="settings__action-button"
+            >
+              📥 {t('settings.modals.import.backupFirst')}
+            </Button>
             <div className="settings__modal-actions">
               <Button variant="ghost" onClick={handleCloseModal}>
                 {t('common.cancel')}

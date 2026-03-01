@@ -4,9 +4,12 @@
  */
 
 import type { AppData } from '../types'
-import { loadData, saveData, StorageResult } from './storage'
+import { loadData, saveData, STORAGE_KEY, StorageResult } from './storage'
 import { validateImportData, ValidationResult, formatValidationErrors } from './validation'
 import { runMigrations, needsMigration, MigrationResult, formatMigrationResult } from './migration'
+
+/** Taille maximale de fichier pour l'import (10 MB) */
+const MAX_IMPORT_FILE_SIZE = 10 * 1024 * 1024
 
 // ============================================================================
 // EXPORT TYPES
@@ -132,6 +135,52 @@ export function exportDataAsJson(): StorageResult<string> {
 }
 
 // ============================================================================
+// BACKUP FUNCTIONS
+// ============================================================================
+
+const BACKUP_KEY_PREFIX = 'doucement_data_backup_'
+
+/**
+ * Crée un backup des données actuelles dans localStorage avant un import
+ */
+export function createBackupBeforeImport(): boolean {
+  try {
+    const currentData = localStorage.getItem(STORAGE_KEY)
+    if (!currentData) return true // Rien à sauvegarder
+
+    // Nettoyer les backups précédents (garder max 0 avant d'en créer 1 nouveau)
+    cleanupBackups()
+
+    const timestamp = Date.now()
+    localStorage.setItem(`${BACKUP_KEY_PREFIX}${timestamp}`, currentData)
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Supprime les anciens backups (garde max 1)
+ */
+function cleanupBackups(): void {
+  const backupKeys: string[] = []
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i)
+    if (key?.startsWith(BACKUP_KEY_PREFIX)) {
+      backupKeys.push(key)
+    }
+  }
+
+  // Trier par timestamp (plus récent en premier)
+  backupKeys.sort().reverse()
+
+  // Supprimer tous les backups existants (on va en créer un nouveau)
+  for (const key of backupKeys) {
+    localStorage.removeItem(key)
+  }
+}
+
+// ============================================================================
 // IMPORT FUNCTIONS
 // ============================================================================
 
@@ -156,6 +205,9 @@ function parseJsonContent(content: string): { success: boolean; data?: unknown; 
  * Remplace complètement les données existantes par les données importées
  */
 export function importDataReplace(jsonContent: string): ImportResult {
+  // 0. Backup des données actuelles avant remplacement
+  createBackupBeforeImport()
+
   // 1. Parse le JSON
   const parseResult = parseJsonContent(jsonContent)
   if (!parseResult.success) {
@@ -251,6 +303,15 @@ export async function importFromFile(file: File): Promise<ImportResult> {
       return {
         success: false,
         error: 'Le fichier doit être au format JSON (.json)',
+      }
+    }
+
+    // Vérifie la taille du fichier
+    if (file.size > MAX_IMPORT_FILE_SIZE) {
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(1)
+      return {
+        success: false,
+        error: `Le fichier est trop volumineux (${sizeMB} MB). La taille maximale autorisée est de 10 MB.`,
       }
     }
 
@@ -573,6 +634,15 @@ export async function importFromFileMerge(
       return {
         success: false,
         error: 'Le fichier doit être au format JSON (.json)',
+      }
+    }
+
+    // Vérifie la taille du fichier
+    if (file.size > MAX_IMPORT_FILE_SIZE) {
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(1)
+      return {
+        success: false,
+        error: `Le fichier est trop volumineux (${sizeMB} MB). La taille maximale autorisée est de 10 MB.`,
       }
     }
 

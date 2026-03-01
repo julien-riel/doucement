@@ -140,14 +140,15 @@
       "id": "phase-2-robustness",
       "name": "Robustesse",
       "description": "Renforcer la fiabilité et la confiance des données",
-      "status": "pending",
+      "status": "completed",
       "releaseType": "minor",
       "tasks": [
         {
           "id": "2.1",
           "name": "Protection beforeunload quand auto-save échoue",
           "description": "Dans useAppData.ts, ajouter un état hasUnsavedChanges. Quand saveData échoue dans le useEffect d'auto-save, passer hasUnsavedChanges à true et enregistrer un listener window.addEventListener('beforeunload', handler) pour prévenir la fermeture accidentelle. Retirer le listener quand la sauvegarde réussit.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -164,7 +165,8 @@
           "id": "2.2",
           "name": "Limite de taille sur import de fichiers",
           "description": "Dans importExport.ts → importFromFile(), vérifier file.size avant le parsing JSON. Maximum 10 MB. Afficher un message d'erreur explicite si dépassé.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -181,7 +183,8 @@
           "id": "2.3",
           "name": "Backup automatique avant import remplacer",
           "description": "Avant importDataReplace, sauvegarder l'état actuel dans localStorage sous la clé doucement_data_backup_{timestamp}. Dans l'UI (DataSection.tsx), proposer de télécharger un backup avant l'import.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -199,7 +202,8 @@
           "id": "2.4",
           "name": "Connecter RecalibrationPrompt dans Today",
           "description": "Le composant RecalibrationPrompt existe et fonctionne mais n'est jamais rendu. Intégrer dans Today.tsx : utiliser needsRecalibration() de utils/absence.ts pour détecter les absences >7j, et afficher le RecalibrationPrompt pour chaque habitude concernée.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -217,7 +221,8 @@
           "id": "2.5",
           "name": "Configurer couverture Vitest avec seuils",
           "description": "Ajouter la configuration coverage dans vitest.config.ts avec provider v8, seuils (80% statements, 75% branches, 80% functions). Ajouter le script 'test:coverage' dans package.json. Inclure src/services/**, src/hooks/**, src/utils/**.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "medium",
           "dependsOn": [],
           "files": [
@@ -235,7 +240,8 @@
           "id": "2.6",
           "name": "Tests unitaires pour validation.ts",
           "description": "Créer src/services/validation.test.ts. Tester validateHabit (habitude valide, champs manquants, types incorrects, trackingMode invalide), validateEntry (entrée valide, date invalide, valeur négative), validateImportData (données complètes, données partielles, données corrompues), formatValidationErrors.",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2026-03-01",
           "priority": "high",
           "dependsOn": [],
           "files": [
@@ -555,9 +561,9 @@
   ],
   "stats": {
     "totalTasks": 28,
-    "completed": 6,
+    "completed": 12,
     "inProgress": 0,
-    "pending": 22,
+    "pending": 16,
     "blocked": 0
   }
 }
